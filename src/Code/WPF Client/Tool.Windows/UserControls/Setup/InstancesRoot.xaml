@@ -1,0 +1,32 @@
+﻿<UserControl x:Class="SIM.Tool.Windows.UserControls.Setup.InstancesRoot"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="205" d:DesignWidth="443" Padding="0">
+  <StackPanel Margin="0" Orientation="Vertical">
+    <TextBlock TextWrapping="Wrap" Margin="0" Padding="0" HorizontalAlignment="Stretch" VerticalAlignment="Top">
+      <Bold>INSTANCES ROOT FOLDER</Bold>             
+      <LineBreak />
+      The local folder where the <Bold>Sitecore instances were, are and will be installed to</Bold>.
+    </TextBlock>
+    <Grid HorizontalAlignment="Stretch" Margin="0 4 0 4">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition />
+        <ColumnDefinition Width="24" />
+      </Grid.ColumnDefinitions>
+      <TextBox Name="MainRootFolder" HorizontalAlignment="Stretch" Margin="0 0 4 0" />
+      <Button Grid.Column="1" Content="..." Name="PickInstancesFolderButton" Click="PickInstancesFolder" />
+    </Grid>
+    <TextBlock TextWrapping="Wrap" Margin="0" Padding="0" HorizontalAlignment="Stretch" VerticalAlignment="Top">
+      While every startup SIM will retrieve the list of all IIS websites and will try to detect Sitecore instances located within this folder among them. 
+      <LineBreak />
+      <LineBreak />
+      The detection rule is very simple - all Sitecore instances must contain Sitecore.Kernel.dll file in the bin folder, all the rest websites will be ignored.
+      <LineBreak />
+      <LineBreak />
+      <Bold>Tip:</Bold> you can rename Sitecore.Kernel.dll file of the instance you would like to hide from SIM's sight.
+    </TextBlock>
+  </StackPanel>
+</UserControl>

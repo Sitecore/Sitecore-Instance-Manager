@@ -1,0 +1,61 @@
+<manifest version="1.3">
+  <package>
+    <sortOrder>80</sortOrder>
+    <name>Sitecore E-mail Campaign Manager</name>
+    <install>
+      <after>
+        <params>
+          <param name="{Use Local MTA}" title="Use Local MTA" defaultValue="true" mode="select" options="true|false" />
+          <param name="{SMTP Server}" title="SMTP Server" defaultValue="127.0.0.1" />
+          <param name="{SMTP Port}" title="SMTP Port" defaultValue="25" />
+          <param name="{SMTP Login Domain}" title="SMTP Login Domain" defaultValue="" />
+          <param name="{SMTP User Name}" title="SMTP User Name" defaultValue="" />
+          <param name="{SMTP Password}" title="SMTP Password" defaultValue="" />
+          <param name="{SMTP Auth Method}" title="SMTP Auth Method" defaultValue="" mode="select" options="|NONE|LOGIN|PLAIN|CRAM-MD5|NTLM" />
+          <param name="{SMTP Start TLS}" title="SMTP Start TLS" defaultValue="false" mode="select" options="true|false" />
+<!--
+          <param name="{SMTP MaxConnections}" title="SMTP MaxConnections" defaultValue="100"/>
+          <param name="{SMTP Connection Expiration}" title="SMTP Connection Expiration" defaultValue="180"/>
+-->
+        </params>
+        <actions>
+          <config path="App_Config\Include\Sitecore.EmailCampaign.config">
+            <change xpath="/configuration/sitecore/settings/setting[@name='UseLocalMTA']">
+              <attribute name="value" value="{Use Local MTA}" />
+            </change>
+            <change xpath="/configuration/sitecore/settings/setting[@name='SMTP.Server']">
+              <attribute name="value" value="{SMTP Server}" />
+            </change>
+            <change xpath="/configuration/sitecore/settings/setting[@name='SMTP.Port']">
+              <attribute name="value" value="{SMTP Port}" />
+            </change>
+            <change xpath="/configuration/sitecore/settings/setting[@name='SMTP.LoginDomain']">
+              <attribute name="value" value="{SMTP Login Domain}" />
+            </change>
+            <change xpath="/configuration/sitecore/settings/setting[@name='SMTP.UserName']">
+              <attribute name="value" value="{SMTP User Name}" />
+            </change>
+            <change xpath="/configuration/sitecore/settings/setting[@name='SMTP.Password']">
+              <attribute name="value" value="{SMTP Password}" />
+            </change>
+            <change xpath="/configuration/sitecore/settings/setting[@name='SMTP.AuthMethod']">
+              <attribute name="value" value="{SMTP Auth Method}" />
+            </change>
+            <change xpath="/configuration/sitecore/settings/setting[@name='SMTP.StartTLS']">
+              <attribute name="value" value="{SMTP Start TLS}" />
+            </change>
+<!--
+            <change xpath="/configuration/sitecore/settings/setting[@name='SMTP.MaxConnections']">
+              <attribute name="value" value="{SMTP MaxConnections}" />
+            </change>
+            <change xpath="/configuration/sitecore/settings/setting[@name='SMTP.ConnectionExpiration']">
+              <attribute name="value" value="{SMTP Connection Expiration}" />
+            </change>
+-->
+          </config>
+          <publish mode="incremental" />
+        </actions>
+      </after>
+    </install>
+  </package>
+</manifest>

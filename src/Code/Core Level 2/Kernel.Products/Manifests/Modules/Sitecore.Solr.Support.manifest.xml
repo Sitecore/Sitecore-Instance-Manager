@@ -1,0 +1,5 @@
+<manifest version="1.3">
+  <archive>
+		<name>Sitecore Solr Support</name>
+  </archive>
+</manifest>

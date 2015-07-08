@@ -1,0 +1,554 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{BC8B4EE5-C053-42E1-A5BA-07F8C41915A9}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SIM.Products</RootNamespace>
+    <AssemblyName>SIM.Kernel.Products</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Ionic.Zip, Version=1.9.1.8, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\DotNetZip.1.9.1.8\lib\net20\Ionic.Zip.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\Core Level 1\Base\Properties\SharedAssemblyVersion.cs" Condition="'$(Configuration)' == 'Debug'">
+      <Link>Properties\SharedAssemblyVersion.cs</Link>
+    </Compile>
+    <Compile Include="ManifestHelper.cs" />
+    <Compile Include="ModulesDetector\Core\Abstraction\IInstanceContext.cs" />
+    <Compile Include="ModulesDetector\Core\Abstraction\IModule.cs" />
+    <Compile Include="ModulesDetector\Core\Abstraction\IRule.cs" />
+    <Compile Include="ModulesDetector\Core\Abstraction\IRulesRepository.cs" />
+    <Compile Include="ModulesDetector\Core\Implementation\Module.cs" />
+    <Compile Include="ModulesDetector\Core\Implementation\ModulesDetector.cs" />
+    <Compile Include="ModulesDetector\Core\Abstraction\ModuleStatus.cs" />
+    <Compile Include="ModulesDetector\Core\Implementation\RuleResult.cs" />
+    <Compile Include="ModulesDetector\Core\Implementation\Rules\BaseRule.cs" />
+    <Compile Include="ModulesDetector\Core\Implementation\Rules\ConfigRule.cs" />
+    <Compile Include="ModulesDetector\Core\Implementation\Rules\EmptyRule.cs" />
+    <Compile Include="ModulesDetector\Core\Implementation\Rules\GetVersionRule.cs" />
+    <Compile Include="ModulesDetector\Core\Implementation\XmlFileRulesRepository.cs" />
+    <Compile Include="ModulesDetector\Helpers\XmlHelper.cs" />
+    <Compile Include="Product.cs" />
+    <Compile Include="ProductHelper.cs" />
+    <Compile Include="ProductManager.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Core Level 1\Base\Base.csproj">
+      <Project>{CA9339A0-9A7D-4900-839E-F21B7269BDAA}</Project>
+      <Name>Base</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Manifests\readme.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <Content Include="Manifests\Modules\Adaptive Print Studio 1.3.0 rev. 130628.manifest.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Modules\Adaptive Print Studio 1.4 rev. 131210.manifest.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Modules\Adaptive Print Studio 1.4 rev. 140122.manifest.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Modules\Adaptive Print Studio 1.4 rev. 131119.manifest.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Modules\DMS 2.manifest.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Modules\DMS 6.manifest.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Modules\DMS 7.0.manifest.xml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Modules\DMS.manifest.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Modules\E-mail Campaign Manager 2.2.manifest.xml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Modules\Email Experience Manager 3.0.manifest.xml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Modules\SPEAK.manifest.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Modules\Sitecore.Solr.Support.manifest.xml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Modules\DMS 7.2.manifest.xml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Modules\DMS 7.1.manifest.xml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Modules\Web Forms for Marketers 2.0.0 rev. 091016.manifest.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Modules\Web Forms for Marketers 2.3 rev. 140617.manifest.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Modules\Web Forms for Marketers 8.0.manifest.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Modules\Web Forms for Marketers 2.4.manifest.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Modules\Web Forms for Marketers 2.3.0 rev. 131126.manifest.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Modules\Sitecore SPEAK.manifest.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Modules\Web Forms for Marketers 2.manifest.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Modules\Web Forms for Marketers.manifest.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Standalone\Jetstream.manifest.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Standalone\Norman Furniture.manifest.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Standalone\Sitecore 8.manifest.xml" />
+    <Content Include="Manifests\Standalone\Sitecore Foundry 2.0.0 rev. 080115.manifest.xml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Standalone\Sitecore Foundry 3.0.0 rev. 090814.manifest.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Standalone\Sitecore Foundry 4.0.0 rev. 121102_zip.manifest.xml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Standalone\Sitecore Foundry 4.0.0 rev. 121206.manifest.xml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Standalone\Sitecore Intranet Portal.manifest.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Standalone\Sitecore.manifest.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Manifests\Standalone\SitecoreIntranetPortal.manifest.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Standalone\Sitecore\Sitecore 6.6.0 rev. 131211.manifest.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Standalone\Sitecore\Sitecore 6.6.0 rev. 140410.manifest.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Standalone\Sitecore\Sitecore 7.0 rev. 131127.manifest.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Standalone\Sitecore\Sitecore 7.0 rev. 140120.manifest.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Standalone\Sitecore\Sitecore 7.0 rev. 140408.manifest.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Standalone\Sitecore\Sitecore 7.1 rev. 130926.manifest.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Standalone\Sitecore\Sitecore 7.1 rev. 140130.manifest.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Standalone\Sitecore\Sitecore 7.1 rev. 140324.manifest.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Standalone\Sitecore\Sitecore 7.2 rev. 140228.manifest.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Standalone\Sitecore\Sitecore 7.2 rev. 140314.manifest.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Standalone\Sitecore\Sitecore 7.2 rev. 140526.manifest.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Standalone\Sitecore\Sitecore 8.manifest.xml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Standalone\Sitecore\Sitecore 7.5.manifest.xml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Standalone\Sitecore\Sitecore 7.2.manifest.xml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Standalone\Sitecore\Sitecore 7.1.manifest.xml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Standalone\Sitecore\Sitecore 7.0.manifest.xml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Standalone\Sitecore\Sitecore 7.0 rev. 130918.manifest.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Standalone\Sitecore\Sitecore 7.0 rev. 130810.manifest.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Standalone\Sitecore\Sitecore 6.0.0 rev. 080627.manifest.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Standalone\Sitecore\Sitecore 6.0.0 rev. 080701.manifest.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Standalone\Sitecore\Sitecore 6.0.0 rev. 080820.manifest.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Standalone\Sitecore\Sitecore 6.0.0 rev. 080912.manifest.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Standalone\Sitecore\Sitecore 6.0.0 rev. 081002.manifest.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Standalone\Sitecore\Sitecore 6.0.0 rev. 081009.manifest.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Standalone\Sitecore\Sitecore 6.0.0 rev. 081022.manifest.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Standalone\Sitecore\Sitecore 6.0.0 rev. 081203.manifest.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Standalone\Sitecore\Sitecore 6.0.0 rev. 081222.manifest.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Standalone\Sitecore\Sitecore 6.0.0 rev. 090120.manifest.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Standalone\Sitecore\Sitecore 6.0.1 rev. 090212.manifest.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Standalone\Sitecore\Sitecore 6.0.1 rev. 090317.manifest.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Standalone\Sitecore\Sitecore 6.0.2 rev. 090416.manifest.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Standalone\Sitecore\Sitecore 6.0.2 rev. 090507.manifest.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Standalone\Sitecore\Sitecore 6.1.0 rev. 090630.manifest.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Standalone\Sitecore\Sitecore 6.1.0 rev. 090722.manifest.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Standalone\Sitecore\Sitecore 6.1.0 rev. 090821.manifest.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Standalone\Sitecore\Sitecore 6.1.0 rev. 091029.manifest.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Standalone\Sitecore\Sitecore 6.2.0 rev. 091012.manifest.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Standalone\Sitecore\Sitecore 6.2.0 rev. 100104.manifest.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Standalone\Sitecore\Sitecore 6.2.0 rev. 100507.manifest.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Standalone\Sitecore\Sitecore 6.2.0 rev. 100701.manifest.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Standalone\Sitecore\Sitecore 6.2.0 rev. 100831.manifest.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Standalone\Sitecore\Sitecore 6.2.0 rev. 101105.manifest.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Standalone\Sitecore\Sitecore 6.3.0 rev. 100716.manifest.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Standalone\Sitecore\Sitecore 6.3.0 rev. 100830.manifest.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Standalone\Sitecore\Sitecore 6.3.0 rev. 100928.manifest.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Standalone\Sitecore\Sitecore 6.3.0 rev. 101029.manifest.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Standalone\Sitecore\Sitecore 6.3.1 rev. 110112.manifest.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Standalone\Sitecore\Sitecore 6.4.0 rev. 101012.manifest.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Standalone\Sitecore\Sitecore 6.4.0 rev. 101124.manifest.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Standalone\Sitecore\Sitecore 6.4.1 rev. 101221.manifest.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Standalone\Sitecore\Sitecore 6.4.1 rev. 110202.manifest.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Standalone\Sitecore\Sitecore 6.4.1 rev. 110324.manifest.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Standalone\Sitecore\Sitecore 6.4.1 rev. 110621.manifest.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Standalone\Sitecore\Sitecore 6.4.1 rev. 110720.manifest.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Standalone\Sitecore\Sitecore 6.4.1 rev. 110928.manifest.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Standalone\Sitecore\Sitecore 6.4.1 rev. 111003.manifest.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Standalone\Sitecore\Sitecore 6.4.1 rev. 120113.manifest.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Standalone\Sitecore\Sitecore 6.5.0 rev. 110419.manifest.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Standalone\Sitecore\Sitecore 6.5.0 rev. 110602.manifest.xml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Standalone\Sitecore\Sitecore 6.5.0 rev. 110818.manifest.xml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Standalone\Sitecore\Sitecore 6.5.0 rev. 111123.manifest.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Standalone\Sitecore\Sitecore 6.5.0 rev. 111230.manifest.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Standalone\Sitecore\Sitecore 6.5.0 rev. 120427.manifest.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Standalone\Sitecore\Sitecore 6.5.0 rev. 120706.manifest.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Standalone\Sitecore\Sitecore 6.5.0 rev. 121009.manifest.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Standalone\Sitecore\Sitecore 6.6.0 rev. 120622.manifest.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Standalone\Sitecore\Sitecore 6.6.0 rev. 120918.manifest.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Standalone\Sitecore\Sitecore 6.6.0 rev. 121015.manifest.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Standalone\Sitecore\Sitecore 6.6.0 rev. 121203.manifest.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Standalone\Sitecore\Sitecore 6.6.0 rev. 130111.manifest.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Standalone\Sitecore\Sitecore 6.6.0 rev. 130214.manifest.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Standalone\Sitecore\Sitecore 6.6.0 rev. 130404.manifest.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Standalone\Sitecore\Sitecore 6.6.0 rev. 130529.manifest.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Standalone\Sitecore\Sitecore 7.0 rev. 130424.manifest.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
+    </Content>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Manifests\Modules\Active Directory.manifest.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Modules\Azure.manifest.xml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Modules\CRM Security Provider.manifest.xml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Modules\E-mail Campaign Manager.manifest.xml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Modules\Microsoft Dynamics CRM Save Actions.manifest.xml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Modules\Microsoft Dynamics CRM Security Provider.manifest.xml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Modules\OMS.manifest.xml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Modules\SharePoint Integration Framework.manifest.xml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Modules\Sitecore Active Directory Module.manifest.xml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Modules\Sitecore Active Directory.manifest.xml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Modules\Sitecore Azure.manifest.xml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Modules\Sitecore Calendar.manifest.xml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Modules\Sitecore Design Importer.manifest.xml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Modules\Sitecore E-Commerce Examples.manifest.xml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Modules\Sitecore E-Commerce FE Examples.manifest.xml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Modules\Sitecore E-Commerce FE.manifest.xml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Modules\Sitecore E-Commerce Services.manifest.xml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Modules\Sitecore Foundry 4.0.0 rev. 121102.manifest.xml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Modules\Sitecore Foundry 4.0.0 rev. 121129.manifest.xml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Modules\Sitecore Foundry WFFM Adaptation Package.manifest.xml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Modules\Sitecore Item Web API.manifest.xml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Modules\Sitecore Search Engine Optimization.manifest.xml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Modules\SitecoreAzure.manifest.xml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Modules\Social Connected Module.manifest.xml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Modules\Web Forms for Marketers 2.0.0 rev. 091120.manifest.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Modules\Web Forms for Marketers 2.1.0 rev. 100920.manifest.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Modules\Web Forms for Marketers 2.2.0 rev. 101207.manifest.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Modules\Web Forms for Marketers 2.2.0 rev. 110303.manifest.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Modules\Web Forms for Marketers 2.2.0 rev. 111104.manifest.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Modules\Web Forms for Marketers 2.3.0 rev. 110530.manifest.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Modules\Web Forms for Marketers 2.3.0 rev. 111209.manifest.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Modules\Web Forms for Marketers 2.3.0 rev. 120216.manifest.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Modules\Web Forms for Marketers 2.3.0 rev. 130118.manifest.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,5 @@
+<manifest version="1.3">
+  <package>
+    <name>Sitecore Microsoft Dynamics CRM Security Provider</name>    
+  </package>
+</manifest>

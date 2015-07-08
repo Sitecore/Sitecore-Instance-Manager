@@ -1,0 +1,18 @@
+﻿<plugin version="1.3">
+  <mainWindow>
+    <ribbon>
+      <!--<tab name="Edit">
+        <group name="Update License">
+          <button label="This Instance" largeImage="/Images/32/scroll_replace.png, SIM.Tool.Plugins.UpdateLicense" type="SIM.Tool.Plugins.UpdateLicense.UpdateSingleLicenseButton, SIM.Tool.Plugins.UpdateLicense" />
+        </group>
+      </tab>-->
+      <tab name="Home">
+        <group name="Tools">
+          <button label="Bundled Tools">
+            <button label="Update Licenses" largeImage="/Images/32/scroll_refresh.png, SIM.Tool.Plugins.UpdateLicense" type="SIM.Tool.Plugins.UpdateLicense.UpdateAllLicensesButton, SIM.Tool.Plugins.UpdateLicense" />
+          </button>
+        </group>
+      </tab>
+    </ribbon>
+  </mainWindow>
+</plugin>

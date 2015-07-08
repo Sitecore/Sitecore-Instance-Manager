@@ -1,0 +1,29 @@
+﻿<UserControl x:Class="SIM.Tool.Windows.UserControls.Export.ExportDatabases" 
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="205" d:DesignWidth="443" Padding="0">
+  <StackPanel Margin="0" Orientation="Vertical">
+    <Grid HorizontalAlignment="Stretch" Margin="0 4 0 4">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition />
+        <ColumnDefinition Width="24" />
+      </Grid.ColumnDefinitions>
+    </Grid>
+    <TextBlock HorizontalAlignment="Left" Margin="0 -7 0 3">
+      <Hyperlink Name="SelectAllHyperlink" Click="SelectAllHyperlinkClick">All</Hyperlink> 
+      <Hyperlink Name="NoneHyperlink" Click="NoneHyperlinkClick">None</Hyperlink>
+    </TextBlock>
+    <ListBox IsManipulationEnabled="False" Margin="-2 0 0 0" Padding="0,5,0,0" Name="Databases" ItemsSource="{Binding}">
+			<ListBox.ItemTemplate>
+				<DataTemplate>
+          <CheckBox Content="{Binding Path=DatabaseName}" IsChecked="{Binding Path=IsChecked, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, NotifyOnSourceUpdated=True}" Margin="4 0 4 10" VerticalAlignment="Center"/>
+        </DataTemplate>
+			</ListBox.ItemTemplate>
+    </ListBox>
+    <CheckBox Name="IncludeMongoDatabases" IsChecked="True" Margin="0 10 0 0">Include MongoDB databases</CheckBox>
+    <CheckBox Name="WipeSqlServerCredentials" IsChecked="False" Margin="0 10 0 0">Wipe SQL Server credentials</CheckBox>
+	</StackPanel>
+</UserControl>

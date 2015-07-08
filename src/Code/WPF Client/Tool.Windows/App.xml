@@ -1,0 +1,200 @@
+<?xml version="1.0"?>
+
+<app version="1.3">
+  <mainWindow>
+    <ribbon>
+      <tab     name="Home">
+        <group name="Refresh">
+          <button       label="Refresh sites"                                       largeImage="/Images/32/refresh.png, SIM.Tool.Windows"                     type="SIM.Tool.Windows.MainWindowComponents.RefreshButton, SIM.Tool.Windows"        param="sites">
+            <button     label="Refresh sites"                                       largeImage="/Images/16/refresh1.png, SIM.Tool.Windows"                    type="SIM.Tool.Windows.MainWindowComponents.RefreshButton, SIM.Tool.Windows"        param="sites"/>
+            <button     label="Refresh installer"                                   largeImage="/Images/16/refresh2.png, SIM.Tool.Windows"                    type="SIM.Tool.Windows.MainWindowComponents.RefreshButton, SIM.Tool.Windows"        param="installer"/>
+            <button     label="Refresh caches"                                      largeImage="/Images/16/refresh3.png, SIM.Tool.Windows"                    type="SIM.Tool.Windows.MainWindowComponents.RefreshButton, SIM.Tool.Windows"        param="caches"/>
+            <separator />
+            <button     label="Refresh all"                                         largeImage="/Images/16/refresh4.png, SIM.Tool.Windows"                    type="SIM.Tool.Windows.MainWindowComponents.RefreshButton, SIM.Tool.Windows"        param="all"/>
+          </button>
+        </group>
+        <group name="Install">
+          <button       label="Install Instance"                                    largeImage="/Images/32/add_domain.png, SIM.Tool.Windows"                  type="SIM.Tool.Windows.MainWindowComponents.InstallInstanceButton, SIM.Tool.Windows" />
+          <button       label="Import Solution"                                     largeImage="/Images/32/upload.png, SIM.Tool.Windows"                      type="SIM.Tool.Windows.MainWindowComponents.ImportInstanceButton, SIM.Tool.Windows" />
+        </group>
+        <group name="Tools">
+          <button       label="Get Sitecore"                                        largeImage="/Images/32/cloud_download.png, SIM.Tool.Windows"              type="SIM.Tool.Windows.MainWindowComponents.Download8Button, SIM.Tool.Windows" />
+          <button       label="Bundled Tools"                                       largeImage="/Images/32/toolbox.png, SIM.Tool.Windows">
+            <button     label="SIM Logs"                                            largeImage="/Images/16/folder_document2.png, SIM.Tool.Windows"            type="SIM.Tool.Windows.MainWindowComponents.OpenFolderButton, SIM.Tool.Windows"     param="%APPDATA%\Sitecore\Sitecore Instance Manager\Logs" />
+            <button     label="SIM Data Folder"                                     largeImage="/Images/16/folder_window.png, SIM.Tool.Windows"               type="SIM.Tool.Windows.MainWindowComponents.OpenFolderButton, SIM.Tool.Windows"     param="%APPDATA%\Sitecore\Sitecore Instance Manager" />
+            <separator />
+            <button     label="Download Sitecore 8.x"                               largeImage="/Images/16/cloud_download.png, SIM.Tool.Windows"              type="SIM.Tool.Windows.MainWindowComponents.Download8Button, SIM.Tool.Windows" />
+            <button     label="Download Sitecore 6.x and 7.x"                       largeImage="/Images/16/cloud_download2.png, SIM.Tool.Windows"             type="SIM.Tool.Windows.MainWindowComponents.DownloadButton, SIM.Tool.Windows" />
+            <button     label="Hosts Editor"                                        largeImage="/Images/16/modem_earth.png, SIM.Tool.Windows"                 type="SIM.Tool.Windows.MainWindowComponents.OpenHostsButton, SIM.Tool.Windows" />
+            <button     label="MS SQL Manager"                                      largeImage="/Images/16/data.png, SIM.Tool.Windows"                        type="SIM.Tool.Windows.MainWindowComponents.DatabaseManagerButton, SIM.Tool.Windows" />
+            <button     label="Config Builder"                                      largeImage="/Images/16/wrench.png, SIM.Tool.Windows"                      type="SIM.Tool.Windows.MainWindowComponents.ConfigBuilderButton, SIM.Tool.Windows" />
+            <separator />
+            <button     label="Attach debugger to process"                          largeImage="/Images/32/wrench.png, SIM.Tool.Windows"                      type="SIM.Tool.Windows.MainWindowComponents.AttachDebuggerButton, SIM.Tool.Windows" />
+            <button     label="Collect Memory Dump with MGAD"                       largeImage="/Images/32/wrench.png, SIM.Tool.Windows"                      type="SIM.Tool.Windows.MainWindowComponents.CollectMemoryDumpButton, SIM.Tool.Windows" />
+            <button     label="Trace method call with MAT"                          largeImage="/Images/32/wrench.png, SIM.Tool.Windows"                      type="SIM.Tool.Windows.MainWindowComponents.ManagedArgsTracerButton, SIM.Tool.Windows" />
+            <separator />
+          </button>
+        </group>
+        <group name="App">
+          <button       label="Settings"                                            largeImage="/Images/32/wrench1.png, SIM.Tool.Windows"                     type="SIM.Tool.Windows.MainWindowComponents.SettingsButton, SIM.Tool.Windows" />
+        </group>
+      </tab>
+      <tab     name="Open">
+        <group name="Page">
+          <button       label="Sitecore Client"                                     largeImage="/Images/32/Sitecore.png, SIM.Tool.Windows"                    type="SIM.Tool.Windows.MainWindowComponents.BrowseButton, SIM.Tool.Windows"         param="/sitecore">
+            <button     label="Front-end Site"                                      largeImage="/Images/16/earth2.png, SIM.Tool.Windows"                      type="SIM.Tool.Windows.MainWindowComponents.BrowseButton, SIM.Tool.Windows" />
+            <separator />
+            <button     label="Sitecore Login"                                      largeImage="/Images/16/log_out.png, SIM.Tool.Windows"                     type="SIM.Tool.Windows.MainWindowComponents.BrowseButton, SIM.Tool.Windows"         param="/sitecore/login" />
+            <separator />
+            <button     label="Sitecore Desktop"                                    largeImage="/Images/16/Windows_Table.png, SIM.Tool.Windows"               type="SIM.Tool.Windows.MainWindowComponents.BrowseButton, SIM.Tool.Windows"         param="/sitecore/shell" />
+            <separator />
+            <button     label="Content Editor"                                      largeImage="/Images/16/Pencil.png, SIM.Tool.Windows"                      type="SIM.Tool.Windows.MainWindowComponents.BrowseButton, SIM.Tool.Windows"         param="/sitecore/shell/applications/content%20editor"/>
+            <button     label="Page Editor"                                         largeImage="/Images/16/Paint.png, SIM.Tool.Windows"                       type="SIM.Tool.Windows.MainWindowComponents.BrowseButton, SIM.Tool.Windows"         param="/?sc_mode=edit"/>
+            <button     label="Launch Pad"                                          largeImage="/Images/16/startpage.png, SIM.Tool.Windows"                   type="SIM.Tool.Windows.MainWindowComponents.BrowseButton, SIM.Tool.Windows"         param="/sitecore/client/Applications/Launch%20Pad"/>
+            <separator />
+            <button     label="Google Chrome"                                       largeImage="/Images/32/chrome.png, SIM.Tool.Windows"                      type="SIM.Tool.Windows.MainWindowComponents.BrowseButton, SIM.Tool.Windows"         param="/sitecore:chrome"/>
+            <button     label="Google Chrome (Incognito)"                           largeImage="/Images/32/chrome3.png, SIM.Tool.Windows"                     type="SIM.Tool.Windows.MainWindowComponents.BrowseButton, SIM.Tool.Windows"         param="/sitecore:chrome:/incognito"/>
+            <button     label="Mozilla Firefox"                                     largeImage="/Images/32/firefox.png, SIM.Tool.Windows"                     type="SIM.Tool.Windows.MainWindowComponents.BrowseButton, SIM.Tool.Windows"         param="/sitecore:firefox"/>
+            <button     label="Mozilla Firefox (Private)"                           largeImage="/Images/32/firefox3.png, SIM.Tool.Windows"                    type="SIM.Tool.Windows.MainWindowComponents.BrowseButton, SIM.Tool.Windows"         param="/sitecore:firefox:-private-window"/>
+            <button     label="Internet Explorer"                                   largeImage="/Images/32/ie.png, SIM.Tool.Windows"                          type="SIM.Tool.Windows.MainWindowComponents.BrowseButton, SIM.Tool.Windows"         param="/sitecore:iexplore"/>
+            <button     label="Internet Explorer (Private)"                         largeImage="/Images/32/ie3.png, SIM.Tool.Windows"                         type="SIM.Tool.Windows.MainWindowComponents.BrowseButton, SIM.Tool.Windows"         param="/sitecore:iexplore:-private"/>
+            <button     label="Apple Safari"                                        largeImage="/Images/32/safari.png, SIM.Tool.Windows"                      type="SIM.Tool.Windows.MainWindowComponents.BrowseButton, SIM.Tool.Windows"         param="/sitecore:safari"/>
+          </button>
+          <button       label="Log in admin"                                        largeImage="/Images/32/log_in.png, SIM.Tool.Windows"                      type="SIM.Tool.Windows.MainWindowComponents.LoginAdminButton, SIM.Tool.Windows"     param="/sitecore/">
+            <button     label="Sitecore Desktop"                                    largeImage="/Images/16/Windows_Table1.png, SIM.Tool.Windows"              type="SIM.Tool.Windows.MainWindowComponents.LoginAdminButton, SIM.Tool.Windows"     param="/sitecore/shell"/>
+            <separator />
+            <button     label="Content Editor"                                      largeImage="/Images/16/Pencil1.png, SIM.Tool.Windows"                     type="SIM.Tool.Windows.MainWindowComponents.LoginAdminButton, SIM.Tool.Windows"     param="/sitecore/shell/applications/content%20editor"/>
+            <button     label="Page Editor"                                         largeImage="/Images/16/Paint1.png, SIM.Tool.Windows"                      type="SIM.Tool.Windows.MainWindowComponents.LoginAdminButton, SIM.Tool.Windows"     param="/?sc_mode=edit"/>
+            <button     label="Launch Pad"                                          largeImage="/Images/16/startpage1.png, SIM.Tool.Windows"                  type="SIM.Tool.Windows.MainWindowComponents.LoginAdminButton, SIM.Tool.Windows"     param="/sitecore/client/Applications/Launch%20Pad"/>
+            <separator />
+            <button     label="Google Chrome"                                       largeImage="/Images/32/chrome1.png, SIM.Tool.Windows"                     type="SIM.Tool.Windows.MainWindowComponents.LoginAdminButton, SIM.Tool.Windows"     param="/sitecore:chrome"/>
+            <button     label="Google Chrome (Incognito)"                           largeImage="/Images/32/chrome4.png, SIM.Tool.Windows"                     type="SIM.Tool.Windows.MainWindowComponents.LoginAdminButton, SIM.Tool.Windows"     param="/sitecore:chrome:/incognito"/>
+            <button     label="Mozilla Firefox"                                     largeImage="/Images/32/firefox1.png, SIM.Tool.Windows"                    type="SIM.Tool.Windows.MainWindowComponents.LoginAdminButton, SIM.Tool.Windows"     param="/sitecore:firefox"/>
+            <button     label="Mozilla Firefox (Private)"                           largeImage="/Images/32/firefox4.png, SIM.Tool.Windows"                    type="SIM.Tool.Windows.MainWindowComponents.LoginAdminButton, SIM.Tool.Windows"     param="/sitecore:firefox:-private-window"/>
+            <button     label="Internet Explorer"                                   largeImage="/Images/32/ie1.png, SIM.Tool.Windows"                         type="SIM.Tool.Windows.MainWindowComponents.LoginAdminButton, SIM.Tool.Windows"     param="/sitecore:iexplore"/>
+            <button     label="Internet Explorer (Private)"                         largeImage="/Images/32/ie4.png, SIM.Tool.Windows"                         type="SIM.Tool.Windows.MainWindowComponents.LoginAdminButton, SIM.Tool.Windows"     param="/sitecore:iexplore:-private"/>
+            <button     label="Apple Safari"                                        largeImage="/Images/32/safari1.png, SIM.Tool.Windows"                     type="SIM.Tool.Windows.MainWindowComponents.LoginAdminButton, SIM.Tool.Windows"     param="/sitecore:safari"/>
+            <separator />
+            <button     label="Copy URL"                                            largeImage="/Images/32/astrologer.png, SIM.Tool.Windows"                  type="SIM.Tool.Windows.MainWindowComponents.LoginAdminButton, SIM.Tool.Windows"     param="$(clipboard)"/>
+          </button>
+        </group>
+        <group name="File System">
+          <button       label="Website Folder"                                      largeImage="/Images/32/folder_open.png, SIM.Tool.Windows"                 type="SIM.Tool.Windows.MainWindowComponents.OpenFolderButton, SIM.Tool.Windows"     param="$(website)">
+            <button     label="Root Folder"                                         largeImage="/Images/16/folder_network.png, SIM.Tool.Windows"              type="SIM.Tool.Windows.MainWindowComponents.OpenFolderButton, SIM.Tool.Windows"     param="$(root)"/>
+            <separator />
+            <button     label="Website Folder"                                      largeImage="/Images/16/folder_open1.png, SIM.Tool.Windows"                type="SIM.Tool.Windows.MainWindowComponents.OpenFolderButton, SIM.Tool.Windows"     param="$(website)"/>
+            <button     label="Data Folder"                                         largeImage="/Images/16/folders.png, SIM.Tool.Windows"                     type="SIM.Tool.Windows.MainWindowComponents.OpenFolderButton, SIM.Tool.Windows"     param="$(data)"/>
+            <button     label="Databases Folder"                                    largeImage="/Images/16/folders1.png, SIM.Tool.Windows"                    type="SIM.Tool.Windows.MainWindowComponents.OpenFolderButton, SIM.Tool.Windows"     param="$(root)/Databases"/>
+            <separator />
+            <button     label="App_Config Folder"                                   largeImage="/Images/16/folder_open2.png, SIM.Tool.Windows"                type="SIM.Tool.Windows.MainWindowComponents.OpenFolderButton, SIM.Tool.Windows"     param="$(website)/App_Config"/>
+            <button     label="Include Folder"                                      largeImage="/Images/16/folder_open3.png, SIM.Tool.Windows"                type="SIM.Tool.Windows.MainWindowComponents.OpenFolderButton, SIM.Tool.Windows"     param="$(website)/App_Config/Include"/>
+            <button     label="Prefetch Folder"                                     largeImage="/Images/16/folder_open4.png, SIM.Tool.Windows"                type="SIM.Tool.Windows.MainWindowComponents.OpenFolderButton, SIM.Tool.Windows"     param="$(website)/App_Config/Prefetch"/>
+            <button     label="Security Folder"                                     largeImage="/Images/16/folder_open5.png, SIM.Tool.Windows"                type="SIM.Tool.Windows.MainWindowComponents.OpenFolderButton, SIM.Tool.Windows"     param="$(website)/App_Config/Security"/>
+            <separator />
+            <button     label="Indexes Folder"                                      largeImage="/Images/16/folders2.png, SIM.Tool.Windows"                    type="SIM.Tool.Windows.MainWindowComponents.OpenFolderButton, SIM.Tool.Windows"     param="$(indexes)"/>
+            <button     label="Packages Folder"                                     largeImage="/Images/16/folders3.png, SIM.Tool.Windows"                    type="SIM.Tool.Windows.MainWindowComponents.OpenFolderButton, SIM.Tool.Windows"     param="$(packages)"/>
+            <button     label="Serialization Folder"                                largeImage="/Images/16/folders4.png, SIM.Tool.Windows"                    type="SIM.Tool.Windows.MainWindowComponents.OpenFolderButton, SIM.Tool.Windows"     param="$(serialization)"/>
+            <button     label="Diagnostics Folder"                                  largeImage="/Images/16/folders5.png, SIM.Tool.Windows"                    type="SIM.Tool.Windows.MainWindowComponents.OpenFolderButton, SIM.Tool.Windows"     param="$(data)/diagnostics"/>
+          </button>
+          <button       label="Config Files"                                        largeImage="/Images/32/copy.png, SIM.Tool.Windows"                        type="SIM.Tool.Windows.MainWindowComponents.OpenWebConfigButton, SIM.Tool.Windows">
+            <button     label="web.config"                                          largeImage="/Images/16/document_text.png, SIM.Tool.Windows"               type="SIM.Tool.Windows.MainWindowComponents.OpenWebConfigButton, SIM.Tool.Windows" />
+            <separator />
+            <button     label="ConnectionStrings.config"                            largeImage="/Images/16/data_copy.png, SIM.Tool.Windows"                   type="SIM.Tool.Windows.MainWindowComponents.OpenFileButton, SIM.Tool.Windows"       param="/App_Config/ConnectionStrings.config" />
+            <button     label="DataFolder.config"                                   largeImage="/Images/16/data_copy1.png, SIM.Tool.Windows"                  type="SIM.Tool.Windows.MainWindowComponents.OpenFileButton, SIM.Tool.Windows"       param="/App_Config/Include/DataFolder.config" />
+            <button     label="Global.asax"                                         largeImage="/Images/16/document_text8.png, SIM.Tool.Windows"                  type="SIM.Tool.Windows.MainWindowComponents.OpenFileButton, SIM.Tool.Windows"   param="/Global.asax" />
+            <separator />
+            <button     label="Sitecore.Analytics.config"                           largeImage="/Images/16/document_text1.png, SIM.Tool.Windows"              type="SIM.Tool.Windows.MainWindowComponents.OpenFileButton, SIM.Tool.Windows"       param="/App_Config/Include/Sitecore.Analytics.config" />
+            <separator />
+            <button     label="Sitecore.ContentSearch.config"                       largeImage="/Images/16/document_text3.png, SIM.Tool.Windows"              type="SIM.Tool.Windows.MainWindowComponents.OpenFileButton, SIM.Tool.Windows"       param="/App_Config/Include/Sitecore.ContentSearch.config" />
+            <button     label="Sitecore.ContentSearch.DefaultConfigurations.config" largeImage="/Images/16/document_text4.png, SIM.Tool.Windows"              type="SIM.Tool.Windows.MainWindowComponents.OpenFileButton, SIM.Tool.Windows"       param="/App_Config/Include/Sitecore.ContentSearch.DefaultConfigurations.config" />
+            <button     label="Sitecore.ContentSearch.Lucene.DefaultIndexConfiguration.config" largeImage="/Images/16/document_text4.png, SIM.Tool.Windows"              type="SIM.Tool.Windows.MainWindowComponents.OpenFileButton, SIM.Tool.Windows"       param="/App_Config/Include/Sitecore.ContentSearch.Lucene.DefaultIndexConfiguration.config" />
+            <button     label="Sitecore.ContentSearch.Lucene.Index.Core.config"     largeImage="/Images/16/document_text5.png, SIM.Tool.Windows"              type="SIM.Tool.Windows.MainWindowComponents.OpenFileButton, SIM.Tool.Windows"       param="/App_Config/Include/Sitecore.ContentSearch.Lucene.Index.Core.config" />
+            <button     label="Sitecore.ContentSearch.Lucene.Index.Master.config"   largeImage="/Images/16/document_text6.png, SIM.Tool.Windows"              type="SIM.Tool.Windows.MainWindowComponents.OpenFileButton, SIM.Tool.Windows"       param="/App_Config/Include/Sitecore.ContentSearch.Lucene.Index.Master.config" />
+            <button     label="Sitecore.ContentSearch.Lucene.Index.Web.config"      largeImage="/Images/16/document_text7.png, SIM.Tool.Windows"              type="SIM.Tool.Windows.MainWindowComponents.OpenFileButton, SIM.Tool.Windows"       param="/App_Config/Include/Sitecore.ContentSearch.Lucene.Index.Web.config" />
+            <separator />
+            <button     label="Showconfig.xml"                                      largeImage="/Images/16/document_gear.png, SIM.Tool.Windows"               type="SIM.Tool.Windows.MainWindowComponents.ConfigBuilderButton, SIM.Tool.Windows"  param="/showconfig" />
+            <button     label="Showconfig.xml (normalized)"                         largeImage="/Images/16/document_preferences.png, SIM.Tool.Windows"        type="SIM.Tool.Windows.MainWindowComponents.ConfigBuilderButton, SIM.Tool.Windows"  param="/showconfig /normalized" />
+            <button     label="web.config.result.xml"                               largeImage="/Images/16/documents_gear.png, SIM.Tool.Windows"              type="SIM.Tool.Windows.MainWindowComponents.ConfigBuilderButton, SIM.Tool.Windows"  param="/webconfigresult" />
+            <button     label="web.config.result.xml (normalized)"                  largeImage="/Images/16/documents_preferences.png, SIM.Tool.Windows"       type="SIM.Tool.Windows.MainWindowComponents.ConfigBuilderButton, SIM.Tool.Windows"  param="/webconfigresult /normalized" />
+          </button>
+          <button       label="Log Files"                                           largeImage="/Images/32/history2.png, SIM.Tool.Windows">
+            <button     label="Current Log file"                                    largeImage="/Images/16/console.png, SIM.Tool.Windows"                     type="SIM.Tool.Windows.MainWindowComponents.OpenCurrentLogButton, SIM.Tool.Windows" />
+            <separator />
+            <button     label="Current 'log' Log file"                              largeImage="/Images/16/console2.png, SIM.Tool.Windows"                    type="SIM.Tool.Windows.MainWindowComponents.OpenCurrentLogButton, SIM.Tool.Windows" param="log" />
+            <button     label="Current 'Crawling.log' Log file"                     largeImage="/Images/16/console3.png, SIM.Tool.Windows"                    type="SIM.Tool.Windows.MainWindowComponents.OpenCurrentLogButton, SIM.Tool.Windows" param="Crawling.log" />
+            <button     label="Current 'Search.log' Log file"                       largeImage="/Images/16/console4.png, SIM.Tool.Windows"                    type="SIM.Tool.Windows.MainWindowComponents.OpenCurrentLogButton, SIM.Tool.Windows" param="Search.log" />
+            <button     label="Current 'Publishing.log' Log file"                   largeImage="/Images/16/console5.png, SIM.Tool.Windows"                    type="SIM.Tool.Windows.MainWindowComponents.OpenCurrentLogButton, SIM.Tool.Windows" param="Publishing.log" />
+            <button     label="Current 'Fxm.log' Log file"                          largeImage="/Images/16/console6.png, SIM.Tool.Windows"                    type="SIM.Tool.Windows.MainWindowComponents.OpenCurrentLogButton, SIM.Tool.Windows" param="Fxm.log" />
+            <button     label="Current 'WebDAV.log' Log file"                       largeImage="/Images/16/console7.png, SIM.Tool.Windows"                    type="SIM.Tool.Windows.MainWindowComponents.OpenCurrentLogButton, SIM.Tool.Windows" param="WebDAV.log" />
+            <separator />
+          </button>
+        </group>
+        <group name="Apps">
+          <button       label="Visual Studio"                                       largeImage="/Images/32/VS2013.png, SIM.Tool.Windows"                      type="SIM.Tool.Windows.MainWindowComponents.OpenVisualStudioButton, SIM.Tool.Windows" />
+        </group>
+      </tab>
+      <tab     name="Edit">
+        <group name="Install">
+          <button       label="Install Modules"                                     largeImage="/Images/32/install.png, SIM.Tool.Windows"                     type="SIM.Tool.Windows.MainWindowComponents.InstallModulesButton, SIM.Tool.Windows" />
+        </group>
+        <group name="Manage">
+          <button       label="App State"                                           largeImage="/Images/32/gearwheels.png, SIM.Tool.Windows">
+            <button     label="Start"                                               largeImage="/Images/16/media_play.png, SIM.Tool.Windows"                  type="SIM.Tool.Windows.MainWindowComponents.ControlAppPoolButton, SIM.Tool.Windows" param="start" />
+            <button     label="Stop"                                                largeImage="/Images/16/media_stop.png, SIM.Tool.Windows"                  type="SIM.Tool.Windows.MainWindowComponents.ControlAppPoolButton, SIM.Tool.Windows" param="stop" />
+            <separator />
+            <button     label="Recycle"                                             largeImage="/Images/16/garbage.png, SIM.Tool.Windows"                     type="SIM.Tool.Windows.MainWindowComponents.ControlAppPoolButton, SIM.Tool.Windows" param="recycle" />
+            <button     label="Kill process"                                        largeImage="/Images/16/cpu.png, SIM.Tool.Windows"                         type="SIM.Tool.Windows.MainWindowComponents.ControlAppPoolButton, SIM.Tool.Windows" param="kill" />
+            <separator />
+            <button     label="Change mode"                                         largeImage="/Images/16/cpu.png, SIM.Tool.Windows"                         type="SIM.Tool.Windows.MainWindowComponents.ControlAppPoolButton, SIM.Tool.Windows" param="mode" />
+<!--
+            <separator />
+            <button     label="Toggle Favorite"                                     largeImage="/Images/16/cpu.png, SIM.Tool.Windows"                         type="SIM.Tool.Windows.MainWindowComponents.ControlAppPoolButton, SIM.Tool.Windows" param="favorite" />
+            <button     label="Toggle Disabled"                                     largeImage="/Images/16/cpu.png, SIM.Tool.Windows"                         type="SIM.Tool.Windows.MainWindowComponents.ControlAppPoolButton, SIM.Tool.Windows" param="disabled" />
+-->
+          </button>
+          <button       label="Delete"                                              largeImage="/Images/32/uninstall.png, SIM.Tool.Windows"                   type="SIM.Tool.Windows.MainWindowComponents.DeleteInstanceButton, SIM.Tool.Windows">
+            <button     label="Delete"                                              largeImage="/Images/16/uninstall1.png, SIM.Tool.Windows"                  type="SIM.Tool.Windows.MainWindowComponents.DeleteInstanceButton, SIM.Tool.Windows" />
+            <button     label="Reinstall"                                           largeImage="/Images/16/redo.png, SIM.Tool.Windows"                        type="SIM.Tool.Windows.MainWindowComponents.ReinstallInstanceButton, SIM.Tool.Windows" />
+          </button>
+        </group>
+        <group name="Backup">
+          <button       label="Backup"                                              largeImage="/Images/32/floppy_disks.png, SIM.Tool.Windows"                type="SIM.Tool.Windows.MainWindowComponents.BackupInstanceButton, SIM.Tool.Windows">
+            <button     label="Backup"                                              largeImage="/Images/16/box_into.png, SIM.Tool.Windows"                    type="SIM.Tool.Windows.MainWindowComponents.BackupInstanceButton, SIM.Tool.Windows" />
+            <button     label="Export"                                              largeImage="/Images/32/download.png, SIM.Tool.Windows"                    type="SIM.Tool.Windows.MainWindowComponents.ExportInstanceButton, SIM.Tool.Windows" />
+          </button>
+          <button       label="Restore"                                             largeImage="/Images/32/box_out.png, SIM.Tool.Windows"                     type="SIM.Tool.Windows.MainWindowComponents.RestoreInstanceButton, SIM.Tool.Windows" />
+        </group>
+      </tab>
+    </ribbon>
+    <contextMenu>
+      <item   header="Browse Sitecore Website"                  image="/Images/16/earth21.png, SIM.Tool.Windows"                                              type="SIM.Tool.Windows.MainWindowComponents.BrowseButton, SIM.Tool.Windows" />
+      <item   header="Browse Sitecore Client"                   image="/Images/16/Sitecore2.png, SIM.Tool.Windows"                                            type="SIM.Tool.Windows.MainWindowComponents.BrowseButton, SIM.Tool.Windows"         param="/sitecore" />
+      <item   header="Log in admin"                             image="/Images/16/log_in1.png, SIM.Tool.Windows"                                              type="SIM.Tool.Windows.MainWindowComponents.LoginAdminButton, SIM.Tool.Windows"     param="/sitecore">
+        <item header="Google Chrome"                            image="/Images/32/chrome2.png, SIM.Tool.Windows"                                              type="SIM.Tool.Windows.MainWindowComponents.LoginAdminButton, SIM.Tool.Windows"     param="/sitecore:chrome"/>
+        <item header="Mozilla Firefox"                          image="/Images/32/firefox2.png, SIM.Tool.Windows"                                             type="SIM.Tool.Windows.MainWindowComponents.LoginAdminButton, SIM.Tool.Windows"     param="/sitecore:firefox"/>
+        <item header="Internet Explorer"                        image="/Images/32/ie2.png, SIM.Tool.Windows"                                                  type="SIM.Tool.Windows.MainWindowComponents.LoginAdminButton, SIM.Tool.Windows"     param="/sitecore:iexplore"/>
+        <item header="Apple Safari"                             image="/Images/32/safari2.png, SIM.Tool.Windows"                                              type="SIM.Tool.Windows.MainWindowComponents.LoginAdminButton, SIM.Tool.Windows"     param="/sitecore:safari"/>
+        <separator/>
+        <item header="Copy URL"                                 image="/Images/32/astrologer.png, SIM.Tool.Windows"                                           type="SIM.Tool.Windows.MainWindowComponents.LoginAdminButton, SIM.Tool.Windows"     param="$(clipboard)"/>
+      </item>
+      <item   header="Open Folder"                              image="/Images/16/folder_open6.png, SIM.Tool.Windows"                                         type="SIM.Tool.Windows.MainWindowComponents.OpenFolderButton, SIM.Tool.Windows"     param="$(website)"/>
+      <item   header="Open Visual Studio"                       image="/Images/16/VS20131.png, SIM.Tool.Windows"                                              type="SIM.Tool.Windows.MainWindowComponents.OpenVisualStudioButton, SIM.Tool.Windows" />
+      <separator />
+      <item   header="Open log file"                            image="/Images/16/console1.png, SIM.Tool.Windows"                                             type="SIM.Tool.Windows.MainWindowComponents.OpenCurrentLogButton, SIM.Tool.Windows" />
+      <item   header="Open web.config file"                     image="/Images/16/document_text2.png, SIM.Tool.Windows"                                       type="SIM.Tool.Windows.MainWindowComponents.OpenWebConfigButton, SIM.Tool.Windows" />
+      <separator />
+      <item   header="Backup"                                   image="/Images/16/box_into1.png, SIM.Tool.Windows"                                            type="SIM.Tool.Windows.MainWindowComponents.BackupInstanceButton, SIM.Tool.Windows" />
+      <item   header="Restore"                                  image="/Images/16/box_out1.png, SIM.Tool.Windows"                                             type="SIM.Tool.Windows.MainWindowComponents.RestoreInstanceButton, SIM.Tool.Windows" />
+      <separator />
+      <item   header="Export"                                   image="/Images/16/download1.png, SIM.Tool.Windows"                                            type="SIM.Tool.Windows.MainWindowComponents.ExportInstanceButton, SIM.Tool.Windows" />
+      <separator />
+      <plugins />
+      <separator />
+      <item   header="Install modules"                          image="/Images/16/install1.png, SIM.Tool.Windows"                                             type="SIM.Tool.Windows.MainWindowComponents.InstallModulesButton, SIM.Tool.Windows" />
+      <separator />
+      <item   header="Reinstall instance"                       image="/Images/16/redo1.png, SIM.Tool.Windows"                                                type="SIM.Tool.Windows.MainWindowComponents.ReinstallInstanceButton, SIM.Tool.Windows" />
+      <separator />
+      <item   header="Delete"                                   image="/Images/16/uninstall2.png, SIM.Tool.Windows"                                           type="SIM.Tool.Windows.MainWindowComponents.DeleteInstanceButton, SIM.Tool.Windows" />
+    </contextMenu>
+  </mainWindow>
+</app>

@@ -1,0 +1,14 @@
+﻿<manifest version="1.3">
+  <archive>
+    <install>
+      <actions>
+        <config>          
+          <delete xpath="/configuration/system.web/customErrors" />
+          <append xpath="/configuration/system.web">
+            <customErrors mode="Off" />
+          </append>
+        </config>
+      </actions>
+    </install>
+  </archive>
+</manifest>

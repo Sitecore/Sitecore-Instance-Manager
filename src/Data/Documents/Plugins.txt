@@ -1,0 +1,4 @@
+This document describes the way how to write a plugin.
+
+1. all .xml, .manifest.xml, .exe and .zip files in the project must have Build Option set to "None" and Copy to Output directory set to "copy always"
+2. all images must have Build Option set to "Resource" and Copy to Output directory set to "never"

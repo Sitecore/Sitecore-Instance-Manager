@@ -1,0 +1,19 @@
+﻿<UserControl x:Class="SIM.Tool.Windows.UserControls.Backup.BackupSettings" 
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="205" d:DesignWidth="443" Padding="0">
+  <StackPanel Margin="0" Orientation="Vertical">
+		<TextBox x:Name="BackupName" Margin="0" Background="White" />
+		<Grid HorizontalAlignment="Stretch" Margin="0 4 0 4">
+			<ListBox IsManipulationEnabled="False" Padding="5,5,0,5" Margin="0 5 0 0" Name="Modes" ItemsSource="{Binding}" Grid.ColumnSpan="2">
+				<CheckBox Content="Databases" Name="Databases" Checked="OnChanged" Unchecked="OnUnchanged" Margin="0 5 0 0"/>
+        <CheckBox Content="MongoDB Databases" Name="MongoDatabases" Checked="OnChanged" Unchecked="OnUnchanged" Margin="0 5 0 0"/>
+				<CheckBox Content="Files" Name="Files" Checked="OnChanged" Unchecked="OnUnchanged" Margin="0 5 0 0"/>
+				<CheckBox Content="Exclude Sitecore client files" Name="ExcludeClient" IsChecked="false" Checked="OnChanged" Unchecked="OnUnchanged" Margin="20 5 0 0"/>
+			</ListBox>
+		</Grid>
+  </StackPanel>
+</UserControl>

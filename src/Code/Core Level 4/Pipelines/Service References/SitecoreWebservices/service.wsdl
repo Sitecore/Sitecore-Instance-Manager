@@ -1,0 +1,1092 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://sitecore.net/visual/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://sitecore.net/visual/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://sitecore.net/visual/">
+      <s:element name="AddFromMaster">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="id" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="masterID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="name" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="databaseName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="credentials" type="tns:Credentials" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="Credentials">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="CustomData" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="UserName" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="AddFromMasterResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AddFromMasterResult">
+              <s:complexType mixed="true">
+                <s:sequence>
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AddFromTemplate">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="id" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="templateID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="name" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="databaseName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="credentials" type="tns:Credentials" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AddFromTemplateResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AddFromTemplateResult">
+              <s:complexType mixed="true">
+                <s:sequence>
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AddVersion">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="id" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="language" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="databaseName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="credentials" type="tns:Credentials" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AddVersionResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AddVersionResult">
+              <s:complexType mixed="true">
+                <s:sequence>
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CopyTo">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="id" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="newParent" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="name" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="databaseName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="credentials" type="tns:Credentials" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CopyToResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="CopyToResult">
+              <s:complexType mixed="true">
+                <s:sequence>
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Delete">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="id" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="recycle" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="databaseName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="credentials" type="tns:Credentials" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="DeleteResult">
+              <s:complexType mixed="true">
+                <s:sequence>
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteChildren">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="id" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="databaseName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="credentials" type="tns:Credentials" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteChildrenResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="DeleteChildrenResult">
+              <s:complexType mixed="true">
+                <s:sequence>
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Duplicate">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="id" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="name" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="databaseName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="credentials" type="tns:Credentials" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DuplicateResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="DuplicateResult">
+              <s:complexType mixed="true">
+                <s:sequence>
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetChildren">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="id" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="databaseName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="credentials" type="tns:Credentials" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetChildrenResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetChildrenResult">
+              <s:complexType mixed="true">
+                <s:sequence>
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetDatabases">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="credentials" type="tns:Credentials" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetDatabasesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetDatabasesResult">
+              <s:complexType mixed="true">
+                <s:sequence>
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetItemMasters">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="id" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="databaseName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="credentials" type="tns:Credentials" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetItemMastersResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetItemMastersResult">
+              <s:complexType mixed="true">
+                <s:sequence>
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetItemFields">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="id" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="language" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="version" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="allFields" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="databaseName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="credentials" type="tns:Credentials" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetItemFieldsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetItemFieldsResult">
+              <s:complexType mixed="true">
+                <s:sequence>
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetLanguages">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="databaseName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="credentials" type="tns:Credentials" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetLanguagesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetLanguagesResult">
+              <s:complexType mixed="true">
+                <s:sequence>
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetMasters">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="databaseName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="credentials" type="tns:Credentials" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetMastersResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetMastersResult">
+              <s:complexType mixed="true">
+                <s:sequence>
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetTemplates">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="databaseName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="credentials" type="tns:Credentials" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetTemplatesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetTemplatesResult">
+              <s:complexType mixed="true">
+                <s:sequence>
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetXML">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="id" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="deep" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="databaseName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="credentials" type="tns:Credentials" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetXMLResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetXMLResult">
+              <s:complexType mixed="true">
+                <s:sequence>
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="InsertXML">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="id" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="xml" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="changeIDs" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="databaseName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="credentials" type="tns:Credentials" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="InsertXMLResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="InsertXMLResult">
+              <s:complexType mixed="true">
+                <s:sequence>
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="MoveTo">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="id" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="newParent" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="databaseName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="credentials" type="tns:Credentials" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="MoveToResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="MoveToResult">
+              <s:complexType mixed="true">
+                <s:sequence>
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RemoveVersion">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="id" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="language" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="version" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="databaseName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="credentials" type="tns:Credentials" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RemoveVersionResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="RemoveVersionResult">
+              <s:complexType mixed="true">
+                <s:sequence>
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Rename">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="id" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="newName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="databaseName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="credentials" type="tns:Credentials" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RenameResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="RenameResult">
+              <s:complexType mixed="true">
+                <s:sequence>
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Save">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="xml" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="databaseName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="credentials" type="tns:Credentials" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SaveResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="SaveResult">
+              <s:complexType mixed="true">
+                <s:sequence>
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="VerifyCredentials">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="credentials" type="tns:Credentials" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="VerifyCredentialsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="VerifyCredentialsResult">
+              <s:complexType mixed="true">
+                <s:sequence>
+                  <s:any />
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="AddFromMasterSoapIn">
+    <wsdl:part name="parameters" element="tns:AddFromMaster" />
+  </wsdl:message>
+  <wsdl:message name="AddFromMasterSoapOut">
+    <wsdl:part name="parameters" element="tns:AddFromMasterResponse" />
+  </wsdl:message>
+  <wsdl:message name="AddFromTemplateSoapIn">
+    <wsdl:part name="parameters" element="tns:AddFromTemplate" />
+  </wsdl:message>
+  <wsdl:message name="AddFromTemplateSoapOut">
+    <wsdl:part name="parameters" element="tns:AddFromTemplateResponse" />
+  </wsdl:message>
+  <wsdl:message name="AddVersionSoapIn">
+    <wsdl:part name="parameters" element="tns:AddVersion" />
+  </wsdl:message>
+  <wsdl:message name="AddVersionSoapOut">
+    <wsdl:part name="parameters" element="tns:AddVersionResponse" />
+  </wsdl:message>
+  <wsdl:message name="CopyToSoapIn">
+    <wsdl:part name="parameters" element="tns:CopyTo" />
+  </wsdl:message>
+  <wsdl:message name="CopyToSoapOut">
+    <wsdl:part name="parameters" element="tns:CopyToResponse" />
+  </wsdl:message>
+  <wsdl:message name="DeleteSoapIn">
+    <wsdl:part name="parameters" element="tns:Delete" />
+  </wsdl:message>
+  <wsdl:message name="DeleteSoapOut">
+    <wsdl:part name="parameters" element="tns:DeleteResponse" />
+  </wsdl:message>
+  <wsdl:message name="DeleteChildrenSoapIn">
+    <wsdl:part name="parameters" element="tns:DeleteChildren" />
+  </wsdl:message>
+  <wsdl:message name="DeleteChildrenSoapOut">
+    <wsdl:part name="parameters" element="tns:DeleteChildrenResponse" />
+  </wsdl:message>
+  <wsdl:message name="DuplicateSoapIn">
+    <wsdl:part name="parameters" element="tns:Duplicate" />
+  </wsdl:message>
+  <wsdl:message name="DuplicateSoapOut">
+    <wsdl:part name="parameters" element="tns:DuplicateResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetChildrenSoapIn">
+    <wsdl:part name="parameters" element="tns:GetChildren" />
+  </wsdl:message>
+  <wsdl:message name="GetChildrenSoapOut">
+    <wsdl:part name="parameters" element="tns:GetChildrenResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetDatabasesSoapIn">
+    <wsdl:part name="parameters" element="tns:GetDatabases" />
+  </wsdl:message>
+  <wsdl:message name="GetDatabasesSoapOut">
+    <wsdl:part name="parameters" element="tns:GetDatabasesResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetItemMastersSoapIn">
+    <wsdl:part name="parameters" element="tns:GetItemMasters" />
+  </wsdl:message>
+  <wsdl:message name="GetItemMastersSoapOut">
+    <wsdl:part name="parameters" element="tns:GetItemMastersResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetItemFieldsSoapIn">
+    <wsdl:part name="parameters" element="tns:GetItemFields" />
+  </wsdl:message>
+  <wsdl:message name="GetItemFieldsSoapOut">
+    <wsdl:part name="parameters" element="tns:GetItemFieldsResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetLanguagesSoapIn">
+    <wsdl:part name="parameters" element="tns:GetLanguages" />
+  </wsdl:message>
+  <wsdl:message name="GetLanguagesSoapOut">
+    <wsdl:part name="parameters" element="tns:GetLanguagesResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetMastersSoapIn">
+    <wsdl:part name="parameters" element="tns:GetMasters" />
+  </wsdl:message>
+  <wsdl:message name="GetMastersSoapOut">
+    <wsdl:part name="parameters" element="tns:GetMastersResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetTemplatesSoapIn">
+    <wsdl:part name="parameters" element="tns:GetTemplates" />
+  </wsdl:message>
+  <wsdl:message name="GetTemplatesSoapOut">
+    <wsdl:part name="parameters" element="tns:GetTemplatesResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetXMLSoapIn">
+    <wsdl:part name="parameters" element="tns:GetXML" />
+  </wsdl:message>
+  <wsdl:message name="GetXMLSoapOut">
+    <wsdl:part name="parameters" element="tns:GetXMLResponse" />
+  </wsdl:message>
+  <wsdl:message name="InsertXMLSoapIn">
+    <wsdl:part name="parameters" element="tns:InsertXML" />
+  </wsdl:message>
+  <wsdl:message name="InsertXMLSoapOut">
+    <wsdl:part name="parameters" element="tns:InsertXMLResponse" />
+  </wsdl:message>
+  <wsdl:message name="MoveToSoapIn">
+    <wsdl:part name="parameters" element="tns:MoveTo" />
+  </wsdl:message>
+  <wsdl:message name="MoveToSoapOut">
+    <wsdl:part name="parameters" element="tns:MoveToResponse" />
+  </wsdl:message>
+  <wsdl:message name="RemoveVersionSoapIn">
+    <wsdl:part name="parameters" element="tns:RemoveVersion" />
+  </wsdl:message>
+  <wsdl:message name="RemoveVersionSoapOut">
+    <wsdl:part name="parameters" element="tns:RemoveVersionResponse" />
+  </wsdl:message>
+  <wsdl:message name="RenameSoapIn">
+    <wsdl:part name="parameters" element="tns:Rename" />
+  </wsdl:message>
+  <wsdl:message name="RenameSoapOut">
+    <wsdl:part name="parameters" element="tns:RenameResponse" />
+  </wsdl:message>
+  <wsdl:message name="SaveSoapIn">
+    <wsdl:part name="parameters" element="tns:Save" />
+  </wsdl:message>
+  <wsdl:message name="SaveSoapOut">
+    <wsdl:part name="parameters" element="tns:SaveResponse" />
+  </wsdl:message>
+  <wsdl:message name="VerifyCredentialsSoapIn">
+    <wsdl:part name="parameters" element="tns:VerifyCredentials" />
+  </wsdl:message>
+  <wsdl:message name="VerifyCredentialsSoapOut">
+    <wsdl:part name="parameters" element="tns:VerifyCredentialsResponse" />
+  </wsdl:message>
+  <wsdl:portType name="Visual_x0020_Sitecore_x0020_ServiceSoap">
+    <wsdl:operation name="AddFromMaster">
+      <wsdl:input message="tns:AddFromMasterSoapIn" />
+      <wsdl:output message="tns:AddFromMasterSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AddFromTemplate">
+      <wsdl:input message="tns:AddFromTemplateSoapIn" />
+      <wsdl:output message="tns:AddFromTemplateSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="AddVersion">
+      <wsdl:input message="tns:AddVersionSoapIn" />
+      <wsdl:output message="tns:AddVersionSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CopyTo">
+      <wsdl:input message="tns:CopyToSoapIn" />
+      <wsdl:output message="tns:CopyToSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Delete">
+      <wsdl:input message="tns:DeleteSoapIn" />
+      <wsdl:output message="tns:DeleteSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteChildren">
+      <wsdl:input message="tns:DeleteChildrenSoapIn" />
+      <wsdl:output message="tns:DeleteChildrenSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Duplicate">
+      <wsdl:input message="tns:DuplicateSoapIn" />
+      <wsdl:output message="tns:DuplicateSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetChildren">
+      <wsdl:input message="tns:GetChildrenSoapIn" />
+      <wsdl:output message="tns:GetChildrenSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetDatabases">
+      <wsdl:input message="tns:GetDatabasesSoapIn" />
+      <wsdl:output message="tns:GetDatabasesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetItemMasters">
+      <wsdl:input message="tns:GetItemMastersSoapIn" />
+      <wsdl:output message="tns:GetItemMastersSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetItemFields">
+      <wsdl:input message="tns:GetItemFieldsSoapIn" />
+      <wsdl:output message="tns:GetItemFieldsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetLanguages">
+      <wsdl:input message="tns:GetLanguagesSoapIn" />
+      <wsdl:output message="tns:GetLanguagesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetMasters">
+      <wsdl:input message="tns:GetMastersSoapIn" />
+      <wsdl:output message="tns:GetMastersSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetTemplates">
+      <wsdl:input message="tns:GetTemplatesSoapIn" />
+      <wsdl:output message="tns:GetTemplatesSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetXML">
+      <wsdl:input message="tns:GetXMLSoapIn" />
+      <wsdl:output message="tns:GetXMLSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="InsertXML">
+      <wsdl:input message="tns:InsertXMLSoapIn" />
+      <wsdl:output message="tns:InsertXMLSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="MoveTo">
+      <wsdl:input message="tns:MoveToSoapIn" />
+      <wsdl:output message="tns:MoveToSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="RemoveVersion">
+      <wsdl:input message="tns:RemoveVersionSoapIn" />
+      <wsdl:output message="tns:RemoveVersionSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Rename">
+      <wsdl:input message="tns:RenameSoapIn" />
+      <wsdl:output message="tns:RenameSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Save">
+      <wsdl:input message="tns:SaveSoapIn" />
+      <wsdl:output message="tns:SaveSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="VerifyCredentials">
+      <wsdl:input message="tns:VerifyCredentialsSoapIn" />
+      <wsdl:output message="tns:VerifyCredentialsSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="Visual_x0020_Sitecore_x0020_ServiceSoap" type="tns:Visual_x0020_Sitecore_x0020_ServiceSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="AddFromMaster">
+      <soap:operation soapAction="http://sitecore.net/visual/AddFromMaster" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddFromTemplate">
+      <soap:operation soapAction="http://sitecore.net/visual/AddFromTemplate" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddVersion">
+      <soap:operation soapAction="http://sitecore.net/visual/AddVersion" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CopyTo">
+      <soap:operation soapAction="http://sitecore.net/visual/CopyTo" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Delete">
+      <soap:operation soapAction="http://sitecore.net/visual/Delete" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteChildren">
+      <soap:operation soapAction="http://sitecore.net/visual/DeleteChildren" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Duplicate">
+      <soap:operation soapAction="http://sitecore.net/visual/Duplicate" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetChildren">
+      <soap:operation soapAction="http://sitecore.net/visual/GetChildren" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDatabases">
+      <soap:operation soapAction="http://sitecore.net/visual/GetDatabases" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetItemMasters">
+      <soap:operation soapAction="http://sitecore.net/visual/GetItemMasters" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetItemFields">
+      <soap:operation soapAction="http://sitecore.net/visual/GetItemFields" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetLanguages">
+      <soap:operation soapAction="http://sitecore.net/visual/GetLanguages" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMasters">
+      <soap:operation soapAction="http://sitecore.net/visual/GetMasters" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTemplates">
+      <soap:operation soapAction="http://sitecore.net/visual/GetTemplates" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetXML">
+      <soap:operation soapAction="http://sitecore.net/visual/GetXML" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="InsertXML">
+      <soap:operation soapAction="http://sitecore.net/visual/InsertXML" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MoveTo">
+      <soap:operation soapAction="http://sitecore.net/visual/MoveTo" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RemoveVersion">
+      <soap:operation soapAction="http://sitecore.net/visual/RemoveVersion" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Rename">
+      <soap:operation soapAction="http://sitecore.net/visual/Rename" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Save">
+      <soap:operation soapAction="http://sitecore.net/visual/Save" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="VerifyCredentials">
+      <soap:operation soapAction="http://sitecore.net/visual/VerifyCredentials" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="Visual_x0020_Sitecore_x0020_ServiceSoap12" type="tns:Visual_x0020_Sitecore_x0020_ServiceSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="AddFromMaster">
+      <soap12:operation soapAction="http://sitecore.net/visual/AddFromMaster" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddFromTemplate">
+      <soap12:operation soapAction="http://sitecore.net/visual/AddFromTemplate" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddVersion">
+      <soap12:operation soapAction="http://sitecore.net/visual/AddVersion" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CopyTo">
+      <soap12:operation soapAction="http://sitecore.net/visual/CopyTo" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Delete">
+      <soap12:operation soapAction="http://sitecore.net/visual/Delete" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteChildren">
+      <soap12:operation soapAction="http://sitecore.net/visual/DeleteChildren" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Duplicate">
+      <soap12:operation soapAction="http://sitecore.net/visual/Duplicate" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetChildren">
+      <soap12:operation soapAction="http://sitecore.net/visual/GetChildren" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDatabases">
+      <soap12:operation soapAction="http://sitecore.net/visual/GetDatabases" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetItemMasters">
+      <soap12:operation soapAction="http://sitecore.net/visual/GetItemMasters" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetItemFields">
+      <soap12:operation soapAction="http://sitecore.net/visual/GetItemFields" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetLanguages">
+      <soap12:operation soapAction="http://sitecore.net/visual/GetLanguages" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMasters">
+      <soap12:operation soapAction="http://sitecore.net/visual/GetMasters" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTemplates">
+      <soap12:operation soapAction="http://sitecore.net/visual/GetTemplates" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetXML">
+      <soap12:operation soapAction="http://sitecore.net/visual/GetXML" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="InsertXML">
+      <soap12:operation soapAction="http://sitecore.net/visual/InsertXML" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MoveTo">
+      <soap12:operation soapAction="http://sitecore.net/visual/MoveTo" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RemoveVersion">
+      <soap12:operation soapAction="http://sitecore.net/visual/RemoveVersion" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Rename">
+      <soap12:operation soapAction="http://sitecore.net/visual/Rename" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Save">
+      <soap12:operation soapAction="http://sitecore.net/visual/Save" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="VerifyCredentials">
+      <soap12:operation soapAction="http://sitecore.net/visual/VerifyCredentials" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="Visual_x0020_Sitecore_x0020_Service">
+    <wsdl:port name="Visual_x0020_Sitecore_x0020_ServiceSoap" binding="tns:Visual_x0020_Sitecore_x0020_ServiceSoap">
+      <soap:address location="http://sc650rev120706/sitecore/shell/webservice/service.asmx" />
+    </wsdl:port>
+    <wsdl:port name="Visual_x0020_Sitecore_x0020_ServiceSoap12" binding="tns:Visual_x0020_Sitecore_x0020_ServiceSoap12">
+      <soap12:address location="http://sc650rev120706/sitecore/shell/webservice/service.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

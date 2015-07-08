@@ -1,0 +1,14 @@
+<manifest version="1.3">
+  <archive>
+    <install>
+      <actions>
+        <editfile path="/Website/bin_Net4/Sitecore.Mvc.Analytics.dll">
+          <move target="/Website/bin/Sitecore.Mvc.Analytics.dll" />
+        </editfile>
+        <editfile path="/Website/App_Config/Include/Sitecore.MvcAnalytics.config.disabled">
+          <move target="/Website/App_Config/Include/Sitecore.MvcAnalytics.config" />
+        </editfile>
+      </actions>
+    </install>
+  </archive>
+</manifest>

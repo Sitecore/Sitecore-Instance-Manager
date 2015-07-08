@@ -1,0 +1,29 @@
+﻿<UserControl x:Class="SIM.Tool.Windows.UserControls.Install.Modules.ModulesDetails" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d" d:DesignHeight="205" d:DesignWidth="443">
+	<Grid>
+    <Grid Height="24" VerticalAlignment="Top">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition />
+        <ColumnDefinition Width="24" />
+      </Grid.ColumnDefinitions>
+      <TextBox Name="SearchTextBox" Grid.Column="0" KeyUp="SearchTextBoxKeyPressed" Height="24" Margin="0,0,4,0" />
+      <Button ToolTip="Search instance by name" Grid.Column="1" Click="Search">
+        <Image Source="pack://application:,,,/SIM.Tool.Windows;component/Images/24/view.png" />
+      </Button>
+    </Grid>
+    <ListBox IsManipulationEnabled="False" Name="sitecoreModules" SelectionChanged="ModuleSelected" Margin="0,29,0,0" ItemsSource="{Binding}">
+			<ListBox.ItemTemplate>
+				<DataTemplate>
+					<Grid>
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="295" />
+							<ColumnDefinition Width="120" />
+						</Grid.ColumnDefinitions>
+						<CheckBox Content="{Binding Path=Name}" Grid.Column="0" IsChecked="{Binding Path=IsChecked}" Margin="4 0 0 0" Name="ololo" VerticalAlignment="Center" />
+						<ComboBox Grid.Column="1" HorizontalAlignment="Right" DisplayMemberPath="VersionAndRevision" IsEnabled="{Binding ElementName=ololo, Path=IsChecked}" ItemsSource="{Binding Path=Scope}" SelectedIndex="{Binding Path=ValueIndex, Mode=TwoWay}" VerticalAlignment="Center" />
+					</Grid>
+				</DataTemplate>
+			</ListBox.ItemTemplate>
+		</ListBox>
+	</Grid>
+</UserControl>

@@ -1,0 +1,13 @@
+﻿<plugin version="1.3">
+  <mainWindow>
+    <ribbon>
+      <tab name="Home">
+        <group name="Tools">
+          <button label="Bundled Tools">
+            <button label="Install MongoDB" type="SIM.Tool.Plugins.InstallMongoDb, SIM.Tool" />
+          </button>
+        </group>
+      </tab>
+    </ribbon>
+  </mainWindow>
+</plugin>

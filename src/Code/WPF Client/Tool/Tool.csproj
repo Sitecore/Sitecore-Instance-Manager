@@ -1,0 +1,265 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{7479AF0F-C156-4844-AEC1-778FF1B854C8}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SIM.Tool</RootNamespace>
+    <AssemblyName>SIM.Tool</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <TargetFrameworkProfile />
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>SIM.Tool.App</StartupObject>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Images\sim.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Alienlab.NetExtensions">
+      <HintPath>..\..\..\packages\Alienlab.NetExtensions.1.0.7\lib\Alienlab.NetExtensions.dll</HintPath>
+    </Reference>
+    <Reference Include="Fluent">
+      <HintPath>..\..\..\packages\Fluent.Ribbon.3.4.0\lib\net40\Fluent.dll</HintPath>
+    </Reference>
+    <Reference Include="Ionic.Zip, Version=1.9.1.8, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\DotNetZip.1.9.1.8\lib\net20\Ionic.Zip.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net, Version=1.2.13.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Administration, Version=7.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Microsoft.Web.Administration.7.0.0.0\lib\net20\Microsoft.Web.Administration.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Windows.Shell">
+      <HintPath>..\..\..\packages\Fluent.Ribbon.3.4.0\lib\net40\Microsoft.Windows.Shell.dll</HintPath>
+    </Reference>
+    <Reference Include="MongoDB.Bson, Version=1.10.0.62, Culture=neutral, PublicKeyToken=f686731cfb9cc103, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\mongocsharpdriver.1.10.0\lib\net35\MongoDB.Bson.dll</HintPath>
+    </Reference>
+    <Reference Include="MongoDB.Driver">
+      <HintPath>..\..\..\packages\mongocsharpdriver.1.10.0\lib\net35\MongoDB.Driver.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationFramework" />
+    <Reference Include="Sitecore.ConfigBuilder, Version=1.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\SitecoreConfigBuilder.1.3.0.50\lib\Sitecore.ConfigBuilder.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Windows.Interactivity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Fluent.Ribbon.3.4.0\lib\net40\System.Windows.Interactivity.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="TaskDialog, Version=1.7.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\WPFTaskDialog.1.7.1\lib\net40-Client\TaskDialog.dll</HintPath>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="..\..\Core Level 1\Base\Properties\SharedAssemblyVersion.cs" Condition="'$(Configuration)' == 'Debug'">
+      <Link>Properties\SharedAssemblyVersion.cs</Link>
+    </Compile>
+    <Compile Include="Plugins\Install MongoDB\InstallMongoDb.cs" />
+    <Compile Include="Properties\TResources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TResources.resx</DependentUpon>
+    </Compile>
+    <None Include="app.manifest" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Copyrights.zip">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <Page Include="ExpressionLight.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Core Level 2\Kernel.Adapters\Kernel.Adapters.csproj">
+      <Project>{ca40c57a-ef4f-474d-be8b-98e51ae62c1f}</Project>
+      <Name>Kernel.Adapters</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Core Level 3\Kernel.Instances\Kernel.Instances.csproj">
+      <Project>{cca7b157-a743-4a5a-a03b-b6b27cb2be1c}</Project>
+      <Name>Kernel.Instances</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Core Level 4\Pipelines\Pipelines.csproj">
+      <Project>{7a3fedf8-df96-4426-aa01-c2d4fd3e68c8}</Project>
+      <Name>Pipelines</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tool.Plugins\SupportWorkaround\Support Workaround.csproj">
+      <Project>{ac1018f8-9328-4516-a5c3-08a99c9b0cfe}</Project>
+      <Name>Support Workaround</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tool.Windows\Tool.Windows.csproj">
+      <Project>{221FB0E1-56C0-499C-82F3-BA4060D6ED0C}</Project>
+      <Name>Tool.Windows</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tool.Plugins\Linqpad\Linqpad.csproj">
+      <Project>{c6215735-80c0-47ef-a15d-5a5c552ec99a}</Project>
+      <Name>Linqpad</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tool.Plugins\Support Package Generator\Support Package Generator.csproj">
+      <Project>{b7c66be2-b1ac-43b0-8218-ed8a66730c14}</Project>
+      <Name>Support Package Generator</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tool.Wizards\Tool.Wizards.csproj">
+      <Project>{E67BF633-2709-4106-A984-DE811CE8C689}</Project>
+      <Name>Tool.Wizards</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Core Level 1\Base\Base.csproj">
+      <Project>{CA9339A0-9A7D-4900-839E-F21B7269BDAA}</Project>
+      <Name>Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Core Level 2\Kernel.Pipelines\Kernel.Pipelines.csproj">
+      <Project>{E36CDEDE-E0C7-48E2-B02A-6A4C3EACF769}</Project>
+      <Name>Kernel.Pipelines</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Core Level 2\Kernel.Products\Kernel.Products.csproj">
+      <Project>{BC8B4EE5-C053-42E1-A5BA-07F8C41915A9}</Project>
+      <Name>Kernel.Products</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tool.Base\Tool.Base.csproj">
+      <Project>{EF380B2A-1171-4A9F-96D0-176ABA6CAD74}</Project>
+      <Name>Tool.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tool.Plugins\LogAnalyzer\Log Analyzer.csproj">
+      <Project>{93AC75E3-5FB3-4223-B9BF-4E3299B45EF1}</Project>
+      <Name>Log Analyzer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tool.Plugins\MultipleDeletion\Multiple Deletion.csproj">
+      <Project>{e9228125-c0f4-4125-a8c6-9b6711088f60}</Project>
+      <Name>Multiple Deletion</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tool.Plugins\SupportToolbox\Support Toolbox.csproj">
+      <Project>{E9ED4FAD-C47A-49A8-B2E2-ACE1D68C43F9}</Project>
+      <Name>Support Toolbox</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tool.Plugins\TrayPlugin\Tray Plugin.csproj">
+      <Project>{436fdde7-9dac-4558-844e-36d5771685ac}</Project>
+      <Name>Tray Plugin</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tool.Plugins\Update License\Update License.csproj">
+      <Project>{ee1a09b9-0cd7-4779-bf7e-01d568e2a9c3}</Project>
+      <Name>Update License</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\TResources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>TResources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+    <None Include="Plugins\Readme.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\splash.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Wizard.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\sim.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Updater.exe" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Plugins\Install MongoDB\Plugin.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Plugins\Install MongoDB\MongoDb.WindowsService.Installer.exe">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Plugins\Publish Dialog\Plugin.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Plugins\Sitecore Rocks\Plugin.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Plugins\Sitecore Rocks\SIM.Tool.Plugin.SitecoreRocks.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

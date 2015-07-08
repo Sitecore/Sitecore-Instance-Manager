@@ -1,0 +1,12 @@
+﻿<Window x:Class="SIM.Tool.Base.Windows.Dialogs.InputDialog" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Title="Enter the parameter value" Height="137" Width="304" ContentRendered="WindowContentRendered">
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="29" />
+			<RowDefinition Height="30" />
+			<RowDefinition Height="30*" />
+		</Grid.RowDefinitions>
+		<TextBlock HorizontalAlignment="Stretch" Name="title" Text="{Binding Title}" Margin="4" TextAlignment="Left" Grid.Row="0" />
+        <TextBox Height="23" HorizontalAlignment="Stretch" Name="value" VerticalAlignment="Center" Margin="4" Grid.Row="1" Text="{Binding DefaultValue}" KeyUp="value_KeyUp" />
+		<Button Content="OK" Height="23" HorizontalAlignment="Right" Name="OK" VerticalAlignment="Bottom" Width="80" Margin="4" Click="OKClick" Grid.Row="2" />
+	</Grid>
+</Window>

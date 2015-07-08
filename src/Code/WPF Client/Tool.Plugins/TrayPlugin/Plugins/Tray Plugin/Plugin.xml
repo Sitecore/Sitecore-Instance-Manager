@@ -1,0 +1,10 @@
+﻿<plugin version="1.3">
+  <init>
+    <processor type="SIM.Tool.Plugins.TrayPlugin.EntryPoint, SIM.Tool.Plugins.TrayPlugin" />
+  </init>
+  <mainWindow>
+    <loaded>
+      <processor type="SIM.Tool.Plugins.TrayPlugin.EntryPoint, SIM.Tool.Plugins.TrayPlugin" />
+    </loaded>
+  </mainWindow>
+</plugin>

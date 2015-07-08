@@ -1,0 +1,64 @@
+﻿<r:RibbonWindow WindowStartupLocation="CenterScreen" TextOptions.TextFormattingMode="Display"  x:Class="SIM.Tool.Windows.MainWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:r="clr-namespace:Fluent;assembly=Fluent"
+               Title="SIM {0} {1}" MinWidth="340" Width="340" Height="480" Icon="pack://application:,,,/SIM.Tool.Windows;component/Images/window.ico" ContentRendered="WindowLoaded" Closing="WindowClosing">
+  <DockPanel>
+    <r:Ribbon DockPanel.Dock="Top" Name="MainRibbon">
+      <r:Ribbon.ContextMenu>
+        <ContextMenu Visibility="Hidden" />
+      </r:Ribbon.ContextMenu>
+      <r:RibbonTabItem x:Name="HomeTab" Header="Home">
+        <r:RibbonGroupBox x:Name="HomeTabRefreshGroup" Header="Refresh" />
+        <r:RibbonGroupBox x:Name="HomeTabInstallGroup" Header="Install" />
+      </r:RibbonTabItem>
+      <r:RibbonTabItem x:Name="OpenTab" Header="Open" Group="{Binding ElementName=InstanceTabs}" />
+      <r:RibbonTabItem x:Name="EditTab" Header="Edit" Group="{Binding ElementName=InstanceTabs}"/>
+      <r:Ribbon.ContextualGroups>
+        <r:RibbonContextualTabGroup Header="Selected Instance" x:Name="InstanceTabs" Background="Green" BorderBrush="Green">
+          <r:RibbonContextualTabGroup.Style>
+            <Style TargetType="r:RibbonContextualTabGroup">
+              <Setter Property="Visibility" Value="Visible" />
+              <Style.Triggers>
+                <DataTrigger Binding="{Binding SelectedItem, ElementName=InstanceList}" Value="{x:Null}">
+                  <Setter Property="Visibility" Value="Collapsed" />
+                </DataTrigger>
+              </Style.Triggers>
+            </Style>
+          </r:RibbonContextualTabGroup.Style>
+        </r:RibbonContextualTabGroup>
+      </r:Ribbon.ContextualGroups>
+    </r:Ribbon>
+    <Grid DockPanel.Dock="Top" Margin="4">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition />
+        <ColumnDefinition Width="24" />
+      </Grid.ColumnDefinitions>
+      <TextBox Name="SearchTextBox" Grid.Column="0" KeyUp="SearchTextBoxKeyPressed" Margin="0,0,4,0" VerticalContentAlignment="Center" FontSize="13" />
+      <Button ToolTip="Search instance by name" Grid.Column="1" Click="Search">
+        <Image Source="pack://application:,,,/SIM.Tool.Windows;component/Images/24/view.png" />
+      </Button>
+    </Grid>
+    <StackPanel DockPanel.Dock="Bottom" Height="42">
+      <StackPanel.Background>
+        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+          <GradientStop Color="#FFCCD9EA" Offset="0.0" />
+          <GradientStop Color="#FFF1F5FB" Offset="0.1" />
+        </LinearGradientBrush>
+      </StackPanel.Background>
+      <TextBlock Text="{Binding ElementName=InstanceList, Path=SelectedItem}" Padding="4"></TextBlock>
+      <TextBlock Padding="4 0">
+        <TextBlock Text="{Binding ElementName=InstanceList, Path=SelectedItem.ModulesNames}" />
+      </TextBlock>
+    </StackPanel>
+    <ListBox Margin="0 1 0 1" Name="InstanceList" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" ItemsSource="{Binding}" BorderThickness="0" MouseRightButtonUp="ItemsTreeViewMouseRightClick" MouseDoubleClick="ItemsTreeViewMouseDoubleClick" KeyUp="ItemsTreeViewKeyPressed" SelectionChanged="InstanceSelected" SelectionMode="Single">
+      <ListBox.ItemTemplate>
+            <DataTemplate>
+          <Border BorderThickness="1" Margin="2" CornerRadius="10,0,10,0">
+            <TextBlock TextOptions.TextFormattingMode="Ideal" VerticalAlignment="Center" FontSize="13" Margin="4,0,0,0" Text="{Binding Path=Name}" />
+          </Border>
+            </DataTemplate>
+      </ListBox.ItemTemplate>
+      <ListBox.ContextMenu>
+        <ContextMenu Name="ContextMenu"/>
+      </ListBox.ContextMenu>
+    </ListBox>
+  </DockPanel>
+</r:RibbonWindow>

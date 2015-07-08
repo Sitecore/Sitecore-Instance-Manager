@@ -1,0 +1,27 @@
+﻿<UserControl x:Class="SIM.Tool.Windows.UserControls.Import.ImportWebsite" 
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="205" d:DesignWidth="443" Padding="0">
+  <StackPanel Margin="0" Orientation="Vertical">
+    <Grid HorizontalAlignment="Stretch" Margin="0 4 0 4">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition />
+        <ColumnDefinition Width="24" />
+      </Grid.ColumnDefinitions>
+            <Label Name="websiteNameInfo" Content="Choose new website name: "/>
+            <TextBox Grid.Column="0" Name="websiteName" Margin="4,31,0,-27" Background="White" IsReadOnly="False" />
+            <Label Name="websiteNameWarn" Content="A website with the following name is exist!" Foreground="Red" Grid.ColumnSpan="2" Margin="4,56,20,-56" Visibility="Hidden"/>
+        
+            <Label Name="websiteFolder" Content="Choose root folder for instance: " Grid.ColumnSpan="2" Margin="1,87,23,-87"/>
+            <TextBox Grid.Column="0" Name="rootFolderPath" Margin="1,113,3,-109" Background="White" IsReadOnly="False"/>
+            <Button Grid.Column="1" Content="..." Name="pickRootFolder" Click="PickRootFolderClick" Margin="2,113,-2,-109"/>
+            <Label Name="rootPathWarn" Content="The following path already in use!" Foreground="Red" Grid.ColumnSpan="2" Margin="4,135,20,-135" Visibility="Hidden" />
+        </Grid>
+        <CheckBox Content="Update license" Height="26" Margin="30,130,200,0" Name="updateLicense"/>
+
+
+    </StackPanel>
+</UserControl>

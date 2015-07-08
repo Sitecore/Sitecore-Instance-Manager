@@ -1,0 +1,6 @@
+<manifest version="1.3">
+  <package>
+		<sortOrder>70</sortOrder>
+    <name>Sitecore E-Commerce Services</name>
+  </package>
+</manifest>

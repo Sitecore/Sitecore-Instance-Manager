@@ -1,0 +1,34 @@
+﻿<manifest version="1.3">
+  <archive>
+    <install>
+      <actions>
+        <config path="App_Config\ConnectionStrings.config">    
+          <delete xpath="/connectionStrings/add[@name='reporting']" />          
+        </config>
+        <config>
+          <rename from="Sitecore.Analytics.Automation.TimeoutProcessing.config"
+                  to="Sitecore.Analytics.Automation.TimeoutProcessing.config.disabled"
+                  skipOnError="true"/>
+          <rename from="Sitecore.Analytics.Processing.Aggregation.config"
+                  to="Sitecore.Analytics.Processing.Aggregation.config.disabled"
+                  skipOnError="true"/>
+          <rename from="Sitecore.Analytics.Processing.Aggregation.ProcessingPools.config"
+                  to="Sitecore.Analytics.Processing.Aggregation.ProcessingPools.config.disabled"
+                  skipOnError="true"/>
+          <rename from="Sitecore.Analytics.Processing.Aggregation.Services.config"
+                  to="Sitecore.Analytics.Processing.Aggregation.Services.config.disabled"
+                  skipOnError="true"/>
+          <rename from="Sitecore.Analytics.Processing.config"
+                  to="Sitecore.Analytics.Processing.config.disabled"
+                  skipOnError="true"/>
+          <rename from="Sitecore.Analytics.Processing.Services.config"
+                  to="Sitecore.Analytics.Processing.Services.config.disabled"
+                  skipOnError="true"/>
+          <rename from="Sitecore.Analytics.Reporting.config"
+                  to="Sitecore.Analytics.Reporting.config.disabled"
+                  skipOnError="true"/>
+        </config>
+      </actions>
+    </install>
+  </archive>
+</manifest>

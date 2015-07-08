@@ -1,0 +1,23 @@
+<manifest version="1.3">
+  <archive>
+    <install>
+      <actions>
+        <editfile path="/Website/App_Config/Include/Sitecore.Mvc.config.disabled">
+          <move target="/Website/App_Config/Include/Sitecore.Mvc.config" />
+        </editfile>
+				<editfile path="/Website/App_Config/Include/Sitecore.MvcSimulator.config.disabled">
+					<move target="/Website/App_Config/Include/Sitecore.MvcSimulator.config" />
+				</editfile>
+        <editfile path="/Website/App_Config/Include/Sitecore.MvcExperienceEditor.config.disabled">
+          <move target="/Website/App_Config/Include/Sitecore.MvcExperienceEditor.config" />
+        </editfile>
+        <editfile path="/Website/web.config">
+          <copy target="/Website/web.config.WebForms" />
+        </editfile>
+        <editfile path="/Website/web.config.MVC">
+          <move target="/Website/web.config" />
+        </editfile>
+      </actions>
+    </install>
+  </archive>
+</manifest>

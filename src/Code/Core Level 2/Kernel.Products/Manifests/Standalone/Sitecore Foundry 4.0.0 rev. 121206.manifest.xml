@@ -1,0 +1,6 @@
+﻿<manifest version="1.3">
+  <standalone>
+    <name>Sitecore Foundry</name>
+    <notSupported />
+  </standalone>
+</manifest>

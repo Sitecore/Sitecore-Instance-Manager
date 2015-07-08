@@ -1,0 +1,11 @@
+<manifest version="1.3">
+  <standalone>
+    <name>Sitecore Jetstream</name>
+    <shortName>jet</shortName>
+    <limitations>
+      <framework>
+        <supportedVersion attr="2">v4.0 32bit</supportedVersion>
+      </framework>
+    </limitations>
+  </standalone>
+</manifest>

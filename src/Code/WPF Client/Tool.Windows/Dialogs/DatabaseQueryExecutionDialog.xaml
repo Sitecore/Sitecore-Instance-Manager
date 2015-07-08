@@ -1,0 +1,43 @@
+﻿<Window x:Class="SIM.Tool.Windows.Windows.Dialogs.DatabaseQueryExecutionDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="SQL Shell" Height="475" Width="700" Background="#FFF0F0F0" Icon="pack://application:,,,/SIM.Tool.Windows;component/Images/window.ico">
+  <Window.Resources>
+    <ImageBrush x:Key="Sitecore" ImageSource="pack://application:,,,/SIM.Tool.Windows;component/Images/Sitecore.png" Stretch="None" AlignmentX="Right" AlignmentY="Top" />
+  </Window.Resources>
+  <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="58px" />
+            <RowDefinition Height="1px" />
+            <RowDefinition Height="1px" />
+            <RowDefinition Height="93*" />
+            <RowDefinition Height="235*" />
+            <RowDefinition Height="0" />
+            <RowDefinition Height="1px" />
+            <RowDefinition Height="1px" />
+            <RowDefinition Height="46px" />
+        </Grid.RowDefinitions>
+        <StackPanel Background="White" Grid.Row="0" Margin="0">
+            <StackPanel Background="{DynamicResource Sitecore}" Margin="0">
+                <TextBlock FontSize="14" FontWeight="Bold" HorizontalAlignment="Left" Margin="4" Name="Header" Text="SQL Server Manager - SQL Shell"></TextBlock>
+                <TextBlock HorizontalAlignment="Left" Margin="16,0,120,15" Name="HeaderDetails" TextTrimming="None" TextWrapping="Wrap">You can execute an SQL query here.</TextBlock>
+            </StackPanel>
+        </StackPanel>
+        <Grid Background="#FFA0A0A0" Grid.Row="1" Height="1px" Margin="0" />
+        <Grid Background="White" Grid.Row="2" Height="30px" Margin="0" />
+          <TextBox BorderBrush="#FF828790" Grid.Row="3" HorizontalAlignment="Stretch" Margin="12" Name="databaseQueryInput"  VerticalAlignment="Stretch" AcceptsReturn="True" AcceptsTab="True" KeyUp="databaseQueryInput_KeyUp" />
+        <DataGrid AutoGenerateColumns="True" Grid.Row="4" HorizontalAlignment="Stretch" Margin="12" Name="dataGrid1" VerticalAlignment="Stretch" CanUserAddRows="True" CanUserDeleteRows="True" RowBackground="White" AlternatingRowBackground="{x:Null}" Foreground="Black" Background="White"></DataGrid>
+      <Grid Background="#FFA0A0A0" DockPanel.Dock="Top" Grid.Row="6" Margin="0" />
+        <Grid Background="White" DockPanel.Dock="Top" Grid.Row="7" Margin="0" />
+        <Grid Grid.Row="8">
+            <Grid Margin="23,11,21,12">
+                <StackPanel HorizontalAlignment="Left" Orientation="Horizontal" Width="249" Margin="-11,0,0,0">
+                    <Button  Content="Execute" Margin="0, 0, 20, 0" Width="68" Name="ExecuteQuery" Click="ExecuteQuery_Click" />
+                </StackPanel>
+                <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                    <Button  Content="Close" HorizontalAlignment="Left" IsCancel="True" IsDefault="False" IsEnabled="True" Margin="24,0,0,0" Name="CancelButton" VerticalAlignment="Stretch" Width="72" />
+                </StackPanel>
+            </Grid>
+        </Grid>
+    </Grid>
+</Window>

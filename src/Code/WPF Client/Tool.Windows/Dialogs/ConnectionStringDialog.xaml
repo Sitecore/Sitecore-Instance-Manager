@@ -1,0 +1,72 @@
+﻿<Window x:Class="SIM.Tool.Windows.Dialogs.ConnectionStringDialog" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Connection string builder" ContentRendered="WindowContentRendered" Width="330" Height="250" ResizeMode="NoResize" WindowStartupLocation="CenterOwner" Icon="pack://application:,,,/SIM.Tool.Windows;component/Images/window.ico" KeyUp="WindowKeyUp" Background="#FFF0F0F0">
+  <Grid>
+    <Grid Margin="12">
+      <Grid>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="90" />
+          <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="32" />
+          <RowDefinition Height="100" />
+          <RowDefinition Height="*" />
+          <RowDefinition Height="32" />
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" Grid.Column="0" Text="Data source:" VerticalAlignment="Center" Margin="0,0,0,3" />
+        <TextBox Grid.Row="0" Grid.Column="1" Name="dataSource" ToolTip="A path to the valid Sitecore license that will be copied to the instances installed by SIM" Margin="4">.\SQLEXPRESS</TextBox>
+        
+        <GroupBox Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,0,0,3">
+          <GroupBox.Header>
+            <CheckBox Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Name="useSqlServerLogin" IsChecked="true" Margin="4,0,0,0" VerticalAlignment="Center">
+              Use SQL Server login
+            </CheckBox>
+          </GroupBox.Header>
+          <Grid IsEnabled="{Binding ElementName=useSqlServerLogin, Path=IsChecked}">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="90" />
+              <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+              <RowDefinition Height="32" />
+              <RowDefinition Height="2" />
+              <RowDefinition Height="32" />
+              <RowDefinition Height="2" />
+            </Grid.RowDefinitions>
+
+            <TextBlock Grid.Row="0" Grid.Column="0" Text="User Id:" VerticalAlignment="Center" Margin="0,0,0,3" />
+            <TextBox Grid.Row="0" Grid.Column="1" Name="userId">sa</TextBox>
+            <TextBlock Grid.Row="2" Grid.Column="0" Text="Password:" VerticalAlignment="Center" Margin="0,0,0,3" />
+            <TextBox Grid.Row="2" Grid.Column="1" Name="password">12345</TextBox>
+          </Grid>
+        </GroupBox>
+
+        <StackPanel Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Right">
+          <Button Content="OK" Click="SaveChanges" Width="80" IsDefault="True" />
+          <Button Content="Cancel" Click="CancelChanges" Width="80" IsCancel="True" />
+        </StackPanel>
+      </Grid>
+    </Grid>
+  </Grid>
+    <Window.Resources>
+		<Style TargetType="{x:Type TextBlock}">
+			<Setter Property="FontSize" Value="14" />
+		</Style>
+      <Style TargetType="{x:Type TextBox}">
+			<Setter Property="FontSize" Value="14" />
+			<Setter Property="Margin" Value="4" />
+		</Style>
+      <Style TargetType="{x:Type GroupBox}">
+			<Setter Property="Margin" Value="4" />
+			<Setter Property="Margin" Value="4" />
+		</Style>
+		<Style TargetType="{x:Type Button}">
+			<Setter Property="FontSize" Value="14" />
+			<Setter Property="Margin" Value="4" />
+		</Style>
+		<Style TargetType="{x:Type CheckBox}">
+			<Setter Property="FontSize" Value="14" />
+		</Style>
+	</Window.Resources>
+</Window>

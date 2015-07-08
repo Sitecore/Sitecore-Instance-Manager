@@ -1,0 +1,6 @@
+﻿<manifest version="1.3">
+  <package>
+    <name>Sitecore SPEAK</name>
+    <sortOrder>81</sortOrder>
+  </package>
+</manifest>

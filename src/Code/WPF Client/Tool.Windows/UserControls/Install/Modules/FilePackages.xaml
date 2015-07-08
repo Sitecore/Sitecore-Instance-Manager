@@ -1,0 +1,22 @@
+﻿<UserControl x:Class="SIM.Tool.Windows.UserControls.Install.Modules.FilePackages" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d" d:DesignHeight="205" d:DesignWidth="443" Loaded="UserControlLoaded">
+	<Grid>
+    <Grid Height="24" VerticalAlignment="Top">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition />
+        <ColumnDefinition Width="24" />
+      </Grid.ColumnDefinitions>
+      <TextBox Name="SearchTextBox" Grid.Column="0" KeyUp="SearchTextBoxKeyPressed" Height="24" Margin="0,0,4,0" />
+      <Button ToolTip="Search instance by name" Grid.Column="1" Click="Search">
+        <Image Source="pack://application:,,,/SIM.Tool.Windows;component/Images/24/view.png" />
+      </Button>
+    </Grid>
+    <ListBox IsManipulationEnabled="False" Name="filePackages" SelectionChanged="ModuleSelected" Margin="0,29,0,0" ItemsSource="{Binding}">
+			<ListBox.ItemTemplate>
+				<DataTemplate>
+					<CheckBox Content="{Binding Path=Name}" IsChecked="{Binding Path=IsChecked}" Margin="4 0 4 10" Name="ololo" VerticalAlignment="Center" />
+				</DataTemplate>
+			</ListBox.ItemTemplate>
+		</ListBox>
+	</Grid>
+</UserControl>

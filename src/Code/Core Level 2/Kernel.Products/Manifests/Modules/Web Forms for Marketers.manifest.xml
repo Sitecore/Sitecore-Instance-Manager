@@ -1,0 +1,6 @@
+<manifest version="1.3">
+  <package>
+		<sortOrder>90</sortOrder>
+    <name>Sitecore Web Forms for Marketers</name>
+  </package>
+</manifest>

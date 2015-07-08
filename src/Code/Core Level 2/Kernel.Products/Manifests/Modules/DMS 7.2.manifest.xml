@@ -1,0 +1,14 @@
+<manifest version="1.3">
+  <archive>
+    <install>
+      <actions>
+        <config>
+          <rename from="Sitecore.MvcAnalytics.config.disabled" to="Sitecore.MvcAnalytics.config"/>
+        </config>
+        <databases>
+          <database name="analytics" fileName="Sitecore.Analytics.mdf" />
+        </databases>
+      </actions>
+    </install>
+  </archive>
+</manifest>

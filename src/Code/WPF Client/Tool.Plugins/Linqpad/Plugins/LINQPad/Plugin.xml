@@ -1,0 +1,13 @@
+﻿<plugin version="1.3">
+  <mainWindow>
+    <ribbon>
+      <tab name="Home">
+        <group name="Tools">
+          <button label="Bundled Tools">
+            <button label="LINQPad" largeImage="/Images/32/linqpadlogo.png, SIM.Tool.Plugins.Linqpad" type="SIM.Tool.Plugins.Linqpad.OpenLinqpadButton, SIM.Tool.Plugins.Linqpad" />
+          </button>
+        </group>
+      </tab>
+    </ribbon>
+  </mainWindow>
+</plugin>

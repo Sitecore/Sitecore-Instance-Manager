@@ -1,0 +1,23 @@
+<manifest version="1.3">
+  <archive>
+		<sortOrder>100</sortOrder>
+    <name>Sitecore Analytics</name>
+    <requirements>
+      <product name="Sitecore CMS">
+        <revision />
+      </product>
+    </requirements>
+    <install>
+      <actions>
+        <!-- in order to omit plain unpacking files to the instance root folder, we need to remove the command -->
+        <patch command="extract" action="delete" />
+        <config>
+          <include path="*.config" />
+        </config>
+        <databases>
+          <database name="analytics" fileName="Sitecore.Analytics.mdf" />
+        </databases>
+      </actions>
+    </install>
+  </archive>
+</manifest>
