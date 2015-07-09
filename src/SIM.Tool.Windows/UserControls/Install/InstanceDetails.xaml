@@ -1,0 +1,67 @@
+﻿<UserControl x:Class="SIM.Tool.Windows.UserControls.Install.InstanceDetails" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:Converters="clr-namespace:SIM.Tool.Base.Converters;assembly=SIM.Tool.Base"
+             xmlns:Install="clr-namespace:SIM.Tool.Windows.UserControls.Install"
+             mc:Ignorable="d" d:DesignHeight="399" d:DesignWidth="633" Loaded="WindowLoaded">
+	<Grid>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="72" />
+			<ColumnDefinition Width="*" />
+			<ColumnDefinition Width="72" />
+			<ColumnDefinition Width="*" />
+		</Grid.ColumnDefinitions>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="28" />
+			<RowDefinition Height="28" />
+			<RowDefinition Height="28" />
+			<RowDefinition Height="28" />
+      <RowDefinition Height="28" />
+      <RowDefinition Height="28" />
+      <RowDefinition Height="*" />
+		</Grid.RowDefinitions>
+
+		<TextBlock Grid.Row="4" Grid.Column="0" Text="Framework: " />
+		<ComboBox Grid.Row="4" Grid.Column="1" Name="NetFramework" SelectedIndex="0" ItemsSource="{Binding}">
+			<!--<ComboBoxItem>v2.0</ComboBoxItem>
+			<ComboBoxItem>v2.0 32bit</ComboBoxItem>
+			<ComboBoxItem>v4.0</ComboBoxItem>
+			<ComboBoxItem>v4.0 32bit</ComboBoxItem>-->
+		</ComboBox>
+
+		<TextBlock Grid.Row="4" Grid.Column="2" Text="Pool Mode: " />
+		<ComboBox Grid.Row="4" Grid.Column="3" Name="Mode" SelectedIndex="0">
+			<ComboBoxItem>Integrated</ComboBoxItem>
+			<ComboBoxItem>Classic</ComboBoxItem>
+		</ComboBox>
+
+		<TextBlock Grid.Row="0" Grid.Column="0" Text="Product: " />
+		<ComboBox Grid.Row="0" Grid.Column="1" Name="ProductName" DisplayMemberPath="Name" SelectionChanged="ProductNameChanged" />
+
+		<TextBlock Grid.Row="1" Grid.Column="0" Text="Version: " />
+		<ComboBox Grid.Row="1" Grid.Column="1" Name="ProductVersion" DisplayMemberPath="Version" SelectionChanged="ProductVersionChanged" />
+
+		<TextBlock Grid.Row="2" Grid.Column="0" Text="Revision: " />
+		<ComboBox Grid.Row="2" Grid.Column="1" Name="ProductRevision" DisplayMemberPath="RevisionAndLabel" SelectionChanged="ProductRevisionChanged" />
+
+		<TextBlock Grid.Row="0" Grid.Column="2" Text="Site Name: " />
+		<TextBox Grid.Row="0" Grid.Column="3" Name="InstanceName" Text="{Binding ElementName=ProductRevision, Path=SelectedValue, Converter={x:Static Converters:Product.DefaultInstanceName}, Mode=OneWay}" TextChanged="InstanceNameTextChanged" />
+
+		<TextBlock Grid.Row="1" Grid.Column="2" Text="Host name: " />
+		<TextBox Grid.Row="1" Grid.Column="3" Name="HostName" />
+
+		<TextBlock Grid.Row="2" Grid.Column="2" Text="SQL Prefix: " />
+		<TextBox Grid.Row="2" Grid.Column="3" Name="sqlPrefix" IsEnabled="False" />
+
+		<TextBox Grid.Row="3" Grid.Column="3" Name="RootName" />
+
+		<TextBlock Grid.Row="3" Text="Location: " Name="LocationLabel" />
+		<Grid Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" Name="LocationGrid">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="28" />
+				<ColumnDefinition />
+				<ColumnDefinition Width="10" />
+			</Grid.ColumnDefinitions>
+      <Button Margin="2" Content="..." Click="PickLocationFolder" IsEnabled="{Binding Source={x:Static Install:InstanceDetails.InstallEverywhere}}" />
+      <TextBox Name="locationFolder" HorizontalContentAlignment="Right" Grid.Column="1" IsEnabled="{Binding Source={x:Static Install:InstanceDetails.InstallEverywhere}}" />
+			<TextBlock Grid.Column="2" HorizontalAlignment="Center">\</TextBlock>
+		</Grid>
+	</Grid>
+</UserControl>

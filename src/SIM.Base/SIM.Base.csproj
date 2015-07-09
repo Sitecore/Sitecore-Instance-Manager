@@ -1,0 +1,141 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{CA9339A0-9A7D-4900-839E-F21B7269BDAA}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SIM</RootNamespace>
+    <AssemblyName>SIM.Base</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Ionic.Zip">
+      <HintPath>..\packages\DotNetZip.1.9.1.8\lib\net20\Ionic.Zip.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net">
+      <HintPath>..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.Diagnostics.Base">
+      <HintPath>..\packages\Sitecore.Diagnostics.Base.1.0.0.14\lib\net35\Sitecore.Diagnostics.Base.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AbstractArgs.cs" />
+    <Compile Include="AdvancedProperty.cs" />
+    <Compile Include="AdvancedPropertyBase.cs" />
+    <Compile Include="AdvancedSettings.cs" />
+    <Compile Include="AdvancedSettingsManager.cs" />
+    <Compile Include="ApplicationManager.cs" />
+    <Compile Include="CacheManager.cs" />
+    <Compile Include="CustomDataStoring\Bucket.cs" />
+    <Compile Include="CustomDataStoring\FileSystemBucketStorage.cs" />
+    <Compile Include="CustomDataStoring\IBucketStorage.cs" />
+    <Compile Include="CustomDataStoring\IDataBox.cs" />
+    <Compile Include="CustomDataStoring\PermanentDataManager.cs" />
+    <Compile Include="CustomDataStoring\PermanentInfoStorage.cs" />
+    <Compile Include="CustomDataStoring\SavePolicies\ImmediateSaveStrategy.cs" />
+    <Compile Include="CustomDataStoring\SavePolicies\IntervalSaveStrategy.cs" />
+    <Compile Include="CustomDataStoring\SavePolicies\ISaveStrategy.cs" />
+    <Compile Include="CustomDataStoring\SavePolicies\ManualSaveStrategy.cs" />
+    <Compile Include="CustomDataStoring\SavePolicies\RubberDelaySaveStrategy.cs" />
+    <Compile Include="CustomDataStoring\StorageBox.cs" />
+    <Compile Include="DataObject.cs" />
+    <Compile Include="DataObjectBase.cs" />
+    <Compile Include="EventHelper.cs" />
+    <Compile Include="Extensions.cs" />
+    <Compile Include="FileSystem\FileProvider.cs" />
+    <Compile Include="FileSystem\DirectoryProvider.cs" />
+    <Compile Include="FileSystem\FileSystem.cs" />
+    <Compile Include="FileSystem\PathProvider.cs" />
+    <Compile Include="FileSystem\SecurityProvider.cs" />
+    <Compile Include="FileSystem\TempFolder.cs" />
+    <Compile Include="FileSystem\UncDirectoryProvider.cs" />
+    <Compile Include="FileSystem\UncFileProvider.cs" />
+    <Compile Include="FileSystem\UncSecurityProvider.cs" />
+    <Compile Include="FileSystem\UncZipProvider.cs" />
+    <Compile Include="IAdvancedSettingsStorage.cs" />
+    <Compile Include="Log.cs" />
+    <Compile Include="LogFileAppender.cs" />
+    <Compile Include="Pipelines\Pipeline.cs" />
+    <Compile Include="Pipelines\PipelineController.cs" />
+    <Compile Include="Pipelines\PipelineDefinition.cs" />
+    <Compile Include="Pipelines\PipelineManager.cs" />
+    <Compile Include="Pipelines\Processors\MultipleProcessorDefinition.cs" />
+    <Compile Include="Pipelines\Processors\Processor.cs" />
+    <Compile Include="Pipelines\Processors\ProcessorArgs.cs" />
+    <Compile Include="Pipelines\Processors\ProcessorDefinition.cs" />
+    <Compile Include="Pipelines\Processors\ProcessorHive.cs" />
+    <Compile Include="Pipelines\Processors\ProcessorManager.cs" />
+    <Compile Include="Pipelines\Processors\ProcessorState.cs" />
+    <Compile Include="Pipelines\Processors\SingleProcessorDefinition.cs" />
+    <Compile Include="Pipelines\Step.cs" />
+    <Compile Include="Pipelines\StepDefinition.cs" />
+    <Compile Include="ProfileSection.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\BResources.Designer.cs">
+      <DependentUpon>BResources.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="ReflectionUtil.cs" />
+    <Compile Include="WebRequestHelper.cs" />
+    <Compile Include="XmlBasedAdvancedSettingsStorage.cs" />
+    <Compile Include="AppConfigSectionHandler.cs" />
+    <Compile Include="XmlDocumentEx.cs" />
+    <Compile Include="XmlElementEx.cs" />
+    <Compile Include="FileSystem\ZipProvider.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\BResources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>BResources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Log.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
