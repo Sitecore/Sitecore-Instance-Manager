@@ -493,12 +493,37 @@
       Microsoft.VisualBasic.FileIO.FileSystem.CopyFile(sourceFileName, destFileName, showUI ?? UIOption.AllDialogs, onUserCancel ?? UICancelOption.ThrowException);
     }
    
-    public static ImageSource GetImage(string image, string assembly)
+    public static ImageSource GetImage(string imageName, string assemblyName)
     {
+      Assert.ArgumentNotNull(imageName, "imageName");
+      Assert.ArgumentNotNull(assemblyName, "assemblyName");
+
+      assemblyName = assemblyName.Trim().TrimStart('/');
+      var result = GetImageInternal(imageName, assemblyName, AppSettings.AppUiHighDpiEnabled.Value);
+      if (result != null)
+      {
+        return result;
+      }
+
+      result = GetImageInternal(imageName, assemblyName, false);
+      if (result != null)
+      {
+        return result;
+      }
+
+      throw new InvalidOperationException("The {0} image cannot be retrieved from {1} assembly".FormatWith(imageName, assemblyName));
+    }
+
+    private static ImageSource GetImageInternal(string imageName, string assemblyName, bool highDpi)
+    {
+      Assert.ArgumentNotNull(imageName, "imageName");
+      Assert.ArgumentNotNull(assemblyName, "assemblyName");
+
       var uri = "pack://application:,,,/{0};component/{1}"
         .FormatWith(
-          assembly.Trim().TrimStart('/'), 
-          image.Trim().TrimStart('/'));
+          assemblyName, imageName.Trim().TrimStart('/')
+        .Replace("$sm", highDpi ? "24" : "16")
+        .Replace("$lg", highDpi ? "48" : "32"));
 
       try
       {
@@ -516,7 +541,9 @@
       }
       catch (Exception ex)
       {
-        throw new InvalidOperationException("The {0} image cannot be retrieved from {1} assembly".FormatWith(image, assembly), ex);
+        Log.Warn("The {0} image cannot be retrieved from {1} assembly".FormatWith(imageName, assemblyName), typeof(WindowHelper), ex);
+
+        return null;
       }
     }
 

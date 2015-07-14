@@ -22,6 +22,9 @@
     public static readonly AdvancedProperty<bool> AppPreheatEnabled = AdvancedSettings.Create("App/Preheat/Enabled", false);
 
     [NotNull]
+    public static readonly AdvancedProperty<bool> AppUiHighDpiEnabled = AdvancedSettings.Create("App/UI/HighDPI/Enabled", false);
+
+    [NotNull]
     public static readonly AdvancedProperty<bool> AppSysAllowMultipleInstances = AdvancedSettings.Create("App/Sys/AllowMultipleInstances", false);
 
     [NotNull]
