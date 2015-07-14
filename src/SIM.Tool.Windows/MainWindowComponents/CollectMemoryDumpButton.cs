@@ -23,15 +23,15 @@ namespace SIM.Tool.Windows.MainWindowComponents
     {
       if (instance == null)
       {
-        var bitness = WindowHelper.AskForSelection("Managed Gc Aware Dump", null, "Choose version of the tool", new[]
+        var bitness = WindowHelper.AskForSelection("Managed Gc Aware Dump", null, "Choose version of the tool", new[] { "x86", "x64" }, mainWindow);
+        if (bitness == null)
         {
-          "x86", "x64"
-        }, mainWindow);
-        if (bitness != null)
-        {
-          var options = WindowHelper.Ask("Please specify params for Managed Gc Aware Dump", string.Empty, mainWindow);
-          Process.Start(new ProcessStartInfo("ManagedGcAwareDump_" + bitness + ".exe", options)).WaitForExit();
+          return;
         }
+
+        var options = WindowHelper.Ask("Please specify params for Managed Gc Aware Dump", string.Empty, mainWindow);
+        var executableFilePath = ApplicationManager.GetEmbeddedApp("ManagedGcAwareDump.zip", "SIM.Tool.Windows", "ManagedGcAwareDump_" + bitness + ".exe");
+        Process.Start(new ProcessStartInfo(executableFilePath, options)).WaitForExit();
 
         return;
       }
@@ -52,8 +52,9 @@ namespace SIM.Tool.Windows.MainWindowComponents
         {
           return;
         }
-
-        Process.Start(new ProcessStartInfo("ManagedGcAwareDump_" + bit + ".exe", options)).WaitForExit();
+        
+        var executableFilePath = ApplicationManager.GetEmbeddedApp("ManagedGcAwareDump.zip", "SIM.Tool.Windows", "ManagedGcAwareDump_" + bit + ".exe");
+        Process.Start(executableFilePath).WaitForExit();
       }
     }
 

@@ -253,6 +253,8 @@
     </EmbeddedResource>
     <EmbeddedResource Include="logview.zip" />
     <EmbeddedResource Include="Log Analyzer.zip" />
+    <EmbeddedResource Include="ManagedArgsTracer.zip" />
+    <EmbeddedResource Include="ManagedGcAwareDump.zip" />
     <None Include="Packages\Support Toolbox.zip">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
