@@ -16,6 +16,8 @@
     public static readonly AdvancedProperty<string> CoreExportTempFolderLocation = AdvancedSettings.Create("Core/Export/TempFolder/Location", string.Empty);
 
     [NotNull]
+    public static readonly AdvancedProperty<int> CoreExportZipCompressionLevel = AdvancedSettings.Create("Core/Export/ZipCompressionLevel", 9);
+    [NotNull]
     public static readonly AdvancedProperty<bool> CoreInstallDictionaries = AdvancedSettings.Create("Core/Install/Dictionaries", false);
 
     [NotNull]

@@ -51,7 +51,7 @@ namespace SIM.FileSystem
       }
     }
 
-    public override void CreateZip(string path, string zipFileName, string ignore = null)
+    public override void CreateZip(string path, string zipFileName, string ignore = null, int compressionLevel = 0)
     {
       try
       {

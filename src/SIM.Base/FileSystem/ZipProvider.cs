@@ -65,11 +65,20 @@ namespace SIM.FileSystem
       }
     }
 
-    public virtual void CreateZip(string path, string zipFileName, string ignore = null)
+    public virtual void CreateZip(string path, string zipFileName, string ignore = null, int compressionLevel = 0)
     {
+      CompressionLevel zipCompressionLevel;
+      if (typeof(CompressionLevel).IsEnumDefined(compressionLevel))
+      {
+        zipCompressionLevel = (CompressionLevel)compressionLevel;
+      }
+      else
+      {
+        zipCompressionLevel = CompressionLevel.None;
+      }
       var zip = new ZipFile
       {
-        CompressionLevel = CompressionLevel.None, 
+        CompressionLevel = zipCompressionLevel,
         UseZip64WhenSaving = Zip64Option.AsNecessary
       };
       if (ignore == null)
