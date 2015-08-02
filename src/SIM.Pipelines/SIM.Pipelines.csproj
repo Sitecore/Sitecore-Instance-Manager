@@ -94,6 +94,7 @@
     <Compile Include="Backup\BackupFiles.cs" />
     <Compile Include="Backup\BackupMongoDatabases.cs" />
     <Compile Include="Backup\BackupProcessor.cs" />
+    <Compile Include="ConditionEvaluator.cs" />
     <Compile Include="ConfigurationActions.cs" />
     <Compile Include="Delete\DeleteMongoDatabases.cs" />
     <Compile Include="Delete\DeleteRegistryKey.cs" />
@@ -103,8 +104,11 @@
     <Compile Include="Import\UpdateConnectionStrings.cs" />
     <Compile Include="Import\UpdateDataFolder.cs" />
     <Compile Include="InstallHelper.cs" />
+    <Compile Include="InstallModules\IPackageInstallActions.cs" />
     <Compile Include="Install\0150 GrantPermissions.cs" />
     <Compile Include="Install\0600 UpdateWebConfig.cs" />
+    <Compile Include="Install\Modules\CreateSolrCore.cs" />
+    <Compile Include="Install\Modules\SwitchConfigsToSolr.cs" />
     <Compile Include="Install\Settings.cs" />
     <Compile Include="MongoHelper.cs" />
     <Compile Include="MultipleDeletion\MultipleDeletionArgs.cs" />
@@ -192,6 +196,7 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="mongo.tools.zip" />
+    <EmbeddedResource Include="IOC_Containers.zip" />
     <None Include="packages.config" />
     <None Include="Properties\DataSources\System.Xml.Linq.XElement.datasource" />
     <None Include="Service References\SitecoreWebservices\Reference.svcmap">

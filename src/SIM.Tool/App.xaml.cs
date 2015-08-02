@@ -11,6 +11,7 @@ namespace SIM.Tool
   using System.IO;
   using System.Linq;
   using System.Reflection;
+  using System.Runtime.CompilerServices;
   using System.Security.Principal;
   using System.ServiceProcess;
   using System.Windows;
@@ -194,7 +195,9 @@ namespace SIM.Tool
       // Clean up garbage
       CoreApp.DeleteTempFolders();
 
+      App.LoadIocResourcesForSolr();
       Analytics.Start();
+
 
       CoreApp.WriteLastRunVersion();
 
@@ -209,11 +212,22 @@ namespace SIM.Tool
         WindowHelper.HandleError("Main window caused unhandled exception", true, ex);
       }
 
+
       CoreApp.Exit();
 
       Analytics.Flush();
 
       Environment.Exit(0);
+    }
+
+    private static void LoadIocResourcesForSolr()
+    {
+
+      if (!Directory.Exists("IOC_Containers"))
+      {
+        Log.Info("Copying IOC dlls", typeof(App));
+        ApplicationManager.GetEmbeddedFile("IOC_Containers.zip", "SIM.Pipelines", "IOC_Containers");
+      }
     }
 
     private static bool EnsureSingleProcess(string[] args)
