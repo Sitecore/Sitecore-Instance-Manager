@@ -127,6 +127,7 @@ namespace SIM.Tool.Base
 
           // magic begins
           process.Kill();
+          files = FileSystem.FileSystem.Local.Directory.GetFiles(logs, pattern) ?? new string[0];
           logFilePath = files.OrderByDescending(FileSystem.FileSystem.Local.File.GetCreationTimeUtc).First();
           process = WindowHelper.RunApp(logviewer, logFilePath);
         }
