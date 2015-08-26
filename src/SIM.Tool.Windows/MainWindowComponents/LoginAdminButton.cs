@@ -1,10 +1,13 @@
 ﻿namespace SIM.Tool.Windows.MainWindowComponents
 {
+  using System;
+  using System.Linq;
   using System.Windows;
   using SIM.Instances;
   using SIM.Tool.Base;
   using SIM.Tool.Base.Pipelines;
   using SIM.Tool.Base.Plugins;
+  using Sitecore.Diagnostics;
   using Sitecore.Diagnostics.Annotations;
 
   [UsedImplicitly]
@@ -14,6 +17,7 @@
 
     protected readonly string Browser;
     protected readonly string VirtualPath;
+    protected readonly string[] Params;
 
     #endregion
 
@@ -23,37 +27,57 @@
     {
       this.VirtualPath = string.Empty;
       this.Browser = string.Empty;
+      this.Params = new string[0];
     }
 
-    public LoginAdminButton(string param)
+    public LoginAdminButton([NotNull] string param)
     {
-      var arr = (param + ":").Split(':');
-      this.VirtualPath = arr[0];
-      this.Browser = arr[1];
+      Assert.ArgumentNotNull(param, "param");
+
+      var par = Parameters.Parse(param);
+      this.VirtualPath = par[0];
+      this.Browser = par[1];
+      this.Params = par.Skip(2);
     }
 
     #endregion
 
     #region Public methods
 
-    public static void FinishAction(InstallWizardArgs args)
+    [UsedImplicitly]
+    public static void FinishAction([NotNull] InstallWizardArgs args)
     {
-      InstanceHelperEx.OpenInBrowserAsAdmin(args.Instance, MainWindow.Instance);
+      Assert.ArgumentNotNull(args, "args");
+
+      var instance = args.Instance;
+      Assert.IsNotNull(instance, "instance");
+
+      InstanceHelperEx.OpenInBrowserAsAdmin(instance, MainWindow.Instance);
     }
 
-    public static void FinishAction(InstallModulesWizardArgs args)
+    [UsedImplicitly]
+    public static void FinishAction([NotNull] InstallModulesWizardArgs args)
     {
-      InstanceHelperEx.OpenInBrowserAsAdmin(args.Instance, MainWindow.Instance);
+      Assert.ArgumentNotNull(args, "args");
+
+      var instance = args.Instance;
+      Assert.IsNotNull(instance, "instance");
+
+      InstanceHelperEx.OpenInBrowserAsAdmin(instance, MainWindow.Instance);
     }
 
-    public bool IsEnabled(Window mainWindow, Instance instance)
+    public bool IsEnabled([CanBeNull] Window mainWindow, Instance instance)
     {
       return instance != null;
     }
 
     public void OnClick(Window mainWindow, Instance instance)
     {
-      InstanceHelperEx.OpenInBrowserAsAdmin(instance, mainWindow, this.VirtualPath, this.Browser);
+      Assert.ArgumentNotNull(mainWindow, "mainWindow");
+      
+      Assert.IsNotNull(instance, "instance"); 
+
+      InstanceHelperEx.OpenInBrowserAsAdmin(instance, mainWindow, this.VirtualPath, this.Browser, this.Params);
     }
 
     #endregion

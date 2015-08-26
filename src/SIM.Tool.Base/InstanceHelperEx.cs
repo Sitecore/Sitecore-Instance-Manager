@@ -143,12 +143,12 @@ namespace SIM.Tool.Base
       fileSystemWatcher.EnableRaisingEvents = true;
     }
 
-    public static void OpenInBrowserAsAdmin([NotNull] Instance instance, [NotNull] Window owner, [CanBeNull] string pageUrl = null, [CanBeNull] string browser = null)
+    public static void OpenInBrowserAsAdmin([NotNull] Instance instance, [NotNull] Window owner, [CanBeNull] string pageUrl = null, [CanBeNull] string browser = null, [CanBeNull] string[] parameters = null)
     {
       Assert.ArgumentNotNull(instance, "instance");
       Assert.ArgumentNotNull(owner, "owner");
 
-      AuthenticationHelper.LoginAsAdmin(instance, owner, pageUrl, browser);
+      AuthenticationHelper.LoginAsAdmin(instance, owner, pageUrl, browser, parameters);
     }
 
     public static bool PreheatInstance(Instance instance, Window mainWindow, bool ignoreAdvancedSetting = false)

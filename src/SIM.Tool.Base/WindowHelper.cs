@@ -562,9 +562,10 @@
       string app = browser.EmptyToNull() ?? (isFrontEnd ? AppSettings.AppBrowsersFrontend.Value : AppSettings.AppBrowsersBackend.Value);
       if (!string.IsNullOrEmpty(app))
       {
-        parameters = parameters ?? new string[0];
-        parameters = parameters.Insert(0, url).ToArray();
-        RunApp(app, parameters);
+        var arguments = parameters != null ? parameters.Where(x => !string.IsNullOrWhiteSpace(x)).ToList() : new List<string>();
+        arguments.Add(url);
+        RunApp(app, arguments.ToArray());
+
         return;
       }
 

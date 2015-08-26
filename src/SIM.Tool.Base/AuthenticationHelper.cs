@@ -97,7 +97,7 @@
 
     #endregion
 
-    internal static void LoginAsAdmin([NotNull] Instance instance, [NotNull] Window owner, [CanBeNull] string pageUrl = null, [CanBeNull] string browser = null)
+    internal static void LoginAsAdmin([NotNull] Instance instance, [NotNull] Window owner, [CanBeNull] string pageUrl = null, [CanBeNull] string browser = null, [CanBeNull] string[] parameters = null)
     {
       Assert.ArgumentNotNull(instance, "instance");
       Assert.ArgumentNotNull(owner, "owner");
@@ -149,11 +149,11 @@
 
       if (clipboard)
       {
-        Clipboard.SetText(instance.GetUrl(url + querystring));
+        Clipboard.SetDataObject(instance.GetUrl(url + querystring));
         return;
       }
 
-      InstanceHelperEx.BrowseInstance(instance, owner, url + querystring, isFrontEnd, browser);
+      InstanceHelperEx.BrowseInstance(instance, owner, url + querystring, isFrontEnd, browser, parameters);
     }
   }
 }
