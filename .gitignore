@@ -1,3 +1,5 @@
+*.user
+*.suo
 src/packages/
 src/TestResults/
 src/SIM.Tool/obj/
