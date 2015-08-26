@@ -36,11 +36,11 @@ namespace SIM.Pipelines
 
       var credentialsString = Settings.CoreInstallMailServerCredentials.Value;
 
-      var address = (addressString + ":").Split(':');
+      var address = Parameters.Parse(addressString);
       var host = address[0];
       var port = address[1];
 
-      var credentials = (credentialsString + ":").Split(':');
+      var credentials = Parameters.Parse(credentialsString);
       var username = credentials[0];
       var password = credentials[1];
 

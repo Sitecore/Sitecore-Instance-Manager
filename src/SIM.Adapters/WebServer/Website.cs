@@ -159,7 +159,6 @@
     {
       get
       {
-        string name;
         using (WebServerManager.WebServerContext context = WebServerManager.CreateContext("Website({0}).Name".FormatWith(this.ID)))
         {
           return this.GetName(context);

@@ -753,7 +753,7 @@
         }
         catch (Exception ex)
         {
-          Log.Error("Plugin Button caused an exception", typeof(MainWindowHelper), ex);
+          WindowHelper.HandleError("Plugin Button caused an exception: " + button.OuterXml, true, ex);
         }
       }
     }
