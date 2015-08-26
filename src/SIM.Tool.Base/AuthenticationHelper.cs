@@ -99,7 +99,6 @@
 
     internal static void LoginAsAdmin([NotNull] Instance instance, [NotNull] Window owner, [CanBeNull] string pageUrl = null, [CanBeNull] string browser = null)
     {
-      // Generating unique key to authenticate user
       Assert.ArgumentNotNull(instance, "instance");
       Assert.ArgumentNotNull(owner, "owner");
 
@@ -108,6 +107,7 @@
         return;
       }
 
+      // Generating unique key to authenticate user
       var authKey = GetTempAuthKey();
 
       // Generating <guid>.aspx page that will one-time security bypasser

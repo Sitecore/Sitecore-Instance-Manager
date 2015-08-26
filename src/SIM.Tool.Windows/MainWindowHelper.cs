@@ -540,6 +540,11 @@
 
       foreach (var menuItem in button.ChildNodes.OfType<XmlElement>())
       {
+        if (menuItem == null)
+        {
+          continue;
+        }
+
         try
         {
           var name = menuItem.Name;
@@ -580,7 +585,7 @@
 
           // bind IsEnabled event
           SetIsEnabledProperty(menuButton, menuHandler);
-
+          
           menuButton.Click += delegate
           {
             try
@@ -593,7 +598,7 @@
             }
             catch (Exception ex)
             {
-              WindowHelper.HandleError("Unhandled exception has been thrown", true, ex);
+              WindowHelper.HandleError("Error during handling menu button click: " + menuHandler.GetType().FullName, true, ex);
             }
           };
 
@@ -601,7 +606,7 @@
         }
         catch (Exception ex)
         {
-          WindowHelper.HandleError(ex.Message, true, ex);
+          WindowHelper.HandleError("Error during initializing ribbon button: " + menuItem.OuterXml, true, ex);
         }
       }
 

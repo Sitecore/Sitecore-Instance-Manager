@@ -143,8 +143,11 @@ namespace SIM.Tool.Base
       fileSystemWatcher.EnableRaisingEvents = true;
     }
 
-    public static void OpenInBrowserAsAdmin(Instance instance, Window owner, string pageUrl = null, string browser = null)
+    public static void OpenInBrowserAsAdmin([NotNull] Instance instance, [NotNull] Window owner, [CanBeNull] string pageUrl = null, [CanBeNull] string browser = null)
     {
+      Assert.ArgumentNotNull(instance, "instance");
+      Assert.ArgumentNotNull(owner, "owner");
+
       AuthenticationHelper.LoginAsAdmin(instance, owner, pageUrl, browser);
     }
 
