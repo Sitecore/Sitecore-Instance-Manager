@@ -339,20 +339,6 @@ namespace SIM.FileSystem
       }
     }
 
-    public override void MoveChild(DirectoryInfo extracted, string childName, string targetFolder)
-    {
-      try
-      {
-        base.MoveChild(extracted, childName, targetFolder);
-      }
-      catch (PathTooLongException)
-      {
-        targetFolder = this.fileSystem.Path.ToUncPath(targetFolder);
-
-        base.MoveChild(extracted, childName, targetFolder);
-      }
-    }
-
     public override void TryDelete(string path)
     {
       try

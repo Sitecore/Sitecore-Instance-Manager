@@ -387,23 +387,6 @@ namespace SIM.FileSystem
       Directory.Move(path, newPath);
     }
 
-    public virtual void MoveChild([NotNull] DirectoryInfo extracted, [NotNull] string childName, 
-      [NotNull] string targetFolder)
-    {
-      Assert.ArgumentNotNull(extracted, "extracted");
-      Assert.ArgumentNotNullOrEmpty(childName, "childName");
-      Assert.ArgumentNotNullOrEmpty(targetFolder, "targetFolder");
-      Log.Info(
-        "Moving the '{0}' file to the '{1}' folder".FormatWith(Path.Combine(extracted.FullName, childName), targetFolder), 
-        typeof(FileSystem));
-
-      DirectoryInfo source = this.GetChild(extracted, childName);
-      DirectoryInfo parent = new DirectoryInfo(targetFolder).Parent;
-      Assert.IsNotNull(parent, "parent");
-      this.Ensure(parent.FullName);
-      source.MoveTo(targetFolder);
-    }
-
     public string RegisterTempFolder(string tempFolderPath)
     {
       var tempFoldersCacheFilePath = Path.Combine(ApplicationManager.TempFolder, "tempFolders.txt");

@@ -54,9 +54,6 @@
     public readonly string SqlServerIdentity;
 
     [NotNull]
-    public readonly string UniqueTempFolder;
-
-    [NotNull]
     public readonly string WebRootPath;
 
     [NotNull]
@@ -97,9 +94,6 @@
       Assert.ArgumentNotNull(rootPath, "rootPath");
       Assert.ArgumentNotNull(modules, "modules");
 
-      string uniqueTempFolder = FileSystem.FileSystem.Local.Directory.GenerateTempFolderPath(Settings.CoreInstallTempFolderLocation.Value.EmptyToNull() ?? Path.GetPathRoot(webRootPath));
-      FileSystem.FileSystem.Local.Directory.Ensure(uniqueTempFolder);
-
       this.Name = name;
       this.Modules = modules;
       this.HostName = host;
@@ -108,7 +102,6 @@
       this.DataFolderPath = dataFolderPath;
       this.DatabasesFolderPath = databasesFolderPath;
       this.WebRootPath = webRootPath;
-      this.UniqueTempFolder = uniqueTempFolder;
       this.LicenseFilePath = license.FullName;
       this.SqlServerIdentity = sqlServerIdentity;
       this.WebServerIdentity = webServerIdentity;
@@ -141,17 +134,6 @@
       {
         return this.Product.PackagePath;
       }
-    }
-
-    #endregion
-
-    #region Public Methods
-
-    public override void Dispose()
-    {
-      FileSystem.FileSystem.Local.Directory.TryDelete(this.UniqueTempFolder);
-
-      base.Dispose();
     }
 
     #endregion

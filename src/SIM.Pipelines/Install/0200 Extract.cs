@@ -1,5 +1,9 @@
 ﻿namespace SIM.Pipelines.Install
 {
+  using System;
+  using System.IO;
+  using System.Linq;
+  using Ionic.Zip;
   using SIM.Pipelines.Processors;
   using Sitecore.Diagnostics;
   using Sitecore.Diagnostics.Annotations;
@@ -24,19 +28,17 @@
 
     #region Methods
 
-    protected override void Process([NotNull] InstallArgs args)
+    protected override void Process(InstallArgs args)
     {
       Assert.ArgumentNotNull(args, "args");
+      var packagePath = args.PackagePath;
 
-      var ignore = Settings.CoreInstallRadControls.Value ? null : "Website/sitecore/shell/RadControls";
-      var controller = this.Controller;
-      if (controller != null)
-      {
-        FileSystem.FileSystem.Local.Zip.UnpackZip(args.PackagePath, args.UniqueTempFolder, controller.IncrementProgress, ignore);
-        return;
-      }
+      var webRootPath = args.WebRootPath;
+      var databasesFolderPath = args.DatabasesFolderPath;
+      var dataFolderPath = args.DataFolderPath;
 
-      FileSystem.FileSystem.Local.Zip.UnpackZip(args.PackagePath, args.UniqueTempFolder, null, ignore);
+
+      InstallHelper.ExtractFile(packagePath, webRootPath, databasesFolderPath, dataFolderPath, this.Controller);
     }
 
     #endregion

@@ -38,6 +38,10 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Ionic.Zip, Version=1.9.1.8, Culture=neutral, PublicKeyToken=edbe51ad942a3f5c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\DotNetZip.1.9.1.8\lib\net20\Ionic.Zip.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Web.Administration, Version=7.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.Web.Administration.7.0.0.0\lib\net20\Microsoft.Web.Administration.dll</HintPath>
@@ -79,6 +83,7 @@
     <Compile Include="Import\ImportRestoreMongoDatabases.cs" />
     <Compile Include="Import\UpdateConnectionStrings.cs" />
     <Compile Include="Import\UpdateDataFolder.cs" />
+    <Compile Include="InstallHelper.cs" />
     <Compile Include="Install\0150 GrantPermissions.cs" />
     <Compile Include="Install\0350 MoveDatabases.cs" />
     <Compile Include="Install\0600 UpdateWebConfig.cs" />
@@ -129,7 +134,6 @@
     <Compile Include="SetupWebsiteHelper.cs" />
     <Compile Include="Install\InstallArgs.cs" />
     <Compile Include="Install\InstallProcessor.cs" />
-    <Compile Include="Install\0300 MoveData.cs" />
     <Compile Include="Install\0500 SetupWebsite.cs" />
     <Compile Include="Install\0800 UpdateHosts.cs" />
     <Compile Include="Delete\StopInstance.cs" />
@@ -156,7 +160,6 @@
     <Compile Include="Reinstall\0950 Install.MoveDatabases.cs" />
     <Compile Include="Reinstall\ReinstallArgs.cs" />
     <Compile Include="Reinstall\ReinstallProcessor.cs" />
-    <Compile Include="Reinstall\0900 Install.MoveData.cs" />
     <Compile Include="Reinstall\1100 Install.SetupWebsite.cs" />
     <Compile Include="Reinstall\0200 Delete.StopInstance.cs" />
     <Compile Include="Restore\DeleteFiles.cs" />

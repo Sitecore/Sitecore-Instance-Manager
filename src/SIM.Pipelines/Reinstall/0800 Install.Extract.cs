@@ -1,5 +1,6 @@
 ﻿namespace SIM.Pipelines.Reinstall
 {
+  using System;
   using SIM.Pipelines.Install;
   using SIM.Pipelines.Processors;
   using Sitecore.Diagnostics;
@@ -31,22 +32,11 @@
 
     #region Methods
 
-    protected override void Process([NotNull] ReinstallArgs args)
+    protected override void Process(ReinstallArgs args)
     {
       Assert.ArgumentNotNull(args, "args");
 
-      var ignore1 = Settings.CoreInstallRadControls.Value ? null : "Website/sitecore/shell/RadControls";
-
-      var ignore2 = Settings.CoreInstallDictionaries.Value ? null : "Website/sitecore/shell/Controls/Rich Text Editor/Dictionaries";
-
-      var controller = this.Controller;
-      if (controller != null)
-      {
-        FileSystem.FileSystem.Local.Zip.UnpackZip(args.PackagePath, args.TempFolder, controller.IncrementProgress, ignore1, ignore2);
-        return;
-      }
-
-      FileSystem.FileSystem.Local.Zip.UnpackZip(args.PackagePath, args.TempFolder, null, ignore1, ignore2);
+      InstallHelper.ExtractFile(args.PackagePath, args.WebRootPath, args.DatabasesFolderPath, args.DataFolderPath, this.Controller);
     }
 
     #endregion
