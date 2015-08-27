@@ -60,16 +60,18 @@
 
       return list.Sum(item =>
       {
+        long itemStepsCount = 1;
         try
         {
-          return item.EvaluateStepsCount(args);
+          itemStepsCount = item.EvaluateStepsCount(args);
         }
         catch (Exception ex)
         {
           Log.Error("Error during evaluating steps count of " + item.GetType().FullName, typeof(ProcessorManager), ex);
-          return 1;
         }
-      }) + list.Sum(q => GetProcessorsCount(args, q.NestedProcessors));
+
+        return itemStepsCount + GetProcessorsCount(args, item.NestedProcessors);
+      });
     }
 
     #endregion
