@@ -2,6 +2,7 @@
 {
   using System.Collections.Generic;
   using SIM.Adapters.WebServer;
+  using SIM.Pipelines.Processors;
   using Sitecore.Diagnostics;
   using Sitecore.Diagnostics.Annotations;
 
@@ -15,12 +16,17 @@
     #region Fields
 
     private readonly List<string> done = new List<string>();
-
+    
     #endregion
 
     #region Methods
 
-    protected override void Process([NotNull] InstallArgs args)
+    public override long EvaluateStepsCount([CanBeNull] ProcessorArgs args)
+    {
+      return AttachDatabasesHelper.StepsCount;
+    }
+
+    protected override void Process(InstallArgs args)
     {
       Assert.ArgumentNotNull(args, "args");
 
@@ -30,6 +36,7 @@
       var instance = args.Instance;
       Assert.IsNotNull(instance, "instance");
 
+      var controller = this.Controller;
       foreach (ConnectionString connectionString in instance.Configuration.ConnectionStrings)
       {
         if (this.done.Contains(connectionString.Name))
@@ -37,7 +44,12 @@
           continue;
         }
 
-        AttachDatabasesHelper.AttachDatabase(connectionString, defaultConnectionString, args.Name, args.DatabasesFolderPath, instance.Name, this.Controller);
+        AttachDatabasesHelper.AttachDatabase(connectionString, defaultConnectionString, args.Name, args.DatabasesFolderPath, instance.Name, controller);
+
+        if (controller != null)
+        {
+          controller.IncrementProgress(AttachDatabasesHelper.StepsCount / args.ConnectionString.Count);
+        }
 
         this.done.Add(connectionString.Name);
       }

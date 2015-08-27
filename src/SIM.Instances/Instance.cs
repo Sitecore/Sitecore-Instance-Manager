@@ -79,7 +79,7 @@
 
     #region Public properties
 
-    public virtual IEnumerable<Database> AttachedDatabases
+    public virtual ICollection<Database> AttachedDatabases
     {
       get
       {

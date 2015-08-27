@@ -23,12 +23,10 @@
       var ignore2 = Settings.CoreInstallDictionaries.Value ? ":#!" : "sitecore/shell/Controls/Rich Text Editor/Dictionaries";
       var incrementProgress = controller != null ? new Action<long>(controller.IncrementProgress) : null;
 
-      const long IncrementThreathold = 1 * 1024 * 1024;
       try
       {
         using (var zip = new ZipFile(packagePath))
         {
-          long lastEntriesTotalSizes = 0;
           var prefix = zip.Entries.First().FileName;
           prefix = prefix.Substring(0, prefix.IndexOf('/', 1));
 
@@ -43,6 +41,11 @@
 
           foreach (var entry in zip.Entries)
           {
+            if (incrementProgress != null)
+            {
+              incrementProgress(1);
+            }
+
             if (entry.IsDirectory)
             {
               continue;
@@ -111,21 +114,20 @@
             {
               Log.Warn("Unexpected file is ignored: " + fileName, typeof(InstallHelper));
             }
-
-            lastEntriesTotalSizes += entry.CompressedSize;
-            if (lastEntriesTotalSizes <= IncrementThreathold)
-            {
-              continue;
-            }
-
-            incrementProgress(lastEntriesTotalSizes);
-            lastEntriesTotalSizes = 0;
           }
         }
       }
       catch (ZipException)
       {
         throw new InvalidOperationException(string.Format("The \"{0}\" package seems to be corrupted.", packagePath));
+      }
+    }
+
+    public static long GetStepsCount(string packagePath)
+    {
+      using (var zip = new ZipFile(packagePath))
+      {
+        return zip.Entries.Count;
       }
     }
   }

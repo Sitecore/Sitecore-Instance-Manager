@@ -16,6 +16,9 @@ namespace SIM.Pipelines
 
   public static class AttachDatabasesHelper
   {
+    // total number of steps in entire install/reinstall wizard without this one is around 5000, so we can assume attaching databases takes 5% so 250
+    public const int StepsCount = 250;
+
     #region Public methods
 
     public static void AttachDatabase(string name, string databasesFolderPath, ConnectionString connectionString, SqlConnectionStringBuilder defaultConnectionString, IPipelineController controller)

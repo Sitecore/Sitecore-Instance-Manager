@@ -1,7 +1,5 @@
 ﻿namespace SIM.Pipelines.Reinstall
 {
-  using System;
-  using SIM.Pipelines.Install;
   using SIM.Pipelines.Processors;
   using Sitecore.Diagnostics;
   using Sitecore.Diagnostics.Annotations;
@@ -13,19 +11,13 @@
   [UsedImplicitly]
   public class Extract : ReinstallProcessor
   {
-    #region Constants
-
-    private const int K = 40;
-
-    #endregion
-
     #region Public Methods
 
     public override long EvaluateStepsCount(ProcessorArgs args)
     {
       Assert.ArgumentNotNull(args, "args");
 
-      return 1; // K;
+      return InstallHelper.GetStepsCount(((ReinstallArgs)args).PackagePath);
     }
 
     #endregion

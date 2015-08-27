@@ -34,7 +34,7 @@
     public readonly bool ForceNetFramework4;
 
     [CanBeNull]
-    public readonly IEnumerable<Database> InstanceDatabases;
+    public readonly ICollection<Database> InstanceDatabases;
 
     public readonly bool Is32Bit;
 

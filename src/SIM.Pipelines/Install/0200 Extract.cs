@@ -21,7 +21,7 @@
     {
       Assert.ArgumentNotNull(args, "args");
 
-      return FileSystem.FileSystem.Local.File.GetFileLength(((InstallArgs)args).PackagePath);
+      return InstallHelper.GetStepsCount(((InstallArgs)args).PackagePath);
     }
 
     #endregion
