@@ -45,7 +45,7 @@
           {
             if (entry.IsDirectory)
             {
-              return;
+              continue;
             }
 
             var fileName = entry.FileName;
@@ -54,12 +54,12 @@
               var virtualFilePath = fileName.Substring(websitePrefixLength);
               if (virtualFilePath.StartsWith(ignore, StringComparison.OrdinalIgnoreCase))
               {
-                return;
+                continue;
               }
 
               if (virtualFilePath.StartsWith(ignore2, StringComparison.OrdinalIgnoreCase))
               {
-                return;
+                continue;
               }
 
               var filePath = Path.Combine(webRootPath, fileName.Substring(websitePrefixLength));
@@ -78,7 +78,7 @@
             {
               if (fileName.EndsWith(".ldf"))
               {
-                return;
+                continue;
               }
 
               var filePath = Path.Combine(databasesFolderPath, fileName.Substring(databasesPrefixLength));
