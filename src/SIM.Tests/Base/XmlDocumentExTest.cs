@@ -66,8 +66,8 @@
         this.MergeTest(str1, str2, expected);
       }
       {
-        str1 = "<manifest version=\"1.3\"><package><name>Sitecore Web Forms for Marketers</name><install><postStepActions skipStandard=\"true\"><add type=\"Sitecore.Form.Core.Configuration.Installation, Sitecore.Forms.Core\" method=\"ChooseSQLiteVersionDll\" /></postStepActions><after><params><param name=\"{Restricting Placeholders}\" title=\"Please choose Restricting Placeholders\" defaultValue=\"content\" mode=\"multiselect\" getOptionsType=\"SIM.Pipelines.ConfigurationActions, SIM.Pipelines\" getOptionsMethod=\"GetPlaceholderNames\" /></params><actions><publish mode=\"incremental\" /><setRestrictingPlaceholders names=\"{Restricting Placeholders}\" /></actions></after></install></package></manifest>";
-        str2 = "<manifest version=\"1.3\"><package /></manifest>";
+        str1 = "<manifest version=\"1.4\"><package><name>Sitecore Web Forms for Marketers</name><install><postStepActions skipStandard=\"true\"><add type=\"Sitecore.Form.Core.Configuration.Installation, Sitecore.Forms.Core\" method=\"ChooseSQLiteVersionDll\" /></postStepActions><after><params><param name=\"{Restricting Placeholders}\" title=\"Please choose Restricting Placeholders\" defaultValue=\"content\" mode=\"multiselect\" getOptionsType=\"SIM.Pipelines.ConfigurationActions, SIM.Pipelines\" getOptionsMethod=\"GetPlaceholderNames\" /></params><actions><publish mode=\"incremental\" /><setRestrictingPlaceholders names=\"{Restricting Placeholders}\" /></actions></after></install></package></manifest>";
+        str2 = "<manifest version=\"1.4\"><package /></manifest>";
         expected = str1;
         this.MergeTest(str1, str2, expected);
       }

@@ -51,7 +51,7 @@
         try
         {
           var xml = plugin.PluginXmlDocument;
-          const string xpath = "/plugin[@version='1.3']/mainWindow/loaded/processor";
+          const string xpath = "/plugin/mainWindow/loaded/processor";
           foreach (XmlElement processorNode in xml.SelectElements(xpath))
           {
             var obj = (IMainWindowLoadedProcessor)Plugin.CreateInstance(processorNode);
@@ -184,7 +184,7 @@
         try
         {
           var xml = plugin.PluginXmlDocument;
-          const string xpath = "/plugin[@version='1.3']/init/processor";
+          const string xpath = "/plugin/init/processor";
 
           foreach (XmlElement processorNode in xml.SelectElements(xpath))
           {

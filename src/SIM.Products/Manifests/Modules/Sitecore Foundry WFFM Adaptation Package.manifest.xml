@@ -1,4 +1,4 @@
-<manifest version="1.3">
+<manifest version="1.4">
   <package>
 		<sortOrder>45</sortOrder>
     <name>Sitecore Foundry WFFM Adaptation Package</name>    

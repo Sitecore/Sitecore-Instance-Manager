@@ -88,7 +88,7 @@
         ProfileSection.Argument("appDocument", appDocument);
 
         MainWindow window = MainWindow.Instance;
-        var menuItems = appDocument.SelectElements("/app[@version='1.3']/mainWindow/contextMenu/*");
+        var menuItems = appDocument.SelectElements("/app/mainWindow/contextMenu/*");
 
         foreach (var item in menuItems)
         {
@@ -116,7 +116,7 @@
 
                     try
                     {
-                      var pluginMenuItems = plugin.PluginXmlDocument.SelectElements("/plugin[@version='1.3']/mainWindow/contextMenu/item");
+                      var pluginMenuItems = plugin.PluginXmlDocument.SelectElements("/plugin/mainWindow/contextMenu/item");
                       foreach (var menuItemElement in pluginMenuItems)
                       {
                         InitializeContextMenuItem(menuItemElement, window.ContextMenu.Items, window, plugin.GetImage);
@@ -163,7 +163,7 @@
         MainWindow window = MainWindow.Instance;
         using (new ProfileSection("Loading tabs from App.xml", typeof(MainWindowHelper)))
         {
-          var tabs = appDocument.SelectElements("/app[@version='1.3']/mainWindow/ribbon/tab");
+          var tabs = appDocument.SelectElements("/app/mainWindow/ribbon/tab");
           foreach (var tabElement in tabs)
           {
             // Get Ribbon Tab to insert button to
@@ -182,7 +182,7 @@
 
               try
               {
-                var tabs = plugin.PluginXmlDocument.SelectElements("/plugin[@version='1.3']/mainWindow/ribbon/tab");
+                var tabs = plugin.PluginXmlDocument.SelectElements("/plugin/mainWindow/ribbon/tab");
                 foreach (var tabElement in tabs)
                 {
                   // Get Ribbon Tab to insert button to

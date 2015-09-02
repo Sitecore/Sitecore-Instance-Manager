@@ -22,9 +22,10 @@
   {
     #region Constants
 
-    public const string ManifestPrefix = "/manifest[@version='1.3']/";
+    public const string ManifestPrefix = "/manifest/";
 
     private const string ProductNamePattern = @"([a-zA-Z][a-zA-Z\d\-\s\._]*[a-zA-Z0-9])";
+
     private const string ProductRevisionPattern = @"(\d\d\d\d\d\d[\d\w\s_\-\!\(\)]*)"; // @"(\d\d\d\d\d\d)";
 
     private const string ProductVersionPattern = @"(\d\.\d(\.?\d?))";
@@ -33,7 +34,8 @@
 
     #region Fields
 
-    public static readonly XmlDocumentEx EmptyManifest = XmlDocumentEx.LoadXml("<manifest version=\"1.3\" />");
+    public static readonly XmlDocumentEx EmptyManifest = XmlDocumentEx.LoadXml("<manifest version=\"1.4\" />");
+
     public static readonly string ProductFileNamePattern = ProductHelper.Settings.CoreProductNamePattern.Value.EmptyToNull() ?? ProductNamePattern + @"[\s]?[\-_]?[\s]?" + ProductVersionPattern + @"[\s\-]*(rev\.|build)[\s]*" + ProductRevisionPattern + @"(.zip)?$";
 
     public static readonly Regex ProductRegex = new Regex(ProductFileNamePattern, RegexOptions.IgnoreCase);
@@ -102,7 +104,7 @@
     // Used when computing default standalone instance name
     #region Fields
 
-    public static readonly XmlDocumentEx ArchiveManifest = XmlDocumentEx.LoadXml(@"<manifest version=""1.3"">
+    public static readonly XmlDocumentEx ArchiveManifest = XmlDocumentEx.LoadXml(@"<manifest version=""1.4"">
   <archive>
     <install>
       <actions>
@@ -112,7 +114,7 @@
   </archive>
 </manifest>");
 
-    public static readonly XmlDocumentEx PackageManifest = XmlDocumentEx.LoadXml(@"<manifest version=""1.3"">
+    public static readonly XmlDocumentEx PackageManifest = XmlDocumentEx.LoadXml(@"<manifest version=""1.4"">
   <package />
 </manifest>");
     private bool? isArchive;

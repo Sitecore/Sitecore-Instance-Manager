@@ -1,4 +1,4 @@
-<manifest version="1.3">
+<manifest version="1.4">
   <package>
 		<sortOrder>60</sortOrder>
     <name>Sitecore E-Commerce Examples</name>

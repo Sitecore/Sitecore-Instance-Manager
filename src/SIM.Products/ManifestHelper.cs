@@ -323,7 +323,7 @@
         XmlDocumentEx packageManifest = Product.PackageManifest;
         if (mainDocument != null)
         {
-          if (mainDocument.SelectSingleElement("/manifest[@version='1.3']/archive") != null)
+          if (mainDocument.SelectSingleElement("/manifest/archive") != null)
           {
             CacheManager.SetEntry("IsPackage", packageFile, "false");
             try
@@ -336,7 +336,7 @@
               HandleError(archiveManifest.FilePath, list, ex);
             }
           }
-          else if (mainDocument.SelectSingleElement("/manifest[@version='1.3']/package") != null)
+          else if (mainDocument.SelectSingleElement("/manifest/package") != null)
           {
             CacheManager.SetEntry("IsPackage", packageFile, "true");
             try
