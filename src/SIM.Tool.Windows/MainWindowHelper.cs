@@ -411,21 +411,6 @@
       }
     }
 
-    public static void UpdateManifests()
-    {
-      if (!ProductHelper.Settings.CoreManifestsUpdateEnabled.Value || !ManifestHelper.UpdateNeeded)
-      {
-        return;
-      }
-
-      if (ApplicationManager.IsInternal)
-      {
-        return;
-      }
-
-      WindowHelper.LongRunningTask(ManifestHelper.UpdateManifestsSync, "Updating manifests", MainWindow.Instance);
-    }
-
     #endregion
 
     #region Plugins

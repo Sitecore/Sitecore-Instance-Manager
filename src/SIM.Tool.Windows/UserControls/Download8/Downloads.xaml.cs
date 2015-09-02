@@ -10,6 +10,7 @@
   using SIM.Tool.Base.Profiles;
   using SIM.Tool.Base.Wizards;
   using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnsotics.InformationService.Client.Model;
 
   public partial class Downloads : IWizardStep, ICustomButton, IFlowControl
   {
@@ -80,7 +81,7 @@
 
     private ReadOnlyCollection<Uri> GetLinks(DownloadWizardArgs args)
     {
-      return new ReadOnlyCollection<Uri>(args.Products.SelectMany(product => product.Value).ToArray());
+      return new ReadOnlyCollection<Uri>(args.Products.Select(product => product.Value).ToArray());
     }
 
     private void PrepareData(DownloadWizardArgs args)
@@ -134,7 +135,7 @@
     {
       var args = (DownloadWizardArgs)wizardArgs;
       this.checkBoxItems.Clear();
-      this.Append(args.Records);
+      this.Append(args.Releases);
 
       foreach (var product in args.Products)
       {
@@ -153,9 +154,9 @@
 
     #region Private methods
 
-    private void Append(IEnumerable<string> records)
+    private void Append(IEnumerable<IRelease> records)
     {
-      this.checkBoxItems.AddRange(records.Select(f => new ProductDownload8InCheckbox(f)).ToList());
+      this.checkBoxItems.AddRange(records.Select(r => new ProductDownload8InCheckbox(r)).ToList());
     }
 
     private void ModuleSelected([CanBeNull] object sender, [CanBeNull] SelectionChangedEventArgs e)

@@ -7,6 +7,7 @@
   using SIM.Tool.Base.Profiles;
   using SIM.Tool.Base.Wizards;
   using SIM.Tool.Windows.Pipelines.Download;
+  using Sitecore.Diagnsotics.InformationService.Client.Model;
 
   public class DownloadWizardArgs : WizardArgs
   {
@@ -46,7 +47,7 @@
       }
     }
 
-    public string[] Records { get; set; }
+    public IRelease[] Releases { get; set; }
     public UriBasedCollection<long> Sizes { get; set; }
     public string UserName { get; set; }
 

@@ -14,6 +14,8 @@
   using Ionic.Zip;
   using Sitecore.Diagnostics;
   using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnsotics.InformationService.Client;
+  using Sitecore.Diagnsotics.InformationService.Client.Model;
 
   #endregion
 
@@ -119,6 +121,12 @@
 </manifest>");
     private bool? isArchive;
     private string searchToken;
+    public static readonly IServiceClient Service = new ServiceClient();
+
+    [CanBeNull]
+    private IRelease release;
+
+    private bool unknownRelease;
 
     #endregion
 
@@ -180,7 +188,41 @@
     {
       get
       {
-        return this.Manifest.With(m => m.SelectSingleElement(ManifestPrefix + "*/label").With(x => x.InnerText));
+        return this.Manifest.With(m => m.SelectSingleElement(ManifestPrefix + "*/label").With(x => x.InnerText)) ?? this.Release.With(x => x.Label);
+      }
+    }
+
+    [CanBeNull]
+    public IRelease Release
+    {
+      get
+      {
+        var release = this.release;
+        if (release != null)
+        {
+          return release;
+        }
+
+        if (this.unknownRelease)
+        {
+          return null;
+        }
+
+        release = Service.GetVersions(this.Name)
+          .With(x => x.FirstOrDefault(z => z.Name == this.Version))
+          .With(x => x.Releases)
+          .With(x => x.FirstOrDefault(z => z.Revision == this.Revision));
+
+        if (release == null)
+        {
+          this.unknownRelease = true;
+
+          return null;
+        }
+
+        this.release = release;
+
+        return release;
       }
     }
 
@@ -264,17 +306,15 @@
     public string Revision { get; set; }
 
     [NotNull]
+    [UsedImplicitly]
     public string RevisionAndLabel
     {
       get
       {
-        if (this.Manifest != null && this.Manifest != EmptyManifest)
+        var label = this.Label;
+        if (!string.IsNullOrEmpty(label))
         {
-          string label = this.Label;
-          if (!string.IsNullOrEmpty(label))
-          {
-            return this.Revision + " - " + label;
-          }
+          return this.Revision + " - " + label;
         }
 
         return this.Revision;

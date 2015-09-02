@@ -332,7 +332,6 @@ namespace SIM.Tool
     private static void RunUpdater()
     {
 #if DEBUG
-      return;
 #endif
       if (!ApplicationManager.IsDebugging)
       {
@@ -394,7 +393,11 @@ namespace SIM.Tool
 
           if (!File.Exists(updaterFileName))
           {
-            File.Copy(ApplicationManager.GetEmbeddedApp("Updater.zip", "SIM.Tool", "updater.exe"), updaterFileName);
+            var updaterFilePath = ApplicationManager.GetEmbeddedApp("Updater.zip", "SIM.Tool", "updater.exe");
+            foreach (var file in Directory.GetFiles(Path.GetDirectoryName(updaterFilePath)))
+            {
+              File.Copy(file, Path.GetFileName(file));
+            }
 
             Thread.Sleep(100);
           }

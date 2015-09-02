@@ -9,6 +9,7 @@
   using SIM.Tool.Windows.Pipelines.Download8;
   using Sitecore.Diagnostics;
   using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnsotics.InformationService.Client.Model;
 
   public class DownloadWizardArgs : WizardArgs
   {
@@ -53,7 +54,9 @@
       }
     }
 
-    public string[] Records { get; set; }
+    [CanBeNull]
+    public IRelease[] Releases { get; set; }
+
     public string UserName { get; set; }
 
     #endregion

@@ -4,6 +4,9 @@
   using System.Collections.ObjectModel;
   using System.Linq;
   using SIM.Products;
+  using Sitecore.Diagnostics;
+  using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnsotics.InformationService.Client.Model;
 
   public class ProductDownload8InCheckbox : DataObjectBase
   {
@@ -17,27 +20,22 @@
     private readonly string version;
     private bool isChecked;
 
-    private ReadOnlyCollection<Uri> value;
+    private Uri value;
 
     #endregion
 
     #region Constructors
 
-    public ProductDownload8InCheckbox(string record)
+    public ProductDownload8InCheckbox([NotNull] IRelease release)
     {
-      // record = Sitecore CMS|6.6.0|130214|Update-4|http://sdn.sitecore.net/downloads/Sitecore660rev130214.download|http://sdn.sitecore.net/downloads/dms660rev130214.download
-      var arr = record.Split('|');
-      this.name = arr[0];
-      this.version = arr[1];
-      this.revision = arr[2];
-      this.label = arr[3];
-      this.value = new ReadOnlyCollection<Uri>(arr.Skip(4).Select(url => new Uri(url)).ToArray());
+      Assert.ArgumentNotNull(release, "release");
+
+      this.name = "Sitecore CMS";
+      this.version = release.Version;
+      this.revision = release.Revision;
+      this.label = release.Label;
+      this.value = new Uri(release.Downloads["zip"].First(x => x.StartsWith("http")));
       this.isEnabled = !ProductManager.Products.Any(this.CheckProduct);
-      if (!this.isEnabled && this.name.EqualsIgnoreCase("Sitecore CMS") && !ProductManager.Products.Any(this.CheckAnalyticsProduct) && this.value.Count > 1)
-      {
-        this.isEnabled = true;
-        this.nameOverride = "Sitecore Analytics";
-      }
     }
 
     #endregion
@@ -102,7 +100,7 @@
       }
     }
 
-    public ReadOnlyCollection<Uri> Value
+    public Uri Value
     {
       get
       {

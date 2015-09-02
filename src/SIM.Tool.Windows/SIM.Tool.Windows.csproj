@@ -45,15 +45,31 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Fluent.Ribbon.3.4.0\lib\net40\Fluent.dll</HintPath>
     </Reference>
+    <Reference Include="Ionic.Zip.Reduced, Version=1.9.1.8, Culture=neutral, PublicKeyToken=edbe51ad942a3f5c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\DotNetZip.Reduced.1.9.1.8\lib\net20\Ionic.Zip.Reduced.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="Microsoft.Web.Administration, Version=7.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.Web.Administration.7.0.0.0\lib\net20\Microsoft.Web.Administration.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="Sitecore.Diagnostics.Base, Version=1.0.0.0, Culture=neutral, PublicKeyToken=2a430da507ea8b02, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Sitecore.Diagnostics.Base.1.0.0.14\lib\net35\Sitecore.Diagnostics.Base.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.Diagnostics.Database, Version=1.0.0.0, Culture=neutral, PublicKeyToken=1eb7b03b14a31fae, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Sitecore.Diagnostics.Database.1.0.0.3\lib\net40\Sitecore.Diagnostics.Database.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.Diagnsotics.InformationService.Client, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f9a5856b52eceddf, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Sitecore.Diagnsotics.InformationService.Client.1.0.0.110\lib\net40\Sitecore.Diagnsotics.InformationService.Client.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />

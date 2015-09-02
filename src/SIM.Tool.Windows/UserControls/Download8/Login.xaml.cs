@@ -6,6 +6,7 @@
   using System.Net;
   using System.Windows;
   using Alienlab.NetExtensions;
+  using SIM.Products;
   using SIM.Tool.Base;
   using SIM.Tool.Base.Wizards;
 
@@ -86,19 +87,14 @@
     bool IFlowControl.OnMovingNext(WizardArgs wizardArgs)
     {
       var args = (DownloadWizardArgs)wizardArgs;
-      if (!string.IsNullOrEmpty(args.Cookies) && this.UserName.Text.EqualsIgnoreCase(args.UserName) && this.Passowrd.Password.EqualsIgnoreCase(args.Password) && args.Records.Length > 0)
+      if (!string.IsNullOrEmpty(args.Cookies) && this.UserName.Text.EqualsIgnoreCase(args.UserName) && this.Passowrd.Password.EqualsIgnoreCase(args.Password) && args.Releases.Length > 0)
       {
         return true;
       }
 
-      var downloads = WebRequestHelper.DownloadString(WindowsSettings.AppDownloader8IndexUrl.Value);
-      if (string.IsNullOrEmpty(downloads))
-      {
-        WindowHelper.HandleError("Cannot retrieve index of available downloads from the server - please check firewall and if it's fine then contact the developer via marketplace.sitecore.net", false);
-        return false;
-      }
-
-      args.Records = downloads.Split(Environment.NewLine.ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
+      args.Releases = Product.Service.GetVersions("Sitecore CMS")
+        .With(x => x.FirstOrDefault(z => z.Name.StartsWith("8")))
+        .With(x => x.Releases.ToArray());
 
       var username = args.UserName;
       var password = args.Password;

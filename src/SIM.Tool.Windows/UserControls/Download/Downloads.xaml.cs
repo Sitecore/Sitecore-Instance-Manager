@@ -13,6 +13,7 @@
   using SIM.Tool.Windows.Pipelines.Download;
   using Sitecore.Diagnostics;
   using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnsotics.InformationService.Client.Model;
 
   #region
 
@@ -184,7 +185,7 @@
     {
       var args = (DownloadWizardArgs)wizardArgs;
       this.checkBoxItems.Clear();
-      this.Append(args.Records);
+      this.Append(args.Releases);
 
       foreach (var product in args.Products)
       {
@@ -203,9 +204,9 @@
 
     #region Private methods
 
-    private void Append(IEnumerable<string> records)
+    private void Append(IEnumerable<IRelease> records)
     {
-      this.checkBoxItems.AddRange(records.Select(f => new ProductDownloadInCheckbox(f)).ToList());
+      this.checkBoxItems.AddRange(records.Select(r => new ProductDownloadInCheckbox(r)).ToList());
     }
 
     private void ModuleSelected([CanBeNull] object sender, [CanBeNull] SelectionChangedEventArgs e)

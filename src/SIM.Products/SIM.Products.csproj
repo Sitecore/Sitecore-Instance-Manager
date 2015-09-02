@@ -32,11 +32,21 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Ionic.Zip">
-      <HintPath>..\packages\DotNetZip.1.9.1.8\lib\net20\Ionic.Zip.dll</HintPath>
+    <Reference Include="Ionic.Zip.Reduced">
+      <HintPath>..\packages\DotNetZip.Reduced.1.9.1.8\lib\net20\Ionic.Zip.Reduced.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="Sitecore.Diagnostics.Base">
       <HintPath>..\packages\Sitecore.Diagnostics.Base.1.0.0.14\lib\net35\Sitecore.Diagnostics.Base.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.Diagnostics.Database">
+      <HintPath>..\packages\Sitecore.Diagnostics.Database.1.0.0.3\lib\net40\Sitecore.Diagnostics.Database.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.Diagnsotics.InformationService.Client, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f9a5856b52eceddf, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Sitecore.Diagnsotics.InformationService.Client.1.0.0.110\lib\net40\Sitecore.Diagnsotics.InformationService.Client.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />

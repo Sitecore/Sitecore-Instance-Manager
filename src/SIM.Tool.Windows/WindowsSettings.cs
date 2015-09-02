@@ -8,17 +8,11 @@ namespace SIM.Tool.Windows
     #region Fields
 
     [NotNull]
-    public static readonly AdvancedProperty<string> AppDownloader8IndexUrl = AdvancedSettings.Create("App/Downloader8/SDN/IndexUrl", "http://dl.sitecore.net/updater/1.1/sim/products8.txt");
-
-    [NotNull]
     public static readonly AdvancedProperty<int> AppDownloader8ParallelThreads = AdvancedSettings.Create("App/Downloader8/ParallelThreads", 1);
 
     [NotNull]
     public static readonly AdvancedProperty<string> AppDownloaderExternalRepository = AdvancedSettings.Create("App/Downloader/ExternalRepository", string.Empty);
-
-    [NotNull]
-    public static readonly AdvancedProperty<string> AppDownloaderIndexUrl = AdvancedSettings.Create("App/Downloader/SDN/IndexUrl", "http://dl.sitecore.net/updater/1.1/sim/products.txt");
-
+    
     [NotNull]
     public static readonly AdvancedProperty<int> AppDownloaderParallelThreads = AdvancedSettings.Create("App/Downloader/ParallelThreads", 4);
 

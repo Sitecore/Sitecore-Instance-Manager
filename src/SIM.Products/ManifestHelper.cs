@@ -34,66 +34,6 @@
 
     #region Public methods
 
-    public static void CheckUpdateNeeded()
-    {
-      using (new ProfileSection("Checking if manifests update needed", typeof(ManifestHelper)))
-      {
-        try
-        {
-          if (!ProductHelper.Settings.CoreManifestsUpdateEnabled.Value)
-          {
-            UpdateNeeded = false;
-            return;
-          }
-
-          foreach (var name in new[]
-          {
-            "newmanifests.zip", "newmanifests.zip.tmp"
-          })
-          {
-            string filePath = Path.Combine(Environment.CurrentDirectory, name);
-            if (FileSystem.FileSystem.Local.File.Exists(filePath))
-            {
-              Log.Warn("The " + name + " exists however it must not to be", typeof(ManifestHelper));
-              try
-              {
-                FileSystem.FileSystem.Local.File.Delete(filePath);
-                Log.Info("The " + name + " has been deleted", typeof(ManifestHelper));
-              }
-              catch (Exception ex)
-              {
-                Log.Warn("Cannot delete " + name + string.Empty, typeof(ManifestHelper), ex);
-                ProfileSection.Result(false);
-                return;
-              }
-            }
-          }
-
-          string manifestUrl = ProductHelper.Settings.CoreManifestsUpdateDatabaseUrl.Value;
-          string localManifestsPath = Path.Combine(Environment.CurrentDirectory, "manifests.zip");
-          if (!FileSystem.FileSystem.Local.File.Exists(localManifestsPath))
-          {
-            UpdateNeeded = true;
-            ProfileSection.Result(UpdateNeeded);
-            return;
-          }
-
-          var localFileSize = FileSystem.FileSystem.Local.File.GetFileLength(localManifestsPath);
-          var remoteFileSize = WebRequestHelper.GetFileSize(new Uri(manifestUrl));
-
-          UpdateNeeded = localFileSize != remoteFileSize;
-          Log.Debug("Local manifests.zip file size is " + localFileSize);
-          Log.Debug("Remote manifests.zip file size is " + remoteFileSize);
-          ProfileSection.Result(UpdateNeeded);
-        }
-        catch (Exception ex)
-        {
-          Log.Error("Error while updating manifests", typeof(ManifestHelper), ex);
-          ProfileSection.Result(false);
-        }
-      }
-    }
-
     public static XmlDocumentEx Compute(string packageFile, string originalName = null)
     {
       using (new ProfileSection("Compute manifest", typeof(ManifestHelper)))
@@ -165,61 +105,6 @@
         {
           Path.GetFileNameWithoutExtension(packageFile)
         });
-      }
-    }
-
-    public static void UpdateManifestsSync()
-    {
-      using (new ProfileSection("Updating manifests", typeof(ManifestHelper)))
-      {
-        if (!ManifestHelper.UpdateNeeded)
-        {
-          ProfileSection.Result("Not needed");
-          return;
-        }
-
-        var manifestUrl = ProductHelper.Settings.CoreManifestsUpdateDatabaseUrl.Value;
-        var newLocalManifests = Path.Combine(Environment.CurrentDirectory, "newmanifests.zip");
-
-        try
-        {
-          try
-          {
-            var newLocalManifestsTmp = Path.Combine(Environment.CurrentDirectory, "newmanifests.zip.tmp");
-            WebRequestHelper.DownloadFile(new Uri(manifestUrl), newLocalManifestsTmp);
-
-            try
-            {
-              FileSystem.FileSystem.Local.File.Move(newLocalManifestsTmp, newLocalManifests, true);
-            }
-            catch (Exception ex)
-            {
-              Log.Error("Cannot rename newmanifests.zip.tmp into newmanifests.zip", typeof(ManifestHelper), ex);
-              ProfileSection.Result("Terminated");
-              return;
-            }
-          }
-          catch (Exception e)
-          {
-            Log.Error("Could not download manifests.zip", typeof(ManifestHelper), e);
-            ProfileSection.Result("Terminated");
-            return;
-          }
-
-          FileSystem.FileSystem.Local.Directory.DeleteIfExists("Manifests");
-          FileSystem.FileSystem.Local.Zip.UnpackZip(newLocalManifests, Environment.CurrentDirectory, null, 1, null, true);
-
-          var localManifestsPath = Path.Combine(Environment.CurrentDirectory, "manifests.zip");
-          FileSystem.FileSystem.Local.File.Move(newLocalManifests, localManifestsPath, true);
-
-          CacheManager.ClearAll();
-          ProfileSection.Result("Done");
-        }
-        catch (Exception ex)
-        {
-          Log.Error("Error while unpacking newmanifests.zip", typeof(ManifestHelper), ex);
-          ProfileSection.Result("Terminated");
-        }
       }
     }
 

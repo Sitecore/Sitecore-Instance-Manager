@@ -180,8 +180,6 @@
 
       public static readonly AdvancedProperty<string> CoreInstallInstanceNamePattern = AdvancedSettings.Create("Core/Product/InstanceNamePattern", "{ShortName}{ShortVersion}rev{Revision}");
 
-      public static readonly AdvancedProperty<string> CoreManifestsUpdateDatabaseUrl = AdvancedSettings.Create("Core/Manifests/Update/DatabaseUrl", "http://dl.sitecore.net/updater/1.1/sim/manifests.zip");
-
       public static readonly AdvancedProperty<bool> CoreManifestsUpdateEnabled = AdvancedSettings.Create("Core/Manifests/Update/Enabled", false);
       public static readonly AdvancedProperty<string> CoreProductRootFolderNamePattern = AdvancedSettings.Create("App/Product/RootFolderNamePattern", "{ShortName}{ShortVersion}rev{Revision}");
 

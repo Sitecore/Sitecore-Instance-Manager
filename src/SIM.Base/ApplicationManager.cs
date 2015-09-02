@@ -98,19 +98,6 @@ namespace SIM
 
     #endregion
 
-    #region Public properties
-
-    public static bool IsInternal
-    {
-      // todo:change this
-      get
-      {
-        return AppLabel.Contains(".");
-      }
-    }
-
-    #endregion
-
     #region Public methods
 
     public static void RaiseAttemptToClose(CancelEventArgs e)

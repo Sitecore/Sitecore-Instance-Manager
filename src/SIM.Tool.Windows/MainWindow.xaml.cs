@@ -483,7 +483,6 @@
         var appDocument = XmlDocumentEx.LoadFile("App.xml");
         MainWindowHelper.InitializeRibbon(appDocument);
         MainWindowHelper.InitializeContextMenu(appDocument);
-        new Action(ManifestHelper.CheckUpdateNeeded).BeginInvoke(null, null);
       }
     }
 
@@ -502,11 +501,6 @@
         catch (Exception ex)
         {
           Log.Error("Err", this, ex);
-        }
-
-        if (!e.Cancel)
-        {
-          MainWindowHelper.UpdateManifests();
         }
       }
     }
