@@ -332,6 +332,7 @@ namespace SIM.Tool
     private static void RunUpdater()
     {
 #if DEBUG
+      return;
 #endif
       if (!ApplicationManager.IsDebugging)
       {
