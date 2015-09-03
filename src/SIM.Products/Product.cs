@@ -203,12 +203,12 @@
           return release;
         }
 
-        if (this.unknownRelease)
+        if (this.unknownRelease || this.Name != "Sitecore CMS")
         {
           return null;
         }
 
-        release = Service.GetVersions(this.Name)
+        release = Service.GetVersions("Sitecore CMS")
           .With(x => x.FirstOrDefault(z => z.Name == this.Version))
           .With(x => x.Releases)
           .With(x => x.FirstOrDefault(z => z.Revision == this.Revision));
