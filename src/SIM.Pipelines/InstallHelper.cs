@@ -46,11 +46,6 @@
               incrementProgress(1);
             }
 
-            if (entry.IsDirectory)
-            {
-              continue;
-            }
-
             var fileName = entry.FileName;
             if (fileName.StartsWith(webRootPrefix, StringComparison.OrdinalIgnoreCase))
             {
@@ -66,6 +61,12 @@
               }
 
               var filePath = Path.Combine(webRootPath, fileName.Substring(websitePrefixLength));
+              if (entry.IsDirectory)
+              {
+                Directory.CreateDirectory(filePath);
+                continue;
+              }
+
               var folder = Path.GetDirectoryName(filePath);
               if (!Directory.Exists(folder))
               {
@@ -85,6 +86,12 @@
               }
 
               var filePath = Path.Combine(databasesFolderPath, fileName.Substring(databasesPrefixLength));
+              if (entry.IsDirectory)
+              {
+                Directory.CreateDirectory(filePath);
+                continue;
+              }
+
               var folder = Path.GetDirectoryName(filePath);
               if (!Directory.Exists(folder))
               {
@@ -99,6 +106,12 @@
             else if (fileName.StartsWith(dataPrefix, StringComparison.OrdinalIgnoreCase))
             {
               var filePath = Path.Combine(dataFolderPath, fileName.Substring(dataPrefixLength));
+              if (entry.IsDirectory)
+              {
+                Directory.CreateDirectory(filePath);
+                continue;
+              }
+
               var folder = Path.GetDirectoryName(filePath);
               if (!Directory.Exists(folder))
               {
@@ -112,7 +125,7 @@
             }
             else
             {
-              Log.Warn("Unexpected file is ignored: " + fileName, typeof(InstallHelper));
+              Log.Warn("Unexpected file or directory is ignored: " + fileName, typeof(InstallHelper));
             }
           }
         }
