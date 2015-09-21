@@ -47,7 +47,13 @@ namespace SIM.Pipelines
     {
       Assert.ArgumentNotNull(rootFolderPath, "rootFolderPath");
 
-      var dataFolder = Path.Combine(rootFolderPath, @"Website\App_Config\Include\DataFolder.config");
+      var dataFolder = Path.Combine(rootFolderPath, @"Website\App_Config\Include\zzz\DataFolder.config");
+      var dir = Path.GetDirectoryName(dataFolder);
+      if (!Directory.Exists(dir))
+      {
+        Directory.CreateDirectory(dir);
+      }
+
       dataFolderPath = dataFolderPath ?? Path.Combine(rootFolderPath, "Data");
       var example = dataFolder + ".example";
       FileSystem.FileSystem.Local.File.DeleteIfExists(example);

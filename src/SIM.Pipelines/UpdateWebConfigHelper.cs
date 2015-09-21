@@ -87,7 +87,7 @@ namespace SIM.Pipelines
   </sitecore>
 </configuration>";
 
-      var includeFilePath = Path.Combine(rootFolderPath, @"Website\App_Config\Include\" + includeFileName);
+      var includeFilePath = Path.Combine(rootFolderPath, @"Website\App_Config\Include\zzz\" + includeFileName);
       var sb = new StringBuilder();
       sb.Append(Prefix);
       foreach (string key in settings.Keys)
@@ -96,6 +96,13 @@ namespace SIM.Pipelines
       }
 
       sb.Append(Postfix);
+
+      var dir = Path.GetDirectoryName(includeFilePath);
+      if (!Directory.Exists(dir))
+      {
+        Directory.CreateDirectory(dir);
+      }
+
       FileSystem.FileSystem.Local.File.WriteAllText(includeFilePath, sb.ToString());
     }
 
