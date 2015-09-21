@@ -271,6 +271,9 @@
     <EmbeddedResource Include="Log Analyzer.zip" />
     <EmbeddedResource Include="ManagedArgsTracer.zip" />
     <EmbeddedResource Include="ManagedGcAwareDump.zip" />
+    <Content Include="Configurations\Configuration - Sitecore 8 - Development - Disable Event Queue.zip">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="Packages\Support Toolbox.zip">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
