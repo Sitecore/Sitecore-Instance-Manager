@@ -86,19 +86,24 @@
         return;
       }
 
-      var path = instance.GetWebConfig().FilePath;
+      var folder = Path.Combine(ApplicationManager.TempFolder, "configs", instance.Name);
+      if (!Directory.Exists(folder))
+      {
+        Directory.CreateDirectory(folder);
+      }
 
+      string path;
       if (this.Showconfig)
       {
-        path = Path.Combine(Path.GetDirectoryName(path), "showconfig.xml");
+        path = Path.Combine(folder, "showconfig.xml");
       }
       else if (this.WebConfigResult)
       {
-        path += ".result.xml";
+        path = Path.Combine(folder, "web.config.result.xml");
       }
       else
       {
-        Assert.IsTrue(false, "Impossible");
+        throw new NotSupportedException("This is not supported");
       }
 
       if (this.Normalize)
