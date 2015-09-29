@@ -49,7 +49,7 @@ namespace SIM.FileSystem
 
     public virtual void Copy(string path1, string path2, bool overwrite)
     {
-      Assert.IsTrue(!path1.EqualsIgnoreCase(path2), "Source and destination are same: " + path1);
+      Assert.IsTrue(!path1.EqualsIgnoreCase(path2), "Source and destination are same: {0}", path1);
 
       File.Copy(path1, path2, overwrite);
     }
