@@ -1,12 +1,12 @@
-﻿using System.Collections.Specialized;
-using System.IO;
-using System.Text;
-using SIM.Pipelines.Install;
-using Sitecore.Diagnostics;
-using Sitecore.Diagnostics.Annotations;
-
-namespace SIM.Pipelines
+﻿namespace SIM.Pipelines
 {
+  using System.Collections.Specialized;
+  using System.IO;
+  using System.Text;
+  using SIM.Pipelines.Install;
+  using Sitecore.Diagnostics;
+  using Sitecore.Diagnostics.Annotations;
+
   public static class UpdateWebConfigHelper
   {
     #region Public methods

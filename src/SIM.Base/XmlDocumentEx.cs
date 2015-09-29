@@ -86,7 +86,8 @@ namespace SIM
 
     #region Public methods
 
-    public static XmlDocumentEx LoadFile(string path)
+    [NotNull]
+    public static XmlDocumentEx LoadFile([NotNull] string path)
     {
       Assert.ArgumentNotNull(path, "path");
       if (!FileSystem.FileSystem.Local.File.Exists(path))
