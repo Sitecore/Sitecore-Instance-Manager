@@ -41,6 +41,8 @@
     [NotNull]
     public static readonly AdvancedProperty<string> CoreInstallWebServerIdentityPassword = AdvancedSettings.Create("Core/Install/WebServer/Identity/Password", string.Empty);
 
+    public static readonly AdvancedProperty<int> CoreInstallHttpRuntimeExecutionTimeout = AdvancedSettings.Create("Core/Install/HttpRuntime/ExecutionTimeout", 600);
+
     #endregion
   }
 }

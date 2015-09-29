@@ -17,6 +17,28 @@
       Assert.ArgumentNotNull(webRootPath, "webRootPath");
       Assert.ArgumentNotNull(dataFolder, "dataFolder");
 
+      if (Settings.CoreInstallHttpRuntimeExecutionTimeout.HasUserValue)
+      {
+        var executionTimeout = Settings.CoreInstallHttpRuntimeExecutionTimeout.Value;
+        var webConfig = XmlDocumentEx.LoadFile(Path.Combine(webRootPath, "web.config"));
+        var systemWeb = webConfig.SelectSingleElement("/configuration/system.web");
+        if (systemWeb == null)
+        {
+          systemWeb = webConfig.CreateElement("system.web");
+          webConfig.DocumentElement.AppendChild(systemWeb);
+        }
+
+        var httpRuntime = systemWeb.SelectSingleElement("httpRuntime");
+        if (httpRuntime == null)
+        {
+          httpRuntime = webConfig.CreateElement("httpRuntime");
+          systemWeb.AppendChild(httpRuntime);
+        }
+
+        httpRuntime.SetAttribute("executionTimeout", executionTimeout.ToString());
+        webConfig.Save();
+      }
+
       SetupWebsiteHelper.SetDataFolder(rootFolderPath, dataFolder);
       if (Settings.CoreInstallNotFoundTransfer.Value)
       {
