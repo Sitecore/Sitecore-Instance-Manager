@@ -30,6 +30,14 @@ namespace SIM
 
     public string XPathKey { get; set; }
 
+    public bool HasUserValue
+    {
+      get
+      {
+        return RawUserValue != null;
+      }
+    }
+
     #endregion
 
     #region Properties

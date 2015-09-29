@@ -1,12 +1,12 @@
-﻿using System.Collections.Specialized;
-using System.IO;
-using System.Text;
-using SIM.Pipelines.Install;
-using Sitecore.Diagnostics;
-using Sitecore.Diagnostics.Annotations;
-
-namespace SIM.Pipelines
+﻿namespace SIM.Pipelines
 {
+  using System.Collections.Specialized;
+  using System.IO;
+  using System.Text;
+  using SIM.Pipelines.Install;
+  using Sitecore.Diagnostics;
+  using Sitecore.Diagnostics.Annotations;
+
   public static class UpdateWebConfigHelper
   {
     #region Public methods
@@ -16,6 +16,28 @@ namespace SIM.Pipelines
       Assert.ArgumentNotNull(rootFolderPath, "rootFolderPath");
       Assert.ArgumentNotNull(webRootPath, "webRootPath");
       Assert.ArgumentNotNull(dataFolder, "dataFolder");
+
+      if (Settings.CoreInstallHttpRuntimeExecutionTimeout.HasUserValue)
+      {
+        var executionTimeout = Settings.CoreInstallHttpRuntimeExecutionTimeout.Value;
+        var webConfig = XmlDocumentEx.LoadFile(Path.Combine(webRootPath, "web.config"));
+        var systemWeb = webConfig.SelectSingleElement("/configuration/system.web");
+        if (systemWeb == null)
+        {
+          systemWeb = webConfig.CreateElement("system.web");
+          webConfig.DocumentElement.AppendChild(systemWeb);
+        }
+
+        var httpRuntime = systemWeb.SelectSingleElement("httpRuntime");
+        if (httpRuntime == null)
+        {
+          httpRuntime = webConfig.CreateElement("httpRuntime");
+          systemWeb.AppendChild(httpRuntime);
+        }
+
+        httpRuntime.SetAttribute("executionTimeout", executionTimeout.ToString());
+        webConfig.Save();
+      }
 
       SetupWebsiteHelper.SetDataFolder(rootFolderPath, dataFolder);
       if (Settings.CoreInstallNotFoundTransfer.Value)
