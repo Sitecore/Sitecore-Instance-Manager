@@ -72,8 +72,8 @@
       }
 
       args.Releases = Product.Service.GetVersions("Sitecore CMS")
-        .With(x => x.FirstOrDefault(z => !z.Name.StartsWith("8")))
-        .With(x => x.Releases.ToArray());
+        .Where(x => !x.Name.StartsWith("8"))
+          .SelectMany(y => y.Releases).ToArray();
 
       var username = args.UserName;
       var password = args.Password;
