@@ -503,18 +503,7 @@
         {
           var childrenButtons = new List<KeyValuePair<string, IMainWindowButton>>();
           splitButton.Tag = childrenButtons;
-          splitButton.Click += (sender, args) =>
-          {
-            IEnumerable<string> options = childrenButtons.Where(x => x.Value.IsEnabled(window, SelectedInstance)).Select(x => x.Key);
-            var result = WindowHelper.AskForSelection(header, header, "Choose desired action", options, window, null, null, true);
-            if (result == null)
-            {
-              return;
-            }
-
-            var pair = childrenButtons.Single(x => x.Key == result);
-            pair.Value.OnClick(window, SelectedInstance);
-          };
+          splitButton.Click += (sender, args) => splitButton.IsDropDownOpen = true;
         }
 
         ribbonGroup.Items.Add(splitButton);

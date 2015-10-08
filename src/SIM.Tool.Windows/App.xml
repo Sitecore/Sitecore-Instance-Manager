@@ -173,7 +173,7 @@
           </button>
         </group>
         <group name="Backup">
-          <button       label="Backup"                                              largeImage="/Images/$lg/floppy_disks.png, SIM.Tool.Windows"                type="SIM.Tool.Windows.MainWindowComponents.BackupInstanceButton, SIM.Tool.Windows">
+          <button       label="Backup"                                              largeImage="/Images/$lg/floppy_disks.png, SIM.Tool.Windows">
             <button     label="Backup"                                              largeImage="/Images/$sm/box_into.png, SIM.Tool.Windows"                    type="SIM.Tool.Windows.MainWindowComponents.BackupInstanceButton, SIM.Tool.Windows" />
             <button     label="Export"                                              largeImage="/Images/$lg/download.png, SIM.Tool.Windows"                    type="SIM.Tool.Windows.MainWindowComponents.ExportInstanceButton, SIM.Tool.Windows" />
           </button>
