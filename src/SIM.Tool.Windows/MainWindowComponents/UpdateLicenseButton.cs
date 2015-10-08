@@ -13,7 +13,7 @@
 
     public bool IsEnabled(Window mainWindow, Instance instance)
     {
-      return instance != null;
+      return true;
     }
 
     public void OnClick(Window mainWindow, Instance instance)
