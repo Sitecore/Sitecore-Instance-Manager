@@ -61,6 +61,9 @@ namespace SIM.Tool.Windows
     [NotNull]
     public static readonly AdvancedProperty<int> AppUiMainWindowWidth = AdvancedSettings.Create("App/UI/MainWindowWidth", -1);
 
+    [NotNull]
+    public static readonly AdvancedProperty<string> AppNuGetDirectory = AdvancedSettings.Create("App/NuGet/Directory", "%PROGRAMDATA%\\Sitecore\\NuGet");
+
     #endregion
   }
 }

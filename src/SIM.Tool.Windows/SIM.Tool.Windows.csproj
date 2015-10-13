@@ -55,6 +55,9 @@
       <HintPath>..\packages\Microsoft.Web.Administration.7.0.0.0\lib\net20\Microsoft.Web.Administration.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Microsoft.Web.XmlTransform">
+      <HintPath>..\packages\Microsoft.Web.Xdt.2.1.1\lib\net40\Microsoft.Web.XmlTransform.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Windows.Shell, Version=3.5.41019.1, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Fluent.Ribbon.3.5.1.198\lib\net40\Microsoft.Windows.Shell.dll</HintPath>
@@ -62,6 +65,10 @@
     <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="NuGet.Core, Version=2.8.60717.93, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\NuGet.Core.2.8.6\lib\net40-Client\NuGet.Core.dll</HintPath>
     </Reference>
     <Reference Include="Sitecore.Diagnostics.Base, Version=1.0.0.0, Culture=neutral, PublicKeyToken=2a430da507ea8b02, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -74,6 +81,9 @@
     <Reference Include="Sitecore.Diagnsotics.InformationService.Client, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f9a5856b52eceddf, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Sitecore.Diagnsotics.InformationService.Client.1.0.0.130\lib\net40\Sitecore.Diagnsotics.InformationService.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.NuGet.Core">
+      <HintPath>..\packages\Sitecore.NuGet.Core.1.0.0\lib\Sitecore.NuGet.Core.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -121,6 +131,7 @@
     <Compile Include="MainWindowComponents\Download8Button.cs" />
     <Compile Include="MainWindowComponents\DownloadButton.cs" />
     <Compile Include="MainWindowComponents\ExportInstanceButton.cs" />
+    <Compile Include="MainWindowComponents\GenerateNuGetPackagesButton.cs" />
     <Compile Include="MainWindowComponents\ImportInstanceButton.cs" />
     <Compile Include="MainWindowComponents\InstallInstanceButton.cs" />
     <Compile Include="MainWindowComponents\InstallModulesButton.cs" />
@@ -444,6 +455,10 @@
     <Resource Include="Images\24\atom2.png" />
     <Resource Include="Images\32\atom2.png" />
     <Resource Include="Images\48\atom2.png" />
+    <Resource Include="Images\48\new_package.png" />
+    <Resource Include="Images\32\new_package.png" />
+    <Resource Include="Images\24\new_package.png" />
+    <Resource Include="Images\16\new_package.png" />
     <Content Include="Packages\DMS - Fix Integrity.zip">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
