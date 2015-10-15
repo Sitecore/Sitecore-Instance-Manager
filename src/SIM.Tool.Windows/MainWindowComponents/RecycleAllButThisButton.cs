@@ -7,6 +7,7 @@
   using SIM.Tool.Base.Plugins;
   using Sitecore.Diagnostics;
   using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnostics.Logging;
 
   [UsedImplicitly]
   public class RecycleAllButThisButton : IMainWindowButton
@@ -37,12 +38,12 @@
             continue;
           }
 
-          Log.Info("Recycling instance " + otherInstance, this);
+          Log.Info("Recycling instance {0}",  otherInstance);
           otherInstance.Recycle();
         }
         catch (Exception ex)
         {
-          Log.Warn("An error occurred", this, ex);
+          Log.Warn(ex, "An error occurred");
         }
       }
     }

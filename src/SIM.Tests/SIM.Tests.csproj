@@ -33,10 +33,16 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="log4net">
+    <Reference Include="log4net, Version=1.2.13.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="Sitecore.Diagnostics.Logging, Version=1.0.0.0, Culture=neutral, PublicKeyToken=8e71e5db3070b7f5, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Sitecore.Diagnostics.Logging.1.0.0.15\lib\net40\Sitecore.Diagnostics.Logging.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -51,14 +57,10 @@
   <ItemGroup>
     <Compile Include="Base\ExtensionsTest.cs" />
     <Compile Include="Base\FileSystemTest.cs" />
-    <Compile Include="Base\ProfileSectionTest.cs" />
     <Compile Include="Base\XmlDocumentExTest.cs" />
     <Compile Include="Instances\VisualStudioHelperTests.cs" />
     <Compile Include="Instances\InstanceTest.cs" />
-    <Compile Include="Pipelines\PipelineManagerTest.cs" />
-    <Compile Include="Pipelines\ProductTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TestHelper.cs" />
     <Compile Include="Tool\Base\InstanceHelperExTests.cs" />
   </ItemGroup>
   <ItemGroup>

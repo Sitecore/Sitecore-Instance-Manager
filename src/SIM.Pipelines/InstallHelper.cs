@@ -7,6 +7,7 @@
   using SIM.Pipelines.Install;
   using Sitecore.Diagnostics;
   using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnostics.Logging;
 
   public static class InstallHelper
   {
@@ -17,7 +18,7 @@
       Assert.ArgumentNotNull(databasesFolderPath, "databasesFolderPath");
       Assert.ArgumentNotNull(dataFolderPath, "dataFolderPath");
 
-      Log.Info("Extracting {0}".FormatWith(packagePath), typeof(InstallHelper));
+      Log.Info("Extracting {0}", packagePath);
       var ignore = Settings.CoreInstallRadControls.Value ? ":#!" : "sitecore/shell/RadControls";
 
       var ignore2 = Settings.CoreInstallDictionaries.Value ? ":#!" : "sitecore/shell/Controls/Rich Text Editor/Dictionaries";
@@ -125,7 +126,7 @@
             }
             else
             {
-              Log.Warn("Unexpected file or directory is ignored: " + fileName, typeof(InstallHelper));
+              Log.Warn("Unexpected file or directory is ignored: {0}",  fileName);
             }
           }
         }

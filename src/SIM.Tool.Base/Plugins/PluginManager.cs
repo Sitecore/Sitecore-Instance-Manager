@@ -8,6 +8,7 @@
   using System.Windows;
   using System.Xml;
   using SIM.Tool.Base.Profiles;
+  using Sitecore.Diagnostics.Logging;
 
   public class PluginManager
   {
@@ -35,7 +36,7 @@
 
     public static void ExecuteInitProcessors()
     {
-      using (new ProfileSection("Execute <init> processors for plugins", typeof(PluginManager)))
+      using (new ProfileSection("Execute <init> processors for plugins"))
       {
         foreach (var plugin in PluginManager.GetEnabledPlugins())
         {
@@ -60,7 +61,7 @@
         }
         catch (Exception ex)
         {
-          PluginManager.HandleError(plugin, ex);
+          PluginManager.HandleError(ex, plugin);
         }
       }
     }
@@ -88,18 +89,18 @@
       return Plugins.Where(plugin => selected.Contains(plugin.PluginFolder));
     }
 
-    public static void HandleError(Plugin plugin, Exception ex)
+    public static void HandleError(Exception ex, Plugin plugin)
     {
       WindowHelper.HandleError(
         "The '{0}' plugin failed with exception while initialization. {1}"
           .FormatWith(plugin.PluginFolder, ex.InnerException != null ? ex.InnerException.Message : string.Empty), 
-        true, ex, typeof(PluginManager));
+        true, ex);
     }
 
     // For every enabled plugin executes the MainWindow:Loaded event.
     public static void Initialize()
     {
-      using (new ProfileSection("Initializing plugins", typeof(PluginManager)))
+      using (new ProfileSection("Initializing plugins"))
       {
         EnableStockPluginsOnce();
         LoadEnabledPlugins();
@@ -136,7 +137,7 @@
       }
       catch (Exception ex)
       {
-        Log.Error("Enable stock plugins failed", typeof(PluginManager), ex);
+        Log.Error(ex, "Enable stock plugins failed");
       }
     }
 
@@ -155,7 +156,7 @@
 
     private static void ExecuteInitProcessor(XmlElement processorNode)
     {
-      using (new ProfileSection("Execute <init> processor", typeof(PluginManager)))
+      using (new ProfileSection("Execute <init> processor"))
       {
         ProfileSection.Argument("processorNode", processorNode);
 
@@ -177,7 +178,7 @@
 
     private static void ExecuteInitProcessors(Plugin plugin)
     {
-      using (new ProfileSection("Execute <init> processors for plugins", typeof(PluginManager)))
+      using (new ProfileSection("Execute <init> processors for plugins"))
       {
         ProfileSection.Argument("plugin", plugin);
 
@@ -195,7 +196,7 @@
         }
         catch (Exception ex)
         {
-          HandleError(plugin, ex);
+          HandleError(ex, plugin);
 
           ProfileSection.Result("Failed");
         }
@@ -204,7 +205,7 @@
 
     private static void LoadEnabledPlugin(Plugin plugin)
     {
-      using (new ProfileSection("Loading enabled plugin", typeof(PluginManager)))
+      using (new ProfileSection("Loading enabled plugin"))
       {
         ProfileSection.Argument("plugin", plugin);
 
@@ -223,7 +224,7 @@
 
     private static void LoadEnabledPlugins()
     {
-      using (new ProfileSection("Load enabled plugins", typeof(PluginManager)))
+      using (new ProfileSection("Load enabled plugins"))
       {
         foreach (var plugin in GetEnabledPlugins())
         {

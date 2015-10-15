@@ -6,6 +6,8 @@ using Sitecore.Diagnostics;
 
 namespace SIM
 {
+  using Sitecore.Diagnostics.Logging;
+
   public static class CacheManager
   {
     #region Fields
@@ -136,7 +138,7 @@ namespace SIM
         }
         catch (Exception ex)
         {
-          Log.Warn("The {0} cache is corrupted and will be deleted".FormatWith(path), typeof(CacheManager), ex);
+          Log.Warn(ex, "The {0} cache is corrupted and will be deleted", path);
           FileSystem.FileSystem.Local.File.Delete(path);
         }
       }

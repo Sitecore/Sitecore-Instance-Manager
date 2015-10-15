@@ -5,6 +5,7 @@
   using System.IO;
   using System.Linq;
   using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnostics.Logging;
 
   public static class VisualStudioHelper
   {
@@ -28,7 +29,7 @@
         }
         catch (Exception ex)
         {
-          Log.Error("Visual Studio project distinction failed on {0} file".FormatWith(filePath), typeof(InstanceHelper), ex);
+          Log.Error(ex, "Visual Studio project distinction failed on {0} file", filePath);
         }
       }
 
@@ -47,7 +48,7 @@
           var commaPos = line.IndexOf(',');
           if (commaPos < 0)
           {
-            Log.Warn("File {0} seems to be corrupted, line: {1}".FormatWith(filePath, line), typeof(InstanceHelper));
+            Log.Warn("File {0} seems to be corrupted, line: {1}", filePath, line);
             continue;
           }
 
@@ -55,7 +56,7 @@
           var quotePos = str.IndexOf('"');
           if (quotePos < 0)
           {
-            Log.Warn("File {0} seems to be corrupted, line: {1}".FormatWith(filePath, line), typeof(InstanceHelper));
+            Log.Warn("File {0} seems to be corrupted, line: {1}", filePath, line);
             continue;
           }
 

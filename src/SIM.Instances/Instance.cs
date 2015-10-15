@@ -15,6 +15,7 @@
   using SIM.Products;
   using Sitecore.Diagnostics;
   using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnostics.Logging;
 
   [Serializable]
   public class Instance : Website, IXmlSerializable
@@ -145,12 +146,12 @@
           var rootData = Path.Combine(this.DataFolderPath, "Indexes");
           if (FileSystem.FileSystem.Local.Directory.Exists(rootData))
           {
-            Log.Error("Cannot get indexes folder of " + this.WebRootPath, this, ex);
+            Log.Error(ex, "Cannot get indexes folder of {0}",  this.WebRootPath);
 
             return rootData;
           }
 
-          throw new InvalidOperationException("Cannot get indexes folder of " + this.WebRootPath, ex);
+          throw new InvalidOperationException("Cannot get indexes folder of " + this.WebRootPath);
         }
       }
     }
@@ -180,12 +181,12 @@
           var rootData = Path.Combine(this.DataFolderPath, "license.xml");
           if (FileSystem.FileSystem.Local.File.Exists(rootData))
           {
-            Log.Error("Cannot get license file of " + this.WebRootPath, this, ex);
+            Log.Error(ex, "Cannot get license file of {0}",  this.WebRootPath);
 
             return rootData;
           }
 
-          throw new InvalidOperationException("Cannot get license file of " + this.WebRootPath, ex);
+          throw new InvalidOperationException("Cannot get license file of " + this.WebRootPath);
         }
       }
     }
@@ -224,12 +225,12 @@
           var rootData = Path.Combine(this.DataFolderPath, "Packages");
           if (FileSystem.FileSystem.Local.Directory.Exists(rootData))
           {
-            Log.Error("Cannot get packages folder of " + this.WebRootPath, this, ex);
+            Log.Error(ex, "Cannot get packages folder of {0}",  this.WebRootPath);
 
             return rootData;
           }
 
-          throw new InvalidOperationException("Cannot get packages folder of " + this.WebRootPath, ex);
+          throw new InvalidOperationException("Cannot get packages folder of " + this.WebRootPath);
         }
       }
     }
@@ -277,12 +278,12 @@
           var rootData = Path.Combine(this.DataFolderPath, "Serialization");
           if (FileSystem.FileSystem.Local.Directory.Exists(rootData))
           {
-            Log.Error("Cannot get serialization folder of " + this.WebRootPath, this, ex);
+            Log.Error(ex, "Cannot get serialization folder of {0}",  this.WebRootPath);
 
             return rootData;
           }
 
-          throw new InvalidOperationException("Cannot get serialization folder of " + this.WebRootPath, ex);
+          throw new InvalidOperationException("Cannot get serialization folder of " + this.WebRootPath);
         }
       }
     }
@@ -570,12 +571,12 @@
           var rootData = Path.Combine(Path.GetDirectoryName(this.WebRootPath), "Data");
           if (FileSystem.FileSystem.Local.Directory.Exists(rootData))
           {
-            Log.Error("Cannot get data folder of " + this.WebRootPath, this, ex);
+            Log.Error(ex, "Cannot get data folder of {0}",  this.WebRootPath);
 
             return rootData;
           }
 
-          throw new InvalidOperationException("Cannot get data folder of " + this.WebRootPath, ex);
+          throw new InvalidOperationException("Cannot get data folder of " + this.WebRootPath);
         }
       }
     }
@@ -588,7 +589,7 @@
       }
       catch (Exception ex)
       {
-        Log.Warn("An error occurred during checking if it is sitecore", this, ex);
+        Log.Warn(ex, "An error occurred during checking if it is sitecore");
 
         return false;
       }
@@ -610,12 +611,12 @@
           var dataLogs = Path.Combine(this.DataFolderPath, "logs");
           if (FileSystem.FileSystem.Local.Directory.Exists(dataLogs))
           {
-            Log.Error("Cannot get logs folder of " + this.WebRootPath, this, ex);
+            Log.Error(ex, "Cannot get logs folder of {0}",  this.WebRootPath);
 
             return dataLogs;
           }
 
-          throw new InvalidOperationException("Cannot get logs folder of " + this.WebRootPath, ex);
+          throw new InvalidOperationException("Cannot get logs folder of " + this.WebRootPath);
         }
       }
     }
@@ -629,19 +630,16 @@
 
         foreach (var database in databases)
         {
-          Log.Debug("Database: " + database);
+          Log.Debug("Database: {0}",  database);
           string fileName = database.FileName;
           if (string.IsNullOrEmpty(fileName))
           {
-            Log.Warn(
-              "The {0} database seems to be detached since it doesn't have a FileName property filled in".FormatWith(
-                database.RealName), typeof(string));
+            Log.Warn("The {0} database seems to be detached since it doesn't have a FileName property filled in", database.RealName);
             continue;
           }
 
           Log.Debug(
-            "name: {0}, fileName: {1}".FormatWith(database.Name, fileName), 
-            typeof(Instance));
+            "name: {0}, fileName: {1}", database.Name, fileName);
           var folder = Path.GetDirectoryName(fileName);
           if (folder.ContainsIgnoreCase(webRootPath))
           {
@@ -717,12 +715,12 @@
           var rootData = Path.GetDirectoryName(this.WebRootPath);
           if (FileSystem.FileSystem.Local.Directory.Exists(rootData))
           {
-            Log.Error("Cannot get root folder of " + this.WebRootPath, this, ex);
+            Log.Error(ex, "Cannot get root folder of {0}",  this.WebRootPath);
 
             return rootData;
           }
 
-          throw new InvalidOperationException("Cannot get root folder of " + this.WebRootPath, ex);
+          throw new InvalidOperationException("Cannot get root folder of " + this.WebRootPath);
         }
       }
     }
@@ -747,12 +745,12 @@
           var websiteTemp = Path.Combine(this.WebRootPath, "temp");
           if (FileSystem.FileSystem.Local.Directory.Exists(websiteTemp))
           {
-            Log.Error("Cannot get temp folder of " + this.WebRootPath, this, ex);
+            Log.Error(ex, "Cannot get temp folder of {0}",  this.WebRootPath);
 
             return websiteTemp;
           }
 
-          throw new InvalidOperationException("Cannot get temp folder of " + this.WebRootPath, ex);
+          throw new InvalidOperationException("Cannot get temp folder of " + this.WebRootPath);
         }
       }
     }

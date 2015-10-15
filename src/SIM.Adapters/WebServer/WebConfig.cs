@@ -13,6 +13,7 @@
   using SIM.Properties;
   using Sitecore.Diagnostics;
   using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnostics.Logging;
 
   #endregion
 
@@ -37,7 +38,7 @@
     {
       Assert.ArgumentNotNullOrEmpty(webRootPath, "webRootPath");
 
-      using (new ProfileSection("Get databases from web.config", typeof(WebConfig)))
+      using (new ProfileSection("Get databases from web.config"))
       {
         ProfileSection.Argument("webRootPath", webRootPath);
         ProfileSection.Argument("webConfigDocument", webConfigDocument);
@@ -47,17 +48,17 @@
         XmlElement connectionStringsNode = webConfigDocument.SelectSingleNode("/configuration/connectionStrings") as XmlElement;
         if (connectionStringsNode != null)
         {
-          Log.Debug("WebConfig:GetDatabases(...)#connectionStringsNode: " + connectionStringsNode.OuterXml);
+          Log.Debug("WebConfig:GetDatabases(...)#connectionStringsNode: {0}",  connectionStringsNode.OuterXml);
           AddDatabases(connectionStringsNode, databases);
           string configSourceValue = connectionStringsNode.GetAttribute("configSource");
-          Log.Debug("WebConfig:GetDatabases(...)#configSourceValue: " + configSourceValue);
+          Log.Debug("WebConfig:GetDatabases(...)#configSourceValue: {0}",  configSourceValue);
           if (string.IsNullOrEmpty(configSourceValue))
           {
             return databases;
           }
 
           string filePath = Path.Combine(webRootPath, configSourceValue);
-          Log.Debug("WebConfig:GetDatabases(...)#filePath: " + filePath);
+          Log.Debug("WebConfig:GetDatabases(...)#filePath: {0}",  filePath);
           if (!FileSystem.FileSystem.Local.File.Exists(filePath))
           {
             return databases;
@@ -80,7 +81,7 @@
     {
       Assert.ArgumentNotNullOrEmpty(webRootPath, "webRootPath");
 
-      using (new ProfileSection("Get mongo databases from web.config", typeof(WebConfig)))
+      using (new ProfileSection("Get mongo databases from web.config"))
       {
         ProfileSection.Argument("webRootPath", webRootPath);
         ProfileSection.Argument("webConfigDocument", webConfigDocument);
@@ -90,17 +91,17 @@
         XmlElement connectionStringsNode = webConfigDocument.SelectSingleNode("/configuration/connectionStrings") as XmlElement;
         if (connectionStringsNode != null)
         {
-          Log.Debug("WebConfig:GetDatabases(...)#connectionStringsNode: " + connectionStringsNode.OuterXml);
+          Log.Debug("WebConfig:GetDatabases(...)#connectionStringsNode: {0}",  connectionStringsNode.OuterXml);
           AddMongoDatabases(connectionStringsNode, databases);
           string configSourceValue = connectionStringsNode.GetAttribute("configSource");
-          Log.Debug("WebConfig:GetDatabases(...)#configSourceValue: " + configSourceValue);
+          Log.Debug("WebConfig:GetDatabases(...)#configSourceValue: {0}",  configSourceValue);
           if (string.IsNullOrEmpty(configSourceValue))
           {
             return databases;
           }
 
           string filePath = Path.Combine(webRootPath, configSourceValue);
-          Log.Debug("WebConfig:GetDatabases(...)#filePath: " + filePath);
+          Log.Debug("WebConfig:GetDatabases(...)#filePath: {0}",  filePath);
           if (!FileSystem.FileSystem.Local.File.Exists(filePath))
           {
             return databases;
@@ -124,7 +125,7 @@
       Assert.ArgumentNotNull(webConfig, "webConfig");
       Assert.ArgumentNotNull(variableName, "variableName");
 
-      using (new ProfileSection("Get Sitecore variable", typeof(WebConfig)))
+      using (new ProfileSection("Get Sitecore variable"))
       {
         ProfileSection.Argument("webConfig", webConfig);
         ProfileSection.Argument("variableName", variableName);
@@ -145,7 +146,7 @@
         }
         catch (Exception ex)
         {
-          Log.Warn("Cannot get sc variable {0}".FormatWith(variableName), typeof(WebConfig), ex);
+          Log.Warn(ex, "Cannot get sc variable {0}", variableName);
         }
 
         return ProfileSection.Result<string>(null);
@@ -189,7 +190,7 @@
       Assert.ArgumentNotNull(connectionStringsNode, "connectionStringsNode");
       Assert.ArgumentNotNull(databases, "databases");
 
-      using (new ProfileSection("Add databases to web.config", typeof(WebConfig)))
+      using (new ProfileSection("Add databases to web.config"))
       {
         ProfileSection.Argument("connectionStringsNode", connectionStringsNode);
         ProfileSection.Argument("databases", databases);
@@ -198,13 +199,13 @@
         if (nodes != null && nodes.Count > 0)
         {
           var elements = nodes.OfType<XmlElement>().ToArray();
-          Log.Debug("WebConfig:AddDatabases(...)#elements.Length: " + elements.Length);
+          Log.Debug("WebConfig:AddDatabases(...)#elements.Length: {0}",  elements.Length);
           foreach (XmlElement node in elements)
           {
             string name;
 
             string value = node.GetAttribute("connectionString");
-            Log.Debug("WebConfig:AddDatabases(...)#value: " + value);
+            Log.Debug("WebConfig:AddDatabases(...)#value: {0}",  value);
 
             if (!SqlServerManager.Instance.IsSqlConnectionString(value))
             {
@@ -212,13 +213,13 @@
             }
 
             name = node.GetAttribute("name");
-            Log.Debug("WebConfig:AddDatabases(...)#name: " + name);
+            Log.Debug("WebConfig:AddDatabases(...)#name: {0}",  name);
 
             if (!string.IsNullOrEmpty(value))
             {
               SqlConnectionStringBuilder connectionString = new SqlConnectionStringBuilder(value);
               string realName = GetDatabaseName(connectionString);
-              Log.Debug("WebConfig:AddDatabases(...)#realName: " + realName);
+              Log.Debug("WebConfig:AddDatabases(...)#realName: {0}",  realName);
               if (!string.IsNullOrEmpty(realName))
               {
                 if (!string.IsNullOrEmpty(name) && !string.IsNullOrEmpty(realName))
@@ -244,7 +245,7 @@
       Assert.ArgumentNotNull(connectionStringsNode, "connectionStringsNode");
       Assert.ArgumentNotNull(databases, "databases");
 
-      using (new ProfileSection("Add mongo databases to web.config", typeof(WebConfig)))
+      using (new ProfileSection("Add mongo databases to web.config"))
       {
         ProfileSection.Argument("connectionStringsNode", connectionStringsNode);
         ProfileSection.Argument("databases", databases);
@@ -253,11 +254,11 @@
         if (nodes != null && nodes.Count > 0)
         {
           var elements = nodes.OfType<XmlElement>().ToArray();
-          Log.Debug("WebConfig:AddMongoDatabases(...)#elements.Length: " + elements.Length);
+          Log.Debug("WebConfig:AddMongoDatabases(...)#elements.Length: {0}",  elements.Length);
           foreach (XmlElement node in elements)
           {
             string value = node.GetAttribute("connectionString");
-            Log.Debug("WebConfig:AddMongoDatabases(...)#value: " + value);
+            Log.Debug("WebConfig:AddMongoDatabases(...)#value: {0}",  value);
 
             if (SqlServerManager.Instance.IsSqlConnectionString(value))
             {
@@ -265,7 +266,7 @@
             }
 
             var name = node.GetAttribute("name");
-            Log.Debug("WebConfig:AddMongoDatabases(...)#name: " + name);
+            Log.Debug("WebConfig:AddMongoDatabases(...)#name: {0}",  name);
 
             databases.Add(new MongoDbDatabase(name, value));
           }

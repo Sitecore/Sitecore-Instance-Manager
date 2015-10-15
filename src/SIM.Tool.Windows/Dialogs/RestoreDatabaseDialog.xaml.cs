@@ -8,6 +8,8 @@ using SIM.Tool.Base.Profiles;
 
 namespace SIM.Tool.Windows.Dialogs
 {
+  using Sitecore.Diagnostics.Logging;
+
   public partial class RestoreDatabaseDialog : Window
   {
     #region Fields
@@ -116,7 +118,7 @@ namespace SIM.Tool.Windows.Dialogs
       }
       catch (Exception ex)
       {
-        Log.Warn(string.Format("Cannot get information from '{0}' backup", dialog.FileName), typeof(int), ex);
+        Log.Warn(ex, "Cannot get information from '{0}' backup", dialog.FileName);
         WindowHelper.ShowMessage("Cannot get information from backup!", MessageBoxButton.OK, MessageBoxImage.Warning, MessageBoxResult.OK);
       }
     }

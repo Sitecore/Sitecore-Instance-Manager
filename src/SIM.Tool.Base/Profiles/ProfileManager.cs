@@ -6,6 +6,7 @@
   using System.Xml.Serialization;
   using Sitecore.Diagnostics;
   using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnostics.Logging;
 
   #region
 
@@ -41,7 +42,7 @@
         }
         catch (Exception ex)
         {
-          Log.Warn("The profile is invalid", typeof(ProfileManager), ex);
+          Log.Warn(ex, "The profile is invalid");
 
           return false;
         }
@@ -79,7 +80,7 @@
       }
       catch (Exception ex)
       {
-        Log.Warn("An error occurred during reading profile", typeof(ProfileManager), ex);
+        Log.Warn(ex, "An error occurred during reading profile");
 
         FileSystem.FileSystem.Local.Directory.TryDelete(profileFilePath);
         return null;

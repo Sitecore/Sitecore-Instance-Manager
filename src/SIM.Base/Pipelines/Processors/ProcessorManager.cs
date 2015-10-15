@@ -6,6 +6,7 @@
   using System.Xml;
   using Sitecore.Diagnostics;
   using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnostics.Logging;
 
   #region
 
@@ -67,7 +68,7 @@
         }
         catch (Exception ex)
         {
-          Log.Error("Error during evaluating steps count of " + item.GetType().FullName, typeof(ProcessorManager), ex);
+          Log.Error(ex, "Error during evaluating steps count of {0}",  item.GetType().FullName);
         }
 
         return itemStepsCount + GetProcessorsCount(args, item.NestedProcessors);
@@ -96,7 +97,7 @@
           }
           catch (Exception ex)
           {
-            Log.Warn("Cannot detect if the processor {0} requires processing".FormatWith(processor.ProcessorDefinition.Type), typeof(ProcessorManager), ex);
+            Log.Warn(ex, "Cannot detect if the processor {0} requires processing", processor.ProcessorDefinition.Type);
           }
 
           if (isRequireProcessing)

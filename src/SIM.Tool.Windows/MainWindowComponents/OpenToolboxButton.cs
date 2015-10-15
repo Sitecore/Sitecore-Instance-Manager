@@ -59,7 +59,7 @@
         var product = Product.GetFilePackageProduct(Path.Combine(ApplicationManager.DefaultPackages, PackageName)) ?? Product.GetFilePackageProduct(Path.Combine(ApplicationManager.FilePackagesFolder, PackageName));
         if (product == null)
         {
-          WindowHelper.HandleError("The " + PackageName + " package cannot be found in either the .\\File Packages folder or %appdata%\\Sitecore\\Sitecore Instance Manager\\Custom Packages one", false, null, this);
+          WindowHelper.HandleError("The " + PackageName + " package cannot be found in either the .\\File Packages folder or %appdata%\\Sitecore\\Sitecore Instance Manager\\Custom Packages one", false, null);
           return;
         }
 

@@ -19,6 +19,7 @@
   using SIM.Tool.Base.Wizards;
   using Sitecore.Diagnostics;
   using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnostics.Logging;
 
   #region
 

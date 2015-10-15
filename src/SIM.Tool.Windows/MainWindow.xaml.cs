@@ -14,6 +14,7 @@
   using SIM.Tool.Windows.MainWindowComponents;
   using Sitecore.Diagnostics;
   using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnostics.Logging;
 
   #region
 
@@ -37,7 +38,7 @@
     {
       this.InitializeComponent();
 
-      using (new ProfileSection("Main window ctor", typeof(MainWindow)))
+      using (new ProfileSection("Main window ctor"))
       {
         Instance = this;
         if (WindowsSettings.AppUiMainWindowWidth.Value <= 0)
@@ -110,7 +111,7 @@
         }
         catch (Exception ex)
         {
-          Log.Error("Failed to update statistics internal identifier", this, ex);
+          Log.Error(ex, "Failed to update statistics internal identifier");
         }
       }));
     }
@@ -200,7 +201,7 @@
       }
       catch (Exception ex)
       {
-        Log.Warn("Failed to compute internal identifier", this, ex);
+        Log.Warn(ex, "Failed to compute internal identifier");
       }
 
       string cookie = GetCookie();
@@ -500,7 +501,7 @@
         }
         catch (Exception ex)
         {
-          Log.Error("Err", this, ex);
+          Log.Error(ex, "Err");
         }
       }
     }

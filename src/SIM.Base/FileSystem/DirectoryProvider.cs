@@ -8,6 +8,8 @@ using Sitecore.Diagnostics.Annotations;
 
 namespace SIM.FileSystem
 {
+  using Sitecore.Diagnostics.Logging;
+
   public class DirectoryProvider
   {
     #region Fields
@@ -83,7 +85,7 @@ namespace SIM.FileSystem
     {
       // TODO: Refactor this to edit attributes only on problem files and folders
       Assert.ArgumentNotNull(path, "path");
-      Log.Info("Deleting file or folder: {0}".FormatWith(path), typeof(FileSystem));
+      Log.Info("Deleting file or folder: {0}", path);
 
       if (!string.IsNullOrEmpty(path))
       {
@@ -105,7 +107,7 @@ namespace SIM.FileSystem
           }
           catch (Exception ex)
           {
-            Log.Warn("Failed to delete {0} folder, altering attributes and trying again".FormatWith(path), typeof(FileSystem), ex);
+            Log.Warn(ex, "Failed to delete {0} folder, altering attributes and trying again", path);
             Thread.Sleep(100);
             foreach (var fileSystemInfo in directoryInfo.GetFileSystemInfos("*", SearchOption.AllDirectories))
             {
@@ -188,7 +190,7 @@ namespace SIM.FileSystem
 
       if (!Directory.Exists(folder))
       {
-        Log.Info("Creating folder {0}".FormatWith(folder), typeof(FileSystem));
+        Log.Info("Creating folder {0}", folder);
         Directory.CreateDirectory(folder);
       }
 
@@ -408,7 +410,7 @@ namespace SIM.FileSystem
       }
       catch (Exception ex)
       {
-        Log.Warn("Cannot delete the {0} file. {1}".FormatWith(path, ex.Message), typeof(FileSystem), ex);
+        Log.Warn(ex, "Cannot delete the {0} file. {1}", path, ex.Message);
       }
     }
 

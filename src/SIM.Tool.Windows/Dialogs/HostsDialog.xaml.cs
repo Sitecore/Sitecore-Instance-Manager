@@ -98,7 +98,7 @@
       }
       catch (Exception ex)
       {
-        WindowHelper.HandleError("The exception occurred during window initialization - it will be closed then.", true, ex, this);
+        WindowHelper.HandleError("The exception occurred during window initialization - it will be closed then.", true, ex);
         this.Close();
       }
     }

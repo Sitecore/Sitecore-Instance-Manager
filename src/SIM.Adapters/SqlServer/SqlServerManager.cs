@@ -9,6 +9,7 @@
   using System.Net;
   using Sitecore.Diagnostics;
   using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnostics.Logging;
 
   #region
 
@@ -48,7 +49,7 @@
       Assert.ArgumentNotNullOrEmpty(path, "path");
       Assert.ArgumentNotNull(connectionString, "connectionString");
 
-      Log.Info("Attaching the '{0}' database with '{1}' filename".FormatWith(name, path), typeof(SqlServerManager));
+      Log.Info("Attaching the '{0}' database with '{1}' filename", name, path);
 
       var sqlServerAccountName = this.GetSqlServerAccountName(connectionString);
       FileSystem.FileSystem.Local.Security.EnsurePermissions(Path.GetDirectoryName(path), sqlServerAccountName);
@@ -68,7 +69,7 @@
 
     public virtual void BackupDatabase(SqlConnectionStringBuilder connectionString, string databaseName, string pathToBackup)
     {
-      Log.Info("Backuping the '{0}' database".FormatWith(databaseName), typeof(SqlServerManager));
+      Log.Info("Backuping the '{0}' database", databaseName);
 
       using (SqlConnection sqlConnection = this.OpenConnection(connectionString))
       {
@@ -99,7 +100,7 @@
 
     public virtual void CloseConnectionsToDatabase(string dbName, SqlConnection sqlConnection)
     {
-      Log.Info("Closing connection to the '{0}' database".FormatWith(dbName), typeof(SqlServerManager));
+      Log.Info("Closing connection to the '{0}' database", dbName);
       string command = string.Format("ALTER DATABASE [{0}] SET SINGLE_USER WITH ROLLBACK IMMEDIATE", dbName);
       this.Execute(sqlConnection, command);
     }
@@ -148,7 +149,7 @@
 
     public virtual void DetachDatabase(string realName, SqlConnectionStringBuilder connectionString)
     {
-      Log.Info("Detaching the '{0}' database".FormatWith(realName), typeof(SqlServerManager));
+      Log.Info("Detaching the '{0}' database", realName);
       using (SqlConnection sqlConnection = this.OpenConnection(connectionString))
       {
         this.CloseConnectionsToDatabase(realName, sqlConnection);
@@ -190,7 +191,7 @@
       Assert.ArgumentNotNull(sqlConnection, "sqlConnection");
       Assert.ArgumentNotNull(command, "command");
 
-      Log.Info("SQL query is executed: {0}".FormatWith(command), typeof(SqlServerManager));
+      Log.Info("SQL query is executed: {0}", command);
 
       using (SqlCommand sqlCmd = new SqlCommand(command, sqlConnection)
       {
@@ -420,8 +421,8 @@
       }
       catch (Exception ex)
       {
-        Log.Error("GetSqlServerAccountName", this, ex);
-        throw new InvalidOperationException("Cannot retrieve SQL Server Account Name", ex);
+        Log.Error(ex, "GetSqlServerAccountName");
+        throw new InvalidOperationException("Cannot retrieve SQL Server Account Name");
       }
     }
 
@@ -440,7 +441,7 @@
       }
       catch (Exception ex)
       {
-        Log.Warn("An error occurred during checking connection string {0}".FormatWith(connectionString.ToString()), this, ex);
+        Log.Warn(ex, "An error occurred during checking connection string {0}", connectionString.ToString());
 
         return false;
       }
@@ -490,7 +491,7 @@
 
         this.CloseConnectionsToDatabase(databaseName, connection);
 
-        Log.Info("Restoring database: {0}".FormatWith(databaseName), typeof(FileSystem.FileSystem));
+        Log.Info("Restoring database: {0}", databaseName);
         string restoreCommand = "RESTORE DATABASE [" + databaseName + "] FROM  DISK = N'" + backupFileName + "' WITH REPLACE, RECOVERY --force restore over specified database";
         this.Execute(connection, restoreCommand);
       }
@@ -529,7 +530,7 @@
           ldfName = backupInfo.logicalNameLdf;
         }
 
-        Log.Info("Restoring database: {0}".FormatWith(databaseName), typeof(FileSystem.FileSystem));
+        Log.Info("Restoring database: {0}", databaseName);
         string command = string.Format(@"
                         RESTORE DATABASE [{0}]
                         FROM DISK='{1}'
@@ -576,7 +577,7 @@
           ldfName = backupInfo.logicalNameLdf;
         }
 
-        Log.Info("Restoring database: {0}".FormatWith(databaseName), typeof(FileSystem.FileSystem));
+        Log.Info("Restoring database: {0}", databaseName);
         string command = string.Format(@"
                         RESTORE DATABASE [{0}]
                         FROM DISK='{1}'
@@ -618,7 +619,7 @@
       }
       catch (Exception ex)
       {
-        Log.Error("Cannot create a test database", this, ex);
+        Log.Error(ex, "Cannot create a test database");
 
         return false;
       }
@@ -638,7 +639,7 @@
       }
       catch (Exception ex)
       {
-        throw new InvalidOperationException("The provided SQL Server connection string isn't valid. Reason:\n\n" + ex.Message, ex);
+        throw new InvalidOperationException("The provided SQL Server connection string isn't valid. Reason:\n\n" + ex.Message);
       }
     }
 
@@ -720,7 +721,7 @@
       Assert.ArgumentNotNull(databaseName, "databaseName");
       Assert.ArgumentNotNull(connection, "connection");
 
-      Log.Info("Deleting database: '{0}'".FormatWith(databaseName), typeof(SqlServerManager));
+      Log.Info("Deleting database: '{0}'", databaseName);
 
       const string dropDatabase = "DROP DATABASE [{0}]";
 
@@ -731,7 +732,7 @@
       }
       catch (Exception ex)
       {
-        Log.Warn("An error occurred during database '{0}' deleting attempt. Retrying...", this, ex);
+        Log.Warn(ex, "An error occurred during database '{0}' deleting attempt. Retrying...");
         var command = "EXEC msdb.dbo.sp_delete_database_backuphistory @database_name = N'{0}'";
         this.Execute(connection, command.FormatWith(databaseName));
       }
@@ -756,7 +757,7 @@
             }
             catch (Exception ex)
             {
-              Log.Warn("Cannot get database file name for {0}".FormatWith(databaseName), typeof(SqlServerManager), ex);
+              Log.Warn(ex, "Cannot get database file name for {0}", databaseName);
             }
           }
         }

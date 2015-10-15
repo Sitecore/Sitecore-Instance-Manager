@@ -4,6 +4,7 @@
   using System.ComponentModel;
   using System.Runtime.InteropServices;
   using System.Threading;
+  using Sitecore.Diagnostics.Logging;
 
   public partial class ProgressDialog
   {
@@ -26,11 +27,11 @@
         }
         catch (ThreadInterruptedException)
         {
-          Log.Info("The thread was interrupted", this);
+          Log.Info("The thread was interrupted");
         }
         catch (Exception ex)
         {
-          WindowHelper.HandleError("The long running operation caused an exception", true, ex, this);
+          WindowHelper.HandleError("The long running operation caused an exception", true, ex);
         }
         finally
         {

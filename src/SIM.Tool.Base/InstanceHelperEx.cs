@@ -9,6 +9,7 @@ namespace SIM.Tool.Base
   using SIM.Instances;
   using Sitecore.Diagnostics;
   using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnostics.Logging;
 
   public static class InstanceHelperEx
   {
@@ -133,7 +134,7 @@ namespace SIM.Tool.Base
         }
         catch (Exception ex)
         {
-          Log.Error("Unhandled error happened while reopening log file", typeof(InstanceHelperEx), ex);
+          Log.Error(ex, "Unhandled error happened while reopening log file");
         }
         finally
         {
@@ -188,7 +189,7 @@ namespace SIM.Tool.Base
           const string openSitecoreLog = "Open Sitecore log file";
           const string openAnyway = "Open in browser";
           var message = "The instance returned an error. \n\n" + ex.Message;
-          Log.Error(message, typeof(WindowHelper), ex);
+          Log.Error(ex, message);
           var result = WindowHelper.AskForSelection("Running instance failed", null, message, 
             new[]
             {
@@ -197,7 +198,7 @@ namespace SIM.Tool.Base
           switch (result)
           {
             case openLog:
-              WindowHelper.OpenFile(Log.LogFilePath);
+              WindowHelper.OpenFile(ApplicationManager.LogsFolder);
               return false;
             case openSitecoreLog:
               OpenCurrentLogFile(instance, mainWindow);

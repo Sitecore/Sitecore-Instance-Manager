@@ -36,11 +36,12 @@
     <Reference Include="Ionic.Zip.Reduced">
       <HintPath>..\packages\DotNetZip.Reduced.1.9.1.8\lib\net20\Ionic.Zip.Reduced.dll</HintPath>
     </Reference>
-    <Reference Include="log4net">
-      <HintPath>..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
-    </Reference>
     <Reference Include="Sitecore.Diagnostics.Base">
       <HintPath>..\packages\Sitecore.Diagnostics.Base.1.0.0.14\lib\net35\Sitecore.Diagnostics.Base.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.Diagnostics.Logging, Version=1.0.0.0, Culture=neutral, PublicKeyToken=8e71e5db3070b7f5, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Sitecore.Diagnostics.Logging.1.0.0.15\lib\net40\Sitecore.Diagnostics.Logging.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
@@ -83,8 +84,6 @@
     <Compile Include="FileSystem\UncSecurityProvider.cs" />
     <Compile Include="FileSystem\UncZipProvider.cs" />
     <Compile Include="IAdvancedSettingsStorage.cs" />
-    <Compile Include="Log.cs" />
-    <Compile Include="LogFileAppender.cs" />
     <Compile Include="Parameters.cs" />
     <Compile Include="Pipelines\Pipeline.cs" />
     <Compile Include="Pipelines\PipelineController.cs" />
@@ -100,7 +99,6 @@
     <Compile Include="Pipelines\Processors\SingleProcessorDefinition.cs" />
     <Compile Include="Pipelines\Step.cs" />
     <Compile Include="Pipelines\StepDefinition.cs" />
-    <Compile Include="ProfileSection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\BResources.Designer.cs">
       <DependentUpon>BResources.resx</DependentUpon>
@@ -121,12 +119,6 @@
       <LastGenOutput>BResources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Log.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <SubType>Designer</SubType>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

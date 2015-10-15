@@ -12,6 +12,7 @@
   using SIM.Tool.Base.Profiles;
   using Sitecore.Diagnostics;
   using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnostics.Logging;
 
   public class EnvironmentHelper
   {
@@ -60,7 +61,7 @@
 
       try
       {
-        using (new ProfileSection("Check SQL Server", typeof(EnvironmentHelper)))
+        using (new ProfileSection("Check SQL Server"))
         {
           Profile profile = ProfileManager.Profile;
           Assert.IsNotNull(profile, "Profile is unavailable");
@@ -89,7 +90,7 @@
       }
       catch (Exception ex)
       {
-        Log.Warn("Failed to check SQL Server state", typeof(EnvironmentHelper), ex);
+        Log.Warn(ex, "Failed to check SQL Server state");
         return ProfileSection.Result(true);
       }
     }
@@ -111,7 +112,7 @@
 
     private static bool GetIsSitecoreMachine()
     {
-      using (new ProfileSection("IsSitecoreMachine", typeof(EnvironmentHelper)))
+      using (new ProfileSection("IsSitecoreMachine"))
       {
         try
         {
@@ -129,14 +130,14 @@
           }
           catch (Exception ex)
           {
-            Log.Warn("An error occurred during retrieving current domain name", typeof(EnvironmentHelper), ex);
+            Log.Warn(ex, "An error occurred during retrieving current domain name");
 
             return false;
           }
         }
         catch (Exception ex)
         {
-          Log.Error("Error getting error getting current domain", typeof(EnvironmentHelper), ex);
+          Log.Error(ex, "Error getting error getting current domain");
           return false;
         }
       }
@@ -167,7 +168,7 @@
       }
       catch (Exception ex)
       {
-        Log.Error("GetSqlServerServiceName", typeof(EnvironmentHelper), ex);
+        Log.Error(ex, "GetSqlServerServiceName");
         return null;
       }
     }

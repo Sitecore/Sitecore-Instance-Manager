@@ -11,6 +11,7 @@
   using SIM.Tool.Base;
   using Sitecore.Diagnostics;
   using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnostics.Logging;
 
   [UsedImplicitly]
   public class Download8Processor : Processor
@@ -55,7 +56,7 @@
 
           var destFileName = Path.Combine(localRepository, fileName);
           Assert.IsTrue(!FileSystem.FileSystem.Local.File.Exists(destFileName), "The {0} file already exists".FormatWith(destFileName));
-          Log.Info("Downloading " + destFileName, this);
+          Log.Info("Downloading {0}",  destFileName);
 
           if (this.TryCopyFromExternalRepository(fileName, destFileName))
           {
@@ -94,10 +95,10 @@
         }
         catch (Exception ex)
         {
-          Log.Warn("An error occurred during downloading files", this, ex);
+          Log.Warn(ex, "An error occurred during downloading files");
 
           cancellation.Cancel();
-          throw new InvalidOperationException("An unhandled exception happened during downloading '{0}' file".FormatWith(url), ex);
+          throw new InvalidOperationException("An unhandled exception happened during downloading '{0}' file".FormatWith(url));
         }
       }
     }
@@ -137,7 +138,7 @@
       {
         if (FileSystem.FileSystem.Local.File.Exists(filePath1))
         {
-          Log.Info("Downloading is skipped, the {0} file already exists".FormatWith(filePath1), this);
+          Log.Info("Downloading is skipped, the {0} file already exists", filePath1);
 
           return false;
         }
@@ -167,14 +168,14 @@
                 WindowHelper.CopyFileUI(externalRepositoryFilePath, destFileName, Microsoft.VisualBasic.FileIO.UIOption.AllDialogs, Microsoft.VisualBasic.FileIO.UICancelOption.ThrowException);
               }
 
-              Log.Info("Copying the {0} file has completed".FormatWith(fileName), this);
+              Log.Info("Copying the {0} file has completed", fileName);
               return true;
             }
           }
         }
         catch (Exception ex)
         {
-          Log.Warn("Unable to copy the {0} file from external repository".FormatWith(fileName), this, ex);
+          Log.Warn(ex, "Unable to copy the {0} file from external repository", fileName);
         }
       }
 

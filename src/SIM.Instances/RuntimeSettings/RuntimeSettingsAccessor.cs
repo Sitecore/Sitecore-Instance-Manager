@@ -8,6 +8,7 @@
   using SIM.Adapters.WebServer;
   using Sitecore.Diagnostics.Annotations;
   using Sitecore.Diagnostics.ConfigBuilder;
+  using Sitecore.Diagnostics.Logging;
 
   public class RuntimeSettingsAccessor
   {

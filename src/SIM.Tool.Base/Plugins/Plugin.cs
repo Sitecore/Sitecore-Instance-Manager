@@ -8,6 +8,7 @@ namespace SIM.Tool.Base.Plugins
   using System.Windows.Media;
   using System.Xml;
   using Sitecore.Diagnostics;
+  using Sitecore.Diagnostics.Logging;
 
   public class Plugin
   {
@@ -166,7 +167,7 @@ namespace SIM.Tool.Base.Plugins
         }
         catch (Exception ex)
         {
-          Log.Warn("An error occurred during getting assembly: " + assemblyPath, this, ex);
+          Log.Warn(ex, "An error occurred during getting assembly: {0}",  assemblyPath);
 
           return null;
         }

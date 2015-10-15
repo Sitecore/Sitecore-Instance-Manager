@@ -5,6 +5,7 @@ namespace SIM.Pipelines.Restore
   using System.Linq;
   using Sitecore.Diagnostics;
   using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnostics.Logging;
 
   [UsedImplicitly]
   public class RestoreMongoDatabases : RestoreProcessor
@@ -63,7 +64,7 @@ namespace SIM.Pipelines.Restore
         }
         catch (Exception ex)
         {
-          Log.Warn("An error occurred during starting an instance", this, ex);
+          Log.Warn(ex, "An error occurred during starting an instance");
         }
       }
 

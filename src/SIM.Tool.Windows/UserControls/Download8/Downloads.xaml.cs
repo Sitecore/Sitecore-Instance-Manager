@@ -10,6 +10,7 @@
   using SIM.Tool.Base.Profiles;
   using SIM.Tool.Base.Wizards;
   using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnostics.Logging;
   using Sitecore.Diagnsotics.InformationService.Client.Model;
 
   public partial class Downloads : IWizardStep, ICustomButton, IFlowControl
@@ -93,7 +94,7 @@
       }
       catch (Exception ex)
       {
-        Log.Error("Error while preparing data", this, ex);
+        Log.Error(ex, "Error while preparing data");
       }
     }
 

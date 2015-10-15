@@ -11,6 +11,7 @@ namespace SIM.Pipelines
   using SIM.Pipelines.Install;
   using Sitecore.Diagnostics;
   using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnostics.Logging;
 
   #endregion
 
@@ -78,7 +79,7 @@ namespace SIM.Pipelines
             throw;
           }
 
-          Log.Warn("Attaching reporting.secondary database failed. Skipping...", typeof(AttachDatabasesHelper), ex);
+          Log.Warn(ex, "Attaching reporting.secondary database failed. Skipping...");
         }
       }
     }

@@ -7,6 +7,7 @@
   using SIM.Pipelines.Processors;
   using Sitecore.Diagnostics;
   using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnostics.Logging;
 
   #region
 
@@ -65,7 +66,7 @@
       Assert.ArgumentNotNull(message, "message");
       Assert.ArgumentNotNull(args, "args");
 
-      using (new ProfileSection("Replace pipeline variables in message", typeof(Pipeline)))
+      using (new ProfileSection("Replace pipeline variables in message"))
       {
         ProfileSection.Argument("message", message);
         ProfileSection.Argument("args", args);
@@ -94,7 +95,7 @@
 
     public void Restart()
     {
-      using (new ProfileSection("Restart pipeline", typeof(Pipeline)))
+      using (new ProfileSection("Restart pipeline"))
       {
         this.Start();
       }
@@ -150,7 +151,7 @@
 
     private static void Execute([NotNull] PipelineStartInfo info)
     {
-      using (new ProfileSection("Execute pipeline processors", typeof(Pipeline)))
+      using (new ProfileSection("Execute pipeline processors"))
       {
         ProfileSection.Argument("info", info);
 
@@ -176,7 +177,7 @@
         }
         catch (Exception ex)
         {
-          Log.Warn("An error occurred during executing a pipeline", typeof(Pipeline), ex);
+          Log.Warn(ex, "An error occurred during executing a pipeline");
           info.ProcessorArgs.Dispose();
         }
       }
@@ -187,7 +188,7 @@
       Assert.ArgumentNotNull(args, "args");
       Assert.ArgumentNotNull(processorList, "processorList");
 
-      using (new ProfileSection("Execute pipeline processors", typeof(Pipeline)))
+      using (new ProfileSection("Execute pipeline processors"))
       {
         ProfileSection.Argument("args", args);
         ProfileSection.Argument("processorList", processorList);
@@ -226,7 +227,7 @@
       Assert.ArgumentNotNull(args, "args");
       Assert.ArgumentNotNull(steps, "steps");
 
-      using (new ProfileSection("Execute pipeline steps", typeof(Pipeline)))
+      using (new ProfileSection("Execute pipeline steps"))
       {
         ProfileSection.Argument("args", args);
         ProfileSection.Argument("steps", steps);

@@ -6,6 +6,8 @@ using Sitecore.Diagnostics;
 
 namespace SIM.CustomDataStoring
 {
+  using Sitecore.Diagnostics.Logging;
+
   /// <summary>
   ///   File system storage for bucket. It isn't thread safe, so you should sync access before accessing it.
   /// </summary>
@@ -34,7 +36,7 @@ namespace SIM.CustomDataStoring
       }
       catch (Exception ex)
       {
-        Log.Error("Unable to serialize custom data", this, ex);
+        Log.Error(ex, "Unable to serialize custom data");
         FileSystem.FileSystem.Local.File.Delete(filePath);
         return false;
       }
@@ -82,7 +84,7 @@ namespace SIM.CustomDataStoring
       }
       catch (Exception ex)
       {
-        Log.Error("Unable to deserialize custom data", this, ex);
+        Log.Error(ex, "Unable to deserialize custom data");
         FileSystem.FileSystem.Local.File.Delete(filePath);
         return null;
       }

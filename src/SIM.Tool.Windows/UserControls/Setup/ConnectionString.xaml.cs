@@ -46,12 +46,12 @@
       }
       catch (SqlException ex)
       {
-        WindowHelper.HandleError(ex.Message, false, ex, this);
+        WindowHelper.HandleError(ex.Message, false, ex);
         return false;
       }
       catch (Exception ex)
       {
-        WindowHelper.HandleError(ex.Message, true, ex, this);
+        WindowHelper.HandleError(ex.Message, true, ex);
         return false;
       }
       finally

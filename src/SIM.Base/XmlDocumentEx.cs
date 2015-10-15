@@ -8,8 +8,12 @@ using Sitecore.Diagnostics.Annotations;
 
 namespace SIM
 {
+  
+
 
   #region
+
+  using Sitecore.Diagnostics.Logging;
 
   #endregion
 
@@ -50,7 +54,7 @@ namespace SIM
       }
       catch (Exception ex)
       {
-        Log.Warn("Cannot load xml: {0}. {1}\r\n{2}".FormatWith(xml, ex.Message, Environment.StackTrace), typeof(XmlDocumentEx), ex);
+        Log.Warn(ex, "Cannot load xml: {0}. {1}\r\n{2}", xml, ex.Message, Environment.StackTrace);
         return null;
       }
     }

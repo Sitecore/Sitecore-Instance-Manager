@@ -77,7 +77,7 @@
 
           if (product == null)
           {
-            WindowHelper.HandleError("The " + packageName + " package cannot be found in either the .\\Packages folder", false, null, this);
+            WindowHelper.HandleError("The " + packageName + " package cannot be found in either the .\\Packages folder", false, null);
             return;
           }
 
@@ -162,7 +162,7 @@
         WindowHelper.HandleError(
           "The " + enableMvcPackageName +
           " package cannot be found in either the .\\File Packages folder or %appdata%\\Sitecore\\Sitecore Instance Manager\\Custom Packages one", 
-          false, null, this);
+          false, null);
         return false;
       }
 
@@ -236,7 +236,7 @@
           WindowHelper.HandleError(
             "The " + enableMvcForDmsPackageName +
             " package cannot be found in either the .\\File Packages folder or %appdata%\\Sitecore\\Sitecore Instance Manager\\Custom Packages one", 
-            false, null, this);
+            false, null);
           return false;
         }
 

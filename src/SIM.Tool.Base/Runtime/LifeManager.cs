@@ -5,6 +5,7 @@
   using System.Globalization;
   using System.Threading;
   using System.Windows;
+  using Sitecore.Diagnostics.Logging;
 
   public static class LifeManager
   {
@@ -122,16 +123,16 @@
 
         if (!foreignSimProcess.WaitForExit(60000))
         {
-          Log.Warn("Unexpected awaiting time of another SIM exit", typeof(LifeManager));
+          Log.Warn("Unexpected awaiting time of another SIM exit");
         }
       }
-      catch (ArgumentException ex)
+      catch (ArgumentException)
       {
         // Ignore. Process has already exited
       }
       catch (Exception ex)
       {
-        Log.Error("Unexpected exception during another SIM exit awaiting", typeof(LifeManager), ex);
+        Log.Error(ex, "Unexpected exception during another SIM exit awaiting");
       }
     }
 

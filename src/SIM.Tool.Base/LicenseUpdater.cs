@@ -5,6 +5,7 @@ namespace SIM.Tool.Base
   using System.Windows.Forms;
   using SIM.Instances;
   using SIM.Tool.Base.Profiles;
+  using Sitecore.Diagnostics.Logging;
 
   public static class LicenseUpdater
   {
@@ -88,7 +89,7 @@ namespace SIM.Tool.Base
         }
         catch (Exception ex)
         {
-          Log.Error(ex.Message, typeof(LicenseUpdater), ex);
+          Log.Error(ex.Message);
         }
       }
       else
@@ -101,7 +102,7 @@ namespace SIM.Tool.Base
           }
           catch (Exception ex)
           {
-            Log.Error(ex.Message, typeof(LicenseUpdater), ex);
+            Log.Error(ex.Message);
           }
         }
       }

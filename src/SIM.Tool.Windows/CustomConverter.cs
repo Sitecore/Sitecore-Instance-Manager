@@ -7,6 +7,7 @@ namespace SIM.Tool.Windows
   using SIM.Tool.Base.Plugins;
   using Sitecore.Diagnostics;
   using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnostics.Logging;
 
   public class CustomConverter : IValueConverter
   {

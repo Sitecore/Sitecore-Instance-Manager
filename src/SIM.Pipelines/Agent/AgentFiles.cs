@@ -76,7 +76,7 @@
 
   private void Finish(string message)
   {
-    Log.Info(@""[SIM] " + AgentFiles.InstallPackageFileName + @": "" + message, this);
+    Log.Info(@""[SIM] " + AgentFiles.InstallPackageFileName + @": "" + message);
     this.UpdateStatus(message);
     this.Response.Write(message);
   }
@@ -173,7 +173,7 @@ private string path;
             MethodInfo method = type.GetMethod(methodName, BindingFlags.NonPublic | BindingFlags.Instance);
             string infoMessage = ""method: "" + methodName + "" of class: "" + className;
             Assert.IsNotNull(method, infoMessage);
-            Log.Info(""Custom PostStepAction executing: "" + infoMessage, this);
+            Log.Info(""Custom PostStepAction executing: "" + infoMessage);
             this.UpdateStatus(""Started: actions performing"");
             method.Invoke(instance, new object[0]);
             this.Finish(@""Done: actions performed"");
@@ -239,12 +239,12 @@ private string path;
     Assert.IsNotNullOrEmpty(tempFolderPath, ""Settings.TempFolderPath"");  
     string installedTemp = this.Server.MapPath(Path.Combine(tempFolderPath, ""sim.status""));
     File.WriteAllText(installedTemp, message);
-    Log.Info(@""[SIM] " + AgentFiles.InstallPackageFileName + @": "" + message, this);
+    Log.Info(@""[SIM] " + AgentFiles.InstallPackageFileName + @": "" + message);
   }
 
   private void Finish(string message)
   {
-    Log.Info(@""[SIM] " + AgentFiles.InstallPackageFileName + @": "" + message, this);
+    Log.Info(@""[SIM] " + AgentFiles.InstallPackageFileName + @": "" + message);
     var tempFolderPath = Settings.TempFolderPath;
     Assert.IsNotNullOrEmpty(tempFolderPath, ""Settings.TempFolderPath"");  
     string installedTemp = this.Server.MapPath(Path.Combine(tempFolderPath, ""sim.status""));
@@ -308,7 +308,7 @@ private string path;
       message = @""Pending: no information"";
     }
 
-    Log.Info(@""[SIM] " + AgentFiles.StatusFileName + @": "" + message, this);
+    Log.Info(@""[SIM] " + AgentFiles.StatusFileName + @": "" + message);
     this.Response.Write(message);
   }
 

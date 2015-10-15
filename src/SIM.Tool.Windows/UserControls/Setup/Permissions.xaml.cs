@@ -11,6 +11,7 @@
   using SIM.Tool.Base.Wizards;
   using SIM.Tool.Windows.Pipelines.Setup;
   using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnostics.Logging;
 
   public partial class Permissions : IWizardStep, IFlowControl
   {
@@ -43,7 +44,7 @@
           return null;
         }
 
-        Log.Debug("SQL Server Account name: " + sqlServerAccountName);
+        Log.Debug("SQL Server Account name: {0}",  sqlServerAccountName);
         return new[]
         {
           sqlServerAccountName, Settings.CoreInstallWebServerIdentity.Value
@@ -107,7 +108,7 @@
       }
       catch (Exception ex)
       {
-        Log.Error("Granting security permissions failed", this, ex);
+        Log.Error(ex, "Granting security permissions failed");
         WindowHelper.ShowMessage("Something went wrong while assigning necessary permissions, so please do it manually according to the guide that will be opened.", MessageBoxButton.OK, MessageBoxImage.Asterisk);
         this.ShowGuide();
         return ProfileSection.Result(false);
@@ -162,7 +163,7 @@
       }
       catch (Exception ex)
       {
-        Log.Error("Cannot verify permissions", this, ex);
+        Log.Error(ex, "Cannot verify permissions");
         return true;
       }
     }

@@ -7,6 +7,7 @@
   using SIM.Tool.Base.Pipelines;
   using SIM.Tool.Base.Plugins;
   using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnostics.Logging;
 
   [UsedImplicitly]
   public class PublishButton : IMainWindowButton

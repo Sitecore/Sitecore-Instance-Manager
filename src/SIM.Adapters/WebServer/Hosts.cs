@@ -8,6 +8,7 @@
   using System.Text.RegularExpressions;
   using Sitecore.Diagnostics;
   using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnostics.Logging;
 
   #region
 
@@ -40,7 +41,7 @@
       Regex regex = new Regex(DefaultRegexPattern);
       if (lines.All(line => !LineMatches(regex, line, hostName)))
       {
-        Log.Info("Appending host: {0}".FormatWith(hostName), typeof(Hosts));
+        Log.Info("Appending host: {0}", hostName);
         FileSystem.FileSystem.Local.File.AppendAllText(path, AppendPattern.FormatWith(hostName));
       }
     }
@@ -61,7 +62,7 @@
 
       foreach (string hostName in hostNames)
       {
-        Log.Info("Removing host: {0}".FormatWith(hostName), typeof(Hosts));
+        Log.Info("Removing host: {0}", hostName);
         Remove(hostName);
       }
     }
@@ -147,7 +148,7 @@
     {
       string path = GetHostsFilePath();
       string text = FileSystem.FileSystem.Local.File.ReadAllText(path);
-      Log.Info("A backup of the hosts file" + Environment.NewLine + text, typeof(string));
+      Log.Info("A backup of the hosts file\r\n{0}",  text);
       var sb = new StringBuilder();
       foreach (HostRecord hostRecord in records)
       {

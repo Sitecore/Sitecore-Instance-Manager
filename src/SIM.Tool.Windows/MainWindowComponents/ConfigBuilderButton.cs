@@ -9,6 +9,7 @@
   using SIM.Tool.Base.Plugins;
   using Sitecore.Diagnostics;
   using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnostics.Logging;
 
   [UsedImplicitly]
   public class ConfigBuilderButton : IMainWindowButton
@@ -141,7 +142,7 @@
       }
       catch (Exception ex)
       {
-        Log.Warn("The {0} URL is unavailable".FormatWith(url), typeof(ConfigBuilderButton), ex);
+        Log.Warn(ex, "The {0} URL is unavailable", url);
       }
 
       return latestVersion;
@@ -167,7 +168,7 @@
       }
       catch (Exception ex)
       {
-        WindowHelper.HandleError("Couldn't get latest version of Sitecore ConfigBuilder", true, ex, typeof(ConfigBuilderButton));
+        WindowHelper.HandleError("Couldn't get latest version of Sitecore ConfigBuilder", true, ex);
       }
     }
 

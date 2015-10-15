@@ -8,8 +8,12 @@ using Sitecore.Diagnostics.Annotations;
 
 namespace SIM
 {
+  
+
 
   #region
+
+  using Sitecore.Diagnostics.Logging;
 
   #endregion
 
@@ -155,7 +159,7 @@ namespace SIM
       }
       catch (Exception ex)
       {
-        Log.Warn("SafeCall of the {0} method failed".FormatWith(func.ToString()), typeof(Extensions), ex);
+        Log.Warn(ex, "SafeCall of the {0} method failed", func.ToString());
         return null;
       }
     }

@@ -6,6 +6,7 @@
   using Microsoft.Win32;
   using Sitecore.Diagnostics;
   using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnostics.Logging;
 
   #endregion
 
@@ -47,7 +48,7 @@
         var dir = (instanceNode.GetValue("InstanceDirectory") as string ?? string.Empty).TrimEnd('\\');
         if (name.Equals(args.InstanceName, StringComparison.OrdinalIgnoreCase) || dir.Equals(args.Instance.RootPath.TrimEnd('\\'), StringComparison.OrdinalIgnoreCase))
         {
-          Log.Info(string.Format("Deleting {0}\\{1} key from registry", SitecoreNodePath, subKeyName), this);
+          Log.Info(string.Format("Deleting {0}\\{1} key from registry", SitecoreNodePath, subKeyName));
           sitecoreNode.DeleteSubKey(subKeyName);
 
           return;

@@ -21,6 +21,7 @@
   using SIM.Tool.Base.Wizards;
   using Sitecore.Diagnostics;
   using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnostics.Logging;
 
   #endregion
 
@@ -251,7 +252,7 @@
       }
       catch (Exception ex)
       {
-        Log.Error("Error during setting progress", this, ex);
+        Log.Error(ex, "Error during setting progress");
       }
     }
 
@@ -390,7 +391,7 @@
 
       if (!ctrl.GetInterfaces().Contains(typeof(IWizardStep)))
       {
-        Log.Debug("Control {0} does not implement IWizardStep".FormatWith(fullName));
+        Log.Debug("Control {0} does not implement IWizardStep", fullName);
       }
 
       var param = stepInfo.Param;
@@ -451,7 +452,7 @@
                 message = skipped;
               }
 
-              WindowHelper.HandleError(message, true, null, this);
+              WindowHelper.HandleError(message, true, null);
               break;
             }
           }
@@ -562,7 +563,7 @@
         var control = content as UIElement;
         if (control == null)
         {
-          Log.Warn("The {0} type is not UIElement-based".FormatWith(fullName), this);
+          Log.Warn("The {0} type is not UIElement-based", fullName);
           return;
         }
 
@@ -681,7 +682,7 @@
         }
         catch (Exception ex)
         {
-          WindowHelper.HandleError("Something went wrong with Wizard logic. It is to be closed. " + Environment.NewLine + Environment.NewLine + ex.Message, true, ex, this);
+          WindowHelper.HandleError("Something went wrong with Wizard logic. It is to be closed. " + Environment.NewLine + Environment.NewLine + ex.Message, true, ex);
           this.Close();
         }
       }
@@ -706,7 +707,7 @@
             }
             catch (Exception ex)
             {
-              WindowHelper.HandleError(ex.Message, false, ex, this);
+              WindowHelper.HandleError(ex.Message, false, ex);
               return;
             }
           }
@@ -727,7 +728,7 @@
         }
         catch (Exception ex)
         {
-          WindowHelper.HandleError("Something went wrong with Wizard logic. It is to be closed. " + Environment.NewLine + Environment.NewLine + ex.Message, false, ex, this);
+          WindowHelper.HandleError("Something went wrong with Wizard logic. It is to be closed. " + Environment.NewLine + Environment.NewLine + ex.Message, false, ex);
           this.Close();
         }
       }
@@ -767,7 +768,7 @@
           var step = content as IWizardStep;
           if (step == null)
           {
-            Log.Warn("The {0} control does not implement IWizardStep".FormatWith(fullName), this);
+            Log.Warn("The {0} control does not implement IWizardStep", fullName);
 
             return ProfileSection.Result(true);
           }
@@ -788,7 +789,7 @@
         }
         catch (Exception ex)
         {
-          WindowHelper.HandleError(ex.Message, true, ex, this);
+          WindowHelper.HandleError(ex.Message, true, ex);
 
           return ProfileSection.Result(false);
         }
@@ -831,7 +832,7 @@
         }
         catch (Exception ex)
         {
-          WindowHelper.HandleError("Something went wrong with Wizard logic. It is to be closed. " + Environment.NewLine + Environment.NewLine + ex.Message, false, ex, this);
+          WindowHelper.HandleError("Something went wrong with Wizard logic. It is to be closed. " + Environment.NewLine + Environment.NewLine + ex.Message, false, ex);
           this.Close();
         }
       }
@@ -899,7 +900,7 @@
       }
       catch (Exception ex)
       {
-        WindowHelper.HandleError("Error occured while wizard loading", true, ex, this);
+        WindowHelper.HandleError("Error occured while wizard loading", true, ex);
         this.Close();
       }
     }
@@ -942,7 +943,7 @@
             }
             catch (Exception ex)
             {
-              WindowHelper.HandleError("The {0} finish action has thrown an exception".FormatWith(action.Text), true, ex, this);
+              WindowHelper.HandleError("The {0} finish action has thrown an exception".FormatWith(action.Text), true, ex);
             }
           }
         }

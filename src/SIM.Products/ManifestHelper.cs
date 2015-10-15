@@ -6,6 +6,7 @@
   using System.Linq;
   using Sitecore.Diagnostics;
   using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnostics.Logging;
 
   public static class ManifestHelper
   {
@@ -36,7 +37,7 @@
 
     public static XmlDocumentEx Compute(string packageFile, string originalName = null)
     {
-      using (new ProfileSection("Compute manifest", typeof(ManifestHelper)))
+      using (new ProfileSection("Compute manifest"))
       {
         ProfileSection.Argument("packageFile", packageFile);
         ProfileSection.Argument("originalName", originalName);
@@ -51,7 +52,7 @@
         }
         catch (Exception ex)
         {
-          Log.Error("Failed to build a manifest for " + packageFile, typeof(ManifestHelper), ex);
+          Log.Error(ex, "Failed to build a manifest for " + packageFile);
 
           return Product.EmptyManifest;
         }
@@ -62,7 +63,7 @@
     {
       Assert.IsNotNullOrEmpty(packageFile, "packageFile");
 
-      using (new ProfileSection("Get file name patterns", typeof(ManifestHelper)))
+      using (new ProfileSection("Get file name patterns"))
       {
         ProfileSection.Argument("packageFile", packageFile);
         ProfileSection.Argument("originalName", originalName);
@@ -114,7 +115,7 @@
 
     private static XmlDocumentEx Compute(string packageFile, LookupFolder[] manifestLookupFolders, List<string> fileNamePatterns)
     {
-      using (new ProfileSection("Compute manifest", typeof(ManifestHelper)))
+      using (new ProfileSection("Compute manifest"))
       {
         ProfileSection.Argument("packageFile", packageFile);
         ProfileSection.Argument("manifestLookupFolders", manifestLookupFolders);
@@ -130,29 +131,29 @@
             var folderPath = lookupFolder.Path;
             if (!FileSystem.FileSystem.Local.Directory.Exists(folderPath))
             {
-              Log.Warn("The {0} manifest lookup folder doesn't exist".FormatWith(lookupFolder), typeof(ManifestHelper));
+              Log.Warn("The {0} manifest lookup folder doesn't exist", lookupFolder);
               continue;
             }
 
-            using (new ProfileSection("Looking for manifests in folder", typeof(ManifestHelper)))
+            using (new ProfileSection("Looking for manifests in folder"))
             {
               ProfileSection.Argument("lookupFolder", lookupFolder);
 
               foreach (string fileNamePattern in fileNamePatterns)
               {
                 string fileName = fileNamePattern + ManifestExtension;
-                using (new ProfileSection("Looking for manifests with pattern", typeof(ManifestHelper)))
+                using (new ProfileSection("Looking for manifests with pattern"))
                 {
                   ProfileSection.Argument("fileName", fileName);
 
                   try
                   {
                     string[] findings = FileSystem.FileSystem.Local.Directory.GetFiles(folderPath, fileName, lookupFolder.Recursive ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly);
-                    Log.Debug("Found " + findings.Length + " matches");
+                    Log.Debug("Found {0} matches", findings.Length);
                     if (findings.Length == 1)
                     {
                       string path = findings.First();
-                      Log.Debug("Found '" + path + "'");
+                      Log.Debug("Found '{0}'", path);
                       try
                       {
                         if (mainDocument == null)
@@ -174,14 +175,14 @@
                       }
                       catch (Exception ex)
                       {
-                        HandleError(path, list, ex);
+                        HandleError(ex, path, list);
                       }
                     }
                     else if (findings.Length > 1)
                     {
                       var findingsText = findings.Join(Environment.NewLine);
                       var message = "There are several {0} files in the {1} folder: {2}".FormatWith(fileName, lookupFolder, findingsText);
-                      Log.Warn(message, typeof(ManifestHelper));
+                      Log.Warn(message);
 
                       ProfileSection.Result("Skipped (Too many files found)");
                     }
@@ -192,7 +193,7 @@
                   }
                   catch (Exception ex)
                   {
-                    Log.Warn("Failed looking for \"{0}\" manifests in \"{1}\"".FormatWith(fileNamePattern, folderPath), typeof(ManifestHelper), ex);
+                    Log.Warn(ex, "Failed looking for \"{0}\" manifests in \"{1}\"", fileNamePattern, folderPath);
                   }
                 }
               }
@@ -201,7 +202,7 @@
         }
         catch (Exception ex)
         {
-          Log.Error("Failed to find and merge manifests on file system", typeof(ManifestHelper), ex);
+          Log.Error(ex, "Failed to find and merge manifests on file system");
         }
 
         XmlDocumentEx archiveManifest = Product.ArchiveManifest;
@@ -218,7 +219,7 @@
             }
             catch (Exception ex)
             {
-              HandleError(archiveManifest.FilePath, list, ex);
+              HandleError(ex, archiveManifest.FilePath, list);
             }
           }
           else if (mainDocument.SelectSingleElement("/manifest/package") != null)
@@ -231,7 +232,7 @@
             }
             catch (Exception ex)
             {
-              HandleError(packageManifest.FilePath, list, ex);
+              HandleError(ex, packageManifest.FilePath, list);
             }
           }
 
@@ -240,7 +241,7 @@
 
         if (FileSystem.FileSystem.Local.Zip.ZipContainsSingleFile(packageFile, "package.zip"))
         {
-          Log.Info("The '{0}' file is considered as Sitecore Package, (type #1)".FormatWith(packageFile), typeof(Product));
+          Log.Info("The '{0}' file is considered as Sitecore Package, (type #1)", packageFile);
           CacheManager.SetEntry("IsPackage", packageFile, "true");
 
           return ProfileSection.Result(packageManifest);
@@ -249,7 +250,7 @@
         if (FileSystem.FileSystem.Local.Zip.ZipContainsFile(packageFile, "metadata/sc_name.txt") &&
             FileSystem.FileSystem.Local.Zip.ZipContainsFile(packageFile, "installer/version"))
         {
-          Log.Info("The '{0}' file is considered as Sitecore Package, (type #2)".FormatWith(packageFile), typeof(Product));
+          Log.Info("The '{0}' file is considered as Sitecore Package, (type #2)", packageFile);
           CacheManager.SetEntry("IsPackage", packageFile, "true");
 
           return ProfileSection.Result(packageManifest);
@@ -263,7 +264,7 @@
 
     private static List<string> GetFileNamePatterns(IEnumerable<string> fileNamesRaw)
     {
-      using (new ProfileSection("Get manifest lookup folders", typeof(ManifestHelper)))
+      using (new ProfileSection("Get manifest lookup folders"))
       {
         ProfileSection.Argument("fileNamesRaw", fileNamesRaw);
 
@@ -296,7 +297,7 @@
 
     private static LookupFolder[] GetManifestLookupFolders(string packageFile)
     {
-      using (new ProfileSection("Get manifest lookup folders", typeof(ManifestHelper)))
+      using (new ProfileSection("Get manifest lookup folders"))
       {
         ProfileSection.Argument("packageFile", packageFile);
 
@@ -308,10 +309,10 @@
       }
     }
 
-    private static void HandleError(string path, IEnumerable<string> list, Exception ex)
+    private static void HandleError(Exception ex, string path, IEnumerable<string> list)
     {
       string str = list.Join(", ", "'", "'");
-      Log.Warn("Failed merging '{0}' with successfully merged {1}. {2}".FormatWith((object)path, (object)str, (object)ex.Message), typeof(ManifestHelper), ex);
+      Log.Warn(ex, "Failed merging '{0}' with successfully merged {1}. {2}", (object)path, (object)str, (object)ex.Message);
     }
 
     private static string TrimRevision(string fileName)

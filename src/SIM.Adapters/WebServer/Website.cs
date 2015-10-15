@@ -7,6 +7,7 @@
   using Microsoft.Web.Administration;
   using Sitecore.Diagnostics;
   using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnostics.Logging;
 
   #region
 
@@ -73,7 +74,7 @@
             }
             catch (Exception ex)
             {
-              Log.Error("Cannot retrieve binding info", this, ex);
+              Log.Error(ex, "Cannot retrieve binding info");
             }
           }
         }
@@ -249,7 +250,7 @@
 
     public virtual void Recycle()
     {
-      Log.Info("Recycle the {0} instance's application pool".FormatWith(this.Name), this);
+      Log.Info("Recycle the {0} instance's application pool", this.Name);
 
       using (WebServerManager.WebServerContext context = WebServerManager.CreateContext("Website.Recycle"))
       {
@@ -264,7 +265,7 @@
 
     public virtual void Start()
     {
-      Log.Info("Starting website {0}".FormatWith(this.ID), this);
+      Log.Info("Starting website {0}", this.ID);
 
       using (WebServerManager.WebServerContext context = WebServerManager.CreateContext("Website.Start"))
       {
@@ -293,7 +294,7 @@
 
     public virtual void Stop(bool force = false)
     {
-      Log.Info("Stop website {0} ({1})".FormatWith(this.Name, this.ID), this);
+      Log.Info("Stop website {0} ({1})", this.Name, this.ID);
 
       using (WebServerManager.WebServerContext context = WebServerManager.CreateContext("Website.Stop"))
       {
@@ -310,7 +311,7 @@
             }
             catch (Exception ex)
             {
-              Log.Warn("Stop website {0} ({1}) failed".FormatWith(this.Name, this.ID), this, ex);
+              Log.Warn(ex, "Stop website {0} ({1}) failed", this.Name, this.ID);
             }
           }
         }
@@ -325,7 +326,7 @@
 
     public virtual void StopApplicationPool()
     {
-      Log.Info("Stop app pool {0} ({1})".FormatWith(this.Name, this.ID), this);
+      Log.Info("Stop app pool {0} ({1})", this.Name, this.ID);
 
       using (WebServerManager.WebServerContext context = WebServerManager.CreateContext("Website.StopApplicationPool"))
       {

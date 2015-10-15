@@ -23,6 +23,7 @@
   using SIM.Tool.Wizards;
   using Sitecore.Diagnostics;
   using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnostics.Logging;
 
   #region
 
@@ -66,7 +67,7 @@
 
     public static void Initialize()
     {
-      using (new ProfileSection("Initialize main window", typeof(MainWindowHelper)))
+      using (new ProfileSection("Initialize main window"))
       {
         if (WindowsSettings.AppUiMainWindowWidth.Value > 0)
         {
@@ -83,7 +84,7 @@
 
     public static void InitializeContextMenu(XmlDocumentEx appDocument)
     {
-      using (new ProfileSection("Initialize context menu", typeof(MainWindowHelper)))
+      using (new ProfileSection("Initialize context menu"))
       {
         ProfileSection.Argument("appDocument", appDocument);
 
@@ -92,7 +93,7 @@
 
         foreach (var item in menuItems)
         {
-          using (new ProfileSection("Fill in context menu", typeof(MainWindowHelper)))
+          using (new ProfileSection("Fill in context menu"))
           {
             ProfileSection.Argument("item", item);
 
@@ -106,11 +107,11 @@
             }
             else if (item.Name == "plugins")
             {
-              using (new ProfileSection("Fill in context menu by plugins", typeof(MainWindowHelper)))
+              using (new ProfileSection("Fill in context menu by plugins"))
               {
                 foreach (var plugin in PluginManager.GetEnabledPlugins())
                 {
-                  using (new ProfileSection("Fill in context menu by plugin", typeof(MainWindowHelper)))
+                  using (new ProfileSection("Fill in context menu by plugin"))
                   {
                     ProfileSection.Argument("plugin", plugin);
 
@@ -124,7 +125,7 @@
                     }
                     catch (Exception ex)
                     {
-                      PluginManager.HandleError(plugin, ex);
+                      PluginManager.HandleError(ex, plugin);
                     }
                   }
                 }
@@ -137,7 +138,7 @@
 
     public static string InitializeInstallerUnsafe(Window window)
     {
-      using (new ProfileSection("Initialize Installer (Unsafe)", typeof(MainWindowHelper)))
+      using (new ProfileSection("Initialize Installer (Unsafe)"))
       {
         string message = null;
         string localRepository = ProfileManager.Profile.LocalRepository;
@@ -148,7 +149,7 @@
         }
         catch (Exception ex)
         {
-          Log.Error("Installer failed to init. {0}".FormatWith(ex.Message), typeof(MainWindowHelper), ex);
+          Log.Error(ex, "Installer failed to init. {0}", ex.Message);
           message = ex.Message;
         }
 
@@ -158,10 +159,10 @@
 
     public static void InitializeRibbon(XmlDocument appDocument)
     {
-      using (new ProfileSection("Initialize main window ribbon", typeof(MainWindowHelper)))
+      using (new ProfileSection("Initialize main window ribbon"))
       {
         MainWindow window = MainWindow.Instance;
-        using (new ProfileSection("Loading tabs from App.xml", typeof(MainWindowHelper)))
+        using (new ProfileSection("Loading tabs from App.xml"))
         {
           var tabs = appDocument.SelectElements("/app/mainWindow/ribbon/tab");
           foreach (var tabElement in tabs)
@@ -172,11 +173,11 @@
         }
 
         // load plugins
-        using (new ProfileSection("Loading tabs from plugins", typeof(MainWindowHelper)))
+        using (new ProfileSection("Loading tabs from plugins"))
         {
           foreach (var plugin in PluginManager.GetEnabledPlugins())
           {
-            using (new ProfileSection("Loading tabs from plugin", typeof(MainWindowHelper)))
+            using (new ProfileSection("Loading tabs from plugin"))
             {
               ProfileSection.Argument("plugin", plugin);
 
@@ -191,14 +192,14 @@
               }
               catch (Exception ex)
               {
-                PluginManager.HandleError(plugin, ex);
+                PluginManager.HandleError(ex, plugin);
               }
             }
           }
         }
 
         // minimize ribbon
-        using (new ProfileSection("Normalizing ribbon", typeof(MainWindowHelper)))
+        using (new ProfileSection("Normalizing ribbon"))
         {
           foreach (var tab in window.MainRibbon.Tabs)
           {
@@ -230,7 +231,7 @@
       }
       catch (Exception ex)
       {
-        Log.Warn("An error occurred during checking if installer ready", typeof(MainWindowHelper), ex);
+        Log.Warn(ex, "An error occurred during checking if installer ready");
 
         return false;
       }
@@ -245,7 +246,7 @@
         foreach (var id in instance.ProcessIds)
         {
           Process process = Process.GetProcessById((int)id);
-          Log.Info("Kill the w3wp.exe worker process ({0}) of the {1} instance".FormatWith(id, instance.Name), typeof(MainWindowHelper));
+          Log.Info("Kill the w3wp.exe worker process ({0}) of the {1} instance", id, instance.Name);
           process.Kill();
           OnInstanceSelected();
         }
@@ -265,7 +266,7 @@
 
     public static void OpenProgramLogs()
     {
-      WindowHelper.OpenFolder(Log.LogsFolder);
+      WindowHelper.OpenFolder(ApplicationManager.LogsFolder);
     }
 
     public static void Publish(Instance instance, Window owner, PublishMode mode)
@@ -277,7 +278,7 @@
 
     public static void RefreshCaches()
     {
-      using (new ProfileSection("Refresh caching", typeof(MainWindowHelper)))
+      using (new ProfileSection("Refresh caching"))
       {
         CacheManager.ClearAll();
       }
@@ -285,7 +286,7 @@
 
     public static void RefreshEverything()
     {
-      using (new ProfileSection("Refresh everything", typeof(MainWindowHelper)))
+      using (new ProfileSection("Refresh everything"))
       {
         CacheManager.ClearAll();
         MainWindowHelper.RefreshInstaller();
@@ -295,7 +296,7 @@
 
     public static void RefreshInstaller()
     {
-      using (new ProfileSection("Refresh installer", typeof(MainWindowHelper)))
+      using (new ProfileSection("Refresh installer"))
       {
         var mainWindow = MainWindow.Instance;
         DisableInstallButtons(mainWindow);
@@ -307,7 +308,7 @@
 
     public static void RefreshInstances()
     {
-      using (new ProfileSection("Refresh instances", typeof(MainWindowHelper)))
+      using (new ProfileSection("Refresh instances"))
       {
         var mainWindow = MainWindow.Instance;
         var tabIndex = mainWindow.MainRibbon.SelectedTabIndex;
@@ -363,7 +364,7 @@
               product = Product.Parse(fileBrowserDialog.FileName);
               if (string.IsNullOrEmpty(product.PackagePath))
               {
-                WindowHelper.HandleError("SIM can't parse the {0} package".FormatWith(instance.ProductFullName), true, null, typeof(MainWindowHelper));
+                WindowHelper.HandleError("SIM can't parse the {0} package".FormatWith(instance.ProductFullName), true, null);
                 return;
               }
             }
@@ -382,7 +383,7 @@
         }
         catch (Exception ex)
         {
-          WindowHelper.HandleError(ex.Message, false, ex, typeof(WindowHelper));
+          WindowHelper.HandleError(ex.Message, false, ex);
           return;
         }
 
@@ -393,7 +394,7 @@
 
     public static void SoftlyRefreshInstances()
     {
-      using (new ProfileSection("Refresh instances (softly)", typeof(MainWindowHelper)))
+      using (new ProfileSection("Refresh instances (softly)"))
       {
         string instancesFolder = ProfileManager.Profile.InstancesFolder;
         InstanceManager.InitializeWithSoftListRefresh(instancesFolder);
@@ -455,7 +456,7 @@
         }
         catch (Exception ex)
         {
-          WindowHelper.HandleError(ex.Message, true, ex);
+          WindowHelper.HandleError(ex.Message, true);
         }
       });
 
@@ -530,7 +531,7 @@
 
           if (!name.EqualsIgnoreCase("button"))
           {
-            Log.Error("This element is not supported as SplitButton element: {0}".FormatWith(menuItem.OuterXml), typeof(MainWindowHelper));
+            Log.Error("This element is not supported as SplitButton element: {0}", menuItem.OuterXml);
             continue;
           }
 
@@ -589,7 +590,7 @@
 
     private static RibbonGroupBox GetRibbonGroup(string name, string tabName, string groupName, RibbonTabItem ribbonTab, MainWindow window)
     {
-      using (new ProfileSection("Get ribbon group", typeof(MainWindowHelper)))
+      using (new ProfileSection("Get ribbon group"))
       {
         ProfileSection.Argument("name", name);
         ProfileSection.Argument("tabName", tabName);
@@ -670,7 +671,7 @@
             }
             catch (Exception ex)
             {
-              WindowHelper.HandleError(ex.Message, true, ex);
+              WindowHelper.HandleError(ex.Message, true);
             }
           };
 
@@ -686,13 +687,13 @@
       }
       catch (Exception ex)
       {
-        Log.Error("Plugin Menu Item caused an exception", typeof(MainWindowHelper), ex);
+        Log.Error(ex, "Plugin Menu Item caused an exception");
       }
     }
 
     private static void InitializeRibbonButton(MainWindow window, Func<string, ImageSource> getImage, XmlElement button, RibbonGroupBox ribbonGroup)
     {
-      using (new ProfileSection("Initialize ribbon button", typeof(MainWindowHelper)))
+      using (new ProfileSection("Initialize ribbon button"))
       {
         ProfileSection.Argument("button", button);
         ProfileSection.Argument("ribbonGroup", ribbonGroup);
@@ -734,7 +735,7 @@
 
     private static void InitializeRibbonGroup(string name, string tabName, XmlElement groupElement, RibbonTabItem ribbonTab, MainWindow window, Func<string, ImageSource> getImage)
     {
-      using (new ProfileSection("Initialize ribbon group", typeof(MainWindowHelper)))
+      using (new ProfileSection("Initialize ribbon group"))
       {
         ProfileSection.Argument("name", name);
         ProfileSection.Argument("tabName", tabName);
@@ -763,11 +764,11 @@
       var name = tabElement.GetNonEmptyAttribute("name");
       if (string.IsNullOrEmpty(name))
       {
-        Log.Error("Ribbon tab doesn't have name: " + tabElement.OuterXml, typeof(MainWindowHelper));
+        Log.Error("Ribbon tab doesn't have name: {0}",  tabElement.OuterXml);
         return;
       }
 
-      using (new ProfileSection("Initialize ribbon tab", typeof(MainWindowHelper)))
+      using (new ProfileSection("Initialize ribbon tab"))
       {
         ProfileSection.Argument("name", name);
 
@@ -902,7 +903,7 @@
 
     public static void OnInstanceSelected()
     {
-      using (new ProfileSection("Main window instance selected handler", typeof(MainWindowHelper)))
+      using (new ProfileSection("Main window instance selected handler"))
       {
         if (SelectedInstance != null && MainWindow.Instance.HomeTab.IsSelected)
         {
@@ -934,7 +935,7 @@
     // }
     // catch (InvalidOperationException ex)
     // {
-    // Log.Warn(ex.Message, typeof(MainWindowHelper), ex);
+    // Log.Warn(ex.Message);
     // MainWindow.Instance.rsbRestore.IsEnabled = false;
     // }
     // }
@@ -951,7 +952,7 @@
 
     public static void Search()
     {
-      using (new ProfileSection("Main window search handler", typeof(MainWindowHelper)))
+      using (new ProfileSection("Main window search handler"))
       {
         string searchPhrase = Invoke(w => w.SearchTextBox.Text.Trim());
         IEnumerable<Instance> source = InstanceManager.PartiallyCachedInstances;
@@ -1049,7 +1050,7 @@
       }
       catch (Exception ex)
       {
-        WindowHelper.HandleError("An error occurred while publishing" + Environment.NewLine + ex.Message, true, ex, typeof(MainWindowHelper));
+        WindowHelper.HandleError("An error occurred while publishing" + Environment.NewLine + ex.Message, true, ex);
       }
       finally
       {
@@ -1063,7 +1064,7 @@
       MainWindowHelper.Invoke((mainWindow) => MainWindowHelper.UpdateInstallButtons(message, mainWindow));
       if (message != null)
       {
-        WindowHelper.HandleError("Cannot find any installation package. " + message, false, null, typeof(MainWindowHelper));
+        WindowHelper.HandleError("Cannot find any installation package. " + message, false, null);
       }
     }
 

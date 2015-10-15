@@ -71,7 +71,7 @@
         var rootDrive = FileSystem.FileSystem.Local.Directory.GetDirectoryRoot(root.FullName);
         var drive = Environment.GetLogicalDrives().First(d => !d.EqualsIgnoreCase(rootDrive));
         var instance = new FakeInstance(this.GetRelativeFolder(root, "Website"), this.GetRelativeFolder(root.Parent, "Data"), GetDatabases(name, new DirectoryInfo(drive + "databases")));
-        this.RootPathTest("#8 databases on another drive, data too far (root/website, root/data, " + drive + "databases)", root, instance, typeof(InvalidConfigurationException));
+        this.RootPathTest("#8 databases on another drive, data too far (root/website, root/data, " + drive + "databases)", root, instance);
       }
       {
         var name = this.GetName();
@@ -79,7 +79,7 @@
         var rootDrive = FileSystem.FileSystem.Local.Directory.GetDirectoryRoot(root.FullName);
         var drive = Environment.GetLogicalDrives().First(d => !d.EqualsIgnoreCase(rootDrive));
         var instance = new FakeInstance(this.GetRelativeFolder(root, "Website"), this.GetRelativeFolder(root.Parent, "Data"), new Database[0]);
-        this.RootPathTest("#9 no databases, data too far (root/website, root/data, " + drive + "databases)", root, instance, typeof(InvalidConfigurationException));
+        this.RootPathTest("#9 no databases, data too far (root/website, root/data, " + drive + "databases)", root, instance);
       }
       {
         var name = this.GetName();
@@ -150,7 +150,7 @@
       {
         if (exception == null)
         {
-          throw new Exception(desc, ex);
+          throw new Exception(desc);
         }
 
         if (ex.GetType() != exception)

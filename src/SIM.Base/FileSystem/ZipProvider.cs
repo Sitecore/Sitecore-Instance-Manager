@@ -10,6 +10,8 @@ using Sitecore.Diagnostics.Annotations;
 
 namespace SIM.FileSystem
 {
+  using Sitecore.Diagnostics.Logging;
+
   public class ZipProvider
   {
     #region Constants
@@ -144,12 +146,14 @@ namespace SIM.FileSystem
       {
         try
         {
-          Log.Info(
-            "Unzipping {2}the '{0}' archive to the '{1}' folder".FormatWith(packagePath, path, 
-              entriesPattern != null
-                ? "\"" + entriesPattern + "\"" +
-                  " files of "
-                : string.Empty), typeof(FileSystem));
+          if (entriesPattern != null)
+          {
+            Log.Info("Unzipping the {2} entries of the '{0}' archive to the '{1}' folder", packagePath, path, entriesPattern);
+          }
+          else 
+          {
+            Log.Info("Unzipping the '{0}' archive to the '{1}' folder", packagePath, path);
+          }
 
           using (ZipFile zip = new ZipFile(packagePath))
           {
@@ -168,7 +172,7 @@ namespace SIM.FileSystem
               {
                 if (skipErrors)
                 {
-                  Log.Error("Unpacking caused exception", ex);
+                  Log.Error(ex, "Unpacking caused exception");
                   continue;
                 }
 
@@ -197,7 +201,7 @@ namespace SIM.FileSystem
               {
                 if (skipErrors)
                 {
-                  Log.Error("Unpacking caused exception", ex);
+                  Log.Error(ex, "Unpacking caused exception");
                   continue;
                 }
               }
@@ -236,7 +240,14 @@ namespace SIM.FileSystem
 
       try
       {
-        Log.Info("Unzipping {2}the '{0}' archive to the '{1}' folder".FormatWith(packagePath, path, entriesPattern != null ? "\"" + entriesPattern + "\"" + " files of " : string.Empty), typeof(FileSystem));
+        if (entriesPattern != null)
+        {
+          Log.Info("Unzipping the {2} entries of the '{0}' archive to the '{1}' folder", packagePath, path, entriesPattern);
+        }
+        else
+        {
+          Log.Info("Unzipping the '{0}' archive to the '{1}' folder", packagePath, path);
+        }
 
         using (var zip = new ZipFile(packagePath))
         {

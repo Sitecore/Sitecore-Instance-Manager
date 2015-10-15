@@ -8,6 +8,7 @@
   using SIM.Tool.Base.Plugins;
   using Sitecore.Diagnostics;
   using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnostics.Logging;
 
   [UsedImplicitly]
   public class KillAllButThisButton : IMainWindowButton
@@ -43,13 +44,13 @@
           {
             var process = Process.GetProcessById(processId);
 
-            Log.Info("Killing process " + processId, this);
+            Log.Info("Killing process {0}",  processId);
             process.Kill();
           }
         }
         catch (Exception ex)
         {
-          Log.Warn("An error occurred", this, ex);
+          Log.Warn(ex, "An error occurred");
         }
       }
     }

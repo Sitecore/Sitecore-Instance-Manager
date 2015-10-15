@@ -57,7 +57,7 @@
 
   private void Finish(string message)
   {
-    Log.Info(@""[SIM] " + PublishAgentFiles.PublishFileName + @": "" + message, this);
+    Log.Info(@""[SIM] " + PublishAgentFiles.PublishFileName + @": "" + message);
     this.UpdateStatus(message);
     this.Response.Write(message);
   }
@@ -134,7 +134,7 @@
       message = @""Pending: no information"";
     }
 
-    Log.Info(@""[SIM] " + AgentFiles.StatusFileName + @": "" + message, this);
+    Log.Info(@""[SIM] " + AgentFiles.StatusFileName + @": "" + message);
     this.Response.Write(message);
   }
 

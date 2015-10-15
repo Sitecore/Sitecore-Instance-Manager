@@ -251,7 +251,7 @@
       }
       catch (Exception ex)
       {
-        WindowHelper.HandleError(ex.Message, true, ex, this);
+        WindowHelper.HandleError(ex.Message, true, ex);
       }
     }
 

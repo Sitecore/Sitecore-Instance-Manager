@@ -14,6 +14,7 @@
   using Ionic.Zip;
   using Sitecore.Diagnostics;
   using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnostics.Logging;
   using Sitecore.Diagnsotics.InformationService.Client;
   using Sitecore.Diagnsotics.InformationService.Client.Model;
 
@@ -542,7 +543,7 @@
       }
       catch (Exception ex)
       {
-        Log.Warn("An error occurred during extracting readme text from " + path, this, ex);
+        Log.Warn(ex, "An error occurred during extracting readme text from {0}",  path);
         readmeText = string.Empty;
       }
 
@@ -680,7 +681,7 @@
 
       const string cacheName = "IsPackage";
       string path = packagePath.ToLowerInvariant();
-      using (new ProfileSection("Is it package or not", typeof(Product)))
+      using (new ProfileSection("Is it package or not"))
       {
         ProfileSection.Argument("packagePath", packagePath);
         ProfileSection.Argument("manifest", manifest);
@@ -723,7 +724,7 @@
         }
         catch (Exception e)
         {
-          Log.Warn("Detecting if the '{0}' file is a Sitecore Package failed with exception.".FormatWith(path), typeof(Product), e);
+          Log.Warn("Detecting if the '{0}' file is a Sitecore Package failed with exception.", path, e);
           CacheManager.SetEntry(cacheName, path, "false");
 
           return ProfileSection.Result(false);

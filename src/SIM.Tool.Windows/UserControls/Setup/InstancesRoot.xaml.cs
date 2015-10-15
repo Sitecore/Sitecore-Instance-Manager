@@ -7,6 +7,7 @@
   using SIM.Tool.Base.Wizards;
   using SIM.Tool.Windows.Pipelines.Setup;
   using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnostics.Logging;
 
   public partial class InstancesRoot : IWizardStep, IFlowControl
   {
@@ -44,7 +45,7 @@
       }
       catch (Exception ex)
       {
-        Log.Warn("An error occurred during moving next in InstancesRoot.xaml.cs", this, ex);
+        Log.Warn(ex, "An error occurred during moving next in InstancesRoot.xaml.cs");
         WindowHelper.ShowMessage("The specified path is not valid", MessageBoxButton.OK, MessageBoxImage.Hand, 
           MessageBoxResult.OK);
         return false;

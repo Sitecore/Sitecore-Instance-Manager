@@ -19,6 +19,7 @@ using SIM.Tool.Windows;
 using SIM.Tool.Wizards;
 using Sitecore.Diagnostics;
 using Sitecore.Diagnostics.Annotations;
+using Sitecore.Diagnostics.Logging;
 using File = System.IO.File;
 
 #endregion
@@ -27,6 +28,8 @@ using File = System.IO.File;
 // ReSharper disable CSharpWarnings::CS0162
 namespace SIM.Tool
 {
+  using log4net.Config;
+
   public partial class App
   {
     #region Fields
@@ -34,7 +37,7 @@ namespace SIM.Tool
     public static readonly int APP_DUPLICATE_EXIT_CODE = -8;
     public static readonly int APP_NO_MAIN_WINDOW = -44;
     public static readonly int APP_PIPELINES_ERROR = -22;
-    private static readonly string AppLogsMessage = "The application will be suspended, look at the " + Log.LogFilePath + " log file to find out what has happened";
+    private static readonly string AppLogsMessage = "The application will be suspended, look at the " + ApplicationManager.LogsFolder + " log file to find out what has happened";
 
     #endregion
 
@@ -78,7 +81,7 @@ namespace SIM.Tool
         }
         catch (Exception ex)
         {
-          Log.Error("An unhandled error occurred during shutting down", this, ex);
+          Log.Error(ex, "An unhandled error occurred during shutting down");
         }
 
         return;
@@ -89,13 +92,15 @@ namespace SIM.Tool
         // If this is restart, wait until the master instance exists.
         LifeManager.WaitUntilOriginalInstanceExits(e.Args);
 
-        // Capture UI sync context. It will allow to invoke delegats on UI thread in more elegant way (rather than use Dispatcher directly).
+        // Capture UI sync context. It will allow to invoke delegates on UI thread in more elegant way (rather than use Dispatcher directly).
         LifeManager.UISynchronizationContext = SynchronizationContext.Current;
       }
       catch (Exception ex)
       {
         WindowHelper.HandleError("An unhandled error occurred during LifeManager work", true, ex);
       }
+
+      App.InitializeLogging();
 
       App.LogMainInfo();
 
@@ -118,7 +123,7 @@ namespace SIM.Tool
       // Initialize Profile Manager
       if (!App.InitializeProfileManager(main))
       {
-        Log.Info("Application closes due to invalid configuration", typeof(App));
+        Log.Info("Application closes due to invalid configuration");
 
         // Since the main window instance was already created we need to "dispose" it by showing and closing.
         main.Width = 0;
@@ -157,7 +162,7 @@ namespace SIM.Tool
       }
       catch (Exception ex)
       {
-        WindowHelper.HandleError("Main window caused unhandled exception", true, ex, typeof(App));
+        WindowHelper.HandleError("Main window caused unhandled exception", true, ex);
       }
     }
 
@@ -165,20 +170,23 @@ namespace SIM.Tool
 
     #region Private methods
 
+    private static void InitializeLogging()
+    {
+      Log.Initialize(new Log4NetLogProvider());
+      XmlConfigurator.Configure(new FileInfo("Log.config"));
+    }
+
     private static bool AcquireSingleInstanceLock()
     {
-      using (new ProfileSection("Acquire single instance lock", typeof(App)))
+      try
       {
-        try
-        {
-          return LifeManager.AcquireSingleInstanceLock();
-        }
-        catch (Exception ex)
-        {
-          WindowHelper.HandleError("Error occurred during acquiring single instance lock", true, ex);
+        return LifeManager.AcquireSingleInstanceLock();
+      }
+      catch (Exception ex)
+      {
+        WindowHelper.HandleError("Error occurred during acquiring single instance lock", true, ex);
 
-          return true;
-        }
+        return true;
       }
     }
 
@@ -190,7 +198,7 @@ namespace SIM.Tool
       }
       catch (Exception ex)
       {
-        WindowHelper.HandleError("The main window thrown an exception during creation. " + AppLogsMessage, true, ex, typeof(App));
+        WindowHelper.HandleError("The main window thrown an exception during creation. " + AppLogsMessage, true, ex);
         return null;
       }
     }
@@ -203,7 +211,7 @@ namespace SIM.Tool
       }
       catch (Exception ex)
       {
-        Log.Error("Deleting temp folders caused an exception", typeof(App), ex);
+        Log.Error(ex, "Deleting temp folders caused an exception");
       }
     }
 
@@ -239,7 +247,7 @@ namespace SIM.Tool
       }
       catch (Exception ex)
       {
-        Log.Error("Error during detecting profile defaults", typeof(App), ex);
+        Log.Error(ex, "Error during detecting profile defaults");
 
         return new Profile();
       }
@@ -247,7 +255,7 @@ namespace SIM.Tool
 
     private static bool InitializePipelines()
     {
-      using (new ProfileSection("Re-initializing pipelines", typeof(App)))
+      using (new ProfileSection("Re-initializing pipelines"))
       {
         try
         {
@@ -276,7 +284,7 @@ namespace SIM.Tool
 
     private static bool InitializeProfileManager(Window mainWindow)
     {
-      using (new ProfileSection("Initialize profile manager", typeof(App)))
+      using (new ProfileSection("Initialize profile manager"))
       {
         ProfileSection.Argument("mainWindow", mainWindow);
 
@@ -297,7 +305,7 @@ namespace SIM.Tool
         }
         catch (Exception ex)
         {
-          WindowHelper.HandleError("Profile manager failed during initialization. " + AppLogsMessage, true, ex, typeof(App));
+          WindowHelper.HandleError("Profile manager failed during initialization. " + AppLogsMessage, true, ex);
         }
 
         return ProfileSection.Result(false);
@@ -308,20 +316,22 @@ namespace SIM.Tool
     {
       try
       {
-        Log.Info("**********************************************************************", typeof(App));
-        Log.Info("**********************************************************************", typeof(App));
-        Log.Info("Sitecore Instance Manager started", typeof(App));
-        Log.Info("Version: " + ApplicationManager.AppVersion, typeof(App));
-        Log.Info("Revison: " + ApplicationManager.AppRevision, typeof(App));
-        Log.Info("Label: " + ApplicationManager.AppLabel, typeof(App));
+        Log.Info("**********************************************************************");
+        Log.Info("**********************************************************************");
+        Log.Info("Sitecore Instance Manager started");
+        Log.Info("Version: {0}",  ApplicationManager.AppVersion);
+        Log.Info("Revision: {0}",  ApplicationManager.AppRevision);
+        Log.Info("Label: {0}",  ApplicationManager.AppLabel);
+
         var nativeArgs = Environment.GetCommandLineArgs();
-        string[] commandLineArgs = nativeArgs.Skip(1).ToArray();
-        string argsToLog = commandLineArgs.Length > 0 ? string.Join("|", commandLineArgs) : "<NO ARGUMENTS>";
-        Log.Info("Executable: " + (nativeArgs.FirstOrDefault() ?? string.Empty), typeof(App));
-        Log.Info("Arguments: " + argsToLog, typeof(App));
-        Log.Info("Directory: " + Environment.CurrentDirectory, typeof(App));
-        Log.Info("**********************************************************************", typeof(App));
-        Log.Info("**********************************************************************", typeof(App));
+        var commandLineArgs = nativeArgs.Skip(1).ToArray();
+        var argsToLog = commandLineArgs.Length > 0 ? string.Join("|", commandLineArgs) : "<NO ARGUMENTS>";
+
+        Log.Info("Executable: {0}",  nativeArgs.FirstOrDefault() ?? string.Empty);
+        Log.Info("Arguments: {0}",  argsToLog);
+        Log.Info("Directory: {0}",  Environment.CurrentDirectory);
+        Log.Info("**********************************************************************");
+        Log.Info("**********************************************************************");
       }
       catch
       {
@@ -338,7 +348,7 @@ namespace SIM.Tool
       {
         try
         {
-          Log.Info("Running updater", typeof(App));
+          Log.Info("Running updater");
           const string updaterFileName = "Updater.exe";
           const string newUpdaterFileName = "Updater_new.exe";
 
@@ -407,7 +417,7 @@ namespace SIM.Tool
         }
         catch (Exception ex)
         {
-          WindowHelper.HandleError("Updater caused unhandled exception", true, ex, typeof(App));
+          WindowHelper.HandleError("Updater caused unhandled exception", true, ex);
         }
       }
     }
@@ -423,7 +433,7 @@ namespace SIM.Tool
       }
       catch (Exception ex)
       {
-        Log.Error("Failed to process " + label, typeof(App), ex);
+        Log.Error(ex, "Failed to process {0}",  label);
 
         return default(T);
       }

@@ -11,6 +11,7 @@
   using SIM.Tool.Wizards.Windows;
   using Sitecore.Diagnostics;
   using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnostics.Logging;
 
   #region
 
@@ -60,28 +61,28 @@
       var text = ch.GetAttribute("text");
       if (string.IsNullOrEmpty(text))
       {
-        Log.Error("Finish action doesn't have 'text' specified: " + ch.OuterXml, typeof(WizardPipelineManager));
+        Log.Error("Finish action doesn't have 'text' specified: {0}", ch.OuterXml);
         return null;
       }
 
       var typeName = ch.GetAttribute("type");
       if (string.IsNullOrEmpty(typeName))
       {
-        Log.Error("Finish action doesn't have 'type' specified: " + ch.OuterXml, typeof(WizardPipelineManager));
+        Log.Error("Finish action doesn't have 'type' specified: {0}", ch.OuterXml);
         return null;
       }
 
       var type = Type.GetType(typeName);
       if (type == null)
       {
-        Log.Error("Finish action points to missing '" + typeName + "' type: " + ch.OuterXml, typeof(WizardPipelineManager));
+        Log.Error("Finish action points to missing '{0}' type: {1}", typeName, ch.OuterXml);
         return null;
       }
 
       var methodName = ch.GetAttribute("method");
       if (string.IsNullOrEmpty(methodName))
       {
-        Log.Error("Finish action doesn't have 'method' specified: " + ch.OuterXml, typeof(WizardPipelineManager));
+        Log.Error("Finish action doesn't have 'method' specified: {0}", ch.OuterXml);
         return null;
       }
 
@@ -91,7 +92,7 @@
       } : new Type[0], null);
       if (method == null)
       {
-        Log.Error("Finish action points to missing '" + methodName + "' method of the '" + typeName + "' type: " + ch.OuterXml, typeof(WizardPipelineManager));
+        Log.Error("Finish action points to missing '{0}' method of the '{1}' type: {2}", methodName, typeName, ch.OuterXml);
         return null;
       }
 
@@ -113,8 +114,8 @@
 
     public static void Start(string name, Window owner, ProcessorArgs args = null, bool? isAsync = null, Action action = null, params object[] wizardArgsParameters)
     {
-      Log.Info("Wizard pipeline '{0}' starts".FormatWith(name), typeof(WizardPipelineManager));
-      using (new ProfileSection("Start wizard", typeof(WizardPipelineManager)))
+      Log.Info("Wizard pipeline '{0}' starts", name);
+      using (new ProfileSection("Start wizard"))
       {
         ProfileSection.Argument("name", name);
         ProfileSection.Argument("owner", owner);
@@ -165,7 +166,7 @@
               (FinishActionHive)
                 ReflectionUtil.CreateObject(
                   ww.GetAttribute("type").EmptyToNull().IsNotNull(
-                    "The type attribute of the {0} element is null or empty".FormatWith(ww.OuterXml)), 
+                    "The type attribute of the {0} element is null or empty".FormatWith(ww.OuterXml)),
                   args))
           .ToArray()
         );
@@ -182,7 +183,7 @@
 
     private static void Initialize()
     {
-      using (new ProfileSection("Initialize Wizard Pipeline Manager", typeof(WizardPipelineManager)))
+      using (new ProfileSection("Initialize Wizard Pipeline Manager"))
       {
         try
         {
@@ -202,7 +203,7 @@
 
     private static void InitializeWizardPipeline(XmlElement element)
     {
-      using (new ProfileSection("Initialize wizard pipeline", typeof(WizardPipelineManager)))
+      using (new ProfileSection("Initialize wizard pipeline"))
       {
         ProfileSection.Argument("element", element);
 
@@ -221,15 +222,15 @@
               "Can't find the steps element in the WizardPipelines.config file").ChildNodes.OfType<XmlElement>().
               Select(
                 step =>
-                  new StepInfo(step.GetAttribute("name"), Type.GetType(step.GetAttribute("type")), 
+                  new StepInfo(step.GetAttribute("name"), Type.GetType(step.GetAttribute("type")),
                     step.GetAttribute("param"))).ToArray();
           string cancelButtonText = element.GetAttribute("cancelButton");
           string startButtonText = element.GetAttribute("startButton");
           string finishText = element.GetAttribute("finishText");
           FinishAction[] finishActions = finish != null ? GetFinishActions(finish, args).ToArray() : null;
           var finishActionHives = GetFinishActionHives(finish, args);
-          WizardPipeline wizardPipeline = new WizardPipeline(name1, title, steps, args, startButtonText, 
-            cancelButtonText, finishText, finishActions, 
+          WizardPipeline wizardPipeline = new WizardPipeline(name1, title, steps, args, startButtonText,
+            cancelButtonText, finishText, finishActions,
             finishActionHives);
           Definitions.Add(name1, wizardPipeline);
 

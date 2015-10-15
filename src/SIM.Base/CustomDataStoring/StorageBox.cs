@@ -5,6 +5,8 @@ using SIM.CustomDataStoring.SavePolicies;
 
 namespace SIM.CustomDataStoring
 {
+  using Sitecore.Diagnostics.Logging;
+
   public class StorageBox : IDataBox
   {
     #region Delegates
@@ -233,7 +235,7 @@ namespace SIM.CustomDataStoring
     {
       if (!this.SaveHandler())
       {
-        Log.Error("Unable to save setting from StorageBox", this);
+        Log.Error("Unable to save setting from StorageBox");
       }
 
       return true;

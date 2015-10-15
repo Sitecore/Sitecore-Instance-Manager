@@ -6,6 +6,7 @@
   using SIM.Tool.Base.Plugins;
   using Sitecore.Diagnostics;
   using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnostics.Logging;
   using TaskDialogInterop;
 
   [UsedImplicitly]

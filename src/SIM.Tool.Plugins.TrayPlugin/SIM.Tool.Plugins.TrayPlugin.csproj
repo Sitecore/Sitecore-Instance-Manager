@@ -46,6 +46,9 @@
       <HintPath>..\packages\Sitecore.Diagnostics.Base.1.0.0.14\lib\net35\Sitecore.Diagnostics.Base.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Sitecore.Diagnostics.Logging, Version=1.0.0.0, Culture=neutral, PublicKeyToken=8e71e5db3070b7f5, processorArchitecture=MSIL">
+      <HintPath>..\packages\Sitecore.Diagnostics.Logging.1.0.0.15\lib\net40\Sitecore.Diagnostics.Logging.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />

@@ -70,7 +70,7 @@
           text2 = text.Substring(0, Math.Min(text.Length, 200));
         }
 
-        throw new WebException("{0} \r\nStatus: {1} \r\n{2}".FormatWith(ex.Message, ex.Status.ToString(), text2), ex);
+        throw new WebException("{0} \r\nStatus: {1} \r\n{2}".FormatWith(ex.Message, ex.Status.ToString(), text2));
       }
     }
 

@@ -13,6 +13,7 @@
   using SIM.Tool.Windows.Pipelines.Download;
   using Sitecore.Diagnostics;
   using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnostics.Logging;
   using Sitecore.Diagnsotics.InformationService.Client.Model;
 
   #region
@@ -100,7 +101,7 @@
       }
       catch (Exception ex)
       {
-        Log.Error("Error while downloading {0}".FormatWith(url.ToString()), this, ex);
+        Log.Error(ex, "Error while downloading {0}", url.ToString());
       }
     }
 
@@ -143,7 +144,7 @@
       }
       catch (Exception ex)
       {
-        Log.Error("Error while preparing data", this, ex);
+        Log.Error(ex, "Error while preparing data");
       }
     }
 

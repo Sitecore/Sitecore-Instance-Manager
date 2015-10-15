@@ -27,7 +27,6 @@
       Assert.ArgumentNotNull(args, "args");
 
       var instance = args.Instance;
-      var rootFolder = instance.RootPath;
       var webRootPath = instance.WebRootPath;
       var webRootName = instance.WebRootPath.Split('\\')[instance.WebRootPath.Split('\\').Length - 1];
       var websiteFolder = Path.Combine(args.Folder, webRootName);

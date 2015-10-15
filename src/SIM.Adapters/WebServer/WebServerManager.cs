@@ -5,6 +5,7 @@
   using Microsoft.Web.Administration;
   using Sitecore.Diagnostics;
   using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnostics.Logging;
 
   #region
 
@@ -22,7 +23,7 @@
 
     public static void DeleteWebsite([NotNull] long id)
     {
-      Log.Info("Deleting website {0}".FormatWith(id), typeof(WebServerManager));
+      Log.Info("Deleting website {0}", id);
 
       using (WebServerContext context = CreateContext("WebServerManager.DeleteWebsite({0})".FormatWith(id)))
       {
@@ -38,7 +39,7 @@
     {
       Assert.ArgumentNotNull(name, "name");
 
-      Log.Info("Deleting website {0}".FormatWith(name), typeof(WebServerManager));
+      Log.Info("Deleting website {0}", name);
       using (WebServerContext context = CreateContext("WebServerManager.DeleteWebsite('{0}')".FormatWith(name)))
       {
         Site site = context.Sites[name];

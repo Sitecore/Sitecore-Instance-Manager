@@ -9,6 +9,8 @@ using Sitecore.Diagnostics.Annotations;
 
 namespace SIM.FileSystem
 {
+  using Sitecore.Diagnostics.Logging;
+
   public static class SecurityExtensions
   {
     #region Fields
@@ -113,14 +115,14 @@ namespace SIM.FileSystem
         }
         catch (Exception ex)
         {
-          Log.Warn("An error occurred during paring {0} security identifier".FormatWith(name), this, ex);
+          Log.Warn(ex, "An error occurred during paring {0} security identifier", name);
           try
           {
             reference = new NTAccount(name);
           }
           catch (Exception ex1)
           {
-            Log.Warn("An error occurred during parsing {0} user account", this, ex1);
+            Log.Warn(ex, "An error occurred during parsing {0} user account", ex1);
           }
         }
       }
@@ -164,7 +166,7 @@ namespace SIM.FileSystem
 
       if (!HasPermissions(rules, identity, FileSystemRights.FullControl))
       {
-        Log.Info("Granting full access for '{0}' identity to the '{1}' folder".FormatWith(identity, path), 
+        Log.Info("Granting full access for '{0}' identity to the '{1}' folder", identity, path, 
           typeof(FileSystem));
         FileSystemAccessRule rule = new FileSystemAccessRule(identity, FileSystemRights.FullControl, 
           InheritanceFlags.ContainerInherit |
@@ -192,7 +194,7 @@ namespace SIM.FileSystem
 
       if (!HasPermissions(rules, identity, FileSystemRights.FullControl))
       {
-        Log.Info("Granting full access for '{0}' identity to the '{1}' file".FormatWith(identity, path), 
+        Log.Info("Granting full access for '{0}' identity to the '{1}' file", identity, path, 
           typeof(FileSystem));
 
         var rule = new FileSystemAccessRule(identity, FileSystemRights.FullControl, AccessControlType.Allow);
@@ -220,7 +222,7 @@ namespace SIM.FileSystem
       }
       catch (Exception ex)
       {
-        Log.Warn("Cannot get rules. {0}".FormatWith(ex.Message), typeof(FileSystem), ex);
+        Log.Warn(ex, "Cannot get rules. {0}", ex.Message);
         return new AuthorizationRule[0];
       }
     }
@@ -255,7 +257,7 @@ namespace SIM.FileSystem
       }
       catch (Exception ex)
       {
-        Log.Warn("Cannot get permissions for rules collection", typeof(FileSystem), ex);
+        Log.Warn(ex, "Cannot get permissions for rules collection");
         return false;
       }
     }

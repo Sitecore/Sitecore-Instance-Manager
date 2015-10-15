@@ -4,6 +4,7 @@
   using System.Threading;
   using System.Threading.Tasks;
   using Sitecore.Diagnostics;
+  using Sitecore.Diagnostics.Logging;
 
   public class SingleInstanceMonitor : ISingleInstanceMonitor
   {
@@ -78,7 +79,7 @@
         return false;
       }
 
-      // Log.Info("SingleInstanceMonitor: ownership acquired", this);
+      // Log.Info("SingleInstanceMonitor: ownership acquired");
       this.StartAwaitingLoop();
       return true;
     }
@@ -97,7 +98,7 @@
           this.innerHandle.WaitOne();
           if (this.disposed == DISPOSED_CODE_NOTDISPOSED)
           {
-            // Log.Info("SingleInstanceMonitor: Event from foreign process received", this);
+            // Log.Info("SingleInstanceMonitor: Event from foreign process received");
             this.NotifyAboutForeignEvent();
           }
             
@@ -105,7 +106,7 @@
             // Value cannot be 1, because while() condition cannot allow this.
           else
           {
-            // Log.Info("SingleInstanceMonitor: disposing", this);
+            // Log.Info("SingleInstanceMonitor: disposing");
             this.innerHandle.Close();
             this.disposed = DISPOSED_CODE_DISPOSED;
             this.disposedWaitHandle.Set();
@@ -119,7 +120,7 @@
       }
       catch (Exception ex)
       {
-        Log.Error("Unexpected error in SingleInstanceMonitor awaiting loop", this, ex);
+        Log.Error(ex, "Unexpected error in SingleInstanceMonitor awaiting loop");
       }
       finally
       {
