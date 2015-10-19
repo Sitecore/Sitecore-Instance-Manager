@@ -76,7 +76,7 @@
     </Reference>
     <Reference Include="Sitecore.Diagnostics.Logging.Log4Net, Version=1.0.0.0, Culture=neutral, PublicKeyToken=1add1d1ef1eff836, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Sitecore.Diagnostics.Logging.Log4Net.1.0.0.14\lib\net40\Sitecore.Diagnostics.Logging.Log4Net.dll</HintPath>
+      <HintPath>..\packages\Sitecore.Diagnostics.Logging.Log4Net.1.0.0.15\lib\net40\Sitecore.Diagnostics.Logging.Log4Net.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
