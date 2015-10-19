@@ -32,7 +32,7 @@
           var userName = Request.QueryString[""user""] ?? ""sitecore\\admin"";
           var pageUrl = Request.QueryString[""page""] ?? shellUrlPrefix;
           Sitecore.Security.Authentication.AuthenticationManager.Login(userName);
-          Sitecore.Diagnostics.Log.Warn(ex, string.Format(""Bypassing authentication for {0} account"", userName));
+          Sitecore.Diagnostics.Log.Warn(string.Format(""Bypassing authentication for {0} account"", userName), this);
 
           string ticket = Sitecore.Web.Authentication.TicketManager.CreateTicket(userName, shellUrlPrefix);
           if (!string.IsNullOrEmpty(ticket))
