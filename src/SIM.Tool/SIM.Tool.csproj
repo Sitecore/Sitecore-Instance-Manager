@@ -68,8 +68,9 @@
       <HintPath>..\packages\Fluent.Ribbon.3.5.1.198\lib\net40\Microsoft.Windows.Shell.dll</HintPath>
     </Reference>
     <Reference Include="PresentationFramework" />
-    <Reference Include="Sitecore.Diagnostics.Base">
-      <HintPath>..\packages\Sitecore.Diagnostics.Base.1.0.0.14\lib\net35\Sitecore.Diagnostics.Base.dll</HintPath>
+    <Reference Include="Sitecore.Diagnostics.Base, Version=1.0.0.0, Culture=neutral, PublicKeyToken=2a430da507ea8b02, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Sitecore.Diagnostics.Base.1.0.0.15\lib\net35\Sitecore.Diagnostics.Base.dll</HintPath>
     </Reference>
     <Reference Include="Sitecore.Diagnostics.Logging">
       <HintPath>..\packages\Sitecore.Diagnostics.Logging.1.0.0.15\lib\net40\Sitecore.Diagnostics.Logging.dll</HintPath>

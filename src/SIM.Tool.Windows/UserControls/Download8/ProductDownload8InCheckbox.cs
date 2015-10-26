@@ -34,7 +34,7 @@
       this.version = release.Version;
       this.revision = release.Revision;
       this.label = release.Label;
-      this.value = new Uri(release.Downloads["zip"].First(x => x.StartsWith("http")));
+      this.value = new Uri(release.Downloads.First(x => x.StartsWith("http")));
       this.isEnabled = !ProductManager.Products.Any(this.CheckProduct);
     }
 

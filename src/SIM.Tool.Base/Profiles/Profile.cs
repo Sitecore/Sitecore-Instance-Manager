@@ -15,7 +15,7 @@
     #region Public properties
 
     [NotNull]
-    public string AdvancedSettings
+    public virtual string AdvancedSettings
     {
       get
       {
@@ -31,7 +31,7 @@
     }
 
     [NotNull]
-    public string ConnectionString
+    public virtual string ConnectionString
     {
       get
       {
@@ -47,7 +47,7 @@
     }
 
     [NotNull]
-    public string InstancesFolder
+    public virtual string InstancesFolder
     {
       get
       {
@@ -63,7 +63,7 @@
     }
 
     [NotNull]
-    public string License
+    public virtual string License
     {
       get
       {
@@ -79,7 +79,7 @@
     }
 
     [NotNull]
-    public string LocalRepository
+    public virtual string LocalRepository
     {
       get
       {

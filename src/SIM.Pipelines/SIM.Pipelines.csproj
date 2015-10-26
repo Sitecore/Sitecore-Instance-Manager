@@ -50,8 +50,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\mongocsharpdriver.1.10.0\lib\net35\MongoDB.Driver.dll</HintPath>
     </Reference>
-    <Reference Include="Sitecore.Diagnostics.Base">
-      <HintPath>..\packages\Sitecore.Diagnostics.Base.1.0.0.14\lib\net35\Sitecore.Diagnostics.Base.dll</HintPath>
+    <Reference Include="Sitecore.Diagnostics.Base, Version=1.0.0.0, Culture=neutral, PublicKeyToken=2a430da507ea8b02, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Sitecore.Diagnostics.Base.1.0.0.15\lib\net35\Sitecore.Diagnostics.Base.dll</HintPath>
     </Reference>
     <Reference Include="Sitecore.Diagnostics.Logging, Version=1.0.0.0, Culture=neutral, PublicKeyToken=8e71e5db3070b7f5, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>

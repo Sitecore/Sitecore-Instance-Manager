@@ -13,6 +13,7 @@ namespace SIM
 
   #region
 
+  using System.Xml.Serialization;
   using Sitecore.Diagnostics.Logging;
 
   #endregion

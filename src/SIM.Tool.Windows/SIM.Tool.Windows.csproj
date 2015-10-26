@@ -72,7 +72,8 @@
     </Reference>
     <Reference Include="Sitecore.Diagnostics.Base, Version=1.0.0.0, Culture=neutral, PublicKeyToken=2a430da507ea8b02, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Sitecore.Diagnostics.Base.1.0.0.14\lib\net35\Sitecore.Diagnostics.Base.dll</HintPath>
+      <HintPath>..\packages\Sitecore.Diagnostics.Base.1.0.0.15\lib\net35\Sitecore.Diagnostics.Base.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Sitecore.Diagnostics.Database, Version=1.0.0.0, Culture=neutral, PublicKeyToken=1eb7b03b14a31fae, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -81,9 +82,8 @@
     <Reference Include="Sitecore.Diagnostics.Logging, Version=1.0.0.0, Culture=neutral, PublicKeyToken=8e71e5db3070b7f5, processorArchitecture=MSIL">
       <HintPath>..\packages\Sitecore.Diagnostics.Logging.1.0.0.15\lib\net40\Sitecore.Diagnostics.Logging.dll</HintPath>
     </Reference>
-    <Reference Include="Sitecore.Diagnsotics.InformationService.Client, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f9a5856b52eceddf, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Sitecore.Diagnsotics.InformationService.Client.1.0.0.130\lib\net40\Sitecore.Diagnsotics.InformationService.Client.dll</HintPath>
+    <Reference Include="Sitecore.Diagnsotics.InformationService.Client">
+      <HintPath>..\packages\Sitecore.Diagnsotics.InformationService.Client.1.0.0.139\lib\net40\Sitecore.Diagnsotics.InformationService.Client.dll</HintPath>
     </Reference>
     <Reference Include="Sitecore.NuGet.Core">
       <HintPath>..\packages\Sitecore.NuGet.Core.1.0.0\lib\Sitecore.NuGet.Core.dll</HintPath>

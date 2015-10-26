@@ -38,7 +38,7 @@
       this.version = release.Version;
       this.revision = release.Revision;
       this.label = release.Label;
-      this.value = new ReadOnlyCollection<Uri>(release.Downloads.SelectMany(x => x.Value).Where(x => x.StartsWith("http")).Select(x => new Uri(x)).ToArray());
+      this.value = new ReadOnlyCollection<Uri>(release.Downloads.Where(x => x.StartsWith("http")).Select(x => new Uri(x)).ToArray());
       this.isEnabled = !ProductManager.Products.Any(this.CheckProduct);
       if (!this.isEnabled && this.name.EqualsIgnoreCase("Sitecore CMS") && !ProductManager.Products.Any(this.CheckAnalyticsProduct) && this.value.Count > 1)
       {
