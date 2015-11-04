@@ -11,6 +11,7 @@
   using SIM.Tool.Base.Plugins;
   using Sitecore.Diagnostics;
   using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnostics.Logging;
   using Sitecore.NuGet.Core;
 
   [UsedImplicitly]
@@ -52,7 +53,16 @@
       var generator = new PackageGenerator();
       foreach (var product in ProductManager.StandaloneProducts)
       {
-        generator.Generate(product.PackagePath, nugetFolderPath);
+        if (product == null)
+        {
+          continue;
+        }
+
+        var packagePath = product.PackagePath;
+        Assert.IsNotNull(packagePath, "packagePath");
+
+        Log.Info("Generating NuGet packages for {0}", packagePath);
+        generator.Generate(packagePath, nugetFolderPath);
       }
     }
 
@@ -70,12 +80,17 @@
       var nugetConfig = XmlDocumentEx.LoadFile(nugetConfigPath);
       Assert.IsNotNull(nugetConfig, "nugetConfig");
 
+      var config = nugetConfig.SelectSingleNode("/configuration") ?? nugetConfig.DocumentElement.AddElement("configuration");
+      Assert.IsNotNull(config, "config");
+
       var keyName = "Sitecore NuGet";
-      var packageSources = nugetConfig.SelectSingleElement("/configuration/packageSources") ?? nugetConfig.AddElement("packageSources");
+      var packageSources = nugetConfig.SelectSingleElement("/configuration/packageSources") ?? config.AddElement("packageSources");
       Assert.IsNotNull(packageSources, "packageSources");
 
       var addElements = packageSources.ChildNodes.OfType<XmlElement>();
       var add = addElements.FirstOrDefault(x => x.GetAttribute("key").Equals(keyName, StringComparison.OrdinalIgnoreCase)) ?? packageSources.AddElement("add");
+      Assert.IsNotNull(add, "add");
+
       add.SetAttribute("key", keyName);
       add.SetAttribute("value", nugetFolderPath);
       nugetConfig.Save();
