@@ -392,7 +392,7 @@ namespace SIM.Tool
     <add key=""ProductTitle"" value=""Sitecore Instance Manager""/>
     <add key=""ProductFileName"" value=""SIM.Tool.exe""/>
     <add key=""UpdaterEnabled"" value=""yes""/>
-    <add key=""IgnoreList"" value=""Updater.exe|Updater.exe.config|Updater.vshost.exe|Updater.log|SIM.Tool.vshost.exe""/>
+    <add key=""IgnoreList"" value=""Updater.exe|Updater.exe.config|Updater.vshost.exe|Updater.log|SIM.Tool.vshost.exe|TaskDialog.dll""/>
     <add key=""ClearCacheFolders"" value=""%APPDATA%\Sitecore\Sitecore Instance Manager\Caches""/>
     <add key=""LatestVersionURL"" value=""http://dl.sitecore.net/updater/1.1/sim/latest-version.txt""/>
     <add key=""DownloadURL"" value=""http://dl.sitecore.net/updater/1.1/sim/download.txt""/>
