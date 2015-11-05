@@ -35,15 +35,11 @@
     <Reference Include="Ionic.Zip.Reduced">
       <HintPath>..\packages\DotNetZip.Reduced.1.9.1.8\lib\net20\Ionic.Zip.Reduced.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net40\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="Sitecore.Diagnostics.Base, Version=1.0.0.0, Culture=neutral, PublicKeyToken=2a430da507ea8b02, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Sitecore.Diagnostics.Base.1.0.0.15\lib\net35\Sitecore.Diagnostics.Base.dll</HintPath>
     </Reference>
-    <Reference Include="Sitecore.Diagnostics.Database, Version=1.0.0.0, Culture=neutral, PublicKeyToken=1eb7b03b14a31fae, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="Sitecore.Diagnostics.Database">
       <HintPath>..\packages\Sitecore.Diagnostics.Database.1.0.0.7\lib\net40\Sitecore.Diagnostics.Database.dll</HintPath>
     </Reference>
     <Reference Include="Sitecore.Diagnostics.Logging, Version=1.0.0.0, Culture=neutral, PublicKeyToken=8e71e5db3070b7f5, processorArchitecture=MSIL">
@@ -51,9 +47,8 @@
       <HintPath>..\packages\Sitecore.Diagnostics.Logging.1.0.0.15\lib\net40\Sitecore.Diagnostics.Logging.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Sitecore.Diagnsotics.InformationService.Client, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f9a5856b52eceddf, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Sitecore.Diagnsotics.InformationService.Client.1.0.0.139\lib\net40\Sitecore.Diagnsotics.InformationService.Client.dll</HintPath>
+    <Reference Include="Sitecore.Diagnsotics.InformationService.Client">
+      <HintPath>..\packages\Sitecore.Diagnsotics.InformationService.Client.1.0.0.144\lib\net40\Sitecore.Diagnsotics.InformationService.Client.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
