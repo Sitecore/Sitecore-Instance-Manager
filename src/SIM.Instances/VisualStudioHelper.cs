@@ -4,7 +4,7 @@
   using System.Collections.Generic;
   using System.IO;
   using System.Linq;
-  using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnostics.Base.Annotations;
   using Sitecore.Diagnostics.Logging;
 
   public static class VisualStudioHelper

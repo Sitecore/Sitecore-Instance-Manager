@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Xml;
-using Sitecore.Diagnostics;
-using Sitecore.Diagnostics.Annotations;
+using Sitecore.Diagnostics.Base;
+using Sitecore.Diagnostics.Base.Annotations;
 
 namespace SIM
 {

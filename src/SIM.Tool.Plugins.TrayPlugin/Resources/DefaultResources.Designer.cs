@@ -9,8 +9,8 @@
 //------------------------------------------------------------------------------
 
 namespace SIM.Tool.Plugins.TrayPlugin.Resources {
-    using System; using Sitecore.Diagnostics;
-    using Sitecore.Diagnostics; using Sitecore.Diagnostics.Annotations; using Sitecore.Diagnostics.Annotations;
+    using System; using Sitecore.Diagnostics.Base;
+    using Sitecore.Diagnostics.Base; using Sitecore.Diagnostics.Base.Annotations; using Sitecore.Diagnostics.Base.Annotations;
     
     
     /// <summary>

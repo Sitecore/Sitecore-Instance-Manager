@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Sitecore.Diagnostics;
+using Sitecore.Diagnostics.Base;
 
 namespace SIM
 {

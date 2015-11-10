@@ -3,8 +3,8 @@
   using System.Collections.Generic;
   using System.Data.SqlClient;
   using SIM.Pipelines.Processors;
-  using Sitecore.Diagnostics;
-  using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnostics.Base;
+  using Sitecore.Diagnostics.Base.Annotations;
 
   public class ImportArgs : ProcessorArgs
   {

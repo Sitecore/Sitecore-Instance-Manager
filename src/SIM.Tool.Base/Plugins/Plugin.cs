@@ -7,7 +7,7 @@ namespace SIM.Tool.Base.Plugins
   using System.Reflection;
   using System.Windows.Media;
   using System.Xml;
-  using Sitecore.Diagnostics;
+  using Sitecore.Diagnostics.Base;
   using Sitecore.Diagnostics.Logging;
 
   public class Plugin

@@ -3,8 +3,8 @@ namespace SIM.Pipelines.Export
   using System.Collections.Generic;
   using System.IO;
   using System.Linq;
-  using Sitecore.Diagnostics;
-  using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnostics.Base;
+  using Sitecore.Diagnostics.Base.Annotations;
 
   [UsedImplicitly]
   public class ExportMongoDatabases : ExportProcessor

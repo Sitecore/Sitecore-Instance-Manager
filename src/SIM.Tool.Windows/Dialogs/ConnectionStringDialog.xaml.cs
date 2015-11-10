@@ -5,8 +5,8 @@
   using System.Windows;
   using System.Windows.Input;
   using SIM.Tool.Base;
-  using Sitecore.Diagnostics;
-  using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnostics.Base;
+  using Sitecore.Diagnostics.Base.Annotations;
 
   #region
 

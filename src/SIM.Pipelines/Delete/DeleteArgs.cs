@@ -9,8 +9,8 @@
   using SIM.Adapters.SqlServer;
   using SIM.Instances;
   using SIM.Pipelines.Processors;
-  using Sitecore.Diagnostics;
-  using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnostics.Base;
+  using Sitecore.Diagnostics.Base.Annotations;
 
   #endregion
 

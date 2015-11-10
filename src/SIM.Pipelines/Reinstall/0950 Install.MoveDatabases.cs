@@ -1,6 +1,6 @@
 ﻿namespace SIM.Pipelines.Reinstall
 {
-  using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnostics.Base.Annotations;
 
   #region
 

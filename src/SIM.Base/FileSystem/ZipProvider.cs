@@ -5,8 +5,8 @@ using System.IO;
 using System.Linq;
 using Ionic.Zip;
 using Ionic.Zlib;
-using Sitecore.Diagnostics;
-using Sitecore.Diagnostics.Annotations;
+using Sitecore.Diagnostics.Base;
+using Sitecore.Diagnostics.Base.Annotations;
 
 namespace SIM.FileSystem
 {

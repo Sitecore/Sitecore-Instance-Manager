@@ -1,6 +1,6 @@
 ﻿namespace SIM.Pipelines.Restore
 {
-  using Sitecore.Diagnostics;
+  using Sitecore.Diagnostics.Base;
 
   public class DeleteFiles : RestoreProcessor
   {

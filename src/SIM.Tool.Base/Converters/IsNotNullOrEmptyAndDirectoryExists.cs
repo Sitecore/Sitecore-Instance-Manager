@@ -3,8 +3,8 @@ namespace SIM.Tool.Base.Converters
   using System;
   using System.Globalization;
   using System.Windows.Data;
-  using Sitecore.Diagnostics;
-  using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnostics.Base;
+  using Sitecore.Diagnostics.Base.Annotations;
 
   #region
 

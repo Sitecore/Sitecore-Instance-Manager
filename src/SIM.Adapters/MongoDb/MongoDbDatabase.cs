@@ -1,6 +1,6 @@
 ﻿namespace SIM.Adapters.MongoDb
 {
-  using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnostics.Base.Annotations;
 
   public class MongoDbDatabase
   {

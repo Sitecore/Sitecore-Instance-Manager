@@ -4,7 +4,7 @@ using MongoDB.Driver;
 using SIM.Adapters.MongoDb;
 using SIM.Adapters.SqlServer;
 using SIM.Pipelines.Install;
-using Sitecore.Diagnostics;
+using Sitecore.Diagnostics.Base;
 
 namespace SIM.Pipelines
 {

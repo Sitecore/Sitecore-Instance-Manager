@@ -9,9 +9,9 @@
   using SIM.Tool.Base;
   using SIM.Tool.Base.Profiles;
   using SIM.Tool.Base.Wizards;
-  using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnostics.Base.Annotations;
   using Sitecore.Diagnostics.Logging;
-  using Sitecore.Diagnsotics.InformationService.Client.Model;
+  using Sitecore.Diagnostics.InformationService.Client.Model;
 
   public partial class Downloads : IWizardStep, ICustomButton, IFlowControl
   {

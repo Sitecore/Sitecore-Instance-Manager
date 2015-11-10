@@ -5,8 +5,8 @@
   using Microsoft.Web.Administration;
   using SIM.Adapters.WebServer;
   using SIM.Instances;
-  using Sitecore.Diagnostics;
-  using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnostics.Base;
+  using Sitecore.Diagnostics.Base.Annotations;
 
   #endregion
 

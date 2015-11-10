@@ -11,7 +11,7 @@
   using SIM.Instances;
   using SIM.Pipelines.Processors;
   using SIM.Products;
-  using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnostics.Base.Annotations;
 
   #endregion
 

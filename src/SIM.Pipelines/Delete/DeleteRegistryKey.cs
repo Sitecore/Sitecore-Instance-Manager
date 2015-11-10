@@ -4,8 +4,8 @@
 
   using System;
   using Microsoft.Win32;
-  using Sitecore.Diagnostics;
-  using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnostics.Base;
+  using Sitecore.Diagnostics.Base.Annotations;
   using Sitecore.Diagnostics.Logging;
 
   #endregion

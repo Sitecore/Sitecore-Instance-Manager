@@ -4,7 +4,7 @@
   using System.Linq;
   using SIM.Instances;
   using SIM.Products;
-  using Sitecore.Diagnostics;
+  using Sitecore.Diagnostics.Base;
 
   #region
 

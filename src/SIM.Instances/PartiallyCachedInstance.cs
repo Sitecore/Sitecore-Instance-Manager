@@ -3,7 +3,7 @@
   using System;
   using System.IO;
   using System.Xml;
-  using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnostics.Base.Annotations;
 
   public sealed class PartiallyCachedInstance : Instance, IDisposable
   {

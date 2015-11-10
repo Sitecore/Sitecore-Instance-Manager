@@ -10,8 +10,8 @@
   using System.Threading;
   using SIM.Adapters.SqlServer;
   using SIM.Tool.Base.Profiles;
-  using Sitecore.Diagnostics;
-  using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnostics.Base;
+  using Sitecore.Diagnostics.Base.Annotations;
   using Sitecore.Diagnostics.Logging;
 
   public class EnvironmentHelper

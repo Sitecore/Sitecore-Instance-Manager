@@ -4,7 +4,7 @@
   using System.Collections.Generic;
   using System.Data.SqlClient;
   using SIM.Adapters.SqlServer;
-  using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnostics.Base.Annotations;
 
   [UsedImplicitly]
   internal class ImportRestoreDatabases : ImportProcessor

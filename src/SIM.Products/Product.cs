@@ -12,11 +12,11 @@
   using System.Xml.Schema;
   using System.Xml.Serialization;
   using Ionic.Zip;
-  using Sitecore.Diagnostics;
-  using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnostics.Base;
+  using Sitecore.Diagnostics.Base.Annotations;
+  using Sitecore.Diagnostics.InformationService.Client;
+  using Sitecore.Diagnostics.InformationService.Client.Model;
   using Sitecore.Diagnostics.Logging;
-  using Sitecore.Diagnsotics.InformationService.Client;
-  using Sitecore.Diagnsotics.InformationService.Client.Model;
 
   #endregion
 

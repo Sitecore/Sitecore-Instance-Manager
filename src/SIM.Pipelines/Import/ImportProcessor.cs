@@ -1,8 +1,8 @@
 ﻿namespace SIM.Pipelines.Import
 {
   using SIM.Pipelines.Processors;
-  using Sitecore.Diagnostics;
-  using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnostics.Base;
+  using Sitecore.Diagnostics.Base.Annotations;
 
   public abstract class ImportProcessor : Processor
   {

@@ -1,4 +1,4 @@
-﻿using Sitecore.Diagnostics.Annotations;
+﻿using Sitecore.Diagnostics.Base.Annotations;
 
 namespace SIM.FileSystem
 {

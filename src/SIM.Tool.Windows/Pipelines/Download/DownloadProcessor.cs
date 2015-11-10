@@ -8,7 +8,7 @@
   using SIM.Pipelines.Processors;
   using SIM.Products;
   using SIM.Tool.Base;
-  using Sitecore.Diagnostics;
+  using Sitecore.Diagnostics.Base;
   using Sitecore.Diagnostics.Logging;
 
   public class DownloadProcessor : Processor

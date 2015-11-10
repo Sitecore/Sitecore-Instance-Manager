@@ -4,8 +4,8 @@
 
   using System.Linq;
   using SIM.Instances;
-  using Sitecore.Diagnostics;
-  using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnostics.Base;
+  using Sitecore.Diagnostics.Base.Annotations;
 
   #endregion
 

@@ -1,7 +1,7 @@
 using System;
 using System.IO;
-using Sitecore.Diagnostics;
-using Sitecore.Diagnostics.Annotations;
+using Sitecore.Diagnostics.Base;
+using Sitecore.Diagnostics.Base.Annotations;
 
 namespace SIM.FileSystem
 {

@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Sitecore.Diagnostics;
+using Sitecore.Diagnostics.Base;
 
 namespace SIM
 {

@@ -17,8 +17,8 @@
   using SIM.Tool.Base.Pipelines;
   using SIM.Tool.Base.Profiles;
   using SIM.Tool.Base.Wizards;
-  using Sitecore.Diagnostics;
-  using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnostics.Base;
+  using Sitecore.Diagnostics.Base.Annotations;
   using Sitecore.Diagnostics.Logging;
 
   #region

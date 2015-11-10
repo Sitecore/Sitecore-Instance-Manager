@@ -13,8 +13,8 @@
   using SIM.Adapters.WebServer;
   using SIM.Instances.RuntimeSettings;
   using SIM.Products;
-  using Sitecore.Diagnostics;
-  using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnostics.Base;
+  using Sitecore.Diagnostics.Base.Annotations;
   using Sitecore.Diagnostics.Logging;
 
   [Serializable]

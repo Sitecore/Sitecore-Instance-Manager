@@ -5,8 +5,8 @@
   using System.Collections.ObjectModel;
   using System.Linq;
   using SIM.Pipelines.Processors;
-  using Sitecore.Diagnostics;
-  using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnostics.Base;
+  using Sitecore.Diagnostics.Base.Annotations;
 
   public class Download8Args : ProcessorArgs
   {

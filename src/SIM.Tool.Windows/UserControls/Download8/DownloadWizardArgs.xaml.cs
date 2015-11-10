@@ -7,9 +7,9 @@
   using SIM.Tool.Base.Profiles;
   using SIM.Tool.Base.Wizards;
   using SIM.Tool.Windows.Pipelines.Download8;
-  using Sitecore.Diagnostics;
-  using Sitecore.Diagnostics.Annotations;
-  using Sitecore.Diagnsotics.InformationService.Client.Model;
+  using Sitecore.Diagnostics.Base;
+  using Sitecore.Diagnostics.Base.Annotations;
+  using Sitecore.Diagnostics.InformationService.Client.Model;
 
   public class DownloadWizardArgs : WizardArgs
   {

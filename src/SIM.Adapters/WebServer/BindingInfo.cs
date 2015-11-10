@@ -2,8 +2,8 @@
 {
   using System.Net;
   using Microsoft.Web.Administration;
-  using Sitecore.Diagnostics;
-  using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnostics.Base;
+  using Sitecore.Diagnostics.Base.Annotations;
 
   public sealed class BindingInfo
   {

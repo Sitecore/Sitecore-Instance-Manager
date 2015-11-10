@@ -3,7 +3,7 @@
   using System;
   using System.IO;
   using System.Net;
-  using Sitecore.Diagnostics;
+  using Sitecore.Diagnostics.Base;
 
   public static class InstanceHelper
   {

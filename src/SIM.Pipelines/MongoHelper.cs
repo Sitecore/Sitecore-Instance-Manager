@@ -3,8 +3,8 @@
   using System.Diagnostics;
   using System.IO;
   using SIM.Adapters.MongoDb;
-  using Sitecore.Diagnostics;
-  using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnostics.Base;
+  using Sitecore.Diagnostics.Base.Annotations;
 
   public static class MongoHelper
   {

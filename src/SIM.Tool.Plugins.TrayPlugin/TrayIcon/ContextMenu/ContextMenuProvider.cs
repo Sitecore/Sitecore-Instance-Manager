@@ -9,7 +9,7 @@
   using SIM.Tool.Plugins.TrayPlugin.Common;
   using SIM.Tool.Plugins.TrayPlugin.Helpers;
   using SIM.Tool.Plugins.TrayPlugin.TrayIcon.ContextMenu.Eventing;
-  using Sitecore.Diagnostics;
+  using Sitecore.Diagnostics.Base;
 
   public class ContextMenuProvider
   {

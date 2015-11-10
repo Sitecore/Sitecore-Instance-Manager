@@ -7,8 +7,8 @@
   using System.Web;
   using System.Windows;
   using SIM.Instances;
-  using Sitecore.Diagnostics;
-  using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnostics.Base;
+  using Sitecore.Diagnostics.Base.Annotations;
 
   public static class AuthenticationHelper
   {

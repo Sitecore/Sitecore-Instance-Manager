@@ -9,8 +9,8 @@
 //------------------------------------------------------------------------------
 
 namespace SIM.Tool.Wizards.Properties {
-    using System; using Sitecore.Diagnostics;
-    using Sitecore.Diagnostics; using Sitecore.Diagnostics.Annotations; using Sitecore.Diagnostics.Annotations;
+    using System; using Sitecore.Diagnostics.Base;
+    using Sitecore.Diagnostics.Base; using Sitecore.Diagnostics.Base.Annotations; using Sitecore.Diagnostics.Base.Annotations;
     
     
     /// <summary>

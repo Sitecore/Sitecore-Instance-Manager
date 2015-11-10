@@ -5,7 +5,7 @@ namespace SIM.Tool.Windows.MainWindowComponents
   using SIM.Instances;
   using SIM.Tool.Base;
   using SIM.Tool.Base.Plugins;
-  using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnostics.Base.Annotations;
 
   [UsedImplicitly]
   public class OpenFileButton : IMainWindowButton

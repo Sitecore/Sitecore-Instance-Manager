@@ -2,7 +2,7 @@
 {
   using System;
   using System.Data.SqlClient;
-  using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnostics.Base.Annotations;
   using Sitecore.Diagnostics.Logging;
 
   #region

@@ -7,8 +7,8 @@
   using SIM.Tool.Base;
   using SIM.Tool.Base.Pipelines;
   using SIM.Tool.Base.Plugins;
-  using Sitecore.Diagnostics;
-  using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnostics.Base;
+  using Sitecore.Diagnostics.Base.Annotations;
 
   [UsedImplicitly]
   public class LoginAdminButton : IMainWindowButton

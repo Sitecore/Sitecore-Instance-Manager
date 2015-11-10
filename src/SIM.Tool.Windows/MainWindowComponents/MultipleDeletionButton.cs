@@ -7,7 +7,7 @@
   using SIM.Tool.Base.Plugins;
   using SIM.Tool.Windows;
   using SIM.Tool.Wizards;
-  using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnostics.Base.Annotations;
 
   [UsedImplicitly]
   public class MultipleDeletionButton : IMainWindowButton

@@ -14,8 +14,8 @@
   using System.Windows.Media.Imaging;
   using Microsoft.VisualBasic.FileIO;
   using SIM.Tool.Base.Windows.Dialogs;
-  using Sitecore.Diagnostics;
-  using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnostics.Base;
+  using Sitecore.Diagnostics.Base.Annotations;
   using Sitecore.Diagnostics.Logging;
   using TaskDialogInterop;
 

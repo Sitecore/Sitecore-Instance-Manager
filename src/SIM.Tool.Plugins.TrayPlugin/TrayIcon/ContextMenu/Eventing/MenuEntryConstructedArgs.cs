@@ -3,7 +3,7 @@
   using System;
   using System.Windows.Forms;
   using SIM.Instances;
-  using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnostics.Base.Annotations;
 
   public class MenuEntryConstructedArgs : EventArgs
   {

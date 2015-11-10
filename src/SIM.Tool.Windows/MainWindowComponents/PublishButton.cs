@@ -6,7 +6,7 @@
   using SIM.Tool.Base;
   using SIM.Tool.Base.Pipelines;
   using SIM.Tool.Base.Plugins;
-  using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnostics.Base.Annotations;
   using Sitecore.Diagnostics.Logging;
 
   [UsedImplicitly]

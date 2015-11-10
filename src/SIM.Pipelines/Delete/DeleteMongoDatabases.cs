@@ -1,8 +1,8 @@
 namespace SIM.Pipelines.Delete
 {
   using System.Collections.Generic;
-  using Sitecore.Diagnostics;
-  using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnostics.Base;
+  using Sitecore.Diagnostics.Base.Annotations;
 
   [UsedImplicitly]
   public class DeleteMongoDatabases : DeleteProcessor

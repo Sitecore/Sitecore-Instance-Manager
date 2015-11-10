@@ -1,6 +1,6 @@
 ﻿namespace SIM.Tool.Base
 {
-  using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnostics.Base.Annotations;
 
   public static class AppSettings
   {

@@ -1,6 +1,6 @@
 ﻿namespace SIM.Pipelines.Import
 {
-  using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnostics.Base.Annotations;
 
   [UsedImplicitly]
   public class UpdateLicense : ImportProcessor

@@ -5,7 +5,7 @@
 
   using log4net.Appender;
 
-  using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnostics.Base.Annotations;
 
   [UsedImplicitly]
   public class LogFileAppender : FileAppender

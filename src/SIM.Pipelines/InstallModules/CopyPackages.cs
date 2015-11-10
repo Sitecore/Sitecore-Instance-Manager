@@ -2,8 +2,8 @@ namespace SIM.Pipelines.InstallModules
 {
   using System.Linq;
   using SIM.Pipelines.Agent;
-  using Sitecore.Diagnostics;
-  using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnostics.Base;
+  using Sitecore.Diagnostics.Base.Annotations;
 
   #region
 

@@ -2,7 +2,7 @@
 using System.IO;
 using System.Runtime.Serialization;
 using System.Xml;
-using Sitecore.Diagnostics;
+using Sitecore.Diagnostics.Base;
 
 namespace SIM.CustomDataStoring
 {

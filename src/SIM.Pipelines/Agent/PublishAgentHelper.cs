@@ -4,7 +4,7 @@
   using System.IO;
   using System.Threading;
   using SIM.Instances;
-  using Sitecore.Diagnostics;
+  using Sitecore.Diagnostics.Base;
 
   public static class PublishAgentHelper
   {

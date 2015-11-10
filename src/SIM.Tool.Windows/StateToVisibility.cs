@@ -4,7 +4,7 @@ namespace SIM.Tool.Windows
   using System.Globalization;
   using System.Windows;
   using System.Windows.Data;
-  using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnostics.Base.Annotations;
 
   public class StateToVisibility : IValueConverter
   {

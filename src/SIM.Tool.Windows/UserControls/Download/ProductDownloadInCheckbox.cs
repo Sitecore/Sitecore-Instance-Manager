@@ -4,9 +4,9 @@
   using System.Collections.ObjectModel;
   using System.Linq;
   using SIM.Products;
-  using Sitecore.Diagnostics;
-  using Sitecore.Diagnostics.Annotations;
-  using Sitecore.Diagnsotics.InformationService.Client.Model;
+  using Sitecore.Diagnostics.Base;
+  using Sitecore.Diagnostics.Base.Annotations;
+  using Sitecore.Diagnostics.InformationService.Client.Model;
 
   #region
 

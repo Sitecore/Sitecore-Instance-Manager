@@ -17,8 +17,8 @@ using SIM.Tool.Base.Profiles;
 using SIM.Tool.Base.Runtime;
 using SIM.Tool.Windows;
 using SIM.Tool.Wizards;
-using Sitecore.Diagnostics;
-using Sitecore.Diagnostics.Annotations;
+using Sitecore.Diagnostics.Base;
+using Sitecore.Diagnostics.Base.Annotations;
 using Sitecore.Diagnostics.Logging;
 using File = System.IO.File;
 

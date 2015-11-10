@@ -5,7 +5,7 @@
   using SIM.Tool.Base;
   using SIM.Tool.Base.Profiles;
   using SIM.Tool.Base.Wizards;
-  using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnostics.Base.Annotations;
 
   public partial class ImportWebsite : IWizardStep
   {

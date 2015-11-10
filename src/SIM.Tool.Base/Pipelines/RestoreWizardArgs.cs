@@ -4,7 +4,7 @@
   using SIM.Pipelines.Processors;
   using SIM.Pipelines.Restore;
   using SIM.Tool.Base.Wizards;
-  using Sitecore.Diagnostics;
+  using Sitecore.Diagnostics.Base;
 
   public class RestoreWizardArgs : WizardArgs
   {

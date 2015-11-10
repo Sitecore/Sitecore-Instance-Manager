@@ -5,7 +5,7 @@
   using System.Windows;
   using SIM.Tool.Base;
   using SIM.Tool.Base.Wizards;
-  using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnostics.Base.Annotations;
   using Sitecore.Diagnostics.Logging;
 
   public partial class ExportFile : IWizardStep

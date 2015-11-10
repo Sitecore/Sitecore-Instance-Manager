@@ -3,8 +3,8 @@ using System.ComponentModel;
 using System.IO;
 using System.Reflection;
 using Ionic.Zip;
-using Sitecore.Diagnostics;
-using Sitecore.Diagnostics.Annotations;
+using Sitecore.Diagnostics.Base;
+using Sitecore.Diagnostics.Base.Annotations;
 
 namespace SIM
 {

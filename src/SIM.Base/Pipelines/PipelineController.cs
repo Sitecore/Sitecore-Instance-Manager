@@ -3,7 +3,7 @@
   #region
 
   using System.Collections.Generic;
-  using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnostics.Base.Annotations;
 
   #endregion
 

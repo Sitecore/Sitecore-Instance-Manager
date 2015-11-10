@@ -3,7 +3,7 @@
   using System;
   using System.Threading;
   using System.Threading.Tasks;
-  using Sitecore.Diagnostics;
+  using Sitecore.Diagnostics.Base;
   using Sitecore.Diagnostics.Logging;
 
   public class SingleInstanceMonitor : ISingleInstanceMonitor

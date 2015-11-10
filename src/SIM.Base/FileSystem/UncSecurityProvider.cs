@@ -1,8 +1,8 @@
 using System.IO;
 using System.Security.AccessControl;
 using System.Security.Principal;
-using Sitecore.Diagnostics;
-using Sitecore.Diagnostics.Annotations;
+using Sitecore.Diagnostics.Base;
+using Sitecore.Diagnostics.Base.Annotations;
 
 namespace SIM.FileSystem
 {

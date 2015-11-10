@@ -11,10 +11,10 @@
   using SIM.Tool.Base.Profiles;
   using SIM.Tool.Base.Wizards;
   using SIM.Tool.Windows.Pipelines.Download;
-  using Sitecore.Diagnostics;
-  using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnostics.Base;
+  using Sitecore.Diagnostics.Base.Annotations;
   using Sitecore.Diagnostics.Logging;
-  using Sitecore.Diagnsotics.InformationService.Client.Model;
+  using Sitecore.Diagnostics.InformationService.Client.Model;
 
   #region
 

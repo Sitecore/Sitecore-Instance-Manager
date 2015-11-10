@@ -10,7 +10,7 @@
   using SIM.Tool.Base;
   using SIM.Tool.Base.Wizards;
   using SIM.Tool.Windows.Pipelines.Setup;
-  using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnostics.Base.Annotations;
   using Sitecore.Diagnostics.Logging;
 
   public partial class Permissions : IWizardStep, IFlowControl
