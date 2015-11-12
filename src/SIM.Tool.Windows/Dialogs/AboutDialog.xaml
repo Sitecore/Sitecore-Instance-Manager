@@ -62,7 +62,7 @@
 
         <TextBox Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Top" TextWrapping="Wrap" IsReadOnly="True" BorderThickness="0" Background="Transparent">Official Page:</TextBox>
         <TextBlock Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" TextWrapping="Wrap" Background="Transparent"> 
-				  <Hyperlink NavigateUri="https://bitbucket.org/alienlab/sitecore-instance-manager" RequestNavigate="RequestNavigate">bitbucket.org/alienlab/sitecore-instance-manager</Hyperlink>
+				  <Hyperlink NavigateUri="https://github.com/Sitecore/Sitecore-Instance-Manager" RequestNavigate="RequestNavigate">github.com/Sitecore/Sitecore-Instance-Manager</Hyperlink>
         </TextBlock>
       </Grid>
       <Grid>
@@ -73,7 +73,7 @@
 
         <TextBox Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Top" TextWrapping="Wrap" IsReadOnly="True" BorderThickness="0" Background="Transparent">Release History:</TextBox>
         <TextBlock Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" TextWrapping="Wrap" Background="Transparent"> 
-				  <Hyperlink NavigateUri="https://bitbucket.org/alienlab/sitecore-instance-manager/wiki/Releases" RequestNavigate="RequestNavigate">bitbucket.org/alienlab/sitecore-instance-manager/wiki/Releases</Hyperlink>
+				  <Hyperlink NavigateUri="https://github.com/Sitecore/Sitecore-Instance-Manager/wiki/Releases" RequestNavigate="RequestNavigate">github.com/Sitecore/Sitecore-Instance-Manager/wiki/Releases</Hyperlink>
         </TextBlock>
       </Grid>
       <Grid>
@@ -84,7 +84,7 @@
 
         <TextBox Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Top" TextWrapping="Wrap" IsReadOnly="True" BorderThickness="0" Background="Transparent">Get Support:</TextBox>
         <TextBlock Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" TextWrapping="Wrap" Background="Transparent"> 
-				  <Hyperlink NavigateUri="https://bitbucket.org/alienlab/sitecore-instance-manager/wiki/Support" RequestNavigate="RequestNavigate">bitbucket.org/alienlab/sitecore-instance-manager/wiki/Support</Hyperlink>
+				  <Hyperlink NavigateUri="https://github.com/Sitecore/Sitecore-Instance-Manager/wiki/Support" RequestNavigate="RequestNavigate">github.com/Sitecore/Sitecore-Instance-Manager/wiki/Support</Hyperlink>
         </TextBlock>
       </Grid>
       <Grid>
@@ -95,7 +95,7 @@
 
         <TextBox Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Top" TextWrapping="Wrap" IsReadOnly="True" BorderThickness="0" Background="Transparent">Documentation:</TextBox>
         <TextBlock Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" TextWrapping="Wrap" Background="Transparent"> 
-				  <Hyperlink NavigateUri="https://bitbucket.org/alienlab/sitecore-instance-manager/wiki/Documentation" RequestNavigate="RequestNavigate">bitbucket.org/alienlab/sitecore-instance-manager/wiki/Documentation</Hyperlink>
+				  <Hyperlink NavigateUri="https://github.com/Sitecore/Sitecore-Instance-Manager/wiki/Documentation" RequestNavigate="RequestNavigate">github.com/Sitecore/Sitecore-Instance-Manager/wiki/Documentation</Hyperlink>
         </TextBlock>
       </Grid>
       <Grid>
@@ -106,7 +106,7 @@
 
         <TextBox Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Top" TextWrapping="Wrap" IsReadOnly="True" BorderThickness="0" Background="Transparent">Developer Center:</TextBox>
         <TextBlock Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" TextWrapping="Wrap" Background="Transparent"> 
-				  <Hyperlink NavigateUri="https://bitbucket.org/alienlab/sitecore-instance-manager/wiki/API" RequestNavigate="RequestNavigate">bitbucket.org/alienlab/sitecore-instance-manager/wiki/API</Hyperlink>
+				  <Hyperlink NavigateUri="https://github.com/Sitecore/Sitecore-Instance-Manager/wiki/API" RequestNavigate="RequestNavigate">github.com/Sitecore/Sitecore-Instance-Manager/wiki/API</Hyperlink>
         </TextBlock>
       </Grid>
       <Grid>
@@ -117,7 +117,7 @@
 
         <TextBox Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Top" Name="Tracker" TextWrapping="Wrap" IsReadOnly="True" BorderThickness="0" Background="Transparent">Issues Tracker:</TextBox>
         <TextBlock Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Name="BitBucket" TextWrapping="Wrap" Background="Transparent"> 
-				  <Hyperlink NavigateUri="https://bitbucket.org/alienlab/sitecore-instance-manager/issues" RequestNavigate="RequestNavigate">bitbucket.org/alienlab/sitecore-instance-manager/issues</Hyperlink>
+				  <Hyperlink NavigateUri="https://github.com/Sitecore/Sitecore-Instance-Manager/issues" RequestNavigate="RequestNavigate">github.com/Sitecore/Sitecore-Instance-Manager/issues</Hyperlink>
         </TextBlock>
       </Grid>
       <Grid Margin="0 20 0 0">
