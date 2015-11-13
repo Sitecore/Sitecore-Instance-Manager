@@ -46,7 +46,8 @@
           this.MaxWidth = this.MinWidth;
         }
 
-        this.Title = string.Format(this.Title, ApplicationManager.AppShortVersion, ApplicationManager.AppLabel);
+        this.Title = string.Format(this.Title, ApplicationManager.AppShortVersion, ApplicationManager.AppLabel)
+            + (IsRunningAsAdministrator() ? " (Administrator)" : string.Empty);
 
         this.timer =
           new System.Threading.Timer(
@@ -227,6 +228,13 @@
       {
         this.HandleError(ex);
       }
+    }
+
+    private static bool IsRunningAsAdministrator()
+    {
+      var identity = System.Security.Principal.WindowsIdentity.GetCurrent();
+      var principal = new System.Security.Principal.WindowsPrincipal(identity);
+      return principal.IsInRole(System.Security.Principal.WindowsBuiltInRole.Administrator);
     }
 
     private void ItemsTreeViewKeyPressed([CanBeNull] object sender, [NotNull] KeyEventArgs e)
