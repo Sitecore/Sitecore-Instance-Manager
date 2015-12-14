@@ -67,10 +67,10 @@
   </PropertyGroup>
   <PropertyGroup />
   <PropertyGroup>
-    <ManifestCertificateThumbprint>1AE3090E3598304682ADFCCADCEDAB29C9741CFC</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>9D4794DDCA4BEDEBB09767FE53DB6F69F7A7D8F9</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>SIM.Tool_TemporaryKey.pfx</ManifestKeyFile>
+    <ManifestKeyFile>certificate.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <GenerateManifests>true</GenerateManifests>
@@ -141,11 +141,13 @@
       <Link>WizardPipelines.config</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="C:\TeamCityTools\keys\certificate.pfx">
+      <Link>certificate.pfx</Link>
+    </None>
     <None Include="Copyrights.zip">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <EmbeddedResource Include="Updater.zip" />
-    <None Include="SIM.Tool_TemporaryKey.pfx" />
     <Page Include="ExpressionLight.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
