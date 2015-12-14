@@ -37,7 +37,7 @@
     </Reference>
     <Reference Include="Sitecore.Diagnostics.Base, Version=1.0.0.0, Culture=neutral, PublicKeyToken=2a430da507ea8b02, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Sitecore.Diagnostics.Base.1.0.0.22\lib\net35\Sitecore.Diagnostics.Base.dll</HintPath>
+      <HintPath>..\packages\Sitecore.Diagnostics.Base.1.0.0.24\lib\net35\Sitecore.Diagnostics.Base.dll</HintPath>
     </Reference>
     <Reference Include="Sitecore.Diagnostics.Database, Version=1.0.0.0, Culture=neutral, PublicKeyToken=1eb7b03b14a31fae, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -48,7 +48,7 @@
       <HintPath>..\packages\Sitecore.Diagnostics.InformationService.Client.1.3.0.2\lib\net40\Sitecore.Diagnostics.InformationService.Client.dll</HintPath>
     </Reference>
     <Reference Include="Sitecore.Diagnostics.Logging, Version=1.0.0.0, Culture=neutral, PublicKeyToken=8e71e5db3070b7f5, processorArchitecture=MSIL">
-      <HintPath>..\packages\Sitecore.Diagnostics.Logging.1.0.0.16\lib\net40\Sitecore.Diagnostics.Logging.dll</HintPath>
+      <HintPath>..\packages\Sitecore.Diagnostics.Logging.1.0.0.18\lib\net40\Sitecore.Diagnostics.Logging.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />

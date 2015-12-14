@@ -39,11 +39,10 @@
     </Reference>
     <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="Sitecore.Diagnostics.Base, Version=1.0.0.0, Culture=neutral, PublicKeyToken=2a430da507ea8b02, processorArchitecture=MSIL">
-      <HintPath>..\packages\Sitecore.Diagnostics.Base.1.0.0.22\lib\net35\Sitecore.Diagnostics.Base.dll</HintPath>
+      <HintPath>..\packages\Sitecore.Diagnostics.Base.1.0.0.24\lib\net35\Sitecore.Diagnostics.Base.dll</HintPath>
     </Reference>
-    <Reference Include="Sitecore.Diagnostics.Logging, Version=1.0.0.0, Culture=neutral, PublicKeyToken=8e71e5db3070b7f5, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Sitecore.Diagnostics.Logging.1.0.0.16\lib\net40\Sitecore.Diagnostics.Logging.dll</HintPath>
+    <Reference Include="Sitecore.Diagnostics.Logging">
+      <HintPath>..\packages\Sitecore.Diagnostics.Logging.1.0.0.18\lib\net40\Sitecore.Diagnostics.Logging.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
