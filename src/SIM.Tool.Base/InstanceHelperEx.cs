@@ -89,7 +89,7 @@ namespace SIM.Tool.Base
 
       if (logviewer == "logview.exe")
       {
-        logviewer = ApplicationManager.GetEmbeddedApp("logview.zip", "SIM.Tool.Windows", "logview.exe");
+        logviewer = ApplicationManager.GetEmbeddedFile("logview.zip", "SIM.Tool.Windows", "logview.exe");
       }
 
       var fileSystemWatcher = new FileSystemWatcher(logs)

@@ -404,7 +404,7 @@ namespace SIM.Tool
 
           if (!File.Exists(updaterFileName))
           {
-            var updaterFilePath = ApplicationManager.GetEmbeddedApp("Updater.zip", "SIM.Tool", "updater.exe");
+            var updaterFilePath = ApplicationManager.GetEmbeddedFile("Updater.zip", "SIM.Tool", "updater.exe");
             foreach (var file in Directory.GetFiles(Path.GetDirectoryName(updaterFilePath)))
             {
               File.Copy(file, Path.GetFileName(file));

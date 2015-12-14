@@ -19,7 +19,7 @@ namespace SIM.Tool.Windows.MainWindowComponents
 
     public void OnClick(Window mainWindow, Instance instance)
     {
-      var appFilePath = ApplicationManager.GetEmbeddedApp("Log Analyzer.zip", "SIM.Tool.Plugins.LogAnalyzer", "SitecoreLogAnalyzer.exe");
+      var appFilePath = ApplicationManager.GetEmbeddedFile("Log Analyzer.zip", "SIM.Tool.Plugins.LogAnalyzer", "SitecoreLogAnalyzer.exe");
       if (instance != null)
       {
         string dataFolderPath = instance.DataFolderPath;

@@ -1,13 +1,13 @@
-using System;
-using System.ComponentModel;
-using System.IO;
-using System.Reflection;
-using Ionic.Zip;
-using Sitecore.Diagnostics.Base;
-using Sitecore.Diagnostics.Base.Annotations;
-
 namespace SIM
 {
+  using System;
+  using System.ComponentModel;
+  using System.IO;
+  using System.Reflection;
+  using Ionic.Zip;
+  using Sitecore.Diagnostics.Base;
+  using Sitecore.Diagnostics.Base.Annotations;
+
   #region
 
   
@@ -100,55 +100,65 @@ namespace SIM
 
     #region Public methods
 
-    public static void RaiseAttemptToClose(CancelEventArgs e)
-    {
-      EventHelper.RaiseEvent(AttemptToClose, typeof(ApplicationManager), e);
-    }
-
-    public static string GetEmbeddedApp(string packageName, string assemblyName, string executableName)
+    [NotNull]
+    public static string GetEmbeddedFile([NotNull] string packageName, [NotNull] string assemblyName, [NotNull] string fileName)
     {
       Assert.ArgumentNotNull(packageName, "packageName");
       Assert.ArgumentNotNull(assemblyName, "assemblyName");
-      Assert.ArgumentNotNull(executableName, "executableName");
+      Assert.ArgumentNotNull(fileName, "fileName");
 
       var folder = Path.Combine(TempFolder, assemblyName);
-      var filePath = Path.Combine(folder, executableName);
+      var filePath = Path.Combine(folder, fileName);
       if (File.Exists(filePath))
       {
         return filePath;
       }
 
       var assembly = Assembly.Load(assemblyName);
+      Assert.IsNotNull(assembly, "assembly");
+
       using (var stream = assembly.GetManifestResourceStream(assemblyName + @"." + packageName))
       {
         Assert.IsNotNull(stream, "stream");
 
-        var tmp = Path.GetTempFileName();
-        using (var fileStream = new FileStream(tmp, System.IO.FileMode.Create))
+        var tempFilePath = Path.GetTempFileName();
+        try
         {
-          int len;
-          var buffer = new byte[2048];
-
-          while ((len = stream.Read(buffer, 0, buffer.Length)) > 0)
+          using (var fileStream = new FileStream(tempFilePath, FileMode.Create))
           {
-            fileStream.Write(buffer, 0, len);
+            const int BufferSize = 2048;
+
+            int len;
+            var buffer = new byte[BufferSize];
+
+            while ((len = stream.Read(buffer, 0, BufferSize)) > 0)
+            {
+              fileStream.Write(buffer, 0, len);
+            }
+          }
+
+          using (var zip = new ZipFile(tempFilePath))
+          {
+            zip.ExtractAll(folder);
+          }
+
+          Assert.IsTrue(File.Exists(filePath), "The {0} file path doesn't exist after successful extracting {1} package into {2} folder", filePath, tempFilePath, folder);
+
+          return filePath;
+        }
+        finally
+        {
+          if (File.Exists(tempFilePath))
+          {
+            File.Delete(tempFilePath);
           }
         }
-
-        using (var fs = new ZipFile(tmp))
-        {
-          fs.ExtractAll(folder);
-        }
-
-        Assert.IsTrue(File.Exists(filePath), "The {0} file path doesn't exist after successful extracting {1} package into {2} folder", filePath, tmp, folder);
-
-        if (File.Exists(tmp))
-        {
-          File.Delete(tmp);
-        }
-
-        return filePath;
       }
+    }
+
+    public static void RaiseAttemptToClose(CancelEventArgs e)
+    {
+      EventHelper.RaiseEvent(AttemptToClose, typeof(ApplicationManager), e);
     }
 
     #endregion
