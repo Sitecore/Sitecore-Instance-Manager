@@ -782,10 +782,10 @@
     <Resource Include="Images\window.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App.xml">
+    <EmbeddedResource Include="App.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
-    </Content>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SIM.Base\SIM.Base.csproj">

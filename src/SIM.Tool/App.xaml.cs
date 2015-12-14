@@ -28,6 +28,8 @@ using File = System.IO.File;
 // ReSharper disable CSharpWarnings::CS0162
 namespace SIM.Tool
 {
+  using System.Reflection;
+  using System.Security.Principal;
   using log4net.Config;
 
   public partial class App
@@ -36,6 +38,7 @@ namespace SIM.Tool
 
     public static readonly int APP_DUPLICATE_EXIT_CODE = -8;
     public static readonly int APP_NO_MAIN_WINDOW = -44;
+    public static readonly int APP_NO_PERMISSIONS = -44;
     public static readonly int APP_PIPELINES_ERROR = -22;
     private static readonly string AppLogsMessage = "The application will be suspended, look at the " + ApplicationManager.LogsFolder + " log file to find out what has happened";
 
@@ -70,6 +73,13 @@ namespace SIM.Tool
     protected override void OnStartup([CanBeNull] StartupEventArgs e)
     {
       base.OnStartup(e);
+
+      if (!App.CheckPermissions())
+      {
+        LifeManager.ShutdownApplication(APP_NO_PERMISSIONS);
+
+        return;
+      }
 
       // Ensure we are running only one instance of process
       if (!App.AcquireSingleInstanceLock())
@@ -164,6 +174,35 @@ namespace SIM.Tool
       {
         WindowHelper.HandleError("Main window caused unhandled exception", true, ex);
       }
+    }
+
+    private static bool CheckPermissions()
+    {
+      if (new WindowsPrincipal(WindowsIdentity.GetCurrent()).IsInRole(WindowsBuiltInRole.Administrator))
+      {
+        return true;
+      }
+
+      // It is not possible to launch a ClickOnce app as administrator directly, so instead we launch the
+      // app as administrator in a new process.
+      var processInfo = new ProcessStartInfo(Assembly.GetExecutingAssembly().CodeBase)
+      {
+        UseShellExecute = true,
+        Verb = "runas"
+      };
+
+      // Start the new process
+      try
+      {
+        Process.Start(processInfo);
+      }
+      catch (Exception)
+      {
+        // The user did not allow the application to run as administrator
+        MessageBox.Show("Sorry, this application must be run as Administrator.");
+      }
+
+      return false;
     }
 
     #endregion

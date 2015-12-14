@@ -101,6 +101,45 @@ namespace SIM
     #region Public methods
 
     [NotNull]
+    public static string GetEmbeddedFile([NotNull] string assemblyName, [NotNull] string fileName)
+    {
+      Assert.ArgumentNotNull(assemblyName, "assemblyName");
+      Assert.ArgumentNotNull(fileName, "fileName");
+
+      var folder = Path.Combine(TempFolder, assemblyName);
+      var filePath = Path.Combine(folder, fileName);
+      if (File.Exists(filePath))
+      {
+        return filePath;
+      }
+
+      var assembly = Assembly.Load(assemblyName);
+      Assert.IsNotNull(assembly, "assembly");
+
+      using (var stream = assembly.GetManifestResourceStream(assemblyName + @"." + fileName))
+      {
+        Assert.IsNotNull(stream, "stream");
+
+        using (var fileStream = new FileStream(filePath, FileMode.Create))
+        {
+          const int BufferSize = 2048;
+
+          int len;
+          var buffer = new byte[BufferSize];
+
+          while ((len = stream.Read(buffer, 0, BufferSize)) > 0)
+          {
+            fileStream.Write(buffer, 0, len);
+          }
+        }
+
+        Assert.IsTrue(File.Exists(filePath), "The {0} file path doesn't exist after successful extracting {1} package into {2} folder", filePath, filePath, folder);
+
+        return filePath;
+      }
+    }
+
+    [NotNull]
     public static string GetEmbeddedFile([NotNull] string packageName, [NotNull] string assemblyName, [NotNull] string fileName)
     {
       Assert.ArgumentNotNull(packageName, "packageName");

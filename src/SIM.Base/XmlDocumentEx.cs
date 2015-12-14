@@ -107,6 +107,25 @@ namespace SIM
       return document;
     }
 
+    [CanBeNull]
+    public static XmlDocumentEx LoadFileSafe([NotNull] string path)
+    {
+      Assert.ArgumentNotNull(path, "path");
+
+      if (!FileSystem.FileSystem.Local.File.Exists(path))
+      {
+        return null;
+      }
+
+      var document = new XmlDocumentEx
+      {
+        FilePath = path
+      };
+
+      document.Load(path);
+      return document;
+    }
+
     public static string Normalize(string xml)
     {
       var doc = XmlDocumentEx.LoadXml(xml);
