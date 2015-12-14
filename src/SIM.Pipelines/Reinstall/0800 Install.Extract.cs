@@ -1,5 +1,6 @@
 ﻿namespace SIM.Pipelines.Reinstall
 {
+  using System.IO;
   using SIM.Pipelines.Processors;
   using Sitecore.Diagnostics.Base;
   using Sitecore.Diagnostics.Base.Annotations;
@@ -28,7 +29,10 @@
     {
       Assert.ArgumentNotNull(args, "args");
 
-      InstallHelper.ExtractFile(args.PackagePath, args.WebRootPath, args.DatabasesFolderPath, args.DataFolderPath, this.Controller);
+      var installRadControls = Directory.Exists(Path.Combine(args.WebRootPath, InstallHelper.RadControls));
+      var installDictionaries = Directory.Exists(Path.Combine(args.WebRootPath, InstallHelper.Dictionaries));
+
+      InstallHelper.ExtractFile(args.PackagePath, args.WebRootPath, args.DatabasesFolderPath, args.DataFolderPath, installRadControls, installDictionaries, this.Controller);
     }
 
     #endregion

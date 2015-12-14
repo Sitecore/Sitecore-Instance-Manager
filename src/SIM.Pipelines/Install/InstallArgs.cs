@@ -59,12 +59,15 @@
     [NotNull]
     public readonly string WebServerIdentity;
 
+    public readonly bool InstallRadControls;
+    public readonly bool InstallDictionaries;
+
     #endregion
 
     #region Constructors
 
-    public InstallArgs([NotNull] string name, [NotNull] string host, [NotNull] Product product, [NotNull] string rootPath, [NotNull] SqlConnectionStringBuilder connectionString, [NotNull] string sqlServerIdentity, [NotNull] string webServerIdentity, [NotNull] FileInfo license, bool forceNetFramework4, bool is32Bit, bool isClassic, [NotNull] IEnumerable<Product> modules)
-      : this(name, host, product, Path.Combine(rootPath, "Website"), Path.Combine(rootPath, "Data"), Path.Combine(rootPath, "Databases"), connectionString, sqlServerIdentity, webServerIdentity, license, forceNetFramework4, is32Bit, isClassic, rootPath, modules)
+    public InstallArgs([NotNull] string name, [NotNull] string host, [NotNull] Product product, [NotNull] string rootPath, [NotNull] SqlConnectionStringBuilder connectionString, [NotNull] string sqlServerIdentity, [NotNull] string webServerIdentity, [NotNull] FileInfo license, bool forceNetFramework4, bool is32Bit, bool isClassic, bool installRadControls, bool installDictionaries, [NotNull] IEnumerable<Product> modules)
+      : this(name, host, product, Path.Combine(rootPath, "Website"), Path.Combine(rootPath, "Data"), Path.Combine(rootPath, "Databases"), connectionString, sqlServerIdentity, webServerIdentity, license, forceNetFramework4, is32Bit, isClassic, installRadControls, installDictionaries, rootPath, modules)
     {
       Assert.ArgumentNotNull(name, "name");
       Assert.ArgumentNotNull(host, "host");
@@ -79,7 +82,7 @@
       this.Modules = modules;
     }
 
-    public InstallArgs([NotNull] string name, [NotNull] string host, [NotNull] Product product, [NotNull] string webRootPath, [NotNull] string dataFolderPath, [NotNull] string databasesFolderPath, [NotNull] SqlConnectionStringBuilder connectionString, [NotNull] string sqlServerIdentity, [NotNull] string webServerIdentity, [NotNull] FileInfo license, bool forceNetFramework4, bool is32Bit, bool isClassic, [NotNull] string rootPath, [NotNull] IEnumerable<Product> modules)
+    public InstallArgs([NotNull] string name, [NotNull] string host, [NotNull] Product product, [NotNull] string webRootPath, [NotNull] string dataFolderPath, [NotNull] string databasesFolderPath, [NotNull] SqlConnectionStringBuilder connectionString, [NotNull] string sqlServerIdentity, [NotNull] string webServerIdentity, [NotNull] FileInfo license, bool forceNetFramework4, bool is32Bit, bool isClassic, bool installRadControls, bool installDictionaries, [NotNull] string rootPath, [NotNull] IEnumerable<Product> modules)
     {
       Assert.ArgumentNotNull(name, "name");
       Assert.ArgumentNotNull(host, "host");
@@ -109,6 +112,8 @@
       this.Is32Bit = is32Bit;
       this.IsClassic = isClassic;
       this.RootFolderPath = rootPath;
+      this.InstallRadControls = installRadControls;
+      this.InstallDictionaries = installDictionaries;
     }
 
     #endregion

@@ -11,7 +11,10 @@
 
   public static class InstallHelper
   {
-    public static void ExtractFile([NotNull] string packagePath, [NotNull] string webRootPath, [NotNull] string databasesFolderPath, [NotNull] string dataFolderPath, [CanBeNull] IPipelineController controller = null)
+    public const string RadControls = "sitecore/shell/RadControls";
+    public const string Dictionaries = "sitecore/shell/Controls/Rich Text Editor/Dictionaries";
+      
+    public static void ExtractFile([NotNull] string packagePath, [NotNull] string webRootPath, [NotNull] string databasesFolderPath, [NotNull] string dataFolderPath, bool installRadControls, bool installDictionaries, [CanBeNull] IPipelineController controller = null)
     {
       Assert.ArgumentNotNull(packagePath, "packagePath");
       Assert.ArgumentNotNull(webRootPath, "webRootPath");
@@ -19,9 +22,9 @@
       Assert.ArgumentNotNull(dataFolderPath, "dataFolderPath");
 
       Log.Info("Extracting {0}", packagePath);
-      var ignore = Settings.CoreInstallRadControls.Value ? ":#!" : "sitecore/shell/RadControls";
+      var ignore = installRadControls ? ":#!" : RadControls;
 
-      var ignore2 = Settings.CoreInstallDictionaries.Value ? ":#!" : "sitecore/shell/Controls/Rich Text Editor/Dictionaries";
+      var ignore2 = installDictionaries ? ":#!" : Dictionaries;
       var incrementProgress = controller != null ? new Action<long>(controller.IncrementProgress) : null;
 
       try

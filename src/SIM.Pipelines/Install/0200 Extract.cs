@@ -38,7 +38,7 @@
       var dataFolderPath = args.DataFolderPath;
 
 
-      InstallHelper.ExtractFile(packagePath, webRootPath, databasesFolderPath, dataFolderPath, this.Controller);
+      InstallHelper.ExtractFile(packagePath, webRootPath, databasesFolderPath, dataFolderPath, args.InstallRadControls, args.InstallDictionaries, this.Controller);
     }
 
     #endregion
