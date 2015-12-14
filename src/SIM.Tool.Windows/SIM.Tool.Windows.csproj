@@ -292,6 +292,7 @@
     <Content Include="Configurations\Configuration - Sitecore 8 - Development - Disable Event Queue.zip">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <EmbeddedResource Include="MongoDb.WindowsService.Installer.zip" />
     <None Include="Packages\Support Toolbox.zip">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

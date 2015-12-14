@@ -23,7 +23,7 @@
     {
       Assert.ArgumentNotNull(mainWindow, "mainWindow");
 
-      WindowHelper.RunApp(@"MongoDb.WindowsService.Installer.exe");
+      WindowHelper.RunApp(ApplicationManager.GetEmbeddedApp(@"MongoDb.WindowsService.Installer.zip", "SIM.Tool.Windows", @"MongoDb.WindowsService.Installer.exe"));
     }
 
     #endregion
