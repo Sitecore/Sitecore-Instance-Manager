@@ -1,0 +1,60 @@
+﻿<manifest version="1.4">
+  <package>
+    <name>Sitecore Active Directory Component</name>
+    <install>
+      <after>
+        <params>
+          <param name="{Domain user name with domian-prefix}" title="Domain user name with domian-prefix" defaultValue="mydomain\Administrator" />
+          <param name="{Domain user password}" title="Domain user password" defaultValue="MyPassword"/>
+          <param name="{Sitecore domain name for AD domain}" title="Sitecore domain name for AD domain" defaultValue="mydomain"/>
+          <param name="{LDAP Connection string value}" title="LDAP Connection string value" defaultValue="LDAP://mydomain.com/DC=mydomain,DC=com"/>
+        </params>
+        <actions>
+          <config>
+            <delete xpath="/configuration/sitecore/switchingProviders/membership/provider[@providerName='{Sitecore domain name for AD domain}']" />
+            <append xpath="/configuration/sitecore/switchingProviders/membership">
+              <provider providerName="{Sitecore domain name for AD domain}" storeFullNames="false" wildcard="*" domains="{Sitecore domain name for AD domain}" />
+            </append>
+            <delete xpath="/configuration/sitecore/switchingProviders/roleManager/provider[@providerName='{Sitecore domain name for AD domain}']" />
+            <append xpath="/configuration/sitecore/switchingProviders/roleManager">
+              <provider providerName="{Sitecore domain name for AD domain}" storeFullNames="false" wildcard="*" domains="{Sitecore domain name for AD domain}" />
+            </append>
+            <delete xpath="/configuration/system.web/membership/providers/add[@name='{Sitecore domain name for AD domain}']" />
+            <append xpath="/configuration/system.web/membership/providers">
+              <add name="{Sitecore domain name for AD domain}" type="LightLDAP.SitecoreADMembershipProvider" connectionStringName="{Sitecore domain name for AD domain}" applicationName="sitecore" minRequiredPasswordLength="1" minRequiredNonalphanumericCharacters="0" requiresQuestionAndAnswer="false" requiresUniqueEmail="false" connectionUsername="{Domain user name with domian-prefix}" connectionPassword="{Domain user password}" connectionProtection="Secure" attributeMapUsername="sAMAccountName" enableSearchMethods="true" />
+            </append>
+            <delete xpath="/configuration/system.web/roleManager/providers/add[@name='{Sitecore domain name for AD domain}']" />
+            <append xpath="/configuration/system.web/roleManager/providers">
+              <add name="{Sitecore domain name for AD domain}" type="LightLDAP.SitecoreADRoleProvider" connectionStringName="{Sitecore domain name for AD domain}" applicationName="sitecore" username="{Domain user name with domian-prefix}" password="{Domain user password}" attributeMapUsername="sAMAccountName" />
+            </append>
+            <change xpath="/configuration/system.web/membership/providers/add[@name='sitecore']">
+              <attribute name="realProviderName" value="switcher" />
+            </change>
+            <change xpath="/configuration/system.web/roleManager/providers/add[@name='sitecore']">
+              <attribute name="realProviderName" value="switcher" />
+            </change>
+          </config>
+          <config path="App_Config\ConnectionStrings.config">
+            <delete xpath="/connectionStrings/add[@name='{Sitecore domain name for AD domain}']" />
+            <append xpath="/connectionStrings">
+              <add name="{Sitecore domain name for AD domain}" connectionString="{LDAP Connection string value}" />
+            </append>
+          </config>
+          <config path="App_Config\Security\Domains.config">
+            <delete xpath="/domains/domain[@name='{Sitecore domain name for AD domain}']" />
+            <append xpath="/domains">
+              <domain name="{Sitecore domain name for AD domain}" ensureAnonymousUser="false" />
+            </append>
+          </config>
+          <!-- FOR EARLY SITECORE CMS 6.x -->
+          <config path="App_Config\Security\Domains.config.xml">
+            <delete xpath="/domains/domain[@name='{Sitecore domain name for AD domain}']" />
+            <append xpath="/domains">
+              <domain name="{Sitecore domain name for AD domain}" ensureAnonymousUser="false" />
+            </append>
+          </config>
+        </actions>
+      </after>
+    </install>
+  </package>
+</manifest>
