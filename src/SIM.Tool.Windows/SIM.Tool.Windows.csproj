@@ -289,97 +289,7 @@
     <EmbeddedResource Include="Log Analyzer.zip" />
     <EmbeddedResource Include="ManagedArgsTracer.zip" />
     <EmbeddedResource Include="ManagedGcAwareDump.zip" />
-    <Content Include="Configurations\Configuration - Sitecore 8 - Development - Disable Event Queue.zip">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <EmbeddedResource Include="MongoDb.WindowsService.Installer.zip" />
-    <None Include="Packages\Support Toolbox.zip">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <Resource Include="Configurations\Configuration - Sitecore 6 - DMS - Dedicated CD mode.manifest.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Configurations\Configuration - Sitecore 6 - DMS - Dedicated CM mode.manifest.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Content Include="Configurations\Configuration - Sitecore 7.5 - xDB - Dedicated CD mode.manifest.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Configurations\Configuration - Sitecore 7 - DMS - Dedicated CD mode.zip">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Configurations\Configuration - Sitecore 7 - DMS - Dedicated CM mode.zip">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Configurations\Configuration - DMS - Disable Robots Detection.zip">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Configurations\Configuration - General - Disable Custom Errors.zip">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Configurations\Configuration - General - Enable DEBUG Logging.zip">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Configurations\Configuration - General - Enable Events Timing Level High.zip">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Configurations\Configuration - General - Enable Pipeline Profiling.zip">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Configurations\Configuration - General - Enable Publish Logging.zip">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Configurations\Configuration - General - Unlimited SQL Timeout.zip">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Configurations\Configuration - Sitecore 6 - Dedicated CD mode.zip">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Configurations\Configuration - Sitecore 6 - Dedicated CM mode.zip">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Configurations\Configuration - Sitecore 6 - Main CM mode.zip">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Configurations\Configuration - Sitecore 6.6 - DMS - Enable MVC.zip">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Configurations\Configuration - Sitecore 6.6 - Enable MVC.zip">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Configurations\Configuration - Sitecore 7 - Dedicated CD mode.zip">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Configurations\Configuration - Sitecore 7 - Dedicated CM mode.zip">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Configurations\Configuration - Sitecore 7 - Disable ContentSearch.zip">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Configurations\Configuration - Sitecore 7.0 - DMS - Enable MVC.zip">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Configurations\Configuration - Sitecore 7.0 - Enable MVC.zip">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Configurations\Configuration - Sitecore 7.5 - xDB - Dedicated CD mode.zip">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Configurations\Configuration - Sitecore 8 - ContentSearch - Disable Crawlers.zip">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Configurations\Configuration - Sitecore 8 - Disable ContentSearch.zip">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Configurations\Configuration - Sitecore 6 - DMS - Dedicated CM mode.zip">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Configurations\Configuration - Sitecore 6 - DMS - Dedicated CD mode.zip">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Configurations\Configuration - Sitecore 8 - Development - Initialize Speed Booster.zip">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <None Include="packages.config" />
     <Resource Include="Images\16\astrologer.png" />
     <Resource Include="Images\16\chrome.png" />
@@ -460,18 +370,6 @@
     <Resource Include="Images\32\new_package.png" />
     <Resource Include="Images\24\new_package.png" />
     <Resource Include="Images\16\new_package.png" />
-    <Content Include="Packages\DMS - Fix Integrity.zip">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Packages\EAS - Simple Plan-1.zip">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Packages\EAS - Simple Plan-2.zip">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Packages\Sample Item with Sitecore MVC Presentation-1.0.zip">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Resource Include="Images\16\add_domain.png" />
     <Resource Include="Images\16\box_into.png" />
     <Resource Include="Images\16\box_out.png" />
@@ -609,19 +507,6 @@
     <Resource Include="Images\48\upload.png" />
     <Resource Include="Images\48\wrench.png" />
     <Resource Include="Images\48\zoom_vertical.png" />
-    <Resource Include="Packages\Support Toolbox.manifest.xml">
-      <SubType>Designer</SubType>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Content Include="Packages\Visual Studio 2012 MVC 4 Website Project.zip">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Packages\Visual Studio 2012 MVC Website Project.zip">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Packages\Visual Studio 2012 Website Project.zip">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -820,65 +705,7 @@
   <ItemGroup>
     <Resource Include="Images\Sitecore.png" />
   </ItemGroup>
-  <ItemGroup>
-    <Content Include="Packages\Visual Studio 2012 MVC 4 Website Project.manifest.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Packages\Visual Studio 2012 MVC Website Project.manifest.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Packages\Visual Studio 2012 Website Project.manifest.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Configurations\Configuration - Sitecore 7 - DMS - Dedicated CD mode.manifest.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Configurations\Configuration - Sitecore 7 - DMS - Dedicated CM mode.manifest.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Configurations\Configuration - General - Disable Custom Errors.manifest.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Configurations\Configuration - General - Enable DEBUG Logging.manifest.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Configurations\Configuration - General - Enable Publish Logging.manifest.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Configurations\Configuration - Sitecore 6 - Dedicated CD mode.manifest.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Configurations\Configuration - Sitecore 6 - Dedicated CM mode.manifest.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Configurations\Configuration - Sitecore 6.6 - DMS - Enable MVC.manifest.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Configurations\Configuration - Sitecore 6.6 - Enable MVC.manifest.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Configurations\Configuration - Sitecore 7 - Dedicated CD mode.manifest.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Configurations\Configuration - Sitecore 7 - Dedicated CM mode.manifest.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Configurations\Configuration - Sitecore 7.0 - DMS - Enable MVC.manifest.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Configurations\Configuration - Sitecore 7.0 - Enable MVC.manifest.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Plugins\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
