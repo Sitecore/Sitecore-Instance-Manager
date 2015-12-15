@@ -3,7 +3,9 @@
   using System;
   using System.Collections.Generic;
   using System.Collections.ObjectModel;
+  using System.Linq;
   using SIM.Pipelines.Processors;
+  using SIM.Products;
   using SIM.Tool.Base.Profiles;
   using SIM.Tool.Base.Wizards;
   using SIM.Tool.Windows.Pipelines.Download8;
@@ -55,7 +57,15 @@
     }
 
     [CanBeNull]
-    public IRelease[] Releases { get; set; }
+    public IRelease[] Releases
+    {
+      get
+      {
+        return Product.Service.GetVersions("Sitecore CMS")
+          .With(x => x.Where(z => z.Name.StartsWith("8")))
+          .With(x => x.SelectMany(y => y.Releases).ToArray());
+      }
+    }
 
     public string UserName { get; set; }
 
