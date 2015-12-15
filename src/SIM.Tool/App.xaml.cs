@@ -186,7 +186,7 @@ namespace SIM.Tool
         return;
       }
 
-      Log.Info("App insights call");
+      Log.Debug("App insights call");
       new Action(delegate
       {
         var tc = new TelemetryClient(new TelemetryConfiguration { InstrumentationKey = "1447f72f-2d39-401b-91ac-4d5c502e3359" });
