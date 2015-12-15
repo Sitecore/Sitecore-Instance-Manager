@@ -107,6 +107,11 @@ namespace SIM
       Assert.ArgumentNotNull(fileName, "fileName");
 
       var folder = Path.Combine(TempFolder, assemblyName);
+      if (!Directory.Exists(folder))
+      {
+        Directory.CreateDirectory(folder);
+      }
+
       var filePath = Path.Combine(folder, fileName);
       if (File.Exists(filePath))
       {
