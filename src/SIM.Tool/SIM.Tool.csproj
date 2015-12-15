@@ -298,7 +298,6 @@
     <None Include="Copyrights.zip">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <EmbeddedResource Include="Updater.zip" />
     <Content Include="Packages\DMS - Fix Integrity.zip">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

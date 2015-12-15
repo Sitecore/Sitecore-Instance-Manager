@@ -155,9 +155,6 @@ namespace SIM.Tool
         }
       }
 
-      // Run updater
-      App.RunUpdater();
-
       // Initializing plugins asynchronously 
       PluginManager.Initialize();
 
@@ -375,89 +372,6 @@ namespace SIM.Tool
       catch
       {
         Debug.WriteLine("Error during log main info");
-      }
-    }
-
-    private static void RunUpdater()
-    {
-#if DEBUG
-      return;
-#endif
-      if (!ApplicationManager.IsDebugging)
-      {
-        try
-        {
-          Log.Info("Running updater");
-          const string updaterFileName = "Updater.exe";
-          const string newUpdaterFileName = "Updater_new.exe";
-
-          if (Process.GetProcessesByName(updaterFileName).Any())
-          {
-            return;
-          }
-
-          if (Process.GetProcessesByName(newUpdaterFileName).Any())
-          {
-            return;
-          }
-
-          if (File.Exists(newUpdaterFileName))
-          {
-            if (File.Exists(updaterFileName))
-            {
-              File.Delete(updaterFileName);
-            }
-
-            File.Move(newUpdaterFileName, updaterFileName);
-          }
-
-          const string updaterConfigFileName = "Updater.exe.config";
-          const string newUpdaterConfigFileName = "Updater_new.exe.config";
-          if (File.Exists(newUpdaterConfigFileName))
-          {
-            if (File.Exists(updaterConfigFileName))
-            {
-              File.Delete(updaterConfigFileName);
-            }
-
-            File.Move(newUpdaterConfigFileName, updaterConfigFileName);
-          }
-
-          if (!File.Exists(updaterConfigFileName))
-          {
-            File.WriteAllText(updaterConfigFileName, @"<?xml version=""1.0""?>
-<configuration>
-  <appSettings>
-    <add key=""ProductTitle"" value=""Sitecore Instance Manager""/>
-    <add key=""ProductFileName"" value=""SIM.Tool.exe""/>
-    <add key=""UpdaterEnabled"" value=""yes""/>
-    <add key=""IgnoreList"" value=""Updater.exe|Updater.exe.config|Updater.vshost.exe|Updater.log|SIM.Tool.vshost.exe|TaskDialog.dll""/>
-    <add key=""ClearCacheFolders"" value=""%APPDATA%\Sitecore\Sitecore Instance Manager\Caches""/>
-    <add key=""LatestVersionURL"" value=""http://dl.sitecore.net/updater/1.1/sim/latest-version.txt""/>
-    <add key=""DownloadURL"" value=""http://dl.sitecore.net/updater/1.1/sim/download.txt""/>
-    <add key=""MessageURL"" value=""http://dl.sitecore.net/updater/1.1/sim/message.txt""/>
-  </appSettings>
-</configuration>");
-            Thread.Sleep(100);
-          }
-
-          if (!File.Exists(updaterFileName))
-          {
-            var updaterFilePath = ApplicationManager.GetEmbeddedFile("Updater.zip", "SIM.Tool", "updater.exe");
-            foreach (var file in Directory.GetFiles(Path.GetDirectoryName(updaterFilePath)))
-            {
-              File.Copy(file, Path.GetFileName(file));
-            }
-
-            Thread.Sleep(100);
-          }
-
-          WindowHelper.RunApp(updaterFileName);
-        }
-        catch (Exception ex)
-        {
-          WindowHelper.HandleError("Updater caused unhandled exception", true, ex);
-        }
       }
     }
 
