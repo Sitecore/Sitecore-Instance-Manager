@@ -110,9 +110,16 @@
       <HintPath>..\packages\Microsoft.Web.Administration.7.0.0.0\lib\net20\Microsoft.Web.Administration.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Microsoft.Web.XmlTransform">
+      <HintPath>..\packages\Microsoft.Web.Xdt.2.1.1\lib\net40\Microsoft.Web.XmlTransform.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Windows.Shell, Version=3.5.41019.1, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Fluent.Ribbon.3.6.1.236\lib\net40\Microsoft.Windows.Shell.dll</HintPath>
+    </Reference>
+    <Reference Include="NuGet.Core, Version=2.10.1.766, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\NuGet.Core.2.10.1\lib\net40-Client\NuGet.Core.dll</HintPath>
     </Reference>
     <Reference Include="PresentationFramework" />
     <Reference Include="Sitecore.Diagnostics.Base">
@@ -125,6 +132,9 @@
     <Reference Include="Sitecore.Diagnostics.Logging.Log4Net, Version=1.0.0.0, Culture=neutral, PublicKeyToken=1add1d1ef1eff836, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Sitecore.Diagnostics.Logging.Log4Net.1.0.0.18\lib\net40\Sitecore.Diagnostics.Logging.Log4Net.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.NuGet.Core">
+      <HintPath>..\packages\Sitecore.NuGet.Core.1.0.0.1\lib\Sitecore.NuGet.Core.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -301,6 +311,7 @@
     <Content Include="Configurations\Configuration - Sitecore 8 - Disable ContentSearch.zip">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="app.config" />
     <None Include="Packages\Support Toolbox.zip">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

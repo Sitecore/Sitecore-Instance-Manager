@@ -44,8 +44,7 @@
     <Reference Include="Fluent">
       <HintPath>..\packages\Fluent.Ribbon.3.6.1.236\lib\net40\Fluent.dll</HintPath>
     </Reference>
-    <Reference Include="Ionic.Zip.Reduced, Version=1.9.1.8, Culture=neutral, PublicKeyToken=edbe51ad942a3f5c, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="Ionic.Zip.Reduced">
       <HintPath>..\packages\DotNetZip.Reduced.1.9.1.8\lib\net20\Ionic.Zip.Reduced.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.VisualBasic" />
@@ -60,9 +59,10 @@
     <Reference Include="Microsoft.Windows.Shell">
       <HintPath>..\packages\Fluent.Ribbon.3.6.1.236\lib\net40\Microsoft.Windows.Shell.dll</HintPath>
     </Reference>
-    <Reference Include="NuGet.Core, Version=2.8.60717.93, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+    <Reference Include="NuGet.Core, Version=2.10.1.766, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\NuGet.Core.2.8.6\lib\net40-Client\NuGet.Core.dll</HintPath>
+      <HintPath>..\packages\NuGet.Core.2.10.1\lib\net40-Client\NuGet.Core.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Sitecore.Diagnostics.Base, Version=1.0.0.0, Culture=neutral, PublicKeyToken=2a430da507ea8b02, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -80,7 +80,8 @@
       <HintPath>..\packages\Sitecore.Diagnostics.Logging.1.0.0.18\lib\net40\Sitecore.Diagnostics.Logging.dll</HintPath>
     </Reference>
     <Reference Include="Sitecore.NuGet.Core">
-      <HintPath>..\packages\Sitecore.NuGet.Core.1.0.0\lib\Sitecore.NuGet.Core.dll</HintPath>
+      <HintPath>..\packages\Sitecore.NuGet.Core.1.0.0.1\lib\Sitecore.NuGet.Core.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -290,6 +291,7 @@
     <EmbeddedResource Include="ManagedArgsTracer.zip" />
     <EmbeddedResource Include="ManagedGcAwareDump.zip" />
     <EmbeddedResource Include="MongoDb.WindowsService.Installer.zip" />
+    <None Include="app.config" />
     <None Include="packages.config" />
     <Resource Include="Images\16\astrologer.png" />
     <Resource Include="Images\16\chrome.png" />
