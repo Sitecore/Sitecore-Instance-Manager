@@ -103,14 +103,13 @@
     {
       Assert.ArgumentNotNull(fullmessage, "fullmessage");
 
-      var type = typeOwner.With(t => t.GetType()) ?? typeof(WindowHelper);
       if (ex != null)
       {
-        Log.Error(ex, fullmessage, type);
+        Log.Error(ex, fullmessage);
       }
       else
       {
-        Log.Error(fullmessage, type);
+        Log.Error(fullmessage);
       }
 
       if (isError)
