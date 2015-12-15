@@ -31,7 +31,7 @@
     <UpdateUrl>http://dl.sitecore.net/updater/sim/</UpdateUrl>
     <SupportUrl>https://www.github.com/sitecore/sitecore-instance-manager</SupportUrl>
     <ErrorReportUrl>https://www.github.com/sitecore/sitecore-instance-manager</ErrorReportUrl>
-    <ProductName>Sitecore Instance Manager</ProductName>
+    <ProductName>Sitecore Instance Manager %28SIM%29</ProductName>
     <PublisherName>Sitecore</PublisherName>
     <ApplicationRevision>777</ApplicationRevision>
     <ApplicationVersion>777.777.777.777</ApplicationVersion>
