@@ -9,10 +9,12 @@
   using SIM.Tool.Base;
   using SIM.Tool.Base.Profiles;
   using SIM.Tool.Base.Wizards;
+  using Sitecore.Diagnostics.Base;
   using Sitecore.Diagnostics.Base.Annotations;
-  using Sitecore.Diagnostics.Logging;
   using Sitecore.Diagnostics.InformationService.Client.Model;
+  using Sitecore.Diagnostics.Logging;
 
+  [UsedImplicitly]
   public partial class Downloads : IWizardStep, ICustomButton, IFlowControl
   {
     #region Fields
@@ -104,13 +106,6 @@
 
     #region IStateControl Members
 
-    #region Public properties
-
-    public static WebBrowser WebBrowser { get; private set; }
-    public WizardArgs WizardArgs { get; set; }
-
-    #endregion
-
     #region Public methods
 
     public bool SaveChanges(WizardArgs wizardArgs)
@@ -155,8 +150,10 @@
 
     #region Private methods
 
-    private void Append(IEnumerable<IRelease> records)
+    private void Append([NotNull] IEnumerable<IRelease> records)
     {
+      Assert.ArgumentNotNull(records, "records");
+
       this.checkBoxItems.AddRange(records.Select(r => new ProductDownload8InCheckbox(r)).ToList());
     }
 
