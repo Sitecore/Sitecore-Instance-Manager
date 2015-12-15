@@ -72,28 +72,14 @@
 
     #region Private methods
 
-    private static string GetCookie()
-    {
-      var path = Path.Combine(ApplicationManager.TempFolder, "cookie.txt");
-      if (!FileSystem.FileSystem.Local.File.Exists(path))
-      {
-        var cookie = Guid.NewGuid().ToString().Replace("{", string.Empty).Replace("}", string.Empty).Replace("-", string.Empty);
-        FileSystem.FileSystem.Local.File.WriteAllText(path, cookie);
-
-        return cookie;
-      }
-
-      return FileSystem.FileSystem.Local.File.ReadAllText(path);
-    }
-
     private void AnalyticsTracking()
     {
-      if (this.DoNotTrack())
+      if (EnvironmentHelper.DoNotTrack())
       {
         return;
       }
 
-      var id = this.GetId();
+      var id = EnvironmentHelper.GetId();
       var ver = ApplicationManager.AppVersion.EmptyToNull() ?? "dev";
 
       this.Dispatcher.Invoke(new Action(() =>
@@ -181,32 +167,6 @@
       // disabled since not fixed yet
       // return true;
       return EnvironmentHelper.CheckSqlServer();
-    }
-
-    private bool DoNotTrack()
-    {
-      var path = Path.Combine(ApplicationManager.TempFolder, "donottrack.txt");
-
-      return FileSystem.FileSystem.Local.File.Exists(path);
-    }
-
-    private string GetId()
-    {
-      try
-      {
-        if (EnvironmentHelper.IsSitecoreMachine)
-        {
-          return "internal-" + Environment.MachineName + "/" + Environment.UserName;
-        }
-      }
-      catch (Exception ex)
-      {
-        Log.Warn(ex, "Failed to compute internal identifier");
-      }
-
-      string cookie = GetCookie();
-
-      return string.Format("public-{0}", cookie);
     }
 
     private void HandleError(Exception exception)

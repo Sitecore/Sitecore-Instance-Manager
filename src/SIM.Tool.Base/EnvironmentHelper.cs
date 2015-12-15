@@ -4,11 +4,13 @@
   using System.Data;
   using System.Data.SqlClient;
   using System.DirectoryServices.ActiveDirectory;
+  using System.IO;
   using System.Linq;
   using System.Reflection;
   using System.ServiceProcess;
   using System.Threading;
   using SIM.Adapters.SqlServer;
+  using SIM.FileSystem;
   using SIM.Tool.Base.Profiles;
   using Sitecore.Diagnostics.Base;
   using Sitecore.Diagnostics.Base.Annotations;
@@ -52,9 +54,35 @@
 
     #region Public methods
 
+    public static bool DoNotTrack()
+    {
+      var path = Path.Combine(ApplicationManager.TempFolder, "donottrack.txt");
+
+      return FileSystem.Local.File.Exists(path);
+    }
+
+    public static string GetId()
+    {
+      try
+      {
+        if (IsSitecoreMachine)
+        {
+          return "internal-" + Environment.MachineName + "/" + Environment.UserName;
+        }
+      }
+      catch (Exception ex)
+      {
+        Log.Warn(ex, "Failed to compute internal identifier");
+      }
+
+      string cookie = GetCookie();
+
+      return String.Format("public-{0}", cookie);
+    }
+
     public static bool CheckSqlServer()
     {
-      if (!EnvironmentHelper.CheckSqlServerState.Value)
+      if (!CheckSqlServerState.Value)
       {
         return true;
       }
@@ -68,17 +96,17 @@
 
           var ds = new SqlConnectionStringBuilder(profile.ConnectionString).DataSource;
           var arr = ds.Split('\\');
-          var name = arr.Length == 2 ? arr[1] : string.Empty;
+          var name = arr.Length == 2 ? arr[1] : String.Empty;
 
           var serviceName = GetSqlServerServiceName(profile.ConnectionString);
-          if (string.IsNullOrEmpty(serviceName))
+          if (String.IsNullOrEmpty(serviceName))
           {
             WindowHelper.HandleError("The {0} instance of SQL Server cannot be reached".FormatWith(ds), false);
             return ProfileSection.Result(false);
           }
 
           ServiceController[] serviceControllers = ServiceController.GetServices();
-          ServiceController server = (!string.IsNullOrEmpty(name) ? serviceControllers.FirstOrDefault(s => s.ServiceName.EqualsIgnoreCase(name)) : null) ??
+          ServiceController server = (!String.IsNullOrEmpty(name) ? serviceControllers.FirstOrDefault(s => s.ServiceName.EqualsIgnoreCase(name)) : null) ??
                                      serviceControllers.FirstOrDefault(
                                        s => s.ServiceName.EqualsIgnoreCase(serviceName)) ??
                                      serviceControllers.FirstOrDefault(s => s.ServiceName.EqualsIgnoreCase(serviceName));
@@ -99,15 +127,51 @@
 
     #region Private methods
 
-    private static bool CheckSqlServer(ServiceController server)
+    [NotNull]
+    private static string GetCookie()
     {
-      if (server.Status != ServiceControllerStatus.Running)
+      var path = Path.Combine(ApplicationManager.TempFolder, "cookie.txt");
+      if (FileSystem.Local.File.Exists(path))
       {
-        WindowHelper.HandleError("The {0} instance of SQL Server is not running, it is in {1} state".FormatWith(server.ServiceName, server.Status), false);
-        return false;
+        var cookie = FileSystem.Local.File.ReadAllText(path);
+        if (!string.IsNullOrEmpty(cookie))
+        {
+          return cookie;
+        }
+        
+        try
+        {
+          FileSystem.Local.File.Delete(path);
+        }
+        catch (Exception ex)
+        {
+          Log.Error(ex, "Cannot delete cookie file");
+        }
       }
 
-      return true;
+      var newCookie = Guid.NewGuid().ToString().Replace("{", string.Empty).Replace("}", string.Empty).Replace("-", string.Empty);
+      try
+      {
+        FileSystem.Local.File.WriteAllText(path, newCookie);
+      }
+      catch (Exception ex)
+      {
+        Log.Error(ex, "Cannot write cookie");
+      }
+
+      return newCookie;
+    }
+
+    private static bool CheckSqlServer([CanBeNull] ServiceController server)
+    {
+      if (server != null && server.Status == ServiceControllerStatus.Running)
+      {
+        return true;
+      }
+
+      WindowHelper.HandleError("The {0} instance of SQL Server is not running, it is in {1} state".FormatWith(server.ServiceName, server.Status), false);
+
+      return false;
     }
 
     private static bool GetIsSitecoreMachine()
