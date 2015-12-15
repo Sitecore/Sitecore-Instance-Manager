@@ -189,7 +189,7 @@ namespace SIM.Tool
       Log.Info("App insights call");
       new Action(delegate
       {
-        var tc = new TelemetryClient(new TelemetryConfiguration { InstrumentationKey = "1447f72f-2d39-401b-91ac-4d5c502e3359"});
+        var tc = new TelemetryClient(new TelemetryConfiguration { InstrumentationKey = "1447f72f-2d39-401b-91ac-4d5c502e3359" });
         try
         {
           tc.Context.User.AccountId = EnvironmentHelper.GetId();
@@ -309,9 +309,9 @@ namespace SIM.Tool
 
         return new Profile
         {
-          ConnectionString = cstr, 
-          InstancesFolder = root, 
-          LocalRepository = rep, 
+          ConnectionString = cstr,
+          InstancesFolder = root,
+          LocalRepository = rep,
           License = lic
         };
       }
@@ -389,17 +389,17 @@ namespace SIM.Tool
         Log.Info("**********************************************************************");
         Log.Info("**********************************************************************");
         Log.Info("Sitecore Instance Manager started");
-        Log.Info("Version: {0}",  ApplicationManager.AppVersion);
-        Log.Info("Revision: {0}",  ApplicationManager.AppRevision);
-        Log.Info("Label: {0}",  ApplicationManager.AppLabel);
+        Log.Info("Version: {0}", ApplicationManager.AppVersion);
+        Log.Info("Revision: {0}", ApplicationManager.AppRevision);
+        Log.Info("Label: {0}", ApplicationManager.AppLabel);
 
         var nativeArgs = Environment.GetCommandLineArgs();
         var commandLineArgs = nativeArgs.Skip(1).ToArray();
         var argsToLog = commandLineArgs.Length > 0 ? string.Join("|", commandLineArgs) : "<NO ARGUMENTS>";
 
-        Log.Info("Executable: {0}",  nativeArgs.FirstOrDefault() ?? string.Empty);
-        Log.Info("Arguments: {0}",  argsToLog);
-        Log.Info("Directory: {0}",  Environment.CurrentDirectory);
+        Log.Info("Executable: {0}", nativeArgs.FirstOrDefault() ?? string.Empty);
+        Log.Info("Arguments: {0}", argsToLog);
+        Log.Info("Directory: {0}", Environment.CurrentDirectory);
         Log.Info("**********************************************************************");
         Log.Info("**********************************************************************");
       }
@@ -420,7 +420,7 @@ namespace SIM.Tool
       }
       catch (Exception ex)
       {
-        Log.Error(ex, "Failed to process {0}",  label);
+        Log.Error(ex, "Failed to process {0}", label);
 
         return default(T);
       }
