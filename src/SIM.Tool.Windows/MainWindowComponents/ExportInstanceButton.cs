@@ -3,6 +3,7 @@
   using System.Windows;
   using SIM.Instances;
   using SIM.Pipelines.Export;
+  using SIM.Tool.Base;
   using SIM.Tool.Base.Plugins;
   using SIM.Tool.Wizards;
   using Sitecore.Diagnostics.Base.Annotations;
@@ -19,6 +20,8 @@
 
     public void OnClick(Window mainWindow, Instance instance)
     {
+      Analytics.TrackEvent("Export");
+
       if (instance != null)
       {
         var id = MainWindowHelper.GetListItemID(instance.ID);

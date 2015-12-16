@@ -2,6 +2,7 @@
 {
   using System.Windows;
   using SIM.Instances;
+  using SIM.Tool.Base;
   using SIM.Tool.Base.Plugins;
   using SIM.Tool.Base.Profiles;
   using SIM.Tool.Wizards;
@@ -19,6 +20,8 @@
 
     public void OnClick(Window mainWindow, Instance instance)
     {
+      Analytics.TrackEvent("Download8");
+
       if (FileSystem.FileSystem.Local.Directory.Exists(ProfileManager.Profile.LocalRepository))
       {
         WizardPipelineManager.Start("download8", mainWindow, null, null, MainWindowHelper.RefreshInstaller, WindowsSettings.AppDownloaderSdnUserName.Value, WindowsSettings.AppDownloaderSdnPassword.Value);

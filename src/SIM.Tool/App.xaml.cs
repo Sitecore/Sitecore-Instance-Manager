@@ -164,8 +164,7 @@ namespace SIM.Tool
       // Clean up garbage
       App.DeleteTempFolders();
 
-      // Call statistics
-      App.ApplicationInsights();
+      Analytics.Start();
 
       // Show main window
       try
@@ -177,34 +176,8 @@ namespace SIM.Tool
       {
         WindowHelper.HandleError("Main window caused unhandled exception", true, ex);
       }
-    }
 
-    private static void ApplicationInsights()
-    {
-      if (string.IsNullOrEmpty(ApplicationManager.AppVersion) || EnvironmentHelper.DoNotTrack())
-      {
-        return;
-      }
-
-      Log.Debug("App insights call");
-      new Action(delegate
-      {
-        var tc = new TelemetryClient(new TelemetryConfiguration { InstrumentationKey = "1447f72f-2d39-401b-91ac-4d5c502e3359" });
-        try
-        {
-          tc.Context.User.AccountId = EnvironmentHelper.GetId();
-          tc.Context.User.UserAgent = "os: " + Environment.OSVersion + "; cpu:" + Environment.ProcessorCount;
-          tc.Flush();
-          Log.Debug("App insights async flushed");
-        }
-        catch (Exception ex)
-        {
-          tc.TrackException(ex);
-          Log.Error(ex, "Error in app insights");
-        }
-      }).BeginInvoke(null, null);
-
-      Log.Debug("App insights done");
+      Analytics.Flush();
     }
 
     private static bool CheckPermissions()

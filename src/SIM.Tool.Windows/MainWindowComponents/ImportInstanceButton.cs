@@ -24,6 +24,8 @@
     {
       Assert.ArgumentNotNull(mainWindow, "mainWindow");
 
+      Analytics.TrackEvent("Import");
+
       var fileDialog = new OpenFileDialog
       {
         Title = "Select zip file of exported solution",

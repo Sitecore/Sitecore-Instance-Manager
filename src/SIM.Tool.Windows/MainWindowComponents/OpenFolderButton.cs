@@ -37,6 +37,8 @@
 
     public void OnClick(Window mainWindow, Instance instance)
     {
+      Analytics.TrackEvent("OpenFolder");
+
       var path = this.ExpandPath(instance).Replace("/", "\\");
       if (!FileSystem.FileSystem.Local.Directory.Exists(path))
       {

@@ -34,6 +34,8 @@ namespace SIM.Tool.Windows.MainWindowComponents
 
     public void OnClick(Window mainWindow, Instance instance)
     {
+      Analytics.TrackEvent("OpenFile");
+
       if (instance != null)
       {
         string filePath = this.FilePath.StartsWith("/") ? Path.Combine(instance.WebRootPath, this.FilePath.Substring(1)) : this.FilePath;

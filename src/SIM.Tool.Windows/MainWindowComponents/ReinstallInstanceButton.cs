@@ -20,6 +20,8 @@
 
     public void OnClick(Window mainWindow, Instance instance)
     {
+      Analytics.TrackEvent("Reinstall");
+
       if (instance != null)
       {
         if (!MainWindowHelper.IsInstallerReady())

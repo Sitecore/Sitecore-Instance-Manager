@@ -19,6 +19,8 @@ namespace SIM.Tool.Windows.MainWindowComponents
 
     public void OnClick(Window mainWindow, Instance instance)
     {
+      Analytics.TrackEvent("OpenLogAnalyzer");
+
       var appFilePath = ApplicationManager.GetEmbeddedFile("Log Analyzer.zip", "SIM.Tool.Windows", "SitecoreLogAnalyzer.exe");
       if (instance != null)
       {

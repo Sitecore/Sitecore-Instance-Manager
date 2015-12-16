@@ -23,6 +23,8 @@
 
     public void OnClick(Window mainWindow, Instance instance)
     {
+      Analytics.TrackEvent("Install");
+
       Assert.IsTrue(ProfileManager.IsValid, "Some of configuration settings are invalid - please fix them in Settings dialog and try again", false);
       Assert.IsTrue(ProductManager.StandaloneProducts.Any(), 
         @"You don't have any standalone product package in your repository. Options to solve:

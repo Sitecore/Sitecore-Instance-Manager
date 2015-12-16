@@ -74,8 +74,9 @@
     public void OnClick(Window mainWindow, Instance instance)
     {
       Assert.ArgumentNotNull(mainWindow, "mainWindow");
-      
-      Assert.IsNotNull(instance, "instance"); 
+      Assert.IsNotNull(instance, "instance");
+
+      Analytics.TrackEvent("LogInAdmin");
 
       InstanceHelperEx.OpenInBrowserAsAdmin(instance, mainWindow, this.VirtualPath, this.Browser, this.Params);
     }

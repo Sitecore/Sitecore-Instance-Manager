@@ -3,6 +3,7 @@
   using System;
   using System.Windows;
   using SIM.Instances;
+  using SIM.Tool.Base;
   using SIM.Tool.Base.Plugins;
   using Sitecore.Diagnostics.Base;
   using Sitecore.Diagnostics.Base.Annotations;
@@ -72,6 +73,8 @@
 
     public void OnClick(Window mainWindow, Instance instance)
     {
+      Analytics.TrackEvent("Refresh");
+
       using (new ProfileSection("Refresh main window instances", this))
       {
         ProfileSection.Argument("mainWindow", mainWindow);
