@@ -184,8 +184,13 @@
 
     private void Append(string folder)
     {
-      var ver = AppSettings.AppToolsVisualStudioVersion.Value;
+      if (!Directory.Exists(folder))
+      {
+        return;
+      }
 
+      var ver = AppSettings.AppToolsVisualStudioVersion.Value;
+      
       IEnumerable<string> files = FileSystem.FileSystem.Local.Directory.GetFiles(folder, "*.zip", SearchOption.AllDirectories).Where(f => !f.ContainsIgnoreCase("Visual Studio") || f.ContainsIgnoreCase("Visual Studio " + ver));
 
       var productsToAdd = files.Select(f => new ProductInCheckbox(Product.GetFilePackageProduct(f))).ToList();
