@@ -128,7 +128,7 @@
     #region Private methods
 
     [NotNull]
-    private static string GetCookie()
+    public static string GetCookie()
     {
       var path = Path.Combine(ApplicationManager.TempFolder, "cookie.txt");
       if (FileSystem.Local.File.Exists(path))

@@ -2,6 +2,7 @@
 {
   using System;
   using Microsoft.ApplicationInsights;
+  using Microsoft.ApplicationInsights.Channel;
   using Microsoft.ApplicationInsights.Extensibility;
   using Sitecore.Diagnostics.Base;
   using Sitecore.Diagnostics.Base.Annotations;
@@ -10,7 +11,7 @@
   public static class Analytics
   {
     [CanBeNull]
-    private static TelemetryClient Client;
+    private static TelemetryClient client;
 
     public static void Start()
     {
@@ -23,14 +24,19 @@
 
       try
       {
-        var tc = new TelemetryClient(new TelemetryConfiguration { InstrumentationKey = "1447f72f-2d39-401b-91ac-4d5c502e3359" });
-        Client = tc;
+        var tc = new TelemetryClient(new TelemetryConfiguration
+        {
+          InstrumentationKey = "1447f72f-2d39-401b-91ac-4d5c502e3359",
+          TelemetryChannel = new PersistenceChannel()
+        });
+
+        client = tc;
         try
         {
-          tc.Context.User.Id = Environment.MachineName + "\\" + Environment.UserName;
           tc.Context.Session.Id = Guid.NewGuid().ToString();
-          tc.Context.User.AccountId = EnvironmentHelper.GetId();
-          tc.Context.User.UserAgent = "os: " + Environment.OSVersion + "; cpu:" + Environment.ProcessorCount;
+          tc.Context.User.Id = Environment.MachineName + "\\" + Environment.UserName;
+          tc.Context.User.AccountId = EnvironmentHelper.GetCookie();
+          tc.Context.Device.OperatingSystem = Environment.OSVersion.ToString();
           tc.TrackEvent("Start");
           tc.Flush();
         }
@@ -52,7 +58,7 @@
     {
       Assert.ArgumentNotNull(eventName, "eventName");
 
-      var tc = Client;
+      var tc = client;
       if (tc == null)
       {
         return;
@@ -70,7 +76,7 @@
 
     public static void Flush()
     {
-      var tc = Client;
+      var tc = client;
       if (tc == null)
       {
         return;
