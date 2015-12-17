@@ -46,7 +46,7 @@
           this.MaxWidth = this.MinWidth;
         }
 
-        this.Title = string.Format(this.Title, ApplicationManager.AppShortVersion, ApplicationManager.AppLabel);
+        this.Title = string.Format(this.Title, ApplicationManager.AppShortVersion, ApplicationManager.AppVersion, ApplicationManager.AppLabel);
 
         this.timer =
           new System.Threading.Timer(
