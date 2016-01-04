@@ -1,0 +1,1 @@
+﻿Manifests were moved to the tool project to be shipped via ClickOnce.
