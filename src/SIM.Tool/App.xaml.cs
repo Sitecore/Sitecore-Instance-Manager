@@ -107,6 +107,17 @@ namespace SIM.Tool
       if (App.IsFirstRun)
       {
         CacheManager.ClearAll();
+
+        foreach (var filePath in Directory.GetFiles(".", "*-xml", SearchOption.AllDirectories))
+        {
+          if (filePath == null)
+          {
+            continue;
+          }
+
+          var newFilePath = filePath.Substring(0, filePath.Length - 4) + ".xml";
+          File.Move(filePath, newFilePath);
+        }
       }
 
       if (!App.CheckPermissions())
