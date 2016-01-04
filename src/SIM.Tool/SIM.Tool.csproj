@@ -131,6 +131,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
     <Reference Include="System.IO">
       <HintPath>..\packages\Microsoft.Bcl.1.1.8\lib\net40\System.IO.dll</HintPath>
     </Reference>
@@ -217,6 +218,9 @@
     <Resource Include="Configurations\Configuration - Sitecore 7.5 - xDB - Dedicated CD mode.manifest.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
+    <Content Include="first-run.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Resource Include="Packages\Visual Studio 2012 MVC 4 Website Project.manifest.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>

@@ -29,6 +29,7 @@ using File = System.IO.File;
 namespace SIM.Tool
 {
   using System.ComponentModel;
+  using System.Deployment.Application;
   using System.Reflection;
   using System.Security.Principal;
   using log4net.Config;
@@ -45,6 +46,39 @@ namespace SIM.Tool
     public static readonly int APP_NO_PERMISSIONS = -44;
     public static readonly int APP_PIPELINES_ERROR = -22;
     private static readonly string AppLogsMessage = "The application will be suspended, look at the " + ApplicationManager.LogsFolder + " log file to find out what has happened";
+
+    #endregion
+
+    #region Properties
+
+    private static bool IsFirstRun
+    {
+      get
+      {
+        try
+        {
+          var deployment = ApplicationDeployment.CurrentDeployment;
+          if (deployment != null && deployment.IsFirstRun)
+          {
+            return true;
+          }
+        }
+        catch
+        {
+          // an error here indicates that it is not click-once deployment
+        }
+
+        var fileName = "first-run.txt";
+        if (File.Exists(fileName))
+        {
+          File.Delete(fileName);
+
+          return true;
+        }
+
+        return false;
+      }
+    }
 
     #endregion
 
@@ -77,6 +111,11 @@ namespace SIM.Tool
     protected override void OnStartup([CanBeNull] StartupEventArgs e)
     {
       base.OnStartup(e);
+
+      if (App.IsFirstRun)
+      {
+        CacheManager.ClearAll();
+      }
 
       if (!App.CheckPermissions())
       {
