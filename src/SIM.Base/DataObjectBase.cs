@@ -1,12 +1,10 @@
-﻿using System.ComponentModel;
-using Sitecore.Diagnostics.Base;
-using Sitecore.Diagnostics.Base.Annotations;
-
-namespace SIM
+﻿namespace SIM
 {
   #region
 
-  
+  using System.ComponentModel;
+  using Sitecore.Diagnostics.Base;
+  using Sitecore.Diagnostics.Base.Annotations;
 
   #endregion
 

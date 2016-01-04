@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace SIM
+﻿namespace SIM
 {
+  using System;
+
   public static class EventHelper
   {
     #region Public methods

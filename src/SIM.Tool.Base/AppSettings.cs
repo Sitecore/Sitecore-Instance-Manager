@@ -25,9 +25,6 @@
     public static readonly AdvancedProperty<bool> AppUiHighDpiEnabled = AdvancedSettings.Create("App/UI/HighDPI/Enabled", false);
 
     [NotNull]
-    public static readonly AdvancedProperty<bool> AppSysAllowMultipleInstances = AdvancedSettings.Create("App/Sys/AllowMultipleInstances", false);
-
-    [NotNull]
     public static readonly AdvancedProperty<bool> AppSysIsSingleThreaded = AdvancedSettings.Create("App/Sys/IsSingleThreaded", false);
 
     [NotNull]

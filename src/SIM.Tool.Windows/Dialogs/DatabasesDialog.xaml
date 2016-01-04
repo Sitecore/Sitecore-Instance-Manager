@@ -65,15 +65,9 @@
           <Button Content="Refresh" Click="Refresh" Width="65" Margin="0, 0, 20, 0" />
           <Button Content="Attach" Click="AttachButtonClick" Width="65" Margin="0, 0, 20, 0" />
                     <Button Content="Restore" Width="65" Margin="0, 0, 20, 0" Click="Restore" />
-                    <Button Content="SQL Shell" Width="64" Click="ShowSQLShell" />
-          <!--<Button Content="Rename" Click="Rename" Width="65" Margin="0, 0, 4, 0" IsEnabled="{Binding ElementName=Databases,Path=SelectedItem, Converter={x:Static Converters:IsNotNullConverter.Instance}}" />
-          <Button Content="Detach" Click="Detach" Width="65" Margin="0, 0, 4, 0"  />
-          <Button Content="Delete" Click="Delete" Width="65" Margin="0, 0, 4, 0"  />-->
+          <Button Content="SQL Shell" Width="64" Click="ShowSQLShell" />
         </StackPanel>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-          <!--<Grid HorizontalAlignment="Left" Margin="6,0,0,0" VerticalAlignment="Stretch" IsEnabled="{Binding ElementName=MainRootFolder, Path=Text, Converter={x:Static Converters:IsNotNullOrEmptyAndDirectoryExists.Instance}}" Width="72">
-            <Button Content="OK" Name="DoneButton" Click="SaveChanges" />
-          </Grid>-->
           <Button Content="Close" HorizontalAlignment="Left" Margin="24,0,0,0" Name="CancelButton" VerticalAlignment="Stretch" IsEnabled="True" IsDefault="False" IsCancel="True" Width="72" Click="CancelChanges" />
         </StackPanel>
       </Grid>

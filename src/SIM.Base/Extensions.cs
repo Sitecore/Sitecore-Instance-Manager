@@ -1,19 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Xml;
-using Sitecore.Diagnostics.Base;
-using Sitecore.Diagnostics.Base.Annotations;
-
-namespace SIM
+﻿namespace SIM
 {
-  
-
-
   #region
 
-  using System.Xml.Serialization;
+  using System;
+  using System.Collections.Generic;
+  using System.IO;
+  using System.Linq;
+  using System.Xml;
+  using Sitecore.Diagnostics.Base;
+  using Sitecore.Diagnostics.Base.Annotations;
   using Sitecore.Diagnostics.Logging;
 
   #endregion

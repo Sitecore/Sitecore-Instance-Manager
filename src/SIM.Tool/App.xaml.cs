@@ -1,41 +1,33 @@
-﻿#region Usings
-
-using System;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Threading;
-using System.Windows;
-using System.Xml;
-using SIM.Adapters.SqlServer;
-using SIM.Instances;
-using SIM.Pipelines;
-using SIM.Pipelines.Processors;
-using SIM.Tool.Base;
-using SIM.Tool.Base.Plugins;
-using SIM.Tool.Base.Profiles;
-using SIM.Tool.Base.Runtime;
-using SIM.Tool.Windows;
-using SIM.Tool.Wizards;
-using Sitecore.Diagnostics.Base;
-using Sitecore.Diagnostics.Base.Annotations;
-using Sitecore.Diagnostics.Logging;
-using File = System.IO.File;
-
-#endregion
-
-// ReSharper disable HeuristicUnreachableCode
+﻿// ReSharper disable HeuristicUnreachableCode
 // ReSharper disable CSharpWarnings::CS0162
 namespace SIM.Tool
 {
+  using System;
   using System.ComponentModel;
   using System.Deployment.Application;
+  using System.Diagnostics;
+  using System.IO;
+  using System.Linq;
   using System.Reflection;
   using System.Security.Principal;
+  using System.Threading;
+  using System.Windows;
+  using System.Xml;
   using log4net.Config;
-  using Microsoft.ApplicationInsights;
-  using Microsoft.ApplicationInsights.Channel;
-  using Microsoft.ApplicationInsights.Extensibility;
+  using SIM.Adapters.SqlServer;
+  using SIM.Instances;
+  using SIM.Pipelines;
+  using SIM.Pipelines.Processors;
+  using SIM.Tool.Base;
+  using SIM.Tool.Base.Plugins;
+  using SIM.Tool.Base.Profiles;
+  using SIM.Tool.Base.Runtime;
+  using SIM.Tool.Windows;
+  using SIM.Tool.Wizards;
+  using Sitecore.Diagnostics.Base;
+  using Sitecore.Diagnostics.Base.Annotations;
+  using Sitecore.Diagnostics.Logging;
+  using File = System.IO.File;
 
   public partial class App
   {

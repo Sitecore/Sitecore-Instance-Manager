@@ -1,7 +1,7 @@
-﻿using System.IO;
-
-namespace SIM
+﻿namespace SIM
 {
+  using System.IO;
+
   public class XmlBasedAdvancedSettingsStorage : IAdvancedSettingsStorage
   {
     #region Fields

@@ -151,31 +151,5 @@ namespace SIM.Tool.Base.Plugins
     }
 
     #endregion
-
-    // If the folder contains Plugin.xml file, then it returns an instance of Plugin class otherwise null.
-    #region Nested type: Proxy
-
-    public class Proxy : MarshalByRefObject
-    {
-      #region Public Methods and Operators
-
-      public Assembly GetAssembly(string assemblyPath)
-      {
-        try
-        {
-          return Assembly.LoadFile(assemblyPath);
-        }
-        catch (Exception ex)
-        {
-          Log.Warn(ex, "An error occurred during getting assembly: {0}",  assemblyPath);
-
-          return null;
-        }
-      }
-
-      #endregion
-    }
-
-    #endregion
   }
 }

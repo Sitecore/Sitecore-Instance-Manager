@@ -101,8 +101,6 @@
     <Compile Include="Analytics.cs" />
     <Compile Include="AppSettings.cs" />
     <Compile Include="AuthenticationHelper.cs" />
-    <Compile Include="Converters\InverseBooleanConverter.cs" />
-    <Compile Include="Converters\IsNotNullConverter.cs" />
     <Compile Include="Converters\IsNotNullOrEmptyAndDirectoryExists.cs" />
     <Compile Include="Converters\Product.cs" />
     <Compile Include="EnvironmentHelper.cs" />

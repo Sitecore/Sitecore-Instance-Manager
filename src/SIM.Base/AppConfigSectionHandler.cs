@@ -1,7 +1,7 @@
-﻿using System.Xml;
-
-namespace SIM
+﻿namespace SIM
 {
+  using System.Xml;
+
   /// <summary>
   ///   Section handler for App.config file that allows to retrive XML representation of section data.
   /// </summary>

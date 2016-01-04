@@ -1,9 +1,8 @@
-﻿using System;
-using Sitecore.Diagnostics.Base;
-using Sitecore.Diagnostics.Base.Annotations;
-
-namespace SIM
+﻿namespace SIM
 {
+  using System;
+  using Sitecore.Diagnostics.Base;
+  using Sitecore.Diagnostics.Base.Annotations;
   using Sitecore.Diagnostics.Logging;
 
   public static class ReflectionUtil

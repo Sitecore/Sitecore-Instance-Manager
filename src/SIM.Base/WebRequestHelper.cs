@@ -1,12 +1,12 @@
-﻿using System;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Threading;
-using Sitecore.Diagnostics.Base;
-
-namespace SIM
+﻿namespace SIM
 {
+  using System;
+  using System.IO;
+  using System.Linq;
+  using System.Net;
+  using System.Threading;
+  using Sitecore.Diagnostics.Base;
+
   using Sitecore.Diagnostics.Logging;
 
   public static class WebRequestHelper
