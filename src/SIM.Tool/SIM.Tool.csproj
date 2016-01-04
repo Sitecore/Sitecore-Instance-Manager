@@ -15,7 +15,9 @@
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
     <TargetFrameworkProfile />
-    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>    
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <IsWebBootstrapper>true</IsWebBootstrapper>
     <PublishUrl>publish/</PublishUrl>
     <Install>true</Install>
@@ -33,6 +35,10 @@
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
     <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>false</BootstrapperEnabled>
+    <ManifestCertificateThumbprint>9D4794DDCA4BEDEBB09767FE53DB6F69F7A7D8F9</ManifestCertificateThumbprint>
+    <ManifestKeyFile>certificate.pfx</ManifestKeyFile>
+    <GenerateManifests>true</GenerateManifests>
+    <SignManifests>true</SignManifests>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -59,18 +65,8 @@
   <PropertyGroup>
     <ApplicationIcon>Images\sim.ico</ApplicationIcon>
   </PropertyGroup>
-  <PropertyGroup />
-  <PropertyGroup>
-    <ManifestCertificateThumbprint>9D4794DDCA4BEDEBB09767FE53DB6F69F7A7D8F9</ManifestCertificateThumbprint>
-  </PropertyGroup>
-  <PropertyGroup>
-    <ManifestKeyFile>certificate.pfx</ManifestKeyFile>
-  </PropertyGroup>
-  <PropertyGroup>
-    <GenerateManifests>true</GenerateManifests>
-  </PropertyGroup>
-  <PropertyGroup>
-    <SignManifests>true</SignManifests>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Fluent, Version=3.5.1.198, Culture=neutral, PublicKeyToken=3e436e32a8c5546f, processorArchitecture=MSIL">
@@ -309,6 +305,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="app.config" />
+    <None Include="app.manifest" />
     <None Include="Packages\Support Toolbox.zip">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -422,7 +419,7 @@
   <ItemGroup>
     <Resource Include="Images\Sitecore.png" />
   </ItemGroup>
-  <ItemGroup>
+  <ItemGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <BootstrapperPackage Include=".NETFramework,Version=v4.0">
       <Visible>False</Visible>
       <ProductName>Microsoft .NET Framework 4 %28x86 and x64%29</ProductName>
