@@ -28,6 +28,7 @@ using File = System.IO.File;
 // ReSharper disable CSharpWarnings::CS0162
 namespace SIM.Tool
 {
+  using System.ComponentModel;
   using System.Reflection;
   using System.Security.Principal;
   using log4net.Config;
@@ -198,7 +199,19 @@ namespace SIM.Tool
       // Start the new process
       try
       {
-        Process.Start(processInfo);
+        try
+        {
+          Process.Start(processInfo);
+        }
+        catch (Win32Exception ex)
+        {
+          if (ex.NativeErrorCode != 1223)
+          {
+            throw;
+          }
+
+          Log.Info("User cancelled permissions elevation");
+        }
       }
       catch (Exception)
       {
