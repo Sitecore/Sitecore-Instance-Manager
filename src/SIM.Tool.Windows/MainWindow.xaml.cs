@@ -2,13 +2,11 @@
 {
   using System;
   using System.ComponentModel;
-  using System.IO;
   using System.Threading;
   using System.Windows;
   using System.Windows.Controls;
   using System.Windows.Input;
   using System.Windows.Threading;
-  using SIM.Products;
   using SIM.Tool.Base;
   using SIM.Tool.Base.Plugins;
   using SIM.Tool.Windows.MainWindowComponents;

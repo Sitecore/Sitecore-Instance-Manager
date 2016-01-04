@@ -1,9 +1,5 @@
 ﻿namespace SIM.Pipelines.Install
 {
-  using System;
-  using System.IO;
-  using System.Linq;
-  using Ionic.Zip;
   using SIM.Pipelines.Processors;
   using Sitecore.Diagnostics.Base;
   using Sitecore.Diagnostics.Base.Annotations;

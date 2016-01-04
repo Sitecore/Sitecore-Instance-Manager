@@ -1,6 +1,5 @@
 ﻿namespace SIM.Pipelines.Reinstall
 {
-  using SIM.Pipelines.Install;
   using Sitecore.Diagnostics.Base;
   using Sitecore.Diagnostics.Base.Annotations;
 

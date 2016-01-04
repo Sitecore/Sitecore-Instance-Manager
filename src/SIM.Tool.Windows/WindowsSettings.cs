@@ -1,6 +1,5 @@
 namespace SIM.Tool.Windows
 {
-  using System;
   using Sitecore.Diagnostics.Base.Annotations;
 
   public static class WindowsSettings

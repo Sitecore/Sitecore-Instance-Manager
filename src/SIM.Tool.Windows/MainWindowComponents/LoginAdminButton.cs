@@ -1,7 +1,5 @@
 ﻿namespace SIM.Tool.Windows.MainWindowComponents
 {
-  using System;
-  using System.Linq;
   using System.Windows;
   using SIM.Instances;
   using SIM.Tool.Base;

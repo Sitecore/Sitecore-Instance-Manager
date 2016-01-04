@@ -4,7 +4,6 @@
   using System.IO;
   using System.Linq;
   using Ionic.Zip;
-  using SIM.Pipelines.Install;
   using Sitecore.Diagnostics.Base;
   using Sitecore.Diagnostics.Base.Annotations;
   using Sitecore.Diagnostics.Logging;
