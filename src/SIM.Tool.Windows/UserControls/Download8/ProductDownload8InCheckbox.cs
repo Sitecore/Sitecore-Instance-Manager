@@ -56,11 +56,24 @@
              && product.Revision == this.revision;
     }
 
-    private bool CheckProduct(Product product)
+    private bool CheckProduct([CanBeNull] Product product)
     {
-      return (product.Name.EqualsIgnoreCase(this.name) || product.OriginalName.EqualsIgnoreCase(this.name))
-             && product.Version == this.version
-             && product.Revision == this.revision;
+      if (product == null)
+      {
+        return false;
+      }
+
+      if (!product.Name.EqualsIgnoreCase(this.name) && !product.OriginalName.EqualsIgnoreCase(this.name))
+      {
+        return false;
+      }
+
+      if (product.Version != this.version)
+      {
+        return false;
+      }
+
+      return product.Revision == this.revision;
     }
 
     #endregion
