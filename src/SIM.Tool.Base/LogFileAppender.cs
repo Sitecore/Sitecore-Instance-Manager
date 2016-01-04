@@ -1,10 +1,8 @@
-﻿namespace SIM.Tool
+﻿namespace SIM.Tool.Base
 {
   using System;
   using System.IO;
-
   using log4net.Appender;
-
   using Sitecore.Diagnostics.Base.Annotations;
 
   [UsedImplicitly]

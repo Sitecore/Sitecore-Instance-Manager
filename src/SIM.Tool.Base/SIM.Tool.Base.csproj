@@ -36,6 +36,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="log4net">
+      <HintPath>..\packages\log4net.2.0.4\lib\net40-full\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.ApplicationInsights">
       <HintPath>..\packages\Microsoft.ApplicationInsights.1.2.3\lib\net40\Microsoft.ApplicationInsights.dll</HintPath>
     </Reference>
@@ -106,6 +109,7 @@
     <Compile Include="EnvironmentHelper.cs" />
     <Compile Include="InstanceHelperEx.cs" />
     <Compile Include="LicenseUpdater.cs" />
+    <Compile Include="LogFileAppender.cs" />
     <Compile Include="Plugins\IInitProcessor.cs" />
     <Compile Include="Plugins\IMainWindowButton.cs" />
     <Compile Include="Plugins\IMainWindowLoadedProcessor.cs" />
