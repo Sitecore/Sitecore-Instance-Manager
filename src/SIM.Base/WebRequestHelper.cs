@@ -6,7 +6,6 @@
   using System.Net;
   using System.Threading;
   using Sitecore.Diagnostics.Base;
-
   using Sitecore.Diagnostics.Logging;
 
   public static class WebRequestHelper
