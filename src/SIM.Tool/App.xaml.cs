@@ -10,6 +10,7 @@ namespace SIM.Tool
   using System.Linq;
   using System.Reflection;
   using System.Security.Principal;
+  using System.ServiceProcess;
   using System.Threading;
   using System.Windows;
   using System.Xml;
@@ -36,6 +37,7 @@ namespace SIM.Tool
     public static readonly int APP_DUPLICATE_EXIT_CODE = -8;
     public static readonly int APP_NO_MAIN_WINDOW = -44;
     public static readonly int APP_NO_PERMISSIONS = -66;
+    public static readonly int APP_NO_IIS = -88;
     public static readonly int APP_PIPELINES_ERROR = -22;
     private static readonly string AppLogsMessage = "The application will be suspended, look at the " + ApplicationManager.LogsFolder + " log file to find out what has happened";
 
@@ -165,6 +167,14 @@ namespace SIM.Tool
 
       App.LogMainInfo();
 
+      if (!App.CheckIIS())
+      {
+        WindowHelper.ShowMessage("Cannot connect to IIS. Make sure it is installed and running.", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+
+        LifeManager.ShutdownApplication(APP_NO_IIS);
+        return;
+      }
+
       // Initializing pipelines from Pipelines.config and WizardPipelines.config files
       if (!App.InitializePipelines())
       {
@@ -226,6 +236,27 @@ namespace SIM.Tool
       }
 
       Analytics.Flush();
+    }
+
+    private static bool CheckIIS()
+    {
+      try
+      {
+        var sc = new ServiceController("World Wide Web Publishing Service");
+        Log.Info("IIS.Name: {0}", sc.DisplayName);
+        Log.Info("IIS.Status: {0}", sc.Status);
+        Log.Info("IIS.MachineName: {0}", sc.MachineName);
+        Log.Info("IIS.ServiceName: {0}", sc.ServiceName);
+        Log.Info("IIS.ServiceType: {0}", sc.ServiceType);
+        
+        return sc.Status.Equals(ServiceControllerStatus.Running);
+      }
+      catch (Exception ex)
+      {
+        Log.Error(ex, "Error during checking IIS state");
+
+        return false;
+      }
     }
 
     private static bool CheckPermissions()
