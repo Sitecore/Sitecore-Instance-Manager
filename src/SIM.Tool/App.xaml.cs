@@ -242,14 +242,16 @@ namespace SIM.Tool
     {
       try
       {
-        var sc = new ServiceController("World Wide Web Publishing Service");
-        Log.Info("IIS.Name: {0}", sc.DisplayName);
-        Log.Info("IIS.Status: {0}", sc.Status);
-        Log.Info("IIS.MachineName: {0}", sc.MachineName);
-        Log.Info("IIS.ServiceName: {0}", sc.ServiceName);
-        Log.Info("IIS.ServiceType: {0}", sc.ServiceType);
-        
-        return sc.Status.Equals(ServiceControllerStatus.Running);
+        using (var sc = new ServiceController("World Wide Web Publishing Service"))
+        {
+          Log.Info("IIS.Name: {0}", sc.DisplayName);
+          Log.Info("IIS.Status: {0}", sc.Status);
+          Log.Info("IIS.MachineName: {0}", sc.MachineName);
+          Log.Info("IIS.ServiceName: {0}", sc.ServiceName);
+          Log.Info("IIS.ServiceType: {0}", sc.ServiceType);
+
+          return sc.Status.Equals(ServiceControllerStatus.Running);
+        }
       }
       catch (Exception ex)
       {
