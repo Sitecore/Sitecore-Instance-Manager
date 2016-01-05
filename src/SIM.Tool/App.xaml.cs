@@ -116,6 +116,11 @@ namespace SIM.Tool
           }
 
           var newFilePath = filePath.Substring(0, filePath.Length - 4) + ".xml";
+          if (File.Exists(newFilePath))
+          {
+            File.Delete(newFilePath);
+          }
+
           File.Move(filePath, newFilePath);
         }
       }
