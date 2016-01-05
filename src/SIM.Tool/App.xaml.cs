@@ -35,7 +35,7 @@ namespace SIM.Tool
 
     public static readonly int APP_DUPLICATE_EXIT_CODE = -8;
     public static readonly int APP_NO_MAIN_WINDOW = -44;
-    public static readonly int APP_NO_PERMISSIONS = -44;
+    public static readonly int APP_NO_PERMISSIONS = -66;
     public static readonly int APP_PIPELINES_ERROR = -22;
     private static readonly string AppLogsMessage = "The application will be suspended, look at the " + ApplicationManager.LogsFolder + " log file to find out what has happened";
 
