@@ -18,14 +18,23 @@
       Assert.ArgumentNotNull(result, "result");
 
       var filter = this.Filter ?? string.Empty;
-      filter = filter.ToLowerInvariant();
+      var root = !this.Everywhere ? null : Profile.Read().InstancesFolder;
 
       InstanceManager.Initialize();
-      var instances = InstanceManager.Instances;
-      var data = instances.ToDictionary(x => x.Name, x => new { x.ID, x.RootPath, x.WebRootPath, x.DataFolderPath, x.ProductFullName });
 
+      var instances = InstanceManager.Instances.Select(x => new { x.ID, x.Name, x.RootPath, x.WebRootPath, x.DataFolderPath, x.ProductFullName });
+      if (!string.IsNullOrEmpty(filter))
+      {
+        instances = instances.Where(x => x.Name.ToLowerInvariant().Contains(filter.ToLowerInvariant()));
+      }
+
+      if (!string.IsNullOrEmpty(root))
+      {
+        instances = instances.Where(x => x.RootPath.ToLowerInvariant().Contains(root.ToLowerInvariant()));
+      }
+      
       result.Success = true;
-      result.Data = string.IsNullOrEmpty(filter) ? data : data.Where(x => x.Key.ToLowerInvariant().Contains(filter));
+      result.Data = instances.ToDictionary(x => x.Name, x => x);
     }
   }
 }
