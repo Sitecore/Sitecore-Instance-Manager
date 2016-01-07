@@ -48,6 +48,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\AggregatePipelineController.cs" />
+    <Compile Include="Commands\InstallCommand.cs" />
     <Compile Include="Common\AbstractCommand.cs" />
     <Compile Include="Common\CommandResult.cs" />
     <Compile Include="Common\CommandResultBase.cs" />
@@ -71,6 +73,14 @@
     <ProjectReference Include="..\SIM.Instances\SIM.Instances.csproj">
       <Project>{CCA7B157-A743-4A5A-A03B-B6B27CB2BE1C}</Project>
       <Name>SIM.Instances</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SIM.Pipelines\SIM.Pipelines.csproj">
+      <Project>{7A3FEDF8-DF96-4426-AA01-C2D4FD3E68C8}</Project>
+      <Name>SIM.Pipelines</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SIM.Products\SIM.Products.csproj">
+      <Project>{BC8B4EE5-C053-42E1-A5BA-07F8C41915A9}</Project>
+      <Name>SIM.Products</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

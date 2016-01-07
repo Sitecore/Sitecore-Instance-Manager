@@ -49,12 +49,14 @@ namespace SIM.Commands.Commands
       try
       {
         result.Success = true;
+        result.Message = "done";
         result.Data = Profile.Read();
       }
       catch
       {
         result.Success = false;
-        result.Data = "profile is corrupted";
+        result.Message = "profile is corrupted";
+        result.Data = null;
       }
     }
 

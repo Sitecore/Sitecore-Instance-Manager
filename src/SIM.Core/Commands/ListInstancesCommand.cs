@@ -34,6 +34,7 @@
       }
       
       result.Success = true;
+      result.Message = "done";
       result.Data = instances.ToDictionary(x => x.Name, x => x);
     }
   }

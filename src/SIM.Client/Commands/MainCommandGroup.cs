@@ -21,6 +21,11 @@
     [VerbOption("profile", HelpText = "Show profile.")]
     public ProfileCommandFacade ProfileCommandFacade { get; set; }
 
+    [CanBeNull]
+    [UsedImplicitly]
+    [VerbOption("install", HelpText = "Install Sitecore instance.")]
+    public InstallCommandFacade InstallCommandFacade { get; set; }
+
     #endregion
 
     [HelpVerbOption]
