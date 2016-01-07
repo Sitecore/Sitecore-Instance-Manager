@@ -62,7 +62,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commands\InstallCommandFacade.cs" />
-    <Compile Include="Commands\ListInstancesCommandFacade.cs" />
+    <Compile Include="Commands\ListCommandFacade.cs" />
     <Compile Include="Commands\SetupCommandFacade.cs" />
     <Compile Include="DummyLogProvider.cs" />
     <Compile Include="NullExtensions.cs" />
