@@ -61,6 +61,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\DeleteCommandFacade.cs" />
     <Compile Include="Commands\InstallCommandFacade.cs" />
     <Compile Include="Commands\ListCommandFacade.cs" />
     <Compile Include="Commands\SetupCommandFacade.cs" />

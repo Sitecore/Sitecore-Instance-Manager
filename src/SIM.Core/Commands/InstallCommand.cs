@@ -1,7 +1,6 @@
 ﻿namespace SIM.Commands.Commands
 {
   using System;
-  using System.Data.SqlClient;
   using System.IO;
   using System.Linq;
   using SIM.Adapters.SqlServer;
@@ -46,11 +45,7 @@
       Assert.IsNotNullOrEmpty(license, "Profile.License is null or empty");
       Assert.IsTrue(File.Exists(license), "Profile.License points to non-existing file");
 
-      var connectionString = profile.ConnectionString;
-      var builder = new SqlConnectionStringBuilder(connectionString);
-      Assert.IsNotNullOrEmpty(builder.DataSource, "Profile.ConnectionString.DataSource is null or empty");
-      Assert.IsNotNullOrEmpty(builder.UserID, "Profile.ConnectionString.UserID is null or empty");
-      Assert.IsNotNullOrEmpty(builder.Password, "Profile.ConnectionString.Password is null or empty");
+      var builder = profile.GetValidConnectionString();
 
       var instancesFolder = profile.InstancesFolder;
       Assert.IsNotNullOrEmpty(instancesFolder, "Profile.InstancesFolder is null or empty");

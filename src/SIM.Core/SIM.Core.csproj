@@ -49,7 +49,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commands\AggregatePipelineController.cs" />
+    <Compile Include="Commands\DeleteCommand.cs" />
     <Compile Include="Commands\InstallCommand.cs" />
+    <Compile Include="Common\ProfileHelper.cs" />
     <Compile Include="Common\AbstractCommand.cs" />
     <Compile Include="Common\CommandResult.cs" />
     <Compile Include="Common\CommandResultBase.cs" />
