@@ -293,10 +293,9 @@ namespace SIM.Tool
           Log.Info("User cancelled permissions elevation");
         }
       }
-      catch (Exception)
+      catch (Exception ex)
       {
-        // The user did not allow the application to run as administrator
-        MessageBox.Show("Sorry, this application must be run as Administrator.");
+        Log.Error(ex, "An unhandled exception was thrown");
       }
 
       return false;
