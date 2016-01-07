@@ -25,3 +25,9 @@ src/SIM.Adapters/bin/
 src/SIM.Base/obj/
 src/SIM.Base/bin/
 src/obj/
+src/SIM.Client.Tests/bin/
+src/SIM.Client.Tests/obj/
+src/SIM.Client/bin/
+src/SIM.Client/obj/
+src/SIM.Commands/obj/
+src/SIM.Commands/bin/
