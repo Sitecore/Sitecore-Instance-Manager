@@ -29,5 +29,5 @@ src/SIM.Client.Tests/bin/
 src/SIM.Client.Tests/obj/
 src/SIM.Client/bin/
 src/SIM.Client/obj/
-src/SIM.Commands/obj/
-src/SIM.Commands/bin/
+src/SIM.Core/obj/
+src/SIM.Core/bin/

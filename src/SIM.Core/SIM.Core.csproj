@@ -46,12 +46,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AbstractCommand.cs" />
-    <Compile Include="CommandResult.cs" />
-    <Compile Include="CommandResultBase.cs" />
-    <Compile Include="ListInstancesCommand.cs" />
+    <Compile Include="Common\AbstractCommand.cs" />
+    <Compile Include="Common\CommandResult.cs" />
+    <Compile Include="Common\CommandResultBase.cs" />
+    <Compile Include="Commands\ListInstancesCommand.cs" />
+    <Compile Include="Common\Profile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SetupCommand.cs" />
+    <Compile Include="Commands\SetupCommand.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

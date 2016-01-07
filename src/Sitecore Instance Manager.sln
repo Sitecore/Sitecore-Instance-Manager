@@ -37,7 +37,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CLI Client", "CLI Client", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SIM.Client", "SIM.Client\SIM.Client.csproj", "{77C4E17F-5C43-4334-A547-44C0E490CB8A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SIM.Commands", "SIM.Commands\SIM.Commands.csproj", "{A124D359-B9BF-44F4-98CB-C40D3D490839}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SIM.Core", "SIM.Core\SIM.Core.csproj", "{A124D359-B9BF-44F4-98CB-C40D3D490839}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

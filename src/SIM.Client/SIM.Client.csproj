@@ -75,9 +75,9 @@
       <Project>{CA9339A0-9A7D-4900-839E-F21B7269BDAA}</Project>
       <Name>SIM.Base</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SIM.Commands\SIM.Commands.csproj">
+    <ProjectReference Include="..\SIM.Core\SIM.Core.csproj">
       <Project>{a124d359-b9bf-44f4-98cb-c40d3d490839}</Project>
-      <Name>SIM.Commands</Name>
+      <Name>SIM.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
