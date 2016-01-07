@@ -8,13 +8,13 @@
   using SIM.Adapters.SqlServer;
   using SIM.Instances;
 
-  [TestClass()]
+  [TestClass]
   public class InstanceTest
   {
     #region Public methods
-
+    
     [TestMethod]
-    public void RootPathTest()
+    public void RootPathTest1()
     {
       {
         var name = this.GetName();
@@ -22,6 +22,11 @@
         var instance = new FakeInstance(this.GetRelativeFolder(root, "Website"), this.GetRelativeFolder(root, "Data"), GetDatabases(name, this.GetRelativeFolder(root, "Databases")));
         this.RootPathTest("#1 regular (root/website, root/data, root/databases)", root, instance);
       }
+    }
+
+    [TestMethod]
+    public void RootPathTest2()
+    {
       {
         var name = this.GetName();
         var root = GetRootFolder(name);
@@ -29,6 +34,11 @@
         var instance = new FakeInstance(this.GetRelativeFolder(root, "Website"), this.GetRelativeFolder(root, "Website\\Data"), GetDatabases(name, this.GetRelativeFolder(root, "Databases")));
         this.RootPathTest("#2 data inside (root/website, root/website/data, root/databases)", root, instance);
       }
+    }
+
+    [TestMethod]
+    public void RootPathTest3()
+    {
       {
         var name = this.GetName();
         var root = GetRootFolder(name);
@@ -36,6 +46,11 @@
         var instance = new FakeInstance(this.GetRelativeFolder(root, "Website"), this.GetRelativeFolder(root, "Website"), GetDatabases(name, this.GetRelativeFolder(root, "Databases")));
         this.RootPathTest("#3 data is website (root/website, root/website, root/databases)", root, instance);
       }
+    }
+
+    [TestMethod]
+    public void RootPathTest4()
+    {
       {
         var name = this.GetName();
         var root = GetRootFolder(name);
@@ -43,6 +58,11 @@
         var instance = new FakeInstance(root, root, GetDatabases(name, root));
         this.RootPathTest("#4 all are root (root, root, root)", root, instance);
       }
+    }
+
+    [TestMethod]
+    public void RootPathTest5()
+    {
       {
         var name = this.GetName();
         var root = GetRootFolder(name);
@@ -51,12 +71,22 @@
         var instance = new FakeInstance(this.GetRelativeFolder(root, "Website"), new DirectoryInfo(drive + "data"), GetDatabases(name, this.GetRelativeFolder(root, "Databases")));
         this.RootPathTest("#5 data on another drive (root/website, " + drive + "data, root/databases)", root, instance);
       }
+    }
+
+    [TestMethod]
+    public void RootPathTest6()
+    {
       {
         var name = this.GetName();
         var root = GetRootFolder(name);
         var instance = new FakeInstance(this.GetRelativeFolder(root, "Website"), this.GetRelativeFolder(root.Parent, "data"), GetDatabases(name, this.GetRelativeFolder(root, "Databases")));
         this.RootPathTest("#6 data is too far, but databases are fine (root/website, root/../data, root/databases)", root, instance);
       }
+    }
+
+    [TestMethod]
+    public void RootPathTest7()
+    {
       {
         var name = this.GetName();
         var root = GetRootFolder(name);
@@ -65,6 +95,11 @@
         var instance = new FakeInstance(this.GetRelativeFolder(root, "Website"), this.GetRelativeFolder(root, "Data"), GetDatabases(name, new DirectoryInfo(drive + "databases")));
         this.RootPathTest("#7 databases on another drive (root/website, root/data, " + drive + "databases)", root, instance);
       }
+    }
+
+    [TestMethod]
+    public void RootPathTest8()
+    {
       {
         var name = this.GetName();
         var root = GetRootFolder(name);
@@ -73,6 +108,11 @@
         var instance = new FakeInstance(this.GetRelativeFolder(root, "Website"), this.GetRelativeFolder(root.Parent, "Data"), GetDatabases(name, new DirectoryInfo(drive + "databases")));
         this.RootPathTest("#8 databases on another drive, data too far (root/website, root/data, " + drive + "databases)", root, instance);
       }
+    }
+
+    [TestMethod]
+    public void RootPathTest9()
+    {
       {
         var name = this.GetName();
         var root = GetRootFolder(name);
@@ -81,6 +121,11 @@
         var instance = new FakeInstance(this.GetRelativeFolder(root, "Website"), this.GetRelativeFolder(root.Parent, "Data"), new Database[0]);
         this.RootPathTest("#9 no databases, data too far (root/website, root/data, " + drive + "databases)", root, instance);
       }
+    }
+
+    [TestMethod]
+    public void RootPathTest10()
+    {
       {
         var name = this.GetName();
         var root = GetRootFolder(name);
