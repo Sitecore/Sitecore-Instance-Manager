@@ -1,6 +1,8 @@
 ﻿namespace SIM.Client
 {
   using System;
+  using System.Collections;
+  using System.Collections.Generic;
   using System.Linq;
   using CommandLine;
   using Newtonsoft.Json;
@@ -15,45 +17,108 @@
     {
       Assert.ArgumentNotNull(args, "args");
 
+      var filteredArgs = args.ToList();
+      var query = GetQueryAndFilterArgs(filteredArgs);
+
       Log.Initialize(new DummyLogProvider());
 
       var parser = new Parser(with => with.NotNull().HelpWriter = Console.Error);
       Assert.IsNotNull(parser, "parser");
 
       var options = new MainCommandGroup();
-      if (!parser.ParseArguments(args, options, delegate { }))
+      if (!parser.ParseArguments(filteredArgs.ToArray(), options, delegate { }))
       {
+        Console.WriteLine("  --query\t      When specified, allows returning only part of any command's output");
         Environment.Exit(Parser.DefaultExitCodeFail);
       }
 
       var result = options.SelectedCommand.Execute() as object;
 
-      var displayOptions = new DisplayOptions();
-      parser.ParseArguments(args, displayOptions);
-
-      var query = displayOptions.Query;
-      if (!string.IsNullOrEmpty(query))
+      result = QueryResult(result, query);
+      if (result == null)
       {
-        var obj = result;
-        foreach (var chunk in query.Split("./".ToCharArray()))
-        {
-          var type = obj.GetType();
-          var newObj = type.GetProperties().FirstOrDefault(x => x.Name.Equals(chunk, StringComparison.OrdinalIgnoreCase));
-          if (newObj == null)
-          {
-            Console.WriteLine("Cannot find '" + chunk + "' chunk of '" + query + "' query in the object: ");
-            Console.WriteLine(JsonConvert.SerializeObject(obj, Formatting.Indented));
-
-            return;
-          }
-
-          obj = newObj.GetValue(obj);
-        }
-
-        result = obj;
+        return;
       }
 
-      Console.WriteLine(JsonConvert.SerializeObject(result, Formatting.Indented));
+      Console.WriteLine(JsonConvert.SerializeObject(result, Formatting.Indented));      
+    }
+
+    [CanBeNull]
+    private static object QueryResult([NotNull] object result, [CanBeNull] string query)
+    {
+      Assert.ArgumentNotNull(result, "result");
+
+      if (string.IsNullOrEmpty(query))
+      {
+        return result;
+      }
+
+      var obj = result;
+      foreach (var chunk in query.Split("./".ToCharArray()))
+      {
+        if (string.IsNullOrEmpty(chunk))
+        {
+          continue;
+        }
+
+        var newObj = null as object;
+        var dictionary = obj as IDictionary;
+        if (dictionary != null)
+        {
+          if (dictionary.Contains(chunk))
+          {
+            newObj = dictionary[chunk];
+          }
+        }
+        else
+        {
+          var type = obj.GetType();
+          var prop = type.GetProperties().FirstOrDefault(x => x.Name.Equals(chunk, StringComparison.OrdinalIgnoreCase));
+          if (prop != null)
+          {
+            newObj = prop.GetValue(obj);
+          }
+        }
+
+        if (newObj == null)
+        {
+          Console.WriteLine("Cannot find '" + chunk + "' chunk of '" + query + "' query in the object: ");
+          Console.WriteLine(JsonConvert.SerializeObject(result, Formatting.Indented));
+
+          return null;
+        }
+
+        obj = newObj;
+      }
+
+      return obj;
+    }
+
+    [CanBeNull]
+    private static string GetQueryAndFilterArgs([NotNull] List<string> filteredArgs)
+    {
+      Assert.ArgumentNotNull(filteredArgs, "filteredArgs");
+
+      var query = string.Empty;
+      for (int i = 0; i < filteredArgs.Count; i++)
+      {
+        if (filteredArgs[i] != "--query")
+        {
+          continue;
+        }
+
+        filteredArgs.RemoveAt(i);
+
+        if (filteredArgs.Count > i)
+        {
+          query = filteredArgs[i];
+          filteredArgs.RemoveAt(i);
+        }
+
+        break;
+      }
+
+      return query;
     }
   }
 }

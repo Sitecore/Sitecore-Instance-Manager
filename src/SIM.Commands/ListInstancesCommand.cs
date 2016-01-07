@@ -21,10 +21,10 @@
 
       InstanceManager.Initialize();
       var instances = InstanceManager.Instances;
-      var names = instances.Select(x => x.DisplayName);
+      var data = instances.ToDictionary(x => x.Name, x => new { x.ID, x.RootPath, x.WebRootPath, x.DataFolderPath, x.ProductFullName });
 
       result.Success = true;
-      result.Data = string.IsNullOrEmpty(filter) ? names : names.Where(x => x.ToLowerInvariant().Contains(filter));
+      result.Data = string.IsNullOrEmpty(filter) ? data : data.Where(x => x.Key.ToLowerInvariant().Contains(filter));
     }
   }
 }

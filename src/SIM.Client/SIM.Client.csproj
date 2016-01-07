@@ -58,7 +58,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commands\ListInstancesCommandFacade.cs" />
-    <Compile Include="DisplayOptions.cs" />
     <Compile Include="DummyLogProvider.cs" />
     <Compile Include="NullExtensions.cs" />
     <Compile Include="Program.cs" />
