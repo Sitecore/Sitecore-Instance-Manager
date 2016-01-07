@@ -8,7 +8,7 @@
 
   #endregion
 
-  public class Profile : DataObject, ICloneable
+  public class Profile : DataObject, IProfile, ICloneable
   {
     #region Properties
 

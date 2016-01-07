@@ -16,6 +16,11 @@
     [VerbOption("list", HelpText = "Show already installed instances.")]
     public ListInstancesCommandFacade ListInstancesCommandFacade { get; set; }
 
+    [CanBeNull]
+    [UsedImplicitly]
+    [VerbOption("profile", HelpText = "Show profile.")]
+    public ProfileCommandFacade ProfileCommandFacade { get; set; }
+
     #endregion
 
     [HelpVerbOption]
