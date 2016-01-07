@@ -49,12 +49,12 @@
       var properties = commandContainer.GetType().GetProperties();
       foreach (var propertyInfo in properties)
       {
-        if (propertyInfo == null || propertyInfo.CustomAttributes.ToArray().All(x => x == null || x.AttributeType != typeof(VerbOptionAttribute)))
+        if (propertyInfo == null || propertyInfo.GetCustomAttributes(true).ToArray().All(x => x == null || x is VerbOptionAttribute))
         {
           continue;
         }
 
-        var innerCommand = propertyInfo.GetValue(commandContainer) as AbstractCommand;
+        var innerCommand = propertyInfo.GetValue(commandContainer, null) as AbstractCommand;
         if (innerCommand != null)
         {
           var command = this.FindCommand(innerCommand);

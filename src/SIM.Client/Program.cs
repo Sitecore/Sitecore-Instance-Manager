@@ -76,7 +76,7 @@
           var prop = type.GetProperties().FirstOrDefault(x => x.Name.Equals(chunk, StringComparison.OrdinalIgnoreCase));
           if (prop != null)
           {
-            newObj = prop.GetValue(obj);
+            newObj = prop.GetValue(obj, null);
           }
         }
 
