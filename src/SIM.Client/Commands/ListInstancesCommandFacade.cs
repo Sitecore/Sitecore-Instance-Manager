@@ -4,10 +4,10 @@
   using SIM.Commands.Commands;
   using Sitecore.Diagnostics.Base.Annotations;
 
-  public class ListInstancesCommandFacade : ListInstancesCommand
+  public class ListCommandFacade : ListCommand
   {
     [UsedImplicitly]
-    public ListInstancesCommandFacade()
+    public ListCommandFacade()
     {
     }
 

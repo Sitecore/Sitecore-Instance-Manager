@@ -14,7 +14,7 @@
     [CanBeNull]
     [UsedImplicitly]
     [VerbOption("list", HelpText = "Show already installed instances.")]
-    public ListInstancesCommandFacade ListInstancesCommandFacade { get; set; }
+    public ListCommandFacade ListCommandFacade { get; set; }
 
     [CanBeNull]
     [UsedImplicitly]

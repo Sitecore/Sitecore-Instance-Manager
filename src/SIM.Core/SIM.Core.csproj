@@ -54,7 +54,7 @@
     <Compile Include="Commands\ListInstancesCommand.cs" />
     <Compile Include="Common\Profile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Commands\SetupCommand.cs" />
+    <Compile Include="Commands\ProfileCommand.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

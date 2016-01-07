@@ -6,7 +6,7 @@
   using Sitecore.Diagnostics.Base;
   using Sitecore.Diagnostics.Base.Annotations;
 
-  public class ListInstancesCommand : AbstractCommand
+  public class ListCommand : AbstractCommand
   {
     [CanBeNull]
     public virtual string Filter { get; set; }
