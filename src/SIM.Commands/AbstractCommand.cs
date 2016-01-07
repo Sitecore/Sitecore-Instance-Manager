@@ -29,6 +29,6 @@
       return result;
     }
 
-    protected abstract void DoExecute([NotNull] CommandResult result);
+    protected abstract void DoExecute([NotNull] CommandResultBase result);
   }
 }

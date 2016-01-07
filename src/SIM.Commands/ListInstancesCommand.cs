@@ -12,7 +12,7 @@
 
     public virtual bool Everywhere { get; set; }
 
-    protected override void DoExecute(CommandResult result)
+    protected override void DoExecute(CommandResultBase result)
     {
       Assert.ArgumentNotNull(result, "result");
 

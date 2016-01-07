@@ -7,7 +7,7 @@ namespace SIM.Commands
 
   public class ProfileCommand : AbstractCommand
   {
-    protected override void DoExecute(CommandResult result)
+    protected override void DoExecute(CommandResultBase result)
     {
       Assert.ArgumentNotNull(result, "result");
 
