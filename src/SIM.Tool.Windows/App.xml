@@ -19,26 +19,7 @@
         </group>
         <group name="Tools">
           <button       label="Get Sitecore"                                        largeImage="/Images/$lg/cloud_download.png, SIM.Tool.Windows"              type="SIM.Tool.Windows.MainWindowComponents.Download8Button, SIM.Tool.Windows" />
-          <button       label="Bundled Tools"                                       largeImage="/Images/$lg/toolbox.png, SIM.Tool.Windows">
-            <button     label="SIM Logs"                                            largeImage="/Images/$sm/folder_document2.png, SIM.Tool.Windows"            type="SIM.Tool.Windows.MainWindowComponents.OpenFolderButton, SIM.Tool.Windows"     param="%APPDATA%\Sitecore\Sitecore Instance Manager\Logs" />
-            <button     label="SIM Data Folder"                                     largeImage="/Images/$sm/folder_window.png, SIM.Tool.Windows"               type="SIM.Tool.Windows.MainWindowComponents.OpenFolderButton, SIM.Tool.Windows"     param="%APPDATA%\Sitecore\Sitecore Instance Manager" />
-            <separator />
-            <button     label="Download Sitecore 8.x"                               largeImage="/Images/$sm/cloud_download.png, SIM.Tool.Windows"              type="SIM.Tool.Windows.MainWindowComponents.Download8Button, SIM.Tool.Windows" />
-            <button     label="Download Sitecore 6.x and 7.x"                       largeImage="/Images/$sm/cloud_download.png, SIM.Tool.Windows"             type="SIM.Tool.Windows.MainWindowComponents.DownloadButton, SIM.Tool.Windows" />
-            <separator />
-            <button     label="Hosts Editor"                                        largeImage="/Images/$sm/modem_earth.png, SIM.Tool.Windows"                 type="SIM.Tool.Windows.MainWindowComponents.OpenHostsButton, SIM.Tool.Windows" />
-            <button     label="MS SQL Manager"                                      largeImage="/Images/$sm/data.png, SIM.Tool.Windows"                        type="SIM.Tool.Windows.MainWindowComponents.DatabaseManagerButton, SIM.Tool.Windows" />
-            <separator />
-            <button     label="Update Licenses"                                     largeImage="/Images/$lg/scroll_refresh.png, SIM.Tool.Windows"              type="SIM.Tool.Windows.MainWindowComponents.UpdateLicenseButton, SIM.Tool.Windows" />
-            <button     label="Multiple Deletion"                                   largeImage="/Images/$lg/delete.png, SIM.Tool.Windows"                      type="SIM.Tool.Windows.MainWindowComponents.MultipleDeletionButton, SIM.Tool.Windows" width="55"/>
-            <separator />
-            <button     label="Log Analyzer"                                        largeImage="/Images/$lg/zoom_vertical.png, SIM.Tool.Windows"               type="SIM.Tool.Windows.MainWindowComponents.OpenLogsButton, SIM.Tool.Windows" />
-            <button     label="SSPG"                                                largeImage="/Images/$lg/package_edit.png, SIM.Tool.Windows"                type="SIM.Tool.Windows.MainWindowComponents.OpenSSPGButton, SIM.Tool.Windows" />
-            <button     label="Config Builder"                                      largeImage="/Images/$sm/wrench.png, SIM.Tool.Windows"                      type="SIM.Tool.Windows.MainWindowComponents.ConfigBuilderButton, SIM.Tool.Windows" />
-            <button     label="Install MongoDB"                                     largeImage="/Images/$lg/scroll_refresh.png, SIM.Tool.Windows"              type="SIM.Tool.Windows.MainWindowComponents.InstallMongoDbButton, SIM.Tool.Windows" />
-            <separator />
-            <button     label="Generate NuGet packages"                             largeImage="/Images/$sm/new_package.png, SIM.Tool.Windows"                 type="SIM.Tool.Windows.MainWindowComponents.GenerateNuGetPackagesButton, SIM.Tool.Windows" />
-          </button>
+          <button       label="Execute SIM.exe"                                     largeImage="/Images/$lg/console.png, SIM.Tool.Windows"                     type="SIM.Tool.Windows.MainWindowComponents.CommandLineButton, SIM.Tool.Windows" />
         </group>
         <group name="App">
           <button       label="Settings"                                            largeImage="/Images/$lg/wrench.png, SIM.Tool.Windows"                     type="SIM.Tool.Windows.MainWindowComponents.SettingsButton, SIM.Tool.Windows" />
@@ -141,6 +122,30 @@
         </group>
         <group name="Apps">
           <button       label="Visual Studio"                                       largeImage="/Images/$lg/vs.png, SIM.Tool.Windows"                      type="SIM.Tool.Windows.MainWindowComponents.OpenVisualStudioButton, SIM.Tool.Windows" />
+        </group>
+      </tab>
+      <tab     name="Tools">
+        <group name="Bundled Tools">
+          <button       label="Bundled Tools"                                       largeImage="/Images/$lg/toolbox.png, SIM.Tool.Windows">
+            <button     label="SIM Logs"                                            largeImage="/Images/$sm/folder_document2.png, SIM.Tool.Windows"            type="SIM.Tool.Windows.MainWindowComponents.OpenFolderButton, SIM.Tool.Windows"     param="%APPDATA%\Sitecore\Sitecore Instance Manager\Logs" />
+            <button     label="SIM Data Folder"                                     largeImage="/Images/$sm/folder_window.png, SIM.Tool.Windows"               type="SIM.Tool.Windows.MainWindowComponents.OpenFolderButton, SIM.Tool.Windows"     param="%APPDATA%\Sitecore\Sitecore Instance Manager" />
+            <separator />
+            <button     label="Download Sitecore 8.x"                               largeImage="/Images/$sm/cloud_download.png, SIM.Tool.Windows"              type="SIM.Tool.Windows.MainWindowComponents.Download8Button, SIM.Tool.Windows" />
+            <button     label="Download Sitecore 6.x and 7.x"                       largeImage="/Images/$sm/cloud_download.png, SIM.Tool.Windows"             type="SIM.Tool.Windows.MainWindowComponents.DownloadButton, SIM.Tool.Windows" />
+            <separator />
+            <button     label="Hosts Editor"                                        largeImage="/Images/$sm/modem_earth.png, SIM.Tool.Windows"                 type="SIM.Tool.Windows.MainWindowComponents.OpenHostsButton, SIM.Tool.Windows" />
+            <button     label="MS SQL Manager"                                      largeImage="/Images/$sm/data.png, SIM.Tool.Windows"                        type="SIM.Tool.Windows.MainWindowComponents.DatabaseManagerButton, SIM.Tool.Windows" />
+            <separator />
+            <button     label="Update Licenses"                                     largeImage="/Images/$lg/scroll_refresh.png, SIM.Tool.Windows"              type="SIM.Tool.Windows.MainWindowComponents.UpdateLicenseButton, SIM.Tool.Windows" />
+            <button     label="Multiple Deletion"                                   largeImage="/Images/$lg/delete.png, SIM.Tool.Windows"                      type="SIM.Tool.Windows.MainWindowComponents.MultipleDeletionButton, SIM.Tool.Windows" width="55"/>
+            <separator />
+            <button     label="Log Analyzer"                                        largeImage="/Images/$lg/zoom_vertical.png, SIM.Tool.Windows"               type="SIM.Tool.Windows.MainWindowComponents.OpenLogsButton, SIM.Tool.Windows" />
+            <button     label="SSPG"                                                largeImage="/Images/$lg/package_edit.png, SIM.Tool.Windows"                type="SIM.Tool.Windows.MainWindowComponents.OpenSSPGButton, SIM.Tool.Windows" />
+            <button     label="Config Builder"                                      largeImage="/Images/$sm/wrench.png, SIM.Tool.Windows"                      type="SIM.Tool.Windows.MainWindowComponents.ConfigBuilderButton, SIM.Tool.Windows" />
+            <button     label="Install MongoDB"                                     largeImage="/Images/$lg/scroll_refresh.png, SIM.Tool.Windows"              type="SIM.Tool.Windows.MainWindowComponents.InstallMongoDbButton, SIM.Tool.Windows" />
+            <separator />
+            <button     label="Generate NuGet packages"                             largeImage="/Images/$sm/new_package.png, SIM.Tool.Windows"                 type="SIM.Tool.Windows.MainWindowComponents.GenerateNuGetPackagesButton, SIM.Tool.Windows" />
+          </button>
         </group>
       </tab>
       <tab     name="Edit">
