@@ -9,9 +9,6 @@
         <r:RibbonGroupBox x:Name="HomeTabRefreshGroup" Header="Refresh" />
         <r:RibbonGroupBox x:Name="HomeTabInstallGroup" Header="Install" />
       </r:RibbonTabItem>
-      <r:RibbonTabItem x:Name="ToolsTab" Header="Tools">
-        <r:RibbonGroupBox x:Name="ToolsTabBundledToolsGroup" Header="Bundled Tools"/>
-      </r:RibbonTabItem>
       <r:RibbonTabItem x:Name="OpenTab" Header="Open" Group="{Binding ElementName=InstanceTabs}" />
       <r:RibbonTabItem x:Name="EditTab" Header="Edit" Group="{Binding ElementName=InstanceTabs}"/>
       <r:Ribbon.ContextualGroups>
