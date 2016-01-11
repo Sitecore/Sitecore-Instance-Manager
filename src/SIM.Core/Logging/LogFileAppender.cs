@@ -1,4 +1,4 @@
-﻿namespace SIM.Tool.Base
+﻿namespace SIM.Core.Logging
 {
   using System;
   using System.IO;

@@ -65,7 +65,6 @@
     <Compile Include="Commands\InstallCommandFacade.cs" />
     <Compile Include="Commands\ListCommandFacade.cs" />
     <Compile Include="Commands\SetupCommandFacade.cs" />
-    <Compile Include="DummyLogProvider.cs" />
     <Compile Include="NullExtensions.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Commands\MainCommandGroup.cs" />

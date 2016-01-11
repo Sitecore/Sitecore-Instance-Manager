@@ -466,6 +466,10 @@
       <Project>{ca40c57a-ef4f-474d-be8b-98e51ae62c1f}</Project>
       <Name>SIM.Adapters</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SIM.Core\SIM.Core.csproj">
+      <Project>{A124D359-B9BF-44F4-98CB-C40D3D490839}</Project>
+      <Name>SIM.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SIM.Instances\SIM.Instances.csproj">
       <Project>{cca7b157-a743-4a5a-a03b-b6b27cb2be1c}</Project>
       <Name>SIM.Instances</Name>
@@ -507,10 +511,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Log.config">
-      <SubType>Designer</SubType>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

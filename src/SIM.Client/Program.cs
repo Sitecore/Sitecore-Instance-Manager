@@ -7,6 +7,7 @@
   using CommandLine;
   using Newtonsoft.Json;
   using SIM.Client.Commands;
+  using SIM.Core;
   using Sitecore.Diagnostics.Base;
   using Sitecore.Diagnostics.Base.Annotations;
   using Sitecore.Diagnostics.Logging;
@@ -17,11 +18,13 @@
     {
       Assert.ArgumentNotNull(args, "args");
 
+      CoreApp.InitializeLogging();
+
+      CoreApp.LogMainInfo();
+
       var filteredArgs = args.ToList();
       var query = GetQueryAndFilterArgs(filteredArgs);
       var wait = GetWaitAndFilterArgs(filteredArgs);
-
-      Log.Initialize(new DummyLogProvider());
 
       var parser = new Parser(with => with.NotNull().HelpWriter = Console.Error);
       Assert.IsNotNull(parser, "parser");
@@ -134,7 +137,7 @@
 
       for (int i = 0; i < filteredArgs.Count; i++)
       {
-        if (filteredArgs[i] != "--query")
+        if (filteredArgs[i] != "--wait")
         {
           continue;
         }

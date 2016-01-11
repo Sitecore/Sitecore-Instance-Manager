@@ -14,8 +14,8 @@ namespace SIM.Tool
   using System.Threading;
   using System.Windows;
   using System.Xml;
-  using log4net.Config;
   using SIM.Adapters.SqlServer;
+  using SIM.Core;
   using SIM.Instances;
   using SIM.Pipelines;
   using SIM.Pipelines.Processors;
@@ -44,35 +44,6 @@ namespace SIM.Tool
     #endregion
 
     #region Properties
-
-    private static bool IsFirstRun
-    {
-      get
-      {
-        try
-        {
-          var deployment = ApplicationDeployment.CurrentDeployment;
-          if (deployment != null && deployment.IsFirstRun)
-          {
-            return true;
-          }
-        }
-        catch
-        {
-          // an error here indicates that it is not click-once deployment
-        }
-
-        var fileName = "first-run.txt";
-        if (File.Exists(fileName))
-        {
-          File.Delete(fileName);
-
-          return true;
-        }
-
-        return false;
-      }
-    }
 
     #endregion
 
@@ -106,7 +77,7 @@ namespace SIM.Tool
     {
       base.OnStartup(e);
 
-      if (App.IsFirstRun)
+      if (CoreApp.IsFirstRun)
       {
         CacheManager.ClearAll();
 
@@ -163,9 +134,9 @@ namespace SIM.Tool
         WindowHelper.HandleError("An unhandled error occurred during LifeManager work", true, ex);
       }
 
-      App.InitializeLogging();
+      CoreApp.InitializeLogging();
 
-      App.LogMainInfo();
+      CoreApp.LogMainInfo();
 
       if (!App.CheckIIS())
       {
@@ -305,12 +276,6 @@ namespace SIM.Tool
 
     #region Private methods
 
-    private static void InitializeLogging()
-    {
-      Log.Initialize(new Log4NetLogProvider());
-      XmlConfigurator.Configure(new FileInfo("Log.config"));
-    }
-
     private static bool AcquireSingleInstanceLock()
     {
       try
@@ -444,33 +409,6 @@ namespace SIM.Tool
         }
 
         return ProfileSection.Result(false);
-      }
-    }
-
-    private static void LogMainInfo()
-    {
-      try
-      {
-        Log.Info("**********************************************************************");
-        Log.Info("**********************************************************************");
-        Log.Info("Sitecore Instance Manager started");
-        Log.Info("Version: {0}", ApplicationManager.AppVersion);
-        Log.Info("Revision: {0}", ApplicationManager.AppRevision);
-        Log.Info("Label: {0}", ApplicationManager.AppLabel);
-
-        var nativeArgs = Environment.GetCommandLineArgs();
-        var commandLineArgs = nativeArgs.Skip(1).ToArray();
-        var argsToLog = commandLineArgs.Length > 0 ? string.Join("|", commandLineArgs) : "<NO ARGUMENTS>";
-
-        Log.Info("Executable: {0}", nativeArgs.FirstOrDefault() ?? string.Empty);
-        Log.Info("Arguments: {0}", argsToLog);
-        Log.Info("Directory: {0}", Environment.CurrentDirectory);
-        Log.Info("**********************************************************************");
-        Log.Info("**********************************************************************");
-      }
-      catch
-      {
-        Debug.WriteLine("Error during log main info");
       }
     }
 
