@@ -242,7 +242,7 @@ namespace SIM.Tool
     {
       try
       {
-        using (var sc = new ServiceController("World Wide Web Publishing Service"))
+        using (var sc = new ServiceController("W3SVC"))
         {
           Log.Info("IIS.Name: {0}", sc.DisplayName);
           Log.Info("IIS.Status: {0}", sc.Status);
