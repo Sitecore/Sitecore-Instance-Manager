@@ -1,7 +1,7 @@
 ﻿namespace SIM.Client.Commands
 {
   using CommandLine;
-  using SIM.Commands.Commands;
+  using SIM.Core.Commands;
   using Sitecore.Diagnostics.Base.Annotations;
 
   public class ProfileCommandFacade : ProfileCommand

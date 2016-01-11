@@ -1,4 +1,4 @@
-namespace SIM.Commands.Commands
+namespace SIM.Core.Commands
 {
   using System;
   using System.Collections.Generic;

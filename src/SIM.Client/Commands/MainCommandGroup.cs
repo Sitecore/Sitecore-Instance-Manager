@@ -3,7 +3,7 @@
   using System.Linq;
   using CommandLine;
   using CommandLine.Text;
-  using SIM.Commands.Common;
+  using SIM.Core.Common;
   using Sitecore.Diagnostics.Base;
   using Sitecore.Diagnostics.Base.Annotations;
 

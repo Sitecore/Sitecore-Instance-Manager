@@ -1,4 +1,4 @@
-﻿namespace SIM.Commands.Common
+﻿namespace SIM.Core.Common
 {
   using System;
   using System.Diagnostics;

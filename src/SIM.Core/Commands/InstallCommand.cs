@@ -1,10 +1,10 @@
-﻿namespace SIM.Commands.Commands
+﻿namespace SIM.Core.Commands
 {
   using System;
   using System.IO;
   using System.Linq;
   using SIM.Adapters.SqlServer;
-  using SIM.Commands.Common;
+  using SIM.Core.Common;
   using SIM.Pipelines;
   using SIM.Pipelines.Install;
   using SIM.Products;

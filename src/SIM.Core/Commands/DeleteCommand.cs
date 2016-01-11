@@ -1,9 +1,8 @@
-namespace SIM.Commands.Commands
+namespace SIM.Core.Commands
 {
   using System;
   using System.Linq;
-  using SIM.Adapters.SqlServer;
-  using SIM.Commands.Common;
+  using SIM.Core.Common;
   using SIM.Instances;
   using SIM.Pipelines;
   using SIM.Pipelines.Delete;

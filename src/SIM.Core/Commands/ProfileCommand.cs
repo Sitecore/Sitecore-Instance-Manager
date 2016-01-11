@@ -1,6 +1,6 @@
-namespace SIM.Commands.Commands
+namespace SIM.Core.Commands
 {
-  using SIM.Commands.Common;
+  using SIM.Core.Common;
   using Sitecore.Diagnostics.Base;
   using Sitecore.Diagnostics.Base.Annotations;
 

@@ -1,7 +1,7 @@
-﻿namespace SIM.Commands.Commands
+﻿namespace SIM.Core.Commands
 {
   using System.Linq;
-  using SIM.Commands.Common;
+  using SIM.Core.Common;
   using SIM.Instances;
   using Sitecore.Diagnostics.Base;
   using Sitecore.Diagnostics.Base.Annotations;
