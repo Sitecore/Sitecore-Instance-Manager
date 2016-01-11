@@ -466,14 +466,6 @@
       <Project>{ca40c57a-ef4f-474d-be8b-98e51ae62c1f}</Project>
       <Name>SIM.Adapters</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SIM.Client\SIM.Client.csproj">
-      <Project>{77c4e17f-5c43-4334-a547-44c0e490cb8a}</Project>
-      <Name>SIM.Client</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SIM.Core\SIM.Core.csproj">
-      <Project>{a124d359-b9bf-44f4-98cb-c40d3d490839}</Project>
-      <Name>SIM.Core</Name>
-    </ProjectReference>
     <ProjectReference Include="..\SIM.Instances\SIM.Instances.csproj">
       <Project>{cca7b157-a743-4a5a-a03b-b6b27cb2be1c}</Project>
       <Name>SIM.Instances</Name>

@@ -152,7 +152,6 @@
     <Compile Include="MainWindowComponents\BackupInstanceButton.cs" />
     <Compile Include="MainWindowComponents\BrowseButton.cs" />
     <Compile Include="MainWindowComponents\CollectMemoryDumpButton.cs" />
-    <Compile Include="MainWindowComponents\CommandLineButton.cs" />
     <Compile Include="MainWindowComponents\ConfigBuilderButton.cs" />
     <Compile Include="MainWindowComponents\ControlAppPoolButton.cs" />
     <Compile Include="MainWindowComponents\DatabaseManagerButton.cs" />
