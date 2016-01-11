@@ -151,7 +151,6 @@
     <Content Include="Plugins\Tray Plugin\Plugin.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <None Include="app.config" />
     <None Include="packages.config" />
     <None Include="Resources\trayicon.ico" />
   </ItemGroup>

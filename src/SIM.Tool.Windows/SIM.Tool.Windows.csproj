@@ -322,7 +322,6 @@
     <EmbeddedResource Include="ManagedArgsTracer.zip" />
     <EmbeddedResource Include="ManagedGcAwareDump.zip" />
     <EmbeddedResource Include="MongoDb.WindowsService.Installer.zip" />
-    <None Include="app.config" />
     <None Include="packages.config" />
     <Resource Include="Images\16\astrologer.png" />
     <Resource Include="Images\16\chrome.png" />
