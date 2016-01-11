@@ -4,7 +4,6 @@ namespace SIM.Tool
 {
   using System;
   using System.ComponentModel;
-  using System.Deployment.Application;
   using System.Diagnostics;
   using System.IO;
   using System.Linq;
@@ -16,6 +15,7 @@ namespace SIM.Tool
   using System.Xml;
   using SIM.Adapters.SqlServer;
   using SIM.Core;
+  using SIM.Core.Common;
   using SIM.Instances;
   using SIM.Pipelines;
   using SIM.Pipelines.Processors;
@@ -191,7 +191,7 @@ namespace SIM.Tool
       PluginManager.Initialize();
 
       // Clean up garbage
-      App.DeleteTempFolders();
+      CoreApp.DeleteTempFolders();
 
       Analytics.Start();
 
@@ -303,19 +303,7 @@ namespace SIM.Tool
       }
     }
 
-    private static void DeleteTempFolders()
-    {
-      try
-      {
-        FileSystem.FileSystem.Local.Directory.DeleteTempFolders();
-      }
-      catch (Exception ex)
-      {
-        Log.Error(ex, "Deleting temp folders caused an exception");
-      }
-    }
-
-    private static Profile DetectProfile()
+    private static Base.Profiles.Profile DetectProfile()
     {
       try
       {
@@ -337,7 +325,7 @@ namespace SIM.Tool
           FileSystem.FileSystem.Local.File.Copy(instance.LicencePath, lic);
         }
 
-        return new Profile
+        return new Base.Profiles.Profile
         {
           ConnectionString = cstr,
           InstancesFolder = root,
@@ -349,7 +337,7 @@ namespace SIM.Tool
       {
         Log.Error(ex, "Error during detecting profile defaults");
 
-        return new Profile();
+        return new Base.Profiles.Profile();
       }
     }
 

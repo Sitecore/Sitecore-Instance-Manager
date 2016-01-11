@@ -8,9 +8,9 @@
   using Newtonsoft.Json;
   using SIM.Client.Commands;
   using SIM.Core;
+  using SIM.Core.Common;
   using Sitecore.Diagnostics.Base;
   using Sitecore.Diagnostics.Base.Annotations;
-  using Sitecore.Diagnostics.Logging;
 
   public static class Program
   {
@@ -21,6 +21,8 @@
       CoreApp.InitializeLogging();
 
       CoreApp.LogMainInfo();
+
+      Analytics.Start();
 
       var filteredArgs = args.ToList();
       var query = GetQueryAndFilterArgs(filteredArgs);

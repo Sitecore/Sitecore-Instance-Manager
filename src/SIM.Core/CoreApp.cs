@@ -10,6 +10,8 @@
   using log4net.Layout;
   using log4net.Util;
   using SIM.Core.Logging;
+  using SIM.FileSystem;
+  using Sitecore.Diagnostics.Base.Annotations;
   using Sitecore.Diagnostics.Logging;
 
   public static class CoreApp
@@ -49,7 +51,7 @@
       {
         var nativeArgs = Environment.GetCommandLineArgs();
         var commandLineArgs = nativeArgs.Skip(1).ToArray();
-        var argsToLog = commandLineArgs.Length > 0 ? string.Join("|", commandLineArgs) : "<NO ARGUMENTS>";
+        var argsToLog = commandLineArgs.Length > 0 ? String.Join("|", commandLineArgs) : "<NO ARGUMENTS>";
 
         Log.Info("**********************************************************************");
         Log.Info("**********************************************************************");
@@ -57,7 +59,7 @@
         Log.Info("Version: {0}", ApplicationManager.AppVersion);
         Log.Info("Revision: {0}", ApplicationManager.AppRevision);
         Log.Info("Label: {0}", ApplicationManager.AppLabel);
-        Log.Info("Executable: {0}", nativeArgs.FirstOrDefault() ?? string.Empty);
+        Log.Info("Executable: {0}", nativeArgs.FirstOrDefault() ?? String.Empty);
         Log.Info("Arguments: {0}", argsToLog);
         Log.Info("Directory: {0}", Environment.CurrentDirectory);
         Log.Info("**********************************************************************");
@@ -100,6 +102,67 @@
 
         BasicConfigurator.Configure(infoLogger, debugLogger);
       }
+    }
+
+    public static void DeleteTempFolders()
+    {
+      try
+      {
+        FileSystem.Local.Directory.DeleteTempFolders();
+      }
+      catch (Exception ex)
+      {
+        Log.Error(ex, "Deleting temp folders caused an exception");
+      }
+    }
+
+    public static bool DoNotTrack()
+    {
+      var path = Path.Combine(ApplicationManager.TempFolder, "donottrack.txt");
+
+      return FileSystem.Local.File.Exists(path);
+    }
+
+    public static string GetId()
+    {
+      string cookie = GetCookie();
+
+      return String.Format("public-{0}", cookie);
+    }
+
+    [NotNull]
+    public static string GetCookie()
+    {
+      var path = Path.Combine(ApplicationManager.TempFolder, "cookie.txt");
+      if (FileSystem.Local.File.Exists(path))
+      {
+        var cookie = FileSystem.Local.File.ReadAllText(path);
+        if (!String.IsNullOrEmpty(cookie))
+        {
+          return cookie;
+        }
+        
+        try
+        {
+          FileSystem.Local.File.Delete(path);
+        }
+        catch (Exception ex)
+        {
+          Log.Error(ex, "Cannot delete cookie file");
+        }
+      }
+
+      var newCookie = Guid.NewGuid().ToString().Replace("{", String.Empty).Replace("}", String.Empty).Replace("-", String.Empty);
+      try
+      {
+        FileSystem.Local.File.WriteAllText(path, newCookie);
+      }
+      catch (Exception ex)
+      {
+        Log.Error(ex, "Cannot write cookie");
+      }
+
+      return newCookie;
     }
   }
 }

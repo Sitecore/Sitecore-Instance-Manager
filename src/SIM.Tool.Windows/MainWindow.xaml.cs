@@ -7,6 +7,7 @@
   using System.Windows.Controls;
   using System.Windows.Input;
   using System.Windows.Threading;
+  using SIM.Core;
   using SIM.Tool.Base;
   using SIM.Tool.Base.Plugins;
   using SIM.Tool.Windows.MainWindowComponents;
@@ -72,12 +73,12 @@
 
     private void AnalyticsTracking()
     {
-      if (EnvironmentHelper.DoNotTrack())
+      if (CoreApp.DoNotTrack())
       {
         return;
       }
 
-      var id = EnvironmentHelper.GetId();
+      var id = CoreApp.GetId();
       var ver = ApplicationManager.AppVersion.EmptyToNull() ?? "dev";
 
       this.Dispatcher.Invoke(new Action(() =>

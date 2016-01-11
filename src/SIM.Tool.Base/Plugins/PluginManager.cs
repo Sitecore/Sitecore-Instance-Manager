@@ -74,18 +74,11 @@
 
     public static IEnumerable<Plugin> GetEnabledPlugins(Profile profile)
     {
-      char[] separator = new[]
+      char[] separator = 
       {
         '|', ';', ','
       };
-      var workaround = "Plugins\\Support Workaround";
-      var plugins = profile.Plugins.Replace(workaround, string.Empty);
-      if (EnvironmentHelper.IsSitecoreMachine)
-      {
-        plugins += "|" + workaround;
-      }
-
-      var selected = plugins.Replace("||", "|").Trim(separator).Split(separator);
+      var selected = profile.Plugins.Replace("||", "|").Trim(separator).Split(separator);
       return Plugins.Where(plugin => selected.Contains(plugin.PluginFolder));
     }
 

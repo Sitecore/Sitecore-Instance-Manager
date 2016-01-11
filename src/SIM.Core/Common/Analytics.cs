@@ -1,4 +1,4 @@
-﻿namespace SIM.Tool.Base
+namespace SIM.Core.Common
 {
   using System;
   using Microsoft.ApplicationInsights;
@@ -15,7 +15,7 @@
 
     public static void Start()
     {
-      if (string.IsNullOrEmpty(ApplicationManager.AppVersion) || EnvironmentHelper.DoNotTrack())
+      if (CoreApp.DoNotTrack())
       {
         return;
       }
@@ -24,18 +24,24 @@
 
       try
       {
-        var tc = new TelemetryClient(new TelemetryConfiguration
+        var configuration = new TelemetryConfiguration
         {
-          InstrumentationKey = "1447f72f-2d39-401b-91ac-4d5c502e3359",
+          InstrumentationKey = "1447f72f-2d39-401b-91ac-4d5c502e3359", 
           TelemetryChannel = new PersistenceChannel()
-        });
+        };
+
+        var tc = new TelemetryClient(configuration)
+        {
+          InstrumentationKey = "1447f72f-2d39-401b-91ac-4d5c502e3359"
+        };
 
         client = tc;
         try
         {
+          tc.Context.Component.Version = string.IsNullOrEmpty(ApplicationManager.AppVersion) ? "0.0.0.0" : ApplicationManager.AppVersion;
           tc.Context.Session.Id = Guid.NewGuid().ToString();
           tc.Context.User.Id = Environment.MachineName + "\\" + Environment.UserName;
-          tc.Context.User.AccountId = EnvironmentHelper.GetCookie();
+          tc.Context.User.AccountId = CoreApp.GetCookie();
           tc.Context.Device.OperatingSystem = Environment.OSVersion.ToString();
           tc.TrackEvent("Start");
           tc.Flush();
