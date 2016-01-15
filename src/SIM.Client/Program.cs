@@ -40,7 +40,7 @@
         Environment.Exit(Parser.DefaultExitCodeFail);
       }
 
-      var result = options.SelectedCommand.Execute() as object;
+      var result = options.SelectedCommand.Execute();
 
       result = QueryResult(result, query);
       if (result == null)
