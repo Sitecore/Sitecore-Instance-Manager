@@ -95,9 +95,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Sitecore.Diagnostics.Logging.1.0.0.18\lib\net40\Sitecore.Diagnostics.Logging.dll</HintPath>
     </Reference>
-    <Reference Include="Sitecore.NuGet.Core">
-      <HintPath>..\packages\Sitecore.NuGet.Core.1.0.0.1\lib\Sitecore.NuGet.Core.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Sitecore.NuGet.Core, Version=1.0.0.1, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Sitecore.NuGet.Core.1.0.0.2\lib\Sitecore.NuGet.Core.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />

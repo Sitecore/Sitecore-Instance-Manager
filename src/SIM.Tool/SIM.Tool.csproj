@@ -134,7 +134,8 @@
       <HintPath>..\packages\Sitecore.Diagnostics.Logging.Log4Net.1.0.0.18\lib\net40\Sitecore.Diagnostics.Logging.Log4Net.dll</HintPath>
     </Reference>
     <Reference Include="Sitecore.NuGet.Core">
-      <HintPath>..\packages\Sitecore.NuGet.Core.1.0.0.1\lib\Sitecore.NuGet.Core.dll</HintPath>
+      <HintPath>..\packages\Sitecore.NuGet.Core.1.0.0.2\lib\Sitecore.NuGet.Core.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
