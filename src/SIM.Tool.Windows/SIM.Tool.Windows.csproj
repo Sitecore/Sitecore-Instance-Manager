@@ -144,6 +144,8 @@
       <DependentUpon>RestoreDatabaseDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="MainWindowComponents\AboutButton.cs" />
+    <Compile Include="MainWindowComponents\AbstractInstanceButton.cs" />
+    <Compile Include="MainWindowComponents\AbstractSimpleButton.cs" />
     <Compile Include="MainWindowComponents\AttachDebuggerButton.cs" />
     <Compile Include="MainWindowComponents\BackupInstanceButton.cs" />
     <Compile Include="MainWindowComponents\BrowseButton.cs" />

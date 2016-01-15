@@ -20,7 +20,7 @@
     protected readonly string VirtualPath;
 
     [NotNull]
-    private string[] Params;
+    private readonly string[] Params;
 
     #endregion
 
@@ -33,7 +33,7 @@
       this.Params = new string[0];
     }
 
-    public BrowseButton(string param)
+    public BrowseButton([CanBeNull] string param)
     {
       var arr = (param + ":").Split(':');
       this.VirtualPath = arr[0];

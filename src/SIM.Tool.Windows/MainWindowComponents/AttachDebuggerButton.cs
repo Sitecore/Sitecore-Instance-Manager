@@ -5,14 +5,13 @@ namespace SIM.Tool.Windows.MainWindowComponents
   using System.Globalization;
   using System.IO;
   using System.Linq;
-  using System.Windows;
   using SIM.Instances;
   using SIM.Tool.Base;
-  using SIM.Tool.Base.Plugins;
+  using Sitecore.Diagnostics.Base;
   using Sitecore.Diagnostics.Base.Annotations;
 
   [UsedImplicitly]
-  public class AttachDebuggerButton : IMainWindowButton
+  public class AttachDebuggerButton : InstanceOnlyButton
   {
     #region Fields
 
@@ -22,13 +21,10 @@ namespace SIM.Tool.Windows.MainWindowComponents
 
     #region Public methods
 
-    public bool IsEnabled(Window mainWindow, Instance instance)
+    protected override void OnClick(Instance instance)
     {
-      return true;
-    }
+      Assert.ArgumentNotNull(instance, "instance");
 
-    public void OnClick(Window mainWindow, Instance instance)
-    {
       var ids = instance.ProcessIds.ToArray();
       if (ids.Length == 0)
       {

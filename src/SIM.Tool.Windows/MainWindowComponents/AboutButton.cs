@@ -1,24 +1,20 @@
 ﻿namespace SIM.Tool.Windows.MainWindowComponents
 {
   using System.Windows;
-  using SIM.Instances;
   using SIM.Tool.Base;
-  using SIM.Tool.Base.Plugins;
   using SIM.Tool.Windows.Dialogs;
+  using Sitecore.Diagnostics.Base;
   using Sitecore.Diagnostics.Base.Annotations;
 
   [UsedImplicitly]
-  public class AboutButton : IMainWindowButton
+  public class AboutOnlyButton : WindowOnlyButton
   {
     #region Public methods
-
-    public bool IsEnabled(Window mainWindow, Instance instance)
+    
+    protected override void OnClick(Window mainWindow)
     {
-      return true;
-    }
+      Assert.ArgumentNotNull(mainWindow, "mainWindow");
 
-    public void OnClick(Window mainWindow, Instance instance)
-    {
       WindowHelper.ShowDialog<AboutDialog>(null, mainWindow);
     }
 
