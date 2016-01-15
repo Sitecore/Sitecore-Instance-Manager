@@ -133,23 +133,31 @@
     [NotNull]
     public static string GetCookie()
     {
-      var path = Path.Combine(ApplicationManager.TempFolder, "cookie.txt");
-      if (FileSystem.Local.File.Exists(path))
+      var tempFolder = ApplicationManager.TempFolder;
+      var path = Path.Combine(tempFolder, "cookie.txt");
+      if (Directory.Exists(tempFolder))
       {
-        var cookie = FileSystem.Local.File.ReadAllText(path);
-        if (!String.IsNullOrEmpty(cookie))
+        if (FileSystem.Local.File.Exists(path))
         {
-          return cookie;
+          var cookie = FileSystem.Local.File.ReadAllText(path);
+          if (!String.IsNullOrEmpty(cookie))
+          {
+            return cookie;
+          }
+
+          try
+          {
+            FileSystem.Local.File.Delete(path);
+          }
+          catch (Exception ex)
+          {
+            Log.Error(ex, "Cannot delete cookie file");
+          }
         }
-        
-        try
-        {
-          FileSystem.Local.File.Delete(path);
-        }
-        catch (Exception ex)
-        {
-          Log.Error(ex, "Cannot delete cookie file");
-        }
+      }
+      else
+      {
+        Directory.CreateDirectory(tempFolder);
       }
 
       var newCookie = Guid.NewGuid().ToString().Replace("{", String.Empty).Replace("}", String.Empty).Replace("-", String.Empty);
