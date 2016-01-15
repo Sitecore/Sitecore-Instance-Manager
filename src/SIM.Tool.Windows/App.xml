@@ -20,6 +20,8 @@
         <group name="Tools">
           <button       label="Get Sitecore"                                        largeImage="/Images/$lg/cloud_download.png, SIM.Tool.Windows"              type="SIM.Tool.Windows.MainWindowComponents.Download8Button, SIM.Tool.Windows" />
           <button       label="Bundled Tools"                                       largeImage="/Images/$lg/toolbox.png, SIM.Tool.Windows">
+            <button     label="Command Line"                                        largeImage="/Images/$sm/console.png, SIM.Tool.Windows"                     type="SIM.Tool.Windows.MainWindowComponents.CommandLineButton, SIM.Tool.Windows" />
+            <separator />
             <button     label="SIM Logs"                                            largeImage="/Images/$sm/folder_document2.png, SIM.Tool.Windows"            type="SIM.Tool.Windows.MainWindowComponents.OpenFolderButton, SIM.Tool.Windows"     param="%APPDATA%\Sitecore\Sitecore Instance Manager\Logs" />
             <button     label="SIM Data Folder"                                     largeImage="/Images/$sm/folder_window.png, SIM.Tool.Windows"               type="SIM.Tool.Windows.MainWindowComponents.OpenFolderButton, SIM.Tool.Windows"     param="%APPDATA%\Sitecore\Sitecore Instance Manager" />
             <separator />

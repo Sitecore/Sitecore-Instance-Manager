@@ -150,6 +150,7 @@
     <Compile Include="MainWindowComponents\BackupInstanceButton.cs" />
     <Compile Include="MainWindowComponents\BrowseButton.cs" />
     <Compile Include="MainWindowComponents\CollectMemoryDumpButton.cs" />
+    <Compile Include="MainWindowComponents\CommandLineButton.cs" />
     <Compile Include="MainWindowComponents\ConfigBuilderButton.cs" />
     <Compile Include="MainWindowComponents\ControlAppPoolButton.cs" />
     <Compile Include="MainWindowComponents\DatabaseManagerButton.cs" />
@@ -536,6 +537,9 @@
     <Resource Include="Images\48\upload.png" />
     <Resource Include="Images\48\wrench.png" />
     <Resource Include="Images\48\zoom_vertical.png" />
+    <EmbeddedResource Include="..\SIM.Client\bin\SIM.exe">
+      <Link>SIM.exe</Link>
+    </EmbeddedResource>
     <Content Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
