@@ -2,14 +2,22 @@
 {
   using System.IO;
   using SIM.Pipelines.Processors;
+  using Sitecore.Diagnostics.Base.Annotations;
 
+  [UsedImplicitly]
   public class AcceptAgreement : Processor
   {
     #region Protected methods
 
-    protected override void Process(ProcessorArgs args)
+    protected override void Process([CanBeNull] ProcessorArgs args)
     {
-      File.WriteAllText(Path.Combine(ApplicationManager.TempFolder, "agreement-accepted.txt"), @"agreement accepted");
+      var tempFolder = ApplicationManager.TempFolder;
+      if (!Directory.Exists(tempFolder))
+      {
+        Directory.CreateDirectory(tempFolder);
+      }
+
+      File.WriteAllText(Path.Combine(tempFolder, "agreement-accepted.txt"), @"agreement accepted");
     }
 
     #endregion
