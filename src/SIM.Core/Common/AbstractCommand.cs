@@ -5,12 +5,12 @@
   using Sitecore.Diagnostics.Base.Annotations;
   using Sitecore.Diagnostics.Logging;
 
-  public abstract class AbstractCommand
+  public abstract class AbstractCommand<TResult> : ICommand
   {
     [NotNull]
-    public CommandResult Execute()
+    public CommandResult<TResult> Execute()
     {
-      var result = new CommandResult();
+      var result = new CommandResult<TResult>();
       var timer = new Stopwatch();
       timer.Start();
       try
@@ -30,6 +30,11 @@
       return result;
     }
 
-    protected abstract void DoExecute([NotNull] CommandResultBase result);
+    object ICommand.Execute()
+    {
+      return this.Execute();
+    }
+
+    protected abstract void DoExecute([NotNull] CommandResultBase<TResult> result);
   }
 }

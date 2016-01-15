@@ -1,6 +1,7 @@
 namespace SIM.Core.Commands
 {
   using System;
+  using System.Collections.Generic;
   using System.Linq;
   using SIM.Core.Common;
   using SIM.Instances;
@@ -9,13 +10,15 @@ namespace SIM.Core.Commands
   using Sitecore.Diagnostics.Base;
   using Sitecore.Diagnostics.Base.Annotations;
 
-  public class DeleteCommand : AbstractCommand
+  public class DeleteCommand : AbstractCommand<string[]>
   {
     [CanBeNull]
     public virtual string Name { get; [UsedImplicitly] set; }
 
-    protected override void DoExecute(CommandResultBase result)
+    protected override void DoExecute(CommandResultBase<string[]> result)
     {
+      Assert.ArgumentNotNull(result, "result");
+
       var name = this.Name;
       Assert.ArgumentNotNullOrEmpty(name, "name");
 
@@ -40,7 +43,7 @@ namespace SIM.Core.Commands
 
       result.Success = !string.IsNullOrEmpty(controller.Message);
       result.Message = controller.Message;
-      result.Data = controller.GetMessages();
+      result.Data = controller.GetMessages().ToArray();
     }
   }
 }

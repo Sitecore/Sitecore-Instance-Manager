@@ -33,14 +33,8 @@
 
     #endregion
 
-    [HelpVerbOption]
-    public string GetUsage(string verb)
-    {
-      return HelpText.AutoBuild(this, verb);
-    }
-
     [NotNull]
-    public AbstractCommand SelectedCommand
+    public ICommand SelectedCommand
     {
       get
       {
@@ -52,7 +46,15 @@
     }
 
     [CanBeNull]
-    private AbstractCommand FindCommand([NotNull] object commandContainer)
+    [UsedImplicitly]
+    [HelpVerbOption]
+    public string GetUsage([CanBeNull] string verb)
+    {
+      return HelpText.AutoBuild(this, verb);
+    }
+
+    [CanBeNull]
+    private ICommand FindCommand([NotNull] object commandContainer)
     {
       Assert.ArgumentNotNull(commandContainer, "commandContainer");
 
@@ -64,7 +66,7 @@
           continue;
         }
 
-        var innerCommand = propertyInfo.GetValue(commandContainer, null) as AbstractCommand;
+        var innerCommand = propertyInfo.GetValue(commandContainer, null) as ICommand;
         if (innerCommand != null)
         {
           var command = this.FindCommand(innerCommand);
@@ -75,7 +77,7 @@
         }
       }
 
-      return commandContainer as AbstractCommand;
+      return commandContainer as ICommand;
     }
   }
 }

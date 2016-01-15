@@ -11,7 +11,7 @@
   using Sitecore.Diagnostics.Base;
   using Sitecore.Diagnostics.Base.Annotations;
 
-  public class InstallCommand : AbstractCommand
+  public class InstallCommand : AbstractCommand<string[]>
   {
     [CanBeNull]
     public virtual string Name { get; [UsedImplicitly] set; }
@@ -25,7 +25,7 @@
     [CanBeNull]
     public virtual string Revision { get; [UsedImplicitly] set; }
 
-    protected override void DoExecute(CommandResultBase result)
+    protected override void DoExecute(CommandResultBase<string[]> result)
     {
       Assert.ArgumentNotNull(result, "result");
 
@@ -101,7 +101,7 @@
 
       result.Success = !string.IsNullOrEmpty(controller.Message);
       result.Message = controller.Message;
-      result.Data = controller.GetMessages();
+      result.Data = controller.GetMessages().ToArray();
     }
   }
 }

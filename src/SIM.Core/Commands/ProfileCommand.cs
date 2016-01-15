@@ -4,9 +4,9 @@ namespace SIM.Core.Commands
   using Sitecore.Diagnostics.Base;
   using Sitecore.Diagnostics.Base.Annotations;
 
-  public class ProfileCommand : AbstractCommand
+  public class ProfileCommand : AbstractCommand<Profile>
   {
-    protected override void DoExecute(CommandResultBase result)
+    protected override void DoExecute(CommandResultBase<Profile> result)
     {
       Assert.ArgumentNotNull(result, "result");
 

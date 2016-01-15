@@ -1,11 +1,14 @@
 ﻿namespace SIM.Core.Common
 {
-  public abstract class CommandResultBase
+  using Sitecore.Diagnostics.Base.Annotations;
+
+  public abstract class CommandResultBase<TResult>
   {
     public bool Success { get; set; }
 
+    [CanBeNull]
     public string Message { get; set; }
 
-    public object Data { get; set; }
+    public TResult Data { get; set; }
   }
 }

@@ -7,6 +7,7 @@
   using CommandLine;
   using Newtonsoft.Json;
   using SIM.Client.Commands;
+  using SIM.Client.Serialization;
   using SIM.Core;
   using SIM.Core.Common;
   using Sitecore.Diagnostics.Base;
@@ -28,7 +29,7 @@
       var query = GetQueryAndFilterArgs(filteredArgs);
       var wait = GetWaitAndFilterArgs(filteredArgs);
 
-      var parser = new Parser(with => with.NotNull().HelpWriter = Console.Error);
+      var parser = new Parser(with => with.HelpWriter = Console.Error);
       Assert.IsNotNull(parser, "parser");
 
       var options = new MainCommandGroup();
@@ -47,7 +48,16 @@
         return;
       }
 
-      Console.WriteLine(JsonConvert.SerializeObject(result, Formatting.Indented));
+      var serializer = new JsonSerializer
+      {
+        NullValueHandling = NullValueHandling.Ignore,
+        Formatting = Formatting.Indented,        
+      };
+
+      serializer.Converters.Add(new DirectoryInfoConverter());
+
+      var writer = Console.Out;
+      serializer.Serialize(writer, result);
 
       if (wait)
       {

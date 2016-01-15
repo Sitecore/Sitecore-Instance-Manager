@@ -1,12 +1,16 @@
 ﻿namespace SIM.Core.Commands
 {
+  using System.Collections;
+  using System.Collections.Generic;
+  using System.IO;
   using System.Linq;
   using SIM.Core.Common;
+  using SIM.Core.Models;
   using SIM.Instances;
   using Sitecore.Diagnostics.Base;
   using Sitecore.Diagnostics.Base.Annotations;
 
-  public class ListCommand : AbstractCommand
+  public class ListCommand : AbstractCommand<ListInstancesResult>
   {
     [CanBeNull]
     public virtual string Filter { get; set; }
@@ -15,7 +19,7 @@
 
     public virtual bool Everywhere { get; set; }
 
-    protected override void DoExecute(CommandResultBase result)
+    protected override void DoExecute(CommandResultBase<ListInstancesResult> result)
     {
       Assert.ArgumentNotNull(result, "result");
 
@@ -24,25 +28,32 @@
 
       InstanceManager.Initialize();
 
-      object data;
+      var instances = InstanceManager.Instances;
+      if (!string.IsNullOrEmpty(filter))
+      {
+        instances = instances.Where(x => x.Name.ToLowerInvariant().Contains(filter.ToLowerInvariant()));
+      }
+
+      if (!string.IsNullOrEmpty(root))
+      {
+        instances = instances.Where(x => x.RootPath.ToLowerInvariant().Contains(root.ToLowerInvariant()));
+      }
+
+      ListInstancesResult data;
+
       if (this.Detailed)
       {
-        var instances = InstanceManager.Instances.Select(x => new { x.ID, x.Name, x.State, x.WebRootPath, x.DataFolderPath, x.RootPath, x.ProductFullName, Databases = x.AttachedDatabases.ToDictionary(y => y.Name, y => y.RealName) });
-        if (!string.IsNullOrEmpty(filter))
+        data = new ListInstancesResult(instances.ToDictionary(x => x.Name, x => new InstanceInfo(x.ID, x.Name, x.State.ToString(), x.WebRootPath)
         {
-          instances = instances.Where(x => x.Name.ToLowerInvariant().Contains(filter.ToLowerInvariant()));
-        }
-
-        if (!string.IsNullOrEmpty(root))
-        {
-          instances = instances.Where(x => x.RootPath.ToLowerInvariant().Contains(root.ToLowerInvariant()));
-        }
-
-        data = instances.ToDictionary(x => x.Name, x => x);
+          DataFolder = new DirectoryInfo(x.DataFolderPath), 
+          RootFolder = new DirectoryInfo(x.RootPath), 
+          ProductName = x.ProductFullName, 
+          Databases = x.AttachedDatabases.ToDictionary(y => y.Name, y => y.RealName) 
+        }));
       }
       else
       {
-        data = InstanceManager.Instances.Select(x => new { x.ID, x.Name, x.State, x.WebRootPath });
+        data = new ListInstancesResult(instances.ToDictionary(x => x.Name, x => new InstanceInfo(x.ID, x.Name, x.State.ToString(), x.WebRootPath)));
       }
 
       result.Success = true;

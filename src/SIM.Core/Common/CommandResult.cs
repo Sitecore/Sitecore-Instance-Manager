@@ -2,7 +2,7 @@
 {
   using System;
 
-  public class CommandResult : CommandResultBase
+  public class CommandResult<TResult> : CommandResultBase<TResult>
   {
     public TimeSpan Elapsed { get; set; }
   }
