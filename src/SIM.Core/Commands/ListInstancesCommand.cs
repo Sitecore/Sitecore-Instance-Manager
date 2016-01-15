@@ -11,6 +11,8 @@
     [CanBeNull]
     public virtual string Filter { get; set; }
 
+    public virtual bool Detailed { get; set; }
+
     public virtual bool Everywhere { get; set; }
 
     protected override void DoExecute(CommandResultBase result)
@@ -22,20 +24,30 @@
 
       InstanceManager.Initialize();
 
-      var instances = InstanceManager.Instances.Select(x => new { x.ID, x.Name, x.RootPath, x.WebRootPath, x.DataFolderPath, x.ProductFullName });
-      if (!string.IsNullOrEmpty(filter))
+      object data;
+      if (this.Detailed)
       {
-        instances = instances.Where(x => x.Name.ToLowerInvariant().Contains(filter.ToLowerInvariant()));
+        var instances = InstanceManager.Instances.Select(x => new { x.ID, x.Name, x.State, x.WebRootPath, x.DataFolderPath, x.RootPath, x.ProductFullName, Databases = x.AttachedDatabases.ToDictionary(y => y.Name, y => y.RealName) });
+        if (!string.IsNullOrEmpty(filter))
+        {
+          instances = instances.Where(x => x.Name.ToLowerInvariant().Contains(filter.ToLowerInvariant()));
+        }
+
+        if (!string.IsNullOrEmpty(root))
+        {
+          instances = instances.Where(x => x.RootPath.ToLowerInvariant().Contains(root.ToLowerInvariant()));
+        }
+
+        data = instances.ToDictionary(x => x.Name, x => x);
+      }
+      else
+      {
+        data = InstanceManager.Instances.Select(x => new { x.ID, x.Name, x.State, x.WebRootPath });
       }
 
-      if (!string.IsNullOrEmpty(root))
-      {
-        instances = instances.Where(x => x.RootPath.ToLowerInvariant().Contains(root.ToLowerInvariant()));
-      }
-      
       result.Success = true;
       result.Message = "done";
-      result.Data = instances.ToDictionary(x => x.Name, x => x);
+      result.Data = data;
     }
   }
 }

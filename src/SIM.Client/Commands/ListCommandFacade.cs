@@ -11,6 +11,9 @@
     {
     }
 
+    [Option('d', "detailed", HelpText = "When specified, extra information is collected, computed and reported.")]
+    public override bool Detailed { get; set; }
+
     [Option('f', "filter", HelpText = "Show only instances that have specific string in the name.")]
     public override string Filter { get; set; }
 
