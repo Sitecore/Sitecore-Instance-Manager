@@ -81,6 +81,8 @@ namespace SIM.Tool
       {
         CacheManager.ClearAll();
 
+        Directory.Delete(ApplicationManager.TempFolder, true);
+
         foreach (var filePath in Directory.GetFiles(".", "*-xml", SearchOption.AllDirectories))
         {
           if (filePath == null)
