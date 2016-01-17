@@ -80,8 +80,10 @@ namespace SIM.Tool
       if (CoreApp.IsFirstRun)
       {
         CacheManager.ClearAll();
-
-        Directory.Delete(ApplicationManager.TempFolder, true);
+        foreach (var dir in Directory.GetDirectories(ApplicationManager.TempFolder))
+        {
+          Directory.Delete(dir, true);
+        }
 
         foreach (var filePath in Directory.GetFiles(".", "*-xml", SearchOption.AllDirectories))
         {
