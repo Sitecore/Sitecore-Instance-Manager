@@ -87,8 +87,9 @@
     <Reference Include="Sitecore.Diagnostics.Database">
       <HintPath>..\packages\Sitecore.Diagnostics.Database.1.0.0.8\lib\net40\Sitecore.Diagnostics.Database.dll</HintPath>
     </Reference>
-    <Reference Include="Sitecore.Diagnostics.InformationService.Client">
-      <HintPath>..\packages\Sitecore.Diagnostics.InformationService.Client.1.3.0.4\lib\net40\Sitecore.Diagnostics.InformationService.Client.dll</HintPath>
+    <Reference Include="Sitecore.Diagnostics.InformationService.Client, Version=1.3.0.0, Culture=neutral, PublicKeyToken=f9a5856b52eceddf, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Sitecore.Diagnostics.InformationService.Client.1.3.0.5\lib\net40\Sitecore.Diagnostics.InformationService.Client.dll</HintPath>
     </Reference>
     <Reference Include="Sitecore.Diagnostics.Logging, Version=1.0.0.0, Culture=neutral, PublicKeyToken=8e71e5db3070b7f5, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
