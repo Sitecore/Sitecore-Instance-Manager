@@ -11,7 +11,7 @@ namespace SIM.Core.Common
   public static class Analytics
   {
     [CanBeNull]
-    private static TelemetryClient client;
+    private static TelemetryClient telemetryClient;
 
     public static void Start()
     {
@@ -24,31 +24,33 @@ namespace SIM.Core.Common
 
       try
       {
-        var configuration = new TelemetryConfiguration
-        {
-          InstrumentationKey = "1447f72f-2d39-401b-91ac-4d5c502e3359", 
-          TelemetryChannel = new PersistenceChannel()
-        };
+        var configuration = TelemetryConfiguration.Active;
+        Assert.IsNotNull(configuration, "configuration");
 
-        var tc = new TelemetryClient(configuration)
+        configuration.TelemetryChannel = new PersistenceChannel("Sitecore Instance Manager");
+        configuration.InstrumentationKey = "1447f72f-2d39-401b-91ac-4d5c502e3359";
+        
+        var client = new TelemetryClient(configuration)
         {
           InstrumentationKey = "1447f72f-2d39-401b-91ac-4d5c502e3359"
         };
 
-        client = tc;
+        Analytics.telemetryClient = client;
         try
         {
-          tc.Context.Component.Version = string.IsNullOrEmpty(ApplicationManager.AppVersion) ? "0.0.0.0" : ApplicationManager.AppVersion;
-          tc.Context.Session.Id = Guid.NewGuid().ToString();
-          tc.Context.User.Id = Environment.MachineName + "\\" + Environment.UserName;
-          tc.Context.User.AccountId = CoreApp.GetCookie();
-          tc.Context.Device.OperatingSystem = Environment.OSVersion.ToString();
-          tc.TrackEvent("Start");
-          tc.Flush();
+          // ReSharper disable PossibleNullReferenceException
+          client.Context.Component.Version = string.IsNullOrEmpty(ApplicationManager.AppVersion) ? "0.0.0.0" : ApplicationManager.AppVersion;
+          client.Context.Session.Id = Guid.NewGuid().ToString();
+          client.Context.User.Id = Environment.MachineName + "\\" + Environment.UserName;
+          client.Context.User.AccountId = CoreApp.GetCookie();
+          client.Context.Device.OperatingSystem = Environment.OSVersion.ToString();
+          // ReSharper restore PossibleNullReferenceException
+          client.TrackEvent("Start");
+          client.Flush();
         }
         catch (Exception ex)
         {
-          tc.TrackException(ex);
+          client.TrackException(ex);
           Log.Error(ex, "Error in app insights");
         }
       }
@@ -64,7 +66,7 @@ namespace SIM.Core.Common
     {
       Assert.ArgumentNotNull(eventName, "eventName");
 
-      var tc = client;
+      var tc = telemetryClient;
       if (tc == null)
       {
         return;
@@ -82,7 +84,7 @@ namespace SIM.Core.Common
 
     public static void Flush()
     {
-      var tc = client;
+      var tc = telemetryClient;
       if (tc == null)
       {
         return;
