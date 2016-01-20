@@ -18,11 +18,11 @@
 
     #region Methods
 
-    protected override void Process([NotNull] ReinstallArgs args)
+    protected override void Process(ReinstallArgs args)
     {
       Assert.ArgumentNotNull(args, "args");
 
-      UpdateWebConfigHelper.Process(args.RootPath, args.WebRootPath, args.DataFolderPath);
+      UpdateWebConfigHelper.Process(args.RootPath, args.WebRootPath, args.DataFolderPath, args.ServerSideRedirect);
     }
 
     #endregion

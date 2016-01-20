@@ -15,6 +15,7 @@
   using Fluent;
   using SIM.Instances;
   using SIM.Pipelines.Agent;
+  using SIM.Pipelines.Install;
   using SIM.Pipelines.Reinstall;
   using SIM.Products;
   using SIM.Tool.Base;
@@ -330,7 +331,7 @@
         ReinstallArgs args;
         try
         {
-          args = new ReinstallArgs(instance, connectionString, license, SIM.Pipelines.Install.Settings.CoreInstallWebServerIdentity.Value);
+          args = new ReinstallArgs(instance, connectionString, license, SIM.Pipelines.Install.Settings.CoreInstallWebServerIdentity.Value, Settings.CoreInstallNotFoundTransfer.Value);
         }
         catch (Exception ex)
         {

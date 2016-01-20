@@ -20,6 +20,7 @@
       var args = (InstallModulesWizardArgs)wizardArgs;
       this.Dictionaries.IsChecked = args.SkipDictionaries ?? !Settings.CoreInstallDictionaries.Value;
       this.RadControls.IsChecked = args.SkipRadControls ?? !Settings.CoreInstallRadControls.Value;
+      this.ServerSideRedirect.IsChecked = args.ServerSideRedirect ?? Settings.CoreInstallNotFoundTransfer.Value;
     }
 
     public bool SaveChanges([NotNull] WizardArgs wizardArgs)
@@ -29,6 +30,7 @@
       var args = (InstallModulesWizardArgs)wizardArgs;
       args.SkipDictionaries = this.Dictionaries.IsChecked ?? true;
       args.SkipRadControls = this.RadControls.IsChecked ?? true;
+      args.ServerSideRedirect = this.ServerSideRedirect.IsChecked;
 
       return true;
     }

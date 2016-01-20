@@ -56,9 +56,12 @@
       var skipDictionaries = this.SkipDictionaries;
       Assert.IsTrue(skipDictionaries != null, "skipDictionaries");
 
+      var serverSideRedirect = this.ServerSideRedirect;
+      Assert.IsTrue(serverSideRedirect != null, "serverSideRedirect");
+
       var installRadControls = !((bool)skipRadControls);
       var installDictionaries = !((bool)skipDictionaries);
-      return new InstallArgs(this.InstanceName, this.InstanceHost, this.InstanceProduct, this.InstanceRootPath, this.InstanceConnectionString, SqlServerManager.Instance.GetSqlServerAccountName(this.InstanceConnectionString), Settings.CoreInstallWebServerIdentity.Value, this.LicenseFileInfo, this.InstanceAppPoolInfo.FrameworkVersion == "v4.0", this.InstanceAppPoolInfo.Enable32BitAppOnWin64, !this.InstanceAppPoolInfo.ManagedPipelineMode, installRadControls, installDictionaries, this.Modules);
+      return new InstallArgs(this.InstanceName, this.InstanceHost, this.InstanceProduct, this.InstanceRootPath, this.InstanceConnectionString, SqlServerManager.Instance.GetSqlServerAccountName(this.InstanceConnectionString), Settings.CoreInstallWebServerIdentity.Value, this.LicenseFileInfo, this.InstanceAppPoolInfo.FrameworkVersion == "v4.0", this.InstanceAppPoolInfo.Enable32BitAppOnWin64, !this.InstanceAppPoolInfo.ManagedPipelineMode, installRadControls, installDictionaries, (bool)serverSideRedirect, this.Modules);
     }
 
     #endregion

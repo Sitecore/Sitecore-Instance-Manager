@@ -4,6 +4,8 @@
     <CheckBox Content="Speed up installation tuning #1:" x:Name="RadControls"/>
     <TextBlock HorizontalAlignment="Left" TextAlignment="Left">-> Skip extraction of "Website/sitecore/shell/RadControls"<LineBreak/></TextBlock>
     <CheckBox Content="Speed up installation tuning #2:" x:Name="Dictionaries"/>
-    <TextBlock HorizontalAlignment="Left" TextAlignment="Left">-> Skip extraction of "Website/sitecore/shell/Controls/Rich Text Editor/Dictionaries"</TextBlock>
+    <TextBlock HorizontalAlignment="Left" TextAlignment="Left">-> Skip extraction of "Website/sitecore/shell/Controls/Rich Text Editor/Dictionaries"<LineBreak /></TextBlock>
+    <CheckBox Content="Enable RequestErrors.ServerSideRedirect setting" x:Name="ServerSideRedirect" />
+    <TextBlock HorizontalAlignment="Left" TextAlignment="Left">-> If true, Sitecore will use Server.Transfer instead of Response.Redirect to redirect <LineBreak />request to service pages when an error occurs (item not found, access denied etc)."<LineBreak /></TextBlock>
   </StackPanel>
 </UserControl>

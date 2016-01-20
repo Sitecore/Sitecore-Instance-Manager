@@ -99,6 +99,7 @@
 
     public bool? SkipDictionaries { get; set; }
     public bool? SkipRadControls { get; set; }
+    public bool? ServerSideRedirect { get; set; }
 
     #endregion
   }

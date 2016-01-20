@@ -71,11 +71,13 @@
     [NotNull]
     public readonly string instanceName;
 
+    public readonly bool ServerSideRedirect;
+
     #endregion
 
     #region Constructors
 
-    public ReinstallArgs(Instance instance, SqlConnectionStringBuilder connectionString, string license, string webServerIdentity)
+    public ReinstallArgs(Instance instance, SqlConnectionStringBuilder connectionString, string license, string webServerIdentity, bool serverSideRedirect)
     {
       this.ConnectionString = connectionString;
       this.Name = instance.Name;
@@ -91,6 +93,7 @@
       this.IsClassic = instance.IsClassic;
       this.Is32Bit = instance.Is32Bit;
       this.ForceNetFramework4 = instance.IsNetFramework4;
+      this.ServerSideRedirect = serverSideRedirect;
       this.TempFolder = Path.Combine(this.RootPath, "Temp");
       this.InstanceDatabases = instance.AttachedDatabases;
       this.instanceName = instance.Name;

@@ -11,7 +11,7 @@
   {
     #region Public methods
 
-    public static void Process([NotNull] string rootFolderPath, [NotNull] string webRootPath, [NotNull] string dataFolder)
+    public static void Process([NotNull] string rootFolderPath, [NotNull] string webRootPath, [NotNull] string dataFolder, bool serverSideRedirect)
     {
       Assert.ArgumentNotNull(rootFolderPath, "rootFolderPath");
       Assert.ArgumentNotNull(webRootPath, "webRootPath");
@@ -40,7 +40,7 @@
       }
 
       SetupWebsiteHelper.SetDataFolder(rootFolderPath, dataFolder);
-      if (Settings.CoreInstallNotFoundTransfer.Value)
+      if (serverSideRedirect)
       {
         CreateIncludeFile(rootFolderPath, "UseServerSideRedirect.config", new NameValueCollection
         {
