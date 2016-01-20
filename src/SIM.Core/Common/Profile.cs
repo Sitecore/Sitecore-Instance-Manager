@@ -17,15 +17,13 @@ namespace SIM.Core.Common
 
     public string LocalRepository { get; set; }
 
-    public string Plugins { get; set; }
-
     [NotNull]
-    public static Profile Read()
+    public static IProfile Read()
     {
       var deserializer = new XmlSerializer(typeof(Profile));
       using (var textReader = new StreamReader(ProfileFilePath))
       {
-        return (Profile)deserializer.Deserialize(textReader);
+        return (IProfile)deserializer.Deserialize(textReader);
       }
     }
 

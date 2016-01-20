@@ -107,14 +107,11 @@
     <Compile Include="EnvironmentHelper.cs" />
     <Compile Include="InstanceHelperEx.cs" />
     <Compile Include="LicenseUpdater.cs" />
-    <Compile Include="Plugins\IInitProcessor.cs" />
     <Compile Include="Plugins\IMainWindowButton.cs" />
-    <Compile Include="Plugins\IMainWindowLoadedProcessor.cs" />
     <Compile Include="Pipelines\InstallModulesWizardArgs.cs" />
     <Compile Include="Pipelines\InstallWizardArgs.cs" />
     <Compile Include="Pipelines\RestoreWizardArgs.cs" />
     <Compile Include="Plugins\Plugin.cs" />
-    <Compile Include="Plugins\PluginManager.cs" />
     <Compile Include="Profiles\Profile.cs" />
     <Compile Include="Profiles\ProfileManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">

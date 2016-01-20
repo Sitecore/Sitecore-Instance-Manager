@@ -15,7 +15,6 @@
       profile.InstancesFolder = args.InstancesRootFolderPath;
       profile.License = args.LicenseFilePath;
       profile.LocalRepository = args.LocalRepositoryFolderPath;
-      profile.Plugins = string.Empty;
       ProfileManager.SaveChanges(profile);
     }
 

@@ -176,7 +176,6 @@
     <Compile Include="MainWindowComponents\OpenToolboxButton.cs" />
     <Compile Include="MainWindowComponents\OpenVisualStudioButton.cs" />
     <Compile Include="MainWindowComponents\OpenWebConfigButton.cs" />
-    <Compile Include="MainWindowComponents\PluginsButton.cs" />
     <Compile Include="MainWindowComponents\PublishButton.cs" />
     <Compile Include="MainWindowComponents\RecycleAllButThisButton.cs" />
     <Compile Include="MainWindowComponents\RefreshButton.cs" />
@@ -296,9 +295,6 @@
     </Compile>
     <Compile Include="Dialogs\ConnectionStringDialog.xaml.cs">
       <DependentUpon>ConnectionStringDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Dialogs\PluginsDialog.xaml.cs">
-      <DependentUpon>PluginsDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Dialogs\SettingsDialog.xaml.cs">
       <DependentUpon>SettingsDialog.xaml</DependentUpon>
@@ -672,12 +668,6 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="Dialogs\ConnectionStringDialog.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Include="Dialogs\PluginsDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

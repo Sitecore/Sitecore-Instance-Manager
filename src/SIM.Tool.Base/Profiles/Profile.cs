@@ -94,25 +94,14 @@
       }
     }
 
-    [NotNull]
-    public string Plugins
-    {
-      get
-      {
-        return this.GetString("Plugins") ?? string.Empty;
-      }
-
-      set
-      {
-        Assert.ArgumentNotNull(value, "value");
-
-        this.SetValue("Plugins", value);
-      }
-    }
-
     #endregion
 
     #region Protected methods
+
+    public void Save()
+    {
+      throw new NotImplementedException("Not required here");
+    }
 
     protected void ValidateInstancesFolder()
     {
@@ -141,8 +130,7 @@
         ConnectionString = this.ConnectionString, 
         InstancesFolder = this.InstancesFolder, 
         License = this.License, 
-        LocalRepository = this.LocalRepository, 
-        Plugins = this.Plugins
+        LocalRepository = this.LocalRepository
       };
     }
 

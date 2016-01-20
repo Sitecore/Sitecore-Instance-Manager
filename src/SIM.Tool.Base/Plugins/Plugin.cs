@@ -1,43 +1,13 @@
 namespace SIM.Tool.Base.Plugins
 {
   using System;
-  using System.Collections.Generic;
-  using System.IO;
   using System.Linq;
-  using System.Reflection;
   using System.Windows.Media;
   using System.Xml;
   using Sitecore.Diagnostics.Base;
 
-  public class Plugin
+  public static class Plugin
   {
-    #region Constants
-
-    private const string PluginXmlFileName = "Plugin.xml";
-
-    #endregion
-
-    #region Fields
-
-    public readonly IEnumerable<string> AssemblyFilePaths;
-    public readonly string PluginFilePath;
-    public readonly string PluginFolder;
-    public readonly XmlDocumentEx PluginXmlDocument;
-
-    #endregion
-
-    #region Constructors
-
-    private Plugin(string pluginFilePath)
-    {
-      this.PluginFilePath = pluginFilePath;
-      this.PluginFolder = Path.GetDirectoryName(pluginFilePath);
-      this.AssemblyFilePaths = FileSystem.FileSystem.Local.File.GetNeighbourFiles(pluginFilePath, "*.dll");
-      this.PluginXmlDocument = XmlDocumentEx.LoadFile(pluginFilePath);
-    }
-
-    #endregion
-
     #region Public Methods and Operators
 
     public static object CreateInstance(XmlElement element)
@@ -62,12 +32,6 @@ namespace SIM.Tool.Base.Plugins
       }
 
       return ReflectionUtil.CreateObject(type);
-    }
-
-    public static Plugin Detect(string folder)
-    {
-      var path = Path.Combine(folder, PluginXmlFileName);
-      return FileSystem.FileSystem.Local.File.Exists(path) ? new Plugin(path) : null;
     }
 
     public static ImageSource GetImage(string imageSource, string pluginFilePath)
@@ -103,50 +67,6 @@ namespace SIM.Tool.Base.Plugins
       }
 
       return type;
-    }
-
-    public override bool Equals(object obj)
-    {
-      var plugin = obj as Plugin;
-      return plugin != null ? this.PluginFolder.EqualsIgnoreCase(plugin.PluginFolder) : base.Equals(obj);
-    }
-
-    public override int GetHashCode()
-    {
-      return this.PluginFolder.GetHashCode();
-    }
-
-    public ImageSource GetImage(string imageSource)
-    {
-      return GetImage(imageSource, this.PluginFilePath);
-    }
-
-    public void Load()
-    {
-      foreach (var path in this.AssemblyFilePaths)
-      {
-        var assemblyPath = path.Length > 2 && path[1] == ':' ? path : Path.Combine(Environment.CurrentDirectory, path);
-        try
-        {
-          Assembly.LoadFile(assemblyPath);
-        }
-        catch (Exception ex)
-        {
-          WindowHelper.HandleError("There was a problem for loading the {0} assembly of the {1} plugin".FormatWith(assemblyPath, this.PluginFolder), true, ex);
-        }
-      }
-
-      /*
-      AppDomain.CurrentDomain.AssemblyResolve += (sender, args) =>
-      {
-        var file = AssemblyFilePaths.FirstOrDefault(fi => Path.GetFileNameWithoutExtension(fi) == args.Name);
-        return file.With(Assembly.Load);
-      };*/
-    }
-
-    public override string ToString()
-    {
-      return this.PluginFolder;
     }
 
     #endregion

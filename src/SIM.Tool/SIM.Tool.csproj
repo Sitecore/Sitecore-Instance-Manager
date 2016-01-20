@@ -502,10 +502,6 @@
       <Project>{7a3fedf8-df96-4426-aa01-c2d4fd3e68c8}</Project>
       <Name>SIM.Pipelines</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SIM.Tool.Plugins.TrayPlugin\SIM.Tool.Plugins.TrayPlugin.csproj">
-      <Project>{436fdde7-9dac-4558-844e-36d5771685ac}</Project>
-      <Name>SIM.Tool.Plugins.TrayPlugin</Name>
-    </ProjectReference>
     <ProjectReference Include="..\SIM.Tool.Windows\SIM.Tool.Windows.csproj">
       <Project>{221FB0E1-56C0-499C-82F3-BA4060D6ED0C}</Project>
       <Name>SIM.Tool.Windows</Name>

@@ -156,11 +156,6 @@
       WindowHelper.ShowDialog(new AboutDialog(), this);
     }
 
-    private void ShowPlugins(object sender, RoutedEventArgs e)
-    {
-      WindowHelper.ShowDialog(new PluginsDialog(), this);
-    }
-
     #endregion
   }
 }

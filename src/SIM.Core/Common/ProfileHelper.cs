@@ -7,7 +7,7 @@ namespace SIM.Core.Common
   public static class ProfileHelper
   {
     [NotNull]
-    public static SqlConnectionStringBuilder GetValidConnectionString([NotNull] this Profile profile)
+    public static SqlConnectionStringBuilder GetValidConnectionString([NotNull] this IProfile profile)
     {
       Assert.ArgumentNotNull(profile, "profile");
       var connectionString = profile.ConnectionString;

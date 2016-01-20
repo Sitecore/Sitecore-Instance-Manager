@@ -191,9 +191,6 @@ namespace SIM.Tool
         }
       }
 
-      // Initializing plugins asynchronously 
-      PluginManager.Initialize();
-
       // Clean up garbage
       CoreApp.DeleteTempFolders();
 

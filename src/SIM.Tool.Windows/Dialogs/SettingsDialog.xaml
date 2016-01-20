@@ -82,8 +82,7 @@
     <Grid Grid.Row="6" Grid.ColumnSpan="2">
       <Grid Margin="23,11,21,12">
         <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
-          <Button Content="Advanced Settings" Click="ShowAdvanced" Width="112" Margin="0, 0, 12, 0" Name="CustomButton" />
-          <Button Content="Plugins" Click="ShowPlugins" Width="72" Margin="0, 0, 12, 0" Name="PluginsButton" />
+          <Button Content="Advanced Settings" Click="ShowAdvanced" Width="112" Margin="0, 0, 12, 0" Name="CustomButton" />          
           <Button Content="About" Click="ShowAbout" Width="72" Margin="0, 0, 4, 0" Name="AboutButton" />
         </StackPanel>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">

@@ -77,7 +77,6 @@
         }
 
         MainWindowHelper.RefreshInstances();
-        PluginManager.ExecuteMainWindowLoadedProcessors(MainWindow.Instance);
         MainWindowHelper.RefreshInstaller();
       }
     }
@@ -107,29 +106,7 @@
             }
             else if (item.Name == "plugins")
             {
-              using (new ProfileSection("Fill in context menu by plugins"))
-              {
-                foreach (var plugin in PluginManager.GetEnabledPlugins())
-                {
-                  using (new ProfileSection("Fill in context menu by plugin"))
-                  {
-                    ProfileSection.Argument("plugin", plugin);
-
-                    try
-                    {
-                      var pluginMenuItems = plugin.PluginXmlDocument.SelectElements("/plugin/mainWindow/contextMenu/item");
-                      foreach (var menuItemElement in pluginMenuItems)
-                      {
-                        InitializeContextMenuItem(menuItemElement, window.ContextMenu.Items, window, plugin.GetImage);
-                      }
-                    }
-                    catch (Exception ex)
-                    {
-                      PluginManager.HandleError(ex, plugin);
-                    }
-                  }
-                }
-              }
+              Log.Error("Plugins no longer supported");
             }
           }
         }
@@ -171,33 +148,7 @@
             InitializeRibbonTab(tabElement, window, uri => Plugin.GetImage(uri, "App.xml"));
           }
         }
-
-        // load plugins
-        using (new ProfileSection("Loading tabs from plugins"))
-        {
-          foreach (var plugin in PluginManager.GetEnabledPlugins())
-          {
-            using (new ProfileSection("Loading tabs from plugin"))
-            {
-              ProfileSection.Argument("plugin", plugin);
-
-              try
-              {
-                var tabs = plugin.PluginXmlDocument.SelectElements("/plugin/mainWindow/ribbon/tab");
-                foreach (var tabElement in tabs)
-                {
-                  // Get Ribbon Tab to insert button to
-                  InitializeRibbonTab(tabElement, window, plugin.GetImage);
-                }
-              }
-              catch (Exception ex)
-              {
-                PluginManager.HandleError(ex, plugin);
-              }
-            }
-          }
-        }
-
+        
         // minimize ribbon
         using (new ProfileSection("Normalizing ribbon"))
         {

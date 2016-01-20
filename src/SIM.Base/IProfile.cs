@@ -16,7 +16,6 @@ namespace SIM
     [CanBeNull]
     string LocalRepository { get; set; }
 
-    [CanBeNull]
-    string Plugins { get; set; }
+    void Save();
   }
 }

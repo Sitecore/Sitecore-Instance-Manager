@@ -481,16 +481,6 @@
             }
           }
 
-          foreach (var plugin in PluginManager.GetEnabledPlugins())
-          {
-            var actionElements = plugin.PluginXmlDocument.SelectNodes("/plugin/wizards/" + this.wizardPipeline.Name + "/finish/action");
-            foreach (var actionElement in actionElements.OfType<XmlElement>())
-            {
-              var finishAction = WizardPipelineManager.ParseFinishAction(this.ProcessorArgs.GetType(), actionElement);
-              this.AddFinishAction(finishAction);
-            }
-          }
-
           this.FinishTextBlock.Text = this.wizardPipeline.FinishText;
           this.TaskbarItemInfo.ProgressState = TaskbarItemProgressState.None;
           this.Progress = 0;
