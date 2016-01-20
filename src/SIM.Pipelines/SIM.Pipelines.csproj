@@ -87,7 +87,6 @@
     <Compile Include="Import\UpdateDataFolder.cs" />
     <Compile Include="InstallHelper.cs" />
     <Compile Include="Install\0150 GrantPermissions.cs" />
-    <Compile Include="Install\0350 MoveDatabases.cs" />
     <Compile Include="Install\0600 UpdateWebConfig.cs" />
     <Compile Include="Install\Settings.cs" />
     <Compile Include="MongoHelper.cs" />
@@ -159,7 +158,6 @@
     <Compile Include="Reinstall\0600 Delete.DeleteWebsiteFolder.cs" />
     <Compile Include="Reinstall\0800 Install.Extract.cs" />
     <Compile Include="UpdateWebConfigHelper.cs" />
-    <Compile Include="Reinstall\0950 Install.MoveDatabases.cs" />
     <Compile Include="Reinstall\ReinstallArgs.cs" />
     <Compile Include="Reinstall\ReinstallProcessor.cs" />
     <Compile Include="Reinstall\1100 Install.SetupWebsite.cs" />

@@ -805,9 +805,6 @@
       public static readonly AdvancedProperty<string> CoreSqlServerDatabaseNamePattern = AdvancedSettings.Create("Core/SqlServer/DatabaseNamePattern", "{InstanceName}{ProductName}_{DatabaseRole}");
       public static readonly AdvancedProperty<int> CoreSqlServerExecutionTimeout = AdvancedSettings.Create("Core/SqlServer/ExecutionTimeout", 180);
 
-      public static readonly AdvancedProperty<string> CoreSqlServerRemoteFolderName = AdvancedSettings.Create("Core/SqlServer/Remote/FolderName", "{DRIVE_LETTER}$\\");
-      public static readonly AdvancedProperty<string> CoreSqlServerRemoteServerName = AdvancedSettings.Create("Core/SqlServer/Remote/ServerName", string.Empty);
-
       #endregion
     }
 
