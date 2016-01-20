@@ -127,10 +127,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="Runtime\ISingleInstanceMonitor.cs" />
-    <Compile Include="Runtime\KnownShutdownCodes.cs" />
-    <Compile Include="Runtime\LifeManager.cs" />
-    <Compile Include="Runtime\SingleInstanceMonitor.cs" />
     <Compile Include="WindowHelper.cs" />
     <Compile Include="Windows\Dialogs\InputDialog.xaml.cs">
       <DependentUpon>InputDialog.xaml</DependentUpon>

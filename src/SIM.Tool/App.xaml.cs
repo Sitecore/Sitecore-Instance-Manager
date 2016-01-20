@@ -20,9 +20,7 @@ namespace SIM.Tool
   using SIM.Pipelines;
   using SIM.Pipelines.Processors;
   using SIM.Tool.Base;
-  using SIM.Tool.Base.Plugins;
   using SIM.Tool.Base.Profiles;
-  using SIM.Tool.Base.Runtime;
   using SIM.Tool.Windows;
   using SIM.Tool.Wizards;
   using Sitecore.Diagnostics.Base;
@@ -34,11 +32,6 @@ namespace SIM.Tool
   {
     #region Fields
 
-    public static readonly int APP_DUPLICATE_EXIT_CODE = -8;
-    public static readonly int APP_NO_MAIN_WINDOW = -44;
-    public static readonly int APP_NO_PERMISSIONS = -66;
-    public static readonly int APP_NO_IIS = -88;
-    public static readonly int APP_PIPELINES_ERROR = -22;
     private static readonly string AppLogsMessage = "The application will be suspended, look at the " + ApplicationManager.LogsFolder + " log file to find out what has happened";
 
     #endregion
@@ -66,12 +59,6 @@ namespace SIM.Tool
     #endregion
 
     #region Protected methods
-
-    protected override void OnExit(ExitEventArgs e)
-    {
-      LifeManager.ReleaseSingleInstanceLock();
-      base.OnExit(e);
-    }
 
     protected override void OnStartup([CanBeNull] StartupEventArgs e)
     {
@@ -104,38 +91,7 @@ namespace SIM.Tool
 
       if (!App.CheckPermissions())
       {
-        LifeManager.ShutdownApplication(APP_NO_PERMISSIONS);
-
         return;
-      }
-
-      // Ensure we are running only one instance of process
-      if (!App.AcquireSingleInstanceLock())
-      {
-        try
-        {
-          // Change exit code to some uniqueue value to recognize reason of the app closing
-          LifeManager.ShutdownApplication(APP_DUPLICATE_EXIT_CODE);
-        }
-        catch (Exception ex)
-        {
-          Log.Error(ex, "An unhandled error occurred during shutting down");
-        }
-
-        return;
-      }
-
-      try
-      {
-        // If this is restart, wait until the master instance exists.
-        LifeManager.WaitUntilOriginalInstanceExits(e.Args);
-
-        // Capture UI sync context. It will allow to invoke delegates on UI thread in more elegant way (rather than use Dispatcher directly).
-        LifeManager.UISynchronizationContext = SynchronizationContext.Current;
-      }
-      catch (Exception ex)
-      {
-        WindowHelper.HandleError("An unhandled error occurred during LifeManager work", true, ex);
       }
 
       CoreApp.InitializeLogging();
@@ -146,14 +102,12 @@ namespace SIM.Tool
       {
         WindowHelper.ShowMessage("Cannot connect to IIS. Make sure it is installed and running.", MessageBoxButton.OK, MessageBoxImage.Exclamation);
 
-        LifeManager.ShutdownApplication(APP_NO_IIS);
         return;
       }
 
       // Initializing pipelines from Pipelines.config and WizardPipelines.config files
       if (!App.InitializePipelines())
       {
-        LifeManager.ShutdownApplication(APP_PIPELINES_ERROR);
         return;
       }
 
@@ -162,7 +116,6 @@ namespace SIM.Tool
       var main = App.CreateMainWindow();
       if (main == null)
       {
-        LifeManager.ShutdownApplication(APP_NO_MAIN_WINDOW);
         return;
       }
 
@@ -176,7 +129,7 @@ namespace SIM.Tool
         main.Height = 0;
         main.Show();
         main.Close();
-        LifeManager.ShutdownApplication(2);
+
         return;
       }
 
@@ -276,20 +229,6 @@ namespace SIM.Tool
     #endregion
 
     #region Private methods
-
-    private static bool AcquireSingleInstanceLock()
-    {
-      try
-      {
-        return LifeManager.AcquireSingleInstanceLock();
-      }
-      catch (Exception ex)
-      {
-        WindowHelper.HandleError("Error occurred during acquiring single instance lock", true, ex);
-
-        return true;
-      }
-    }
 
     private static MainWindow CreateMainWindow()
     {
