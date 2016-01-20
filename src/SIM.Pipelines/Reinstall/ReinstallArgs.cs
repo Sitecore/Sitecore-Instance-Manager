@@ -65,7 +65,6 @@
     [NotNull]
     public readonly string WebServerIdentity;
 
-    [NotNull]
     public readonly long WebsiteID;
 
     [NotNull]
@@ -101,9 +100,9 @@
       this.WebsiteID = instance.ID;
     }
 
-    #endregion
-
     #region Properties
+
+    #endregion
 
     [NotNull]
     public string PackagePath

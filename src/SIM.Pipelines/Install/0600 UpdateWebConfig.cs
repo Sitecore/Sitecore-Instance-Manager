@@ -12,7 +12,7 @@
   {
     #region Methods
 
-    protected override void Process([NotNull] InstallArgs args)
+    protected override void Process(InstallArgs args)
     {
       Assert.ArgumentNotNull(args, "args");
 
