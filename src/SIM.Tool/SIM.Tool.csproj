@@ -69,6 +69,10 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Alienlab.NetExtensions, Version=1.0.8.0, Culture=neutral, PublicKeyToken=b4f6771b076f5394, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Alienlab.NetExtensions.1.0.8\lib\Alienlab.NetExtensions.dll</HintPath>
+    </Reference>
     <Reference Include="CommandLine">
       <HintPath>..\packages\CommandLineParser.1.9.71\lib\net40\CommandLine.dll</HintPath>
     </Reference>

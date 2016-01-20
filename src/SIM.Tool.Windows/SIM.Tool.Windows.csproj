@@ -39,7 +39,7 @@
   <ItemGroup>
     <Reference Include="Alienlab.NetExtensions, Version=1.0.7.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Alienlab.NetExtensions.1.0.7\lib\Alienlab.NetExtensions.dll</HintPath>
+      <HintPath>..\packages\Alienlab.NetExtensions.1.0.8\lib\Alienlab.NetExtensions.dll</HintPath>
     </Reference>
     <Reference Include="Fluent">
       <HintPath>..\packages\Fluent.Ribbon.3.6.1.236\lib\net40\Fluent.dll</HintPath>
