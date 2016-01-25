@@ -151,11 +151,16 @@ namespace SIM
       Assert.ArgumentNotNull(assemblyName, "assemblyName");
       Assert.ArgumentNotNull(fileName, "fileName");
 
-      var folder = Path.Combine(TempFolder, assemblyName);
+      var folder = Path.Combine(TempFolder, assemblyName, packageName);
       var filePath = Path.Combine(folder, fileName);
       if (File.Exists(filePath))
       {
         return filePath;
+      }
+
+      if (!Directory.Exists(folder))
+      {
+        Directory.CreateDirectory(folder);
       }
 
       var assembly = Assembly.Load(assemblyName);
@@ -183,7 +188,7 @@ namespace SIM
 
           using (var zip = new ZipFile(tempFilePath))
           {
-            zip.ExtractAll(folder);
+            zip.ExtractAll(folder, ExtractExistingFileAction.OverwriteSilently);
           }
 
           Assert.IsTrue(File.Exists(filePath), "The {0} file path doesn't exist after successful extracting {1} package into {2} folder", filePath, tempFilePath, folder);
