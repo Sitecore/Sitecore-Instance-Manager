@@ -9,8 +9,32 @@
   using Sitecore.Diagnostics.Base.Annotations;
 
   [UsedImplicitly]
-  public class OpenLogsButton : IMainWindowButton
+  public class OpenLogsButton : AbstractDownloadAndRunButton, IMainWindowButton
   {
+    protected override string BaseUrl
+    {
+      get
+      {
+        return "http://dl.sitecore.net/updater/1.1/scla/";
+      }
+    }
+
+    protected override string FolderName
+    {
+      get
+      {
+        return "Log Analyzer";
+      }
+    }
+
+    protected override string ExecutableName
+    {
+      get
+      {
+        return "SitecoreLogAnalyzer.exe";
+      }
+    }
+
     #region Public methods
 
     public bool IsEnabled(Window mainWindow, Instance instance)
@@ -21,20 +45,19 @@
     public void OnClick(Window mainWindow, Instance instance)
     {
       Analytics.TrackEvent("OpenLogAnalyzer");
-
-      var appFilePath = ApplicationManager.GetEmbeddedFile("Log Analyzer.zip", "SIM.Tool.Windows", "SitecoreLogAnalyzer.exe");
+      
       if (instance != null)
       {
         string dataFolderPath = instance.DataFolderPath;
         FileSystem.FileSystem.Local.Directory.AssertExists(dataFolderPath, "The data folder ({0}) of the {1} instance doesn't exist".FormatWith(dataFolderPath, instance.Name));
 
         var logs = Path.Combine(dataFolderPath, "logs");
-        WindowHelper.RunApp(appFilePath, logs);
+        RunApp(mainWindow, logs);
 
         return;
       }
 
-      WindowHelper.RunApp(appFilePath);
+      RunApp(mainWindow);
     }
 
     #endregion

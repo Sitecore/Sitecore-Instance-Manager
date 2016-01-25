@@ -314,7 +314,6 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="logview.zip" />
-    <EmbeddedResource Include="Log Analyzer.zip" />
     <EmbeddedResource Include="ManagedArgsTracer.zip" />
     <EmbeddedResource Include="ManagedGcAwareDump.zip" />
     <EmbeddedResource Include="MongoDb.WindowsService.Installer.zip" />
