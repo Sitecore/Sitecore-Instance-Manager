@@ -47,7 +47,7 @@
       }
     }
 
-    protected override string FolderName
+    protected override string AppName
     {
       get
       {

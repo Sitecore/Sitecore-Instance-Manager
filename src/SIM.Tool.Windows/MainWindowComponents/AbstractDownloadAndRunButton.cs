@@ -11,13 +11,13 @@ namespace SIM.Tool.Windows.MainWindowComponents
   {
     protected abstract string BaseUrl { get; }
 
-    protected abstract string FolderName { get; }
+    protected abstract string AppName { get; }
 
     protected abstract string ExecutableName { get; }
 
     protected void RunApp(Window mainWindow, string param = null)
     {
-      string path = Path.Combine(ApplicationManager.TempFolder, this.FolderName + "\\" + this.ExecutableName);
+      string path = Path.Combine(ApplicationManager.TempFolder, this.AppName + "\\" + this.ExecutableName);
 
       var latestVersion = GetLatestVersion();
 
@@ -61,7 +61,7 @@ namespace SIM.Tool.Windows.MainWindowComponents
     private void GetLatestVersion(Window mainWindow, string path)
     {
       WindowHelper.LongRunningTask(() => this.GetLatestVersion(path), "Downloading latest version", mainWindow,
-        "Downloading latest version of Sitecore ConfigBuilder. \n\nNext time this operation will not be needed.",
+        "Downloading latest version of " + this.AppName + ". \n\nNext time this operation will not be needed.",
         "It may take a few minutes if you have slow internet connection", true);
     }
 
