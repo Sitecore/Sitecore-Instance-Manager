@@ -16,6 +16,9 @@
 
   public static class CoreApp
   {
+    private const string FirstRunFileName = "first-run.txt";
+    private const string LastRunFileName = "last-run.txt";
+
     public static bool IsFirstRun
     {
       get
@@ -33,16 +36,41 @@
           // an error here indicates that it is not click-once deployment
         }
 
-        var fileName = "first-run.txt";
-        if (File.Exists(fileName))
+        if (File.Exists(FirstRunFileName))
         {
-          File.Delete(fileName);
+          File.Delete(FirstRunFileName);
 
-          return true;
+          return !File.Exists(LastRunFileName);
         }
 
         return false;
       }
+    }
+
+    public static bool HasBeenUpdated
+    {
+      get
+      {
+        return File.Exists(LastRunFileName) && ApplicationManager.AppVersion.Equals(File.ReadAllText(LastRunFileName), StringComparison.OrdinalIgnoreCase);
+      }
+    }
+
+    public static string PreviousVersion
+    {
+      get
+      {
+        if (!File.Exists(LastRunFileName))
+        {
+          return string.Empty;
+        }
+
+        return File.ReadAllText(LastRunFileName).Trim();
+      }
+    }
+
+    public static void Exit()
+    {
+      File.WriteAllText(LastRunFileName, ApplicationManager.AppVersion);
     }
 
     public static void LogMainInfo()

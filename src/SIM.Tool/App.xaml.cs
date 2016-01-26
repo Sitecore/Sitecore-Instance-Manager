@@ -1,5 +1,9 @@
 ﻿// ReSharper disable HeuristicUnreachableCode
 // ReSharper disable CSharpWarnings::CS0162
+
+using System.Net;
+using SIM.Pipelines.SitecoreWebservices;
+
 namespace SIM.Tool
 {
   using System;
@@ -64,7 +68,32 @@ namespace SIM.Tool
     {
       base.OnStartup(e);
 
-      if (CoreApp.IsFirstRun)
+      if (CoreApp.HasBeenUpdated)
+      {
+        var ver = ApplicationManager.AppVersion;
+        if (!string.IsNullOrEmpty(ver))
+        {
+          var exists = false;
+          var wc = new WebClient();
+          var url = "https://github.com/Sitecore/Sitecore-Instance-Manager/releases/tag/" + ver;
+          try
+          {
+            wc.DownloadString(url);
+            exists = true;
+          }
+          catch
+          {
+            Log.Warn("Tag was not found: {0}", url);
+          }
+
+          if (exists)
+          {
+            WindowHelper.OpenInBrowser(url, true);
+          }
+        }
+      }
+      
+      if (CoreApp.IsFirstRun || CoreApp.HasBeenUpdated)
       {
         CacheManager.ClearAll();
         foreach (var dir in Directory.GetDirectories(ApplicationManager.TempFolder))
@@ -159,6 +188,8 @@ namespace SIM.Tool
       {
         WindowHelper.HandleError("Main window caused unhandled exception", true, ex);
       }
+
+      CoreApp.Exit();
 
       Analytics.Flush();
     }
