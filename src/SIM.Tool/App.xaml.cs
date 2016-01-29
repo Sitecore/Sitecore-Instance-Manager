@@ -221,7 +221,7 @@ namespace SIM.Tool
       var currentSessionId = Process.GetCurrentProcess().SessionId;
       var processes = Process.GetProcessesByName(Path.GetFileNameWithoutExtension(Assembly.GetExecutingAssembly().CodeBase));
 
-      return processes.Count(x => x.SessionId == currentSessionId) <= count;
+      return processes.Count(x => x.SessionId == currentSessionId && !x.HasExited && x.PrivateMemorySize64 > 5000000) <= count;
     }
 
     private static bool CheckIIS()
