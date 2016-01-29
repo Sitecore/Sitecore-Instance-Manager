@@ -520,9 +520,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="app.config" />
-    <None Include="Packages\Support Toolbox.zip">
+    <Content Include="Packages\Support Toolbox.zip">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    </Content>
     <Content Include="Packages\Visual Studio 2012 MVC 4 Website Project.zip">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
