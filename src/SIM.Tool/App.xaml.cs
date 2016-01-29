@@ -68,6 +68,13 @@ namespace SIM.Tool
     {
       base.OnStartup(e);
 
+      if (!App.EnsureSingleProcess(e.Args))
+      {
+        Environment.Exit(0);
+
+        return;
+      }
+
       if (CoreApp.HasBeenUpdated)
       {
         var ver = ApplicationManager.AppVersion;
@@ -120,6 +127,8 @@ namespace SIM.Tool
 
       if (!App.CheckPermissions())
       {
+        Environment.Exit(0);
+
         return;
       }
 
@@ -131,12 +140,16 @@ namespace SIM.Tool
       {
         WindowHelper.ShowMessage("Cannot connect to IIS. Make sure it is installed and running.", MessageBoxButton.OK, MessageBoxImage.Exclamation);
 
+        Environment.Exit(0);
+
         return;
       }
 
       // Initializing pipelines from Pipelines.config and WizardPipelines.config files
       if (!App.InitializePipelines())
       {
+        Environment.Exit(0);
+
         return;
       }
 
@@ -145,6 +158,8 @@ namespace SIM.Tool
       var main = App.CreateMainWindow();
       if (main == null)
       {
+        Environment.Exit(0);
+
         return;
       }
 
@@ -159,6 +174,8 @@ namespace SIM.Tool
         main.Show();
         main.Close();
 
+        Environment.Exit(0);
+
         return;
       }
 
@@ -169,6 +186,8 @@ namespace SIM.Tool
         WizardPipelineManager.Start("agreement", main, new ProcessorArgs(), false);
         if (!File.Exists(agreementAcceptedFilePath))
         {
+          Environment.Exit(0);
+
           return;
         }
       }
@@ -192,6 +211,17 @@ namespace SIM.Tool
       CoreApp.Exit();
 
       Analytics.Flush();
+
+      Environment.Exit(0);
+    }
+
+    private static bool EnsureSingleProcess(string[] args)
+    {
+      var count = args.Length == 1 && args.Single() == "child" ? 2 : 1;
+      var currentSessionId = Process.GetCurrentProcess().SessionId;
+      var processes = Process.GetProcessesByName(Path.GetFileNameWithoutExtension(Assembly.GetExecutingAssembly().CodeBase));
+
+      return processes.Count(x => x.SessionId == currentSessionId) <= count;
     }
 
     private static bool CheckIIS()
@@ -228,6 +258,7 @@ namespace SIM.Tool
       // app as administrator in a new process.
       var processInfo = new ProcessStartInfo(Assembly.GetExecutingAssembly().CodeBase)
       {
+        Arguments = "child",
         UseShellExecute = true,
         Verb = "runas"
       };
