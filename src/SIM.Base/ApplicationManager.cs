@@ -74,6 +74,8 @@ namespace SIM
     [NotNull]
     public static readonly string UserManifestsFolder;
 
+    public static readonly string AppsFolder;
+
     #endregion
 
     #region Constructors
@@ -87,6 +89,7 @@ namespace SIM
       ConfigurationPackagesFolder = InitializeDataFolder("Custom Configurations");
       ProfilesFolder = InitializeDataFolder("Profiles");
       LogsFolder = InitializeDataFolder("Logs");
+      AppsFolder = InitializeDataFolder("Apps");
       UserManifestsFolder = InitializeDataFolder("Manifests");
       AppRevision = GetRevision();
       AppVersion = GetVersion();

@@ -17,7 +17,7 @@ namespace SIM.Tool.Windows.MainWindowComponents
 
     protected void RunApp(Window mainWindow, string param = null)
     {
-      string path = Path.Combine(ApplicationManager.TempFolder, this.AppName + "\\" + this.ExecutableName);
+      string path = Path.Combine(ApplicationManager.AppsFolder, this.AppName + "\\" + this.ExecutableName);
 
       var latestVersion = GetLatestVersion();
 
