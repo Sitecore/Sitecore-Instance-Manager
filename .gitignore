@@ -32,3 +32,4 @@ src/SIM.Client/obj/
 src/SIM.Core/obj/
 src/SIM.Core/bin/
 obj/
+*.pfx
