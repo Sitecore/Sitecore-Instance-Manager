@@ -11,13 +11,13 @@
   {
     #region Public methods
 
-    public static void Process([NotNull] string rootFolderPath, [NotNull] string webRootPath, [NotNull] string dataFolder, bool serverSideRedirect)
+    public static void Process([NotNull] string rootFolderPath, [NotNull] string webRootPath, [NotNull] string dataFolder, bool serverSideRedirect, bool increaseExecutionTimeout)
     {
       Assert.ArgumentNotNull(rootFolderPath, "rootFolderPath");
       Assert.ArgumentNotNull(webRootPath, "webRootPath");
       Assert.ArgumentNotNull(dataFolder, "dataFolder");
 
-      if (Settings.CoreInstallHttpRuntimeExecutionTimeout.HasUserValue)
+      if (increaseExecutionTimeout)
       {
         var executionTimeout = Settings.CoreInstallHttpRuntimeExecutionTimeout.Value;
         var webConfig = XmlDocumentEx.LoadFile(Path.Combine(webRootPath, "web.config"));

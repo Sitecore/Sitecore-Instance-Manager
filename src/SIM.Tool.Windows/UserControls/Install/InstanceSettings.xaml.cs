@@ -21,6 +21,7 @@
       this.Dictionaries.IsChecked = args.SkipDictionaries ?? !Settings.CoreInstallDictionaries.Value;
       this.RadControls.IsChecked = args.SkipRadControls ?? !Settings.CoreInstallRadControls.Value;
       this.ServerSideRedirect.IsChecked = args.ServerSideRedirect ?? Settings.CoreInstallNotFoundTransfer.Value;
+      this.IncreaseExecutionTimeout.IsChecked = args.IncreaseExecutionTimeout ?? true;
     }
 
     public bool SaveChanges([NotNull] WizardArgs wizardArgs)
@@ -31,6 +32,7 @@
       args.SkipDictionaries = this.Dictionaries.IsChecked ?? true;
       args.SkipRadControls = this.RadControls.IsChecked ?? true;
       args.ServerSideRedirect = this.ServerSideRedirect.IsChecked;
+      args.IncreaseExecutionTimeout = this.IncreaseExecutionTimeout.IsChecked;
 
       return true;
     }
