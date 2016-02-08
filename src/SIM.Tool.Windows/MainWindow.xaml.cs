@@ -71,36 +71,6 @@
 
     #region Private methods
 
-    private void AnalyticsTracking()
-    {
-      if (CoreApp.DoNotTrack())
-      {
-        return;
-      }
-
-      var id = CoreApp.GetId();
-      var ver = ApplicationManager.AppVersion.EmptyToNull() ?? "dev";
-
-      this.Dispatcher.Invoke(new Action(() =>
-      {
-        try
-        {
-          var wb = new System.Windows.Forms.WebBrowser
-          {
-            ScriptErrorsSuppressed = true
-          };
-
-          var url = string.Format("https://bitbucket.org/alienlab/sitecore-instance-manager/wiki/Tracking?version={0}&id={1}", ver, id);
-
-          wb.Navigate(url, null, null, "User-Agent: Sitecore Instance Manager");
-        }
-        catch (Exception ex)
-        {
-          Log.Error(ex, "Failed to update statistics internal identifier");
-        }
-      }));
-    }
-
     private void AppPoolRecycleClick(object sender, RoutedEventArgs e)
     {
       try
@@ -421,8 +391,6 @@
         {
           MainWindowHelper.Initialize();
         }
-
-        new Action(this.AnalyticsTracking).BeginInvoke(null, null);
       }
       catch (Exception ex)
       {

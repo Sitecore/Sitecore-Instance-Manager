@@ -109,8 +109,7 @@
       catch (Exception ex)
       {
         Log.Error(ex, "Granting security permissions failed");
-        WindowHelper.ShowMessage("Something went wrong while assigning necessary permissions, so please do it manually according to the guide that will be opened.", MessageBoxButton.OK, MessageBoxImage.Asterisk);
-        this.ShowGuide();
+        WindowHelper.ShowMessage(string.Format("Something went wrong while assigning necessary permissions, so please assign them manually: grant the \"{0}\" folder with FULL ACCESS rights for {1} user account.", path, accountName), MessageBoxButton.OK, MessageBoxImage.Asterisk);
         return ProfileSection.Result(false);
       }
     }
@@ -168,11 +167,6 @@
       }
     }
 
-    private void ShowGuide()
-    {
-      WindowHelper.OpenInBrowser("https://bitbucket.org/alienlab/sitecore-instance-manager/wiki/Installation", true);
-    }
-
     private bool ValidateAccount(string account)
     {
       if (account.Equals(@"NT SERVICE\MSSQLSERVER", StringComparison.OrdinalIgnoreCase))
@@ -184,7 +178,7 @@
           return false;
         }
 
-        WindowHelper.OpenInBrowser("https://bitbucket.org/alienlab/sitecore-instance-manager/wiki/KnownIssue-SqlServerDefaultAccount", true);
+        WindowHelper.OpenInBrowser("https://github.com/Sitecore/Sitecore-Instance-Manager/wiki/Troubleshooting", true);
         return false;
       }
 

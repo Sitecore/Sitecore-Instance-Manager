@@ -59,12 +59,12 @@
 
     private void ShowMoreInfo([CanBeNull] object sender, [CanBeNull] RoutedEventArgs e)
     {
-      WindowHelper.OpenInBrowser("https://bitbucket.org/alienlab/sitecore-instance-manager/wiki/Manual-Download", true);
+      WindowHelper.OpenInBrowser("https://bitbucket.org/sitecore/sitecore-instance-manager/wiki/Manual-Download", true);
     }
 
     private void ShowSupportedModules([CanBeNull] object sender, [CanBeNull] RoutedEventArgs e)
     {
-      WindowHelper.OpenInBrowser("https://bitbucket.org/alienlab/sitecore-instance-manager/wiki/Home", true);
+      WindowHelper.OpenInBrowser("https://bitbucket.org/sitecore/sitecore-instance-manager/wiki/Home", true);
     }
 
     #endregion

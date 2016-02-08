@@ -100,7 +100,7 @@
 
     private void OpenDocumentation([CanBeNull] object sender, [CanBeNull] RoutedEventArgs e)
     {
-      WindowHelper.OpenInBrowser("https://bitbucket.org/alienlab/sitecore-instance-manager/wiki/Home", true);
+      WindowHelper.OpenInBrowser("https://github.com/sitecore/sitecore-instance-manager/wiki/Advanced", true);
     }
 
     private void OpenFile(object sender, RoutedEventArgs e)
