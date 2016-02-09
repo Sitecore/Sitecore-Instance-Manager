@@ -72,6 +72,8 @@
 
     public readonly bool ServerSideRedirect;
 
+    public readonly bool IncreaseExecutionTimeout;
+
     #endregion
 
     #region Constructors
@@ -98,6 +100,9 @@
       this.instanceName = instance.Name;
       this.StopInstance = instance.Stop;
       this.WebsiteID = instance.ID;
+
+      var executionTimeout = UpdateWebConfigHelper.GetHttpRuntime(instance.GetWebResultConfig()).GetAttribute("executionTimeout");
+      this.IncreaseExecutionTimeout = string.IsNullOrEmpty(executionTimeout) || executionTimeout != "600";
     }
 
     #region Properties

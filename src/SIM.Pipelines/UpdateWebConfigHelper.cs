@@ -1,4 +1,6 @@
-﻿namespace SIM.Pipelines
+﻿using System.Xml;
+
+namespace SIM.Pipelines
 {
   using System.Collections.Specialized;
   using System.IO;
@@ -21,19 +23,7 @@
       {
         var executionTimeout = Settings.CoreInstallHttpRuntimeExecutionTimeout.Value;
         var webConfig = XmlDocumentEx.LoadFile(Path.Combine(webRootPath, "web.config"));
-        var systemWeb = webConfig.SelectSingleElement("/configuration/system.web");
-        if (systemWeb == null)
-        {
-          systemWeb = webConfig.CreateElement("system.web");
-          webConfig.DocumentElement.AppendChild(systemWeb);
-        }
-
-        var httpRuntime = systemWeb.SelectSingleElement("httpRuntime");
-        if (httpRuntime == null)
-        {
-          httpRuntime = webConfig.CreateElement("httpRuntime");
-          systemWeb.AppendChild(httpRuntime);
-        }
+        var httpRuntime = GetHttpRuntime(webConfig, true);
 
         httpRuntime.SetAttribute("executionTimeout", executionTimeout.ToString());
         webConfig.Save();
@@ -83,6 +73,37 @@
       };
 
       CreateIncludeFile(rootFolderPath, "MailServer.config", settings);
+    }
+
+    public static XmlElement GetHttpRuntime(XmlDocument configuration, bool createIfMissing = false)
+    {
+      var systemWeb = configuration.SelectSingleElement("/configuration/system.web");
+      if (systemWeb == null)
+      {
+        if (!createIfMissing)
+        {
+          return null;
+        }
+
+        systemWeb = configuration.CreateElement("system.web");
+        configuration.DocumentElement.AppendChild(systemWeb);
+      }
+
+      var httpRuntime = systemWeb.SelectSingleElement("httpRuntime");
+      if (httpRuntime != null)
+      {
+        return httpRuntime;
+      }
+
+      if (!createIfMissing)
+      {
+        return null;
+      }
+
+      httpRuntime = configuration.CreateElement("httpRuntime");
+      systemWeb.AppendChild(httpRuntime);
+
+      return httpRuntime;
     }
 
     #endregion
