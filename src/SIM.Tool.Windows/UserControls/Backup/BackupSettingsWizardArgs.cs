@@ -48,7 +48,7 @@
 
     public override ProcessorArgs ToProcessorArgs()
     {
-      var backupArgs = new BackupArgs(this.Instance, FileSystem.FileSystem.Local.Path.EscapePath(this.BackupName, "."), this.Files, this.Databases, this.ExcludeClient, this.MongoDatabases);
+      var backupArgs = new BackupArgs(this.Instance, FileSystem.FileSystem.Local.Path.EscapePath(this.BackupName.Trim(), "."), this.Files, this.Databases, this.ExcludeClient, this.MongoDatabases);
 
       return backupArgs;
     }
