@@ -10,7 +10,6 @@
 2. [Documentation](https://github.com/Sitecore/Sitecore-Instance-Manager/wiki/Documentation)
 3. [Troubleshooting](https://github.com/Sitecore/Sitecore-Instance-Manager/wiki/Troubleshooting)
 4. [Developer Center](https://github.com/Sitecore/Sitecore-Instance-Manager/wiki/API)
-6. [SIM 2.0 planning](https://bitbucket.org/sitecore/sitecore-instance-manager)
 5. [Contact Us](https://github.com/Sitecore/Sitecore-Instance-Manager/wiki/Support)
 
 Note, we are in progress of migrating from bitbucket to github so don't be confused by some of the links pointing back to bitbucket.
@@ -32,7 +31,7 @@ Note, we are in progress of migrating from bitbucket to github so don't be confu
 
 * Open website 
 * Open Sitecore Client 
-* Open Sitecore Client ([bypassing security, logging in as admin](https://bitbucket.org/alienlab/sitecore-instance-manager/wiki/Manual-Features-LoginAdmin))
+* Open Sitecore Client ([bypassing security, logging in as admin](https://github.com/Sitecore/Sitecore-Instance-Manager/wiki/Log-in-admin))
 * Open [Support Toolbox](https://bitbucket.org/sitecoresupport/sitecore-support-toolbox)
 
 #### Open applications
@@ -58,23 +57,14 @@ Note, we are in progress of migrating from bitbucket to github so don't be confu
 * Edit `etc\hosts` file
 * Batch operations with SQL databases
 * Predefined configurations (Enable MVC, Scaling ...)
-
-### [Plug-ins](https://github.com/Sitecore/Sitecore-Instance-Manager/wiki/Plugins) 
-
-* Tray Plugin – simple actions from SIM tray icon: list sites, open in browser, hide window 
 * Delete All Instances - wizard for deleting all installed Sitecore instances
 * Update Licenses - Updating Sitecore license file in all installed Sitecore instances
 * [SSPG](https://marketplace.sitecore.net/en/Modules/Sitecore_Support_Package_Generator.aspx) - Sitecore Support Package Generator for collecting detailed information about an instance
-* Linqpad - Incorporated LINQPad plugin written by Adam Conn, used for accessing Sitecore API without touching an instance files
-* [Support Toolbox](https://marketplace.sitecore.net/en/Modules/Sitecore_Support_Toolbox.aspx) - an extension of /sitecore/admin pages
 * Publish Dialog - executing Sitecore publishing in application
 
 ### Supported Products
 
-* Sitecore CMS 6.0 and later
-* Sitecore Intranet 3.x 
-* Sitecore Foundry 3.0 and 4.x (in a form of Sitecore package)
-* Demo Solutions (Nicam, Jetstream) 
+* Sitecore CMS 6.3 and later
 * All Sitecore modules 
 
 Some of Sitecore modules have special support for initial configuration:

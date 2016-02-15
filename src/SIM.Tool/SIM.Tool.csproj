@@ -14,32 +14,7 @@
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
-    <TargetFrameworkProfile />
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
-    <NuGetPackageImportStamp>1a8ef214</NuGetPackageImportStamp>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
-    <IsWebBootstrapper>true</IsWebBootstrapper>
-    <PublishUrl>publish/</PublishUrl>
-    <Install>true</Install>
-    <InstallFrom>Web</InstallFrom>
-    <UpdateEnabled>true</UpdateEnabled>
-    <UpdateMode>Background</UpdateMode>
-    <UpdateInterval>7</UpdateInterval>
-    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
-    <UpdatePeriodically>false</UpdatePeriodically>
-    <UpdateRequired>false</UpdateRequired>
-    <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>777</ApplicationRevision>
-    <ApplicationVersion>777.777.777.777</ApplicationVersion>
-    <UseApplicationTrust>false</UseApplicationTrust>
-    <CreateDesktopShortcut>true</CreateDesktopShortcut>
-    <PublishWizardCompleted>true</PublishWizardCompleted>
-    <BootstrapperEnabled>false</BootstrapperEnabled>
-    <ManifestCertificateThumbprint>9D4794DDCA4BEDEBB09767FE53DB6F69F7A7D8F9</ManifestCertificateThumbprint>
-    <ManifestKeyFile>certificate.pfx</ManifestKeyFile>
-    <GenerateManifests>true</GenerateManifests>
-    <SignManifests>true</SignManifests>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -66,8 +41,8 @@
   <PropertyGroup>
     <ApplicationIcon>Images\sim.ico</ApplicationIcon>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
-    <ApplicationManifest>app.manifest</ApplicationManifest>
+  <PropertyGroup>
+    <NoWin32Manifest>true</NoWin32Manifest>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Alienlab.NetExtensions, Version=1.0.8.0, Culture=neutral, PublicKeyToken=b4f6771b076f5394, processorArchitecture=MSIL">
@@ -192,7 +167,7 @@
     <Content Include="Configurations\Configuration - DMS - Disable Robots Detection.zip">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Configurations\Configuration - General - Disable Custom Errors.manifest-xml">
+    <Content Include="Configurations\Configuration - General - Disable Custom Errors.manifest.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Configurations\Configuration - General - Disable Custom Errors.zip">
@@ -273,250 +248,184 @@
     <Content Include="first-run.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Configurations\Configuration - General - Enable DEBUG Logging.manifest-xml">
+    <Content Include="Configurations\Configuration - General - Enable DEBUG Logging.manifest.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Configurations\Configuration - General - Enable Publish Logging.manifest-xml">
+    <Content Include="Configurations\Configuration - General - Enable Publish Logging.manifest.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Configurations\Configuration - Sitecore 6 - Dedicated CD mode.manifest-xml">
+    <Content Include="Configurations\Configuration - Sitecore 6 - Dedicated CD mode.manifest.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Configurations\Configuration - Sitecore 6 - Dedicated CM mode.manifest-xml">
+    <Content Include="Configurations\Configuration - Sitecore 6 - Dedicated CM mode.manifest.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Configurations\Configuration - Sitecore 6 - DMS - Dedicated CD mode.manifest-xml">
+    <Content Include="Configurations\Configuration - Sitecore 6 - DMS - Dedicated CD mode.manifest.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Configurations\Configuration - Sitecore 6 - DMS - Dedicated CM mode.manifest-xml">
+    <Content Include="Configurations\Configuration - Sitecore 6 - DMS - Dedicated CM mode.manifest.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Configurations\Configuration - Sitecore 6.6 - DMS - Enable MVC.manifest-xml">
+    <Content Include="Configurations\Configuration - Sitecore 6.6 - DMS - Enable MVC.manifest.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Configurations\Configuration - Sitecore 6.6 - Enable MVC.manifest-xml">
+    <Content Include="Configurations\Configuration - Sitecore 6.6 - Enable MVC.manifest.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Configurations\Configuration - Sitecore 7 - Dedicated CD mode.manifest-xml">
+    <Content Include="Configurations\Configuration - Sitecore 7 - Dedicated CD mode.manifest.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Configurations\Configuration - Sitecore 7 - Dedicated CM mode.manifest-xml">
+    <Content Include="Configurations\Configuration - Sitecore 7 - Dedicated CM mode.manifest.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Configurations\Configuration - Sitecore 7 - DMS - Dedicated CD mode.manifest-xml">
+    <Content Include="Configurations\Configuration - Sitecore 7 - DMS - Dedicated CD mode.manifest.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Configurations\Configuration - Sitecore 7 - DMS - Dedicated CM mode.manifest-xml">
+    <Content Include="Configurations\Configuration - Sitecore 7 - DMS - Dedicated CM mode.manifest.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Configurations\Configuration - Sitecore 7.0 - DMS - Enable MVC.manifest-xml">
+    <Content Include="Configurations\Configuration - Sitecore 7.0 - DMS - Enable MVC.manifest.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Configurations\Configuration - Sitecore 7.0 - Enable MVC.manifest-xml">
+    <Content Include="Configurations\Configuration - Sitecore 7.0 - Enable MVC.manifest.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Configurations\Configuration - Sitecore 7.5 - xDB - Dedicated CD mode.manifest-xml">
+    <Content Include="Configurations\Configuration - Sitecore 7.5 - xDB - Dedicated CD mode.manifest.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Manifests\Modules\Active Directory.manifest-xml">
+    <Content Include="Manifests\Modules\Active Directory.manifest.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Manifests\Modules\Adaptive Print Studio 1.3.0 rev. 130628.manifest-xml">
+    <Content Include="Manifests\Modules\Adaptive Print Studio 1.3.0 rev. 130628.manifest.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Manifests\Modules\Adaptive Print Studio 1.4 rev. 131119.manifest-xml">
+    <Content Include="Manifests\Modules\Adaptive Print Studio 1.4 rev. 131119.manifest.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Manifests\Modules\Adaptive Print Studio 1.4 rev. 131210.manifest-xml">
+    <Content Include="Manifests\Modules\Adaptive Print Studio 1.4 rev. 131210.manifest.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Manifests\Modules\Adaptive Print Studio 1.4 rev. 140122.manifest-xml">
+    <Content Include="Manifests\Modules\Adaptive Print Studio 1.4 rev. 140122.manifest.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Manifests\Modules\Azure.manifest-xml">
+    <Content Include="Manifests\Modules\Azure.manifest.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Manifests\Modules\CRM Security Provider.manifest-xml">
+    <Content Include="Manifests\Modules\CRM Security Provider.manifest.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Manifests\Modules\DMS 2.manifest-xml">
+    <Content Include="Manifests\Modules\DMS 2.manifest.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Manifests\Modules\DMS 6.manifest-xml">
+    <Content Include="Manifests\Modules\DMS 6.manifest.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Manifests\Modules\DMS 7.0.manifest-xml">
+    <Content Include="Manifests\Modules\DMS 7.0.manifest.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Manifests\Modules\DMS 7.1.manifest-xml">
+    <Content Include="Manifests\Modules\DMS 7.1.manifest.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Manifests\Modules\DMS 7.2.manifest-xml">
+    <Content Include="Manifests\Modules\DMS 7.2.manifest.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Manifests\Modules\DMS.manifest-xml">
+    <Content Include="Manifests\Modules\DMS.manifest.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Manifests\Modules\E-mail Campaign Manager 2.2.manifest-xml">
+    <Content Include="Manifests\Modules\E-mail Campaign Manager 2.2.manifest.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Manifests\Modules\E-mail Campaign Manager.manifest-xml">
+    <Content Include="Manifests\Modules\E-mail Campaign Manager.manifest.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Manifests\Modules\Email Experience Manager 3.0.manifest-xml">
+    <Content Include="Manifests\Modules\Email Experience Manager 3.0.manifest.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Manifests\Modules\Microsoft Dynamics CRM Save Actions.manifest-xml">
+    <Content Include="Manifests\Modules\Microsoft Dynamics CRM Save Actions.manifest.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Manifests\Modules\Microsoft Dynamics CRM Security Provider.manifest-xml">
+    <Content Include="Manifests\Modules\Microsoft Dynamics CRM Security Provider.manifest.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Manifests\Modules\OMS.manifest-xml">
+    <Content Include="Manifests\Modules\OMS.manifest.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Manifests\Modules\SharePoint Integration Framework.manifest-xml">
+    <Content Include="Manifests\Modules\SharePoint Integration Framework.manifest.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Manifests\Modules\Sitecore Active Directory Component.manifest-xml">
+    <Content Include="Manifests\Modules\Sitecore Active Directory Component.manifest.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Manifests\Modules\Sitecore Active Directory Module.manifest-xml">
+    <Content Include="Manifests\Modules\Sitecore Active Directory Module.manifest.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Manifests\Modules\Sitecore Active Directory.manifest-xml">
+    <Content Include="Manifests\Modules\Sitecore Active Directory.manifest.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Manifests\Modules\Sitecore Azure.manifest-xml">
+    <Content Include="Manifests\Modules\Sitecore Azure.manifest.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Manifests\Modules\Sitecore Calendar.manifest-xml">
+    <Content Include="Manifests\Modules\Sitecore Design Importer.manifest.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Manifests\Modules\Sitecore Design Importer.manifest-xml">
+    <Content Include="Manifests\Modules\Sitecore Foundry 4.0.0 rev. 121102.manifest.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Manifests\Modules\Sitecore E-Commerce Examples.manifest-xml">
+    <Content Include="Manifests\Modules\Sitecore Foundry 4.0.0 rev. 121129.manifest.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Manifests\Modules\Sitecore E-Commerce FE Examples.manifest-xml">
+    <Content Include="Manifests\Modules\Sitecore Foundry WFFM Adaptation Package.manifest.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Manifests\Modules\Sitecore E-Commerce FE.manifest-xml">
+    <Content Include="Manifests\Modules\Sitecore Item Web API.manifest.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Manifests\Modules\Sitecore E-Commerce Services.manifest-xml">
+    <Content Include="Manifests\Modules\Sitecore Search Engine Optimization.manifest.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Manifests\Modules\Sitecore Foundry 4.0.0 rev. 121102.manifest-xml">
+    <Content Include="Manifests\Modules\Sitecore SPEAK.manifest.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Manifests\Modules\Sitecore Foundry 4.0.0 rev. 121129.manifest-xml">
+    <Content Include="Manifests\Modules\Sitecore.Solr.Support.manifest.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Manifests\Modules\Sitecore Foundry WFFM Adaptation Package.manifest-xml">
+    <Content Include="Manifests\Modules\SitecoreAzure.manifest.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Manifests\Modules\Sitecore Item Web API.manifest-xml">
+    <Content Include="Manifests\Modules\Social Connected Module.manifest.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Manifests\Modules\Sitecore Search Engine Optimization.manifest-xml">
+    <Content Include="Manifests\Modules\SPEAK.manifest.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Manifests\Modules\Sitecore SPEAK.manifest-xml">
+    <Content Include="Manifests\Modules\Web Forms for Marketers 2.4.manifest.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Manifests\Modules\Sitecore.Solr.Support.manifest-xml">
+    <Content Include="Manifests\Modules\Web Forms for Marketers 2.manifest.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Manifests\Modules\SitecoreAzure.manifest-xml">
+    <Content Include="Manifests\Modules\Web Forms for Marketers 8.0.manifest.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Manifests\Modules\Social Connected Module.manifest-xml">
+    <Content Include="Manifests\Modules\Web Forms for Marketers.manifest.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Manifests\Modules\SPEAK.manifest-xml">
+    <Content Include="Manifests\Standalone\Jetstream.manifest.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Manifests\Modules\Web Forms for Marketers 2.0.0 rev. 091016.manifest-xml">
+    <Content Include="Manifests\Standalone\Sitecore 7.manifest.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Manifests\Modules\Web Forms for Marketers 2.0.0 rev. 091120.manifest-xml">
+    <Content Include="Manifests\Standalone\Sitecore 8.manifest.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Manifests\Modules\Web Forms for Marketers 2.1.0 rev. 100920.manifest-xml">
+    <Content Include="Manifests\Standalone\Sitecore Foundry 4.0.0 rev. 121102_zip.manifest.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Manifests\Modules\Web Forms for Marketers 2.2.0 rev. 101207.manifest-xml">
+    <Content Include="Manifests\Standalone\Sitecore Foundry 4.0.0 rev. 121206.manifest.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Manifests\Modules\Web Forms for Marketers 2.2.0 rev. 110303.manifest-xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Manifests\Modules\Web Forms for Marketers 2.2.0 rev. 111104.manifest-xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Manifests\Modules\Web Forms for Marketers 2.3 rev. 140617.manifest-xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Manifests\Modules\Web Forms for Marketers 2.3.0 rev. 110530.manifest-xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Manifests\Modules\Web Forms for Marketers 2.3.0 rev. 111209.manifest-xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Manifests\Modules\Web Forms for Marketers 2.3.0 rev. 120216.manifest-xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Manifests\Modules\Web Forms for Marketers 2.3.0 rev. 130118.manifest-xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Manifests\Modules\Web Forms for Marketers 2.3.0 rev. 131126.manifest-xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Manifests\Modules\Web Forms for Marketers 2.4.manifest-xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Manifests\Modules\Web Forms for Marketers 2.manifest-xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Manifests\Modules\Web Forms for Marketers 8.0.manifest-xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Manifests\Modules\Web Forms for Marketers.manifest-xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Manifests\Standalone\Jetstream.manifest-xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Manifests\Standalone\Norman Furniture.manifest-xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Manifests\Standalone\Sitecore 7.manifest-xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Manifests\Standalone\Sitecore 8.manifest-xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Manifests\Standalone\Sitecore Foundry 2.0.0 rev. 080115.manifest-xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Manifests\Standalone\Sitecore Foundry 3.0.0 rev. 090814.manifest-xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Manifests\Standalone\Sitecore Foundry 4.0.0 rev. 121102_zip.manifest-xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Manifests\Standalone\Sitecore Foundry 4.0.0 rev. 121206.manifest-xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Manifests\Standalone\Sitecore Intranet Portal.manifest-xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Manifests\Standalone\Sitecore.manifest-xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Manifests\Standalone\SitecoreIntranetPortal.manifest-xml">
+    <Content Include="Manifests\Standalone\Sitecore.manifest.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="app.config" />
@@ -532,9 +441,6 @@
     <Content Include="Packages\Visual Studio 2012 Website Project.zip">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <None Include="C:\TeamCityTools\keys\certificate.pfx">
-      <Link>certificate.pfx</Link>
-    </None>
     <Content Include="Copyrights.zip">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -626,45 +532,5 @@
   <ItemGroup>
     <Resource Include="Images\Sitecore.png" />
   </ItemGroup>
-  <ItemGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
-    <BootstrapperPackage Include=".NETFramework,Version=v4.0">
-      <Visible>False</Visible>
-      <ProductName>Microsoft .NET Framework 4 %28x86 and x64%29</ProductName>
-      <Install>true</Install>
-    </BootstrapperPackage>
-    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
-      <Visible>False</Visible>
-      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
-      <Install>false</Install>
-    </BootstrapperPackage>
-    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
-      <Visible>False</Visible>
-      <ProductName>.NET Framework 3.5 SP1</ProductName>
-      <Install>false</Install>
-    </BootstrapperPackage>
-    <BootstrapperPackage Include="Microsoft.Windows.Installer.4.5">
-      <Visible>False</Visible>
-      <ProductName>Windows Installer 4.5</ProductName>
-      <Install>true</Install>
-    </BootstrapperPackage>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup>
-    <PostBuildEvent>
-    </PostBuildEvent>
-  </PropertyGroup>
-  <Import Project="..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets'))" />
-  </Target>
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>

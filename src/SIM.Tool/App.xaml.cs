@@ -108,14 +108,15 @@ namespace SIM.Tool
           Directory.Delete(dir, true);
         }
 
-        foreach (var filePath in Directory.GetFiles(".", "*-xml", SearchOption.AllDirectories))
+        var ext = ".deploy.txt";
+        foreach (var filePath in Directory.GetFiles(".", "*" + ext, SearchOption.AllDirectories))
         {
           if (filePath == null)
           {
             continue;
           }
 
-          var newFilePath = filePath.Substring(0, filePath.Length - 4) + ".xml";
+          var newFilePath = filePath.Substring(0, filePath.Length - ext.Length);
           if (File.Exists(newFilePath))
           {
             File.Delete(newFilePath);
