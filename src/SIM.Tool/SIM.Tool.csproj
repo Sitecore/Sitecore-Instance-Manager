@@ -527,7 +527,9 @@
     <Resource Include="Images\Wizard.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\sim.ico" />
+    <Content Include="Images\sim.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Sitecore.png" />
