@@ -23,7 +23,7 @@
         timer.Stop();
         Log.Error(ex, "{0} command has failed with unhandled exception", this.GetType().Name);
         result.Success = false;
-        result.Message = ex.Message;
+        result.Message = ex.GetType().FullName + "\r\nMessage: " + ex.Message + "\r\nStackTrace:\b\r" + ex.StackTrace;
       }
 
       result.Elapsed = timer.Elapsed;
