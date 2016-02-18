@@ -28,6 +28,11 @@
 
     [CanBeNull]
     [UsedImplicitly]
+    [VerbOption("installmodule", HelpText = "Install Sitecore module.")]
+    public InstallModuleCommandFacade InstallModuleCommandFacade { get; set; }
+
+    [CanBeNull]
+    [UsedImplicitly]
     [VerbOption("delete", HelpText = "Delete Sitecore instance.")]
     public DeleteCommandFacade DeleteCommandFacade { get; set; }
 

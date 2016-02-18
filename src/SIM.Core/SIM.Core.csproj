@@ -91,6 +91,7 @@
     <Compile Include="Commands\AggregatePipelineController.cs" />
     <Compile Include="Commands\DeleteCommand.cs" />
     <Compile Include="Commands\InstallCommand.cs" />
+    <Compile Include="Commands\InstallModuleCommand.cs" />
     <Compile Include="Commands\ListInstancesResult.cs" />
     <Compile Include="Common\ICommand.cs" />
     <Compile Include="Models\InstanceInfo.cs" />

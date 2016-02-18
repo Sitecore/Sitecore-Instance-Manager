@@ -94,6 +94,7 @@
   <ItemGroup>
     <Compile Include="Commands\DeleteCommandFacade.cs" />
     <Compile Include="Commands\InstallCommandFacade.cs" />
+    <Compile Include="Commands\InstallModuleCommandFacade.cs" />
     <Compile Include="Commands\ListCommandFacade.cs" />
     <Compile Include="Commands\SetupCommandFacade.cs" />
     <Compile Include="Serialization\DirectoryInfoConverter.cs" />
