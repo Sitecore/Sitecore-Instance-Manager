@@ -205,5 +205,35 @@
     public static readonly List<Product> Products = new List<Product>();
 
     #endregion
+
+    public static Product FindProduct(ProductType type, string product, string version, string revision)
+    {
+      var products = type == ProductType.Standalone ? ProductManager.StandaloneProducts : ProductManager.Modules;
+      if (!string.IsNullOrEmpty(product))
+      {
+        products = products.Where(x => x.Name.Equals(product, StringComparison.OrdinalIgnoreCase));
+      }
+
+      if (!string.IsNullOrEmpty(version))
+      {
+        products = products.Where(x => x.Version == version);
+      }
+      else
+      {
+        products = products.OrderByDescending(x => x.Version);
+      }
+
+      if (!string.IsNullOrEmpty(revision))
+      {
+        products = products.Where(x => x.Revision == revision);
+      }
+      else
+      {
+        products = products.OrderByDescending(x => x.Revision);
+      }
+
+      var distributive = products.FirstOrDefault();
+      return distributive;
+    }
   }
 }

@@ -1,6 +1,5 @@
 ﻿namespace SIM.Core.Commands
 {
-  using System;
   using System.IO;
   using System.Linq;
   using SIM.Adapters.SqlServer;
@@ -56,32 +55,7 @@
 
       ProductManager.Initialize(repository);
 
-      var products = ProductManager.StandaloneProducts.Where(x => true);
-
-      if (!string.IsNullOrEmpty(product))
-      {
-        products = products.Where(x => x.Name.Equals(product, StringComparison.OrdinalIgnoreCase));
-      }
-
-      if (!string.IsNullOrEmpty(version))
-      {
-        products = products.Where(x => x.Version == version);
-      }
-      else
-      {
-        products = products.OrderByDescending(x => x.Version);
-      }
-
-      if (!string.IsNullOrEmpty(revision))
-      {
-        products = products.Where(x => x.Revision == revision);
-      }
-      else
-      {
-        products = products.OrderByDescending(x => x.Revision);
-      }
-
-      var distributive = products.FirstOrDefault();
+      var distributive = ProductManager.FindProduct(ProductType.Standalone, product, version, revision);
       if (distributive == null)
       {
         result.Success = false;

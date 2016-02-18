@@ -60,6 +60,7 @@
     <Compile Include="Product.cs" />
     <Compile Include="ProductHelper.cs" />
     <Compile Include="ProductManager.cs" />
+    <Compile Include="ProductType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
