@@ -45,10 +45,10 @@
       {
         data = new ListInstancesResult(instances.ToDictionary(x => x.Name, x => new InstanceInfo(x.ID, x.Name, x.State.ToString(), x.WebRootPath)
         {
-          DataFolder = new DirectoryInfo(x.DataFolderPath), 
-          RootFolder = new DirectoryInfo(x.RootPath), 
-          ProductName = x.ProductFullName, 
-          Databases = x.AttachedDatabases.ToDictionary(y => y.Name, y => y.RealName) 
+          DataFolder = Null.Safe(() => new DirectoryInfo(x.DataFolderPath)), 
+          RootFolder = Null.Safe(() => new DirectoryInfo(x.RootPath)),
+          ProductName = Null.Safe(() => x.ProductFullName), 
+          Databases = Null.Safe(() => x.AttachedDatabases.ToDictionary(z => z.Name, z => z.RealName)),
         }));
       }
       else

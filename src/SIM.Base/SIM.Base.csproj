@@ -77,6 +77,7 @@
     <Compile Include="FileSystem\UncZipProvider.cs" />
     <Compile Include="IAdvancedSettingsStorage.cs" />
     <Compile Include="IProfile.cs" />
+    <Compile Include="Null.cs" />
     <Compile Include="Parameters.cs" />
     <Compile Include="Pipelines\Pipeline.cs" />
     <Compile Include="Pipelines\PipelineController.cs" />
