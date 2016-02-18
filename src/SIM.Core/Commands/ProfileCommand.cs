@@ -37,7 +37,7 @@ namespace SIM.Core.Commands
       var repository = this.Repository;
       if (!string.IsNullOrEmpty(repository))
       {
-        profile.ConnectionString = repository;
+        profile.LocalRepository = repository;
         changes += 1;
       }
 
