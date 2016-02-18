@@ -30,7 +30,7 @@ namespace SIM.Core.Commands
       var license = this.License;
       if (!string.IsNullOrEmpty(license))
       {
-        profile.ConnectionString = license;
+        profile.License = license;
         changes += 1;
       }
 
