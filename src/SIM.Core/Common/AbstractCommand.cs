@@ -8,7 +8,7 @@
   public abstract class AbstractCommand<TResult> : ICommand
   {
     [NotNull]
-    public CommandResult<TResult> Execute()
+    public object Execute()
     {
       var result = new CommandResult<TResult>();
       var timer = new Stopwatch();
@@ -28,11 +28,6 @@
 
       result.Elapsed = timer.Elapsed;
       return result;
-    }
-
-    object ICommand.Execute()
-    {
-      return this.Execute();
     }
 
     protected abstract void DoExecute([NotNull] CommandResultBase<TResult> result);
