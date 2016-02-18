@@ -9,6 +9,7 @@
   using SIM.Instances;
   using Sitecore.Diagnostics.Base;
   using Sitecore.Diagnostics.Base.Annotations;
+  using SIM.Core;
 
   public static class AuthenticationHelper
   {
@@ -118,7 +119,7 @@
       var async = new Action(() => DeleteFile(destFileName));
       async.BeginInvoke(null, null);
       string url = "/sitecore/shell/sim-agent/" + pageName;
-      var userName = AppSettings.AppLoginAsAdminUserName.Value;
+      var userName = CoreAppSettings.AppLoginAsAdminUserName.Value;
       bool isFrontEnd = false;
       bool clipboard = pageUrl == "$(clipboard)";
       if (clipboard)
@@ -128,7 +129,7 @@
 
       if (string.IsNullOrEmpty(pageUrl))
       {
-        var value = AppSettings.AppLoginAsAdminPageUrl.Value;
+        var value = CoreAppSettings.AppLoginAsAdminPageUrl.Value;
         if (!string.IsNullOrEmpty(value) && !value.EqualsIgnoreCase("/sitecore") && !value.EqualsIgnoreCase("sitecore"))
         {
           pageUrl = value;

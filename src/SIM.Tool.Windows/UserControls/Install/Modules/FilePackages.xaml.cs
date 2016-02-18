@@ -189,7 +189,7 @@
         return;
       }
 
-      var ver = AppSettings.AppToolsVisualStudioVersion.Value;
+      var ver = WinAppSettings.AppToolsVisualStudioVersion.Value;
       
       IEnumerable<string> files = FileSystem.FileSystem.Local.Directory.GetFiles(folder, "*.zip", SearchOption.AllDirectories).Where(f => !f.ContainsIgnoreCase("Visual Studio") || f.ContainsIgnoreCase("Visual Studio " + ver));
 

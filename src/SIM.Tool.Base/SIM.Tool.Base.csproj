@@ -100,8 +100,8 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AppSettings.cs" />
     <Compile Include="AuthenticationHelper.cs" />
+    <Compile Include="WinAppSettings.cs" />
     <Compile Include="Converters\IsNotNullOrEmptyAndDirectoryExists.cs" />
     <Compile Include="Converters\Product.cs" />
     <Compile Include="EnvironmentHelper.cs" />

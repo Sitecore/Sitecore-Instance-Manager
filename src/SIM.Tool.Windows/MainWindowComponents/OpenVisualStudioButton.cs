@@ -38,7 +38,7 @@
           const string yesAspNetWebforms = "Yes, ASP.NET WebForms";
           const string yesAspNetMvc = "Yes, ASP.NET MVC";
 
-          var packageName = "Visual Studio " + AppSettings.AppToolsVisualStudioVersion.Value + " Website Project.zip";
+          var packageName = "Visual Studio " + WinAppSettings.AppToolsVisualStudioVersion.Value + " Website Project.zip";
 
           var is66 = version == "6.6";
           var is70 = version == "7.0";
@@ -69,7 +69,7 @@
                 return;
               }
 
-              packageName = "Visual Studio " + AppSettings.AppToolsVisualStudioVersion.Value + " MVC" + (is71plus ? " 4" : string.Empty) + " Website Project.zip";
+              packageName = "Visual Studio " + WinAppSettings.AppToolsVisualStudioVersion.Value + " MVC" + (is71plus ? " 4" : string.Empty) + " Website Project.zip";
             }
           }
 

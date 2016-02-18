@@ -94,6 +94,7 @@
     <Compile Include="Commands\InstallModuleCommand.cs" />
     <Compile Include="Commands\ListInstancesResult.cs" />
     <Compile Include="Common\ICommand.cs" />
+    <Compile Include="CoreAppSettings.cs" />
     <Compile Include="Models\InstanceInfo.cs" />
     <Compile Include="Common\Analytics.cs" />
     <Compile Include="Common\ProfileHelper.cs" />

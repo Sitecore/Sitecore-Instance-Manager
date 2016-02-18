@@ -17,6 +17,7 @@
   using Sitecore.Diagnostics.Base;
   using Sitecore.Diagnostics.Base.Annotations;
   using Sitecore.Diagnostics.Logging;
+  using SIM.Core;
   using TaskDialogInterop;
 
   #region
@@ -499,7 +500,7 @@
       Assert.ArgumentNotNull(assemblyName, "assemblyName");
 
       assemblyName = assemblyName.Trim().TrimStart('/');
-      var result = GetImageInternal(imageName, assemblyName, AppSettings.AppUiHighDpiEnabled.Value);
+      var result = GetImageInternal(imageName, assemblyName, WinAppSettings.AppUiHighDpiEnabled.Value);
       if (result != null)
       {
         return result;
@@ -559,7 +560,7 @@
 
     public static void OpenInBrowser(string url, bool isFrontEnd, string browser = null, [CanBeNull] string[] parameters = null)
     {
-      string app = browser.EmptyToNull() ?? (isFrontEnd ? AppSettings.AppBrowsersFrontend.Value : AppSettings.AppBrowsersBackend.Value);
+      string app = browser.EmptyToNull() ?? (isFrontEnd ? CoreAppSettings.AppBrowsersFrontend.Value : CoreAppSettings.AppBrowsersBackend.Value);
       if (!string.IsNullOrEmpty(app))
       {
         var arguments = parameters != null ? parameters.Where(x => !string.IsNullOrWhiteSpace(x)).ToList() : new List<string>();

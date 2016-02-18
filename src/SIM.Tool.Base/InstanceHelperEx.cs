@@ -81,7 +81,7 @@ namespace SIM.Tool.Base
         return;
       }
 
-      string logviewer = AppSettings.AppToolsLogViewer.Value;
+      string logviewer = WinAppSettings.AppToolsLogViewer.Value;
       if (string.IsNullOrEmpty(logviewer))
       {
         return;
@@ -160,7 +160,7 @@ namespace SIM.Tool.Base
         return false;
       }
 
-      if (!AppSettings.AppPreheatEnabled.Value && !ignoreAdvancedSetting)
+      if (!WinAppSettings.AppPreheatEnabled.Value && !ignoreAdvancedSetting)
       {
         return true;
       }

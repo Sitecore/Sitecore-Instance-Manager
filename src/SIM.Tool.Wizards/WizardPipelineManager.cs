@@ -124,7 +124,7 @@
 
         WizardPipeline wizardPipeline = Definitions[name];
         var wizard = CreateWizardWindow(wizardPipeline, args, wizardArgsParameters);
-        var isSync = !(isAsync ?? !AppSettings.AppSysIsSingleThreaded.Value);
+        var isSync = !(isAsync ?? !WinAppSettings.AppSysIsSingleThreaded.Value);
         if (isSync)
         {
           WindowHelper.ShowDialog(wizard, owner);

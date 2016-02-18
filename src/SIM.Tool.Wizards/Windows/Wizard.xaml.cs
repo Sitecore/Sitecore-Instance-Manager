@@ -59,7 +59,7 @@
         this.InitializeComponent();
         this.progressBar1Foreground = this.progressBar1.Foreground;
         this.wizardParams = parameters;
-        if (!AppSettings.AppSysIsSingleThreaded.Value)
+        if (!WinAppSettings.AppSysIsSingleThreaded.Value)
         {
           this.CancelButton.IsCancel = false;
           this.ResizeMode = ResizeMode.CanMinimize;
@@ -150,7 +150,7 @@
       using (new ProfileSection("Close wizard", this))
       {
         this.AbortPipeline();
-        if (!AppSettings.AppSysIsSingleThreaded.Value)
+        if (!WinAppSettings.AppSysIsSingleThreaded.Value)
         {
           base.Close();
         }
