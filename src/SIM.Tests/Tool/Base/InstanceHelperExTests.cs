@@ -2,6 +2,7 @@
 {
   using System.Linq;
   using Microsoft.VisualStudio.TestTools.UnitTesting;
+  using SIM.Instances;
   using SIM.Tool.Base;
 
   [TestClass]
@@ -24,7 +25,7 @@
         "WebDAV.log.20140905.135957.txt", 
         "WebDAV.log.20140905.txt"
       };
-      var results = InstanceHelperEx.GetLogGroups(files).OrderBy(x => x).Select(x => x.ToLower()).ToArray();
+      var results = InstanceHelper.GetLogGroups(files).OrderBy(x => x).Select(x => x.ToLower()).ToArray();
       var expected = new[]
       {
         "crawling.log", "log", "search.log", "webdav.log"

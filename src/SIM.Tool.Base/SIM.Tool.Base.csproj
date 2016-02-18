@@ -100,11 +100,11 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AuthenticationHelper.cs" />
+    <Compile Include="EnvironmentHelper.cs" />
     <Compile Include="WinAppSettings.cs" />
+    <Compile Include="AuthenticationHelper.cs" />
     <Compile Include="Converters\IsNotNullOrEmptyAndDirectoryExists.cs" />
     <Compile Include="Converters\Product.cs" />
-    <Compile Include="EnvironmentHelper.cs" />
     <Compile Include="InstanceHelperEx.cs" />
     <Compile Include="LicenseUpdater.cs" />
     <Compile Include="Plugins\IMainWindowButton.cs" />

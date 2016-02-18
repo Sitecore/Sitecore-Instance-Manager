@@ -5,11 +5,11 @@
   using System.Data.SqlClient;
   using System.Linq;
   using System.ServiceProcess;
-  using SIM.Adapters.SqlServer;
-  using SIM.Tool.Base.Profiles;
   using Sitecore.Diagnostics.Base;
   using Sitecore.Diagnostics.Base.Annotations;
   using Sitecore.Diagnostics.Logging;
+  using SIM.Adapters.SqlServer;
+  using SIM.Tool.Base.Profiles;
 
   public class EnvironmentHelper
   {
@@ -47,7 +47,7 @@
       {
         using (new ProfileSection("Check SQL Server"))
         {
-          Profile profile = ProfileManager.Profile;
+          var profile = ProfileManager.Profile;
           Assert.IsNotNull(profile, "Profile is unavailable");
 
           var ds = new SqlConnectionStringBuilder(profile.ConnectionString).DataSource;

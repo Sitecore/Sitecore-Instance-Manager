@@ -13,13 +13,6 @@ namespace SIM.Tool.Base
 
   public static class InstanceHelperEx
   {
-    #region Fields
-
-    [NotNull]
-    private static readonly Regex LogGroupRegex = new Regex(@"(.+)(\.\d\d\d\d\d\d\d\d)(\.\d\d\d\d\d\d)?\.txt", RegexOptions.Compiled);
-
-    #endregion
-
     #region Public methods
 
     public static void BrowseInstance([NotNull] Instance instance, [NotNull] Window owner, [NotNull] string virtualPath, bool isFrontEnd, [CanBeNull] string browser = null, [CanBeNull] string[] parameters = null)
@@ -39,24 +32,6 @@ namespace SIM.Tool.Base
         url += '/' + virtualPath.TrimStart('/');
         WindowHelper.OpenInBrowser(url, isFrontEnd, browser, parameters);
       }
-    }
-
-    public static string[] GetLogGroups(string[] files)
-    {
-      var groups = files
-        .Where(x => !string.IsNullOrEmpty(x))
-        .Select(x => new
-        {
-          FilePath = x, 
-          Position = x.LastIndexOf('\\')
-        })
-        .Select(x => x.Position < 0 ? x.FilePath : x.FilePath.Substring(x.Position + 1))
-        .Select(x => LogGroupRegex.Match(x))
-        .Where(x => x.Success)
-        .Select(x => x.Groups[1].Value)
-        .Distinct()
-        .ToArray();
-      return groups;
     }
 
     public static void OpenCurrentLogFile([NotNull] Instance instance, [NotNull] Window owner, [CanBeNull] string logFileType = null)
@@ -260,7 +235,7 @@ namespace SIM.Tool.Base
       const string Pattern = "*" + Suffix;
       var files = FileSystem.FileSystem.Local.Directory.GetFiles(logsFolderPath, Pattern);
 
-      var groups = GetLogGroups(files);
+      var groups = InstanceHelper.GetLogGroups(files);
 
       if (groups.Any())
       {

@@ -11,6 +11,7 @@
   using SIM.Tool.Wizards;
   using Sitecore.Diagnostics.Base;
   using Sitecore.Diagnostics.Base.Annotations;
+  using SIM.Core;
 
   [UsedImplicitly]
   public class InstallInstanceButton : IMainWindowButton

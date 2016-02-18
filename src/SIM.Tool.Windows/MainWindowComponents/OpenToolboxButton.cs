@@ -9,6 +9,7 @@
   using SIM.Tool.Base;
   using SIM.Tool.Base.Plugins;
   using Sitecore.Diagnostics.Base.Annotations;
+  using SIM.Core;
 
   [UsedImplicitly]
   public class OpenToolboxButton : IMainWindowButton
