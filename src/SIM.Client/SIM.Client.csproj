@@ -96,6 +96,7 @@
     <Compile Include="Commands\InstallCommandFacade.cs" />
     <Compile Include="Commands\InstallModuleCommandFacade.cs" />
     <Compile Include="Commands\ListCommandFacade.cs" />
+    <Compile Include="Commands\MainCommandGroupBase.cs" />
     <Compile Include="Commands\SetupCommandFacade.cs" />
     <Compile Include="Serialization\DirectoryInfoConverter.cs" />
     <Compile Include="Program.cs" />
