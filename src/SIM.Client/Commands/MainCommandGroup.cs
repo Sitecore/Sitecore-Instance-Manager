@@ -1,6 +1,7 @@
 ﻿namespace SIM.Client.Commands
 {
   using CommandLine;
+  using CommandLine.Text;
   using Sitecore.Diagnostics.Base.Annotations;
 
   public class MainCommandGroup : MainCommandGroupBase
@@ -33,5 +34,13 @@
     public DeleteCommandFacade DeleteCommandFacade { get; set; }
 
     #endregion
+
+    [CanBeNull]
+    [UsedImplicitly]
+    [HelpVerbOption]
+    public string GetUsage([CanBeNull] string verb)
+    {
+      return HelpText.AutoBuild(this, verb);
+    }
   }
 }

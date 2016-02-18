@@ -22,14 +22,6 @@ namespace SIM.Client.Commands
     }
 
     [CanBeNull]
-    [UsedImplicitly]
-    [HelpVerbOption]
-    public string GetUsage([CanBeNull] string verb)
-    {
-      return HelpText.AutoBuild(this, verb);
-    }
-
-    [CanBeNull]
     private ICommand FindCommand([NotNull] object commandContainer)
     {
       Assert.ArgumentNotNull(commandContainer, "commandContainer");
