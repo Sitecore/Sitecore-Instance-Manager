@@ -49,6 +49,7 @@
           RootFolder = Null.Safe(() => new DirectoryInfo(x.RootPath)),
           ProductName = Null.Safe(() => x.ProductFullName), 
           Databases = Null.Safe(() => x.AttachedDatabases.ToDictionary(z => z.Name, z => z.RealName)),
+          ProcessIds = Null.Safe(() => x.ProcessIds)
         }));
       }
       else

@@ -65,5 +65,11 @@ namespace SIM.Core.Models
     /// </summary>
     [CanBeNull]
     public IDictionary<string, string> Databases { get; set; }
+
+    /// <summary>
+    /// The w3wp processes IDs.
+    /// </summary>
+    [CanBeNull]
+    public IEnumerable<int> ProcessIds { get; set; }
   }
 }
