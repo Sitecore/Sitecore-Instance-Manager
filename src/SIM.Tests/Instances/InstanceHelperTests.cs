@@ -1,12 +1,11 @@
-﻿namespace SIM.Tests.Tool.Base
+﻿namespace SIM.Tests.Instances
 {
   using System.Linq;
   using Microsoft.VisualStudio.TestTools.UnitTesting;
   using SIM.Instances;
-  using SIM.Tool.Base;
 
   [TestClass]
-  public class InstanceHelperExTests
+  public class InstanceHelperTests
   {
     #region Public methods
 
@@ -15,14 +14,14 @@
     {
       var files = new[]
       {
-        "C:\\Crawling.log.20140905.135957.txt", 
-        "D:\\Crawling.log.20140905.txt", 
-        "log.20140905.135957.txt", 
-        "E:\\assaasd\\log.20140905.txt", 
-        "readme.12324.txt", 
-        "Search.log.20140905.135957.txt", 
-        "Search.log.20140905.txt", 
-        "WebDAV.log.20140905.135957.txt", 
+        "C:\\Crawling.log.20140905.135957.txt",
+        "D:\\Crawling.log.20140905.txt",
+        "log.20140905.135957.txt",
+        "E:\\assaasd\\log.20140905.txt",
+        "readme.12324.txt",
+        "Search.log.20140905.135957.txt",
+        "Search.log.20140905.txt",
+        "WebDAV.log.20140905.135957.txt",
         "WebDAV.log.20140905.txt"
       };
       var results = InstanceHelper.GetLogGroups(files).OrderBy(x => x).Select(x => x.ToLower()).ToArray();

@@ -195,12 +195,12 @@
       {
         if (exception == null)
         {
-          throw new Exception(desc);
+          throw new Exception(desc, ex);
         }
 
         if (ex.GetType() != exception)
         {
-          throw new Exception("Exception is {0} instead of expected {1} for {2}".FormatWith(ex.GetType().Name, exception.Name, desc));
+          throw new Exception("Exception is {0} instead of expected {1} for {2}".FormatWith(ex.GetType().Name, exception.Name, desc), ex);
         }
       }
       finally
