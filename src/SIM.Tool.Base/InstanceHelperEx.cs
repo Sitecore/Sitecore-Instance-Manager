@@ -1,10 +1,14 @@
 namespace SIM.Tool.Base
 {
   using System;
+  using System.Collections.Generic;
+  using System.Diagnostics;
   using System.IO;
   using System.Linq;
   using System.Text.RegularExpressions;
+  using System.Threading;
   using System.Windows;
+  using System.Windows.Documents;
   using Microsoft.Web.Administration;
   using SIM.Instances;
   using Sitecore.Diagnostics.Base;
@@ -39,55 +43,70 @@ namespace SIM.Tool.Base
       Assert.ArgumentNotNull(instance, "instance");
       Assert.ArgumentNotNull(owner, "owner");
 
-      string dataFolderPath = instance.DataFolderPath;
+      var dataFolderPath = instance.DataFolderPath;
       FileSystem.FileSystem.Local.Directory.AssertExists(dataFolderPath, "The data folder ({0}) of the {1} instance doesn't exist".FormatWith(dataFolderPath, instance.Name));
-      var logs = instance.LogsFolderPath;
-      logFileType = logFileType ?? GetLogFileTypes(owner, logs);
-      if (logFileType == null)
+
+      var logsFolderPath = instance.LogsFolderPath;
+      var logFilePrefix = logFileType ?? GetLogFileTypes(owner, logsFolderPath);
+      if (logFilePrefix == null)
       {
-        return;
+        Action waitForLogs = delegate
+        {
+          while (logFilePrefix == null)
+          {
+            logFilePrefix = GetLogFileTypes(owner, logsFolderPath);
+            Thread.Sleep(100);
+          }
+        };
+
+        WindowHelper.LongRunningTask(waitForLogs, "Waiting for log files", owner, null, "Waiting for log files to be created in the \"{0}\" folder.".FormatWith(logsFolderPath));
       }
 
-      var pattern = logFileType + "*.txt";
-      var files = FileSystem.FileSystem.Local.Directory.GetFiles(logs, pattern) ?? new string[0];
+      var logFilePattern = logFilePrefix + "*.txt";
+      var files = FileSystem.FileSystem.Local.Directory.GetFiles(logsFolderPath, logFilePattern) ?? new string[0];
       var logFilePath = files.OrderByDescending(FileSystem.FileSystem.Local.File.GetCreationTimeUtc).FirstOrDefault();
       if (string.IsNullOrEmpty(logFilePath))
       {
-        return;
+        Action waitForLogs = delegate
+        {
+          while (string.IsNullOrEmpty(logFilePath))
+          {
+            var files2 = FileSystem.FileSystem.Local.Directory.GetFiles(logsFolderPath, logFilePattern) ?? new string[0];
+            logFilePath = files2.OrderByDescending(FileSystem.FileSystem.Local.File.GetCreationTimeUtc).FirstOrDefault();
+            Thread.Sleep(100);
+          }
+        };
+
+        WindowHelper.LongRunningTask(waitForLogs, "Waiting for log files", owner, null, "Waiting for log files to be created in the \"{0}\" folder.".FormatWith(logsFolderPath));
       }
 
-      string logviewer = WinAppSettings.AppToolsLogViewer.Value;
-      if (string.IsNullOrEmpty(logviewer))
+      var logViewer = GetLogViewer();
+      if (string.IsNullOrEmpty(logViewer))
       {
         return;
       }
 
-      if (logviewer == "logview.exe")
+      var fileSystemWatcher = new FileSystemWatcher(logsFolderPath)
       {
-        logviewer = ApplicationManager.GetEmbeddedFile("logview.zip", "SIM.Tool.Windows", "logview.exe");
-      }
-
-      var fileSystemWatcher = new FileSystemWatcher(logs)
-      {
-        Filter = pattern, 
+        Filter = logFilePattern, 
         IncludeSubdirectories = false
       };
 
-      bool ignore = false;
+      var reopenLogViewer = false;
 
-      var process = WindowHelper.RunApp(logviewer, logFilePath);
-      if (process == null)
+      var currentProcess = WindowHelper.RunApp(logViewer, logFilePath);
+      if (currentProcess == null)
       {
         return;
       }
-
+      
       // we need to stop all this magic when application closes
-      process.Exited += (sender, args) =>
+      currentProcess.Exited += delegate
       {
         // but shouldn't if it is initiated by this magic
-        if (ignore)
+        if (reopenLogViewer)
         {
-          ignore = false;
+          reopenLogViewer = false;
           return;
         }
 
@@ -98,26 +117,62 @@ namespace SIM.Tool.Base
       {
         try
         {
+          if (args.ChangeType != WatcherChangeTypes.Created)
+          {
+            return;
+          }
+
+          var filePath = args.FullPath;
+          if (!filePath.Contains(logFilePrefix))
+          {
+            return;
+          }
+
           // indicate that magic begins
-          ignore = true;
+          reopenLogViewer = true;
 
           // magic begins
-          process.Kill();
-          files = FileSystem.FileSystem.Local.Directory.GetFiles(logs, pattern) ?? new string[0];
-          logFilePath = files.OrderByDescending(FileSystem.FileSystem.Local.File.GetCreationTimeUtc).First();
-          process = WindowHelper.RunApp(logviewer, logFilePath);
+          currentProcess.Kill();
+
+          currentProcess = WindowHelper.RunApp(logViewer, filePath);
+
+          // we need to stop all this magic when application closes
+          currentProcess.Exited += delegate
+          {
+            // but shouldn't if it is initiated by this magic
+            if (reopenLogViewer)
+            {
+              reopenLogViewer = false;
+              return;
+            }
+
+            fileSystemWatcher.EnableRaisingEvents = false;
+          };         
         }
         catch (Exception ex)
         {
-          Log.Error(ex, "Unhandled error happened while reopening log file");
-        }
-        finally
-        {
           fileSystemWatcher.EnableRaisingEvents = false;
+          Log.Error(ex, "Unhandled error happened while reopening log file");
         }
       };
 
       fileSystemWatcher.EnableRaisingEvents = true;
+    }
+
+    private static string GetLogViewer()
+    {
+      var logviewer = WinAppSettings.AppToolsLogViewer.Value;
+      if (string.IsNullOrEmpty(logviewer))
+      {
+        return null;
+      }
+
+      if (logviewer != "logview.exe")
+      {
+        return logviewer;
+      }
+
+      return ApplicationManager.GetEmbeddedFile("logview.zip", "SIM.Tool.Windows", "logview.exe");
     }
 
     public static void OpenInBrowserAsAdmin([NotNull] Instance instance, [NotNull] Window owner, [CanBeNull] string pageUrl = null, [CanBeNull] string browser = null, [CanBeNull] string[] parameters = null)
@@ -241,8 +296,7 @@ namespace SIM.Tool.Base
       {
         return WindowHelper.AskForSelection("Open current log file", "Choose log file type", "There are several types of log files in Sitecore. Please choose what type do you need?", groups, owner, groups.First(), false, true);
       }
-
-      WindowHelper.ShowMessage("There are no log files", MessageBoxButton.OK, MessageBoxImage.Asterisk);
+      
       return null;
     }
 
