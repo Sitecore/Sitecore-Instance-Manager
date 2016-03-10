@@ -50,6 +50,10 @@
       <HintPath>..\packages\Fluent.Ribbon.4.0.0-dev0345\lib\net40\Fluent.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=0.86.0.518, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpZipLib.0.86.0\lib\20\ICSharpCode.SharpZipLib.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Ionic.Zip.Reduced">
       <HintPath>..\packages\DotNetZip.Reduced.1.9.1.8\lib\net20\Ionic.Zip.Reduced.dll</HintPath>
     </Reference>
@@ -99,8 +103,8 @@
       <HintPath>..\packages\Sitecore.Diagnostics.Logging.1.0.0.19\lib\net40\Sitecore.Diagnostics.Logging.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Sitecore.NuGet.Core, Version=1.0.0.9, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Sitecore.NuGet.Core.1.0.0.9\lib\Sitecore.NuGet.Core.dll</HintPath>
+    <Reference Include="Sitecore.NuGet.Core, Version=1.0.2.2, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Sitecore.NuGet.Core.1.0.2.2\lib\Sitecore.NuGet.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />

@@ -11,8 +11,10 @@
   using SIM.Tool.Base.Plugins;
   using Sitecore.Diagnostics.Base;
   using Sitecore.Diagnostics.Base.Annotations;
+  using Sitecore.Diagnostics.InformationService.Client;
   using Sitecore.Diagnostics.Logging;
   using Sitecore.NuGet.Core;
+  using SIM.Tool.Base.Profiles;
 
   [UsedImplicitly]
   public class GenerateNuGetPackagesButton : IMainWindowButton
@@ -50,19 +52,48 @@
     {
       Assert.ArgumentNotNull(nugetFolderPath, "nugetFolderPath");
 
-      var generator = new PackageGenerator();
-      foreach (var product in ProductManager.StandaloneProducts)
+      Log.Info("Generating NuGet packages from {0} to {1}", ProfileManager.Profile.LocalRepository, nugetFolderPath);
+      ProcessFolder(ProfileManager.Profile.LocalRepository, nugetFolderPath);
+    }
+
+    private static void ProcessFolder(string directory, string outputFolderPath)
+    {
+      var client = new ServiceClient();
+      foreach (var productName in client.GetProductNames())
       {
-        if (product == null)
+        var filePrefix = PackageGenerator.GetFilePrefix(productName);
+        var prefix = PackageGenerator.GetAbbr(productName);
+        if (string.IsNullOrEmpty(prefix))
         {
           continue;
         }
 
-        var packagePath = product.PackagePath;
-        Assert.IsNotNull(packagePath, "packagePath");
+        foreach (var version in client.GetVersions(productName))
+        {
+          var majorMinor = PackageGenerator.GetMajorMinor(version);
+          foreach (var release in version.Releases)
+          {
+            var revision = release.Revision;
+            var pattern = filePrefix + " " + majorMinor + "* rev. " + revision + ".zip";
+            var zipfiles = Directory.GetFiles(directory, pattern, SearchOption.AllDirectories);
+            if (zipfiles.Length <= 0)
+            {
+              continue;
+            }
 
-        Log.Info("Generating NuGet packages for {0}", packagePath);
-        generator.Generate(packagePath, nugetFolderPath);
+            var releaseVersion = PackageGenerator.GetReleaseVersion(majorMinor, revision);
+            var file = zipfiles.First();
+            try
+            {
+              // Create nupkg file
+              new PackageGenerator().Generate(prefix, productName, file, releaseVersion, outputFolderPath);
+            }
+            catch (Exception ex)
+            {
+              Log.Error("Error processing file " + file + ". " + ex.Message + Environment.NewLine + "Stack trace:" + Environment.NewLine + ex.StackTrace);
+            }
+          }
+        }
       }
     }
 
