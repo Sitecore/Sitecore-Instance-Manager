@@ -730,10 +730,6 @@
       <Project>{EF380B2A-1171-4A9F-96D0-176ABA6CAD74}</Project>
       <Name>SIM.Tool.Base</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SIM.Tool.Wizards\SIM.Tool.Wizards.csproj">
-      <Project>{E67BF633-2709-4106-A984-DE811CE8C689}</Project>
-      <Name>SIM.Tool.Wizards</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Sitecore.png" />

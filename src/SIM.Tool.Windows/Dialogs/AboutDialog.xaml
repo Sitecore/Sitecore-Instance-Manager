@@ -150,7 +150,7 @@ contents of this document are the property of Sitecore. <LineBreak />
 	</Grid>
   <Window.Resources>
       <!-- Put your stuff here instead -->
-      <ImageBrush x:Key="SitecoreBackground" ImageSource="pack://application:,,,/SIM.Tool.Wizards;component/Images/Sitecore.png" Stretch="None" AlignmentX="Left" AlignmentY="Top" />
+      <ImageBrush x:Key="SitecoreBackground" ImageSource="pack://application:,,,/SIM.Tool.Base;component/Images/Sitecore.png" Stretch="None" AlignmentX="Left" AlignmentY="Top" />
 
       <Style TargetType="DataGrid">
 

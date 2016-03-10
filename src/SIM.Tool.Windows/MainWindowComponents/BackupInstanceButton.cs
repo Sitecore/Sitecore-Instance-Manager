@@ -5,8 +5,8 @@
   using SIM.Instances;
   using SIM.Pipelines.Backup;
   using SIM.Tool.Base.Plugins;
-  using SIM.Tool.Wizards;
   using Sitecore.Diagnostics.Base.Annotations;
+  using SIM.Tool.Base.Wizards;
 
   [UsedImplicitly]
   public class BackupInstanceButton : IMainWindowButton

@@ -6,7 +6,6 @@
   using SIM.Products;
   using SIM.Tool.Base.Pipelines;
   using SIM.Tool.Base.Wizards;
-  using SIM.Tool.Wizards;
 
   #region
 

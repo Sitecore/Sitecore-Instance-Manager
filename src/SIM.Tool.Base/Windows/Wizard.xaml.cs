@@ -1,4 +1,4 @@
-﻿namespace SIM.Tool.Wizards.Windows
+﻿namespace SIM.Tool.Base.Windows
 {
   #region
 
@@ -13,15 +13,13 @@
   using System.Windows.Media;
   using System.Windows.Shell;
   using System.Windows.Threading;
-  using System.Xml;
-  using SIM.Pipelines;
-  using SIM.Pipelines.Processors;
-  using SIM.Tool.Base;
-  using SIM.Tool.Base.Plugins;
-  using SIM.Tool.Base.Wizards;
   using Sitecore.Diagnostics.Base;
   using Sitecore.Diagnostics.Base.Annotations;
   using Sitecore.Diagnostics.Logging;
+  using SIM.Pipelines;
+  using SIM.Pipelines.Processors;
+  using SIM.Tool.Base;
+  using SIM.Tool.Base.Wizards;
 
   #endregion
 

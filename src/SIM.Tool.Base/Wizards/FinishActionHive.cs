@@ -1,8 +1,7 @@
-﻿namespace SIM.Tool.Wizards
+﻿namespace SIM.Tool.Base.Wizards
 {
   using System;
   using System.Collections.Generic;
-  using SIM.Tool.Base.Wizards;
 
   #region
 

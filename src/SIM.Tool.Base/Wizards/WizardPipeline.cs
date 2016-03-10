@@ -1,4 +1,4 @@
-﻿namespace SIM.Tool.Wizards
+﻿namespace SIM.Tool.Base.Wizards
 {
   using System;
 

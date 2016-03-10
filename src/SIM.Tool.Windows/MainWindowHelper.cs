@@ -21,10 +21,10 @@
   using SIM.Tool.Base;
   using SIM.Tool.Base.Plugins;
   using SIM.Tool.Base.Profiles;
-  using SIM.Tool.Wizards;
   using Sitecore.Diagnostics.Base;
   using Sitecore.Diagnostics.Base.Annotations;
   using Sitecore.Diagnostics.Logging;
+  using SIM.Tool.Base.Wizards;
 
   #region
 

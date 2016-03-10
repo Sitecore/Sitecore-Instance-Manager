@@ -6,9 +6,9 @@
   using SIM.Tool.Base;
   using SIM.Tool.Base.Pipelines;
   using SIM.Tool.Windows.MainWindowComponents;
-  using SIM.Tool.Wizards;
   using Sitecore.Diagnostics.Base;
   using Sitecore.Diagnostics.Base.Annotations;
+  using SIM.Tool.Base.Wizards;
 
   #endregion
 

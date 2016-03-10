@@ -7,8 +7,8 @@
   using SIM.Pipelines.Delete;
   using SIM.Tool.Base.Plugins;
   using SIM.Tool.Base.Profiles;
-  using SIM.Tool.Wizards;
   using Sitecore.Diagnostics.Base.Annotations;
+  using SIM.Tool.Base.Wizards;
 
   [UsedImplicitly]
   public class DeleteInstanceButton : IMainWindowButton

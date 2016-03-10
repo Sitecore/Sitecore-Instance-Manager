@@ -26,10 +26,10 @@ namespace SIM.Tool
   using SIM.Tool.Base;
   using SIM.Tool.Base.Profiles;
   using SIM.Tool.Windows;
-  using SIM.Tool.Wizards;
   using Sitecore.Diagnostics.Base;
   using Sitecore.Diagnostics.Base.Annotations;
   using Sitecore.Diagnostics.Logging;
+  using SIM.Tool.Base.Wizards;
   using File = System.IO.File;
 
   public partial class App

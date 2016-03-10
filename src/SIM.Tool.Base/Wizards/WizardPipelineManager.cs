@@ -1,4 +1,4 @@
-﻿namespace SIM.Tool.Wizards
+﻿namespace SIM.Tool.Base.Wizards
 {
   using System;
   using System.Collections.Generic;
@@ -6,12 +6,12 @@
   using System.Reflection;
   using System.Windows;
   using System.Xml;
-  using SIM.Pipelines.Processors;
-  using SIM.Tool.Base;
-  using SIM.Tool.Wizards.Windows;
   using Sitecore.Diagnostics.Base;
   using Sitecore.Diagnostics.Base.Annotations;
   using Sitecore.Diagnostics.Logging;
+  using SIM.Pipelines.Processors;
+  using SIM.Tool.Base;
+  using SIM.Tool.Base.Windows;
 
   #region
 
