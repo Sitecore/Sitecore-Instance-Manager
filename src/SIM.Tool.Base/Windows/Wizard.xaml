@@ -1,5 +1,4 @@
 ﻿<Window x:Class="SIM.Tool.Base.Windows.Wizard" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:awe="http://schemas.awesomium.com/winfx"
         Height="388" Width="499" Background="#FFF0F0F0" Icon="/Images/Wizard.ico" Closing="OnClosing" ResizeMode="NoResize" Loaded="WindowLoaded" ContentRendered="WindowContentRendered" Padding="0" KeyUp="WindowKeyUp" Closed="WindowClosed">
   <Window.TaskbarItemInfo>
     <TaskbarItemInfo />
