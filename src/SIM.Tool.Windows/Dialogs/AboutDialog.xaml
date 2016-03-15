@@ -1,4 +1,4 @@
-﻿<Window x:Class="SIM.Tool.Windows.Dialogs.AboutDialog" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Converters="clr-namespace:SIM.Tool.Base.Converters;assembly=SIM.Tool.Base" Title="About" Height="440" Width="540" Background="#FFF0F0F0" Icon="pack://application:,,,/SIM.Tool.Windows;component/Images/window.ico" KeyUp="WindowKeyUp" ResizeMode="NoResize">
+<Window x:Class="SIM.Tool.Windows.Dialogs.AboutDialog" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Converters="clr-namespace:SIM.Tool.Base.Converters;assembly=SIM.Tool.Base" Title="About" Height="440" Width="540" Background="#FFF0F0F0" Icon="pack://application:,,,/SIM.Tool.Windows;component/Images/window.ico" KeyUp="WindowKeyUp" ResizeMode="NoResize">
 	<Grid>
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="167*"/>
@@ -132,9 +132,9 @@
       </Grid>
     </StackPanel>
 
-    <TextBlock Grid.Row="5" Grid.ColumnSpan="4" Margin="14 14 14 0" TextWrapping="Wrap" TextAlignment="Justify">Sitecore® is a registered trademark. All other brand and product names are the property of their respective holders. The 
+    <TextBlock Grid.Row="5" Grid.ColumnSpan="4" Margin="14 14 14 0" TextWrapping="Wrap" TextAlignment="Justify">Sitecore(R) is a registered trademark. All other brand and product names are the property of their respective holders. The 
 contents of this document are the property of Sitecore. <LineBreak />
-      Copyright © 2001-2015 Sitecore. All rights reserved.</TextBlock>
+      Copyright (C) 2001-2015 Sitecore. All rights reserved.</TextBlock>
 
     <Grid Background="#FFA0A0A0" Margin="0" Grid.Row="6" Grid.ColumnSpan="4" />
 		<Grid Background="White" Margin="0" Grid.Row="7" Grid.ColumnSpan="4" />
