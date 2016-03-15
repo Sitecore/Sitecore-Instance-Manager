@@ -25,7 +25,7 @@
   using Sitecore.Diagnostics.Base.Annotations;
   using Sitecore.Diagnostics.Logging;
   using SIM.Tool.Base.Wizards;
-
+  using Core;
   #region
 
   #endregion
@@ -266,7 +266,7 @@
         var tabIndex = mainWindow.MainRibbon.SelectedTabIndex;
         var instance = SelectedInstance;
         var name = instance != null ? instance.Name : null;
-        string instancesFolder = ProfileManager.Profile.InstancesFolder;
+        string instancesFolder = !CoreAppSettings.CoreInstancesDetectEverywhere.Value ? ProfileManager.Profile.InstancesFolder : null;
         InstanceManager.Initialize(instancesFolder);
         Search();
         if (string.IsNullOrEmpty(name))
@@ -348,7 +348,7 @@
     {
       using (new ProfileSection("Refresh instances (softly)"))
       {
-        string instancesFolder = ProfileManager.Profile.InstancesFolder;
+        var instancesFolder = !CoreAppSettings.CoreInstancesDetectEverywhere.Value ?  ProfileManager.Profile.InstancesFolder : null;
         InstanceManager.InitializeWithSoftListRefresh(instancesFolder);
         Search();
       }

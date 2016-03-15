@@ -27,7 +27,6 @@
         typeof(SIM.Tool.Base.WinAppSettings), 
         typeof(SIM.Tool.Windows.Properties.Settings), 
         typeof(SIM.Tool.Windows.WindowsSettings), 
-        typeof(SIM.Instances.InstanceManager.Settings), 
         typeof(SIM.Pipelines.Install.Settings), 
         typeof(SIM.Adapters.SqlServer.SqlServerManager.Settings), 
         typeof(WebRequestHelper.Settings)

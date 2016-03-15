@@ -15,5 +15,7 @@ namespace SIM.Core
 
     [NotNull]
     public static readonly AdvancedProperty<string> AppLoginAsAdminUserName = AdvancedSettings.Create("App/LoginAsAdmin/UserName", "sitecore\\admin");
+
+    public static readonly AdvancedProperty<bool> CoreInstancesDetectEverywhere = AdvancedSettings.Create("Core/Instances/DetectEverywhere", false);
   }
 }
