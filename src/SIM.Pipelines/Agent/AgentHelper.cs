@@ -38,12 +38,6 @@
 
     #endregion
 
-    #region Fields
-
-    private static readonly string PackagesPath = "packages";
-
-    #endregion
-
     #region Copy-Delete agent files
 
     public static void CopyAgentFiles([NotNull] Instance instance)

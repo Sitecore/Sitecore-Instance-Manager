@@ -2,7 +2,6 @@
 // ReSharper disable CSharpWarnings::CS0162
 
 using System.Net;
-using SIM.Pipelines.SitecoreWebservices;
 
 namespace SIM.Tool
 {
@@ -14,7 +13,6 @@ namespace SIM.Tool
   using System.Reflection;
   using System.Security.Principal;
   using System.ServiceProcess;
-  using System.Threading;
   using System.Windows;
   using System.Xml;
   using SIM.Adapters.SqlServer;

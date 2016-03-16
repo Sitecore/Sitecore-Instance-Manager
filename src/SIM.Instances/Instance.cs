@@ -21,14 +21,7 @@
   public class Instance : Website, IXmlSerializable
   {
     #region Static constants, fields, properties and methods
-
-    #region Fields
-
-    public static int fld;
-    private static int fld22;
-
-    #endregion
-
+    
     #region Public methods
 
     public static void DoSmth()
