@@ -202,6 +202,17 @@
       }
     }
 
+    public virtual void Execute([NotNull] SqlConnectionStringBuilder connectionString, [NotNull] string command, int? executionTimeout = null)
+    {
+      Assert.ArgumentNotNull(connectionString, "connectionString");
+      Assert.ArgumentNotNull(command, "command");
+
+      using (var connection = OpenConnection(connectionString, false))
+      {
+        this.Execute(connection, command);
+      }
+    }
+
     [NotNull]
     public virtual string GenerateDatabaseRealName([NotNull] string instanceName, [NotNull] string connectionStringName, [CanBeNull] string productName = null, [CanBeNull] string pattern = null)
     {

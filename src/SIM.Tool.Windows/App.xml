@@ -168,6 +168,11 @@
             <button     label="Publish (Smart)"                                     largeImage="/Images/$sm/publish.png, SIM.Tool.Windows"                    type="SIM.Tool.Windows.MainWindowComponents.PublishButton, SIM.Tool.Windows"        param="smart" />
             <button     label="Publish (Republish)"                                 largeImage="/Images/$sm/publish.png, SIM.Tool.Windows"                    type="SIM.Tool.Windows.MainWindowComponents.PublishButton, SIM.Tool.Windows"        param="republish" />
             <separator />
+            <button     label="Clear Event Queues of All Databases"                 largeImage="/Images/$sm/data.png, SIM.Tool.Windows"                        type="SIM.Tool.Windows.MainWindowComponents.ClearEventQueueButton, SIM.Tool.Windows" />
+            <button     label="Clear Event Queues of Core Database"                 largeImage="/Images/$sm/data.png, SIM.Tool.Windows"                        type="SIM.Tool.Windows.MainWindowComponents.ClearEventQueueButton, SIM.Tool.Windows" param="core" />
+            <button     label="Clear Event Queues of Master Database"               largeImage="/Images/$sm/data.png, SIM.Tool.Windows"                        type="SIM.Tool.Windows.MainWindowComponents.ClearEventQueueButton, SIM.Tool.Windows" param="master" />
+            <button     label="Clear Event Queues of Web Database"                  largeImage="/Images/$sm/data.png, SIM.Tool.Windows"                        type="SIM.Tool.Windows.MainWindowComponents.ClearEventQueueButton, SIM.Tool.Windows" param="web" />
+            <separator />
             <button     label="Recycle All But This"                                largeImage="/Images/$sm/data.png, SIM.Tool.Windows"                        type="SIM.Tool.Windows.MainWindowComponents.RecycleAllButThisButton, SIM.Tool.Windows" />
             <button     label="Kill All w3wp But This"                              largeImage="/Images/$sm/data.png, SIM.Tool.Windows"                        type="SIM.Tool.Windows.MainWindowComponents.KillAllButThisButton, SIM.Tool.Windows" />
             <separator />
