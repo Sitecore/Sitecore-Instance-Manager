@@ -33,3 +33,4 @@ src/SIM.Core/obj/
 src/SIM.Core/bin/
 obj/
 *.pfx
+desktop.ini

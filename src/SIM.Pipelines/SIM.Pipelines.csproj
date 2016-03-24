@@ -46,6 +46,7 @@
     </Reference>
     <Reference Include="Microsoft.Web.Administration, Version=7.9.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Web.Administration.7.0.0.0\lib\net20\Microsoft.Web.Administration.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
       <Private>True</Private>
     </Reference>
     <Reference Include="MongoDB.Bson, Version=1.10.1.73, Culture=neutral, PublicKeyToken=f686731cfb9cc103, processorArchitecture=MSIL">
