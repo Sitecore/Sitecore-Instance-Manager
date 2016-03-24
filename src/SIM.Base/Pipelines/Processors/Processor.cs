@@ -141,7 +141,7 @@
             controller.ProcessorCrashed(ex.Message);
           }
 
-          Log.Error(ex, "Processor of type '{0}' (a part of the '{1}' pipeline) failed. {2}", this.ProcessorDefinition.Type.FullName, this.ProcessorDefinition.OwnerPipelineName, ex.Message);
+          Log.Error(ex, "Processor of type '{0}' failed. {1}", this.ProcessorDefinition.Type.FullName, ex.Message);
           return false;
         }
       }
