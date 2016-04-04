@@ -236,9 +236,6 @@
     <Content Include="Configurations\Configuration - Sitecore 7.5 - xDB - Dedicated CD mode.zip">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Configurations\Configuration - Sitecore 8 - ContentSearch - Disable Crawlers.zip">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="Configurations\Configuration - Sitecore 8 - Development - Disable Event Queue.zip">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -459,6 +456,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Packages\Sample Item with Sitecore MVC Presentation-1.0.zip">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Configurations\Configuration - Sitecore 8 - ContentSearch - Disable Update.zip">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="packages.config" />
