@@ -269,5 +269,17 @@
     }
 
     #endregion
+
+    public string ToPrettyXmlString()
+    {
+      var sw = new StringWriter();
+      var xml = new XmlTextWriter(sw);
+      xml.Formatting = Formatting.Indented;
+      xml.Indentation = 2;
+      xml.IndentChar = ' ';
+      this.Save(xml);
+
+      return sw.ToString();
+    }
   }
 }

@@ -309,6 +309,13 @@
             break;
           }
 
+          case "write":
+            {                                                            
+              var target = child.InnerXml;
+              FileSystem.FileSystem.Local.File.WriteAllText(path, XmlDocumentEx.LoadXml(target).ToPrettyXmlString());
+              break;
+            }
+
           case "append":
           {
             var before = child.GetAttribute("before");
@@ -650,6 +657,63 @@
             break;
           }
                     
+          case "disable":
+          {
+            string fromFileName = instruction.GetAttribute("path");
+            if (!string.IsNullOrEmpty(fromFileName))
+            {
+              var includeFolderPath = Path.Combine(instance.WebRootPath, "app_config\\include");
+              var fromPath = Path.Combine(includeFolderPath, fromFileName);
+              var toPath = fromPath + ".disabled";
+              RenameFile(fromPath, toPath, true);
+            }
+
+            break;
+          }
+
+          case "enable":
+          {
+            string fromFileName = instruction.GetAttribute("path");
+            if (!string.IsNullOrEmpty(fromFileName))
+            {
+              var includeFolderPath = Path.Combine(instance.WebRootPath, "app_config\\include");
+              var fromPath = Path.Combine(includeFolderPath, fromFileName);
+              var configPostfix = ".config";
+              if (Path.GetExtension(fromPath).EqualsIgnoreCase(configPostfix))
+              {
+                break;
+              }
+
+              var fileName = Path.GetFileName(fromPath);
+              var dir = Path.GetDirectoryName(fromPath);
+              var index = fileName.LastIndexOf(configPostfix, StringComparison.OrdinalIgnoreCase);
+              if (index > 0)
+              {
+                fileName = fileName.Substring(0, index + configPostfix.Length);
+                RenameFile(fromPath, Path.Combine(dir, fileName), true);
+                break;
+              }
+
+              foreach (var postfix in new[] { ".example", ".sample", ".disabled", ".remove", ".delete", ".ignore" })
+              {
+                var index2 = fileName.LastIndexOf(postfix, StringComparison.OrdinalIgnoreCase);
+                if (index2 <= 0)
+                {
+                  continue;
+                }
+
+                fileName = fileName.Substring(0, index2 + postfix.Length);
+                RenameFile(fromPath, Path.Combine(dir, fileName), true);
+                break;
+              }
+
+              fileName += ".config";
+              RenameFile(fromPath, Path.Combine(dir, fileName), true);
+            }
+
+            break;
+          }
+
           case "rename":
           {
             var skipOnErrorText = instruction.GetAttribute("skipOnError");
