@@ -167,7 +167,7 @@
       <Link>WizardPipelines.config</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Configurations\Configuration - DMS - Disable Robots Detection.zip">
+    <Content Include="Configurations\Configuration - Sitecore 7 - Disable Robots Detection.zip">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Configurations\Configuration - General - Disable Custom Errors.manifest.xml">
@@ -176,7 +176,7 @@
     <Content Include="Configurations\Configuration - General - Disable Custom Errors.zip">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Configurations\Configuration - General - Enable DEBUG Logging.zip">
+    <Content Include="Configurations\Configuration - Sitecore 7 - Enable DEBUG Logging.zip">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Configurations\Configuration - General - Enable Events Timing Level High.zip">
@@ -185,7 +185,7 @@
     <Content Include="Configurations\Configuration - General - Enable Pipeline Profiling.zip">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Configurations\Configuration - General - Enable Publish Logging.zip">
+    <Content Include="Configurations\Configuration - Sitecore 7 - Enable Publish Logging.zip">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Configurations\Configuration - General - Unlimited SQL Timeout.zip">
@@ -224,13 +224,19 @@
     <Content Include="Configurations\Configuration - Sitecore 8 - Disable ContentSearch.zip">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Configurations\Configuration - Sitecore 8.1 - Enable DEBUG Logging.manifest.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Configurations\Configuration - Sitecore 8.1 - Enable Publish Logging.manifest.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="first-run.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Configurations\Configuration - General - Enable DEBUG Logging.manifest.xml">
+    <Content Include="Configurations\Configuration - Sitecore 7 - Enable DEBUG Logging.manifest.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Configurations\Configuration - General - Enable Publish Logging.manifest.xml">
+    <Content Include="Configurations\Configuration - Sitecore 7 - Enable Publish Logging.manifest.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Configurations\Configuration - Sitecore 7 - Dedicated CD mode.manifest.xml">
@@ -420,6 +426,12 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Configurations\Configuration - Sitecore 8 - ContentSearch - Disable Update.zip">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Configurations\Configuration - Sitecore 8.1 - Enable DEBUG Logging.zip">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Configurations\Configuration - Sitecore 8.1 - Enable Publish Logging.zip">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="packages.config" />

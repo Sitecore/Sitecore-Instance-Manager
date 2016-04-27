@@ -1,0 +1,18 @@
+﻿<manifest version="1.4">
+  <archive>
+    <install>
+      <actions>
+        <config path="App_Config\Sitecore.config">        
+          <delete xpath="/sitecore/log4net/root/priority" />
+          <append xpath="/sitecore/log4net/root">
+            <priority value="DEBUG" />
+          </append>
+          <delete xpath="/sitecore/log4net/logger/level" />
+          <append xpath="/sitecore/log4net/logger">
+            <level value="DEBUG" />
+          </append>            
+        </config>
+      </actions>
+    </install>
+  </archive>
+</manifest>
