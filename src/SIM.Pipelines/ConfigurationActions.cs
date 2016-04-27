@@ -649,38 +649,21 @@
 
             break;
           }
-
+                    
           case "rename":
           {
-            var skipOnError = instruction.GetAttribute("skipOnError");
-            string fromFileName = instruction.GetAttribute("from");
-            string toFileName = instruction.GetAttribute("to");
+            var skipOnErrorText = instruction.GetAttribute("skipOnError");
+            var skipOnError = skipOnErrorText.EqualsIgnoreCase("true");
+            var fromFileName = instruction.GetAttribute("from");
+            var toFileName = instruction.GetAttribute("to");
 
             if (!string.IsNullOrEmpty(fromFileName) && !string.IsNullOrEmpty(toFileName))
             {
-              string includeFolderPath = Path.Combine(instance.WebRootPath, "app_config\\include");
-              string fromPath = Path.Combine(includeFolderPath, fromFileName);
-              string toPath = Path.Combine(includeFolderPath, toFileName);
+              var includeFolderPath = Path.Combine(instance.WebRootPath, "app_config\\include");
+              var fromPath = Path.Combine(includeFolderPath, fromFileName);
+              var toPath = Path.Combine(includeFolderPath, toFileName);
 
-              try
-              {
-                if (!FileSystem.FileSystem.Local.File.Exists(fromPath) && FileSystem.FileSystem.Local.File.Exists(toPath))
-                {
-                  Log.Warn("The moving does not seem to be needed");
-                  break;
-                }
-
-                FileSystem.FileSystem.Local.File.Move(fromPath, toPath);
-              }
-              catch (Exception ex)
-              {
-                if (!skipOnError.EqualsIgnoreCase("true"))
-                {
-                  throw;
-                }
-
-                Log.Error(ex, "Cannot rename file {0}", fromPath);
-              }
+              RenameFile(fromPath, toPath, skipOnError);
             }
 
             break;
@@ -689,6 +672,29 @@
       }
 
       config.Save();
+    }
+
+    private static void RenameFile(string fromPath, string toPath, bool skipOnError)
+    {
+      try
+      {
+        if (!FileSystem.FileSystem.Local.File.Exists(fromPath) && FileSystem.FileSystem.Local.File.Exists(toPath))
+        {
+          Log.Warn("The moving does not seem to be needed");
+          return;
+        }
+
+        FileSystem.FileSystem.Local.File.Move(fromPath, toPath);
+      }
+      catch (Exception ex)
+      {
+        if (!skipOnError)
+        {
+          throw;
+        }
+
+        Log.Error(ex, "Cannot rename file {0} to {1}", fromPath, toPath);
+      }
     }
 
     private static void ProcessActions(Instance instance, SqlConnectionStringBuilder connectionString, 
