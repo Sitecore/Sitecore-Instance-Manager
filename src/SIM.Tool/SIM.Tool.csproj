@@ -191,27 +191,6 @@
     <Content Include="Configurations\Configuration - General - Unlimited SQL Timeout.zip">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Configurations\Configuration - Sitecore 6 - Dedicated CD mode.zip">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Configurations\Configuration - Sitecore 6 - Dedicated CM mode.zip">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Configurations\Configuration - Sitecore 6 - DMS - Dedicated CD mode.zip">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Configurations\Configuration - Sitecore 6 - DMS - Dedicated CM mode.zip">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Configurations\Configuration - Sitecore 6 - Main CM mode.zip">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Configurations\Configuration - Sitecore 6.6 - DMS - Enable MVC.zip">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Configurations\Configuration - Sitecore 6.6 - Enable MVC.zip">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="Configurations\Configuration - Sitecore 7 - Dedicated CD mode.zip">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -252,24 +231,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Configurations\Configuration - General - Enable Publish Logging.manifest.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Configurations\Configuration - Sitecore 6 - Dedicated CD mode.manifest.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Configurations\Configuration - Sitecore 6 - Dedicated CM mode.manifest.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Configurations\Configuration - Sitecore 6 - DMS - Dedicated CD mode.manifest.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Configurations\Configuration - Sitecore 6 - DMS - Dedicated CM mode.manifest.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Configurations\Configuration - Sitecore 6.6 - DMS - Enable MVC.manifest.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Configurations\Configuration - Sitecore 6.6 - Enable MVC.manifest.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Configurations\Configuration - Sitecore 7 - Dedicated CD mode.manifest.xml">
