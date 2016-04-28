@@ -664,6 +664,13 @@
             {
               var includeFolderPath = Path.Combine(instance.WebRootPath, "app_config\\include");
               var fromPath = Path.Combine(includeFolderPath, fromFileName);
+              if (!File.Exists(fromPath))
+              {
+                Log.Warn("The {0} file not found", fromPath);
+
+                break;
+              }
+
               var toPath = fromPath + ".disabled";
               RenameFile(fromPath, toPath, true);
             }
@@ -678,6 +685,13 @@
             {
               var includeFolderPath = Path.Combine(instance.WebRootPath, "app_config\\include");
               var fromPath = Path.Combine(includeFolderPath, fromFileName);
+              if (!File.Exists(fromPath))
+              {
+                Log.Warn("The {0} file not found", fromPath);
+
+                break;
+              }
+
               var configPostfix = ".config";
               if (Path.GetExtension(fromPath).EqualsIgnoreCase(configPostfix))
               {
@@ -767,7 +781,9 @@
     {
       // made replacement
       actionsElement.InnerXml = variables.Aggregate(actionsElement.InnerXml, 
-        (result, variable) => result.Replace(variable.Key, variable.Value)).Replace("{InstanceName}", instance.Name);
+        (result, variable) => result.Replace(variable.Key, variable.Value))
+        .Replace("{InstanceName}", instance.Name)
+        .Replace("{InstanceHost}", instance.HostNames.First());
 
       var actions = actionsElement.ChildNodes.OfType<XmlElement>();
       var webRootPath = instance.WebRootPath;

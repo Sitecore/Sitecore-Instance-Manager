@@ -20,7 +20,7 @@
             <configuration xmlns:set="http://www.sitecore.net/xmlconfig/set/">
               <sitecore>
                 <settings>
-                  <setting name="Analytics.ClusterName" set:value="{InstanceName}" />
+                  <setting name="Analytics.ClusterName" set:value="{InstanceHost}" />
                 </settings>
               </sitecore>
             </configuration>
@@ -32,7 +32,7 @@
             <configuration xmlns:set="http://www.sitecore.net/xmlconfig/set/">
               <sitecore>
                 <settings>
-                  <setting name="Analytics.HostName" set:value="{InstanceName}" />
+                  <setting name="Analytics.HostName" set:value="{InstanceHost}" />
                 </settings>
               </sitecore>
             </configuration>
@@ -109,7 +109,7 @@
           <disable path="Social/Sitecore.Social.ExperienceProfile.config" />
           <disable path="Social/Sitecore.Social.Lucene.Index.Master.config" />
           <enable path="Social/Sitecore.Social.ScalabilitySettings.config.disabled" />
-          <enable path="Z.SwitchMasterToWeb/SwitchMasterToWeb.config.disabled" />
+          <enable path="Z.SwitchMasterToWeb/SwitchMasterToWeb.config.example" />
         </config>
       </actions>
     </install>
