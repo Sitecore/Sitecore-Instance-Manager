@@ -35,9 +35,16 @@ namespace SIM.Pipelines
       if (!FileSystem.FileSystem.Local.File.Exists(databasePath))
       {
         var file = Path.GetFileName(databasePath);
-        if (file.EqualsIgnoreCase("sitecore.reporting.mdf"))
+        if (connectionString.Name.EqualsIgnoreCase("reporting"))
         {
           databasePath = Path.Combine(Path.GetDirectoryName(databasePath), "Sitecore.Analytics.mdf");
+        } else if (connectionString.Name.EqualsIgnoreCase("exm.dispatch"))
+        {
+          databasePath = Path.Combine(Path.GetDirectoryName(databasePath), "Sitecore.Exm.mdf");
+        }
+        else if (connectionString.Name.EqualsIgnoreCase("session"))
+        {
+          databasePath = Path.Combine(Path.GetDirectoryName(databasePath), "Sitecore.Sessions.mdf");
         }
       }
 
