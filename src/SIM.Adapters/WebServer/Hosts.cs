@@ -16,12 +16,6 @@
 
   public static class Hosts
   {
-    #region Constants
-
-    private const string ExactRegexPattern = @"^\s*\d{{1,3}}\.\d{{1,3}}\.\d{{1,3}}\.\d{{1,3}}\s+({0})\s*$";
-
-    #endregion
-
     #region Fields
 
     private static readonly string AppendPattern = Environment.NewLine + "127.0.0.1\t{0}";
@@ -37,25 +31,21 @@
       string path = GetHostsFilePath();
       string[] lines = FileSystem.FileSystem.Local.File.ReadAllLines(path);
 
-      const string DefaultRegexPattern = @"^\s*\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\s+(\S+)$";
-      Regex regex = new Regex(DefaultRegexPattern);
-      if (lines.All(line => !LineMatches(regex, line, hostName)))
+      Log.Info("Appending host: {0}", hostName);
+      if (lines.Any(line => Matches(hostName, line)))
       {
-        Log.Info("Appending host: {0}", hostName);
-        FileSystem.FileSystem.Local.File.AppendAllText(path, AppendPattern.FormatWith(hostName));
+        Log.Info("Host already exists");
+        return;
       }
+      
+      FileSystem.FileSystem.Local.File.AppendAllText(path, AppendPattern.FormatWith(hostName));
     }
 
-    public static bool Contains([NotNull] string hostName)
+    private static bool Matches(string hostName, string line)
     {
-      Assert.ArgumentNotNullOrEmpty(hostName, "hostName");
-
-      string path = GetHostsFilePath();
-      string[] lines = FileSystem.FileSystem.Local.File.ReadAllLines(path);
-      Regex regex = new Regex(ExactRegexPattern.FormatWith(Regex.Escape(hostName)));
-      return lines.Any(regex.IsMatch);
+      return (line + " ").Replace("\t", " ").Contains(" " + hostName + " ");
     }
-
+    
     public static void Remove([NotNull] IEnumerable<string> hostNames)
     {
       Assert.ArgumentNotNull(hostNames, "hostNames");
@@ -71,12 +61,6 @@
 
     #region Methods
 
-    #region Constants
-
-    private const char separator = '\t';
-
-    #endregion
-
     #region Private methods
 
     [NotNull]
@@ -85,39 +69,21 @@
       const string HostsPath = @"%WINDIR%\System32\drivers\etc\hosts";
       return Environment.ExpandEnvironmentVariables(HostsPath);
     }
-
-    private static bool LineMatches([NotNull] Regex regex, [NotNull] string line, [NotNull] string hostName)
-    {
-      Assert.ArgumentNotNull(regex, "regex");
-      Assert.ArgumentNotNull(line, "line");
-      Assert.ArgumentNotNull(hostName, "hostName");
-
-      return regex.Match(line).Groups[1].Value.EqualsIgnoreCase(hostName);
-    }
-
-    [NotNull]
-    private static string NormalizeLine([NotNull] string line)
-    {
-      Assert.ArgumentNotNull(line, "line");
-
-      return line.Trim(' ', separator).Replace("  ", " ").Replace("  ", " ").Replace(' ', separator).Replace(separator.ToString() + separator, separator.ToString());
-    }
-
+    
     private static void Remove([NotNull] string hostName)
     {
       Assert.ArgumentNotNull(hostName, "hostName");
 
       string path = GetHostsFilePath();
-      string[] lines = FileSystem.FileSystem.Local.File.ReadAllLines(path);
-      Regex regex = new Regex(ExactRegexPattern.FormatWith(Regex.Escape(hostName)));
+      var records = GetRecords();
       using (StreamWriter writer = new StreamWriter(path, false))
       {
-        foreach (string line in lines)
+        foreach (var record in records)
         {
-          string record = NormalizeLine(line);
-          if (!string.IsNullOrEmpty(record) && !regex.IsMatch(record))
+          var hostRecord = record as IpHostRecord;
+          if (hostRecord == null || !hostRecord.Host.EqualsIgnoreCase(hostName))
           {
-            writer.WriteLine(line);
+            writer.WriteLine(record);
           }
         }
       }
@@ -129,28 +95,59 @@
 
     #region Public methods
 
-    public static IEnumerable<HostRecord> GetRecords()
+    public static IEnumerable<IHostRecord> GetRecords()
     {
       string path = GetHostsFilePath();
       string[] lines = FileSystem.FileSystem.Local.File.ReadAllLines(path);
       foreach (string line in lines)
       {
-        string record = NormalizeLine(line);
-        if (!string.IsNullOrEmpty(record) && record[0] != '#')
+        if (!string.IsNullOrEmpty(line))
         {
-          var r = record.Split(separator);
-          yield return new HostRecord(r[0], r[1]);
+          if (line[0] != '#')
+          {
+            var arr = line.Split(" \t".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
+            var arrLength = arr.Length;
+            if (arrLength < 2)
+            {
+              continue;
+            }
+
+            var ip = arr[0];
+            for (var i = 1; i < arrLength; ++i)
+            {
+              yield return new IpHostRecord(ip, arr[i]);
+            }
+          }
+          else
+          {
+            yield return new CommentHostRecord(line);
+          }
         }
       }
     }
 
-    public static void Save(IEnumerable<HostRecord> records)
+    public class CommentHostRecord : IHostRecord
+    {
+      private readonly string Line;
+
+      public CommentHostRecord(string line)
+      {
+        this.Line = line;
+      }
+
+      public override string ToString()
+      {
+        return this.Line;
+      }
+    }
+
+    public static void Save(List<IHostRecord> records)
     {
       string path = GetHostsFilePath();
       string text = FileSystem.FileSystem.Local.File.ReadAllText(path);
       Log.Info("A backup of the hosts file\r\n{0}",  text);
       var sb = new StringBuilder();
-      foreach (HostRecord hostRecord in records)
+      foreach (IHostRecord hostRecord in records)
       {
         sb.AppendLine(hostRecord.ToString());
       }
@@ -162,7 +159,7 @@
 
     #region Nested type: HostRecord
 
-    public class HostRecord
+    public class IpHostRecord : IHostRecord
     {
       #region Fields
 
@@ -173,7 +170,7 @@
 
       #region Constructors
 
-      public HostRecord(string ip, string host = null)
+      public IpHostRecord(string ip, string host = null)
       {
         this.IP = ip;
         this.Host = host ?? string.Empty;
@@ -202,10 +199,14 @@
 
       public override string ToString()
       {
-        return this.IP + separator + this.Host;
+        return this.IP + '\t' + this.Host;
       }
 
       #endregion
+    }
+
+    public interface IHostRecord
+    {
     }
 
     #endregion
