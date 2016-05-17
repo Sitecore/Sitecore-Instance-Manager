@@ -404,13 +404,7 @@
     <Content Include="Packages\Support Toolbox.zip">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Packages\Visual Studio 2012 MVC 4 Website Project.zip">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Packages\Visual Studio 2012 MVC Website Project.zip">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Packages\Visual Studio 2012 Website Project.zip">
+    <Content Include="Packages\Visual Studio 2015 Website Project.zip">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Copyrights.zip">
@@ -429,13 +423,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="packages.config" />
-    <Content Include="Packages\Visual Studio 2012 MVC 4 Website Project.manifest-xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Packages\Visual Studio 2012 MVC Website Project.manifest-xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Packages\Visual Studio 2012 Website Project.manifest-xml">
+    <Content Include="Packages\Visual Studio 2015 Website Project.manifest-xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Page Include="ExpressionLight.xaml">

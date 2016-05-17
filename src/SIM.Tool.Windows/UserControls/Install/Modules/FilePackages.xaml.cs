@@ -189,11 +189,8 @@
       {
         return;
       }
-
-      var ver = WinAppSettings.AppToolsVisualStudioVersion.Value;
       
-      IEnumerable<string> files = FileSystem.FileSystem.Local.Directory.GetFiles(folder, "*.zip", SearchOption.AllDirectories).Where(f => !f.ContainsIgnoreCase("Visual Studio") || f.ContainsIgnoreCase("Visual Studio " + ver));
-
+      var files = FileSystem.FileSystem.Local.Directory.GetFiles(folder, "*.zip", SearchOption.AllDirectories);
       var productsToAdd = files.Select(f => new ProductInCheckbox(Product.GetFilePackageProduct(f))).ToList();
       foreach (ProductInCheckbox productInCheckbox in productsToAdd)
       {

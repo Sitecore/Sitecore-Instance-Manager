@@ -17,10 +17,7 @@
 
     [NotNull]
     public static readonly AdvancedProperty<string> AppToolsLogViewer = AdvancedSettings.Create("App/Tools/LogViewer", "logview.exe");
-
-    [NotNull]
-    public static readonly AdvancedProperty<string> AppToolsVisualStudioVersion = AdvancedSettings.Create("App/Tools/VisualStudio/Version", "2012");
-
+    
     #endregion
   }
 }
