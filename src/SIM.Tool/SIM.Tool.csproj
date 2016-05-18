@@ -423,7 +423,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="packages.config" />
-    <Content Include="Packages\Visual Studio 2015 Website Project.manifest-xml">
+    <Content Include="Packages\Visual Studio 2015 Website Project.manifest.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Page Include="ExpressionLight.xaml">
