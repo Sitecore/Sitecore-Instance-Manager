@@ -75,7 +75,7 @@
       Assert.ArgumentNotNull(hostName, "hostName");
 
       string path = GetHostsFilePath();
-      var records = GetRecords();
+      var records = GetRecords().ToArray();
       using (StreamWriter writer = new StreamWriter(path, false))
       {
         foreach (var record in records)

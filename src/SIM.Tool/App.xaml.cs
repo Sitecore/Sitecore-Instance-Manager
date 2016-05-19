@@ -309,7 +309,7 @@ namespace SIM.Tool
       try
       {
         InstanceManager.Initialize();
-        var instances = InstanceManager.Instances;
+        var instances = InstanceManager.Instances.ToArray();
         if (!instances.Any())
         {
           return null;
