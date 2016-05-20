@@ -4,6 +4,8 @@
   using System.Collections;
   using System.Collections.Generic;
   using System.Linq;
+  using System.Reflection;
+
   using CommandLine;
   using Newtonsoft.Json;
   using SIM.Client.Commands;
@@ -15,6 +17,17 @@
 
   public static class Program
   {
+    [NotNull]
+    private static readonly Assembly BaseAssembly = typeof(Program).Assembly;
+
+    [NotNull]
+    private static readonly string BaseNamespace = typeof(Program).Namespace;
+
+    static Program()
+    {
+      AppDomain.CurrentDomain.AssemblyResolve += (sender, args) => ResolveAssembly(args);
+    }
+
     public static void Main([NotNull] string[] args)
     {
       Assert.ArgumentNotNull(args, "args");
@@ -160,6 +173,38 @@
       }
 
       return false;
+    }
+
+    [CanBeNull]
+    private static Assembly ResolveAssembly([NotNull] ResolveEventArgs args)
+    {
+      Assert.ArgumentNotNull(args, "args");
+
+      var name = args.Name;
+      if (name == null)
+      {
+        return null;
+      }
+
+      var comma = name.IndexOf(',');
+      Assert.IsTrue(comma != 0, "Assembly name cannot start with comma: {0}", name);
+
+      var fullyQualified = comma >= 0;
+      var fileNameWithoutExtension = fullyQualified ? name.Substring(0, comma) : name;
+      var resourceFullName = BaseNamespace + ".Properties.EmbeddedResources." + fileNameWithoutExtension + ".dll";
+      var stream = BaseAssembly.GetManifestResourceStream(resourceFullName);
+      if (stream == null)
+      {
+        return null;
+      }
+
+      var bytes = new byte[stream.Length];
+      if (stream.Read(bytes, 0, bytes.Length) == 0)
+      {
+        return null;
+      }
+
+      return Assembly.Load(bytes);
     }
   }
 }

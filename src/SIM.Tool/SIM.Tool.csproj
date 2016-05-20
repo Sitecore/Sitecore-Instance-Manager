@@ -446,6 +446,10 @@
       <Project>{ca40c57a-ef4f-474d-be8b-98e51ae62c1f}</Project>
       <Name>SIM.Adapters</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SIM.Client\SIM.Client.csproj">
+      <Project>{77c4e17f-5c43-4334-a547-44c0e490cb8a}</Project>
+      <Name>SIM.Client</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SIM.Core\SIM.Core.csproj">
       <Project>{A124D359-B9BF-44F4-98CB-C40D3D490839}</Project>
       <Name>SIM.Core</Name>
