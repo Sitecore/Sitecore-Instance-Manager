@@ -7,6 +7,8 @@ using SIM.Tool.Base;
 
 namespace SIM.Tool.Windows.MainWindowComponents
 {
+  using Sitecore.Diagnostics.Base.Annotations;
+
   public abstract class AbstractDownloadAndRunButton
   {
     protected abstract string BaseUrl { get; }
@@ -15,9 +17,18 @@ namespace SIM.Tool.Windows.MainWindowComponents
 
     protected abstract string ExecutableName { get; }
 
+    [NotNull]
+    protected string AppFolder
+    {
+      get
+      {
+        return Path.Combine(ApplicationManager.AppsFolder, this.AppName);
+      }
+    }
+
     protected void RunApp(Window mainWindow, string param = null)
     {
-      string path = Path.Combine(ApplicationManager.AppsFolder, this.AppName + "\\" + this.ExecutableName);
+      string path = Path.Combine(AppFolder, this.ExecutableName);
 
       var latestVersion = GetLatestVersion();
 
@@ -30,14 +41,13 @@ namespace SIM.Tool.Windows.MainWindowComponents
           return;
         }
       }
+      
+      RunApp(path, param);
+    }
 
-      if (param != null)
-      {
-        WindowHelper.RunApp(path, param);
-        return;
-      }
-
-      WindowHelper.RunApp(path);
+    protected virtual void RunApp(string path, string param)
+    {
+      WindowHelper.RunApp(path, param);      
     }
 
     #region Private methods
@@ -71,14 +81,15 @@ namespace SIM.Tool.Windows.MainWindowComponents
       {
         var folder = Path.GetDirectoryName(path);
         FileSystem.FileSystem.Local.Directory.Ensure(folder);
-        var downloadUrl = WebRequestHelper.DownloadString(this.BaseUrl.TrimEnd('/') + "/download.txt");
+        var downloadTxtUrl = this.BaseUrl.TrimEnd('/') + "/download.txt";
+        var downloadUrl = WebRequestHelper.DownloadString(downloadTxtUrl).TrimEnd(" \r\n".ToCharArray());
         var packageZipPath = Path.Combine(folder, "package.zip");
         WebRequestHelper.DownloadFile(downloadUrl, packageZipPath);
         FileSystem.FileSystem.Local.Zip.UnpackZip(packageZipPath, folder);
       }
       catch (Exception ex)
       {
-        WindowHelper.HandleError("Couldn't get latest version of Sitecore ConfigBuilder", true, ex);
+        WindowHelper.HandleError("Couldn't get latest version of " + AppName, true, ex);
       }
     }
 

@@ -2,6 +2,7 @@ namespace SIM
 {
   using System;
   using System.ComponentModel;
+  using System.Diagnostics;
   using System.IO;
   using System.Reflection;
   using Ionic.Zip;
@@ -59,6 +60,8 @@ namespace SIM
 
     public static readonly bool IsDebugging;
 
+    public static readonly bool IsQA;
+
     [NotNull]
     public static readonly string LogsFolder;
 
@@ -95,7 +98,11 @@ namespace SIM
       AppVersion = GetVersion();
       AppShortVersion = GetShortVersion();
       AppLabel = GetLabel();
-      IsDebugging = Environment.GetCommandLineArgs()[0].ContainsIgnoreCase("vshost.exe");
+
+      var processName = Process.GetCurrentProcess().ProcessName; // SIM.Tool.QA without .exe
+      IsDebugging = processName.ContainsIgnoreCase(".vshost");
+      IsQA = processName.ContainsIgnoreCase(".QA.");
+
       TempFolder = InitializeDataFolder("Temp");
     }
 
