@@ -50,6 +50,7 @@
       {
         Console.WriteLine("Note, commands provide output when work is done i.e. without any progress indication.");
         Console.WriteLine("\r\n  --query\t   When specified, allows returning only part of any command's output");
+        Console.WriteLine("\r\n  --data\t   When specified, allows returning only 'data' part of any command's output");
         Console.WriteLine("\r\n  --wait\t   When specified, waits for keyboard input before terminating");
 
         Environment.Exit(Parser.DefaultExitCodeFail);
@@ -139,6 +140,12 @@
       var query = string.Empty;
       for (int i = 0; i < filteredArgs.Count; i++)
       {
+        if (filteredArgs[i] == "--data")
+        {
+          filteredArgs[i] = "--query";
+          filteredArgs.Insert(i + 1, "data");
+        }
+
         if (filteredArgs[i] != "--query")
         {
           continue;
