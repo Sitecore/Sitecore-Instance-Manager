@@ -15,6 +15,16 @@
 
     [CanBeNull]
     [UsedImplicitly]
+    [VerbOption("start", HelpText="Start stopped instance.")]
+    public StartCommandFacade StartCommandFacade { get; set; }
+
+    [CanBeNull]
+    [UsedImplicitly]
+    [VerbOption("stop", HelpText = "Stops an instance.")]
+    public StopCommandFacade StopCommandFacade { get; set; }
+
+    [CanBeNull]
+    [UsedImplicitly]
     [VerbOption("profile", HelpText = "Show profile.")]
     public ProfileCommandFacade ProfileCommandFacade { get; set; }
 
