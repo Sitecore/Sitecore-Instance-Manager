@@ -21,7 +21,7 @@
           ? "qa/" 
           : string.Empty;
 
-        return "http://dl.sitecore.net/updater/" + qaFolder + "simcmd";
+        return "http://dl.sitecore.net/updater/1.1/simcmd/" + qaFolder;
       }
     }
 
