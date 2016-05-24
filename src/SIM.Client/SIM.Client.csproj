@@ -112,6 +112,7 @@
     <Compile Include="Commands\InstallModuleCommandFacade.cs" />
     <Compile Include="Commands\ListCommandFacade.cs" />
     <Compile Include="Commands\MainCommandGroupBase.cs" />
+    <Compile Include="Commands\RepositoryCommandFacade.cs" />
     <Compile Include="Commands\SetupCommandFacade.cs" />
     <Compile Include="Commands\StartCommandFacade.cs" />
     <Compile Include="Commands\StateCommandFacade.cs" />

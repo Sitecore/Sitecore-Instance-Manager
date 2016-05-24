@@ -30,6 +30,11 @@
 
     [CanBeNull]
     [UsedImplicitly]
+    [VerbOption("repository", HelpText = "Show contents of repository.")]
+    public RepositoryCommandFacade RepositoryCommandFacade { get; set; }
+
+    [CanBeNull]
+    [UsedImplicitly]
     [VerbOption("profile", HelpText = "Show profile.")]
     public ProfileCommandFacade ProfileCommandFacade { get; set; }
 
