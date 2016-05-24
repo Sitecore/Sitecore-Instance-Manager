@@ -388,24 +388,6 @@
       }
     }
 
-    public bool IsDisabled
-    {
-      get
-      {
-        return this.Name.ToLowerInvariant().EndsWith("_disabled");
-      }
-
-      set
-      {
-        var name = this.Name.TrimEnd("_disabled");
-        using (WebServerManager.WebServerContext context = WebServerManager.CreateContext("Website({0}).Name".FormatWith(this.ID)))
-        {
-          context.Sites[name].Name = name + "_disabled";
-          context.CommitChanges();
-        }
-      }
-    }
-
     [UsedImplicitly]
     public virtual string ModulesNames
     {

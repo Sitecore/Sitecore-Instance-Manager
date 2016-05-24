@@ -197,6 +197,24 @@
       }
     }
 
+    public bool IsDisabled
+    {
+      get
+      {
+        return this.Name.ToLowerInvariant().EndsWith("_disabled");
+      }
+
+      set
+      {
+        var name = this.Name.TrimEnd("_disabled");
+        using (WebServerManager.WebServerContext context = WebServerManager.CreateContext("Website({0}).Name".FormatWith(this.ID)))
+        {
+          context.Sites[name].Name = name + "_disabled";
+          context.CommitChanges();
+        }
+      }
+    }
+
     #endregion
 
     #region Public methods
@@ -266,8 +284,8 @@
     public virtual void Start()
     {
       Log.Info("Starting website {0}", this.ID);
-
-      using (WebServerManager.WebServerContext context = WebServerManager.CreateContext("Website.Start"))
+      
+      using (WebServerManager.WebServerContext context = WebServerManager.CreateContext("Website.Start.Pool"))
       {
         Site site = this.GetSite(context);
         Assert.IsNotNull(site, "Site is missing");
@@ -280,7 +298,7 @@
         }
       }
 
-      using (WebServerManager.WebServerContext context = WebServerManager.CreateContext("Website.Start"))
+      using (WebServerManager.WebServerContext context = WebServerManager.CreateContext("Website.Start.Site"))
       {
         Site site = this.GetSite(context);
         Assert.IsNotNull(site, "Site is missing");
