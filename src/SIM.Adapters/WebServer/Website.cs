@@ -285,6 +285,11 @@
     {
       Log.Info("Starting website {0}", this.ID);
       
+      if (IsDisabled)
+      {
+        throw new InvalidOperationException("The {0} website is disabled. Open IIS Manager and remove _disabled suffix from its name in order to enable the website.");
+      }
+
       using (WebServerManager.WebServerContext context = WebServerManager.CreateContext("Website.Start.Pool"))
       {
         Site site = this.GetSite(context);
