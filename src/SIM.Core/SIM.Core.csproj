@@ -87,6 +87,7 @@
     <Compile Include="Commands\ListCommandResult.cs" />
     <Compile Include="Common\ICommand.cs" />
     <Compile Include="CoreAppSettings.cs" />
+    <Compile Include="CoreInstanceAuth.cs" />
     <Compile Include="Models\InstanceInfo.cs" />
     <Compile Include="Common\Analytics.cs" />
     <Compile Include="Common\ProfileHelper.cs" />
