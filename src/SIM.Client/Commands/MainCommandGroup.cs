@@ -15,7 +15,7 @@
 
     [CanBeNull]
     [UsedImplicitly]
-    [VerbOption("state", HelpText = "Shows state of an instance.")]
+    [VerbOption("state", HelpText = "Show state of an instance.")]
     public StateCommandFacade StateCommandFacade { get; set; }
 
     [CanBeNull]
@@ -25,7 +25,7 @@
 
     [CanBeNull]
     [UsedImplicitly]
-    [VerbOption("stop", HelpText = "Stops an instance.")]
+    [VerbOption("stop", HelpText = "Stop an instance.")]
     public StopCommandFacade StopCommandFacade { get; set; }
 
     [CanBeNull]
