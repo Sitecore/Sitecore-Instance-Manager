@@ -108,20 +108,17 @@
         return;
       }
 
-      // Generating unique key to authenticate user
-      var authKey = GetTempAuthKey();
+      // Generating unique url to authenticate user
+      var url = GenerateAuthUrl();
+      var destFileName = CreateAuthFile(instance, url);
 
-      // Generating <guid>.aspx page that will one-time security bypasser
-      var pageName = authKey + ".aspx";
-      var destFileName = Path.Combine(instance.WebRootPath, "sitecore\\shell\\sim-agent", pageName);
-
-      CreateFile(destFileName);
+      // Schedule deletion of the file
       var async = new Action(() => DeleteFile(destFileName));
       async.BeginInvoke(null, null);
-      string url = "/sitecore/shell/sim-agent/" + pageName;
+
       var userName = CoreAppSettings.AppLoginAsAdminUserName.Value;
-      bool isFrontEnd = false;
-      bool clipboard = pageUrl == "$(clipboard)";
+      var isFrontEnd = false;
+      var clipboard = pageUrl == "$(clipboard)";
       if (clipboard)
       {
         pageUrl = string.Empty;
@@ -147,14 +144,32 @@
         querystring = "?" + querystring;
       }
 
-
       if (clipboard)
       {
         Clipboard.SetDataObject(instance.GetUrl(url + querystring));
-        return;
       }
+      else
+      {
+        InstanceHelperEx.BrowseInstance(instance, owner, url + querystring, isFrontEnd, browser, parameters);
+      }
+    }
 
-      InstanceHelperEx.BrowseInstance(instance, owner, url + querystring, isFrontEnd, browser, parameters);
+    public static string CreateAuthFile(Instance instance, string url = null)
+    {
+      url = url ?? GenerateAuthUrl();
+      var destFileName = Path.Combine(instance.WebRootPath, url.TrimStart('/'));
+
+      CreateFile(destFileName);
+      return destFileName;
+    }
+
+    [NotNull]
+    private static string GenerateAuthUrl()
+    {
+      // Generating unique key to authenticate user
+      var authKey = GetTempAuthKey();
+      
+      return "/sitecore/shell/sim-agent/login-" + authKey + ".aspx";
     }
   }
 }
