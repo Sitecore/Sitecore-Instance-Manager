@@ -62,6 +62,8 @@ namespace SIM
 
     public static readonly bool IsQA;
 
+    public static readonly string ProcessName;
+
     [NotNull]
     public static readonly string LogsFolder;
 
@@ -99,8 +101,9 @@ namespace SIM
       AppShortVersion = GetShortVersion();
       AppLabel = GetLabel();
 
-      var processName = Process.GetCurrentProcess().ProcessName; // SIM.Tool.QA without .exe
-      IsDebugging = processName.ContainsIgnoreCase(".vshost");
+      var processName = Process.GetCurrentProcess().ProcessName + ".exe";
+      ProcessName = processName;
+      IsDebugging = processName.ContainsIgnoreCase(".vshost.");
       IsQA = processName.ContainsIgnoreCase(".QA.");
 
       TempFolder = InitializeDataFolder("Temp");

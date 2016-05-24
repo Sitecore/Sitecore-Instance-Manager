@@ -87,7 +87,8 @@
         Log.Info("Version: {0}", ApplicationManager.AppVersion);
         Log.Info("Revision: {0}", ApplicationManager.AppRevision);
         Log.Info("Label: {0}", ApplicationManager.AppLabel);
-        Log.Info("Executable: {0}", nativeArgs.FirstOrDefault() ?? String.Empty);
+        Log.Info("IsQA: {0}", ApplicationManager.IsQA);
+        Log.Info("Executable: {0}", nativeArgs.FirstOrDefault() ?? ApplicationManager.ProcessName);
         Log.Info("Arguments: {0}", argsToLog);
         Log.Info("Directory: {0}", Environment.CurrentDirectory);
         Log.Info("**********************************************************************");

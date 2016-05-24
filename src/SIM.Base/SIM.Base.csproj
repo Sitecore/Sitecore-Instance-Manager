@@ -71,6 +71,7 @@
     <Compile Include="CacheManager.cs" />
     <Compile Include="DataObject.cs" />
     <Compile Include="DataObjectBase.cs" />
+    <Compile Include="DownloadException.cs" />
     <Compile Include="EventHelper.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="FileSystem\FileProvider.cs" />
