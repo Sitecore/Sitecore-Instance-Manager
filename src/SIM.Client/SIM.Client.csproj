@@ -114,6 +114,7 @@
     <Compile Include="Commands\MainCommandGroupBase.cs" />
     <Compile Include="Commands\SetupCommandFacade.cs" />
     <Compile Include="Commands\StartCommandFacade.cs" />
+    <Compile Include="Commands\StateCommandFacade.cs" />
     <Compile Include="Commands\StopCommandFacade.cs" />
     <Compile Include="Serialization\DirectoryInfoConverter.cs" />
     <Compile Include="Program.cs" />

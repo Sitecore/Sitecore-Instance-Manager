@@ -15,6 +15,11 @@
 
     [CanBeNull]
     [UsedImplicitly]
+    [VerbOption("state", HelpText = "Shows state of an instance.")]
+    public StateCommandFacade StateCommandFacade { get; set; }
+
+    [CanBeNull]
+    [UsedImplicitly]
     [VerbOption("start", HelpText="Start stopped instance.")]
     public StartCommandFacade StartCommandFacade { get; set; }
 
