@@ -15,6 +15,7 @@
   using Sitecore.Diagnostics.Base.Annotations;
   using Sitecore.Diagnostics.Logging;
   using Sitecore.Diagnostics.InformationService.Client.Model;
+  using SIM.Core;
 
   #region
 
@@ -55,7 +56,7 @@
 
     public void CustomButtonClick()
     {
-      WindowHelper.OpenFolder(ProfileManager.Profile.LocalRepository);
+      CoreApp.OpenFolder(ProfileManager.Profile.LocalRepository);
     }
 
     #endregion

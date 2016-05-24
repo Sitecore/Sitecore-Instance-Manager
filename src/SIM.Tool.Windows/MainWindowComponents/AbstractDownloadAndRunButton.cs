@@ -8,6 +8,7 @@ using SIM.Tool.Base;
 namespace SIM.Tool.Windows.MainWindowComponents
 {
   using Sitecore.Diagnostics.Base.Annotations;
+  using SIM.Core;
 
   public abstract class AbstractDownloadAndRunButton
   {
@@ -47,7 +48,7 @@ namespace SIM.Tool.Windows.MainWindowComponents
 
     protected virtual void RunApp(string path, string param)
     {
-      WindowHelper.RunApp(path, param);      
+      CoreApp.RunApp(path, param);      
     }
 
     #region Private methods

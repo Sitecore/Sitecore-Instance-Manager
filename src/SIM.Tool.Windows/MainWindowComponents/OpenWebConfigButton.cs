@@ -7,6 +7,7 @@
   using SIM.Tool.Base;
   using SIM.Tool.Base.Plugins;
   using Sitecore.Diagnostics.Base.Annotations;
+  using SIM.Core;
 
   [UsedImplicitly]
   public class OpenWebConfigButton : IMainWindowButton
@@ -29,11 +30,11 @@
         string editor = WindowsSettings.AppToolsConfigEditor.Value;
         if (!string.IsNullOrEmpty(editor))
         {
-          WindowHelper.RunApp(editor, webConfigPath);
+          CoreApp.RunApp(editor, webConfigPath);
         }
         else
         {
-          WindowHelper.OpenFile(webConfigPath);
+          CoreApp.OpenFile(webConfigPath);
         }
       }
     }

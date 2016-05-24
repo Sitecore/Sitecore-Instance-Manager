@@ -8,6 +8,7 @@
   using SIM.Tool.Base.Plugins;
   using Sitecore.Diagnostics.Base;
   using Sitecore.Diagnostics.Base.Annotations;
+  using SIM.Core;
 
   [UsedImplicitly]
   public class ConfigBuilderButton : AbstractDownloadAndRunButton, IMainWindowButton
@@ -120,7 +121,7 @@
         throw new NotImplementedException("This is not supported #2");
       }
 
-      WindowHelper.OpenFile(path);
+      CoreApp.OpenFile(path);
     }
 
     #endregion

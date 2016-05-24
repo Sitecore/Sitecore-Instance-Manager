@@ -218,7 +218,7 @@
 
     public static void OpenProgramLogs()
     {
-      WindowHelper.OpenFolder(ApplicationManager.LogsFolder);
+      CoreApp.OpenFolder(ApplicationManager.LogsFolder);
     }
 
     public static void Publish(Instance instance, Window owner, PublishMode mode)
@@ -898,7 +898,7 @@
 
       if (FileSystem.FileSystem.Local.Directory.Exists(path))
       {
-        WindowHelper.OpenFolder(path);
+        CoreApp.OpenFolder(path);
       }
     }
 

@@ -93,7 +93,7 @@ namespace SIM.Tool
 
           if (exists)
           {
-            WindowHelper.OpenInBrowser(url, true);
+            CoreApp.OpenInBrowser(url, true);
           }
         }
       }

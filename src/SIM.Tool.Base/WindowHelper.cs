@@ -118,7 +118,7 @@
         var message = ex != null ? fullmessage.TrimEnd(".".ToCharArray()) + ". " + ex.Message : fullmessage;
         if (ShowMessage(message + "\n\nYou can find details in the log file. Would you like to open it?", MessageBoxButton.OKCancel, MessageBoxImage.Error, MessageBoxResult.Cancel) == MessageBoxResult.OK)
         {
-          OpenFile(ApplicationManager.LogsFolder);
+          CoreApp.OpenFile(ApplicationManager.LogsFolder);
         }
       }
       else
@@ -546,52 +546,6 @@
 
         return null;
       }
-    }
-
-    public static void OpenFile(string path)
-    {
-      WindowHelper.RunApp("explorer.exe", path.Replace('/', '\\'));
-    }
-
-    public static void OpenFolder(string path)
-    {
-      OpenFile(path);
-    }
-
-    public static void OpenInBrowser(string url, bool isFrontEnd, string browser = null, [CanBeNull] string[] parameters = null)
-    {
-      string app = browser.EmptyToNull() ?? (isFrontEnd ? CoreAppSettings.AppBrowsersFrontend.Value : CoreAppSettings.AppBrowsersBackend.Value);
-      if (!string.IsNullOrEmpty(app))
-      {
-        var arguments = parameters != null ? parameters.Where(x => !string.IsNullOrWhiteSpace(x)).ToList() : new List<string>();
-        arguments.Add(url);
-        RunApp(app, arguments.ToArray());
-
-        return;
-      }
-
-      OpenFile(url);
-    }
-
-    public static Process RunApp(string app, params string[] @params)
-    {
-      using (new ProfileSection("Running app"))
-      {
-        ProfileSection.Argument("app", app);
-        ProfileSection.Argument("@params", @params);
-
-        var resultParams = string.Join(" ", @params.Select(x => x.Trim('\"')).Select(x => x.Contains(" ") || x.Contains("=") ? "\"" + x + "\"" : x));
-        Log.Debug("resultParams: {0}",  resultParams);
-
-        var process = Process.Start(app, resultParams);
-
-        return ProfileSection.Result(process);
-      }
-    }
-
-    public static Process RunApp(ProcessStartInfo startInfo)
-    {
-      return Process.Start(startInfo);
     }
 
     #endregion

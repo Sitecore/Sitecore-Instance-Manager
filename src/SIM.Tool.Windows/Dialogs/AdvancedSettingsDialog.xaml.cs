@@ -9,6 +9,7 @@
   using SIM.Tool.Base.Profiles;
   using Sitecore.Diagnostics.Base;
   using Sitecore.Diagnostics.Base.Annotations;
+  using SIM.Core;
 
   #region
 
@@ -100,12 +101,12 @@
 
     private void OpenDocumentation([CanBeNull] object sender, [CanBeNull] RoutedEventArgs e)
     {
-      WindowHelper.OpenInBrowser("https://github.com/sitecore/sitecore-instance-manager/wiki/Advanced", true);
+      CoreApp.OpenInBrowser("https://github.com/sitecore/sitecore-instance-manager/wiki/Advanced", true);
     }
 
     private void OpenFile(object sender, RoutedEventArgs e)
     {
-      WindowHelper.OpenFolder(ApplicationManager.DataFolder);
+      CoreApp.OpenFolder(ApplicationManager.DataFolder);
     }
 
     private void SaveSettings()

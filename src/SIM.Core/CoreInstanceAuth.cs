@@ -89,7 +89,7 @@
       return "/sitecore/shell/sim-agent/login-" + authKey + ".aspx";
     }
 
-    public static void CreateFile(string destFileName)
+    private static void CreateFile(string destFileName)
     {
       FileSystem.Local.Directory.Ensure(Path.GetDirectoryName(destFileName));
       FileSystem.Local.File.WriteAllText(destFileName, FileContentsPattern.Replace("DATETIME_NOW", DateTime.Now.AddSeconds(LifetimeSeconds).ToString(CultureInfo.InvariantCulture)));

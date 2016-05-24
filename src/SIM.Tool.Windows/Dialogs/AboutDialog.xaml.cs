@@ -7,6 +7,7 @@
   using SIM.Tool.Base;
   using Sitecore.Diagnostics.Base;
   using Sitecore.Diagnostics.Base.Annotations;
+  using SIM.Core;
 
   public partial class AboutDialog
   {
@@ -40,7 +41,7 @@
 
     private void RequestNavigate(object sender, RequestNavigateEventArgs e)
     {
-      WindowHelper.RunApp(new ProcessStartInfo(e.Uri.AbsoluteUri));
+      CoreApp.RunApp(new ProcessStartInfo(e.Uri.AbsoluteUri));
       e.Handled = true;
     }
 

@@ -14,6 +14,7 @@ namespace SIM.Tool.Base
   using Sitecore.Diagnostics.Base;
   using Sitecore.Diagnostics.Base.Annotations;
   using Sitecore.Diagnostics.Logging;
+  using SIM.Core;
 
   public static class InstanceHelperEx
   {
@@ -30,11 +31,16 @@ namespace SIM.Tool.Base
         return;
       }
 
+      Browse(instance, virtualPath, isFrontEnd, browser, parameters);
+    }
+
+    public static void Browse(Instance instance, string virtualPath, bool isFrontEnd, string browser, string[] parameters)
+    {
       string url = instance.GetUrl();
       if (!string.IsNullOrEmpty(url))
       {
         url += '/' + virtualPath.TrimStart('/');
-        WindowHelper.OpenInBrowser(url, isFrontEnd, browser, parameters);
+        CoreApp.OpenInBrowser(url, isFrontEnd, browser, parameters);
       }
     }
 
@@ -94,7 +100,7 @@ namespace SIM.Tool.Base
 
       var reopenLogViewer = false;
 
-      var currentProcess = WindowHelper.RunApp(logViewer, logFilePath);
+      var currentProcess = CoreApp.RunApp(logViewer, logFilePath);
       if (currentProcess == null)
       {
         return;
@@ -134,7 +140,7 @@ namespace SIM.Tool.Base
           // magic begins
           currentProcess.Kill();
 
-          currentProcess = WindowHelper.RunApp(logViewer, filePath);
+          currentProcess = CoreApp.RunApp(logViewer, filePath);
 
           // we need to stop all this magic when application closes
           currentProcess.Exited += delegate
@@ -228,7 +234,7 @@ namespace SIM.Tool.Base
           switch (result)
           {
             case openLog:
-              WindowHelper.OpenFile(ApplicationManager.LogsFolder);
+              CoreApp.OpenFile(ApplicationManager.LogsFolder);
               return false;
             case openSitecoreLog:
               OpenCurrentLogFile(instance, mainWindow);

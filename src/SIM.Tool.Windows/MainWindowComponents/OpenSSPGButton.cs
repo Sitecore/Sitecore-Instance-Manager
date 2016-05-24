@@ -5,6 +5,7 @@
   using SIM.Tool.Base;
   using SIM.Tool.Base.Plugins;
   using Sitecore.Diagnostics.Base.Annotations;
+  using SIM.Core;
 
   [UsedImplicitly]
   public class OpenSSPGButton : IMainWindowButton
@@ -18,7 +19,7 @@
 
     public void OnClick(Window mainWindow, Instance instance)
     {
-      WindowHelper.RunApp("iexplore", "http://dl.sitecore.net/updater/clickonce/sspg/SSPG.application");
+      CoreApp.RunApp("iexplore", "http://dl.sitecore.net/updater/clickonce/sspg/SSPG.application");
     }
 
     #endregion

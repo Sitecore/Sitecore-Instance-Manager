@@ -7,6 +7,7 @@ namespace SIM.Tool.Windows.MainWindowComponents
   using SIM.Tool.Base;
   using SIM.Tool.Base.Plugins;
   using Sitecore.Diagnostics.Base.Annotations;
+  using SIM.Core;
 
   [UsedImplicitly]
   public class OpenFileButton : IMainWindowButton
@@ -45,11 +46,11 @@ namespace SIM.Tool.Windows.MainWindowComponents
         string editor = WindowsSettings.AppToolsConfigEditor.Value;
         if (!string.IsNullOrEmpty(editor))
         {
-          WindowHelper.RunApp(editor, filePath);
+          CoreApp.RunApp(editor, filePath);
         }
         else
         {
-          WindowHelper.OpenFile(filePath);
+          CoreApp.OpenFile(filePath);
         }
       }
     }

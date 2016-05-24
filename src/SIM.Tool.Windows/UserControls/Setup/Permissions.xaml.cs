@@ -12,6 +12,7 @@
   using SIM.Tool.Windows.Pipelines.Setup;
   using Sitecore.Diagnostics.Base.Annotations;
   using Sitecore.Diagnostics.Logging;
+  using SIM.Core;
 
   public partial class Permissions : IWizardStep, IFlowControl
   {
@@ -178,7 +179,7 @@
           return false;
         }
 
-        WindowHelper.OpenInBrowser("https://github.com/Sitecore/Sitecore-Instance-Manager/wiki/Troubleshooting", true);
+        CoreApp.OpenInBrowser("https://github.com/Sitecore/Sitecore-Instance-Manager/wiki/Troubleshooting", true);
         return false;
       }
 

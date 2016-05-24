@@ -16,6 +16,7 @@
   using Sitecore.Diagnostics.Base;
   using Sitecore.Diagnostics.Base.Annotations;
   using Sitecore.Diagnostics.Logging;
+  using SIM.Core;
   using SIM.Pipelines;
   using SIM.Pipelines.Processors;
   using SIM.Tool.Base;
@@ -182,11 +183,11 @@
 
       if (arguments.EmptyToNull() == null)
       {
-        WindowHelper.RunApp(path);
+        CoreApp.RunApp(path);
         return;
       }
 
-      WindowHelper.RunApp(path, arguments);
+      CoreApp.RunApp(path, arguments);
     }
 
     public void Finish([NotNull] string message, bool closeInterface)

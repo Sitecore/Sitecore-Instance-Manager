@@ -6,6 +6,7 @@
   using SIM.Tool.Base;
   using SIM.Tool.Base.Pipelines;
   using Sitecore.Diagnostics.Base.Annotations;
+  using SIM.Core;
 
   public static class FinishActions
   {
@@ -73,7 +74,7 @@
       var path = FileSystem.FileSystem.Local.Directory.GetFiles(root, "*.sln", SearchOption.TopDirectoryOnly).SingleOrDefault() ?? FileSystem.FileSystem.Local.Directory.GetFiles(root, "*.csproj", SearchOption.TopDirectoryOnly).SingleOrDefault();
       if (!string.IsNullOrEmpty(path) && FileSystem.FileSystem.Local.File.Exists(path))
       {
-        WindowHelper.RunApp(path);
+        CoreApp.RunApp(path);
         return true;
       }
 

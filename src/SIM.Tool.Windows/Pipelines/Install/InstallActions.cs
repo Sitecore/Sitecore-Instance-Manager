@@ -8,6 +8,7 @@
   using SIM.Tool.Windows.MainWindowComponents;
   using Sitecore.Diagnostics.Base;
   using Sitecore.Diagnostics.Base.Annotations;
+  using SIM.Core;
   using SIM.Tool.Base.Wizards;
 
   #endregion
@@ -72,13 +73,13 @@
     [UsedImplicitly]
     public static void OpenWebsiteFolder(InstallWizardArgs args)
     {
-      WindowHelper.OpenFolder(args.InstanceWebRootPath);
+      CoreApp.OpenFolder(args.InstanceWebRootPath);
     }
 
     [UsedImplicitly]
     public static void OpenWebsiteFolder(InstallModulesWizardArgs args)
     {
-      WindowHelper.OpenFolder(args.Instance.WebRootPath);
+      CoreApp.OpenFolder(args.Instance.WebRootPath);
     }
 
     #endregion

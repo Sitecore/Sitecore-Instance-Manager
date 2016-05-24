@@ -6,6 +6,7 @@
   using System.Windows;
   using SIM.Tool.Base;
   using Sitecore.Diagnostics.Base.Annotations;
+  using SIM.Core;
   using SIM.Core.Common;
   using SIM.Instances;
   using SIM.Tool.Base.Plugins;
@@ -77,7 +78,7 @@
         UseShellExecute = true
       };
 
-      WindowHelper.RunApp(start);
+      CoreApp.RunApp(start);
     }
   }
 }

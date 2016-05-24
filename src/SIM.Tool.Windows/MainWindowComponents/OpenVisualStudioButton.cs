@@ -11,6 +11,7 @@
   using SIM.Tool.Base.Plugins;
   using Sitecore.Diagnostics.Base;
   using Sitecore.Diagnostics.Base.Annotations;
+  using SIM.Core;
 
   [UsedImplicitly]
   public class OpenVisualStudioButton : IMainWindowButton
@@ -33,7 +34,7 @@
 
       if (paths.Length > 0)
       {
-        WindowHelper.OpenFile(paths.First());
+        CoreApp.OpenFile(paths.First());
         return;
       }
 
@@ -59,7 +60,7 @@
       var path = instance.GetVisualStudioSolutionFiles().FirstOrDefault();
       Assert.IsTrue(!string.IsNullOrEmpty(path) && FileSystem.FileSystem.Local.File.Exists(path), "The Visual Studio files are missing");
 
-      WindowHelper.OpenFile(path);
+      CoreApp.OpenFile(path);
     }
 
     #endregion

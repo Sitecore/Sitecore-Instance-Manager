@@ -6,6 +6,7 @@
   using SIM.Tool.Base.Wizards;
   using SIM.Tool.Windows.Pipelines.Setup;
   using Sitecore.Diagnostics.Base.Annotations;
+  using SIM.Core;
 
   public partial class LocalRepository : IWizardStep, IFlowControl
   {
@@ -59,12 +60,12 @@
 
     private void ShowMoreInfo([CanBeNull] object sender, [CanBeNull] RoutedEventArgs e)
     {
-      WindowHelper.OpenInBrowser("https://bitbucket.org/sitecore/sitecore-instance-manager/wiki/Manual-Download", true);
+      CoreApp.OpenInBrowser("https://bitbucket.org/sitecore/sitecore-instance-manager/wiki/Manual-Download", true);
     }
 
     private void ShowSupportedModules([CanBeNull] object sender, [CanBeNull] RoutedEventArgs e)
     {
-      WindowHelper.OpenInBrowser("https://bitbucket.org/sitecore/sitecore-instance-manager/wiki/Home", true);
+      CoreApp.OpenInBrowser("https://bitbucket.org/sitecore/sitecore-instance-manager/wiki/Home", true);
     }
 
     #endregion
