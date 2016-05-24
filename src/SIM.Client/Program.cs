@@ -3,6 +3,7 @@
   using System;
   using System.Collections;
   using System.Collections.Generic;
+  using System.IO;
   using System.Linq;
   using System.Reflection;
 
@@ -46,6 +47,7 @@
       Assert.IsNotNull(parser, "parser");
 
       var options = new MainCommandGroup();
+      EnsureAutoCompeteForCommands(options);
       if (!parser.ParseArguments(filteredArgs.ToArray(), options, delegate { }))
       {
         Console.WriteLine("Note, commands provide output when work is done i.e. without any progress indication.");
@@ -81,12 +83,35 @@
       }
     }
 
+    private static void EnsureAutoCompeteForCommands(MainCommandGroup options)
+    {
+      foreach (var propertyInfo in options.GetType().GetProperties())
+      {
+        if (typeof(ICommand).IsAssignableFrom(propertyInfo.PropertyType))
+        {
+          var verb = propertyInfo.GetCustomAttributes().OfType<VerbOptionAttribute>().FirstOrDefault();
+          if (verb == null)
+          {
+            continue;
+          }
+
+          var command = verb.LongName;
+          if (File.Exists(command))
+          {
+            continue;
+          }
+
+          File.Create(command).Close();
+        }
+      }
+    }
+
     [CanBeNull]
-    private static object QueryResult([NotNull] object result, [CanBeNull] string query)
+    private static CommandResultBase QueryResult([NotNull] CommandResultBase result, [CanBeNull] string query)
     {
       Assert.ArgumentNotNull(result, "result");
 
-      if (string.IsNullOrEmpty(query))
+      if (string.IsNullOrEmpty(query) || !result.Success)
       {
         return result;
       }
