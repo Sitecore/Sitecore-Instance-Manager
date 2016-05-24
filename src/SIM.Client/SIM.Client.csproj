@@ -111,7 +111,7 @@
     <Compile Include="Commands\InstallCommandFacade.cs" />
     <Compile Include="Commands\InstallModuleCommandFacade.cs" />
     <Compile Include="Commands\ListCommandFacade.cs" />
-    <Compile Include="Commands\MainCommandGroupBase.cs" />
+    <Compile Include="Groups\MainCommandGroupBase.cs" />
     <Compile Include="Commands\RepositoryCommandFacade.cs" />
     <Compile Include="Commands\SetupCommandFacade.cs" />
     <Compile Include="Commands\StartCommandFacade.cs" />
@@ -119,7 +119,7 @@
     <Compile Include="Commands\StopCommandFacade.cs" />
     <Compile Include="Serialization\DirectoryInfoConverter.cs" />
     <Compile Include="Program.cs" />
-    <Compile Include="Commands\MainCommandGroup.cs" />
+    <Compile Include="Groups\MainCommandGroup.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
