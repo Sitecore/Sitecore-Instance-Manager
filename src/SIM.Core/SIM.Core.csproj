@@ -74,6 +74,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\BrowseCommand.cs" />
+    <Compile Include="Commands\LoginCommand.cs" />
     <Compile Include="Commands\RepositoryCommand.cs" />
     <Compile Include="Commands\RepositoryCommandResult.cs" />
     <Compile Include="Commands\StateCommand.cs" />

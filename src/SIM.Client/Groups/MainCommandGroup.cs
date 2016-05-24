@@ -30,6 +30,16 @@
 
     [CanBeNull]
     [UsedImplicitly]
+    [VerbOption("browse", HelpText = "Open an instance in default browser.")]
+    public BrowseCommandFacade BrowseCommandFacade { get; set; }
+
+    [CanBeNull]
+    [UsedImplicitly]
+    [VerbOption("login", HelpText = "Log in user as admin to an instance.")]
+    public LoginCommandFacade LoginCommandFacade { get; set; }
+
+    [CanBeNull]
+    [UsedImplicitly]
     [VerbOption("repository", HelpText = "Show contents of repository.")]
     public RepositoryCommandFacade RepositoryCommandFacade { get; set; }
 

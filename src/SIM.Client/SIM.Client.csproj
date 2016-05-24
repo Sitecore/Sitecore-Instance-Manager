@@ -107,10 +107,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\BrowseCommandFacade.cs" />
     <Compile Include="Commands\DeleteCommandFacade.cs" />
     <Compile Include="Commands\InstallCommandFacade.cs" />
     <Compile Include="Commands\InstallModuleCommandFacade.cs" />
     <Compile Include="Commands\ListCommandFacade.cs" />
+    <Compile Include="Commands\LoginCommandFacade.cs" />
     <Compile Include="Groups\MainCommandGroupBase.cs" />
     <Compile Include="Commands\RepositoryCommandFacade.cs" />
     <Compile Include="Commands\SetupCommandFacade.cs" />
