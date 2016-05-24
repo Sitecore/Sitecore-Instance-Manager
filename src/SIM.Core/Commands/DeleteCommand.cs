@@ -10,11 +10,8 @@ namespace SIM.Core.Commands
   using Sitecore.Diagnostics.Base;
   using Sitecore.Diagnostics.Base.Annotations;
 
-  public class DeleteCommand : AbstractCommand<string[]>
+  public class DeleteCommand : AbstractInstanceActionCommand<string[]>
   {
-    [CanBeNull]
-    public virtual string Name { get; [UsedImplicitly] set; }
-
     protected override void DoExecute(CommandResultBase<string[]> result)
     {
       Assert.ArgumentNotNull(result, "result");

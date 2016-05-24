@@ -367,6 +367,7 @@
       return end + start >= @this.Length ? @this.Substring(start) : @this.Substring(start, end);
     }
 
+    [CanBeNull]
     public static TResult With<TInput, TResult>(this TInput @this, Func<TInput, TResult> evaluator)
       where TResult : class
       where TInput : class

@@ -315,7 +315,7 @@
       }
     }
 
-    public virtual void Stop(bool force = false)
+    public virtual void Stop(bool? force = null)
     {
       Log.Info("Stop website {0} ({1})", this.Name, this.ID);
 
@@ -323,7 +323,7 @@
       {
         ApplicationPool pool = this.GetPool(context);
 
-        if (force)
+        if (force ?? false)
         {
           foreach (WorkerProcess workerProcess in pool.WorkerProcesses)
           {

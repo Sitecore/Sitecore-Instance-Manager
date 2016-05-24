@@ -74,6 +74,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\AbstractInstanceActionCommand.cs" />
     <Compile Include="Commands\AggregatePipelineController.cs" />
     <Compile Include="Commands\DeleteCommand.cs" />
     <Compile Include="Commands\InstallCommand.cs" />

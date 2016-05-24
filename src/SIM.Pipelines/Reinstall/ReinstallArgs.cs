@@ -55,7 +55,7 @@
     public readonly string RootPath;
 
     [NotNull]
-    public readonly Action<bool> StopInstance;
+    public readonly Action<bool?> StopInstance;
 
     public readonly string TempFolder;
 
