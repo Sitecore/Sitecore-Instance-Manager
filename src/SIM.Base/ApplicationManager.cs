@@ -87,7 +87,12 @@ namespace SIM
 
     static ApplicationManager()
     {
-      DataFolder = InitializeFolder(Environment.ExpandEnvironmentVariables(AppDataRoot));
+      var processName = Process.GetCurrentProcess().ProcessName + ".exe";
+      ProcessName = processName;
+      IsDebugging = processName.ContainsIgnoreCase(".vshost.");
+      IsQA = processName.ContainsIgnoreCase(".QA.");
+
+      DataFolder = InitializeFolder(Environment.ExpandEnvironmentVariables(AppDataRoot + (IsQA ? "-QA" : "")));
       PluginsFolder = InitializeDataFolder("Plugins");
       CachesFolder = InitializeDataFolder("Caches");
       FilePackagesFolder = InitializeDataFolder("Custom Packages");
@@ -100,11 +105,6 @@ namespace SIM
       AppVersion = GetVersion();
       AppShortVersion = GetShortVersion();
       AppLabel = GetLabel();
-
-      var processName = Process.GetCurrentProcess().ProcessName + ".exe";
-      ProcessName = processName;
-      IsDebugging = processName.ContainsIgnoreCase(".vshost.");
-      IsQA = processName.ContainsIgnoreCase(".QA.");
 
       TempFolder = InitializeDataFolder("Temp");
     }
