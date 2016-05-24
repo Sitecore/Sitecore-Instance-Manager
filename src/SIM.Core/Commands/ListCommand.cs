@@ -1,7 +1,6 @@
 ﻿namespace SIM.Core.Commands
 {
   using System.Collections;
-  using System.Collections.Generic;
   using System.IO;
   using System.Linq;
   using SIM.Core.Common;
@@ -10,7 +9,7 @@
   using Sitecore.Diagnostics.Base;
   using Sitecore.Diagnostics.Base.Annotations;
 
-  public class ListCommand : AbstractCommand<ListInstancesResult>
+  public class ListCommand : AbstractCommand<ListCommandResult>
   {
     [CanBeNull]
     public virtual string Filter { get; set; }
@@ -19,7 +18,7 @@
 
     public virtual bool Everywhere { get; set; }
 
-    protected override void DoExecute(CommandResultBase<ListInstancesResult> result)
+    protected override void DoExecute(CommandResultBase<ListCommandResult> result)
     {
       Assert.ArgumentNotNull(result, "result");
 
@@ -39,11 +38,11 @@
         instances = instances.Where(x => x.RootPath.ToLowerInvariant().Contains(root.ToLowerInvariant()));
       }
 
-      ListInstancesResult data;
+      ListCommandResult data;
 
       if (this.Detailed)
       {
-        data = new ListInstancesResult(instances.ToDictionary(x => x.Name, x => new InstanceInfo(x.ID, x.Name, x.State.ToString(), x.WebRootPath)
+        data = new ListCommandResult(instances.Select(x => new InstanceInfo(x.ID, x.Name, x.State.ToString(), x.WebRootPath)
         {
           DataFolder = Null.Safe(() => new DirectoryInfo(x.DataFolderPath)), 
           RootFolder = Null.Safe(() => new DirectoryInfo(x.RootPath)),
@@ -54,7 +53,7 @@
       }
       else
       {
-        data = new ListInstancesResult(instances.ToDictionary(x => x.Name, x => new InstanceInfo(x.ID, x.Name, x.State.ToString(), x.WebRootPath)));
+        data = new ListCommandResult(instances.Select(x => x.Name));
       }
 
       result.Success = true;

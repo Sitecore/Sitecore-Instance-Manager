@@ -78,8 +78,7 @@
     <Compile Include="Commands\DeleteCommand.cs" />
     <Compile Include="Commands\InstallCommand.cs" />
     <Compile Include="Commands\InstallModuleCommand.cs" />
-    <Compile Include="Commands\ListDetailedInstancesResult.cs" />
-    <Compile Include="Commands\ListInstancesResult.cs" />
+    <Compile Include="Commands\ListCommandResult.cs" />
     <Compile Include="Common\ICommand.cs" />
     <Compile Include="CoreAppSettings.cs" />
     <Compile Include="Models\InstanceInfo.cs" />
@@ -88,7 +87,7 @@
     <Compile Include="Common\AbstractCommand.cs" />
     <Compile Include="Common\CommandResult.cs" />
     <Compile Include="Common\CommandResultBase.cs" />
-    <Compile Include="Commands\ListInstancesCommand.cs" />
+    <Compile Include="Commands\ListCommand.cs" />
     <Compile Include="Common\Profile.cs" />
     <Compile Include="CoreApp.cs" />
     <Compile Include="Logging\LogFileAppender.cs" />
