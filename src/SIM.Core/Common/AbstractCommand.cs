@@ -8,7 +8,7 @@
   public abstract class AbstractCommand<TResult> : ICommand
   {
     [NotNull]
-    public object Execute()
+    public CommandResultBase Execute()
     {
       var result = new CommandResult<TResult>();
       var timer = new Stopwatch();

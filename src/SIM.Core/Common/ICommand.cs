@@ -5,6 +5,6 @@ namespace SIM.Core.Common
   public interface ICommand
   {
     [CanBeNull]
-    object Execute();
+    CommandResultBase Execute();
   }
 }

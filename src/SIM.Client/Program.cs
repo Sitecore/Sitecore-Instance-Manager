@@ -99,13 +99,13 @@
           continue;
         }
 
-        var newObj = null as object;
+        var newObj = null as CommandResultBase;
         var dictionary = obj as IDictionary;
         if (dictionary != null)
         {
           if (dictionary.Contains(chunk))
           {
-            newObj = dictionary[chunk];
+            newObj = dictionary[chunk] as CommandResultBase;
           }
         }
         else
@@ -114,7 +114,7 @@
           var prop = type.GetProperties().FirstOrDefault(x => x.Name.Equals(chunk, StringComparison.OrdinalIgnoreCase));
           if (prop != null)
           {
-            newObj = prop.GetValue(obj, null);
+            newObj = prop.GetValue(obj, null) as CommandResultBase;
           }
         }
 
