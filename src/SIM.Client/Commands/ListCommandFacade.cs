@@ -22,7 +22,7 @@
     [Option('e', "everywhere", HelpText = "When specified, shows instances that are located both within and without instances root folder.")]
     public override bool Everywhere { get; set; }
 
-    protected override void DoExecute(CommandResultBase<ListCommandResult> result)
+    protected override void DoExecute(CommandResult<ListCommandResult> result)
     {
       base.DoExecute(result);
 

@@ -24,7 +24,7 @@ namespace SIM.Core.Commands
     [CanBeNull]
     public virtual string Revision { get; [UsedImplicitly] set; }
 
-    protected override void DoExecute(CommandResultBase<string[]> result)
+    protected override void DoExecute(CommandResult<string[]> result)
     {
       Assert.ArgumentNotNull(result, "result");
 
@@ -37,29 +37,22 @@ namespace SIM.Core.Commands
 
       var profile = Profile.Read();
       var repository = profile.LocalRepository;
-      Assert.IsNotNullOrEmpty(repository, "Profile.LocalRepository is null or empty");
-      Assert.IsTrue(Directory.Exists(repository), "Profile.LocalRepository points to non-existing folder");
+      Ensure.IsNotNullOrEmpty(repository, "Profile.LocalRepository is not specified");
+      Ensure.IsTrue(Directory.Exists(repository), "Profile.LocalRepository points to missing location");
 
       var license = profile.License;
-      Assert.IsNotNullOrEmpty(license, "Profile.License is null or empty");
-      Assert.IsTrue(File.Exists(license), "Profile.License points to non-existing file");
+      Ensure.IsNotNullOrEmpty(license, "Profile.License is not specified");
+      Ensure.IsTrue(File.Exists(license), "Profile.License points to missing file");
 
       var builder = profile.GetValidConnectionString();
 
       var instance = InstanceManager.GetInstance(name);
-      Assert.IsNotNull(instance, "InstanceManager.GetInstance({0}) is null", name);
+      Ensure.IsNotNull(instance, "instance is not found", name);
 
       ProductManager.Initialize(repository);
 
       var distributive = ProductManager.FindProduct(ProductType.Module, product, version, revision);
-      if (distributive == null)
-      {
-        result.Success = false;
-        result.Message = "product not found";
-        result.Data = null;
-
-        return;
-      }
+      Ensure.IsNotNull(distributive, "product is not found");
 
       PipelineManager.Initialize(XmlDocumentEx.LoadXml(PipelinesConfig.Contents).DocumentElement);
       

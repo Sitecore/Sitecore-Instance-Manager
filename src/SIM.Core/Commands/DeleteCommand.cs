@@ -12,7 +12,7 @@ namespace SIM.Core.Commands
 
   public class DeleteCommand : AbstractInstanceActionCommand<string[]>
   {
-    protected override void DoExecute(CommandResultBase<string[]> result)
+    protected override void DoExecute(CommandResult<string[]> result)
     {
       Assert.ArgumentNotNull(result, "result");
 
@@ -24,13 +24,7 @@ namespace SIM.Core.Commands
 
       InstanceManager.Initialize();
       var instance = InstanceManager.Instances.FirstOrDefault(x => x.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
-      if (instance == null)
-      {
-        result.Success = false;
-        result.Message = "instance not found";
-
-        return;
-      }
+      Ensure.IsNotNull(instance, "instance is not found");
 
       PipelineManager.Initialize(XmlDocumentEx.LoadXml(PipelinesConfig.Contents).DocumentElement);
 

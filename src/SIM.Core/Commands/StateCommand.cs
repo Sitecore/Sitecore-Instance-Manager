@@ -8,7 +8,7 @@ namespace SIM.Core.Commands
 
   public class StateCommand : AbstractInstanceActionCommand<string>
   {
-    protected override void DoExecute(CommandResultBase<string> result)
+    protected override void DoExecute(CommandResult<string> result)
     {
       Assert.ArgumentNotNull(result, "result");
 
@@ -17,16 +17,8 @@ namespace SIM.Core.Commands
 
       InstanceManager.Initialize();
       var instance = InstanceManager.Instances.FirstOrDefault(x => x.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
-      if (instance == null)
-      {
-        result.Success = false;
-        result.Message = "instance not found";
-
-        return;
-      }
-
-      result.Success = true;
-      result.Message = "done";
+      Ensure.IsNotNull(instance, "instance is not found");
+      
       result.Data = instance.State.ToString();
     }
   }

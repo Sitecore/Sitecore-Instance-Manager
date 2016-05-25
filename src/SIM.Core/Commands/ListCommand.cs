@@ -18,7 +18,7 @@
 
     public virtual bool Everywhere { get; set; }
 
-    protected override void DoExecute(CommandResultBase<ListCommandResult> result)
+    protected override void DoExecute(CommandResult<ListCommandResult> result)
     {
       Assert.ArgumentNotNull(result, "result");
 
@@ -55,9 +55,7 @@
       {
         data = new ListCommandResult(instances.Select(x => x.Name));
       }
-
-      result.Success = true;
-      result.Message = "done";
+      
       result.Data = data;
     }
   }

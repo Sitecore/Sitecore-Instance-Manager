@@ -76,13 +76,16 @@
     <Compile Include="Commands\StateCommand.cs" />
     <Compile Include="Commands\StopCommand.cs" />
     <Compile Include="Common\AbstractInstanceActionCommand.cs" />
-    <Compile Include="Commands\AggregatePipelineController.cs" />
+    <Compile Include="Common\AggregatePipelineController.cs" />
     <Compile Include="Commands\StartCommand.cs" />
     <Compile Include="Commands\DeleteCommand.cs" />
     <Compile Include="Commands\InstallCommand.cs" />
     <Compile Include="Commands\InstallModuleCommand.cs" />
     <Compile Include="Commands\ListCommandResult.cs" />
+    <Compile Include="Common\CustomException.cs" />
+    <Compile Include="Common\Ensure.cs" />
     <Compile Include="Common\ICommand.cs" />
+    <Compile Include="Common\MessageException.cs" />
     <Compile Include="CoreAppSettings.cs" />
     <Compile Include="CoreInstance.cs" />
     <Compile Include="CoreInstanceAuth.cs" />
@@ -90,7 +93,6 @@
     <Compile Include="Common\Analytics.cs" />
     <Compile Include="Common\ProfileHelper.cs" />
     <Compile Include="Common\AbstractCommand.cs" />
-    <Compile Include="Common\CommandResult.cs" />
     <Compile Include="Common\CommandResultBase.cs" />
     <Compile Include="Commands\ListCommand.cs" />
     <Compile Include="Common\Profile.cs" />

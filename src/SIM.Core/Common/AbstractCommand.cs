@@ -2,15 +2,31 @@
 {
   using System;
   using System.Diagnostics;
+  using System.Linq;
   using Sitecore.Diagnostics.Base.Annotations;
   using Sitecore.Diagnostics.Logging;
 
-  public abstract class AbstractCommand<TResult> : ICommand
+  public abstract class AbstractCommand<TResult> : AbstractCommand
+  {
+    protected sealed override CommandResult CreateResult()
+    {
+      return new CommandResult<TResult>();
+    }
+
+    protected sealed override void DoExecute(CommandResult result)
+    {
+      DoExecute((CommandResult<TResult>) result);
+    }
+
+    protected abstract void DoExecute([NotNull] CommandResult<TResult> result);
+  }
+
+  public abstract class AbstractCommand : ICommand
   {
     [NotNull]
-    public CommandResultBase Execute()
+    public CommandResult Execute()
     {
-      var result = new CommandResult<TResult>();
+      var result = CreateResult();
       var timer = new Stopwatch();
       timer.Start();
       try
@@ -18,18 +34,28 @@
         this.DoExecute(result);
         timer.Stop();
       }
+      catch (MessageException ex)
+      {
+        timer.Stop();
+
+        result.Message = ex.Message;
+        result.Success = false;
+      }
       catch (Exception ex)
       {
         timer.Stop();
+        
         Log.Error(ex, "{0} command has failed with unhandled exception", this.GetType().Name);
         result.Success = false;
-        result.Message = ex.GetType().FullName + "\r\nMessage: " + ex.Message + "\r\nStackTrace:\b\r" + ex.StackTrace;
+        result.Error = new CustomException(ex);
       }
 
       result.Elapsed = timer.Elapsed;
       return result;
     }
 
-    protected abstract void DoExecute([NotNull] CommandResultBase<TResult> result);
+    protected abstract CommandResult CreateResult();
+
+    protected abstract void DoExecute([NotNull] CommandResult result);
   }
 }

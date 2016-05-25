@@ -24,7 +24,7 @@
     [CanBeNull]
     public virtual string Revision { get; [UsedImplicitly] set; }
 
-    protected override void DoExecute(CommandResultBase<string[]> result)
+    protected override void DoExecute(CommandResult<string[]> result)
     {
       Assert.ArgumentNotNull(result, "result");
 
@@ -37,33 +37,26 @@
 
       var profile = Profile.Read();
       var repository = profile.LocalRepository;
-      Assert.IsNotNullOrEmpty(repository, "Profile.LocalRepository is null or empty");
-      Assert.IsTrue(Directory.Exists(repository), "Profile.LocalRepository points to non-existing folder");
+      Ensure.IsNotNullOrEmpty(repository, "Profile.LocalRepository is not specified");
+      Ensure.IsTrue(Directory.Exists(repository), "Profile.LocalRepository points to missing folder");
 
       var license = profile.License;
-      Assert.IsNotNullOrEmpty(license, "Profile.License is null or empty");
-      Assert.IsTrue(File.Exists(license), "Profile.License points to non-existing file");
+      Ensure.IsNotNullOrEmpty(license, "Profile.License is not specified");
+      Ensure.IsTrue(File.Exists(license), "Profile.License points to missing file");
 
       var builder = profile.GetValidConnectionString();
 
       var instancesFolder = profile.InstancesFolder;
-      Assert.IsNotNullOrEmpty(instancesFolder, "Profile.InstancesFolder is null or empty");
-      Assert.IsTrue(Directory.Exists(instancesFolder), "Profile.InstancesFolder points to non-existing folder");
+      Ensure.IsNotNullOrEmpty(instancesFolder, "Profile.InstancesFolder is not specified");
+      Ensure.IsTrue(Directory.Exists(instancesFolder), "Profile.InstancesFolder points to missing folder");
 
       var rootPath = Path.Combine(instancesFolder, name);
-      Assert.IsTrue(!Directory.Exists(rootPath), "The folder already exists: {0}", rootPath);
+      Ensure.IsTrue(!Directory.Exists(rootPath), "Folder already exists: {0}", rootPath);
 
       ProductManager.Initialize(repository);
 
       var distributive = ProductManager.FindProduct(ProductType.Standalone, product, version, revision);
-      if (distributive == null)
-      {
-        result.Success = false;
-        result.Message = "product not found";
-        result.Data = null;
-
-        return;
-      }
+      Ensure.IsNotNull(distributive, "product is not found");
 
       PipelineManager.Initialize(XmlDocumentEx.LoadXml(PipelinesConfig.Contents).DocumentElement);
 

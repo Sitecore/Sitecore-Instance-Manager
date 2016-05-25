@@ -1,12 +1,14 @@
 namespace SIM.Core.Commands
 {
+  using System;
+  using System.Data;
   using SIM.Core.Common;
   using Sitecore.Diagnostics.Base;
   using Sitecore.Diagnostics.Base.Annotations;
 
   public class ProfileCommand : AbstractCommand<IProfile>
   {
-    protected override void DoExecute(CommandResultBase<IProfile> result)
+    protected override void DoExecute(CommandResult<IProfile> result)
     {
       Assert.ArgumentNotNull(result, "result");
 
@@ -48,15 +50,11 @@ namespace SIM.Core.Commands
 
       try
       {
-        result.Success = true;
-        result.Message = "done";
         result.Data = Profile.Read();
       }
-      catch
+      catch (Exception ex)
       {
-        result.Success = false;
-        result.Message = "profile is corrupted";
-        result.Data = null;
+        throw new DataException("Profile file is corrupted", ex);
       }
     }
 

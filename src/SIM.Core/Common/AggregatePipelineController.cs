@@ -1,9 +1,9 @@
-namespace SIM.Core.Commands
+namespace SIM.Core.Common
 {
   using System;
   using System.Collections.Generic;
-  using SIM.Pipelines;
   using Sitecore.Diagnostics.Base.Annotations;
+  using SIM.Pipelines;
 
   public class AggregatePipelineController : IPipelineController
   {

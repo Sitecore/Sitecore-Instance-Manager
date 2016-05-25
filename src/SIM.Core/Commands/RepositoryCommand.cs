@@ -7,13 +7,13 @@ namespace SIM.Core.Commands
 
   public class RepositoryCommand : AbstractCommand<RepositoryCommandResult>
   {
-    protected override void DoExecute(CommandResultBase<RepositoryCommandResult> result)
+    protected override void DoExecute(CommandResult<RepositoryCommandResult> result)
     {
       Assert.ArgumentNotNull(result, "result");
 
       var profile = Profile.Read();
       var repository = profile.LocalRepository;
-      Assert.IsNotNullOrEmpty(repository, "Profile.LocalRepository is null or empty");
+      Ensure.IsNotNullOrEmpty(repository, "Profile.LocalRepository is not specified");
 
       ProductManager.Initialize(repository);
       var data = new RepositoryCommandResult
@@ -21,9 +21,7 @@ namespace SIM.Core.Commands
         Standalone = ProductManager.StandaloneProducts.Select(x => x.ToString()).ToArray(),
         Modules = ProductManager.Modules.Select(x => x.ToString()).ToArray()
       };
-
-      result.Success = true;
-      result.Message = "done";
+      
       result.Data = data;
     }
   }

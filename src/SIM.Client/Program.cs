@@ -96,7 +96,7 @@
     }
 
     [CanBeNull]
-    private static CommandResultBase QueryResult([NotNull] CommandResultBase result, [CanBeNull] string query)
+    private static CommandResult QueryResult([NotNull] CommandResult result, [CanBeNull] string query)
     {
       Assert.ArgumentNotNull(result, "result");
 
@@ -113,13 +113,13 @@
           continue;
         }
 
-        var newObj = null as CommandResultBase;
+        var newObj = null as CommandResult;
         var dictionary = obj as IDictionary;
         if (dictionary != null)
         {
           if (dictionary.Contains(chunk))
           {
-            newObj = dictionary[chunk] as CommandResultBase;
+            newObj = dictionary[chunk] as CommandResult;
           }
         }
         else
@@ -128,7 +128,7 @@
           var prop = type.GetProperties().FirstOrDefault(x => x.Name.Equals(chunk, StringComparison.OrdinalIgnoreCase));
           if (prop != null)
           {
-            newObj = prop.GetValue(obj, null) as CommandResultBase;
+            newObj = prop.GetValue(obj, null) as CommandResult;
           }
         }
 
