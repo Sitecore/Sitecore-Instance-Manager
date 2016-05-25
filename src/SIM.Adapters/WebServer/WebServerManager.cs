@@ -89,6 +89,27 @@
       return result;
     }
 
+    public static bool AddHostBinding([NotNull] string siteName, [NotNull] BindingInfo binding)
+    {
+      Assert.ArgumentNotNull(siteName, "siteName");
+      Assert.ArgumentNotNull(binding, "binding");
+
+      using (WebServerContext context = CreateContext("WebServerManager.AddHostBinding('{0}','{1}')".FormatWith(siteName, binding.Host)))
+      {
+        Site siteInfo = context.Sites.FirstOrDefault(site => site.Name.EqualsIgnoreCase(siteName));
+        if (HostBindingExists(binding.Host) || siteInfo == null)
+        {
+          return false;
+        }
+        string bindingInformation = binding.IP + ":" + binding.Port + ":" + binding.Host;
+        
+        siteInfo.Bindings.Add(bindingInformation, binding.Protocol);
+        context.CommitChanges();
+      }
+
+      return true;
+    }
+
     public static bool IsApplicationPoolRunning([NotNull] ApplicationPool appPool)
     {
       Assert.ArgumentNotNull(appPool, "appPool");

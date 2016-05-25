@@ -17,6 +17,7 @@
   using Sitecore.Diagnostics.Base;
   using Sitecore.Diagnostics.Base.Annotations;
   using Sitecore.Diagnostics.Logging;
+  using SIM.Adapters.WebServer;
 
   #region
 
@@ -260,6 +261,30 @@
       Assert.IsNotNull(xml, "xml");
 
       client.Save(xml, "master", credentials);
+    }
+
+    private static void AddSiteBinding(string instanceName, XmlElement action)
+    {
+      Assert.ArgumentNotNullOrEmpty(instanceName, "instanceName");
+      Assert.ArgumentNotNull(action, "action");
+
+      var host = action.GetAttribute("host");
+      if (host.IsNullOrEmpty())
+      {
+        return;
+      }
+
+      var protocol = action.HasAttribute("protocol") ? action.GetAttribute("protocol") : "http";
+      int port;
+
+      if (!action.HasAttribute("port") || !int.TryParse(action.GetAttribute("port"), out port))
+      {
+        port = 80;
+      }
+
+      var ip = action.HasAttribute("ip") ? action.GetAttribute("ip") : "*";
+
+      WebServerManager.AddHostBinding(instanceName, new BindingInfo(protocol, host, port, ip));
     }
 
     private static string ChangeWebRootToActual(string path, string webRootName)
@@ -822,6 +847,20 @@
             break;
           }
 
+          case "addSiteBinding":
+          {
+            AddSiteBinding(instance.Name, action);
+           
+            break;
+          }
+
+          case "addHostName":
+          {
+            Hosts.Append(action.GetAttribute("hostName"));
+
+            break;
+          }
+
           case "config":
           {
             string configPath = action.GetAttribute("path");
@@ -856,14 +895,6 @@
           {
             InstanceHelper.StartInstance(instance);
             SetRestrictingPlaceholders(action.GetAttribute("names"), GetWebServiceUrl(instance));
-            break;
-          }
-
-          case "custom":
-          {
-            var typeName = action.GetAttribute("type").EmptyToNull().IsNotNull("The type attribute is missing in the <custom> install action");
-            var obj = (IPackageInstallActions)ReflectionUtil.CreateObject(typeName);
-            obj.Execute(instance, module);
             break;
           }
 

@@ -124,7 +124,6 @@
     <Compile Include="Import\ImportInitialization.cs" />
     <Compile Include="Import\ImportProcessor.cs" />
     <Compile Include="Import\ImportUnpackSolution.cs" />
-    <Compile Include="InstallModules\IPackageInstallActions.cs" />
     <Compile Include="InstallModules\PerformPostStepActions.cs" />
     <Compile Include="InstallModules\CopyPackages.cs" />
     <Compile Include="InstallModules\CopyAgentFiles.cs" />
