@@ -13,26 +13,26 @@
     #region Constants
 
     public const int Hour = 60 * Minute;
-    private const int Minute = 60 * Second;
-    private const int Second = 1000;
+    public const int Minute = 60 * Second;
+    public const int Second = 1000;
 
     #endregion
 
-    #region private methods
+    #region Public methods
 
     public static void DownloadFile(string url, string destFileName)
     {
       DownloadFile(new Uri(url), destFileName);
     }
 
-    private static bool DownloadFile(Uri uri, string destFileName, int? timeout = null, int? readWriteTimeout = null, string cookies = null)
+    public static bool DownloadFile(Uri url, string destFileName, int? timeout = null, int? readWriteTimeout = null, string cookies = null)
     {
       using (new ProfileSection("Download file"))
       {
-        ProfileSection.Argument("uri", uri);
+        ProfileSection.Argument("url", url);
         ProfileSection.Argument("destFileName", destFileName);
 
-        var response = RequestAndGetResponse(uri, timeout, readWriteTimeout, cookies);
+        var response = RequestAndGetResponse(url, timeout, readWriteTimeout, cookies);
         using (var responseStream = response.GetResponseStream())
         {
           try
@@ -51,7 +51,7 @@
           }
           catch (Exception ex)
           {
-            throw new DownloadException(uri.AbsoluteUri, ex);
+            throw new InvalidOperationException("Downloading failed with exception", ex);
           }
         }
       }
@@ -93,7 +93,7 @@
       }
     }
 
-    private static void DownloadFile(string destFileName, Stream responseStream, CancellationToken? token = null, Action<int> indicateProgress = null)
+    public static void DownloadFile(string destFileName, Stream responseStream, CancellationToken? token = null, Action<int> indicateProgress = null)
     {
       using (new ProfileSection("Download file"))
       {
@@ -132,18 +132,6 @@
 
     public static string DownloadString(string url, int? timeout = null, int? readWriteTimeout = null)
     {
-      try
-      {
-        return DoDownloadString(url, timeout, readWriteTimeout);
-      }
-      catch (Exception ex)
-      {
-        throw new DownloadException(url, ex);
-      }
-    }
-
-    private static string DoDownloadString(string url, int? timeout, int? readWriteTimeout)
-    {
       using (var response = RequestAndGetResponse(url, timeout, readWriteTimeout))
       {
         Assert.IsNotNull(response, "No response provided");
@@ -156,7 +144,7 @@
       }
     }
 
-    private static string GetCookie(string cookies, string cookieName)
+    public static string GetCookie(string cookies, string cookieName)
     {
       Assert.ArgumentNotNullOrEmpty(cookies, "cookies");
       Assert.ArgumentNotNullOrEmpty(cookieName, "cookieName");
@@ -164,7 +152,7 @@
       return cookies.Split(';').Single(s => s.Split('=')[0].Trim().Equals(cookieName)).Trim();
     }
 
-    private static string GetCookieValue(string cookies, string cookieName)
+    public static string GetCookieValue(string cookies, string cookieName)
     {
       Assert.ArgumentNotNullOrEmpty(cookies, "cookies");
       Assert.ArgumentNotNullOrEmpty(cookieName, "cookieName");
@@ -195,7 +183,7 @@
       }
     }
 
-    private static string GetFileName(WebResponse response)
+    public static string GetFileName(WebResponse response)
     {
       // example value ==> attachment; filename="Sitecore 6.6.0 rev. 130111.zip"
       var contentDisposition = response.Headers["content-disposition"];
@@ -205,6 +193,38 @@
       return GetCookieValue(contentDisposition, "filename").Trim('"');
     }
 
+    public static long GetFileSize(Uri link, int? timeout = null, int? readWriteTimeout = null, string cookies = null)
+    {
+      try
+      {
+        using (var response = RequestAndGetResponse(link, timeout, readWriteTimeout, cookies))
+        {
+          return response.ContentLength;
+        }
+      }
+      catch (InvalidOperationException ex)
+      {
+        Log.Warn(ex, "There is a problem with detecting file size of {0}", link);
+        return -1;
+      }
+    }
+
+    public static string GetSessionCookie(string authCookie, string loginUrl)
+    {
+      var wc = CreateRequest(loginUrl, null, null, authCookie);
+      wc.AllowAutoRedirect = false;
+      using (var response = wc.GetResponse())
+      {
+        var cookies = response.Headers[HttpResponseHeader.SetCookie];
+        return WebRequestHelper.GetCookie(cookies, "ASP.NET_SessionId");
+      }
+    }
+
+    public static string MakeValidCookie(string authCookie, string session)
+    {
+      return authCookie + "; " + session;
+    }
+
     public static HttpWebResponse RequestAndGetResponse(string url, int? timeout = null, int? readWriteTimeout = null, string cookies = null)
     {
       return RequestAndGetResponse(new Uri(url), timeout, readWriteTimeout, cookies);
@@ -212,16 +232,9 @@
 
     public static HttpWebResponse RequestAndGetResponse(Uri uri, int? timeout = null, int? readWriteTimeout = null, string cookies = null)
     {
-      try
-      {
-        var webRequest = CreateRequest(uri, timeout, readWriteTimeout, cookies);
+      var webRequest = CreateRequest(uri, timeout, readWriteTimeout, cookies);
 
-        return webRequest.GetResponse() as HttpWebResponse;
-      }
-      catch (Exception ex)
-      {
-        throw new DownloadException(uri.AbsoluteUri, ex);
-      }
+      return webRequest.GetResponse() as HttpWebResponse;
     }
 
     #endregion

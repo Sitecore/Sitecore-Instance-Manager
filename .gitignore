@@ -34,3 +34,4 @@ src/SIM.Core/bin/
 obj/
 *.pfx
 desktop.ini
+*.tmp_proj
