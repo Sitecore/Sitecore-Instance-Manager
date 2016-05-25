@@ -98,7 +98,7 @@ namespace SIM.Tool
         }
       }
       
-      if (CoreApp.IsFirstRun || CoreApp.HasBeenUpdated)
+      if (CoreApp.IsVeryFirstRun || CoreApp.HasBeenUpdated)
       {
         CacheManager.ClearAll();
         foreach (var dir in Directory.GetDirectories(ApplicationManager.TempFolder))
@@ -195,6 +195,8 @@ namespace SIM.Tool
       CoreApp.DeleteTempFolders();
 
       Analytics.Start();
+
+      CoreApp.WriteLastRunVersion();
 
       // Show main window
       try

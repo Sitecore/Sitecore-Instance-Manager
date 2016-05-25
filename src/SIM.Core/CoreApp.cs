@@ -2,7 +2,6 @@
 {
   using System;
   using System.Collections.Generic;
-  using System.Deployment.Application;
   using System.Diagnostics;
   using System.IO;
   using System.Linq;
@@ -20,31 +19,17 @@
     private const string FirstRunFileName = "first-run.txt";
     private const string LastRunFileName = "last-run.txt";
 
-    public static bool IsFirstRun
+    public static bool IsVeryFirstRun
     {
       get
       {
-        try
+        if (File.Exists(LastRunFileName))
         {
-          var deployment = ApplicationDeployment.CurrentDeployment;
-          if (deployment != null && deployment.IsFirstRun)
-          {
-            return true;
-          }
+          // when last-run exists it cannot be very first run
+          return false;
         }
-        catch
-        {
-          // an error here indicates that it is not click-once deployment
-        }
-
-        if (File.Exists(FirstRunFileName))
-        {
-          File.Delete(FirstRunFileName);
-
-          return !File.Exists(LastRunFileName);
-        }
-
-        return false;
+        
+        return File.Exists(FirstRunFileName);
       }
     }
 
@@ -52,7 +37,7 @@
     {
       get
       {
-        return File.Exists(LastRunFileName) && ApplicationManager.AppVersion.Equals(File.ReadAllText(LastRunFileName), StringComparison.OrdinalIgnoreCase);
+        return !ApplicationManager.AppVersion.Equals(PreviousVersion, StringComparison.OrdinalIgnoreCase);
       }
     }
 
@@ -65,13 +50,18 @@
           return string.Empty;
         }
 
-        return File.ReadAllText(LastRunFileName).Trim();
+        return File.ReadAllText(LastRunFileName).Trim(" \r\n".ToCharArray());
       }
+    }
+
+    public static void WriteLastRunVersion()
+    {
+      File.WriteAllText(LastRunFileName, ApplicationManager.AppVersion);
     }
 
     public static void Exit()
     {
-      File.WriteAllText(LastRunFileName, ApplicationManager.AppVersion);
+      Log.Info("Shutting down");
     }
 
     public static void LogMainInfo()
