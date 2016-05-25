@@ -24,19 +24,7 @@ namespace SIM.Core.Commands
       Ensure.IsTrue(instance.State != InstanceState.Disabled, "instance is disabled");
       Ensure.IsTrue(instance.State != InstanceState.Stopped, "instance is already stopped");
 
-      Exception exception = null;
-      try
-      {
-        instance.Stop(force);
-      }
-      catch (Exception ex)
-      {
-        exception = ex;
-      }
-
-      result.Success = exception == null;
-      result.Message = exception.With(x => x.Message) ?? "done";
-      result.Data = exception;
+      instance.Stop(force);
     }
   }
 }
