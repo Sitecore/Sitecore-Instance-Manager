@@ -17,6 +17,7 @@
   using Sitecore.Diagnostics.Base;
   using Sitecore.Diagnostics.Base.Annotations;
   using Sitecore.Diagnostics.Logging;
+  using SIM.Adapters.WebServer;
 
   #region
 
@@ -260,6 +261,27 @@
       Assert.IsNotNull(xml, "xml");
 
       client.Save(xml, "master", credentials);
+    }
+    private static void AddIisBinding(string instanceName, XmlElement action)
+    {
+      string host = action.GetAttribute("host");
+      if (host.IsNullOrEmpty())
+      {
+        return;
+      }
+
+      string protocol = action.HasAttribute("protocol") ? action.GetAttribute("protocol") : "http";
+      int port;
+
+      if (!action.HasAttribute("port") || !int.TryParse(action.GetAttribute("protocol"), out port))
+      {
+        port = 80;
+      }
+
+      string ip = action.HasAttribute("ip") ? action.GetAttribute("ip") : "*";
+      
+
+      WebServerManager.AddHostBinding(instanceName, new BindingInfo(protocol, host, port, ip));
     }
 
     private static string ChangeWebRootToActual(string path, string webRootName)
@@ -822,6 +844,20 @@
             break;
           }
 
+          case "addIISBinding":
+          {
+            AddIisBinding(instance.Name, action);
+           
+            break;
+          }
+
+          case "addHostName":
+          {
+            Hosts.Append(action.GetAttribute("hostName"));
+
+            break;
+          }
+
           case "config":
           {
             string configPath = action.GetAttribute("path");
@@ -859,14 +895,6 @@
             break;
           }
 
-          case "custom":
-          {
-            var typeName = action.GetAttribute("type").EmptyToNull().IsNotNull("The type attribute is missing in the <custom> install action");
-            var obj = (IPackageInstallActions)ReflectionUtil.CreateObject(typeName);
-            obj.Execute(instance, module);
-            break;
-          }
-
           case "sql":
           {
             var db = action.GetAttribute("database");
@@ -894,7 +922,7 @@
         }
       }
     }
-
+    
     private static void SetRestrictingPlaceholders(string names, string url)
     {
       foreach (var name in names.Split(','))
