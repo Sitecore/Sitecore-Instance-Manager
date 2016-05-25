@@ -65,7 +65,7 @@
         return;
       }
 
-      PipelineManager.Initialize();
+      PipelineManager.Initialize(XmlDocumentEx.LoadXml(PipelinesConfig.Contents).DocumentElement);
 
       var sqlServerAccountName = SqlServerManager.Instance.GetSqlServerAccountName(builder);
       var webServerIdentity = Settings.CoreInstallWebServerIdentity.Value;

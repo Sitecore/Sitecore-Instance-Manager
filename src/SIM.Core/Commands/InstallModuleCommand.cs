@@ -61,7 +61,7 @@ namespace SIM.Core.Commands
         return;
       }
 
-      PipelineManager.Initialize();
+      PipelineManager.Initialize(XmlDocumentEx.LoadXml(PipelinesConfig.Contents).DocumentElement);
       
       var installArgs = new InstallModulesArgs(instance, new[] { distributive }, builder);
       var controller = new AggregatePipelineController();

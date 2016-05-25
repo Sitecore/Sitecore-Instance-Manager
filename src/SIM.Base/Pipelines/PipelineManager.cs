@@ -16,9 +16,7 @@
   public static class PipelineManager
   {
     #region Fields
-
-    public static string PipelinesConfigFilePath = "Pipelines.config";
-
+    
     private static readonly Dictionary<string, PipelineDefinition> Definitions = new Dictionary<string, PipelineDefinition>();
 
     #endregion
@@ -38,9 +36,11 @@
       return pipelinesNode;
     }
 
-    public static XmlElement Initialize(string pipelinesConfigFilePath = null)
+    public static XmlElement Initialize(string pipelinesConfigFilePath)
     {
-      var document = XmlDocumentEx.LoadFile(pipelinesConfigFilePath.EmptyToNull() ?? PipelinesConfigFilePath);
+      Assert.ArgumentNotNull(pipelinesConfigFilePath, "pipelinesConfigFilePath");
+
+      var document = XmlDocumentEx.LoadFile(pipelinesConfigFilePath);
       XmlElement pipelinesNode = GetPipelines(document);
 
       return Initialize(pipelinesNode);

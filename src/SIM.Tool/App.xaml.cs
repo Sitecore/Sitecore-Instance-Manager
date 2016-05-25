@@ -354,7 +354,7 @@ namespace SIM.Tool
           var pipelinesNode = wizardPipelinesConfig.SelectSingleNode("/configuration/pipelines") as XmlElement;
           Assert.IsNotNull(pipelinesNode, "pipelinesNode2");
 
-          var pipelinesConfig = XmlDocumentEx.LoadFile(PipelineManager.PipelinesConfigFilePath);
+          var pipelinesConfig = XmlDocumentEx.LoadXml(PipelinesConfig.Contents);
           pipelinesConfig.Merge(XmlDocumentEx.LoadXml("<configuration>" + pipelinesNode.OuterXml + "</configuration>"));
 
           var resultPipelinesNode = pipelinesConfig.SelectSingleNode("configuration/pipelines") as XmlElement;

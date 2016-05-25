@@ -147,6 +147,7 @@
     <Compile Include="Install\0100 CheckPackageIntegrity.cs" />
     <Compile Include="Install\0400 CopyLicense.cs" />
     <Compile Include="Install\0200 Extract.cs" />
+    <Compile Include="PipelinesConfig.cs" />
     <Compile Include="Reinstall\1200 Install.UpdateWebConfig.cs" />
     <Compile Include="Restore\RestoreMongoDatabases.cs" />
     <Compile Include="SetupWebsiteHelper.cs" />
@@ -191,10 +192,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Pipelines.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <SubType>Designer</SubType>
-    </Content>
     <EmbeddedResource Include="mongo.tools.zip" />
     <None Include="packages.config" />
     <None Include="Properties\DataSources\System.Xml.Linq.XElement.datasource" />

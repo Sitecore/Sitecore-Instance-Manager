@@ -159,10 +159,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>TResources.resx</DependentUpon>
     </Compile>
-    <Content Include="..\SIM.Pipelines\Pipelines.config">
-      <Link>Pipelines.config</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="..\SIM.Tool.Windows\WizardPipelines.config">
       <Link>WizardPipelines.config</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

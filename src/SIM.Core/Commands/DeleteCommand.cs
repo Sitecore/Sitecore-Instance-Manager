@@ -32,7 +32,7 @@ namespace SIM.Core.Commands
         return;
       }
 
-      PipelineManager.Initialize();
+      PipelineManager.Initialize(XmlDocumentEx.LoadXml(PipelinesConfig.Contents).DocumentElement);
 
       var deleteArgs = new DeleteArgs(instance, connectionString);
       var controller = new AggregatePipelineController();
