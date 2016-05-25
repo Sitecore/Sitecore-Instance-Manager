@@ -298,6 +298,7 @@
       <DependentUpon>HostsDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="WindowsSettings.cs" />
+    <Compile Include="WizardPipelinesConfig.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -527,10 +528,6 @@
     <Content Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="WizardPipelines.config">
-      <SubType>Designer</SubType>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <ItemGroup>

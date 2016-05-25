@@ -19,24 +19,9 @@
 
   public static class WizardPipelineManager
   {
-    #region Constants
-
-    public const string WizardpipelinesConfigFilePath = "WizardPipelines.config";
-
-    #endregion
-
     #region Fields
 
     private static readonly Dictionary<string, WizardPipeline> Definitions = new Dictionary<string, WizardPipeline>();
-
-    #endregion
-
-    #region Constructors
-
-    static WizardPipelineManager()
-    {
-      Initialize();
-    }
 
     #endregion
 
@@ -172,23 +157,18 @@
         );
     }
 
-    [NotNull]
-    private static XmlElement GetWizardPipelinesElement()
+    public static void Initialize(XmlElement wizardPipelinesElement)
     {
-      var document = XmlDocumentEx.LoadFile(WizardpipelinesConfigFilePath);
-      XmlElement pipelinesNode = document.SelectSingleNode("configuration/wizardPipelines") as XmlElement;
-      Assert.IsNotNull(pipelinesNode, "Can't find wizardPipelines configuration node in the WizardPipelines.config file");
-      return pipelinesNode;
-    }
+      Assert.ArgumentNotNull(wizardPipelinesElement, "wizardPipelinesElement");
 
-    private static void Initialize()
-    {
       using (new ProfileSection("Initialize Wizard Pipeline Manager"))
       {
         try
         {
-          var wizardPipelinesElement = GetWizardPipelinesElement();
-          var wizardElements = wizardPipelinesElement.ChildNodes.OfType<XmlElement>();
+          var wizardPipelines = wizardPipelinesElement.SelectSingleNode("/configuration/wizardPipelines") as XmlElement;
+          Assert.IsNotNull(wizardPipelines, "wizardPipelines");
+
+          var wizardElements = wizardPipelines.ChildNodes.OfType<XmlElement>();
           foreach (XmlElement element in wizardElements)
           {
             InitializeWizardPipeline(element);

@@ -1,35 +1,39 @@
-﻿<configuration>
+﻿namespace SIM.Tool.Windows
+{
+  public static class WizardPipelinesConfig
+  {
+    public const string Contents = @"<configuration>
   <pipelines>
-    <setup title="Configing application">
-      <processor type="SIM.Tool.Windows.Pipelines.Setup.SetupProcessor, SIM.Tool.Windows"
-                 title="Configuring application" />
-      <processor type="SIM.Tool.Windows.Pipelines.Agreement.AcceptAgreement, SIM.Tool.Windows"
-                 title="Saving accepted agreement" />
+    <setup title=""Configing application"">
+      <processor type=""SIM.Tool.Windows.Pipelines.Setup.SetupProcessor, SIM.Tool.Windows""
+                 title=""Configuring application"" />
+      <processor type=""SIM.Tool.Windows.Pipelines.Agreement.AcceptAgreement, SIM.Tool.Windows""
+                 title=""Saving accepted agreement"" />
     </setup>
-    <agreement title="License agreement">
-      <processor type="SIM.Tool.Windows.Pipelines.Agreement.AcceptAgreement, SIM.Tool.Windows"
-                 title="Saving accepted agreement" />
+    <agreement title=""License agreement"">
+      <processor type=""SIM.Tool.Windows.Pipelines.Agreement.AcceptAgreement, SIM.Tool.Windows""
+                 title=""Saving accepted agreement"" />
     </agreement>
-    <download title="Downloading Sitecore 6.x and 7.x">
-      <processor type="SIM.Tool.Windows.Pipelines.Download.GetPackageFileNamesProcessor, SIM.Tool.Windows"
-                 title="Detecting file names of the packages">
-        <processor type="SIM.Tool.Windows.Pipelines.Download.DownloadProcessor, SIM.Tool.Windows"
-                   title="Downloading packages" />
+    <download title=""Downloading Sitecore 6.x and 7.x"">
+      <processor type=""SIM.Tool.Windows.Pipelines.Download.GetPackageFileNamesProcessor, SIM.Tool.Windows""
+                 title=""Detecting file names of the packages"">
+        <processor type=""SIM.Tool.Windows.Pipelines.Download.DownloadProcessor, SIM.Tool.Windows""
+                   title=""Downloading packages"" />
       </processor>
     </download>
-    <download8 title="Downloading Sitecore 8.x">
-      <processor type="SIM.Tool.Windows.Pipelines.Download8.Download8Processor, SIM.Tool.Windows"
-                 title="Downloading packages" />
+    <download8 title=""Downloading Sitecore 8.x"">
+      <processor type=""SIM.Tool.Windows.Pipelines.Download8.Download8Processor, SIM.Tool.Windows""
+                 title=""Downloading packages"" />
     </download8>
   </pipelines>
   <wizardPipelines>
-    <agreement title="SIM License Agreement" startButton="Accept" finishText="Thank you">
+    <agreement title=""SIM License Agreement"" startButton=""Accept"" finishText=""Thank you"">
       <steps>
-        <step name="Welcome message" type="SIM.Tool.Windows.UserControls.ConfirmStepUserControl, SIM.Tool.Windows"
-              param="PLEASE READ IT CAREFULLY! You can see this wizard because it is the first time Sitecore Instance Manager was executed in this user account after installation or update. You should accept license agreement to use it. It was taken from http://marketplace.sitecore.net and most likely you already accepted it before downloading, but just in case please do it again here." />
-        <step name="License agreement from marketplace.sitecore.net"
-              type="SIM.Tool.Windows.UserControls.ConfirmStepUserControl, SIM.Tool.Windows"
-              param="YOU SHOULD CAREFULLY READ THE FOLLOWING TERMS AND CONDITIONS BEFORE USING THIS SOFTWARE (THE “SITECORE SOFTWARE”). ANY USE OF THE SITECORE SOFTWARE IS SUBJECT TO YOUR FULL ACCEPTANCE OF THIS LICENSE AGREEMENT.
+        <step name=""Welcome message"" type=""SIM.Tool.Windows.UserControls.ConfirmStepUserControl, SIM.Tool.Windows""
+              param=""PLEASE READ IT CAREFULLY! You can see this wizard because it is the first time Sitecore Instance Manager was executed in this user account after installation or update. You should accept license agreement to use it. It was taken from http://marketplace.sitecore.net and most likely you already accepted it before downloading, but just in case please do it again here."" />
+        <step name=""License agreement from marketplace.sitecore.net""
+              type=""SIM.Tool.Windows.UserControls.ConfirmStepUserControl, SIM.Tool.Windows""
+              param=""YOU SHOULD CAREFULLY READ THE FOLLOWING TERMS AND CONDITIONS BEFORE USING THIS SOFTWARE (THE “SITECORE SOFTWARE”). ANY USE OF THE SITECORE SOFTWARE IS SUBJECT TO YOUR FULL ACCEPTANCE OF THIS LICENSE AGREEMENT.
 
 Sitecore License Agreement
 
@@ -75,23 +79,23 @@ LICENSEE’S USE OF THE SITECORE SOFTWARE IS SUBJECT TO LICENSEE’S FULL ACCEPT
 
 10. Entire Agreement : This Agreement, and any attachment that is expressly incorporated in this Agreement, constitutes the entire agreement between the parties regarding the subject matter hereof and supersedes all prior or contemporaneous agreements, understandings and communications, whether written or oral. This Agreement may be amended only by a written document signed by both parties. In the event of a conflict between any provision of this Agreement with any other attachment or document, this Agreement shall control. Any term or condition not specifically authorized by this Agreement included in any Licensee invoice, purchase order or other document rendered pursuant to this Agreement is of no force or effect unless the specific term or condition has been previously agreed to by the parties in writing in a separate agreement. No action by Licensor (including, without limitation, receipt of payment of any such invoice, or acceptance of any purchase order, in whole or in part) shall be construed as making any such term or condition binding on Licensor.
 
-By clicking 'Accept' you accept the License Agreement." />
+By clicking 'Accept' you accept the License Agreement."" />
       </steps>
     </agreement>
-    <setup title="Initial Configuration Wizard" startButton="Next"
-           finishText="Congratulations! The installation was successfully completed and you can start using it out of the box. If you don't have any Sitecore zip files in the local repository then you may download them from SDN via Download Sitecores from SDN button on the Ribbon or do it manually"
-           cancelButton="Exit">
-      <args type="SIM.Tool.Windows.Pipelines.Setup.SetupWizardArgs, SIM.Tool.Windows" />
+    <setup title=""Initial Configuration Wizard"" startButton=""Next""
+           finishText=""Congratulations! The installation was successfully completed and you can start using it out of the box. If you don't have any Sitecore zip files in the local repository then you may download them from SDN via Download Sitecores from SDN button on the Ribbon or do it manually""
+           cancelButton=""Exit"">
+      <args type=""SIM.Tool.Windows.Pipelines.Setup.SetupWizardArgs, SIM.Tool.Windows"" />
       <steps>
-        <step name="Welcome message" type="SIM.Tool.Windows.UserControls.ConfirmStepUserControl, SIM.Tool.Windows"
-              param="PLEASE READ IT CAREFULLY! You can see this wizard because it is the first time Sitecore Instance Manager (SIM) was executed in this user account. You should accept license agreement and then set your preferences before you can use it, this wizard will help you.
+        <step name=""Welcome message"" type=""SIM.Tool.Windows.UserControls.ConfirmStepUserControl, SIM.Tool.Windows""
+              param=""PLEASE READ IT CAREFULLY! You can see this wizard because it is the first time Sitecore Instance Manager (SIM) was executed in this user account. You should accept license agreement and then set your preferences before you can use it, this wizard will help you.
               
 Before you being please make sure that you have an IIS 7.x and SQL Server 2008+ installed on your PC and you have access to them. 
               
-PLEASE NOTE that all your application settings and log files are stored in your personal folder (%APPDATA%\Sitecore\Sitecore Instance Manager) so that other users of this PC will not see, use or change your setting details. " />
-        <step name="License agreement from marketplace.sitecore.net"
-              type="SIM.Tool.Windows.UserControls.ConfirmStepUserControl, SIM.Tool.Windows"
-              param="YOU SHOULD CAREFULLY READ THE FOLLOWING TERMS AND CONDITIONS BEFORE USING THIS SOFTWARE (THE “SITECORE SOFTWARE”). ANY USE OF THE SITECORE SOFTWARE IS SUBJECT TO YOUR FULL ACCEPTANCE OF THIS LICENSE AGREEMENT.
+PLEASE NOTE that all your application settings and log files are stored in your personal folder (%APPDATA%\Sitecore\Sitecore Instance Manager) so that other users of this PC will not see, use or change your setting details. "" />
+        <step name=""License agreement from marketplace.sitecore.net""
+              type=""SIM.Tool.Windows.UserControls.ConfirmStepUserControl, SIM.Tool.Windows""
+              param=""YOU SHOULD CAREFULLY READ THE FOLLOWING TERMS AND CONDITIONS BEFORE USING THIS SOFTWARE (THE “SITECORE SOFTWARE”). ANY USE OF THE SITECORE SOFTWARE IS SUBJECT TO YOUR FULL ACCEPTANCE OF THIS LICENSE AGREEMENT.
 
 Sitecore License Agreement
 
@@ -137,29 +141,29 @@ LICENSEE’S USE OF THE SITECORE SOFTWARE IS SUBJECT TO LICENSEE’S FULL ACCEPT
 
 10. Entire Agreement : This Agreement, and any attachment that is expressly incorporated in this Agreement, constitutes the entire agreement between the parties regarding the subject matter hereof and supersedes all prior or contemporaneous agreements, understandings and communications, whether written or oral. This Agreement may be amended only by a written document signed by both parties. In the event of a conflict between any provision of this Agreement with any other attachment or document, this Agreement shall control. Any term or condition not specifically authorized by this Agreement included in any Licensee invoice, purchase order or other document rendered pursuant to this Agreement is of no force or effect unless the specific term or condition has been previously agreed to by the parties in writing in a separate agreement. No action by Licensor (including, without limitation, receipt of payment of any such invoice, or acceptance of any purchase order, in whole or in part) shall be construed as making any such term or condition binding on Licensor.
 
-By clicking 'Next' you accept the License Agreement." />
-        <step name="Instances Root Folder" type="SIM.Tool.Windows.UserControls.Setup.InstancesRoot, SIM.Tool.Windows" />
-        <step name="Local Repository and Sitecore License"
-              type="SIM.Tool.Windows.UserControls.Setup.LocalRepository, SIM.Tool.Windows" />
+By clicking 'Next' you accept the License Agreement."" />
+        <step name=""Instances Root Folder"" type=""SIM.Tool.Windows.UserControls.Setup.InstancesRoot, SIM.Tool.Windows"" />
+        <step name=""Local Repository and Sitecore License""
+              type=""SIM.Tool.Windows.UserControls.Setup.LocalRepository, SIM.Tool.Windows"" />
 
-        <step name="SQL Server Connection String"
-              type="SIM.Tool.Windows.UserControls.Setup.ConnectionString, SIM.Tool.Windows" />
-        <step name="File System permissions" type="SIM.Tool.Windows.UserControls.Setup.Permissions, SIM.Tool.Windows" />
+        <step name=""SQL Server Connection String""
+              type=""SIM.Tool.Windows.UserControls.Setup.ConnectionString, SIM.Tool.Windows"" />
+        <step name=""File System permissions"" type=""SIM.Tool.Windows.UserControls.Setup.Permissions, SIM.Tool.Windows"" />
       </steps>
     </setup>
 
-    <download title="Download Sitecore 6.x and 7.x Wizard" startButton="Next" finishText="Done" cancelButton="Exit">
-      <args type="SIM.Tool.Windows.UserControls.Download.DownloadWizardArgs, SIM.Tool.Windows" />
+    <download title=""Download Sitecore 6.x and 7.x Wizard"" startButton=""Next"" finishText=""Done"" cancelButton=""Exit"">
+      <args type=""SIM.Tool.Windows.UserControls.Download.DownloadWizardArgs, SIM.Tool.Windows"" />
       <steps>
-        <step name="Welcome message" type="SIM.Tool.Windows.UserControls.ConfirmStepUserControl, SIM.Tool.Windows"
-              param="This wizard helps you to download packages ('ZIP archive of the Sitecore CMS site root') of the Sitecore CMS versions that Sitecore Instance Manager will be able to install for you. It will require your credentials from SDN because all downloads are protected from being downloaded by anonymous users. 
+        <step name=""Welcome message"" type=""SIM.Tool.Windows.UserControls.ConfirmStepUserControl, SIM.Tool.Windows""
+              param=""This wizard helps you to download packages ('ZIP archive of the Sitecore CMS site root') of the Sitecore CMS versions that Sitecore Instance Manager will be able to install for you. It will require your credentials from SDN because all downloads are protected from being downloaded by anonymous users. 
               
 Note that due to the large size of each installation package the whole download operation may require much time. With a slow internet connection it may require up to twenty minutes per one Sitecore CMS version.
 
-In addition, you may download these files from SDN to local repository folder manually using any download program" />
-        <step name="License agreement from sdn.sitecore.net"
-              type="SIM.Tool.Windows.UserControls.ConfirmStepUserControl, SIM.Tool.Windows"
-              param="YOU SHOULD CAREFULLY READ THE FOLLOWING TERMS AND CONDITIONS BEFORE USING THIS SOFTWARE (THE “SITECORE SOFTWARE”). ANY USE OF THE SITECORE SOFTWARE IS SUBJECT TO YOUR FULL ACCEPTANCE OF THIS LICENSE AGREEMENT.
+In addition, you may download these files from SDN to local repository folder manually using any download program"" />
+        <step name=""License agreement from sdn.sitecore.net""
+              type=""SIM.Tool.Windows.UserControls.ConfirmStepUserControl, SIM.Tool.Windows""
+              param=""YOU SHOULD CAREFULLY READ THE FOLLOWING TERMS AND CONDITIONS BEFORE USING THIS SOFTWARE (THE “SITECORE SOFTWARE”). ANY USE OF THE SITECORE SOFTWARE IS SUBJECT TO YOUR FULL ACCEPTANCE OF THIS LICENSE AGREEMENT.
 
 Sitecore License Agreement
 
@@ -209,26 +213,26 @@ Sitecore License Agreement.
 
 Please note that the installation packages might contain additional license agreements.
 
-By clicking 'Next' you accept the License Agreement." />
-        <step name="Provide your SDN credentials" type="SIM.Tool.Windows.UserControls.Download.Login, SIM.Tool.Windows"
-              param="The following credentials will be used for authenticating in SDN and performing downloading selected Sitecore versions on behalf of you. " />
-        <step name="Choose versions to download"
-              type="SIM.Tool.Windows.UserControls.Download.Downloads, SIM.Tool.Windows" />
+By clicking 'Next' you accept the License Agreement."" />
+        <step name=""Provide your SDN credentials"" type=""SIM.Tool.Windows.UserControls.Download.Login, SIM.Tool.Windows""
+              param=""The following credentials will be used for authenticating in SDN and performing downloading selected Sitecore versions on behalf of you. "" />
+        <step name=""Choose versions to download""
+              type=""SIM.Tool.Windows.UserControls.Download.Downloads, SIM.Tool.Windows"" />
       </steps>
     </download>
 
-    <download8 title="Download Sitecore 8.x Wizard" startButton="Next" finishText="Done" cancelButton="Exit">
-      <args type="SIM.Tool.Windows.UserControls.Download8.DownloadWizardArgs, SIM.Tool.Windows" />
+    <download8 title=""Download Sitecore 8.x Wizard"" startButton=""Next"" finishText=""Done"" cancelButton=""Exit"">
+      <args type=""SIM.Tool.Windows.UserControls.Download8.DownloadWizardArgs, SIM.Tool.Windows"" />
       <steps>
-        <step name="Welcome message" type="SIM.Tool.Windows.UserControls.ConfirmStepUserControl, SIM.Tool.Windows"
-              param="This wizard helps you to download packages ('ZIP archive of the Sitecore CMS site root') of the Sitecore CMS versions that Sitecore Instance Manager will be able to install for you. It will require your credentials from dev.sitecore.net because all downloads are protected from being downloaded by anonymous users. 
+        <step name=""Welcome message"" type=""SIM.Tool.Windows.UserControls.ConfirmStepUserControl, SIM.Tool.Windows""
+              param=""This wizard helps you to download packages ('ZIP archive of the Sitecore CMS site root') of the Sitecore CMS versions that Sitecore Instance Manager will be able to install for you. It will require your credentials from dev.sitecore.net because all downloads are protected from being downloaded by anonymous users. 
               
 Note that due to the large size of each installation package the whole download operation may require much time. With a slow internet connection it may require up to 30 minutes per one Sitecore CMS version.
 
-In addition, you may download these files from dev.sitecore.net to your local repository folder manually using your browser and/or any download program" />
-        <step name="License agreement from dev.sitecore.net"
-              type="SIM.Tool.Windows.UserControls.ConfirmStepUserControl, SIM.Tool.Windows"
-              param="Please note that if you are an existing or new licensee or Sitecore Solution Partner with a valid agreement to use the Sitecore Software (“Existing Agreement”), the below license agreement is not intended to in any way modify or replace your Existing Agreement. If your Existing Agreement conflicts with the below license agreement, the terms of your Existing Agreement will prevail.  
+In addition, you may download these files from dev.sitecore.net to your local repository folder manually using your browser and/or any download program"" />
+        <step name=""License agreement from dev.sitecore.net""
+              type=""SIM.Tool.Windows.UserControls.ConfirmStepUserControl, SIM.Tool.Windows""
+              param=""Please note that if you are an existing or new licensee or Sitecore Solution Partner with a valid agreement to use the Sitecore Software (“Existing Agreement”), the below license agreement is not intended to in any way modify or replace your Existing Agreement. If your Existing Agreement conflicts with the below license agreement, the terms of your Existing Agreement will prevail.  
  
 Sitecore License Agreement
 LICENSEE’S USE OF THE SITECORE SOFTWARE IS SUBJECT TO LICENSEE’S FULL ACCEPTANCE OF THE TERMS, CONDITIONS, DISCLAIMERS AND LICENSE RESTRICTIONS SET FORTH IN THIS AGREEMENT.
@@ -260,51 +264,51 @@ LICENSEE’S USE OF THE SITECORE SOFTWARE IS SUBJECT TO LICENSEE’S FULL ACCEPT
  
 Sitecore License Agreement. July 1, 2013 
 
-By clicking 'Next' you accept the License Agreement." />
-        <step name="Choose versions to download"
-              type="SIM.Tool.Windows.UserControls.Download8.Downloads, SIM.Tool.Windows" />
-        <step name="Provide your dev.sitecore.net credentials"
-              type="SIM.Tool.Windows.UserControls.Download8.Login, SIM.Tool.Windows"
-              param="The following credentials will be used for authenticating in dev.sitecore.net and performing downloading selected Sitecore versions on behalf of you. " />
+By clicking 'Next' you accept the License Agreement."" />
+        <step name=""Choose versions to download""
+              type=""SIM.Tool.Windows.UserControls.Download8.Downloads, SIM.Tool.Windows"" />
+        <step name=""Provide your dev.sitecore.net credentials""
+              type=""SIM.Tool.Windows.UserControls.Download8.Login, SIM.Tool.Windows""
+              param=""The following credentials will be used for authenticating in dev.sitecore.net and performing downloading selected Sitecore versions on behalf of you. "" />
       </steps>
     </download8>
-    <install title="Installing new instance" startButton="Install"
-             finishText="The installation was successfully completed">
-      <args type="SIM.Tool.Base.Pipelines.InstallWizardArgs, SIM.Tool.Base" />
+    <install title=""Installing new instance"" startButton=""Install""
+             finishText=""The installation was successfully completed"">
+      <args type=""SIM.Tool.Base.Pipelines.InstallWizardArgs, SIM.Tool.Base"" />
       <steps>
-        <step name="Instance details" type="SIM.Tool.Windows.UserControls.Install.InstanceDetails, SIM.Tool.Windows" />
-        <step name="Instance details" type="SIM.Tool.Windows.UserControls.Install.InstanceSettings, SIM.Tool.Windows" />
-        <step name="Modules list" type="SIM.Tool.Windows.UserControls.Install.Modules.ModulesDetails, SIM.Tool.Windows" />
-        <step name="Custom Packages"
-              type="SIM.Tool.Windows.UserControls.Install.Modules.FilePackages, SIM.Tool.Windows" />
-        <step name="Configuration Presets"
-              type="SIM.Tool.Windows.UserControls.Install.Modules.ConfigurationPackages, SIM.Tool.Windows" />
+        <step name=""Instance details"" type=""SIM.Tool.Windows.UserControls.Install.InstanceDetails, SIM.Tool.Windows"" />
+        <step name=""Instance details"" type=""SIM.Tool.Windows.UserControls.Install.InstanceSettings, SIM.Tool.Windows"" />
+        <step name=""Modules list"" type=""SIM.Tool.Windows.UserControls.Install.Modules.ModulesDetails, SIM.Tool.Windows"" />
+        <step name=""Custom Packages""
+              type=""SIM.Tool.Windows.UserControls.Install.Modules.FilePackages, SIM.Tool.Windows"" />
+        <step name=""Configuration Presets""
+              type=""SIM.Tool.Windows.UserControls.Install.Modules.ConfigurationPackages, SIM.Tool.Windows"" />
         <step
-          name="Please review the list of modules and re-arrange them using drag-n-drop in the order they should be installed:"
-          type="SIM.Tool.Windows.UserControls.Install.Modules.ReorderPackages, SIM.Tool.Windows" />
+          name=""Please review the list of modules and re-arrange them using drag-n-drop in the order they should be installed:""
+          type=""SIM.Tool.Windows.UserControls.Install.Modules.ReorderPackages, SIM.Tool.Windows"" />
       </steps>
       <finish>
-        <action text="Open in Browser" type="SIM.Tool.Windows.Pipelines.Install.InstallActions, SIM.Tool.Windows"
-                method="OpenBrowser" />
-        <action text="Open in Browser (Sitecore Client)"
-                type="SIM.Tool.Windows.Pipelines.Install.InstallActions, SIM.Tool.Windows" method="OpenSitecoreClient" />
-        <action text="Open in Browser (Sitecore Client; Log in as Admin)"
-                type="SIM.Tool.Windows.MainWindowComponents.LoginAdminButton, SIM.Tool.Windows" method="FinishAction" />
-        <action text="Open folder" type="SIM.Tool.Windows.Pipelines.Install.InstallActions, SIM.Tool.Windows"
-                method="OpenWebsiteFolder" />
-        <action text="Open Visual Studio" type="SIM.Tool.Windows.Pipelines.Install.InstallActions, SIM.Tool.Windows"
-                method="OpenVisualStudio" />
-        <action text="Make a back up" type="SIM.Tool.Windows.Pipelines.Install.InstallActions, SIM.Tool.Windows"
-                method="BackupInstance" />
-        <action text="Publish Site" type="SIM.Tool.Windows.MainWindowComponents.PublishButton, SIM.Tool.Windows" method="PublishSite" />
-        <hive type="SIM.Tool.Windows.Pipelines.Install.InstallModulesFinishActionHive, SIM.Tool.Windows" />
+        <action text=""Open in Browser"" type=""SIM.Tool.Windows.Pipelines.Install.InstallActions, SIM.Tool.Windows""
+                method=""OpenBrowser"" />
+        <action text=""Open in Browser (Sitecore Client)""
+                type=""SIM.Tool.Windows.Pipelines.Install.InstallActions, SIM.Tool.Windows"" method=""OpenSitecoreClient"" />
+        <action text=""Open in Browser (Sitecore Client; Log in as Admin)""
+                type=""SIM.Tool.Windows.MainWindowComponents.LoginAdminButton, SIM.Tool.Windows"" method=""FinishAction"" />
+        <action text=""Open folder"" type=""SIM.Tool.Windows.Pipelines.Install.InstallActions, SIM.Tool.Windows""
+                method=""OpenWebsiteFolder"" />
+        <action text=""Open Visual Studio"" type=""SIM.Tool.Windows.Pipelines.Install.InstallActions, SIM.Tool.Windows""
+                method=""OpenVisualStudio"" />
+        <action text=""Make a back up"" type=""SIM.Tool.Windows.Pipelines.Install.InstallActions, SIM.Tool.Windows""
+                method=""BackupInstance"" />
+        <action text=""Publish Site"" type=""SIM.Tool.Windows.MainWindowComponents.PublishButton, SIM.Tool.Windows"" method=""PublishSite"" />
+        <hive type=""SIM.Tool.Windows.Pipelines.Install.InstallModulesFinishActionHive, SIM.Tool.Windows"" />
       </finish>
     </install>
-    <delete title="Deleting the {InstanceName} instance" startButton="Delete"
-            finishText="The deleting was successfully completed">
+    <delete title=""Deleting the {InstanceName} instance"" startButton=""Delete""
+            finishText=""The deleting was successfully completed"">
       <steps>
-        <step name="Information" type="SIM.Tool.Windows.UserControls.ConfirmStepUserControl, SIM.Tool.Windows"
-              param="The selected Sitecore instance will be deleted. These items will be deleted automatically:               
+        <step name=""Information"" type=""SIM.Tool.Windows.UserControls.ConfirmStepUserControl, SIM.Tool.Windows""
+              param=""The selected Sitecore instance will be deleted. These items will be deleted automatically:               
     • the root folder
     • the databases located inside the instance's root folder
     • the IIS website and application pool
@@ -314,15 +318,15 @@ But the confirmation will be required if the databases are attached to:
     • the local SQL Server* and located out of the instance root folder        
     • any other SQL Server instance
 
-* - the SQL Server instance specified by connection string in the Settings dialog" />
+* - the SQL Server instance specified by connection string in the Settings dialog"" />
       </steps>
     </delete>
-    <multipleDeletion title="Multiple deletion" startButton="Delete"
-                      finishText="The deleting was successfully completed">
-      <args type="SIM.Tool.Windows.UserControls.MultipleDeletion.MultipleDeletionWizardArgs, SIM.Tool.Windows" />
+    <multipleDeletion title=""Multiple deletion"" startButton=""Delete""
+                      finishText=""The deleting was successfully completed"">
+      <args type=""SIM.Tool.Windows.UserControls.MultipleDeletion.MultipleDeletionWizardArgs, SIM.Tool.Windows"" />
       <steps>
-        <step name="Information" type="SIM.Tool.Windows.UserControls.ConfirmStepUserControl, SIM.Tool.Windows"
-              param="These items will be deleted automatically for each of selected instances:               
+        <step name=""Information"" type=""SIM.Tool.Windows.UserControls.ConfirmStepUserControl, SIM.Tool.Windows""
+              param=""These items will be deleted automatically for each of selected instances:               
     
     • the root folder
     • the databases located inside the instance's root folder
@@ -334,72 +338,72 @@ But the confirmation will be required if the databases are attached to:
     • the local SQL Server* and located out of the instance root folder        
     • any other SQL Server instance
 
-* - the SQL Server instance specified by connection string in the Settings dialog" />
-        <step name="Select the instances that you want to delete"
-              type="SIM.Tool.Windows.UserControls.MultipleDeletion.SelectInstances, SIM.Tool.Windows" />
-        <step name="Confirmation" type="SIM.Tool.Windows.UserControls.ConfirmStepUserControl, SIM.Tool.Windows"
-              param="Are you sure you want to delete the selected instances?" />
+* - the SQL Server instance specified by connection string in the Settings dialog"" />
+        <step name=""Select the instances that you want to delete""
+              type=""SIM.Tool.Windows.UserControls.MultipleDeletion.SelectInstances, SIM.Tool.Windows"" />
+        <step name=""Confirmation"" type=""SIM.Tool.Windows.UserControls.ConfirmStepUserControl, SIM.Tool.Windows""
+              param=""Are you sure you want to delete the selected instances?"" />
       </steps>
     </multipleDeletion>
-    <backup title="Backing up the {InstanceName} instance" startButton="Backup"
-            finishText="The backup was successfully created">
-      <args type="SIM.Tool.Windows.UserControls.Backup.BackupSettingsWizardArgs, SIM.Tool.Windows" />
+    <backup title=""Backing up the {InstanceName} instance"" startButton=""Backup""
+            finishText=""The backup was successfully created"">
+      <args type=""SIM.Tool.Windows.UserControls.Backup.BackupSettingsWizardArgs, SIM.Tool.Windows"" />
       <steps>
-        <step name="Information" type="SIM.Tool.Windows.UserControls.ConfirmStepUserControl, SIM.Tool.Windows"
-              param="A back up of the selected instance will be created. " />
-        <step name="Specify the backup name and and select the necessary resources"
-              type="SIM.Tool.Windows.UserControls.Backup.BackupSettings, SIM.Tool.Windows" />
+        <step name=""Information"" type=""SIM.Tool.Windows.UserControls.ConfirmStepUserControl, SIM.Tool.Windows""
+              param=""A back up of the selected instance will be created. "" />
+        <step name=""Specify the backup name and and select the necessary resources""
+              type=""SIM.Tool.Windows.UserControls.Backup.BackupSettings, SIM.Tool.Windows"" />
       </steps>
     </backup>
-    <restore title="Restoring up the {InstanceName} instance" startButton="Restore"
-             finishText="The instance was successfully restored from the backup">
-      <args type="SIM.Tool.Base.Pipelines.RestoreWizardArgs, SIM.Tool.Base" />
+    <restore title=""Restoring up the {InstanceName} instance"" startButton=""Restore""
+             finishText=""The instance was successfully restored from the backup"">
+      <args type=""SIM.Tool.Base.Pipelines.RestoreWizardArgs, SIM.Tool.Base"" />
       <steps>
-        <step name="Choose backup" type="SIM.Tool.Windows.UserControls.Backup.ChooseBackup, SIM.Tool.Windows" />
+        <step name=""Choose backup"" type=""SIM.Tool.Windows.UserControls.Backup.ChooseBackup, SIM.Tool.Windows"" />
       </steps>
     </restore>
-    <export title="Exporting the {InstanceName} instance" startButton="Export"
-            finishText="The export was successfully performed">
-      <args type="SIM.Tool.Windows.UserControls.Export.ExportWizardArgs, SIM.Tool.Windows" />
+    <export title=""Exporting the {InstanceName} instance"" startButton=""Export""
+            finishText=""The export was successfully performed"">
+      <args type=""SIM.Tool.Windows.UserControls.Export.ExportWizardArgs, SIM.Tool.Windows"" />
       <steps>
-        <step name="Information" type="SIM.Tool.Windows.UserControls.ConfirmStepUserControl, SIM.Tool.Windows"
-              param="An export of the selected instance will be performed:
+        <step name=""Information"" type=""SIM.Tool.Windows.UserControls.ConfirmStepUserControl, SIM.Tool.Windows""
+              param=""An export of the selected instance will be performed:
 							
 • exporting databases
 • exporting files (Data and WebRoot folders)
 • exporting instance settings
-• assembling zip package" />
-        <step name="Choose the databases for exporting"
-              type="SIM.Tool.Windows.UserControls.Export.ExportDatabases, SIM.Tool.Windows" />
-        <step name="Specify path and name for the export file"
-              type="SIM.Tool.Windows.UserControls.Export.ExportFile, SIM.Tool.Windows" />
+• assembling zip package"" />
+        <step name=""Choose the databases for exporting""
+              type=""SIM.Tool.Windows.UserControls.Export.ExportDatabases, SIM.Tool.Windows"" />
+        <step name=""Specify path and name for the export file""
+              type=""SIM.Tool.Windows.UserControls.Export.ExportFile, SIM.Tool.Windows"" />
       </steps>
       <finish>
-        <action text="Open folder" type="SIM.Tool.Windows.UserControls.Export.FinishActions, SIM.Tool.Windows"
-                method="OpenExportFolder" />
+        <action text=""Open folder"" type=""SIM.Tool.Windows.UserControls.Export.FinishActions, SIM.Tool.Windows""
+                method=""OpenExportFolder"" />
       </finish>
     </export>
-    <import title="Importing Sitecore instance" startButton="Import" finishText="The import was successfully performed">
-      <args type="SIM.Tool.Windows.UserControls.Import.ImportWizardArgs, SIM.Tool.Windows" />
+    <import title=""Importing Sitecore instance"" startButton=""Import"" finishText=""The import was successfully performed"">
+      <args type=""SIM.Tool.Windows.UserControls.Import.ImportWizardArgs, SIM.Tool.Windows"" />
       <steps>
-        <step name="Information" type="SIM.Tool.Windows.UserControls.ConfirmStepUserControl, SIM.Tool.Windows"
-              param="An import of the Sitecore instance will be performed:
+        <step name=""Information"" type=""SIM.Tool.Windows.UserControls.ConfirmStepUserControl, SIM.Tool.Windows""
+              param=""An import of the Sitecore instance will be performed:
 							
 • importing databases
 • importing files (Data and WebRoot folders)
 • moving your license to the Data
-• importing IIS website and Application Pool " />
-        <step name="Specify root path and website name"
-              type="SIM.Tool.Windows.UserControls.Import.ImportWebsite, SIM.Tool.Windows" />
-        <step name="Change site bindings if needed"
-              type="SIM.Tool.Windows.UserControls.Import.SetWebsiteBindings, SIM.Tool.Windows" />
+• importing IIS website and Application Pool "" />
+        <step name=""Specify root path and website name""
+              type=""SIM.Tool.Windows.UserControls.Import.ImportWebsite, SIM.Tool.Windows"" />
+        <step name=""Change site bindings if needed""
+              type=""SIM.Tool.Windows.UserControls.Import.SetWebsiteBindings, SIM.Tool.Windows"" />
       </steps>
     </import>
-    <reinstall title="Reinstalling the {InstanceName} instance" startButton="Reinstall"
-               finishText="The reinstalling was successfully completed">
+    <reinstall title=""Reinstalling the {InstanceName} instance"" startButton=""Reinstall""
+               finishText=""The reinstalling was successfully completed"">
       <steps>
-        <step name="Information" type="SIM.Tool.Windows.UserControls.ConfirmStepUserControl, SIM.Tool.Windows"
-              param="The selected Sitecore instance will be re-installed without any modules. 
+        <step name=""Information"" type=""SIM.Tool.Windows.UserControls.ConfirmStepUserControl, SIM.Tool.Windows""
+              param=""The selected Sitecore instance will be re-installed without any modules. 
         
 These items will be deleted automatically: 
     • the root folder
@@ -411,38 +415,41 @@ But the confirmation will be required if the databases are attached to:
     • the local SQL Server* and located out of the instance root folder        
     • any other SQL Server instance
 
-* - the SQL Server instance specified by connection string in the Settings dialog" />
+* - the SQL Server instance specified by connection string in the Settings dialog"" />
       </steps>
     </reinstall>
-    <installmodules title="Installing modules to the {InstanceName} instance" startButton="Install"
-                    finishText="The modules installation was successfully completed">
-      <args type="SIM.Tool.Base.Pipelines.InstallModulesWizardArgs, SIM.Tool.Base" />
+    <installmodules title=""Installing modules to the {InstanceName} instance"" startButton=""Install""
+                    finishText=""The modules installation was successfully completed"">
+      <args type=""SIM.Tool.Base.Pipelines.InstallModulesWizardArgs, SIM.Tool.Base"" />
       <steps>
-        <step name="Modules list" type="SIM.Tool.Windows.UserControls.Install.Modules.ModulesDetails, SIM.Tool.Windows" />
-        <step name="Custom Packages"
-              type="SIM.Tool.Windows.UserControls.Install.Modules.FilePackages, SIM.Tool.Windows" />
-        <step name="Configuration Presets"
-              type="SIM.Tool.Windows.UserControls.Install.Modules.ConfigurationPackages, SIM.Tool.Windows" />
+        <step name=""Modules list"" type=""SIM.Tool.Windows.UserControls.Install.Modules.ModulesDetails, SIM.Tool.Windows"" />
+        <step name=""Custom Packages""
+              type=""SIM.Tool.Windows.UserControls.Install.Modules.FilePackages, SIM.Tool.Windows"" />
+        <step name=""Configuration Presets""
+              type=""SIM.Tool.Windows.UserControls.Install.Modules.ConfigurationPackages, SIM.Tool.Windows"" />
         <step
-          name="Please review the list of modules and re-arrange them using drag-n-drop in the order they should be installed:"
-          type="SIM.Tool.Windows.UserControls.Install.Modules.ReorderPackages, SIM.Tool.Windows" />
+          name=""Please review the list of modules and re-arrange them using drag-n-drop in the order they should be installed:""
+          type=""SIM.Tool.Windows.UserControls.Install.Modules.ReorderPackages, SIM.Tool.Windows"" />
       </steps>
       <finish>
-        <action text="Open in Browser" type="SIM.Tool.Windows.Pipelines.Install.InstallActions, SIM.Tool.Windows"
-                method="OpenBrowser" />
-        <action text="Open in Browser (Sitecore Client)"
-                type="SIM.Tool.Windows.Pipelines.Install.InstallActions, SIM.Tool.Windows" method="OpenSitecoreClient" />
-        <action text="Open in Browser (Sitecore Client; Login as Admin)"
-                type="SIM.Tool.Windows.MainWindowComponents.LoginAdminButton, SIM.Tool.Windows" method="FinishAction" />
-        <action text="Open folder" type="SIM.Tool.Windows.Pipelines.Install.InstallActions, SIM.Tool.Windows"
-                method="OpenWebsiteFolder" />
-        <action text="Open Visual Studio" type="SIM.Tool.Windows.Pipelines.Install.InstallActions, SIM.Tool.Windows"
-                method="OpenVisualStudio" />
-        <action text="Make a back up" type="SIM.Tool.Windows.Pipelines.Install.InstallActions, SIM.Tool.Windows"
-                method="BackupInstance" />
-        <action text="Publish Site" type="SIM.Tool.Windows.MainWindowComponents.PublishButton, SIM.Tool.Windows" method="PublishSite" />
-        <hive type="SIM.Tool.Windows.Pipelines.Install.InstallModulesFinishActionHive, SIM.Tool.Windows" />
+        <action text=""Open in Browser"" type=""SIM.Tool.Windows.Pipelines.Install.InstallActions, SIM.Tool.Windows""
+                method=""OpenBrowser"" />
+        <action text=""Open in Browser (Sitecore Client)""
+                type=""SIM.Tool.Windows.Pipelines.Install.InstallActions, SIM.Tool.Windows"" method=""OpenSitecoreClient"" />
+        <action text=""Open in Browser (Sitecore Client; Login as Admin)""
+                type=""SIM.Tool.Windows.MainWindowComponents.LoginAdminButton, SIM.Tool.Windows"" method=""FinishAction"" />
+        <action text=""Open folder"" type=""SIM.Tool.Windows.Pipelines.Install.InstallActions, SIM.Tool.Windows""
+                method=""OpenWebsiteFolder"" />
+        <action text=""Open Visual Studio"" type=""SIM.Tool.Windows.Pipelines.Install.InstallActions, SIM.Tool.Windows""
+                method=""OpenVisualStudio"" />
+        <action text=""Make a back up"" type=""SIM.Tool.Windows.Pipelines.Install.InstallActions, SIM.Tool.Windows""
+                method=""BackupInstance"" />
+        <action text=""Publish Site"" type=""SIM.Tool.Windows.MainWindowComponents.PublishButton, SIM.Tool.Windows"" method=""PublishSite"" />
+        <hive type=""SIM.Tool.Windows.Pipelines.Install.InstallModulesFinishActionHive, SIM.Tool.Windows"" />
       </finish>
     </installmodules>
   </wizardPipelines>
 </configuration>
+";
+  }
+}
