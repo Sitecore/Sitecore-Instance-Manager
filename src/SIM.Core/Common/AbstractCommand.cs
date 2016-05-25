@@ -39,6 +39,8 @@
         {
           timer.Stop();
         }
+
+        result.Success = true;
       }
       catch (MessageException ex)
       {
