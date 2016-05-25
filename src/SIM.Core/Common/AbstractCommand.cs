@@ -31,20 +31,22 @@
       timer.Start();
       try
       {
-        this.DoExecute(result);
-        timer.Stop();
+        try
+        {
+          this.DoExecute(result);
+        }
+        finally
+        {
+          timer.Stop();
+        }
       }
       catch (MessageException ex)
       {
-        timer.Stop();
-
         result.Message = ex.Message;
         result.Success = false;
       }
       catch (Exception ex)
       {
-        timer.Stop();
-        
         Log.Error(ex, "{0} command has failed with unhandled exception", this.GetType().Name);
         result.Success = false;
         result.Error = new CustomException(ex);
