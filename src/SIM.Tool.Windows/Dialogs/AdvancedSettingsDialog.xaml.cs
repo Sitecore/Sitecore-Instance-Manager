@@ -32,7 +32,8 @@
         typeof(SIM.Pipelines.Install.Settings), 
         typeof(SIM.Adapters.SqlServer.SqlServerManager.Settings), 
         typeof(WebRequestHelper.Settings),
-        typeof(ProductHelper.Settings)
+        typeof(ProductHelper.Settings),
+        typeof(EnvironmentHelper)
       };
 
       foreach (Type type in types)

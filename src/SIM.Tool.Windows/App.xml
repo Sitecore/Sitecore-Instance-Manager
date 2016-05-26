@@ -205,8 +205,6 @@
       <separator />
       <item   header="Export"                                   image="/Images/$sm/download.png, SIM.Tool.Windows"                                            type="SIM.Tool.Windows.MainWindowComponents.ExportInstanceButton, SIM.Tool.Windows" />
       <separator />
-      <plugins />
-      <separator />
       <item   header="Install modules"                          image="/Images/$sm/install.png, SIM.Tool.Windows"                                             type="SIM.Tool.Windows.MainWindowComponents.InstallModulesButton, SIM.Tool.Windows" />
       <separator />
       <item   header="Reinstall instance"                       image="/Images/$sm/redo.png, SIM.Tool.Windows"                                                type="SIM.Tool.Windows.MainWindowComponents.ReinstallInstanceButton, SIM.Tool.Windows" />

@@ -22,7 +22,7 @@
 
     public static readonly string[] FilePackageFolders = new[]
     {
-      ApplicationManager.FilePackagesFolder, ApplicationManager.PluginsFolder, ApplicationManager.DefaultPackages, ApplicationManager.StockPlugins
+      ApplicationManager.FilePackagesFolder, ApplicationManager.DefaultPackages
     };
 
     [NotNull]

@@ -20,7 +20,7 @@
 
     public static readonly LookupFolder[] DefaultManifestsLocations =
     {
-      new LookupFolder("Manifests", true), new LookupFolder("Plugins", true), new LookupFolder(ApplicationManager.UserManifestsFolder, true), new LookupFolder(ApplicationManager.PluginsFolder, true)
+      new LookupFolder("Manifests", true), new LookupFolder(ApplicationManager.UserManifestsFolder, true)
     };
 
     public static LookupFolder[] CustomManifestsLocations = null;

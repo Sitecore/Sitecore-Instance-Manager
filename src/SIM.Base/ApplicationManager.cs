@@ -28,7 +28,6 @@ namespace SIM
     public const string AppDataRoot = @"%AppData%\Sitecore\Sitecore Instance Manager";
     public const string DefaultConfigurations = "Configurations";
     public const string DefaultPackages = "Packages";
-    public const string StockPlugins = "Plugins";
 
     #endregion
 
@@ -66,10 +65,7 @@ namespace SIM
 
     [NotNull]
     public static readonly string LogsFolder;
-
-    [NotNull]
-    public static readonly string PluginsFolder;
-
+    
     [NotNull]
     public static readonly string ProfilesFolder;
 
@@ -93,7 +89,6 @@ namespace SIM
       IsQA = processName.ContainsIgnoreCase(".QA.");
 
       DataFolder = InitializeFolder(Environment.ExpandEnvironmentVariables(AppDataRoot + (IsQA ? "-QA" : "")));
-      PluginsFolder = InitializeDataFolder("Plugins");
       CachesFolder = InitializeDataFolder("Caches");
       FilePackagesFolder = InitializeDataFolder("Custom Packages");
       ConfigurationPackagesFolder = InitializeDataFolder("Custom Configurations");
