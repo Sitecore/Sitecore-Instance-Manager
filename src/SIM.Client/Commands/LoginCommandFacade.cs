@@ -4,11 +4,17 @@ namespace SIM.Client.Commands
   using System.IO;
   using System.Threading;
   using CommandLine;
+  using Sitecore.Diagnostics.Base.Annotations;
   using SIM.Core;
   using SIM.Core.Commands;
 
   public class LoginCommandFacade : LoginCommand
   {
+    [UsedImplicitly]
+    public LoginCommandFacade()
+    {
+    }
+
     [Option('n', "name", Required = true)]
     public override string Name { get; set; }
 
