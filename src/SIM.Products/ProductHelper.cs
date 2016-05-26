@@ -179,10 +179,11 @@
     {
       #region Fields
 
-      public static readonly AdvancedProperty<string> CoreInstallInstanceNamePattern = AdvancedSettings.Create("Core/Product/InstanceNamePattern", "{ShortName}{ShortVersion}rev{Revision}");
-
-      public static readonly AdvancedProperty<bool> CoreManifestsUpdateEnabled = AdvancedSettings.Create("Core/Manifests/Update/Enabled", false);
-      public static readonly AdvancedProperty<string> CoreProductRootFolderNamePattern = AdvancedSettings.Create("App/Product/RootFolderNamePattern", "{ShortName}{ShortVersion}rev{Revision}");
+      public static readonly AdvancedProperty<string> CoreInstallInstanceNamePattern = AdvancedSettings.Create("Core/Product/InstanceNamePattern", "{ShortName}{ShortVersion}{UpdateOrRevision}");
+      
+      public static readonly AdvancedProperty<string> CoreProductRootFolderNamePattern = AdvancedSettings.Create("App/Product/RootFolderNamePattern", "{ShortName}{ShortVersion}{UpdateOrRevision}");
+      
+      public static readonly AdvancedProperty<bool> CoreProductHostNameEndsWithLocal = AdvancedSettings.Create("App/Product/HostName/EndsWithLocal", false);
 
       public static AdvancedProperty<string> CoreProductNamePattern = AdvancedSettings.Create("Core/Product/NamePattern", string.Empty);
 

@@ -374,6 +374,54 @@
       }
     }
 
+    [NotNull]
+    public string UpdateOrRevision
+    {
+      get
+      {
+        var label = this.Label;
+        var revision = "rev" + this.Revision;
+        if (string.IsNullOrEmpty(label))
+        {
+          return revision;
+        }
+
+        if (label.EqualsIgnoreCase("initial release"))
+        {
+          return "u0";
+        }
+
+        var pos = label.Length - 1;
+        if (!char.IsDigit(label[pos]))
+        {
+          Log.Warn("Strange label: " + label);
+
+          return revision;
+        }
+
+        while (pos >= 0 && char.IsDigit(label[pos]))
+        {
+          pos--;
+        }
+        pos++;
+
+        var num = int.Parse(label.Substring(pos));
+        if (label.StartsWith("update-", StringComparison.OrdinalIgnoreCase))
+        {
+          return "u" + num;
+        }
+
+        if (label.StartsWith("service pack-", StringComparison.OrdinalIgnoreCase))
+        {
+          return "sp" + num;
+        }
+
+        Log.Warn("Strange label: " + label);
+
+        return revision;
+      }
+    }
+
     #endregion
 
     #region Private methods
@@ -603,7 +651,8 @@
     {
       Assert.ArgumentNotNull(pattern, "pattern");
 
-      return pattern.Replace("{ShortName}", this.ShortName).Replace("{Name}", this.Name).Replace("{ShortVersion}", this.ShortVersion).Replace("{Version}", this.Version).Replace("{Revision}", this.Revision);
+      return pattern.Replace("{ShortName}", this.ShortName).Replace("{Name}", this.Name).Replace("{ShortVersion}", this.ShortVersion).Replace("{Version}", this.Version).Replace("{Revision}", this.Revision)
+        .Replace("{UpdateOrRevision}", this.UpdateOrRevision);
     }
 
     private bool RevisionMatch([NotNull] Product instanceProduct, [NotNull] string revision)

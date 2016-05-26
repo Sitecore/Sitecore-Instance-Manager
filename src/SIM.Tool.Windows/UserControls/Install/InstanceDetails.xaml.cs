@@ -232,9 +232,16 @@
       using (new ProfileSection("Instance name text changed", this))
       {
         var name = this.InstanceName.Text;
-        this.HostName.Text = name;
+
+        // use name without changes
         this.RootName.Text = name;
         this.sqlPrefix.Text = name;
+        
+        // convert example.cm1 into cm1.example
+        name = string.Join(".", name.Split(".".ToCharArray(), StringSplitOptions.RemoveEmptyEntries).Reverse());
+
+        // convert cm1.example.local
+        this.HostName.Text = name + (ProductHelper.Settings.CoreProductHostNameEndsWithLocal.Value ? ".local" : "");
       }
     }
 

@@ -10,6 +10,7 @@
   using Sitecore.Diagnostics.Base;
   using Sitecore.Diagnostics.Base.Annotations;
   using SIM.Core;
+  using SIM.Products;
 
   #region
 
@@ -30,7 +31,8 @@
         typeof(SIM.Tool.Windows.WindowsSettings), 
         typeof(SIM.Pipelines.Install.Settings), 
         typeof(SIM.Adapters.SqlServer.SqlServerManager.Settings), 
-        typeof(WebRequestHelper.Settings)
+        typeof(WebRequestHelper.Settings),
+        typeof(ProductHelper.Settings)
       };
 
       foreach (Type type in types)
