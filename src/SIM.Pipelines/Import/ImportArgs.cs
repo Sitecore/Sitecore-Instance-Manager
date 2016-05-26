@@ -58,7 +58,7 @@
       this.connectionString = connectionString;
     }
 
-    public ImportArgs([NotNull] string pathToExportedInstance, [NotNull] string siteName, [NotNull] string temporaryPathToUnpack, [NotNull] string rootPath, [NotNull] SqlConnectionStringBuilder connectionString, [NotNull] bool updateLicense, [NotNull] string pathToLicenseFile, [NotNull] Dictionary<string, int> bindings)
+    public ImportArgs([NotNull] string pathToExportedInstance, [NotNull] string siteName, [NotNull] string temporaryPathToUnpack, [NotNull] string rootPath, [NotNull] SqlConnectionStringBuilder connectionString, bool updateLicense, [CanBeNull] string pathToLicenseFile, [NotNull] Dictionary<string, int> bindings)
     {
       Assert.ArgumentNotNull(pathToExportedInstance, "pathToExportedInstance");
       this.PathToExportedInstance = pathToExportedInstance;

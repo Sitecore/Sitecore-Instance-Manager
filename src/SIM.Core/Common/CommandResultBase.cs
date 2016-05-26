@@ -12,7 +12,7 @@
     public TResult Data { get; set; }
   }
 
-  public abstract class CommandResult
+  public class CommandResult
   {
     /// <summary>
     /// Command success indicator.

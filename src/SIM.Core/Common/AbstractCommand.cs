@@ -58,7 +58,10 @@
       return result;
     }
 
-    protected abstract CommandResult CreateResult();
+    protected virtual CommandResult CreateResult()
+    {
+      return new CommandResult();
+    }
 
     protected abstract void DoExecute([NotNull] CommandResult result);
   }

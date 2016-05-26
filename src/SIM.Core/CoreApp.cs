@@ -180,7 +180,7 @@
         Directory.CreateDirectory(tempFolder);
       }
 
-      var newCookie = Guid.NewGuid().ToString().Replace("{", String.Empty).Replace("}", String.Empty).Replace("-", String.Empty);
+      var newCookie = Guid.NewGuid().ToShortGuid();
       try
       {
         FileSystem.Local.File.WriteAllText(path, newCookie);

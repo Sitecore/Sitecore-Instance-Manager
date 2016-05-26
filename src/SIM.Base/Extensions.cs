@@ -32,6 +32,11 @@
       return false;
     }
 
+    public static string ToShortGuid(this Guid guid)
+    {
+      return guid.ToString("N");
+    }
+
     public static bool ContainsIgnoreCase(this string source, string target)
     {
       return source == null || target == null ? source == target : source.ToLower().Contains(target.ToLower());
