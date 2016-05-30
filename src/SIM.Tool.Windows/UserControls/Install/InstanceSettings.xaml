@@ -1,13 +1,21 @@
 ﻿<UserControl x:Class="SIM.Tool.Windows.UserControls.Install.InstanceSettings" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             mc:Ignorable="d" d:DesignHeight="205" d:DesignWidth="443">
+             mc:Ignorable="d" d:DesignHeight="193" d:DesignWidth="443">
 	<StackPanel Orientation="Vertical">
-    <CheckBox Content="Speed up installation tuning #1:" x:Name="RadControls"/>
-    <TextBlock HorizontalAlignment="Left" TextAlignment="Left">-> Skip extraction of "Website/sitecore/shell/RadControls"<LineBreak/></TextBlock>
-    <CheckBox Content="Speed up installation tuning #2:" x:Name="Dictionaries"/>
-    <TextBlock HorizontalAlignment="Left" TextAlignment="Left">-> Skip extraction of "Website/sitecore/shell/Controls/Rich Text Editor/Dictionaries"<LineBreak /></TextBlock>
-    <CheckBox Content="Enable RequestErrors.ServerSideRedirect setting" x:Name="ServerSideRedirect" />
-    <TextBlock HorizontalAlignment="Left" TextAlignment="Left">-> If true, Sitecore will use Server.Transfer instead of Response.Redirect to redirect <LineBreak />request to service pages when an error occurs (item not found, access denied etc)."<LineBreak /></TextBlock>
-    <CheckBox Content="Increase httpRuntime execution timeout" x:Name="IncreaseExecutionTimeout" />
-    <TextBlock HorizontalAlignment="Left" TextAlignment="Left">-> If true, the /configuration/system.web/httpRuntime[@executionTimeout] will be <LineBreak />set to 24 hours (see advanced setting Core/Install/HttpRuntime/ExecutionTimeout)<LineBreak /></TextBlock>
+    <StackPanel Orientation="Vertical" Margin="0 0 0 12">
+      <CheckBox Content="Speed up installation tuning #1:" x:Name="RadControls"/>
+      <TextBlock HorizontalAlignment="Left" TextAlignment="Left">-> Skip extraction of "Website/sitecore/shell/RadControls"</TextBlock>
+    </StackPanel>
+    <StackPanel Orientation="Vertical" Margin="0 0 0 12">
+      <CheckBox Content="Speed up installation tuning #2:" x:Name="Dictionaries"/>
+      <TextBlock HorizontalAlignment="Left" TextAlignment="Left">-> Skip extraction of "Website/sitecore/shell/Controls/Rich Text Editor/Dictionaries"</TextBlock>
+    </StackPanel>
+    <StackPanel Orientation="Vertical" Margin="0 0 0 12">
+      <CheckBox Content="Enable RequestErrors.ServerSideRedirect setting" x:Name="ServerSideRedirect" />
+      <TextBlock HorizontalAlignment="Left" TextAlignment="Left">-> If true, Sitecore will use Server.Transfer instead of Response.Redirect to redirect <LineBreak />request to service pages when an error occurs (item not found, access denied etc)."</TextBlock>
+    </StackPanel>
+    <StackPanel Orientation="Vertical">
+      <CheckBox Content="Increase httpRuntime execution timeout" x:Name="IncreaseExecutionTimeout" />
+      <TextBlock HorizontalAlignment="Left" TextAlignment="Left">-> If true, the /configuration/system.web/httpRuntime[@executionTimeout] will be <LineBreak />set to 24 hours (see advanced setting Core/Install/HttpRuntime/ExecutionTimeout)</TextBlock>
+    </StackPanel>
   </StackPanel>
 </UserControl>
