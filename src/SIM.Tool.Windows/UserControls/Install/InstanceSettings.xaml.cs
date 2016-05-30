@@ -17,7 +17,7 @@
     {
       Assert.ArgumentNotNull(wizardArgs, "wizardArgs");
 
-      var args = (InstallModulesWizardArgs)wizardArgs;
+      var args = (InstallWizardArgs)wizardArgs;
       this.Dictionaries.IsChecked = args.SkipDictionaries ?? !Settings.CoreInstallDictionaries.Value;
       this.RadControls.IsChecked = args.SkipRadControls ?? !Settings.CoreInstallRadControls.Value;
       this.ServerSideRedirect.IsChecked = args.ServerSideRedirect ?? Settings.CoreInstallNotFoundTransfer.Value;
@@ -28,7 +28,7 @@
     {
       Assert.ArgumentNotNull(wizardArgs, "wizardArgs");
 
-      var args = (InstallModulesWizardArgs)wizardArgs;
+      var args = (InstallWizardArgs)wizardArgs;
       args.SkipDictionaries = this.Dictionaries.IsChecked ?? true;
       args.SkipRadControls = this.RadControls.IsChecked ?? true;
       args.ServerSideRedirect = this.ServerSideRedirect.IsChecked;
