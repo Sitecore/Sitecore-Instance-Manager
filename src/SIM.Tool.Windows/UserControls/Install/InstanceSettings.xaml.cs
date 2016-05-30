@@ -1,5 +1,6 @@
 ﻿namespace SIM.Tool.Windows.UserControls.Install
 {
+  using System;
   using SIM.Pipelines.Install;
   using SIM.Tool.Base.Pipelines;
   using SIM.Tool.Base.Wizards;
@@ -18,10 +19,10 @@
       Assert.ArgumentNotNull(wizardArgs, "wizardArgs");
 
       var args = (InstallWizardArgs)wizardArgs;
-      this.Dictionaries.IsChecked = args.SkipDictionaries ?? !Settings.CoreInstallDictionaries.Value;
-      this.RadControls.IsChecked = args.SkipRadControls ?? !Settings.CoreInstallRadControls.Value;
-      this.ServerSideRedirect.IsChecked = args.ServerSideRedirect ?? Settings.CoreInstallNotFoundTransfer.Value;
-      this.IncreaseExecutionTimeout.IsChecked = args.IncreaseExecutionTimeout ?? true;
+      this.Dictionaries.IsChecked = args.SkipDictionaries;
+      this.RadControls.IsChecked = args.SkipRadControls;
+      this.ServerSideRedirect.IsChecked = args.ServerSideRedirect;
+      this.IncreaseExecutionTimeout.IsChecked = args.IncreaseExecutionTimeout;
     }
 
     public bool SaveChanges([NotNull] WizardArgs wizardArgs)
@@ -29,12 +30,17 @@
       Assert.ArgumentNotNull(wizardArgs, "wizardArgs");
 
       var args = (InstallWizardArgs)wizardArgs;
-      args.SkipDictionaries = this.Dictionaries.IsChecked ?? true;
-      args.SkipRadControls = this.RadControls.IsChecked ?? true;
-      args.ServerSideRedirect = this.ServerSideRedirect.IsChecked;
-      args.IncreaseExecutionTimeout = this.IncreaseExecutionTimeout.IsChecked;
+      args.SkipDictionaries = this.Dictionaries.IsChecked ?? Throw("Dictionaries");
+      args.SkipRadControls = this.RadControls.IsChecked ?? Throw("RadControls");
+      args.ServerSideRedirect = this.ServerSideRedirect.IsChecked ?? Throw("ServerSideRedirect");
+      args.IncreaseExecutionTimeout = this.IncreaseExecutionTimeout.IsChecked ?? Throw("IncreaseExecutionTimeout");
 
       return true;
+    }
+
+    private bool Throw(string message)
+    {
+      throw new InvalidOperationException(message);
     }
   }
 }

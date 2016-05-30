@@ -25,7 +25,11 @@
 
     #region Constructors
 
-    public InstallModulesWizardArgs(Instance instance = null)
+    public InstallModulesWizardArgs()
+    { 
+    }
+
+    public InstallModulesWizardArgs(Instance instance)
     {
       this.Instance = instance;
       if (instance != null)

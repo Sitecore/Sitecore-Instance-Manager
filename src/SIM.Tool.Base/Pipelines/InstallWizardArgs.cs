@@ -18,6 +18,26 @@
   {
     #region Properties
 
+    public InstallWizardArgs()
+    {
+      Init(this);
+    }
+
+    public InstallWizardArgs(Instance instance) : base(instance)
+    {
+      Init(this);
+    }
+
+    private static void Init(InstallWizardArgs args)
+    {
+      Assert.ArgumentNotNull(args, "args");
+
+      args.SkipRadControls = !Settings.CoreInstallRadControls.Value;
+      args.SkipDictionaries = !Settings.CoreInstallDictionaries.Value;
+      args.ServerSideRedirect = Settings.CoreInstallNotFoundTransfer.Value;
+      args.IncreaseExecutionTimeout = true;
+    }
+
     public new Instance Instance
     {
       get
@@ -50,20 +70,13 @@
 
     public override ProcessorArgs ToProcessorArgs()
     {
-      var skipRadControls = this.SkipRadControls;
-      Assert.IsTrue(skipRadControls != null, "skipRadControls");
-
-      var skipDictionaries = this.SkipDictionaries;
-      Assert.IsTrue(skipDictionaries != null, "skipDictionaries");
-
-      var serverSideRedirect = this.ServerSideRedirect;
-      Assert.IsTrue(serverSideRedirect != null, "serverSideRedirect");
-
-      var increaseExecutionTimeout = this.IncreaseExecutionTimeout;
-      Assert.IsTrue(increaseExecutionTimeout != null, "increaseExecutionTimeout");
-
+      var skipRadControls = this.SkipRadControls;                  
+      var skipDictionaries = this.SkipDictionaries;                  
+      var serverSideRedirect = this.ServerSideRedirect;                 
+      var increaseExecutionTimeout = this.IncreaseExecutionTimeout;                    
       var installRadControls = !((bool)skipRadControls);
       var installDictionaries = !((bool)skipDictionaries);
+      
       return new InstallArgs(this.InstanceName, this.InstanceHost, this.InstanceProduct, this.InstanceRootPath, this.InstanceConnectionString, SqlServerManager.Instance.GetSqlServerAccountName(this.InstanceConnectionString), Settings.CoreInstallWebServerIdentity.Value, this.LicenseFileInfo, this.InstanceAppPoolInfo.FrameworkVersion == "v4.0", this.InstanceAppPoolInfo.Enable32BitAppOnWin64, !this.InstanceAppPoolInfo.ManagedPipelineMode, installRadControls, installDictionaries, (bool)serverSideRedirect, (bool)increaseExecutionTimeout, this.Modules);
     }
 
@@ -73,13 +86,13 @@
 
     public string InstanceRootName { get; set; }
 
-    public bool? SkipDictionaries { get; set; }
+    public bool SkipDictionaries { get; set; }
 
-    public bool? SkipRadControls { get; set; }
+    public bool SkipRadControls { get; set; }
 
-    public bool? ServerSideRedirect { get; set; }
+    public bool ServerSideRedirect { get; set; }
 
-    public bool? IncreaseExecutionTimeout { get; set; }
+    public bool IncreaseExecutionTimeout { get; set; }
 
     #endregion
   }
