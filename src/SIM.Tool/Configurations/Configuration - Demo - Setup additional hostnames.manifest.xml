@@ -1,0 +1,20 @@
+﻿<manifest version="1.4">
+  <archive>
+    <install>
+      <actions>
+        <addSiteBinding host="demo.{InstanceName}"/> 
+        <addSiteBinding host="habitat.{InstanceName}"/>            
+        <addSiteBinding host="legal.{InstanceName}"/> 
+        <addHostName hostName="demo.{InstanceName}"/>  
+        <addHostName hostName="legal.{InstanceName}"/> 
+        <addHostName hostName="habitat.{InstanceName}"/>                
+        <config path="App_Config\Include\Project\Common.Website.config">
+            <change xpath="/configuration/sitecore/sc.variable[@name='rootHostName']">
+              <attribute name="value" value="{InstanceName}" />
+            </change>           
+        </config>        
+      </actions>
+
+    </install>
+  </archive>
+</manifest>
