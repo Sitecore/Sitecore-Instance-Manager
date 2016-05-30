@@ -48,6 +48,10 @@
         </processor>
       </processor>
     </step>
+    <step>
+      <processor type=""SIM.Pipelines.Install.Modules.StartInstance, SIM.Pipelines""
+                  title=""Starting instance"" param=""nowait"" />
+    </step>
   </install>
   <multipleDeletion title=""Multiple deletion"">
     <step>
@@ -100,6 +104,9 @@
     <step>
       <processor type=""SIM.Pipelines.Reinstall.AttachDatabases, SIM.Pipelines"" title=""Attaching databases"" />
     </step>
+    <step>
+      <processor type=""SIM.Pipelines.Reinstall.StartInstance, SIM.Pipelines"" title=""Starting instance"" param=""nowait"" />
+    </step>
   </reinstall>
   <installmodules title=""Installing modules to the {InstanceName} instance"">
     <processor type=""SIM.Pipelines.InstallModules.InstallActions, SIM.Pipelines"" param=""archive""
@@ -119,7 +126,10 @@
                   <processor type=""SIM.Pipelines.InstallModules.InstallActions, SIM.Pipelines"" param=""package|after""
                               title=""Performing post-install actions"">
                     <processor type=""SIM.Pipelines.InstallModules.DeleteAgentPages, SIM.Pipelines""
-                                title=""Deleting agent files"" />
+                                title=""Deleting agent files"">
+                      <processor type=""SIM.Pipelines.InstallModules.StartInstance, SIM.Pipelines""
+                          title=""Starting instance"" param=""nowait"" />
+                    </processor>
                   </processor>
                 </processor>
               </processor>

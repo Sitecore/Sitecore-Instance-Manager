@@ -148,6 +148,7 @@
     <Compile Include="Install\0200 Extract.cs" />
     <Compile Include="PipelinesConfig.cs" />
     <Compile Include="Reinstall\1200 Install.UpdateWebConfig.cs" />
+    <Compile Include="Reinstall\1500 Install.StartInstance.cs" />
     <Compile Include="Restore\RestoreMongoDatabases.cs" />
     <Compile Include="SetupWebsiteHelper.cs" />
     <Compile Include="Install\InstallArgs.cs" />

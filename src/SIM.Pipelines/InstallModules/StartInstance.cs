@@ -1,5 +1,6 @@
 namespace SIM.Pipelines.InstallModules
 {
+  using System;
   using SIM.Instances;
   using Sitecore.Diagnostics.Base;
   using Sitecore.Diagnostics.Base.Annotations;
@@ -17,7 +18,21 @@ namespace SIM.Pipelines.InstallModules
     {
       Assert.ArgumentNotNull(args, "args");
 
-      InstanceHelper.StartInstance(args.Instance);
+      if (this.ProcessorDefinition.Param == "nowait")
+      {
+        try
+        {
+          InstanceHelper.StartInstance(args.Instance, 500);
+        }
+        catch
+        {
+          // ignore error
+        }
+      }
+      else
+      {
+        InstanceHelper.StartInstance(args.Instance);
+      }
     }
 
     #endregion

@@ -1,24 +1,22 @@
-namespace SIM.Pipelines.Install.Modules
+﻿namespace SIM.Pipelines.Reinstall
 {
-  using SIM.Instances;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using SIM.Instances;
 
   #region
 
   #endregion
 
-  [UsedImplicitly]
-  public class StartInstance : InstallProcessor
+  public class StartInstance : ReinstallProcessor
   {
-    #region Methods
+    #region Protected methods
 
-    protected override void Process([NotNull] InstallArgs args)
+    protected override void Process(ReinstallArgs args)
     {
-      Assert.ArgumentNotNull(args, "args");
+      InstanceManager.Initialize();
 
-      Instance instance = args.Instance;
-      Assert.IsNotNull(instance, "Instance");
+      var instance = InstanceManager.GetInstance(args.InstanceName);
+      Assert.IsNotNull(instance, "instance");
 
       if (this.ProcessorDefinition.Param == "nowait")
       {
