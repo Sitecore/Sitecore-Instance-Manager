@@ -54,6 +54,22 @@
         return null;
       }
     }
+    
+    [CanBeNull]
+    public static XmlDocumentEx LoadStream(Stream stream)
+    {
+      try
+      {
+        XmlDocument doc = new XmlDocumentEx();
+        doc.Load(stream);
+        return (XmlDocumentEx)doc;
+      }
+      catch (Exception ex)
+      {
+        Log.Warn(ex, "Cannot load xml. {1}\r\n{2}", ex.Message, Environment.StackTrace);
+        return null;
+      }
+    }
 
     public override sealed void Load([NotNull] string filename)
     {
@@ -281,5 +297,6 @@
 
       return sw.ToString();
     }
+    
   }
 }

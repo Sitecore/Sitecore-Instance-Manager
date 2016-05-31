@@ -4,6 +4,7 @@
   using System.Collections.Generic;
   using System.IO;
   using System.Linq;
+  using Ionic.Zip;
   using Sitecore.Diagnostics.Base;
   using Sitecore.Diagnostics.Base.Annotations;
   using Sitecore.Diagnostics.Logging;
@@ -194,6 +195,32 @@
                   catch (Exception ex)
                   {
                     Log.Warn(ex, "Failed looking for \"{0}\" manifests in \"{1}\"", fileNamePattern, folderPath);
+                  }
+                }
+              }
+            }
+          }
+          if (mainDocument == null)
+          {
+            using (new ProfileSection("Looking for manifests in package"))
+            {
+              using (var zip = ZipFile.Read(packageFile))
+              {
+                foreach (var filenamePattern in fileNamePatterns)
+                {
+                  var entry = zip[filenamePattern + ManifestExtension];
+                  if (entry != null)
+                  {
+                    Log.Debug("Loading file 'as main document'");
+
+                    using (var stream = new MemoryStream())
+                    {
+                      entry.Extract(stream);
+                      stream.Seek(0,SeekOrigin.Begin);
+                      mainDocument = XmlDocumentEx.LoadStream(stream);
+                    }
+
+                    ProfileSection.Result("Loaded");
                   }
                 }
               }
