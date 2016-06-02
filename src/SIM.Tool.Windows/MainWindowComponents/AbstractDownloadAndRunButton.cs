@@ -7,6 +7,7 @@ using SIM.Tool.Base;
 
 namespace SIM.Tool.Windows.MainWindowComponents
 {
+  using Sitecore.Diagnostics.Base;
   using Sitecore.Diagnostics.Base.Annotations;
   using SIM.Core;
 
@@ -46,9 +47,18 @@ namespace SIM.Tool.Windows.MainWindowComponents
       RunApp(path, param);
     }
 
-    protected virtual void RunApp(string path, string param)
+    protected virtual void RunApp([NotNull] string path, [CanBeNull] string param)
     {
-      CoreApp.RunApp(path, param);      
+      Assert.ArgumentNotNullOrEmpty(path, "path");
+
+      if (param != null)
+      {
+        CoreApp.RunApp(path, param);
+      }
+      else
+      {
+        CoreApp.RunApp(path);
+      }      
     }
 
     #region Private methods
