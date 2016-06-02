@@ -57,11 +57,11 @@
         return "{0} {1} rev. {2}".FormatWith(name, version, revision);
       }
 
-      string assemblyPath = Path.Combine(webRootPath, "bin\\Sitecore.Nicam.dll");
+      var assemblyPath = Path.Combine(webRootPath, "bin\\Sitecore.Nicam.dll");
       if (FileSystem.FileSystem.Local.File.Exists(assemblyPath))
       {
         FileVersionInfo versionInfo = FileVersionInfo.GetVersionInfo(assemblyPath);
-        string value = "Nicam {0}.{1}.{2} rev. {3}".FormatWith(new object[]
+        var value = "Nicam {0}.{1}.{2} rev. {3}".FormatWith(new object[]
         {
           0, 0, 0, versionInfo.FileVersion.Replace(".", string.Empty)
         });
@@ -74,7 +74,7 @@
         "Sitecore.Intranet.dll", "MSS.Kernel.dll"
       })
       {
-        string path = Path.Combine(webRootPath, "bin\\" + fileName);
+        var path = Path.Combine(webRootPath, "bin\\" + fileName);
         if (FileSystem.FileSystem.Local.File.Exists(path))
         {
           return GetProductFullName(path);
@@ -99,8 +99,8 @@
 
       Assert.IsTrue(product.Name.EqualsIgnoreCase("sitecore cms"), "Analytics can be located only for the sitecore product");
 
-      string rev = product.Revision;
-      string odms = product.Version.StartsWith("6.5") ? "dms" : "oms";
+      var rev = product.Revision;
+      var odms = product.Version.StartsWith("6.5") ? "dms" : "oms";
       IEnumerable<Product> products = ProductManager.GetProducts(odms, null, rev);
       if (products != null)
       {

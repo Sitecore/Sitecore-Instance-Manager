@@ -95,7 +95,7 @@
           {
             foreach (Binding binding in site.Bindings)
             {
-              string host = binding.Host;
+              var host = binding.Host;
               if (string.IsNullOrEmpty(host))
               {
                 host = "*";
@@ -374,7 +374,7 @@
       var site = this.GetSite(context);
       var application = site.Applications.FirstOrDefault(ap => ap.Path.EqualsIgnoreCase("/"));
       Assert.IsNotNull(application, "Cannot find root application for {0} site".FormatWith(site.Name));
-      string poolname = application.ApplicationPoolName;
+      var poolname = application.ApplicationPoolName;
       ApplicationPool pool = context.ApplicationPools[poolname];
       Assert.IsNotNull(pool, "The " + poolname + "application pool doesn't exists");
 

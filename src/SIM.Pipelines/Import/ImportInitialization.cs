@@ -27,7 +27,7 @@
 
     private void CreateDirectoriesTree(ImportArgs args)
     {
-      string rootPath = FileSystem.FileSystem.Local.Directory.GetParent(args.virtualDirectoryPhysicalPath).FullName;
+      var rootPath = FileSystem.FileSystem.Local.Directory.GetParent(args.virtualDirectoryPhysicalPath).FullName;
       FileSystem.FileSystem.Local.Directory.CreateDirectory(rootPath);
       FileSystem.FileSystem.Local.Directory.CreateDirectory(rootPath.PathCombine("Data"));
       FileSystem.FileSystem.Local.Directory.CreateDirectory(rootPath.PathCombine("Databases"));
@@ -38,8 +38,8 @@
     {
       using (WebServerManager.WebServerContext context = WebServerManager.CreateContext("ImportSolution.Initialization"))
       {
-        string appPoolFilePath = FileSystem.FileSystem.Local.Zip.ZipUnpackFile(args.PathToExportedInstance, args.temporaryPathToUnpack, ImportArgs.appPoolSettingsFileName);
-        string websiteSettingsFilePath = FileSystem.FileSystem.Local.Zip.ZipUnpackFile(args.PathToExportedInstance, args.temporaryPathToUnpack, ImportArgs.websiteSettingsFileName);
+        var appPoolFilePath = FileSystem.FileSystem.Local.Zip.ZipUnpackFile(args.PathToExportedInstance, args.temporaryPathToUnpack, ImportArgs.appPoolSettingsFileName);
+        var websiteSettingsFilePath = FileSystem.FileSystem.Local.Zip.ZipUnpackFile(args.PathToExportedInstance, args.temporaryPathToUnpack, ImportArgs.websiteSettingsFileName);
         XmlDocumentEx appPool = new XmlDocumentEx();
         appPool.Load(appPoolFilePath);
 

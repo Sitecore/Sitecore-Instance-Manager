@@ -293,7 +293,7 @@ namespace SIM
     {
       Assert.ArgumentNotNull(folder, "folder");
 
-      string path = Path.Combine(Environment.CurrentDirectory, folder);
+      var path = Path.Combine(Environment.CurrentDirectory, folder);
       if (!FileSystem.FileSystem.Local.Directory.Exists(folder))
       {
         FileSystem.FileSystem.Local.Directory.CreateDirectory(folder);

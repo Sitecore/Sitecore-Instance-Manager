@@ -14,7 +14,7 @@ namespace SIM.Pipelines
 
     public static void Process(IEnumerable<Database> innerDatabases, string rootPath, SqlConnectionStringBuilder connectionString, string instanceName, IPipelineController controller, List<string> done)
     {
-      string localDataSource = SqlServerManager.Instance.NormalizeServerName(connectionString.DataSource);
+      var localDataSource = SqlServerManager.Instance.NormalizeServerName(connectionString.DataSource);
 
       foreach (Database database in innerDatabases)
       {
@@ -25,7 +25,7 @@ namespace SIM.Pipelines
         }
 
         // if the database is attached to remote SQL Server
-        string dataSource = SqlServerManager.Instance.NormalizeServerName(database.ConnectionString.DataSource);
+        var dataSource = SqlServerManager.Instance.NormalizeServerName(database.ConnectionString.DataSource);
         if (!dataSource.EqualsIgnoreCase(localDataSource))
         {
           // user doesn't confirm deleting
@@ -35,7 +35,7 @@ namespace SIM.Pipelines
           }
         }
 
-        string fileName = database.FileName;
+        var fileName = database.FileName;
         if (!string.IsNullOrEmpty(fileName))
         {
           // database is located out of the rootPath folder

@@ -77,10 +77,10 @@
       XmlAttribute configSourceAttribute = webConfigConnectionStrings.Attributes[WebConfig.ConfigSourceAttributeName];
       if (configSourceAttribute != null)
       {
-        string configSourceValue = configSourceAttribute.Value;
+        var configSourceValue = configSourceAttribute.Value;
         if (!string.IsNullOrEmpty(configSourceValue) && !string.IsNullOrEmpty(webRootPath))
         {
-          string filePath = Path.Combine(webRootPath, configSourceValue);
+          var filePath = Path.Combine(webRootPath, configSourceValue);
           if (FileSystem.FileSystem.Local.File.Exists(filePath))
           {
             XmlDocumentEx connectionStringsConfig = XmlDocumentEx.LoadFile(filePath);

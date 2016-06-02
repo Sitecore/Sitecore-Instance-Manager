@@ -281,8 +281,8 @@
         Filter = pattern
       };
 
-      string filePath = textBox != null ? textBox.Text : string.Empty;
-      string fileName = Path.GetFileName(filePath);
+      var filePath = textBox != null ? textBox.Text : string.Empty;
+      var fileName = Path.GetFileName(filePath);
       if (!string.IsNullOrEmpty(fileName) && SIM.FileSystem.FileSystem.Local.File.Exists(filePath))
       {
         fileBrowserDialog.FileName = fileName;
@@ -317,7 +317,7 @@
         Description = message
       };
 
-      string path = textBox.Text.EmptyToNull() ?? initialPath;
+      var path = textBox.Text.EmptyToNull() ?? initialPath;
       if (!string.IsNullOrEmpty(path))
       {
         if (!string.IsNullOrEmpty(path) && SIM.FileSystem.FileSystem.Local.Directory.Exists(path))
@@ -328,7 +328,7 @@
 
       if (folderBrowserDialog.ShowDialog() == DialogResult.OK)
       {
-        string value = folderBrowserDialog.SelectedPath;
+        var value = folderBrowserDialog.SelectedPath;
         SetTextboxTextValue(textBox, value, otherControl);
       }
     }

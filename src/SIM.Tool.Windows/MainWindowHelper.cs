@@ -119,7 +119,7 @@
       using (new ProfileSection("Initialize Installer (Unsafe)"))
       {
         string message = null;
-        string localRepository = ProfileManager.Profile.LocalRepository;
+        var localRepository = ProfileManager.Profile.LocalRepository;
 
         try
         {
@@ -155,7 +155,7 @@
         {
           foreach (var tab in window.MainRibbon.Tabs)
           {
-            int hiddenGroups = 0;
+            var hiddenGroups = 0;
             foreach (var group in tab.Groups)
             {
               if (group.Items.Count == 0)
@@ -266,7 +266,7 @@
         var tabIndex = mainWindow.MainRibbon.SelectedTabIndex;
         var instance = SelectedInstance;
         var name = instance != null ? instance.Name : null;
-        string instancesFolder = !CoreAppSettings.CoreInstancesDetectEverywhere.Value ? ProfileManager.Profile.InstancesFolder : null;
+        var instancesFolder = !CoreAppSettings.CoreInstancesDetectEverywhere.Value ? ProfileManager.Profile.InstancesFolder : null;
         InstanceManager.Initialize(instancesFolder);
         Search();
         if (string.IsNullOrEmpty(name))
@@ -302,7 +302,7 @@
         {
           if (WindowHelper.ShowMessage("The {0} product isn't presented in your local repository. Would you like to choose the zip installation package?".FormatWith(instance.ProductFullName), MessageBoxButton.YesNo, MessageBoxImage.Stop) == MessageBoxResult.Yes)
           {
-            string patt = instance.ProductFullName + ".zip";
+            var patt = instance.ProductFullName + ".zip";
             OpenFileDialog fileBrowserDialog = new OpenFileDialog
             {
               Title = @"Choose installation package", 
@@ -777,7 +777,7 @@
       WindowHelper.LongRunningTask(() => MainWindow.Instance.Dispatcher.Invoke(
         new Action(delegate
         {
-          string header = menuItem.Header.ToString();
+          var header = menuItem.Header.ToString();
           selectedInstance.SetAppPoolMode(header.Contains("4.0"), header.Contains("32bit"));
           OnInstanceSelected();
         })), "Changing application pool", MainWindow.Instance, null, "The IIS metabase is being updated");
@@ -906,7 +906,7 @@
     {
       using (new ProfileSection("Main window search handler"))
       {
-        string searchPhrase = Invoke(w => w.SearchTextBox.Text.Trim());
+        var searchPhrase = Invoke(w => w.SearchTextBox.Text.Trim());
         IEnumerable<Instance> source = InstanceManager.PartiallyCachedInstances;
         if (source == null)
         {
@@ -1012,7 +1012,7 @@
 
     private static void RefreshInstallerTask()
     {
-      string message = InitializeInstallerUnsafe(MainWindow.Instance);
+      var message = InitializeInstallerUnsafe(MainWindow.Instance);
       MainWindowHelper.Invoke((mainWindow) => MainWindowHelper.UpdateInstallButtons(message, mainWindow));
       if (message != null)
       {

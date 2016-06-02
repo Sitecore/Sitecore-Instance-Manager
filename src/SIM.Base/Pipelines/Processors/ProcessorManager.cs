@@ -116,10 +116,10 @@
     {
       Assert.ArgumentNotNull(processorElement, "processorElement");
 
-      string typeNameValue = processorElement.GetAttribute("type");
-      string paramValue = processorElement.GetAttribute("param");
-      string titleValue = processorElement.GetAttribute("title");
-      string process = processorElement.GetAttribute("process");
+      var typeNameValue = processorElement.GetAttribute("type");
+      var paramValue = processorElement.GetAttribute("param");
+      var titleValue = processorElement.GetAttribute("title");
+      var process = processorElement.GetAttribute("process");
 
       try
       {

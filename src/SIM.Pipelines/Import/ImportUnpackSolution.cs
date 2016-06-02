@@ -12,7 +12,7 @@
       // Assert.IsTrue(FileSystem.Instance.ZipContainsSingleFile(args.PathToExportedInstance, ImportArgs.appPoolSettingsFileName), "Not valid package for import.");
       // Assert.IsTrue(FileSystem.Instance.ZipContainsSingleFile(args.PathToExportedInstance, ImportArgs.websiteSettingsFileName), "Not valid package for import.");
       // args.temporaryPathToUnpack = Path.GetTempPath();
-      string webRootName = args.virtualDirectoryPhysicalPath.Split('\\')[args.virtualDirectoryPhysicalPath.Split('\\').Length - 1];
+      var webRootName = args.virtualDirectoryPhysicalPath.Split('\\')[args.virtualDirectoryPhysicalPath.Split('\\').Length - 1];
       FileSystem.FileSystem.Local.Zip.ZipUnpackFolder(args.PathToExportedInstance, args.rootPath, "Data");
       FileSystem.FileSystem.Local.Zip.ZipUnpackFolder(args.PathToExportedInstance, args.rootPath, webRootName);
     }

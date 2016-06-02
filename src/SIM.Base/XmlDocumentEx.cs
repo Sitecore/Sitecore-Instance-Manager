@@ -196,7 +196,7 @@
 
       var segments = xpath.Split('/').Where(w => !string.IsNullOrEmpty(w)).ToArray();
 
-      string path = this.Prefix.TrimEnd("/");
+      var path = this.Prefix.TrimEnd("/");
       element = this.DocumentElement;
       for (int i = 1; i < segments.Length; ++i)
       {

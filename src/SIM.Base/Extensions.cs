@@ -55,11 +55,11 @@
 
     public static IEnumerable<string> Extract(this string message, char startChar, char endChar, bool includeBounds)
     {
-      int end = -1;
-      int length = message.Length;
+      var end = -1;
+      var length = message.Length;
       while (true)
       {
-        int start = message.IndexOf(startChar, end + 1);
+        var start = message.IndexOf(startChar, end + 1);
         if (start < 0)
         {
           yield break;
@@ -69,7 +69,7 @@
         end = message.IndexOf(endChar, start + 1);
         Assert.IsTrue(end > start, "Cannot replace variables in the \"{0}\" string - no closing {1} character after {2} position", message, end, start);
         start += includeBounds ? 0 : 1;
-        int len = end - start + (includeBounds ? 1 : 0);
+        var len = end - start + (includeBounds ? 1 : 0);
         Assert.IsTrue(len > 0, "Cannot replace variables in the \"{0}\" string - the string contains invalid '{{}}' statement", message);
         yield return message.Substring(start, len);
       }
@@ -89,7 +89,7 @@
     [CanBeNull]
     public static string GetXPath(this XmlElement element)
     {
-      string result = string.Empty;
+      var result = string.Empty;
       XmlElement iterator = element;
       while (iterator != null)
       {

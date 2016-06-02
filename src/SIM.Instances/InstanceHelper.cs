@@ -52,7 +52,7 @@
     {
       Assert.ArgumentNotNull(instance, "instance");
 
-      string url = instance.GetUrl(@"/sitecore/service/keepalive.aspx?ts=" + DateTime.Now.Ticks + "&reason=" + (reason ?? "default"));
+      var url = instance.GetUrl(@"/sitecore/service/keepalive.aspx?ts=" + DateTime.Now.Ticks + "&reason=" + (reason ?? "default"));
       Assert.IsNotNullOrEmpty(url, "url");
       try
       {
@@ -60,7 +60,7 @@
       }
       catch (WebException ex)
       {
-        string text = "There is an issue with requesting '" + url + "'. ";
+        var text = "There is an issue with requesting '" + url + "'. ";
         var webResponse = ex.Response;
         if (webResponse != null)
         {
@@ -84,7 +84,7 @@
           text += "No error response provided.";
         }
 
-        string text2 = string.Empty;
+        var text2 = string.Empty;
         try
         {
           text2 = text.Substring(text.IndexOf("<title>") + "<title>".Length);

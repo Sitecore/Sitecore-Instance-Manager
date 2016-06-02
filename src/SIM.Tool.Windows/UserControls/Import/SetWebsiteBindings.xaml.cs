@@ -50,7 +50,7 @@
 
       if (usedBindings.Count > 0)
       {
-        string usedBindingsMessage = string.Empty;
+        var usedBindingsMessage = string.Empty;
         foreach (string binding in usedBindings)
         {
           usedBindingsMessage += binding + "\n";

@@ -66,10 +66,10 @@ namespace SIM.Tool.Windows.Dialogs
     private void btnOk_Click(object sender, RoutedEventArgs e)
     {
       var connectionString = ProfileManager.GetConnectionString();
-      string databaseName = this.dbName.Text;
-      string dbFileName = this.fileName.Text;
-      string pathFrom = this.dbPathFrom.Text;
-      string pathTo = this.dbPathTo.Text;
+      var databaseName = this.dbName.Text;
+      var dbFileName = this.fileName.Text;
+      var pathFrom = this.dbPathFrom.Text;
+      var pathTo = this.dbPathTo.Text;
 
 
       if (!this.dbName.Text.IsNullOrEmpty() && !this.dbPathFrom.Text.IsNullOrEmpty() && !this.dbPathTo.Text.IsNullOrEmpty())

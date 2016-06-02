@@ -56,7 +56,7 @@
 
       foreach (StepDefinition stepDefinition in steps)
       {
-        string argsName = stepDefinition.ArgsName.EmptyToNull();
+        var argsName = stepDefinition.ArgsName.EmptyToNull();
         Step step = new Step(ProcessorManager.CreateProcessors(stepDefinition.ProcessorDefinitions, args, controller), argsName);
         Assert.IsNotNull(step, "Can't instantiate step");
         yield return step;

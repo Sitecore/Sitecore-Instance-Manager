@@ -41,7 +41,7 @@
 
     private void OKClick([CanBeNull] object sender, [CanBeNull] RoutedEventArgs e)
     {
-      string s = this.AllowMultiSelect ? this.ListBox1.SelectedItems.Cast<string>().Aggregate(string.Empty, (current, selectedItem) => current + (selectedItem + ',')) : (string)this.ListBox1.SelectedItem;
+      var s = this.AllowMultiSelect ? this.ListBox1.SelectedItems.Cast<string>().Aggregate(string.Empty, (current, selectedItem) => current + (selectedItem + ',')) : (string)this.ListBox1.SelectedItem;
       this.DataContext = s.Trim(',');
       this.DialogResult = true;
     }

@@ -31,7 +31,7 @@
           return;
         }
 
-        string license = ProfileManager.Profile.License;
+        var license = ProfileManager.Profile.License;
         Assert.IsNotNull(license, @"The license file isn't set in the Settings window");
         FileSystem.FileSystem.Local.File.AssertExists(license, "The {0} file is missing".FormatWith(license));
 

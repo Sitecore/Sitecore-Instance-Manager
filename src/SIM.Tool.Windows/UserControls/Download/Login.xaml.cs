@@ -125,9 +125,9 @@
 
     bool IWizardStep.SaveChanges(WizardArgs wizardArgs)
     {
-      string username = this.UserName.Text.Trim();
+      var username = this.UserName.Text.Trim();
 
-      string password = this.Passowrd.Password;
+      var password = this.Passowrd.Password;
 
       var args = (DownloadWizardArgs)wizardArgs;
       args.UserName = username;

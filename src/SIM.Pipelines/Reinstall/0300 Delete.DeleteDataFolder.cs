@@ -16,7 +16,7 @@
     {
       Assert.ArgumentNotNull(args, "args");
 
-      string path = args.DataFolderPath;
+      var path = args.DataFolderPath;
       FileSystem.FileSystem.Local.Directory.DeleteIfExists(path);
     }
 

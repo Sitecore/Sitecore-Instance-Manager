@@ -159,7 +159,7 @@
     {
       Assert.ArgumentNotNull(instanceName, "instanceName");
 
-      string value = new SqlConnectionStringBuilder(this.Value).InitialCatalog;
+      var value = new SqlConnectionStringBuilder(this.Value).InitialCatalog;
       string[] arr = value.Split('_');
       return arr.Length == 2 ? arr[0].TrimStart(instanceName) : string.Empty;
     }

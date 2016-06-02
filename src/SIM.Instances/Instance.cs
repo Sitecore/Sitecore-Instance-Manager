@@ -406,7 +406,7 @@
     [NotNull]
     public virtual string GetBackupFolder(string name)
     {
-      string backups = this.GetBackupsFolder();
+      var backups = this.GetBackupsFolder();
       return Path.Combine(backups, name);
     }
 
@@ -464,7 +464,7 @@
       {
         var logs = this.LogsFolderPath;
         var files = FileSystem.FileSystem.Local.Directory.GetFiles(logs, "log*.txt").OrderBy(FileSystem.FileSystem.Local.File.GetCreationTimeUtc);
-        string lastOrDefault = files.LastOrDefault();
+        var lastOrDefault = files.LastOrDefault();
 
         return ProfileSection.Result(lastOrDefault);
       }
@@ -517,7 +517,7 @@
     [NotNull]
     protected virtual string GetBackupsFolder()
     {
-      string rootPath = this.GetRootPath();
+      var rootPath = this.GetRootPath();
       if (this.WebRootPath.EqualsIgnoreCase(rootPath))
       {
         DirectoryInfo parent = new DirectoryInfo(rootPath).Parent;
@@ -535,7 +535,7 @@
       {
         try
         {
-          string dataFolder = this.RuntimeSettingsAccessor.GetScVariableValue("dataFolder");
+          var dataFolder = this.RuntimeSettingsAccessor.GetScVariableValue("dataFolder");
           Assert.IsNotNull(dataFolder, "The <sc.variable name=\"dataFolder\" value=\"...\" /> element is not presented in the web.config file");
           Assert.IsNotNullOrEmpty(dataFolder, "The <sc.variable name=\"dataFolder\" value=\"...\" /> element value is empty string");
 
@@ -576,7 +576,7 @@
       {
         try
         {
-          string dataFolder = this.RuntimeSettingsAccessor.GetSitecoreSettingValue("LogFolder");
+          var dataFolder = this.RuntimeSettingsAccessor.GetSitecoreSettingValue("LogFolder");
           var result = this.MapPath(dataFolder);
 
           return ProfileSection.Result(result);
@@ -598,7 +598,7 @@
 
     protected virtual string GetRootFolderViaDatabases(ICollection<Database> databases)
     {
-      string webRootPath = this.WebRootPath;
+      var webRootPath = this.WebRootPath;
       using (new ProfileSection("Get root folder (using databases)", this))
       {
         ProfileSection.Argument("databases", databases);
@@ -606,7 +606,7 @@
         foreach (var database in databases)
         {
           Log.Debug("Database: {0}",  database);
-          string fileName = database.FileName;
+          var fileName = database.FileName;
           if (string.IsNullOrEmpty(fileName))
           {
             Log.Warn("The {0} database seems to be detached since it doesn't have a FileName property filled in", database.RealName);
@@ -646,7 +646,7 @@
         try
         {
           var webRootPath = this.WebRootPath;
-          string dataFolderPath = this.GetDataFolderPath();
+          var dataFolderPath = this.GetDataFolderPath();
           Assert.IsNotNullOrEmpty(dataFolderPath, "dataFolderPath");
 
           // data folder is inside website folder
@@ -667,7 +667,7 @@
           }
 
           // trying to detect via data folder
-          string detectedRoot = FileSystem.FileSystem.Local.Directory.FindCommonParent(webRootPath, dataFolderPath);
+          var detectedRoot = FileSystem.FileSystem.Local.Directory.FindCommonParent(webRootPath, dataFolderPath);
 
           // if impossible
           if (string.IsNullOrEmpty(detectedRoot))
@@ -678,7 +678,7 @@
           InvalidConfigurationException.Assert(!webRootPath.ContainsIgnoreCase(dataFolderPath), 
             "The data folder accidentally was set to be parent ({0}) of the website root folder ({1})".FormatWith(
               dataFolderPath, webRootPath));
-          int distance = FileSystem.FileSystem.Local.Directory.GetDistance(webRootPath, detectedRoot);
+          var distance = FileSystem.FileSystem.Local.Directory.GetDistance(webRootPath, detectedRoot);
           InvalidConfigurationException.Assert(distance <= 1, 
             "Cannot detect the Root Folder - the detection result ({1}) is too far from the Website ({0}) folder"
               .FormatWith(this.WebRootPath, detectedRoot));
@@ -707,7 +707,7 @@
       {
         try
         {
-          string tempFolder = this.RuntimeSettingsAccessor.GetScVariableValue("tempFolder");
+          var tempFolder = this.RuntimeSettingsAccessor.GetScVariableValue("tempFolder");
           Assert.IsNotNull(tempFolder, "The <sc.variable name=\"tempFolder\" value=\"...\" /> element is not presented in the web.config file");
           Assert.IsNotNullOrEmpty(tempFolder, "The <sc.variable name=\"tempFolder\" value=\"...\" /> element value is empty string");
 

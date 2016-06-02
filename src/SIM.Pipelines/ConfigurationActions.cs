@@ -85,7 +85,7 @@
 
         // Get the rules xpath
         string[] paramArgs = param.Split('|');
-        string xpath =
+        var xpath =
           paramArgs.Length == 2
             ? Product.ManifestPrefix + paramArgs[0] + "/install/" + paramArgs[1] // is package
             : Product.ManifestPrefix + param + "/install"; // is archive
@@ -121,7 +121,7 @@
         ProfileSection.Argument("instance", instance);
         ProfileSection.Argument("connectionString", connectionString);
 
-        string sqlServerInstanceName = connectionString.DataSource;
+        var sqlServerInstanceName = connectionString.DataSource;
         Database mainDatabase = null;
         string[] firstOrderDatabaseNames = new[]
         {
@@ -170,28 +170,28 @@
       Assert.ArgumentNotNull(connectionString, "connectionString");
       foreach (XmlElement database in databases)
       {
-        string name = database.GetAttribute("name");
-        string role = database.GetAttribute("role").EmptyToNull() ?? name;
-        string fileName = database.GetAttribute("fileName");
-        string sourceFileName = database.GetAttribute("sourceFileName");
-        string databasesFolder = GetDatabasesFolder(instance, connectionString, controller);
+        var name = database.GetAttribute("name");
+        var role = database.GetAttribute("role").EmptyToNull() ?? name;
+        var fileName = database.GetAttribute("fileName");
+        var sourceFileName = database.GetAttribute("sourceFileName");
+        var databasesFolder = GetDatabasesFolder(instance, connectionString, controller);
         var locationInPackage = database.GetAttribute("location");
         Assert.IsNotNull(databasesFolder, "databasesFolder");
         FileSystem.FileSystem.Local.Directory.AssertExists(databasesFolder);
 
         bool skipAttach = false;
-        string realDBname = SqlServerManager.Instance.GenerateDatabaseRealName(instance.Name, role);
-        string physicalPath = Path.Combine(databasesFolder, fileName);
+        var realDBname = SqlServerManager.Instance.GenerateDatabaseRealName(instance.Name, role);
+        var physicalPath = Path.Combine(databasesFolder, fileName);
 
         var newDatabaseConnectionString = new SqlConnectionStringBuilder(connectionString.ToString());
         newDatabaseConnectionString.InitialCatalog = realDBname;
         if (SqlServerManager.Instance.DatabaseExists(realDBname, newDatabaseConnectionString))
         {
-          string databasePath = SqlServerManager.Instance.GetDatabaseFileName(realDBname, newDatabaseConnectionString);
+          var databasePath = SqlServerManager.Instance.GetDatabaseFileName(realDBname, newDatabaseConnectionString);
           const string theDatabaseExists = "The database with the same name ('{0}') already exists in the current instance of SQL Server ('{1}')";
           if (string.IsNullOrEmpty(databasePath))
           {
-            string message = string.Format(theDatabaseExists + ", but doesn't point to any file(s) and looks like corrupted.", realDBname, newDatabaseConnectionString.DataSource);
+            var message = string.Format(theDatabaseExists + ", but doesn't point to any file(s) and looks like corrupted.", realDBname, newDatabaseConnectionString.DataSource);
             if (!controller.Confirm(message + "  Would you like to delete it? If not then this installation will be interrupted."))
             {
               throw new InvalidOperationException(message);
@@ -250,14 +250,14 @@
       XmlElement fieldValueElement = field.ChildNodes.OfType<XmlElement>().FirstOrDefault();
       Assert.IsNotNull(fieldValueElement, "fieldValueElement");
 
-      string value = fieldValueElement.InnerXml;
+      var value = fieldValueElement.InnerXml;
       Assert.IsNotNull(value, "value");
 
       const string formsRenderingID = "|{6D3B4E7D-FEF8-4110-804A-B56605688830}";
       value += formsRenderingID;
       fieldValueElement.InnerXml = value.TrimStart('|');
 
-      string xml = xmlDocument.OuterXml;
+      var xml = xmlDocument.OuterXml;
       Assert.IsNotNull(xml, "xml");
 
       client.Save(xml, "master", credentials);
@@ -304,7 +304,7 @@
 
     private static void EditFile(string virtualPath, IEnumerable<XmlElement> children, Instance instance, Dictionary<string, string> variables)
     {
-      string instanceRootPath = instance.RootPath;
+      var instanceRootPath = instance.RootPath;
 
       var filePath = ChangeWebRootToActual(virtualPath, new DirectoryInfo(instance.WebRootPath).Name);
       var path = Path.Combine(instanceRootPath, filePath.TrimStart('/'));
@@ -352,7 +352,7 @@
           case "move":
           {
             var target = child.GetAttribute("target");
-            string destFileName = Path.Combine(instanceRootPath, target.TrimStart('/'));
+            var destFileName = Path.Combine(instanceRootPath, target.TrimStart('/'));
             FileSystem.FileSystem.Local.Directory.DeleteIfExists(destFileName);
             FileSystem.FileSystem.Local.File.Move(path, destFileName);
             break;
@@ -361,7 +361,7 @@
           case "copy":
           {
             var target = child.GetAttribute("target");
-            string destFileName = Path.Combine(instanceRootPath, target.TrimStart('/'));
+            var destFileName = Path.Combine(instanceRootPath, target.TrimStart('/'));
             FileSystem.FileSystem.Local.Directory.DeleteIfExists(destFileName);
             FileSystem.FileSystem.Local.File.Copy(path, destFileName);
             break;
@@ -470,20 +470,20 @@
         var children = @params.ChildNodes.OfType<XmlElement>();
         foreach (XmlElement param in children)
         {
-          string variableName = param.GetAttribute("name");
+          var variableName = param.GetAttribute("name");
           if (variables.ContainsKey(variableName))
           {
             continue;
           }
 
-          string variableTitle = param.GetAttribute("title");
-          string defaultVariableValue = param.GetAttribute("defaultValue");
-          string mode = param.GetAttribute("mode");
+          var variableTitle = param.GetAttribute("title");
+          var defaultVariableValue = param.GetAttribute("defaultValue");
+          var mode = param.GetAttribute("mode");
           var options = param.GetAttribute("options");
           var typeName = param.GetAttribute("getOptionsType");
           var methodName = param.GetAttribute("getOptionsMethod");
           var multiselect = mode.EqualsIgnoreCase("multiselect");
-          string variableValue = controller != null
+          var variableValue = controller != null
             ? (multiselect || mode.Equals("select")
               ? controller.Select(variableTitle, !string.IsNullOrEmpty(options)
                 ? options.Split('|')
@@ -591,13 +591,13 @@
 
       foreach (XmlElement instruction in instructions)
       {
-        string name = instruction.Name.ToLower();
+        var name = instruction.Name.ToLower();
 
         switch (name)
         {
           case "append":
           {
-            string xpath = instruction.GetAttribute("xpath");
+            var xpath = instruction.GetAttribute("xpath");
             Assert.IsNotNull(xpath.EmptyToNull(), "xpath");
             XmlNode parentNode = config.SelectSingleNode(xpath);
             if (parentNode == null)
@@ -612,14 +612,14 @@
 
           case "include":
           {
-            string filePath = instruction.GetAttribute("path");
+            var filePath = instruction.GetAttribute("path");
             FileSystem.FileSystem.Local.Zip.UnpackZip(module.PackagePath, Path.Combine(instance.WebRootPath, "app_config\\include"), filePath);
             break;
           }
 
           case "change":
           {
-            string xpath = instruction.GetAttribute("xpath");
+            var xpath = instruction.GetAttribute("xpath");
             if (string.IsNullOrEmpty(xpath))
             {
               Log.Warn("The xpath attribute is missing in the {0} instruction (outer xml: {1})", instruction.Name, instruction.OuterXml);
@@ -639,8 +639,8 @@
               {
                 case "attribute":
                 {
-                  string attributeName = element.GetAttribute("name");
-                  string attributeValue = element.GetAttribute("value");
+                  var attributeName = element.GetAttribute("name");
+                  var attributeValue = element.GetAttribute("value");
                   targetElement.SetAttribute(attributeName, attributeValue);
                   break;
                 }
@@ -652,7 +652,7 @@
 
           case "delete":
           {
-            string xpath = instruction.GetAttribute("xpath");
+            var xpath = instruction.GetAttribute("xpath");
             if (string.IsNullOrEmpty(xpath))
             {
               Log.Warn("The xpath attribute is missing in the {0} instruction (outer xml: {1})", instruction.Name, instruction.OuterXml);
@@ -684,7 +684,7 @@
                     
           case "disable":
           {
-            string fromFileName = instruction.GetAttribute("path");
+            var fromFileName = instruction.GetAttribute("path");
             if (!string.IsNullOrEmpty(fromFileName))
             {
               var includeFolderPath = Path.Combine(instance.WebRootPath, "app_config\\include");
@@ -705,7 +705,7 @@
 
           case "enable":
           {
-            string fromFileName = instruction.GetAttribute("path");
+            var fromFileName = instruction.GetAttribute("path");
             if (!string.IsNullOrEmpty(fromFileName))
             {
               var includeFolderPath = Path.Combine(instance.WebRootPath, "app_config\\include");
@@ -832,7 +832,7 @@
       foreach (XmlElement action in actions)
       {
         var children = action.ChildNodes.OfType<XmlElement>();
-        string actionName = action.Name;
+        var actionName = action.Name;
         if (ignoreCommands.Contains(actionName))
         {
           continue;
@@ -863,7 +863,7 @@
 
           case "config":
           {
-            string configPath = action.GetAttribute("path");
+            var configPath = action.GetAttribute("path");
             try
             {
               XmlDocumentEx config = !string.IsNullOrEmpty(configPath)

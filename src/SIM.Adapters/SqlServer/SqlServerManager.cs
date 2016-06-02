@@ -62,7 +62,7 @@
 
       using (SqlConnection sqlConnection = this.OpenConnection(connectionString))
       {
-        string command = string.Format("create database [{0}] on (filename = N'{1}'){2} for attach", name, path, attachLog && FileSystem.FileSystem.Local.File.Exists(ldf) ? ", (filename = N'" + ldf + "')" : string.Empty);
+        var command = string.Format("create database [{0}] on (filename = N'{1}'){2} for attach", name, path, attachLog && FileSystem.FileSystem.Local.File.Exists(ldf) ? ", (filename = N'" + ldf + "')" : string.Empty);
         this.Execute(sqlConnection, command);
       }
     }
@@ -73,7 +73,7 @@
 
       using (SqlConnection sqlConnection = this.OpenConnection(connectionString))
       {
-        string command = string.Format(@"
+        var command = string.Format(@"
             BACKUP DATABASE [{0}]
             TO DISK = '{1}'          
             ", new object[]
@@ -101,7 +101,7 @@
     public virtual void CloseConnectionsToDatabase(string dbName, SqlConnection sqlConnection)
     {
       Log.Info("Closing connection to the '{0}' database", dbName);
-      string command = string.Format("ALTER DATABASE [{0}] SET SINGLE_USER WITH ROLLBACK IMMEDIATE", dbName);
+      var command = string.Format("ALTER DATABASE [{0}] SET SINGLE_USER WITH ROLLBACK IMMEDIATE", dbName);
       this.Execute(sqlConnection, command);
     }
 
@@ -110,7 +110,7 @@
       Assert.ArgumentNotNull(name, "name");
       Assert.ArgumentNotNull(sqlConnection, "sqlConnection");
 
-      string command = string.Format("select [name] from [master].[sys].[databases] where [name] = N'{0}'", name);
+      var command = string.Format("select [name] from [master].[sys].[databases] where [name] = N'{0}'", name);
       using (SqlCommand sqlCmd = new SqlCommand(command, sqlConnection))
       {
         using (SqlDataReader reader = sqlCmd.ExecuteReader())
@@ -153,7 +153,7 @@
       using (SqlConnection sqlConnection = this.OpenConnection(connectionString))
       {
         this.CloseConnectionsToDatabase(realName, sqlConnection);
-        string command = string.Format("EXEC master.dbo.sp_detach_db @dbname = N'{0}', @skipchecks = 'false'", realName);
+        var command = string.Format("EXEC master.dbo.sp_detach_db @dbname = N'{0}', @skipchecks = 'false'", realName);
         this.Execute(sqlConnection, command);
       }
     }
@@ -172,13 +172,13 @@
           continue;
         }
 
-        string directory = Path.GetDirectoryName(file);
+        var directory = Path.GetDirectoryName(file);
         if (string.IsNullOrEmpty(directory) || !FileSystem.FileSystem.Local.Directory.Exists(directory))
         {
           continue;
         }
 
-        string directoryName = directory.TrimEnd('\\') + '\\';
+        var directoryName = directory.TrimEnd('\\') + '\\';
         if (directoryName.ContainsIgnoreCase(rootPath))
         {
           action(name);
@@ -267,7 +267,7 @@
     {
       Assert.ArgumentNotNull(connectionString, "connectionString");
 
-      string res = string.Empty;
+      var res = string.Empty;
 
       using (SqlConnection conn = this.OpenConnection(connectionString))
       {
@@ -300,8 +300,8 @@
         SqlDataReader reader = command.ExecuteReader();
         while (reader.Read())
         {
-          string logicName = (string)reader["LogicalName"];
-          string physName = (string)reader["PhysicalName"];
+          var logicName = (string)reader["LogicalName"];
+          var physName = (string)reader["PhysicalName"];
           if (physName.ToLower().Contains(".mdf"))
           {
             res.logicalNameMdf = logicName;
@@ -317,7 +317,7 @@
         reader.Close();
         SqlCommand command2 = new SqlCommand("RESTORE HEADERONLY FROM DISK = N'" + pathToBak + "' WITH NOUNLOAD", conn);
         reader = command2.ExecuteReader();
-        string dbName = string.Empty;
+        var dbName = string.Empty;
         while (reader.Read())
         {
           dbName = (string)reader["DatabaseName"];
@@ -342,7 +342,7 @@
         SqlDataReader reader = command.ExecuteReader();
         while (reader.Read())
         {
-          string item = (string)reader["name"];
+          var item = (string)reader["name"];
           if (item.EqualsIgnoreCase("master") || item.EqualsIgnoreCase("model") || item.EqualsIgnoreCase("msdb") || item.EqualsIgnoreCase("tempdb"))
           {
             continue;
@@ -368,7 +368,7 @@
         SqlDataReader reader = command.ExecuteReader();
         while (reader.Read())
         {
-          string item = (string)reader["name"];
+          var item = (string)reader["name"];
           if (item.EqualsIgnoreCase("master") || item.EqualsIgnoreCase("model") || item.EqualsIgnoreCase("msdb") || item.EqualsIgnoreCase("tempdb") || !item.ContainsIgnoreCase(searchPattern))
           {
             continue;
@@ -503,7 +503,7 @@
         this.CloseConnectionsToDatabase(databaseName, connection);
 
         Log.Info("Restoring database: {0}", databaseName);
-        string restoreCommand = "RESTORE DATABASE [" + databaseName + "] FROM  DISK = N'" + backupFileName + "' WITH REPLACE, RECOVERY --force restore over specified database";
+        var restoreCommand = "RESTORE DATABASE [" + databaseName + "] FROM  DISK = N'" + backupFileName + "' WITH REPLACE, RECOVERY --force restore over specified database";
         this.Execute(connection, restoreCommand);
       }
     }
@@ -521,8 +521,8 @@
         Assert.ArgumentNotNull(databaseName, "databaseName");
         Assert.ArgumentNotNull(backupFileName, "backupFileName");
 
-        string mdfName = string.Empty;
-        string ldfName = string.Empty;
+        var mdfName = string.Empty;
+        var ldfName = string.Empty;
         if (backupInfo.logicalNameMdf.IsNullOrEmpty())
         {
           mdfName = databaseName + ".Data";
@@ -542,7 +542,7 @@
         }
 
         Log.Info("Restoring database: {0}", databaseName);
-        string command = string.Format(@"
+        var command = string.Format(@"
                         RESTORE DATABASE [{0}]
                         FROM DISK='{1}'
                         WITH MOVE'{3}' TO '{2}\{0}.mdf',
@@ -568,8 +568,8 @@
         Assert.ArgumentNotNull(databaseName, "databaseName");
         Assert.ArgumentNotNull(backupFileName, "backupFileName");
 
-        string mdfName = string.Empty;
-        string ldfName = string.Empty;
+        var mdfName = string.Empty;
+        var ldfName = string.Empty;
         if (backupInfo.logicalNameMdf.IsNullOrEmpty())
         {
           mdfName = databaseName + ".Data";
@@ -589,7 +589,7 @@
         }
 
         Log.Info("Restoring database: {0}", databaseName);
-        string command = string.Format(@"
+        var command = string.Format(@"
                         RESTORE DATABASE [{0}]
                         FROM DISK='{1}'
                         WITH MOVE'{3}' TO '{2}\{5}.mdf',
@@ -752,7 +752,7 @@
     [CanBeNull]
     protected virtual string GetDatabaseFileName([NotNull] string databaseName, [NotNull] SqlConnection connection)
     {
-      string command = @"exec sp_helpdb [{0}]".FormatWith(databaseName);
+      var command = @"exec sp_helpdb [{0}]".FormatWith(databaseName);
       if (DatabaseExists(databaseName, connection))
       {
         using (SqlCommand sqlCommand = new SqlCommand(command, connection))
@@ -785,7 +785,7 @@
 
     public virtual string NormalizeServerName(string serverName)
     {
-      string name = serverName.ToLowerInvariant();
+      var name = serverName.ToLowerInvariant();
       switch (name)
       {
         case ".":
@@ -793,7 +793,7 @@
         case "localhost":
           return ".";
         default:
-          string hostName = Dns.GetHostName();
+          var hostName = Dns.GetHostName();
           if (name.EqualsIgnoreCase(hostName) || name.EqualsIgnoreCase(Environment.MachineName) || Dns.GetHostAddresses(hostName).Any(address => address.ToString().Equals(name)))
           {
             return ".";

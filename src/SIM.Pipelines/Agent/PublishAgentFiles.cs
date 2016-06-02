@@ -45,7 +45,7 @@
     }
     catch (Exception ex)
     {
-      string inn = string.Empty;
+      var inn = string.Empty;
       if (ex.InnerException != null)
       {
         inn = ""\n\nInner Exception:\n"" + ex.InnerException;
@@ -64,7 +64,7 @@
 
   private void UpdateStatus(string message)
   {
-    string installedTemp = this.Server.MapPath(Path.Combine(Settings.TempFolderPath, ""sim.status""));
+    var installedTemp = this.Server.MapPath(Path.Combine(Settings.TempFolderPath, ""sim.status""));
     File.WriteAllText(installedTemp, message);
   }
 
@@ -72,14 +72,14 @@
   {
     Assert.ArgumentNotNullOrEmpty(name, ""name"");
 
-    string packageFolderPath = Sitecore.Configuration.Settings.PackagePath;
+    var packageFolderPath = Sitecore.Configuration.Settings.PackagePath;
     Assert.IsNotNullOrEmpty(packageFolderPath, ""packageFolderPath"");
 
     // if path is virtual i.e. not C:\something then do a map path
     if (packageFolderPath.Length < 2 || packageFolderPath[1] != ':')
     {
       packageFolderPath = packageFolderPath.TrimStart('/');
-      string prefix = ""~/"";
+      var prefix = ""~/"";
       if (packageFolderPath.StartsWith(prefix))
       {
         packageFolderPath = packageFolderPath.Substring(prefix.Length);
@@ -118,8 +118,8 @@
 
   protected override void OnInitComplete(EventArgs e)
   {
-    string installedTemp = this.Server.MapPath(Path.Combine(Settings.TempFolderPath, ""sim.status""));
-    string message;
+    var installedTemp = this.Server.MapPath(Path.Combine(Settings.TempFolderPath, ""sim.status""));
+    var message;
     if (File.Exists(installedTemp))
     {
       message = File.ReadAllText(installedTemp);

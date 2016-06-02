@@ -145,7 +145,7 @@
 
     public static string GetId()
     {
-      string cookie = GetCookie();
+      var cookie = GetCookie();
 
       return String.Format("public-{0}", cookie);
     }
@@ -205,7 +205,7 @@
 
     public static void OpenInBrowser(string url, bool isFrontEnd, string browser = null, [CanBeNull] string[] parameters = null)
     {
-      string app = browser.EmptyToNull() ?? (isFrontEnd ? CoreAppSettings.AppBrowsersFrontend.Value : CoreAppSettings.AppBrowsersBackend.Value);
+      var app = browser.EmptyToNull() ?? (isFrontEnd ? CoreAppSettings.AppBrowsersFrontend.Value : CoreAppSettings.AppBrowsersBackend.Value);
       if (!string.IsNullOrEmpty(app))
       {
         var arguments = parameters != null ? parameters.Where(x => !string.IsNullOrWhiteSpace(x)).ToList() : new List<string>();

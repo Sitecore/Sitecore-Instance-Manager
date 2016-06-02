@@ -36,7 +36,7 @@ namespace SIM.Tool.Base
 
     public static void Browse(Instance instance, string virtualPath, bool isFrontEnd, string browser, string[] parameters)
     {
-      string url = instance.GetUrl();
+      var url = instance.GetUrl();
       if (!string.IsNullOrEmpty(url))
       {
         url += '/' + virtualPath.TrimStart('/');

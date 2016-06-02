@@ -81,7 +81,7 @@
         XmlElement install = document.SelectSingleElement(ManifestPrefix + "package/install/postStepActions");
         if (install != null)
         {
-          string skip = install.GetAttribute("skipStandard");
+          var skip = install.GetAttribute("skipStandard");
           if (!string.IsNullOrEmpty(skip) && skip.EqualsIgnoreCase("true"))
           {
             return true;
@@ -234,7 +234,7 @@
       {
         if (this.manifest == null)
         {
-          string packageFile = this.PackagePath;
+          var packageFile = this.PackagePath;
           if (string.IsNullOrEmpty(packageFile))
           {
             return EmptyManifest;
@@ -428,7 +428,7 @@
 
     private string NormalizeName(string name)
     {
-      string result = string.Empty;
+      var result = string.Empty;
       var words = name.Split();
       foreach (var word in words)
       {
@@ -501,7 +501,7 @@
         IEnumerable<XmlElement> rules = product.ChildNodes.OfType<XmlElement>().ToArray();
         foreach (IGrouping<string, XmlElement> group in rules.GroupBy(ch => ch.Name.ToLower()))
         {
-          string key = group.Key;
+          var key = group.Key;
           switch (key)
           {
             case "version":
@@ -621,11 +621,11 @@
         packagePath = null;
       }
 
-      string originalName = match.Groups[1].Value;
-      string name = originalName;
+      var originalName = match.Groups[1].Value;
+      var name = originalName;
       string shortName = null;
-      string version = match.Groups[2].Value;
-      string revision = match.Groups[5].Value;
+      var version = match.Groups[2].Value;
+      var revision = match.Groups[5].Value;
 
       if (name.EqualsIgnoreCase("sitecore") && version[0] == '5')
       {
@@ -665,7 +665,7 @@
         revision = this.Revision;
       }
 
-      string instanceRevision = instanceProduct.Revision;
+      var instanceRevision = instanceProduct.Revision;
       if (instanceRevision == revision || string.IsNullOrEmpty(instanceRevision))
       {
         return true;
@@ -685,7 +685,7 @@
         version = this.Version;
       }
 
-      string instanceVersion = instanceProduct.Version;
+      var instanceVersion = instanceProduct.Version;
       if (instanceVersion == version)
       {
         var rules = versionRule.SelectElements("revision").ToArray();
@@ -729,7 +729,7 @@
       }
 
       const string cacheName = "IsPackage";
-      string path = packagePath.ToLowerInvariant();
+      var path = packagePath.ToLowerInvariant();
       using (new ProfileSection("Is it package or not"))
       {
         ProfileSection.Argument("packagePath", packagePath);

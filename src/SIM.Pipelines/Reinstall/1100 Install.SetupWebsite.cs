@@ -22,9 +22,9 @@
     {
       Assert.ArgumentNotNull(args, "args");
 
-      string name = args.Name;
+      var name = args.Name;
       var bindings = args.Bindings;
-      string webRootPath = args.WebRootPath;
+      var webRootPath = args.WebRootPath;
       bool enable32BitAppOnWin64 = args.Is32Bit;
       bool forceNetFramework4 = args.ForceNetFramework4;
       bool isClassic = args.IsClassic;

@@ -31,7 +31,7 @@
           Sitecore.Security.Authentication.AuthenticationManager.Login(userName);
           Sitecore.Diagnostics.Log.Warn(string.Format(""Bypassing authentication for {0} account"", userName), this);
 
-          string ticket = Sitecore.Web.Authentication.TicketManager.CreateTicket(userName, shellUrlPrefix);
+          var ticket = Sitecore.Web.Authentication.TicketManager.CreateTicket(userName, shellUrlPrefix);
           if (!string.IsNullOrEmpty(ticket))
           {
             System.Web.HttpContext current = System.Web.HttpContext.Current;

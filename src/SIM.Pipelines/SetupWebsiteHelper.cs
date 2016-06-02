@@ -33,8 +33,8 @@ namespace SIM.Pipelines
       Assert.ArgumentNotNull(name, "name");
       Assert.ArgumentNotNull(applicationPools, "applicationPools");
 
-      int modifier = 0;
-      string newname = name;
+      var modifier = 0;
+      var newname = name;
       while (applicationPools[newname] != null)
       {
         newname = name + '_' + ++modifier;
@@ -69,7 +69,7 @@ namespace SIM.Pipelines
       {
         ApplicationPool appPool = context.ApplicationPools.Add(ChooseAppPoolName(name, context.ApplicationPools));
         appPool.ManagedRuntimeVersion = NetFrameworkV2;
-        string id = Settings.CoreInstallWebServerIdentity.Value;
+        var id = Settings.CoreInstallWebServerIdentity.Value;
         ProcessModelIdentityType type = GetIdentityType(id);
         appPool.ProcessModel.IdentityType = type;
         appPool.ProcessModel.PingingEnabled = false;
@@ -92,7 +92,7 @@ namespace SIM.Pipelines
 
         if (product.Name.EqualsIgnoreCase("Sitecore CMS"))
         {
-          string ver = product.Version;
+          var ver = product.Version;
           if (ver.StartsWith("6.0") || ver.StartsWith("6.1"))
           {
             appPool.Enable32BitAppOnWin64 = true;
@@ -107,7 +107,7 @@ namespace SIM.Pipelines
         Site site = null;
         foreach (BindingInfo binding in bindings)
         {
-          string bindingInformation = binding.IP + ":" + binding.Port + ":" + binding.Host;
+          var bindingInformation = binding.IP + ":" + binding.Port + ":" + binding.Host;
           if (site == null)
           {
             site = context.Sites.Add(name, binding.Protocol, bindingInformation, webRootPath);

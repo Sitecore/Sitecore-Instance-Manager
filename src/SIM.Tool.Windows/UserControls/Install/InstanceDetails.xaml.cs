@@ -85,29 +85,29 @@
       var instanceName = this.InstanceName;
       Assert.IsNotNull(instanceName, "instanceName");
 
-      string name = instanceName.Text.EmptyToNull();
+      var name = instanceName.Text.EmptyToNull();
       Assert.IsNotNull(name, @"Instance name isn't set");
 
       var hostName = this.HostName;
       Assert.IsNotNull(hostName, "hostName");
 
-      string host = hostName.Text.EmptyToNull();
+      var host = hostName.Text.EmptyToNull();
       Assert.IsNotNull(host, "Hostname must not be emoty");
 
       var rootName = this.RootName;
       Assert.IsNotNull(rootName, "rootName");
 
-      string root = rootName.Text.EmptyToNull();
+      var root = rootName.Text.EmptyToNull();
       Assert.IsNotNull(rootName, "Root folder name must not be emoty");
 
-      string location = this.locationFolder.Text.EmptyToNull();
+      var location = this.locationFolder.Text.EmptyToNull();
       Assert.IsNotNull(location, @"The location folder isn't set");
 
-      string rootPath = Path.Combine(location, root);
+      var rootPath = Path.Combine(location, root);
       bool locationIsPhysical = FileSystem.FileSystem.Local.Directory.HasDriveLetter(rootPath);
       Assert.IsTrue(locationIsPhysical, "The location folder path must be physical i.e. contain a drive letter. Please choose another location folder");
 
-      string webRootPath = Path.Combine(rootPath, "Website");
+      var webRootPath = Path.Combine(rootPath, "Website");
 
       bool websiteExists = WebServerManager.WebsiteExists(name);
       if (websiteExists)
@@ -160,7 +160,7 @@
       var connectionString = ProfileManager.GetConnectionString();
       SqlServerManager.Instance.ValidateConnectionString(connectionString);
 
-      string licensePath = ProfileManager.Profile.License;
+      var licensePath = ProfileManager.Profile.License;
       Assert.IsNotNull(licensePath, @"The license file isn't set in the Settings window");
       FileSystem.FileSystem.Local.File.AssertExists(licensePath, "The {0} file is missing".FormatWith(licensePath));
 
@@ -358,7 +358,7 @@
         IGrouping<string, Product> item1 = item0 as IGrouping<string, Product>;
         if (item1 != null)
         {
-          string key = item1.Key;
+          var key = item1.Key;
           if (key.EqualsIgnoreCase(value))
           {
             element.SelectedIndex = i;
@@ -370,7 +370,7 @@
           Product item2 = item0 as Product;
           if (item2 != null)
           {
-            string key = item2.Revision;
+            var key = item2.Revision;
             if (key.EqualsIgnoreCase(value))
             {
               element.SelectedIndex = i;
@@ -612,19 +612,19 @@
         this.SelectByValue(this.Mode, info.ManagedPipelineMode ? "Integrated" : "Classic");
       }
 
-      string name = args.InstanceName;
+      var name = args.InstanceName;
       if (!string.IsNullOrEmpty(name))
       {
         this.InstanceName.Text = name;
       }
 
-      string rootName = args.InstanceRootName;
+      var rootName = args.InstanceRootName;
       if (!string.IsNullOrEmpty(rootName))
       {
         this.RootName.Text = rootName;
       }
 
-      string host = args.InstanceHost;
+      var host = args.InstanceHost;
 
       if (!string.IsNullOrEmpty(host))
       {
@@ -633,7 +633,7 @@
 
       if (rootName != null)
       {
-        string location = args.InstanceRootPath.TrimEnd(rootName).Trim(new[]
+        var location = args.InstanceRootPath.TrimEnd(rootName).Trim(new[]
         {
           '/', '\\'
         });

@@ -133,7 +133,7 @@
       Assert.ArgumentNotNull(fileName, "fileName");
       Assert.ArgumentNotNull(localRepository, "localRepository");
       fileName = FixFileName(fileName);
-      string filePath1 = ProductManager.Products.Select(product => product.PackagePath).FirstOrDefault(packagePath => Path.GetFileName(packagePath).EqualsIgnoreCase(fileName));
+      var filePath1 = ProductManager.Products.Select(product => product.PackagePath).FirstOrDefault(packagePath => Path.GetFileName(packagePath).EqualsIgnoreCase(fileName));
       if (!string.IsNullOrEmpty(filePath1))
       {
         if (FileSystem.FileSystem.Local.File.Exists(filePath1))

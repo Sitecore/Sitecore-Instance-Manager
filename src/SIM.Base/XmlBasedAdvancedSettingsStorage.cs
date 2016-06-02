@@ -38,14 +38,14 @@
 
     public virtual string ReadSetting(string key, string defaultValue)
     {
-      string normalizedXPathKey = this.NormalizeSettingKey(key);
+      var normalizedXPathKey = this.NormalizeSettingKey(key);
       var xmlValue = this.UnderlyingDocument.SelectSingleElement(normalizedXPathKey).With(element => element.InnerText);
       return xmlValue.IsNullOrEmpty() ? defaultValue : xmlValue;
     }
 
     public virtual void WriteSetting(string key, string value)
     {
-      string normalizedXPathKey = this.NormalizeSettingKey(key);
+      var normalizedXPathKey = this.NormalizeSettingKey(key);
       if (value.IsNullOrEmpty())
       {
         var settingElement = this.UnderlyingDocument.SelectSingleElement(normalizedXPathKey);

@@ -54,8 +54,8 @@
 
       foreach (XmlElement element in pipelinesNode.ChildNodes.OfType<XmlElement>())
       {
-        string pipelineName = element.Name;
-        string title = element.GetAttribute("title");
+        var pipelineName = element.Name;
+        var title = element.GetAttribute("title");
         Assert.IsNotNullOrEmpty(title, "The '{0}' pipeline definition doesn't contain the title attribute".FormatWith(pipelineName));
 
         var pipelineNode = resultXmlConfig.DocumentElement.AddElement(pipelineName);
@@ -70,8 +70,8 @@
           foreach (XmlElement step in stepNodes.OfType<XmlElement>())
           {
             // Clever mechanism of steps reusing. Doesn't seem to be used somewhere.
-            string fromPipeline = step.GetAttribute("pipeline");
-            string args = step.GetAttribute("args").EmptyToNull();
+            var fromPipeline = step.GetAttribute("pipeline");
+            var args = step.GetAttribute("args").EmptyToNull();
             if (!string.IsNullOrEmpty(fromPipeline))
             {
               PipelineDefinition def = Definitions[fromPipeline];

@@ -33,9 +33,9 @@
       Assert.ArgumentNotNull(args, "args");
 
       IEnumerable<Database> detectedDatabases = args.InstanceDatabases;
-      string rootPath = args.RootPath.ToLower();
+      var rootPath = args.RootPath.ToLower();
       var connectionString = args.ConnectionString;
-      string instanceName = args.InstanceName;
+      var instanceName = args.InstanceName;
       IPipelineController controller = this.Controller;
 
       DeleteDatabasesHelper.Process(detectedDatabases, rootPath, connectionString, instanceName, controller, this.done);

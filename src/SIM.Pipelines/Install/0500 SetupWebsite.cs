@@ -21,9 +21,9 @@
     {
       Assert.ArgumentNotNull(args, "args");
 
-      string name = args.Name;
-      string hostName = args.HostName;
-      string webRootPath = args.WebRootPath;
+      var name = args.Name;
+      var hostName = args.HostName;
+      var webRootPath = args.WebRootPath;
       bool enable32BitAppOnWin64 = args.Is32Bit;
       bool forceNetFramework4 = args.ForceNetFramework4;
       bool isClassic = args.IsClassic;
@@ -44,8 +44,8 @@
       Assert.ArgumentNotNull(name, "name");
       Assert.ArgumentNotNull(applicationPools, "applicationPools");
 
-      int modifier = 0;
-      string newname = name;
+      var modifier = 0;
+      var newname = name;
       while (applicationPools[newname] != null)
       {
         newname = name + '_' + ++modifier;

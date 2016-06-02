@@ -239,7 +239,7 @@
           ProcessorArgs innerArgs = null;
 
           /* Use args' member as args for nested pipeline*/
-          string argsName = step.ArgsName.EmptyToNull();
+          var argsName = step.ArgsName.EmptyToNull();
           if (argsName != null)
           {
             Type type = args.GetType();

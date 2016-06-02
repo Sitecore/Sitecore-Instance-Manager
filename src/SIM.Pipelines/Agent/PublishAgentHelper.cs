@@ -14,7 +14,7 @@
     {
       Assert.ArgumentNotNull(instance, "instance");
 
-      string agent = Path.Combine(instance.WebRootPath, AgentHelper.AgentPath);
+      var agent = Path.Combine(instance.WebRootPath, AgentHelper.AgentPath);
       FileSystem.FileSystem.Local.Directory.Ensure(agent);
 
       var files = new[]
@@ -33,7 +33,7 @@
 
       foreach (var file in files)
       {
-        string targetFilePath = Path.Combine(agent, file.FileName);
+        var targetFilePath = Path.Combine(agent, file.FileName);
         FileSystem.FileSystem.Local.Directory.DeleteIfExists(targetFilePath);
         FileSystem.FileSystem.Local.File.WriteAllText(targetFilePath, file.Contents);
       }
@@ -43,9 +43,9 @@
     {
       Assert.ArgumentNotNull(instance, "instance");
 
-      string publishUrl = AgentHelper.GetUrl(instance, PublishAgentFiles.PublishFileName);
+      var publishUrl = AgentHelper.GetUrl(instance, PublishAgentFiles.PublishFileName);
 
-      string statusUrl = AgentHelper.GetUrl(instance, PublishAgentFiles.StatusFileName);
+      var statusUrl = AgentHelper.GetUrl(instance, PublishAgentFiles.StatusFileName);
 
       ExecuteAgent(AgentFiles.StatusFileName, statusUrl, PublishAgentFiles.PublishFileName, publishUrl);
     }
@@ -57,7 +57,7 @@
     private static void ExecuteAgent(string statusFileName, string statusUrl, string agentName, string operationUrl)
     {
       // Call agent main operation
-      string status = AgentHelper.Request(operationUrl, agentName);
+      var status = AgentHelper.Request(operationUrl, agentName);
 
       // If the package installation process takes more than http timeout, retrieve status
       if (!IsCompleted(status))

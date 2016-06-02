@@ -50,14 +50,14 @@
         {
           Log.Debug("WebConfig:GetDatabases(...)#connectionStringsNode: {0}",  connectionStringsNode.OuterXml);
           AddDatabases(connectionStringsNode, databases);
-          string configSourceValue = connectionStringsNode.GetAttribute("configSource");
+          var configSourceValue = connectionStringsNode.GetAttribute("configSource");
           Log.Debug("WebConfig:GetDatabases(...)#configSourceValue: {0}",  configSourceValue);
           if (string.IsNullOrEmpty(configSourceValue))
           {
             return databases;
           }
 
-          string filePath = Path.Combine(webRootPath, configSourceValue);
+          var filePath = Path.Combine(webRootPath, configSourceValue);
           Log.Debug("WebConfig:GetDatabases(...)#filePath: {0}",  filePath);
           if (!FileSystem.FileSystem.Local.File.Exists(filePath))
           {
@@ -93,14 +93,14 @@
         {
           Log.Debug("WebConfig:GetDatabases(...)#connectionStringsNode: {0}",  connectionStringsNode.OuterXml);
           AddMongoDatabases(connectionStringsNode, databases);
-          string configSourceValue = connectionStringsNode.GetAttribute("configSource");
+          var configSourceValue = connectionStringsNode.GetAttribute("configSource");
           Log.Debug("WebConfig:GetDatabases(...)#configSourceValue: {0}",  configSourceValue);
           if (string.IsNullOrEmpty(configSourceValue))
           {
             return databases;
           }
 
-          string filePath = Path.Combine(webRootPath, configSourceValue);
+          var filePath = Path.Combine(webRootPath, configSourceValue);
           Log.Debug("WebConfig:GetDatabases(...)#filePath: {0}",  filePath);
           if (!FileSystem.FileSystem.Local.File.Exists(filePath))
           {
@@ -166,7 +166,7 @@
     public static XmlDocumentEx GetWebConfig([NotNull] string webRootPath)
     {
       Assert.ArgumentNotNull(webRootPath, "webRootPath");
-      string path = GetWebConfigPath(webRootPath);
+      var path = GetWebConfigPath(webRootPath);
       FileSystem.FileSystem.Local.File.AssertExists(path, BResources.FileIsMissing.FormatWith(path));
 
       try
@@ -202,9 +202,7 @@
           Log.Debug("WebConfig:AddDatabases(...)#elements.Length: {0}",  elements.Length);
           foreach (XmlElement node in elements)
           {
-            string name;
-
-            string value = node.GetAttribute("connectionString");
+            var value = node.GetAttribute("connectionString");
             Log.Debug("WebConfig:AddDatabases(...)#value: {0}",  value);
 
             if (!SqlServerManager.Instance.IsSqlConnectionString(value))
@@ -212,13 +210,13 @@
               continue;
             }
 
-            name = node.GetAttribute("name");
+            var name = node.GetAttribute("name");
             Log.Debug("WebConfig:AddDatabases(...)#name: {0}",  name);
 
             if (!string.IsNullOrEmpty(value))
             {
               SqlConnectionStringBuilder connectionString = new SqlConnectionStringBuilder(value);
-              string realName = GetDatabaseName(connectionString);
+              var realName = GetDatabaseName(connectionString);
               Log.Debug("WebConfig:AddDatabases(...)#realName: {0}",  realName);
               if (!string.IsNullOrEmpty(realName))
               {
@@ -257,7 +255,7 @@
           Log.Debug("WebConfig:AddMongoDatabases(...)#elements.Length: {0}",  elements.Length);
           foreach (XmlElement node in elements)
           {
-            string value = node.GetAttribute("connectionString");
+            var value = node.GetAttribute("connectionString");
             Log.Debug("WebConfig:AddMongoDatabases(...)#value: {0}",  value);
 
             if (SqlServerManager.Instance.IsSqlConnectionString(value))

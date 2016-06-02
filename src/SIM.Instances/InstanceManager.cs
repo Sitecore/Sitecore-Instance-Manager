@@ -182,7 +182,7 @@
     {
       Assert.ArgumentNotNull(site, "site");
 
-      int id = (Int32)site.Id;
+      var id = (Int32)site.Id;
       Log.Debug("InstanceManager:GetInstance(Site: {0})", site.Id);
       return new Instance(id);
     }
@@ -211,7 +211,7 @@
     private static Instance GetPartiallyCachedInstance([NotNull] Site site)
     {
       Assert.ArgumentNotNull(site, "site");
-      int id = (Int32)site.Id;
+      var id = (Int32)site.Id;
       Log.Debug("InstanceManager:GetPartiallyCachedInstance(Site: {0})", site.Id);
       return new PartiallyCachedInstance(id);
     }

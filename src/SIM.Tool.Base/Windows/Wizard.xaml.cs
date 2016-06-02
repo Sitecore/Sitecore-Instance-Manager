@@ -430,13 +430,13 @@
             case ProcessorState.Error:
             case ProcessorState.Inaccessible:
             {
-              string messageLabel = string.Format(@"{0} action failed with message: ", processor.Title);
+              var messageLabel = string.Format(@"{0} action failed with message: ", processor.Title);
               const string skipped = "Action was skipped because other one had problem - please find it, fix the problem and run the process again";
-              string message;
+                string message;
               Exception exception = processor.Error;
               if (exception != null)
               {
-                string exceptionMessage = exception.Message;
+                var exceptionMessage = exception.Message;
                 if (exceptionMessage.Contains("cannot be upgraded because it is read-only") || exceptionMessage.Contains(": 15105"))
                 {
                   message = "It seems that the NETWORK SERVICE identity doesn't have full access rights to the folder you selected to install the instance to." + Environment.NewLine + Environment.NewLine + exceptionMessage;
@@ -560,7 +560,7 @@
         bool isVisible = customButtonStep != null;
         if (isVisible)
         {
-          string name = customButtonStep.CustomButtonText;
+          var name = customButtonStep.CustomButtonText;
           this.CustomButton.Content = name ?? string.Empty;
           isVisible = !string.IsNullOrEmpty(name);
         }
@@ -594,14 +594,14 @@
       {
         ProfileSection.Argument("i", i);
 
-        int n = i ?? this.PageNumber;
+        var n = i ?? this.PageNumber;
 
         using (new ProfileSection("Set header", this))
         {
           StepInfo[] stepInfos = this.wizardPipeline.StepInfos;
           if (stepInfos.Length > n)
           {
-            string title = stepInfos[n].Title;
+            var title = stepInfos[n].Title;
             this.HeaderDetails.Text = this.ReplaceVariables(title);
           }
         }
@@ -883,7 +883,7 @@
         this.PageNumber = 0;
 
         this.InitializeStep();
-        string title = this.ReplaceVariables(this.wizardPipeline.Title);
+        var title = this.ReplaceVariables(this.wizardPipeline.Title);
         this.Title = title;
         this.Header.Text = title;
       }

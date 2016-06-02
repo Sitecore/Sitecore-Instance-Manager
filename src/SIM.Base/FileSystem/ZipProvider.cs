@@ -92,7 +92,7 @@ namespace SIM.FileSystem
         Assert.IsTrue(!ignore.Contains('\\') && !ignore.Contains('/'), "Multi-level ignore is not supported for archiving");
         foreach (var directory in Directory.GetDirectories(path))
         {
-          string directoryName = new DirectoryInfo(directory).Name;
+          var directoryName = new DirectoryInfo(directory).Name;
           if (!directoryName.EqualsIgnoreCase(ignore))
           {
             zip.AddDirectory(directory, directoryName);
@@ -157,10 +157,10 @@ namespace SIM.FileSystem
 
           using (ZipFile zip = new ZipFile(packagePath))
           {
-            int q = Math.Max(zip.Entries.Count / stepsCount, 1);
+            var q = Math.Max(zip.Entries.Count / stepsCount, 1);
 
             this.fileSystem.Directory.Ensure(path);
-            int i = 0;
+            var i = 0;
             ICollection<ZipEntry> entries = entriesPattern != null ? zip.SelectEntries(entriesPattern) : zip.Entries;
             foreach (ZipEntry entry in entries)
             {
@@ -182,7 +182,7 @@ namespace SIM.FileSystem
                   ".tmp", ".PendingOverwrite"
                 })
                 {
-                  string errorPath = Path.Combine(path, entry.FileName) + postFix;
+                  var errorPath = Path.Combine(path, entry.FileName) + postFix;
                   if (System.IO.File.Exists(errorPath))
                   {
                     System.IO.File.Delete(errorPath);
@@ -359,8 +359,8 @@ namespace SIM.FileSystem
 
     public virtual string ZipUnpackFile(string pathToZip, string pathToUnpack, string fileName)
     {
-      string zipToUnpack = pathToZip;
-      string unpackDirectory = pathToUnpack;
+      var zipToUnpack = pathToZip;
+      var unpackDirectory = pathToUnpack;
       using (ZipFile zip = ZipFile.Read(zipToUnpack))
       {
         foreach (ZipEntry entry in zip)

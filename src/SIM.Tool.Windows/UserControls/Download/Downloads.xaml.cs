@@ -115,11 +115,11 @@
     private UriBasedCollection<long> GetSizes(ReadOnlyCollection<Uri> urls, string cookies)
     {
       UriBasedCollection<long> sizes = new UriBasedCollection<long>();
-      int parallelDownloadsNumber = WindowsSettings.AppDownloaderParallelThreads.Value;
+      var parallelDownloadsNumber = WindowsSettings.AppDownloaderParallelThreads.Value;
 
       for (int i = 0; i < urls.Count; i += parallelDownloadsNumber)
       {
-        int remains = urls.Count - i;
+        var remains = urls.Count - i;
         var tasks = urls
           .Skip(i)
           .Take(Math.Min(parallelDownloadsNumber, remains))

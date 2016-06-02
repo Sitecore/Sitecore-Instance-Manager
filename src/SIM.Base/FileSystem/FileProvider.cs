@@ -72,7 +72,7 @@ namespace SIM.FileSystem
       File.Copy(source, target);
       if (sync && !File.Exists(target))
       {
-        int sleep = 100;
+        var sleep = 100;
         var times = timeout / sleep;
         for (int i = 0; i < times && !File.Exists(target); ++i)
         {
@@ -101,7 +101,7 @@ namespace SIM.FileSystem
           Assert.IsTrue(!ignore.Contains('\\') && !ignore.Contains('/'), "Multi-level ignore is not supported for deleting");
           foreach (var directory in Directory.GetDirectories(path))
           {
-            string directoryName = new DirectoryInfo(directory).Name;
+            var directoryName = new DirectoryInfo(directory).Name;
             if (!directoryName.EqualsIgnoreCase(ignore))
             {
               this.Delete(directory);

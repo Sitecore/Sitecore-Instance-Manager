@@ -31,7 +31,7 @@
 
       Instance instance = args.Instance;
       IEnumerable<Product> modules = args.Modules;
-      string param = this.ProcessorDefinition.Param;
+      var param = this.ProcessorDefinition.Param;
       ConfigurationActions.ExecuteActions(instance, modules.ToArray(), this.done, param, args.ConnectionString, this.Controller);
     }
 

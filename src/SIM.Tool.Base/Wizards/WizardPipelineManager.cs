@@ -187,7 +187,7 @@
       {
         ProfileSection.Argument("element", element);
 
-        string name1 = element.Name;
+        var name1 = element.Name;
         try
         {
           XmlElement argsElement = element.SelectSingleElement("args");
@@ -196,7 +196,7 @@
               "Cannot find the {0} type".FormatWith(argsElement.GetAttribute("type")))
             : null;
           XmlElement finish = element.SelectSingleElement("finish");
-          string title = element.GetAttribute("title");
+          var title = element.GetAttribute("title");
           var steps =
             element.SelectSingleElement("steps").IsNotNull(
               "Can't find the steps element in the WizardPipelines.config file").ChildNodes.OfType<XmlElement>().
@@ -204,9 +204,9 @@
                 step =>
                   new StepInfo(step.GetAttribute("name"), Type.GetType(step.GetAttribute("type")),
                     step.GetAttribute("param"))).ToArray();
-          string cancelButtonText = element.GetAttribute("cancelButton");
-          string startButtonText = element.GetAttribute("startButton");
-          string finishText = element.GetAttribute("finishText");
+          var cancelButtonText = element.GetAttribute("cancelButton");
+          var startButtonText = element.GetAttribute("startButton");
+          var finishText = element.GetAttribute("finishText");
           FinishAction[] finishActions = finish != null ? GetFinishActions(finish, args).ToArray() : null;
           var finishActionHives = GetFinishActionHives(finish, args);
           WizardPipeline wizardPipeline = new WizardPipeline(name1, title, steps, args, startButtonText,

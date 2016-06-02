@@ -30,7 +30,7 @@ namespace SIM.Tool.Windows.MainWindowComponents
 
     protected void RunApp(Window mainWindow, string param = null)
     {
-      string path = Path.Combine(AppFolder, this.ExecutableName);
+      var path = Path.Combine(AppFolder, this.ExecutableName);
 
       var latestVersion = GetLatestVersion();
 

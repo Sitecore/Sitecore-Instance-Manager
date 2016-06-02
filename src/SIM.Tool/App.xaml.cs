@@ -53,7 +53,7 @@ namespace SIM.Tool
 
     public static string GetRepositoryPath()
     {
-      string path = Path.Combine(ApplicationManager.DataFolder, "Repository");
+      var path = Path.Combine(ApplicationManager.DataFolder, "Repository");
       FileSystem.FileSystem.Local.Directory.Ensure(path);
       return path;
     }

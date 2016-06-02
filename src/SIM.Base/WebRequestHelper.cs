@@ -102,7 +102,7 @@
         ProfileSection.Argument("token", token);
         ProfileSection.Argument("indicateProgress", indicateProgress);
 
-        int bufferSize = Settings.CoreWebDownloadBufferSize.Value;
+        var bufferSize = Settings.CoreWebDownloadBufferSize.Value;
         using (var fileStream = new FileStream(destFileName, FileMode.Create, FileAccess.Write, FileShare.Read, bufferSize))
         {
           var buffer = new byte[bufferSize];
@@ -113,7 +113,7 @@
               ((CancellationToken)token).ThrowIfCancellationRequested();
             }
 
-            int count = responseStream.Read(buffer, 0, bufferSize);
+            var count = responseStream.Read(buffer, 0, bufferSize);
 
             if (count == 0)
             {
@@ -157,7 +157,7 @@
       Assert.ArgumentNotNullOrEmpty(cookies, "cookies");
       Assert.ArgumentNotNullOrEmpty(cookieName, "cookieName");
 
-      string cookie = GetCookie(cookies, cookieName);
+      var cookie = GetCookie(cookies, cookieName);
       if (string.IsNullOrEmpty(cookie))
       {
         return null;

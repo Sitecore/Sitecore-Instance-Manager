@@ -61,7 +61,7 @@ namespace SIM.FileSystem
       // Get the files in the directory and copy them to the new location.
       foreach (var file in this.fileSystem.Directory.GetFiles(path))
       {
-        string temppath = Path.Combine(newPath, Path.GetFileName(file));
+        var temppath = Path.Combine(newPath, Path.GetFileName(file));
         this.fileSystem.File.Copy(file, temppath);
       }
 
@@ -70,7 +70,7 @@ namespace SIM.FileSystem
       {
         foreach (DirectoryInfo subdir in dirs)
         {
-          string temppath = Path.Combine(newPath, subdir.Name);
+          var temppath = Path.Combine(newPath, subdir.Name);
           this.Copy(subdir.FullName, temppath, recursive);
         }
       }
@@ -146,7 +146,7 @@ namespace SIM.FileSystem
           Assert.IsTrue(!ignore.Contains('\\') && !ignore.Contains('/'), "Multi-level ignore is not supported for deleting");
           foreach (var directory in Directory.GetDirectories(path))
           {
-            string directoryName = new DirectoryInfo(directory).Name;
+            var directoryName = new DirectoryInfo(directory).Name;
             if (!directoryName.EqualsIgnoreCase(ignore))
             {
               this.Delete(directory);
@@ -207,7 +207,7 @@ namespace SIM.FileSystem
     {
       Assert.ArgumentNotNull(path1, "path1");
       Assert.ArgumentNotNull(path2, "path2");
-      string path = string.Empty;
+      var path = string.Empty;
       using (new ProfileSection("Find common parent", this))
       {
         ProfileSection.Argument("path1", path1);
@@ -215,11 +215,11 @@ namespace SIM.FileSystem
 
         string[] arr1 = path1.Replace('/', '\\').Split('\\');
         string[] arr2 = path2.Replace('/', '\\').Split('\\');
-        int minLen = Math.Min(arr1.Length, arr2.Length);
+        var minLen = Math.Min(arr1.Length, arr2.Length);
         for (int i = 0; i < minLen; ++i)
         {
-          string word1 = arr1[i];
-          string word2 = arr2[i];
+          var word1 = arr1[i];
+          var word2 = arr2[i];
           if (!word1.EqualsIgnoreCase(word2))
           {
             break;
@@ -298,7 +298,7 @@ namespace SIM.FileSystem
           common++;
         }
 
-        int distance = arr1.Length + arr2.Length - 2 * common - 2;
+        var distance = arr1.Length + arr2.Length - 2 * common - 2;
 
         return ProfileSection.Result(distance);
       }

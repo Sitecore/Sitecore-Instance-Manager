@@ -19,7 +19,7 @@
     {
       using (var response = WebRequestHelper.RequestAndGetResponse(url, null, null, cookies))
       {
-        string destFileName = Path.Combine(localRepository, fileName);
+        var destFileName = Path.Combine(localRepository, fileName);
         Assert.IsTrue(!FileSystem.FileSystem.Local.File.Exists(destFileName), "The {0} file already exists".FormatWith(destFileName));
 
         if (this.TryCopyFromExternalRepository(fileName, destFileName))
@@ -50,13 +50,13 @@
       var links = download.Links;
       var fileSizes = download.Sizes;
 
-      int parallelDownloadsNumber = WindowsSettings.AppDownloaderParallelThreads.Value;
+      var parallelDownloadsNumber = WindowsSettings.AppDownloaderParallelThreads.Value;
 
       var cancellation = new CancellationTokenSource();
       var urls = links.Where(link => this.RequireDownloading(fileNames[link], fileSizes[link], localRepository)).ToArray();
       for (int i = 0; i < urls.Length; i += parallelDownloadsNumber)
       {
-        int remains = urls.Length - i;
+        var remains = urls.Length - i;
         var tasks = urls
           .Skip(i)
           .Take(Math.Min(parallelDownloadsNumber, remains))
@@ -83,7 +83,7 @@
 
     private bool RequireDownloading(string fileName, long fileSize, string localRepository)
     {
-      string filePath1 = ProductManager.Products.Select(product => product.PackagePath).FirstOrDefault(packagePath => Path.GetFileName(packagePath).EqualsIgnoreCase(fileName));
+      var filePath1 = ProductManager.Products.Select(product => product.PackagePath).FirstOrDefault(packagePath => Path.GetFileName(packagePath).EqualsIgnoreCase(fileName));
       if (!string.IsNullOrEmpty(filePath1))
       {
         if (FileSystem.FileSystem.Local.File.Exists(filePath1))

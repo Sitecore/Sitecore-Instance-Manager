@@ -64,7 +64,7 @@
           ConfigurationAttribute phpath = vdirs.Attributes["physicalPath"];
           if (phpath != null)
           {
-            string value = (string)phpath.Value;
+            var value = (string)phpath.Value;
             if (!string.IsNullOrEmpty(value))
             {
               return value;
@@ -101,7 +101,7 @@
         {
           return false;
         }
-        string bindingInformation = binding.IP + ":" + binding.Port + ":" + binding.Host;
+        var bindingInformation = binding.IP + ":" + binding.Port + ":" + binding.Host;
         
         siteInfo.Bindings.Add(bindingInformation, binding.Protocol);
         context.CommitChanges();
@@ -141,7 +141,7 @@
 
       foreach (Application application in site.Applications)
       {
-        string applicationPoolName = application.ApplicationPoolName;
+        var applicationPoolName = application.ApplicationPoolName;
         ApplicationPool appplicationPool = context.ApplicationPools[applicationPoolName];
 
         // Application is used only in the current website or isn't used at all

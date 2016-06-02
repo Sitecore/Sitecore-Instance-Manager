@@ -120,7 +120,7 @@
 
       foreach (ProductInCheckbox boxItem in this.unfilteredCheckBoxItems)
       {
-        int moduleIndex = args.Modules.FindIndex(m => string.Equals(m.Name, boxItem.Value.Name, StringComparison.OrdinalIgnoreCase));
+        var moduleIndex = args.Modules.FindIndex(m => string.Equals(m.Name, boxItem.Value.Name, StringComparison.OrdinalIgnoreCase));
         while (moduleIndex >= 0)
         {
           args.Modules.RemoveAt(moduleIndex);

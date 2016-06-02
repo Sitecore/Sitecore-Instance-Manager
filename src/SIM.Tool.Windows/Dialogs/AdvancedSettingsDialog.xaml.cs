@@ -80,7 +80,7 @@
 
     private IEnumerable<AdvancedPropertyBase> GetAdvancedProperties()
     {
-      string pluginPrefix = "App/Plugins/";
+      var pluginPrefix = "App/Plugins/";
 
       var nonPluginsSettings = new List<AdvancedPropertyBase>();
       var pluginsSettings = new List<AdvancedPropertyBase>();

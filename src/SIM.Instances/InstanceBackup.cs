@@ -97,7 +97,7 @@
       get
       {
         const string Separator = ", ";
-        string dbs = this.DatabaseFilenames.Aggregate(string.Empty, (current, file) => current + (Path.GetFileNameWithoutExtension(file) + Separator));
+        var dbs = this.DatabaseFilenames.Aggregate(string.Empty, (current, file) => current + (Path.GetFileNameWithoutExtension(file) + Separator));
         dbs = dbs.Substring(0, dbs.Length - Separator.Length);
         return dbs;
       }
@@ -134,7 +134,7 @@
       get
       {
         const string Separator = ", ";
-        string dbs = this.MongoDatabaseFilenames.Aggregate(string.Empty, (current, file) => current + (Path.GetFileName(file) + Separator));
+        var dbs = this.MongoDatabaseFilenames.Aggregate(string.Empty, (current, file) => current + (Path.GetFileName(file) + Separator));
         dbs = dbs.Substring(0, dbs.Length - Separator.Length);
         return dbs;
       }
@@ -164,7 +164,7 @@
 
     public override string ToString()
     {
-      string dbs = string.Empty;
+      var dbs = string.Empty;
       if (this.BackupDatabases)
       {
         dbs = this.DatabasesString;

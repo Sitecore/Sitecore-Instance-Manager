@@ -28,7 +28,7 @@
     {
       Assert.ArgumentNotNull(hostName, "hostName");
 
-      string path = GetHostsFilePath();
+      var path = GetHostsFilePath();
       string[] lines = FileSystem.FileSystem.Local.File.ReadAllLines(path);
 
       Log.Info("Appending host: {0}", hostName);
@@ -74,7 +74,7 @@
     {
       Assert.ArgumentNotNull(hostName, "hostName");
 
-      string path = GetHostsFilePath();
+      var path = GetHostsFilePath();
       var records = GetRecords().ToArray();
       using (StreamWriter writer = new StreamWriter(path, false))
       {
@@ -97,7 +97,7 @@
 
     public static IEnumerable<IHostRecord> GetRecords()
     {
-      string path = GetHostsFilePath();
+      var path = GetHostsFilePath();
       string[] lines = FileSystem.FileSystem.Local.File.ReadAllLines(path);
       foreach (string line in lines)
       {
@@ -143,8 +143,8 @@
 
     public static void Save(List<IHostRecord> records)
     {
-      string path = GetHostsFilePath();
-      string text = FileSystem.FileSystem.Local.File.ReadAllText(path);
+      var path = GetHostsFilePath();
+      var text = FileSystem.FileSystem.Local.File.ReadAllText(path);
       Log.Info("A backup of the hosts file\r\n{0}",  text);
       var sb = new StringBuilder();
       foreach (IHostRecord hostRecord in records)

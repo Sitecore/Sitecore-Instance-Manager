@@ -26,9 +26,9 @@ namespace SIM.Pipelines
     {
       SetConnectionStringNode(name, defaultConnectionString, connectionString);
 
-      string databaseName = connectionString.GenerateDatabaseName(name);
+      var databaseName = connectionString.GenerateDatabaseName(name);
 
-      string databasePath =
+      var databasePath =
         DatabaseFilenameHook(Path.Combine(databasesFolderPath, connectionString.DefaultFileName), 
           connectionString.Name.Replace("yafnet", "forum"), databasesFolderPath);
 
@@ -97,7 +97,7 @@ namespace SIM.Pipelines
       if (!FileSystem.FileSystem.Local.File.Exists(databasePath))
       {
         string[] files = FileSystem.FileSystem.Local.Directory.GetFiles(databasesFolderPath, "*" + databaseName + ".mdf");
-        string file = files.SingleOrDefault();
+        var file = files.SingleOrDefault();
         if (!string.IsNullOrEmpty(file) && FileSystem.FileSystem.Local.File.Exists(file))
         {
           return file;
@@ -109,7 +109,7 @@ namespace SIM.Pipelines
 
     public static string ResolveConflict(SqlConnectionStringBuilder defaultConnectionString, ConnectionString connectionString, string databasePath, string databaseName, IPipelineController controller)
     {
-      string existingDatabasePath = SqlServerManager.Instance.GetDatabaseFileName(databaseName, defaultConnectionString);
+      var existingDatabasePath = SqlServerManager.Instance.GetDatabaseFileName(databaseName, defaultConnectionString);
 
       if (string.IsNullOrEmpty(existingDatabasePath))
       {
@@ -129,15 +129,15 @@ namespace SIM.Pipelines
       }
 
       // todo: replce this with shiny message box
-      string delete = "Delete the '{0}' database".FormatWith(databaseName);
+      var delete = "Delete the '{0}' database".FormatWith(databaseName);
       const string AnotherName = "Use another database name";
       const string Cancel = "Terminate current action";
       string[] options = new[]
       {
         delete, AnotherName, Cancel
       };
-      string m2 = "The database with '{0}' name already exists".FormatWith(databaseName);
-      string result = controller.Select(m2, options);
+      var m2 = "The database with '{0}' name already exists".FormatWith(databaseName);
+      var result = controller.Select(m2, options);
       switch (result)
       {
         case Cancel:
