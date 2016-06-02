@@ -62,7 +62,7 @@
 
       var sqlServerAccountName = SqlServerManager.Instance.GetSqlServerAccountName(builder);
       var webServerIdentity = Settings.CoreInstallWebServerIdentity.Value;
-      var installArgs = new InstallArgs(name, name, distributive, rootPath, builder, sqlServerAccountName, webServerIdentity, new FileInfo(license), true, false, false, false, false, false, true, new Product[0]);
+      var installArgs = new InstallArgs(name, name, distributive, rootPath, builder, sqlServerAccountName, webServerIdentity, new FileInfo(license), true, false, false, false, false, false, true, true, new Product[0]);
       var controller = new AggregatePipelineController();
       PipelineManager.StartPipeline("install", installArgs, controller, false);
 

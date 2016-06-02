@@ -22,6 +22,11 @@ namespace SIM.Pipelines.Install.Modules
 
       if (this.ProcessorDefinition.Param == "nowait")
       {
+        if (!args.PreHeat)
+        {
+          return;
+        }
+        
         try
         {
           InstanceHelper.StartInstance(instance, 500);

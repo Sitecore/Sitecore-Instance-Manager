@@ -19,6 +19,7 @@
       Assert.ArgumentNotNull(wizardArgs, "wizardArgs");
 
       var args = (InstallWizardArgs)wizardArgs;
+      this.PreHeat.IsChecked = args.PreHeat;
       this.Dictionaries.IsChecked = args.SkipDictionaries;
       this.RadControls.IsChecked = args.SkipRadControls;
       this.ServerSideRedirect.IsChecked = args.ServerSideRedirect;
@@ -30,6 +31,7 @@
       Assert.ArgumentNotNull(wizardArgs, "wizardArgs");
 
       var args = (InstallWizardArgs)wizardArgs;
+      args.PreHeat = this.PreHeat.IsChecked ?? Throw("PreHeat");
       args.SkipDictionaries = this.Dictionaries.IsChecked ?? Throw("Dictionaries");
       args.SkipRadControls = this.RadControls.IsChecked ?? Throw("RadControls");
       args.ServerSideRedirect = this.ServerSideRedirect.IsChecked ?? Throw("ServerSideRedirect");

@@ -34,6 +34,7 @@
 
       args.SkipRadControls = !Settings.CoreInstallRadControls.Value;
       args.SkipDictionaries = !Settings.CoreInstallDictionaries.Value;
+      args.PreHeat = true;
       args.ServerSideRedirect = Settings.CoreInstallNotFoundTransfer.Value;
       args.IncreaseExecutionTimeout = true;
     }
@@ -64,6 +65,8 @@
 
     public override Product Product { get; set; }
 
+    public bool PreHeat { get; set; }
+
     #endregion
 
     #region Public Methods
@@ -76,8 +79,9 @@
       var increaseExecutionTimeout = this.IncreaseExecutionTimeout;                    
       var installRadControls = !((bool)skipRadControls);
       var installDictionaries = !((bool)skipDictionaries);
+      var preheat = this.PreHeat;
       
-      return new InstallArgs(this.InstanceName, this.InstanceHost, this.InstanceProduct, this.InstanceRootPath, this.InstanceConnectionString, SqlServerManager.Instance.GetSqlServerAccountName(this.InstanceConnectionString), Settings.CoreInstallWebServerIdentity.Value, this.LicenseFileInfo, this.InstanceAppPoolInfo.FrameworkVersion == "v4.0", this.InstanceAppPoolInfo.Enable32BitAppOnWin64, !this.InstanceAppPoolInfo.ManagedPipelineMode, installRadControls, installDictionaries, (bool)serverSideRedirect, (bool)increaseExecutionTimeout, this.Modules);
+      return new InstallArgs(this.InstanceName, this.InstanceHost, this.InstanceProduct, this.InstanceRootPath, this.InstanceConnectionString, SqlServerManager.Instance.GetSqlServerAccountName(this.InstanceConnectionString), Settings.CoreInstallWebServerIdentity.Value, this.LicenseFileInfo, this.InstanceAppPoolInfo.FrameworkVersion == "v4.0", this.InstanceAppPoolInfo.Enable32BitAppOnWin64, !this.InstanceAppPoolInfo.ManagedPipelineMode, installRadControls, installDictionaries, (bool)serverSideRedirect, (bool)increaseExecutionTimeout, (bool)preheat, this.Modules);
     }
 
     #endregion
