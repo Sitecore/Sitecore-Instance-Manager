@@ -67,7 +67,7 @@
             <button     label="Internet Explorer (Private)"                         largeImage="/Images/$lg/ie.png, SIM.Tool.Windows"                         type="SIM.Tool.Windows.MainWindowComponents.BrowseButton, SIM.Tool.Windows"         param="/sitecore:iexplore:-private"/>
             <button     label="Apple Safari"                                        largeImage="/Images/$lg/safari.png, SIM.Tool.Windows"                      type="SIM.Tool.Windows.MainWindowComponents.BrowseButton, SIM.Tool.Windows"         param="/sitecore:safari"/>
             <separator />
-            <button     label="Support Toolbox"                                     largeImage="/Images/$lg/toolbox.png, SIM.Tool.Windows"                    type="SIM.Tool.Windows.MainWindowComponents.OpenToolboxButton, SIM.Tool.Windows" />
+            <button     label="Sitecore Admin"                                       largeImage="/Images/$lg/toolbox.png, SIM.Tool.Windows"                    type="SIM.Tool.Windows.MainWindowComponents.OpenToolboxButton, SIM.Tool.Windows" />
           </button>
           <button       label="Log in admin"                                        largeImage="/Images/$lg/log_in.png, SIM.Tool.Windows"                      type="SIM.Tool.Windows.MainWindowComponents.LoginAdminButton, SIM.Tool.Windows"     param="/sitecore/">
             <button     label="Sitecore Desktop"                                    largeImage="/Images/$sm/Windows Table.png, SIM.Tool.Windows"              type="SIM.Tool.Windows.MainWindowComponents.LoginAdminButton, SIM.Tool.Windows"     param="/sitecore/shell"/>
@@ -84,7 +84,7 @@
             <button     label="Internet Explorer (Private)"                         largeImage="/Images/$lg/ie.png, SIM.Tool.Windows"                         type="SIM.Tool.Windows.MainWindowComponents.LoginAdminButton, SIM.Tool.Windows"     param="/sitecore:iexplore:-private"/>
             <button     label="Apple Safari"                                        largeImage="/Images/$lg/safari.png, SIM.Tool.Windows"                     type="SIM.Tool.Windows.MainWindowComponents.LoginAdminButton, SIM.Tool.Windows"     param="/sitecore:safari"/>
             <separator />
-            <button     label="Support Toolbox"                                     largeImage="/Images/$lg/toolbox.png, SIM.Tool.Windows"                    type="SIM.Tool.Windows.MainWindowComponents.OpenToolboxButton, SIM.Tool.Windows"    param="bypass" />
+            <button     label="Sitecore Admin"                                      largeImage="/Images/$lg/toolbox.png, SIM.Tool.Windows"                    type="SIM.Tool.Windows.MainWindowComponents.OpenToolboxButton, SIM.Tool.Windows"    param="bypass" />
             <separator />
             <button     label="Copy URL"                                            largeImage="/Images/$lg/astrologer.png, SIM.Tool.Windows"                  type="SIM.Tool.Windows.MainWindowComponents.LoginAdminButton, SIM.Tool.Windows"     param="$(clipboard)"/>
           </button>
@@ -186,11 +186,11 @@
         <item header="Internet Explorer"                        image="/Images/$lg/ie.png, SIM.Tool.Windows"                                                  type="SIM.Tool.Windows.MainWindowComponents.LoginAdminButton, SIM.Tool.Windows"     param="/sitecore:iexplore"/>
         <item header="Apple Safari"                             image="/Images/$lg/safari.png, SIM.Tool.Windows"                                              type="SIM.Tool.Windows.MainWindowComponents.LoginAdminButton, SIM.Tool.Windows"     param="/sitecore:safari"/>
         <separator/>
-        <item   header="Support Toolbox"                          image="/Images/$lg/toolbox.png, SIM.Tool.Windows"                                           type="SIM.Tool.Windows.MainWindowComponents.OpenToolboxButton, SIM.Tool.Windows"    param="bypass" />
+        <item   header="Sitecore Admin"                         image="/Images/$lg/toolbox.png, SIM.Tool.Windows"                                           type="SIM.Tool.Windows.MainWindowComponents.OpenToolboxButton, SIM.Tool.Windows"    param="bypass" />
         <separator/>
         <item header="Copy URL"                                 image="/Images/$lg/astrologer.png, SIM.Tool.Windows"                                           type="SIM.Tool.Windows.MainWindowComponents.LoginAdminButton, SIM.Tool.Windows"     param="$(clipboard)"/>
       </item>
-      <item   header="Support Toolbox"                          image="/Images/$lg/toolbox.png, SIM.Tool.Windows"                                             type="SIM.Tool.Windows.MainWindowComponents.OpenToolboxButton, SIM.Tool.Windows" />
+      <item   header="Sitecore Admin"                           image="/Images/$lg/toolbox.png, SIM.Tool.Windows"                                             type="SIM.Tool.Windows.MainWindowComponents.OpenToolboxButton, SIM.Tool.Windows" />
       <item   header="Open Folder"                              image="/Images/$sm/folder_open.png, SIM.Tool.Windows"                                         type="SIM.Tool.Windows.MainWindowComponents.OpenFolderButton, SIM.Tool.Windows"     param="$(website)"/>
       <item   header="Open Visual Studio"                       image="/Images/$sm/vs.png, SIM.Tool.Windows"                                              type="SIM.Tool.Windows.MainWindowComponents.OpenVisualStudioButton, SIM.Tool.Windows" />
       <separator />
