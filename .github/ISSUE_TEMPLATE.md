@@ -1,9 +1,8 @@
-### Before reporting issue read this aloud:
-I solemnly swear that the issue I am going to report is reproducible on the latest QA version which I downloaded from http://dl.sitecore.net/updater/qa/sim today. 
+!!! Before reporting issue read this aloud: !!!
 
-### Issue Template
+I solemnly swear that the issue I am going to report is reproducible on the latest QA version which was downloaded today from http://dl.sitecore.net/updater/qa/sim
 
-(delete all text above and including this line, and modify template below)
+!!! delete this line and all lines above, and modify template below !!!
 
 **Importance:**  
 * **Critical** (I need this issue to be fixed)  
