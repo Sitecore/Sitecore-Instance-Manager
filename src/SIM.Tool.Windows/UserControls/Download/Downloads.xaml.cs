@@ -78,9 +78,14 @@
       {
         WindowHelper.HandleError("You didn't select any download, please select one to go further", false);
       }
-
-      WindowHelper.LongRunningTask(() => this.PrepareData(args), "Sitecore Versions Downloader", Window.GetWindow(this), "Preparing for downloading");
-
+      
+      Exception ex = null;
+      WindowHelper.LongRunningTask(() => { ex = this.PrepareData(args); }, "Sitecore Versions Downloader", Window.GetWindow(this), "Preparing for downloading");
+      if (ex != null)
+      {
+        WindowHelper.ShowMessage("Failed to prepare the data. " + ex + "\r\nMessage: " + ex.Message + "\r\nStackTrace:\r\n" + ex.StackTrace);
+      }
+      
       return canMoveNext;
     }
 
@@ -132,7 +137,7 @@
       return sizes;
     }
 
-    private void PrepareData(DownloadWizardArgs args)
+    private Exception PrepareData(DownloadWizardArgs args)
     {
       try
       {
@@ -145,8 +150,10 @@
       }
       catch (Exception ex)
       {
-        Log.Error(ex, "Error while preparing data");
+        return ex;
       }
+      
+      return null;
     }
 
     #endregion
