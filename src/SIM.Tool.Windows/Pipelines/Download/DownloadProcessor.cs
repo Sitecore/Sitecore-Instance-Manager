@@ -53,7 +53,7 @@
       var parallelDownloadsNumber = WindowsSettings.AppDownloaderParallelThreads.Value;
 
       var cancellation = new CancellationTokenSource();
-      var urls = links.Where(link => this.RequireDownloading(fileNames[link], fileSizes[link], localRepository)).ToArray();
+      var urls = links.Where(link => link != null && this.RequireDownloading(fileNames[link], fileSizes[link], localRepository)).ToArray();
       for (int i = 0; i < urls.Length; i += parallelDownloadsNumber)
       {
         var remains = urls.Length - i;
