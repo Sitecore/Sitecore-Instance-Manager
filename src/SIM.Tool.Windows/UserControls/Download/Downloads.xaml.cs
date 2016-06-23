@@ -84,6 +84,8 @@
       if (ex != null)
       {
         WindowHelper.ShowMessage("Failed to prepare the data. " + ex + "\r\nMessage: " + ex.Message + "\r\nStackTrace:\r\n" + ex.StackTrace);
+        
+        return false;
       }
       
       return canMoveNext;
