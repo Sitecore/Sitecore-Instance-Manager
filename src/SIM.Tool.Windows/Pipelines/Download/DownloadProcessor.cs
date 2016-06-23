@@ -47,8 +47,11 @@
       var cookies = download.Cookies;
       var localRepository = download.LocalRepository;
       var fileNames = download.FileNames;
+      Assert.IsNotNull(fileNames, "fileNames");
+      
       var links = download.Links;
       var fileSizes = download.Sizes;
+      Assert.IsNotNull(fileSizes, "fileSizes");
 
       var parallelDownloadsNumber = WindowsSettings.AppDownloaderParallelThreads.Value;
 
@@ -60,6 +63,7 @@
         var tasks = urls
           .Skip(i)
           .Take(Math.Min(parallelDownloadsNumber, remains))
+          .Where(url => url != null)
           .Select(url => Task.Factory.StartNew(() => this.DownloadFile(url, fileNames[url], fileSizes[url], localRepository, cookies, cancellation.Token), cancellation.Token))
           .ToArray();
 
