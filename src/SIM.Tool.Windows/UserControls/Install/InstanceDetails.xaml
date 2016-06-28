@@ -5,7 +5,7 @@
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="72" />
 			<ColumnDefinition Width="*" />
-			<ColumnDefinition Width="72" />
+			<ColumnDefinition Width="80" />
 			<ColumnDefinition Width="*" />
 		</Grid.ColumnDefinitions>
 		<Grid.RowDefinitions>
@@ -17,20 +17,6 @@
       <RowDefinition Height="28" />
       <RowDefinition Height="*" />
 		</Grid.RowDefinitions>
-
-		<TextBlock Grid.Row="4" Grid.Column="0" Text="Framework: " />
-		<ComboBox Grid.Row="4" Grid.Column="1" Name="NetFramework" SelectedIndex="0" ItemsSource="{Binding}">
-			<!--<ComboBoxItem>v2.0</ComboBoxItem>
-			<ComboBoxItem>v2.0 32bit</ComboBoxItem>
-			<ComboBoxItem>v4.0</ComboBoxItem>
-			<ComboBoxItem>v4.0 32bit</ComboBoxItem>-->
-		</ComboBox>
-
-		<TextBlock Grid.Row="4" Grid.Column="2" Text="Pool Mode: " />
-		<ComboBox Grid.Row="4" Grid.Column="3" Name="Mode" SelectedIndex="0">
-			<ComboBoxItem>Integrated</ComboBoxItem>
-			<ComboBoxItem>Classic</ComboBoxItem>
-		</ComboBox>
 
 		<TextBlock Grid.Row="0" Grid.Column="0" Text="Product: " />
 		<ComboBox Grid.Row="0" Grid.Column="1" Name="ProductName" DisplayMemberPath="Name" SelectionChanged="ProductNameChanged" />
@@ -44,16 +30,14 @@
 		<TextBlock Grid.Row="0" Grid.Column="2" Text="Site Name: " />
 		<TextBox Grid.Row="0" Grid.Column="3" Name="InstanceName" Text="{Binding ElementName=ProductRevision, Path=SelectedValue, Converter={x:Static Converters:Product.DefaultInstanceName}, Mode=OneWay}" TextChanged="InstanceNameTextChanged" />
 
-		<TextBlock Grid.Row="1" Grid.Column="2" Text="Host name: " />
-		<TextBox Grid.Row="1" Grid.Column="3" Name="HostName" />
+    <TextBlock Grid.Row="1" Grid.Column="2" Text="Host name(s): " />
+    <TextBox Name="HostNames" AcceptsReturn="true" Grid.Row="1" Grid.Column="3" Grid.RowSpan="2" Height="50" VerticalScrollBarVisibility="Auto"/>
 
-		<TextBlock Grid.Row="2" Grid.Column="2" Text="SQL Prefix: " />
-		<TextBox Grid.Row="2" Grid.Column="3" Name="sqlPrefix" IsEnabled="False" />
+		<TextBlock Grid.Row="3" Grid.Column="2" Text="SQL Prefix: " />
+		<TextBox Grid.Row="3" Grid.Column="3" Name="sqlPrefix" IsEnabled="False" />
 
-		<TextBox Grid.Row="3" Grid.Column="3" Name="RootName" />
-
-		<TextBlock Grid.Row="3" Text="Location: " Name="LocationLabel" />
-		<Grid Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" Name="LocationGrid">
+		<TextBlock Grid.Row="4" Text="Location: " Name="LocationLabel" />
+		<Grid Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2" Name="LocationGrid">
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="28" />
 				<ColumnDefinition />
@@ -63,5 +47,21 @@
       <TextBox Name="locationFolder" HorizontalContentAlignment="Right" Grid.Column="1" IsEnabled="{Binding Source={x:Static Install:InstanceDetails.InstallEverywhere}}" />
 			<TextBlock Grid.Column="2" HorizontalAlignment="Center">\</TextBlock>
 		</Grid>
-	</Grid>
+
+    <TextBox Grid.Row="4" Grid.Column="3" Name="RootName" />
+
+    <TextBlock Grid.Row="5" Grid.Column="0" Text="Framework: " />
+    <ComboBox Grid.Row="5" Grid.Column="1" Name="NetFramework" SelectedIndex="0" ItemsSource="{Binding}">
+      <!--<ComboBoxItem>v2.0</ComboBoxItem>
+			<ComboBoxItem>v2.0 32bit</ComboBoxItem>
+			<ComboBoxItem>v4.0</ComboBoxItem>
+			<ComboBoxItem>v4.0 32bit</ComboBoxItem>-->
+    </ComboBox>
+
+    <TextBlock Grid.Row="5" Grid.Column="2" Text="Pool Mode: " />
+    <ComboBox Grid.Row="5" Grid.Column="3" Name="Mode" SelectedIndex="0">
+      <ComboBoxItem>Integrated</ComboBoxItem>
+      <ComboBoxItem>Classic</ComboBoxItem>
+    </ComboBox>
+  </Grid>
 </UserControl>

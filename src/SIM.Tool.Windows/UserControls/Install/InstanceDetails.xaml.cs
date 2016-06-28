@@ -1,4 +1,6 @@
-﻿namespace SIM.Tool.Windows.UserControls.Install
+﻿using NuGet;
+
+namespace SIM.Tool.Windows.UserControls.Install
 {
   using System;
   using System.Collections.Generic;
@@ -82,80 +84,17 @@
       Product product = productRevision.SelectedValue as Product;
       Assert.IsNotNull(product, "product");
 
-      var instanceName = this.InstanceName;
-      Assert.IsNotNull(instanceName, "instanceName");
+      var rootName = GetValidRootName();
 
-      var name = instanceName.Text.EmptyToNull();
-      Assert.IsNotNull(name, @"Instance name isn't set");
+      var rootPath = GetValidRootPath(rootName);
+      if (rootPath == null)
+        return false;
 
-      var hostName = this.HostName;
-      Assert.IsNotNull(hostName, "hostName");
+      var name = GetValidWebsiteName();
+      if (name == null)
+        return false;
 
-      var host = hostName.Text.EmptyToNull();
-      Assert.IsNotNull(host, "Hostname must not be emoty");
-
-      var rootName = this.RootName;
-      Assert.IsNotNull(rootName, "rootName");
-
-      var root = rootName.Text.EmptyToNull();
-      Assert.IsNotNull(rootName, "Root folder name must not be emoty");
-
-      var location = this.locationFolder.Text.EmptyToNull();
-      Assert.IsNotNull(location, @"The location folder isn't set");
-
-      var rootPath = Path.Combine(location, root);
-      bool locationIsPhysical = FileSystem.FileSystem.Local.Directory.HasDriveLetter(rootPath);
-      Assert.IsTrue(locationIsPhysical, "The location folder path must be physical i.e. contain a drive letter. Please choose another location folder");
-
-      var webRootPath = Path.Combine(rootPath, "Website");
-
-      bool websiteExists = WebServerManager.WebsiteExists(name);
-      if (websiteExists)
-      {
-        using (var context = WebServerManager.CreateContext("InstanceDetails.OnMovingNext('{0}')".FormatWith(name)))
-        {
-          var site = context.Sites.Single(s => s != null && s.Name.EqualsIgnoreCase(name));
-          var path = WebServerManager.GetWebRootPath(site);
-          if (FileSystem.FileSystem.Local.Directory.Exists(path))
-          {
-            this.Alert("The website with the same name already exists, please choose another instance name.");
-            return false;
-          }
-
-          if (
-            WindowHelper.ShowMessage("There website with the same name already exists, but points to non-existing location. Would you like to delete it?", 
-              MessageBoxButton.OKCancel, MessageBoxImage.Asterisk) != MessageBoxResult.OK)
-          {
-            return false;
-          }
-
-          site.Delete();
-          context.CommitChanges();
-        }
-      }
-
-      websiteExists = WebServerManager.WebsiteExists(name);
-      Assert.IsTrue(!websiteExists, "The website with the same name already exists, please choose another instance name.");
-
-      bool hostExists = WebServerManager.HostBindingExists(host);
-      Assert.IsTrue(!hostExists, "Website with the same host name already exists");
-
-      bool rootFolderExists = FileSystem.FileSystem.Local.Directory.Exists(rootPath);
-      if (rootFolderExists && InstanceManager.Instances != null)
-      {
-        if (InstanceManager.Instances.Any(i => i != null && i.WebRootPath.EqualsIgnoreCase(webRootPath)))
-        {
-          this.Alert("There is another instance with the same root path, please choose another folder");
-          return false;
-        }
-
-        if (WindowHelper.ShowMessage("The folder with the same name already exists. Would you like to delete it?", MessageBoxButton.OKCancel, MessageBoxImage.Question, MessageBoxResult.OK) != MessageBoxResult.OK)
-        {
-          return false;
-        }
-
-        FileSystem.FileSystem.Local.Directory.DeleteIfExists(rootPath);
-      }
+      var hostNames = GetValidHostNames();
 
       var connectionString = ProfileManager.GetConnectionString();
       SqlServerManager.Instance.ValidateConnectionString(connectionString);
@@ -164,6 +103,26 @@
       Assert.IsNotNull(licensePath, @"The license file isn't set in the Settings window");
       FileSystem.FileSystem.Local.File.AssertExists(licensePath, "The {0} file is missing".FormatWith(licensePath));
 
+      var appPoolInfo = GetAppPoolInfo();
+
+      var args = (InstallWizardArgs)wizardArgs;
+      args.InstanceName = name;
+      args.InstanceHostNames = hostNames;
+      args.InstanceWebRootPath = GetWebRootPath(rootPath);
+      args.InstanceRootName = rootName;
+      args.InstanceRootPath = rootPath;
+      args.InstanceProduct = product;
+      args.InstanceConnectionString = connectionString;
+      args.LicenseFileInfo = new FileInfo(licensePath);
+      args.InstanceAppPoolInfo = appPoolInfo;
+      args.Product = product;
+
+      return true;
+    }
+
+    [NotNull]
+    private AppPoolInfo GetAppPoolInfo()
+    {
       var netFramework = this.NetFramework;
       Assert.IsNotNull(netFramework, "netFramework");
 
@@ -175,29 +134,122 @@
       var mode = this.Mode;
       Assert.IsNotNull(mode, "mode");
 
-      var modeItem = (ListBoxItem)mode.SelectedValue;
+      var modeItem = (ListBoxItem) mode.SelectedValue;
       Assert.IsNotNull(modeItem, "modeItem");
 
-      var isClassic = ((string)modeItem.Content).EqualsIgnoreCase("Classic");
+      var isClassic = ((string) modeItem.Content).EqualsIgnoreCase("Classic");
+      var appPoolInfo = new AppPoolInfo
+                        {
+                          FrameworkVersion = frameworkArr[0].EmptyToNull() ?? "v2.0",
+                          Enable32BitAppOnWin64 = force32Bit,
+                          ManagedPipelineMode = !isClassic
+                        };
+      return appPoolInfo;
+    }
 
-      var args = (InstallWizardArgs)wizardArgs;
-      args.InstanceName = name;
-      args.InstanceHost = host;
-      args.InstanceWebRootPath = webRootPath;
-      args.InstanceRootName = root;
-      args.InstanceRootPath = rootPath;
-      args.InstanceProduct = product;
-      args.InstanceConnectionString = connectionString;
-      args.LicenseFileInfo = new FileInfo(licensePath);
-      args.InstanceAppPoolInfo = new AppPoolInfo
+    private static string GetWebRootPath(string rootPath)
+    {
+      var webRootPath = Path.Combine(rootPath, "Website");
+      return webRootPath;
+    }
+
+    [NotNull]
+    private string GetValidRootName()
+    {
+      var rootName = this.RootName;
+      Assert.IsNotNull(rootName, "rootName");
+
+      var root = rootName.Text.EmptyToNull();
+      Assert.IsNotNull(rootName, "Root folder name must not be emoty");
+      return root;
+    }
+
+    [CanBeNull]
+    private string GetValidRootPath(string root)
+    {
+      var location = this.locationFolder.Text.EmptyToNull();
+      Assert.IsNotNull(location, @"The location folder isn't set");
+
+      var rootPath = Path.Combine(location, root);
+      var locationIsPhysical = FileSystem.FileSystem.Local.Directory.HasDriveLetter(rootPath);
+      Assert.IsTrue(locationIsPhysical, "The location folder path must be physical i.e. contain a drive letter. Please choose another location folder");
+
+      var webRootPath = GetWebRootPath(rootPath);
+
+      var rootFolderExists = FileSystem.FileSystem.Local.Directory.Exists(rootPath);
+      if (!rootFolderExists || InstanceManager.Instances == null)
+        return rootPath;
+      if (InstanceManager.Instances.Any(i => i != null && i.WebRootPath.EqualsIgnoreCase(webRootPath)))
       {
-        FrameworkVersion = frameworkArr[0].EmptyToNull() ?? "v2.0", 
-        Enable32BitAppOnWin64 = force32Bit, 
-        ManagedPipelineMode = !isClassic
-      };
-      args.Product = product;
+        Alert("There is another instance with the same root path, please choose another folder");
+        return null;
+      }
 
-      return true;
+      if (WindowHelper.ShowMessage("The folder with the same name already exists. Would you like to delete it?", MessageBoxButton.OKCancel, MessageBoxImage.Question, MessageBoxResult.OK) != MessageBoxResult.OK)
+      {
+        return null;
+      }
+
+      FileSystem.FileSystem.Local.Directory.DeleteIfExists(rootPath);
+
+      return rootPath;
+    }
+
+    [CanBeNull]
+    private string GetValidWebsiteName()
+    {
+      var instanceName = this.InstanceName;
+      Assert.IsNotNull(instanceName, "instanceName");
+
+      var name = instanceName.Text.EmptyToNull();
+      Assert.IsNotNull(name, @"Instance name isn't set");
+
+      var websiteExists = WebServerManager.WebsiteExists(name);
+      if (websiteExists)
+      {
+        using (var context = WebServerManager.CreateContext("InstanceDetails.OnMovingNext('{0}')".FormatWith(name)))
+        {
+          var site = context.Sites.Single(s => s != null && s.Name.EqualsIgnoreCase(name));
+          var path = WebServerManager.GetWebRootPath(site);
+          if (FileSystem.FileSystem.Local.Directory.Exists(path))
+          {
+            this.Alert("The website with the same name already exists, please choose another instance name.");
+            return null;
+          }
+
+          if (WindowHelper.ShowMessage("There website with the same name already exists, but points to non-existing location. Would you like to delete it?", MessageBoxButton.OKCancel, MessageBoxImage.Asterisk) != MessageBoxResult.OK)
+          {
+            return null;
+          }
+
+          site.Delete();
+          context.CommitChanges();
+        }
+      }
+
+      websiteExists = WebServerManager.WebsiteExists(name);
+      Assert.IsTrue(!websiteExists, "The website with the same name already exists, please choose another instance name.");
+      return name;
+    }
+
+    [NotNull]
+    private string[] GetValidHostNames()
+    {
+      var hostName = this.HostNames;
+      Assert.IsNotNull(hostName, "HostNames is null");
+
+      var hostNamesString = hostName.Text.EmptyToNull();
+      Assert.IsNotNull(hostNamesString, "Host names can not be empty");
+
+      var hostNames = hostNamesString.Split(new[] { '\r', '\n', ',', '|', ';' }, StringSplitOptions.RemoveEmptyEntries);
+      Assert.IsTrue(hostNames.Any(), "Host names can not be empty");
+
+      foreach (var host in hostNames)
+      {
+        var hostExists = WebServerManager.HostBindingExists(host);
+        Assert.IsTrue(!hostExists, string.Format("Website with the host name '{0}' already exists", host));
+      }
+      return hostNames;
     }
 
     #endregion
@@ -233,16 +285,27 @@
       {
         var name = this.InstanceName.Text;
 
-        // use name without changes
         this.RootName.Text = name;
         this.sqlPrefix.Text = name;
-        
-        // convert example.cm1 into cm1.example
-        name = string.Join(".", name.Split(".".ToCharArray(), StringSplitOptions.RemoveEmptyEntries).Reverse());
-
-        // convert cm1.example.local
-        this.HostName.Text = name + (ProductHelper.Settings.CoreProductHostNameEndsWithLocal.Value ? ".local" : "");
+        this.HostNames.Text = GenerateHostName(name);
       }
+    }
+
+    [NotNull]
+    private string GenerateHostName([NotNull]string name)
+    {
+      var hostName = name;
+      if (ProductHelper.Settings.CoreProductReverseHostName.Value)
+      {
+        // convert example.cm1 into cm1.example
+        hostName = string.Join(".", hostName.Split(".".ToCharArray(), StringSplitOptions.RemoveEmptyEntries).Reverse());
+      }
+      if (ProductHelper.Settings.CoreProductHostNameEndsWithLocal.Value && !hostName.EndsWith(".local", StringComparison.InvariantCultureIgnoreCase))
+      {
+        // convert to cm1.example.local
+        hostName = hostName + (ProductHelper.Settings.CoreProductHostNameEndsWithLocal.Value ? ".local" : "");
+      }
+      return hostName;
     }
 
     private void PickLocationFolder([CanBeNull] object sender, [CanBeNull] RoutedEventArgs e)
@@ -280,9 +343,6 @@
 
         var name = product.DefaultInstanceName;
         this.InstanceName.Text = name;
-        this.HostName.Text = name;
-        this.RootName.Text = product.DefaultFolderName;
-        this.sqlPrefix.Text = name;
 
         var frameworkVersions = new ObservableCollection<string>(this.allFrameworkVersions);
 
@@ -624,23 +684,18 @@
         this.RootName.Text = rootName;
       }
 
-      var host = args.InstanceHost;
-
-      if (!string.IsNullOrEmpty(host))
+      var hostNames = args.InstanceHostNames;
+      if (hostNames != null && hostNames.Any())
       {
-        this.HostName.Text = host;
+        this.HostNames.Text = hostNames.Join("\r\n");
       }
 
-      if (rootName != null)
+      if (rootName == null)
+        return;
+      var location = args.InstanceRootPath.TrimEnd(rootName).Trim('/', '\\');
+      if (!string.IsNullOrEmpty(location))
       {
-        var location = args.InstanceRootPath.TrimEnd(rootName).Trim(new[]
-        {
-          '/', '\\'
-        });
-        if (!string.IsNullOrEmpty(location))
-        {
-          this.locationFolder.Text = location;
-        }
+        this.locationFolder.Text = location;
       }
     }
 
