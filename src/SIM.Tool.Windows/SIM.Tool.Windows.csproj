@@ -42,10 +42,6 @@
       <HintPath>..\packages\Fluent.Ribbon.3.6.1.236\lib\net45\Fluent.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="ICSharpCode.SharpZipLib">
-      <HintPath>..\packages\SharpZipLib.0.86.0\lib\20\ICSharpCode.SharpZipLib.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Ionic.Zip.Reduced, Version=1.9.1.8, Culture=neutral, PublicKeyToken=edbe51ad942a3f5c, processorArchitecture=MSIL">
       <HintPath>..\packages\DotNetZip.Reduced.1.9.1.8\lib\net20\Ionic.Zip.Reduced.dll</HintPath>
       <Private>True</Private>
@@ -68,10 +64,6 @@
       <HintPath>..\packages\Microsoft.Web.Xdt.2.1.1\lib\net40\Microsoft.Web.XmlTransform.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="NuGet.Core, Version=2.10.1.766, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\NuGet.Core.2.10.1\lib\net40-Client\NuGet.Core.dll</HintPath>
       <Private>True</Private>
@@ -80,20 +72,24 @@
       <HintPath>..\packages\Sitecore.Diagnostics.Base.1.0.0.24\lib\net35\Sitecore.Diagnostics.Base.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Sitecore.Diagnostics.Database">
-      <HintPath>..\packages\Sitecore.Diagnostics.Database.1.0.0.8\lib\net40\Sitecore.Diagnostics.Database.dll</HintPath>
+    <Reference Include="Sitecore.Diagnostics.InformationService.Client, Version=1.3.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Sitecore.Diagnostics.InformationService.Client.1.3.3.0\lib\Sitecore.Diagnostics.InformationService.Client.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Sitecore.Diagnostics.InformationService.Client.Core, Version=1.3.2.1, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Sitecore.Diagnostics.InformationService.Client.Core.1.3.2.1\lib\Sitecore.Diagnostics.InformationService.Client.Core.dll</HintPath>
+    <Reference Include="Sitecore.Diagnostics.InformationService.Client.Core, Version=1.3.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Sitecore.Diagnostics.InformationService.Client.1.3.3.0\lib\Sitecore.Diagnostics.InformationService.Client.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Sitecore.Diagnostics.InformationService.Client.Databases, Version=1.3.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Sitecore.Diagnostics.InformationService.Client.1.3.3.0\lib\Sitecore.Diagnostics.InformationService.Client.Databases.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Sitecore.Diagnostics.Logging, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Sitecore.Diagnostics.Logging.1.0.1.0\lib\net40\Sitecore.Diagnostics.Logging.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Sitecore.NuGet.Core">
-      <HintPath>..\packages\Sitecore.NuGet.Core.1.0.2.6\lib\Sitecore.NuGet.Core.dll</HintPath>
+    <Reference Include="Sitecore.NuGet.Core, Version=1.0.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Sitecore.NuGet.Core.1.0.3.0\lib\Sitecore.NuGet.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
