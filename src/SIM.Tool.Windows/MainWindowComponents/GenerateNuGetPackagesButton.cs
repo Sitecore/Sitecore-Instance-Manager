@@ -65,7 +65,7 @@
         try
         {
           // Create nupkg file
-          new PackageGenerator().Generate(file, outputFolderPath);
+          new PackageGenerator().Generate(file, outputFolderPath, true, false);
         }
         catch (Exception ex)
         {
