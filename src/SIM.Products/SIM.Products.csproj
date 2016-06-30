@@ -44,19 +44,19 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Sitecore.Diagnostics.Database, Version=1.0.0.0, Culture=neutral, PublicKeyToken=1eb7b03b14a31fae, processorArchitecture=MSIL">
-      <HintPath>..\packages\Sitecore.Diagnostics.InformationService.Client.1.3.3.0\lib\Sitecore.Diagnostics.Database.dll</HintPath>
+      <HintPath>..\packages\Sitecore.Diagnostics.InformationService.Client.1.3.4.0\lib\Sitecore.Diagnostics.Database.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Sitecore.Diagnostics.InformationService.Client, Version=1.3.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Sitecore.Diagnostics.InformationService.Client.1.3.3.0\lib\Sitecore.Diagnostics.InformationService.Client.dll</HintPath>
+    <Reference Include="Sitecore.Diagnostics.InformationService.Client, Version=1.3.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Sitecore.Diagnostics.InformationService.Client.1.3.4.0\lib\Sitecore.Diagnostics.InformationService.Client.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Sitecore.Diagnostics.InformationService.Client.Core, Version=1.3.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Sitecore.Diagnostics.InformationService.Client.1.3.3.0\lib\Sitecore.Diagnostics.InformationService.Client.Core.dll</HintPath>
+    <Reference Include="Sitecore.Diagnostics.InformationService.Client.Core, Version=1.3.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Sitecore.Diagnostics.InformationService.Client.1.3.4.0\lib\Sitecore.Diagnostics.InformationService.Client.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Sitecore.Diagnostics.InformationService.Client.Databases, Version=1.3.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Sitecore.Diagnostics.InformationService.Client.1.3.3.0\lib\Sitecore.Diagnostics.InformationService.Client.Databases.dll</HintPath>
+    <Reference Include="Sitecore.Diagnostics.InformationService.Client.Databases, Version=1.3.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Sitecore.Diagnostics.InformationService.Client.1.3.4.0\lib\Sitecore.Diagnostics.InformationService.Client.Databases.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Sitecore.Diagnostics.Logging, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">

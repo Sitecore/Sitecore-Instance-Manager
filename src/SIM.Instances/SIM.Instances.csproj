@@ -44,8 +44,8 @@
       <HintPath>..\packages\Sitecore.Diagnostics.Base.1.0.0.24\lib\net35\Sitecore.Diagnostics.Base.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Sitecore.Diagnostics.ConfigBuilder, Version=1.0.0.0, Culture=neutral, PublicKeyToken=835b316ca91bcd48, processorArchitecture=MSIL">
-      <HintPath>..\packages\Sitecore.Diagnostics.ConfigBuilder.1.0.0.16\lib\net35\Sitecore.Diagnostics.ConfigBuilder.dll</HintPath>
+    <Reference Include="Sitecore.Diagnostics.ConfigBuilder, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Sitecore.Diagnostics.ConfigBuilder.1.0.1.0\lib\net40\Sitecore.Diagnostics.ConfigBuilder.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Sitecore.Diagnostics.Logging, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
@@ -54,6 +54,10 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.IO.Abstractions, Version=2.0.0.124, Culture=neutral, PublicKeyToken=d480b5b72fb413da, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.Abstractions.2.0.0.124\lib\net40\System.IO.Abstractions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>

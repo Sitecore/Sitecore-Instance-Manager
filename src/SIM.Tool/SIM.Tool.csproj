@@ -52,8 +52,12 @@
       <HintPath>..\packages\Alienlab.NetExtensions.1.0.8\lib\Alienlab.NetExtensions.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Fluent, Version=3.6.1.236, Culture=neutral, PublicKeyToken=3e436e32a8c5546f, processorArchitecture=MSIL">
-      <HintPath>..\packages\Fluent.Ribbon.3.6.1.236\lib\net45\Fluent.dll</HintPath>
+    <Reference Include="ControlzEx, Version=2.0.1.61, Culture=neutral, PublicKeyToken=f08b075e934b7045, processorArchitecture=MSIL">
+      <HintPath>..\packages\ControlzEx.2.0.1.61\lib\net45\ControlzEx.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Fluent, Version=4.0.3.394, Culture=neutral, PublicKeyToken=3e436e32a8c5546f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Fluent.Ribbon.4.0.3.394\lib\net45\Fluent.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Ionic.Zip.Reduced, Version=1.9.1.8, Culture=neutral, PublicKeyToken=edbe51ad942a3f5c, processorArchitecture=MSIL">
@@ -98,8 +102,8 @@
       <HintPath>..\packages\Sitecore.Diagnostics.Base.1.0.0.24\lib\net35\Sitecore.Diagnostics.Base.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Sitecore.Diagnostics.ConfigBuilder, Version=1.0.0.0, Culture=neutral, PublicKeyToken=835b316ca91bcd48, processorArchitecture=MSIL">
-      <HintPath>..\packages\Sitecore.Diagnostics.ConfigBuilder.1.0.0.16\lib\net35\Sitecore.Diagnostics.ConfigBuilder.dll</HintPath>
+    <Reference Include="Sitecore.Diagnostics.ConfigBuilder, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Sitecore.Diagnostics.ConfigBuilder.1.0.1.0\lib\net40\Sitecore.Diagnostics.ConfigBuilder.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Sitecore.Diagnostics.Logging, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
@@ -113,10 +117,14 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
+    <Reference Include="System.IO.Abstractions, Version=2.0.0.124, Culture=neutral, PublicKeyToken=d480b5b72fb413da, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.Abstractions.2.0.0.124\lib\net40\System.IO.Abstractions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Net" />
     <Reference Include="System.ServiceProcess" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Fluent.Ribbon.3.6.1.236\lib\net45\System.Windows.Interactivity.dll</HintPath>
+      <HintPath>..\packages\ControlzEx.2.0.1.61\lib\net45\System.Windows.Interactivity.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Xaml" />
