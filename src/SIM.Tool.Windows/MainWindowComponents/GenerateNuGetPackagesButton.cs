@@ -58,14 +58,16 @@
 
     private static void ProcessFolder(string directory, string outputFolderPath)
     {
-      var pattern = "* rev.*.zip";
+      var pattern = "*rev*.zip";
       var zipfiles = Directory.GetFiles(directory, pattern, SearchOption.AllDirectories);
       foreach (var file in zipfiles)
       {
         try
         {
+          Log.Info("Generating NuGet packages from: " + file);
+
           // Create nupkg file
-          new PackageGenerator().Generate(file, outputFolderPath, true, false);
+          new PackageGenerator().Generate(file, outputFolderPath);
         }
         catch (Exception ex)
         {
