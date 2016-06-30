@@ -122,7 +122,7 @@
 </manifest>");
     private bool? isArchive;
     private string searchToken;
-    public static readonly IServiceClient Service = new ServiceClient();
+    public static readonly IServiceClient Service = new ServiceClientEx();
 
     [CanBeNull]
     private IRelease release;
