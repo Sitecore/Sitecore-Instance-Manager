@@ -58,41 +58,18 @@
 
     private static void ProcessFolder(string directory, string outputFolderPath)
     {
-      var client = new ServiceClient();
-      foreach (var productName in client.GetProductNames())
+      var pattern = "* rev.*.zip";
+      var zipfiles = Directory.GetFiles(directory, pattern, SearchOption.AllDirectories);
+      foreach (var file in zipfiles)
       {
-        var filePrefix = PackageGenerator.GetFilePrefix(productName);
-        var prefix = PackageGenerator.GetAbbr(productName);
-        if (string.IsNullOrEmpty(prefix))
+        try
         {
-          continue;
+          // Create nupkg file
+          new PackageGenerator().Generate(file, outputFolderPath);
         }
-
-        foreach (var version in client.GetVersions(productName))
+        catch (Exception ex)
         {
-          var majorMinor = PackageGenerator.GetMajorMinor(version);
-          foreach (var release in version.Releases)
-          {
-            var revision = release.Revision;
-            var pattern = filePrefix + " " + majorMinor + "* rev. " + revision + ".zip";
-            var zipfiles = Directory.GetFiles(directory, pattern, SearchOption.AllDirectories);
-            if (zipfiles.Length <= 0)
-            {
-              continue;
-            }
-
-            var releaseVersion = PackageGenerator.GetReleaseVersion(majorMinor, revision);
-            var file = zipfiles.First();
-            try
-            {
-              // Create nupkg file
-              new PackageGenerator().Generate(prefix, productName, file, releaseVersion, outputFolderPath);
-            }
-            catch (Exception ex)
-            {
-              Log.Error("Error processing file " + file + ". " + ex.Message + Environment.NewLine + "Stack trace:" + Environment.NewLine + ex.StackTrace);
-            }
-          }
+          Log.Error("Error processing file " + file + ". " + ex.Message + Environment.NewLine + "Stack trace:" + Environment.NewLine + ex.StackTrace);
         }
       }
     }
