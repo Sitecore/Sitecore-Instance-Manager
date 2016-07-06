@@ -1,4 +1,6 @@
-﻿namespace SIM.Pipelines
+﻿using System.Web.UI;
+
+namespace SIM.Pipelines
 {
   using System;
   using System.Collections.Generic;
@@ -811,6 +813,9 @@
         .Replace("{InstanceHost}", instance.HostNames.First());
 
       var actions = actionsElement.ChildNodes.OfType<XmlElement>();
+      var conditionEvaluator = new ConditionEvaluator(variables);
+      actions = actions.Where(a => conditionEvaluator.ConditionIsTrueOrMissing(a));
+
       var webRootPath = instance.WebRootPath;
       List<string> ignoreCommands = new List<string>();
       foreach (XmlElement action in actions.Where(a => a.Name.EqualsIgnoreCase("patch")))
@@ -891,10 +896,25 @@
             break;
           }
 
+          case "deployfile":
+          {
+            DeployFile(action.GetAttribute("path"), action.GetAttribute("target"), instance);
+            break;
+          }
+
+
           case "setRestrictingPlaceholders":
           {
             InstanceHelper.StartInstance(instance);
             SetRestrictingPlaceholders(action.GetAttribute("names"), GetWebServiceUrl(instance));
+            break;
+          }
+
+          case "custom":
+          {
+            var typeName = action.GetAttribute("type").EmptyToNull().IsNotNull("The type attribute is missing in the <custom> install action");
+            var obj = (IPackageInstallActions)ReflectionUtil.CreateObject(typeName);
+            obj.Execute(instance, module);
             break;
           }
 
@@ -924,6 +944,17 @@
           }
         }
       }
+    }
+
+    private static void DeployFile(string path, string target, Instance instance)
+    {
+      string instanceRootPath = instance.RootPath;
+
+      var sourcePath = Path.Combine(ApplicationManager.TempFolder, path.TrimStart("/"));
+      var targetPath = Path.Combine(instanceRootPath, target.TrimStart("/"));
+
+      File.Copy(sourcePath, targetPath);
+
     }
 
     private static void SetRestrictingPlaceholders(string names, string url)
