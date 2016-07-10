@@ -954,7 +954,6 @@ namespace SIM.Pipelines
       var targetPath = Path.Combine(instanceRootPath, target.TrimStart("/"));
 
       File.Copy(sourcePath, targetPath);
-
     }
 
     private static void SetRestrictingPlaceholders(string names, string url)

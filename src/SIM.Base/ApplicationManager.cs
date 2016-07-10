@@ -178,8 +178,6 @@ namespace SIM
 
       var assembly = Assembly.Load(assemblyName);
       Assert.IsNotNull(assembly, "assembly");
-      Assert.IsNotNull(assembly, "assembly");
-      Assert.IsNotNull(assembly, "assembly");
 
       using (var stream = assembly.GetManifestResourceStream(assemblyName + @"." + packageName))
       {

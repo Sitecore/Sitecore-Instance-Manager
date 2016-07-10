@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Text;
 using System.Xml;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -13,11 +14,22 @@ namespace SIM.Tests.Pipelines
   public class SwitchConfigsToSolrTests
   {
 
+    #region Constants
+
+    private const string InstanceName = "INSTANCE";
+    private const string SomeWebRootPath = @"c:\some\path\website";
+
+    #endregion
+
+    #region Fields
+
     private SwitchConfigsToSolr _sut;
     private Instance _instance;
     private Product _product;
-    private string SomeWebRootPath = @"c:\some\path\website";
-    private string InstanceName = "INSTANCE";
+
+    #endregion
+
+    #region Setup and helper methods
 
     [TestInitialize]
     public void Setup()
@@ -36,10 +48,32 @@ namespace SIM.Tests.Pipelines
       _sut.Execute(_instance, _product);
     }
 
+    private void ArrangeConfigFiles(string[] returnThis)
+    {
+      _sut.GetFiles(null, null, SearchOption.AllDirectories).ReturnsForAnyArgs(returnThis);
+    }
+
+    #endregion
+
+    #region Tests
+
+    [TestMethod]
+    public void ShouldLoadConfiguration()
+    {
+      string expectedPath = SomeWebRootPath.EnsureEnd(@"\") + @"App_Config\Include";
+      string expectedFilter = "*";
+      SearchOption expectedOption = SearchOption.AllDirectories;
+
+      Act();
+
+      _sut.Received().GetFiles(expectedPath, expectedFilter, expectedOption);
+    }
+
     [TestMethod]
     public void ShouldEnableSolrConfigFilesEndingWith_example()
     {
-      _sut.GetConfigFiles().Returns(new string[] {SomeWebRootPath + @"\App_Config\Some.Solr.File.config.example"});
+      string[] returnThis = {SomeWebRootPath + @"\App_Config\Some.Solr.File.config.example"};
+      ArrangeConfigFiles(returnThis);
 
       Act();
 
@@ -51,7 +85,8 @@ namespace SIM.Tests.Pipelines
     [TestMethod]
     public void ShouldOnlyRemoveFinalWord()
     {
-      _sut.GetConfigFiles().Returns(new string[] {SomeWebRootPath + @"\App_Config\Some.Solr.File.example.config.example"});
+      string[] returnThis = {SomeWebRootPath + @"\App_Config\Some.Solr.File.example.config.example"};
+      ArrangeConfigFiles(returnThis);
 
       Act();
 
@@ -63,7 +98,8 @@ namespace SIM.Tests.Pipelines
     [TestMethod]
     public void ShouldEnableSolrConfigFilesEndingWith_disabled()
     {
-      _sut.GetConfigFiles().Returns(new string[] {SomeWebRootPath + @"\App_Config\Some.Solr.File.config.disabled"});
+      string[] returnThis = {SomeWebRootPath + @"\App_Config\Some.Solr.File.config.disabled"};
+      ArrangeConfigFiles(returnThis);
 
       Act();
 
@@ -76,11 +112,11 @@ namespace SIM.Tests.Pipelines
     [TestMethod]
     public void ShouldDisableLuceneFilesIfSolrEquivalent()
     {
-      _sut.GetConfigFiles().Returns(new string[]
-      {
+      string[] returnThis = {
         SomeWebRootPath + @"\App_Config\Some.Solr.File.config",
         SomeWebRootPath + @"\App_Config\Some.Lucene.File.config"
-      });
+      };
+      ArrangeConfigFiles(returnThis);
 
       Act();
 
@@ -92,10 +128,10 @@ namespace SIM.Tests.Pipelines
     [TestMethod]
     public void ShouldIgnoreLuceneFilesIfNoEquivalent()
     {
-      _sut.GetConfigFiles().Returns(new string[]
-      {
+      string[] returnThis = {
         SomeWebRootPath + @"\App_Config\Some.Lucene.File.config"
-      });
+      };
+      ArrangeConfigFiles(returnThis);
 
       Act();
 
@@ -107,18 +143,20 @@ namespace SIM.Tests.Pipelines
     [TestMethod]
     public void ShouldRenameCore()
     {
-      var solrConfigPath = SomeWebRootPath + @"\App_Config\Some.Solr.File.config";
-      _sut.GetConfigFiles().Returns(new string[]
-      {
-        solrConfigPath
-      });
+      string[] returnThis = {
+        SomeWebRootPath + @"\App_Config\Some.Solr.File.config"
+      };
+      ArrangeConfigFiles(returnThis);
       
-      _sut.FileReadAllText(solrConfigPath).Returns(@"<root><param desc=""core"">$(id)</param>/root>");
+      _sut.FileReadAllText(SomeWebRootPath + @"\App_Config\Some.Solr.File.config").Returns(@"<root><param desc=""core"">$(id)</param>/root>");
 
 
       Act();
 
-      _sut.Received().FileWriteAllText(solrConfigPath, @"<root><param desc=""core"">INSTANCE_$(id)</param>/root>");
+      _sut.Received().FileWriteAllText(SomeWebRootPath + @"\App_Config\Some.Solr.File.config", @"<root><param desc=""core"">INSTANCE_$(id)</param>/root>");
     }
+
+  #endregion
+
   }
 }

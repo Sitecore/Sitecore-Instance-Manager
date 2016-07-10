@@ -107,7 +107,7 @@
     <Compile Include="InstallModules\IPackageInstallActions.cs" />
     <Compile Include="Install\0150 GrantPermissions.cs" />
     <Compile Include="Install\0600 UpdateWebConfig.cs" />
-    <Compile Include="Install\Modules\CreateSolrCore.cs" />
+    <Compile Include="Install\Modules\CreateSolrCores.cs" />
     <Compile Include="Install\Modules\SwitchConfigsToSolr.cs" />
     <Compile Include="Install\Settings.cs" />
     <Compile Include="MongoHelper.cs" />

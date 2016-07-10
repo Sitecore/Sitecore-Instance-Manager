@@ -22,7 +22,7 @@
                     target="/Website/bin/Castle.Core.dll" />
         <deployfile path="SIM.Pipelines/IOC_Containers.zip/IOC_Containers/Castle.Windsor.dll"    
                     target="/Website/bin/Castle.Windsor.dll" />
-        <custom type="SIM.Pipelines.Install.Modules.CreateSolrCore, SIM.Pipelines" />
+        <custom type="SIM.Pipelines.Install.Modules.CreateSolrCores, SIM.Pipelines" />
       </actions>
     </install>
   </archive>
