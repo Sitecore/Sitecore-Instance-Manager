@@ -31,6 +31,7 @@
       var name = this.Name;
       Assert.ArgumentNotNullOrEmpty(name, "name");
 
+      var hostNames = new[] {name};
       var product = this.Product;
       var version = this.Version;
       var revision = this.Revision;
@@ -62,7 +63,7 @@
 
       var sqlServerAccountName = SqlServerManager.Instance.GetSqlServerAccountName(builder);
       var webServerIdentity = Settings.CoreInstallWebServerIdentity.Value;
-      var installArgs = new InstallArgs(name, name, distributive, rootPath, builder, sqlServerAccountName, webServerIdentity, new FileInfo(license), true, false, false, false, false, false, true, true, new Product[0]);
+      var installArgs = new InstallArgs(name, hostNames, distributive, rootPath, builder, sqlServerAccountName, webServerIdentity, new FileInfo(license), true, false, false, false, false, false, true, true, new Product[0]);
       var controller = new AggregatePipelineController();
       PipelineManager.StartPipeline("install", installArgs, controller, false);
 

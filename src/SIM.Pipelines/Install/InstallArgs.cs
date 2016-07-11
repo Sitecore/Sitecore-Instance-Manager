@@ -29,7 +29,7 @@
     public readonly bool ForceNetFramework4;
 
     [NotNull]
-    public readonly string HostName;
+    public readonly string[] HostNames;
 
     public readonly bool Is32Bit;
 
@@ -68,11 +68,11 @@
 
     #region Constructors
 
-    public InstallArgs([NotNull] string name, [NotNull] string host, [NotNull] Product product, [NotNull] string rootPath, [NotNull] SqlConnectionStringBuilder connectionString, [NotNull] string sqlServerIdentity, [NotNull] string webServerIdentity, [NotNull] FileInfo license, bool forceNetFramework4, bool is32Bit, bool isClassic, bool installRadControls, bool installDictionaries, bool serverSideRedirect, bool increaseExecutionTimeout, bool preheat, [NotNull] IEnumerable<Product> modules)
-      : this(name, host, product, Path.Combine(rootPath, "Website"), Path.Combine(rootPath, "Data"), Path.Combine(rootPath, "Databases"), connectionString, sqlServerIdentity, webServerIdentity, license, forceNetFramework4, is32Bit, isClassic, installRadControls, installDictionaries, serverSideRedirect, increaseExecutionTimeout, preheat, rootPath, modules)
+    public InstallArgs([NotNull] string name, [NotNull] string[] hosts, [NotNull] Product product, [NotNull] string rootPath, [NotNull] SqlConnectionStringBuilder connectionString, [NotNull] string sqlServerIdentity, [NotNull] string webServerIdentity, [NotNull] FileInfo license, bool forceNetFramework4, bool is32Bit, bool isClassic, bool installRadControls, bool installDictionaries, bool serverSideRedirect, bool increaseExecutionTimeout, bool preheat, [NotNull] IEnumerable<Product> modules)
+      : this(name, hosts, product, Path.Combine(rootPath, "Website"), Path.Combine(rootPath, "Data"), Path.Combine(rootPath, "Databases"), connectionString, sqlServerIdentity, webServerIdentity, license, forceNetFramework4, is32Bit, isClassic, installRadControls, installDictionaries, serverSideRedirect, increaseExecutionTimeout, preheat, rootPath, modules)
     {
       Assert.ArgumentNotNull(name, "name");
-      Assert.ArgumentNotNull(host, "host");
+      Assert.ArgumentNotNull(hosts, "host");
       Assert.ArgumentNotNull(product, "product");
       Assert.ArgumentNotNull(rootPath, "rootPath");
       Assert.ArgumentNotNull(connectionString, "connectionString");
@@ -84,10 +84,10 @@
       this.Modules = modules;
     }
 
-    public InstallArgs([NotNull] string name, [NotNull] string host, [NotNull] Product product, [NotNull] string webRootPath, [NotNull] string dataFolderPath, [NotNull] string databasesFolderPath, [NotNull] SqlConnectionStringBuilder connectionString, [NotNull] string sqlServerIdentity, [NotNull] string webServerIdentity, [NotNull] FileInfo license, bool forceNetFramework4, bool is32Bit, bool isClassic, bool installRadControls, bool installDictionaries, bool serverSideRedirect, bool increaseExecutionTimeout, bool preheat, [NotNull] string rootPath, [NotNull] IEnumerable<Product> modules)
+    public InstallArgs([NotNull] string name, [NotNull] string[] hosts, [NotNull] Product product, [NotNull] string webRootPath, [NotNull] string dataFolderPath, [NotNull] string databasesFolderPath, [NotNull] SqlConnectionStringBuilder connectionString, [NotNull] string sqlServerIdentity, [NotNull] string webServerIdentity, [NotNull] FileInfo license, bool forceNetFramework4, bool is32Bit, bool isClassic, bool installRadControls, bool installDictionaries, bool serverSideRedirect, bool increaseExecutionTimeout, bool preheat, [NotNull] string rootPath, [NotNull] IEnumerable<Product> modules)
     {
       Assert.ArgumentNotNull(name, "name");
-      Assert.ArgumentNotNull(host, "host");
+      Assert.ArgumentNotNull(hosts, "host");
       Assert.ArgumentNotNull(product, "product");
       Assert.ArgumentNotNull(webRootPath, "webRootPath");
       Assert.ArgumentNotNull(dataFolderPath, "dataFolderPath");
@@ -101,7 +101,7 @@
 
       this.Name = name;
       this.Modules = modules;
-      this.HostName = host;
+      this.HostNames = hosts;
       this.Product = product;
       this.ConnectionString = connectionString;
       this.DataFolderPath = dataFolderPath;
