@@ -808,5 +808,13 @@
     }
 
     #endregion
+
+    /// <summary>
+    /// Force manifest to be reloaded from disk, to reset variable replacements.
+    /// </summary>
+    public void ResetManifest()
+    {
+      this.manifest = null;
+    }
   }
 }

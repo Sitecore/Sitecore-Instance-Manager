@@ -60,6 +60,7 @@ namespace SIM.Pipelines
           continue;
         }
 
+        module.ResetManifest();
         XmlDocument manifest = module.Manifest;
 
         if (manifest == null)
@@ -954,7 +955,6 @@ namespace SIM.Pipelines
       var targetPath = Path.Combine(instanceRootPath, target.TrimStart("/"));
 
       File.Copy(sourcePath, targetPath);
-
     }
 
     private static void SetRestrictingPlaceholders(string names, string url)

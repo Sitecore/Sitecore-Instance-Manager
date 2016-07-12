@@ -10,25 +10,30 @@ namespace SIM.Pipelines.Install.Modules
 {
   public class SwitchConfigsToSolr:IPackageInstallActions
   {
+    #region Properties
+
     public Instance Instance { get; set; }
+
+    #endregion
+
+    #region Public methods
 
     public void Execute(Instance instance, Product module)
     {
       Instance = instance;
-
       EnableSolrFiles();
-
       DisableLuceneFiles();
-
       RenameCores();
-
     }
+    #endregion
+
+    #region Private methods
 
     private void EnableSolrFiles()
     {
-      var configFiles = GetConfigFiles();
+      IEnumerable<string> configFiles = GetConfigFiles();
 
-      var disabledSolrFiles =
+      List<string> disabledSolrFiles =
         configFiles.Where(
           s => s.ToLower().Contains(".solr.") && 
         (s.EndsWith(".example") || s.EndsWith(".disabled"))).ToList();
@@ -43,16 +48,18 @@ namespace SIM.Pipelines.Install.Modules
 
     private void DisableLuceneFiles()
     {
-      var configFiles = GetConfigFiles(); 
+      IEnumerable<string> configFiles = GetConfigFiles();
 
-      var luceneFiles = configFiles.Where(s => s.ToLower().Contains(".lucene.") && s.EndsWith(".config")).ToList();
+      List<string> luceneFiles = 
+        configFiles.Where(s => s.ToLower().Contains(".lucene.") && s.EndsWith(".config")).ToList();
 
-      var solrFiles = configFiles.Where(s => s.ToLower().Contains(".solr.") && s.EndsWith(".config")).ToList();
+      List<string> solrFiles = 
+        configFiles.Where(s => s.ToLower().Contains(".solr.") && s.EndsWith(".config")).ToList();
 
-      var filesToRename = luceneFiles.Where(file => AnyMatchingSolrFile(solrFiles, file));
+      List<string> filesToRename =
+        luceneFiles.Where(file => AnyMatchingSolrFile(solrFiles, file)).ToList();
 
-      filesToRename
-        .ToList().ForEach(s => RenameFile(s, s + ".disabled"));
+      filesToRename.ForEach(s => RenameFile(s, s + ".disabled"));
     }
 
     private void RenameCores()
@@ -73,12 +80,23 @@ namespace SIM.Pipelines.Install.Modules
       return solrFiles.Any(solrFile => solrFile.ToLower().Replace(".solr.", ".lucene.") == luceneFileName.ToLower());
     }
 
-    #region System Calls marked Virtual for unit testing
-
-    public virtual IEnumerable<string> GetConfigFiles()
+    public IEnumerable<string> GetConfigFiles()
     {
-      return FileSystem.FileSystem.Local.Directory.GetFiles(Instance.WebRootPath.EnsureEnd(@"\") + "App_Config", "*",
-        SearchOption.AllDirectories);
+      string path = Instance.WebRootPath.EnsureEnd(@"\") + @"App_Config\Include";
+      const string filter = "*";
+      const SearchOption allDirectories = SearchOption.AllDirectories;
+      return GetFiles(path, filter, allDirectories);
+    }
+
+    #endregion
+
+    #region Virtual methods
+
+    // System calls are virtual for unit testing.
+
+    public virtual string[] GetFiles(string path, string filter, SearchOption allDirectories)
+    {
+      return FileSystem.FileSystem.Local.Directory.GetFiles(path, filter,allDirectories);
     }
 
     public virtual void RenameFile(string oldPath, string newPath)
@@ -97,6 +115,5 @@ namespace SIM.Pipelines.Install.Modules
     }
 
     #endregion
-
   }
 }
