@@ -60,6 +60,7 @@ namespace SIM.Pipelines
           continue;
         }
 
+        module.ResetManifest();
         XmlDocument manifest = module.Manifest;
 
         if (manifest == null)
