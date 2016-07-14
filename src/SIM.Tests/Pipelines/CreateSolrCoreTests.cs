@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Text;
 using System.Xml;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
 using SIM.Instances;
-using SIM.Pipelines;
 using SIM.Pipelines.Install.Modules;
 using SIM.Products;
 

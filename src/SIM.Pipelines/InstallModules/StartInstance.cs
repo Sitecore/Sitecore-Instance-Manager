@@ -1,6 +1,5 @@
 namespace SIM.Pipelines.InstallModules
 {
-  using System;
   using SIM.Instances;
   using Sitecore.Diagnostics.Base;
   using Sitecore.Diagnostics.Base.Annotations;

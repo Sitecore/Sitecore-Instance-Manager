@@ -6,12 +6,10 @@
   using System.Windows;
   using System.Xml;
   using SIM.Instances;
-  using SIM.Products;
   using SIM.Tool.Base;
   using SIM.Tool.Base.Plugins;
   using Sitecore.Diagnostics.Base;
   using Sitecore.Diagnostics.Base.Annotations;
-  using Sitecore.Diagnostics.InformationService.Client;
   using Sitecore.Diagnostics.Logging;
   using Sitecore.NuGet.Core;
   using SIM.Tool.Base.Profiles;

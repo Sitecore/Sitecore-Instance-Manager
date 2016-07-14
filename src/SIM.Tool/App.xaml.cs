@@ -11,7 +11,6 @@ namespace SIM.Tool
   using System.IO;
   using System.Linq;
   using System.Reflection;
-  using System.Runtime.CompilerServices;
   using System.Security.Principal;
   using System.ServiceProcess;
   using System.Windows;

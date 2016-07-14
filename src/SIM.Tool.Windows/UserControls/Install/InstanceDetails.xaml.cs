@@ -1,6 +1,4 @@
-﻿using NuGet;
-
-namespace SIM.Tool.Windows.UserControls.Install
+﻿namespace SIM.Tool.Windows.UserControls.Install
 {
   using System;
   using System.Collections.Generic;

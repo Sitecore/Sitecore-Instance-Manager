@@ -1,7 +1,6 @@
 ﻿namespace SIM.Tool.Windows.UserControls.Install
 {
   using System;
-  using SIM.Pipelines.Install;
   using SIM.Tool.Base.Pipelines;
   using SIM.Tool.Base.Wizards;
   using Sitecore.Diagnostics.Base;

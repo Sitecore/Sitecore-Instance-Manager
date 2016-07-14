@@ -2,7 +2,6 @@
 {
   using System.Windows;
   using SIM.Instances;
-  using SIM.Tool.Base;
   using SIM.Tool.Base.Plugins;
   using Sitecore.Diagnostics.Base;
   using Sitecore.Diagnostics.Base.Annotations;

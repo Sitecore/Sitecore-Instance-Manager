@@ -1,14 +1,10 @@
 namespace SIM.Tool.Base
 {
   using System;
-  using System.Collections.Generic;
-  using System.Diagnostics;
   using System.IO;
   using System.Linq;
-  using System.Text.RegularExpressions;
   using System.Threading;
   using System.Windows;
-  using System.Windows.Documents;
   using Microsoft.Web.Administration;
   using SIM.Instances;
   using Sitecore.Diagnostics.Base;

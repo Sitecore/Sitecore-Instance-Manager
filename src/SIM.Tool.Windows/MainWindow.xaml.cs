@@ -7,7 +7,6 @@
   using System.Windows.Controls;
   using System.Windows.Input;
   using System.Windows.Threading;
-  using SIM.Core;
   using SIM.Tool.Base;
   using SIM.Tool.Base.Plugins;
   using SIM.Tool.Windows.MainWindowComponents;

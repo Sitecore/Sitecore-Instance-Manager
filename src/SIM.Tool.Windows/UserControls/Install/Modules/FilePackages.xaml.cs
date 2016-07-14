@@ -15,7 +15,6 @@
   using SIM.Tool.Base.Wizards;
   using Sitecore.Diagnostics.Base;
   using Sitecore.Diagnostics.Base.Annotations;
-  using SIM.Core;
 
   public partial class FilePackages : IWizardStep, ICustomButton, IFlowControl
   {

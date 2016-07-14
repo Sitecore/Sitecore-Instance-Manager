@@ -1,6 +1,4 @@
-﻿using System.Web.UI;
-
-namespace SIM.Pipelines
+﻿namespace SIM.Pipelines
 {
   using System;
   using System.Collections.Generic;

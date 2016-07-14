@@ -10,7 +10,6 @@
   using SIM.Tool.Base.Profiles;
   using Sitecore.Diagnostics.Base;
   using Sitecore.Diagnostics.Base.Annotations;
-  using SIM.Core;
   using SIM.Tool.Base.Wizards;
 
   [UsedImplicitly]
