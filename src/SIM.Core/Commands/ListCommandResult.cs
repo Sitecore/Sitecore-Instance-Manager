@@ -5,9 +5,10 @@ namespace SIM.Core.Commands
   using System.Linq;
   using Sitecore.Diagnostics.Base;
   using Sitecore.Diagnostics.Base.Annotations;
+  using SIM.Core.Common;
   using SIM.Core.Models;
 
-  public class ListCommandResult
+  public class ListCommandResult : CommandResult
   {
     private static readonly IReadOnlyDictionary<string, InstanceInfo> Empty = new ReadOnlyDictionary<string, InstanceInfo>(new Dictionary<string, InstanceInfo>());
 

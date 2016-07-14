@@ -3,6 +3,7 @@
   using System;
   using System.Collections;
   using System.Collections.Generic;
+  using System.Diagnostics;
   using System.IO;
   using System.Linq;
   using System.Reflection;
@@ -20,7 +21,7 @@
   {
     public static void Main([NotNull] string[] args)
     {
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(args, "args");                
 
       CoreApp.InitializeLogging();
 
@@ -37,7 +38,8 @@
 
       var options = new MainCommandGroup();
       EnsureAutoCompeteForCommands(options);
-      if (!parser.ParseArguments(filteredArgs.ToArray(), options, delegate { }))
+      if (!parser.ParseArguments(filteredArgs.ToArray(), options, delegate
+      { }))
       {
         Console.WriteLine("Note, commands provide output when work is done i.e. without any progress indication.");
         Console.WriteLine("\r\n  --query\t   When specified, allows returning only part of any command's output");
@@ -47,9 +49,10 @@
         Environment.Exit(Parser.DefaultExitCodeFail);
       }
 
-      var result = options.SelectedCommand.Execute();
+      var commandResult = options.SelectedCommand.Execute();
+      Assert.IsNotNull(commandResult, nameof(commandResult));
 
-      result = QueryResult(result, query);
+      var result = QueryResult(commandResult, query);
       if (result == null)
       {
         return;
@@ -58,7 +61,7 @@
       var serializer = new JsonSerializer
       {
         NullValueHandling = NullValueHandling.Ignore,
-        Formatting = Formatting.Indented,        
+        Formatting = Formatting.Indented,
       };
 
       serializer.Converters.Add(new DirectoryInfoConverter());
@@ -96,7 +99,7 @@
     }
 
     [CanBeNull]
-    private static CommandResult QueryResult([NotNull] CommandResult result, [CanBeNull] string query)
+    private static object QueryResult([NotNull] CommandResult result, [CanBeNull] string query)
     {
       Assert.ArgumentNotNull(result, "result");
 
@@ -105,7 +108,7 @@
         return result;
       }
 
-      var obj = result;
+      object obj = result;
       foreach (var chunk in query.Split("./".ToCharArray()))
       {
         if (string.IsNullOrEmpty(chunk))
@@ -113,13 +116,13 @@
           continue;
         }
 
-        var newObj = null as CommandResult;
+        var newObj = null as object;
         var dictionary = obj as IDictionary;
         if (dictionary != null)
         {
           if (dictionary.Contains(chunk))
           {
-            newObj = dictionary[chunk] as CommandResult;
+            newObj = dictionary[chunk];
           }
         }
         else
@@ -128,7 +131,7 @@
           var prop = type.GetProperties().FirstOrDefault(x => x.Name.Equals(chunk, StringComparison.OrdinalIgnoreCase));
           if (prop != null)
           {
-            newObj = prop.GetValue(obj, null) as CommandResult;
+            newObj = prop.GetValue(obj, null);
           }
         }
 
