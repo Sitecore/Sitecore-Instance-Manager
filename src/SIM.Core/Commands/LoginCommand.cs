@@ -12,7 +12,7 @@ namespace SIM.Core.Commands
     {
       Assert.ArgumentNotNull(result, "result");
 
-      var name = this.Name;
+      var name = Name;
       Assert.ArgumentNotNullOrEmpty(name, "name");
 
       InstanceManager.Initialize();

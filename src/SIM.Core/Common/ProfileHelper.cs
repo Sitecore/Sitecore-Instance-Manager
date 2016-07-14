@@ -15,7 +15,7 @@ namespace SIM.Core.Common
       Assert.IsNotNullOrEmpty(builder.DataSource, "Profile.ConnectionString.DataSource is null or empty");
       Assert.IsNotNullOrEmpty(builder.UserID, "Profile.ConnectionString.UserID is null or empty");
       Assert.IsNotNullOrEmpty(builder.Password, "Profile.ConnectionString.Password is null or empty");
-      
+
       return builder;
     }
   }

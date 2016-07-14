@@ -1,6 +1,5 @@
 ﻿namespace SIM.Core.Commands
 {
-  using System.Xml;
   using Sitecore.Diagnostics.Base;
   using SIM.Core.Common;
   using SIM.Core.Models.Configuration;
@@ -10,13 +9,13 @@
   {
     public virtual string Name { get; set; }
 
-    public virtual string Database { get; set; } 
+    public virtual string Database { get; set; }
 
     protected override void DoExecute(CommandResult<ConfigDatabaseInfo> result)
     {
       Assert.ArgumentNotNullOrEmpty(Name, "Name");
 
-      var instance = InstanceManager.GetInstance(Name);                 
+      var instance = InstanceManager.GetInstance(Name);
       Ensure.IsNotNull(instance, "The {0} instance is not found", Name);
 
       var config = instance.GetShowconfig();

@@ -38,8 +38,7 @@
 
       var options = new MainCommandGroup();
       EnsureAutoCompeteForCommands(options);
-      if (!parser.ParseArguments(filteredArgs.ToArray(), options, delegate
-      { }))
+      if (!parser.ParseArguments(filteredArgs.ToArray(), options, delegate { }))
       {
         Console.WriteLine("Note, commands provide output when work is done i.e. without any progress indication.");
         Console.WriteLine("\r\n  --query\t   When specified, allows returning only part of any command's output");

@@ -1,13 +1,12 @@
 ﻿namespace SIM.Core.Commands
 {
-  using System.Collections;
   using System.IO;
   using System.Linq;
+  using Sitecore.Diagnostics.Base;
+  using Sitecore.Diagnostics.Base.Annotations;
   using SIM.Core.Common;
   using SIM.Core.Models;
   using SIM.Instances;
-  using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
 
   public class ListCommand : AbstractCommand<ListCommandResult>
   {
@@ -22,8 +21,8 @@
     {
       Assert.ArgumentNotNull(result, "result");
 
-      var filter = this.Filter ?? string.Empty;
-      var root = !this.Everywhere ? null : Profile.Read().InstancesFolder;
+      var filter = Filter ?? string.Empty;
+      var root = !Everywhere ? null : Profile.Read().InstancesFolder;
 
       InstanceManager.Initialize();
 
@@ -40,13 +39,13 @@
 
       ListCommandResult data;
 
-      if (this.Detailed)
+      if (Detailed)
       {
         data = new ListCommandResult(instances.Select(x => new InstanceInfo(x.ID, x.Name, x.State.ToString(), x.WebRootPath)
         {
-          DataFolder = Null.Safe(() => new DirectoryInfo(x.DataFolderPath)), 
+          DataFolder = Null.Safe(() => new DirectoryInfo(x.DataFolderPath)),
           RootFolder = Null.Safe(() => new DirectoryInfo(x.RootPath)),
-          ProductName = Null.Safe(() => x.ProductFullName), 
+          ProductName = Null.Safe(() => x.ProductFullName),
           Databases = Null.Safe(() => x.AttachedDatabases.ToDictionary(z => z.Name, z => z.RealName)),
           ProcessIds = Null.Safe(() => x.ProcessIds)
         }));
@@ -55,7 +54,7 @@
       {
         data = new ListCommandResult(instances.Select(x => x.Name));
       }
-      
+
       result.Data = data;
     }
   }

@@ -17,7 +17,7 @@
       {
         return null;
       }
-      
+
       return new ConfigDatabaseHistoryEngineInfo
       {
         Type = element.SelectElements("obj").FirstOrDefault()?.GetAttribute("type"),

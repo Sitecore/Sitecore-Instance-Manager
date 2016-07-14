@@ -9,7 +9,7 @@
     public static void IsNotNull(object obj, string message, params object[] args)
     {
       Assert.ArgumentNotNullOrEmpty(message, "message");
-      
+
       if (obj != null)
       {
         return;
@@ -19,17 +19,14 @@
       {
         throw new MessageException(message);
       }
-      else
-      {
-        throw new MessageException(string.Format(message, args));
-      }
+      throw new MessageException(string.Format(message, args));
     }
 
     [StringFormatMethod("message")]
     public static void IsNotNullOrEmpty(string str, string message, params object[] args)
     {
       Assert.ArgumentNotNullOrEmpty(message, "message");
-      
+
       if (!string.IsNullOrEmpty(str))
       {
         return;
@@ -39,10 +36,7 @@
       {
         throw new MessageException(message);
       }
-      else
-      {
-        throw new MessageException(string.Format(message, args));
-      }
+      throw new MessageException(string.Format(message, args));
     }
 
     [StringFormatMethod("message")]
@@ -59,10 +53,7 @@
       {
         throw new MessageException(message);
       }
-      else
-      {
-        throw new MessageException(string.Format(message, args));
-      }
+      throw new MessageException(string.Format(message, args));
     }
   }
 }

@@ -13,61 +13,61 @@ namespace SIM.Core.Models
       Assert.ArgumentNotNull(state, "state");
       Assert.ArgumentNotNull(webRootPath, "webRootPath");
 
-      this.Id = id;
-      this.Name = name;
-      this.State = state;
-      this.WebRootPath = webRootPath;
+      Id = id;
+      Name = name;
+      State = state;
+      WebRootPath = webRootPath;
     }
-    
+
     /// <summary>
-    /// The IIS site ID.
+    ///   The IIS site ID.
     /// </summary>
     public long Id { get; set; }
 
     /// <summary>
-    /// The IIS site Name.
+    ///   The IIS site Name.
     /// </summary>
     [NotNull]
     public string Name { get; set; }
 
     /// <summary>
-    /// The IIS site and application pool state.
+    ///   The IIS site and application pool state.
     /// </summary>
     [NotNull]
     public string State { get; set; }
 
     /// <summary>
-    /// The physical folder that IIS site points to.
+    ///   The physical folder that IIS site points to.
     /// </summary>
     [NotNull]
     public string WebRootPath { get; set; }
 
     /// <summary>
-    /// The physical folder that is specified as "dataFolder" in Sitecore configuration files.
+    ///   The physical folder that is specified as "dataFolder" in Sitecore configuration files.
     /// </summary>
     [CanBeNull]
     public DirectoryInfo DataFolder { get; set; }
 
     /// <summary>
-    /// The physical folder that is a logical root folder.
+    ///   The physical folder that is a logical root folder.
     /// </summary>
     [CanBeNull]
     public DirectoryInfo RootFolder { get; set; }
 
     /// <summary>
-    /// The name, version and revision of the Sitecore product.
+    ///   The name, version and revision of the Sitecore product.
     /// </summary>
     [CanBeNull]
     public string ProductName { get; set; }
 
     /// <summary>
-    /// The SQL databases specified in Sitecore configuration files.
+    ///   The SQL databases specified in Sitecore configuration files.
     /// </summary>
     [CanBeNull]
     public IDictionary<string, string> Databases { get; set; }
 
     /// <summary>
-    /// The w3wp processes IDs.
+    ///   The w3wp processes IDs.
     /// </summary>
     [CanBeNull]
     public IEnumerable<int> ProcessIds { get; set; }

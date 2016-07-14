@@ -1,14 +1,12 @@
 namespace SIM.Core.Commands
 {
   using System;
-  using System.Collections.Generic;
   using System.Linq;
+  using Sitecore.Diagnostics.Base;
   using SIM.Core.Common;
   using SIM.Instances;
   using SIM.Pipelines;
   using SIM.Pipelines.Delete;
-  using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
 
   public class DeleteCommand : AbstractInstanceActionCommand<string[]>
   {
@@ -16,7 +14,7 @@ namespace SIM.Core.Commands
     {
       Assert.ArgumentNotNull(result, "result");
 
-      var name = this.Name;
+      var name = Name;
       Assert.ArgumentNotNullOrEmpty(name, "name");
 
       var profile = Profile.Read();

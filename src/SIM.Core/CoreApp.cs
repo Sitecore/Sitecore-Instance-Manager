@@ -9,10 +9,10 @@
   using log4net.Core;
   using log4net.Layout;
   using log4net.Util;
-  using SIM.Core.Logging;
-  using SIM.FileSystem;
   using Sitecore.Diagnostics.Base.Annotations;
   using Sitecore.Diagnostics.Logging;
+  using SIM.Core.Logging;
+  using SIM.FileSystem;
 
   public static class CoreApp
   {
@@ -28,7 +28,7 @@
           // when last-run exists it cannot be very first run
           return false;
         }
-        
+
         return File.Exists(FirstRunFileName);
       }
     }
@@ -70,7 +70,7 @@
       {
         var nativeArgs = Environment.GetCommandLineArgs();
         var commandLineArgs = nativeArgs.Skip(1).ToArray();
-        var argsToLog = commandLineArgs.Length > 0 ? String.Join("|", commandLineArgs) : "<NO ARGUMENTS>";
+        var argsToLog = commandLineArgs.Length > 0 ? string.Join("|", commandLineArgs) : "<NO ARGUMENTS>";
 
         Log.Info("**********************************************************************");
         Log.Info("**********************************************************************");
@@ -147,7 +147,7 @@
     {
       var cookie = GetCookie();
 
-      return String.Format("public-{0}", cookie);
+      return string.Format("public-{0}", cookie);
     }
 
     [NotNull]
@@ -160,7 +160,7 @@
         if (FileSystem.Local.File.Exists(path))
         {
           var cookie = FileSystem.Local.File.ReadAllText(path);
-          if (!String.IsNullOrEmpty(cookie))
+          if (!string.IsNullOrEmpty(cookie))
           {
             return cookie;
           }

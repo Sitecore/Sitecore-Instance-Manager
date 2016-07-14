@@ -17,12 +17,6 @@ namespace SIM.Core.Common
 
     public Pipeline Pipeline { get; set; }
 
-    [NotNull]
-    public IEnumerable<string> GetMessages()
-    {
-      return this.Messages.ToArray();
-    }
-
     public string Ask([CanBeNull] string title, [CanBeNull] string defaultValue)
     {
       throw new NotImplementedException();
@@ -40,7 +34,7 @@ namespace SIM.Core.Common
 
     public void Finish([CanBeNull] string message, bool closeInterface)
     {
-      this.Message = message;
+      Message = message;
     }
 
     public void IncrementProgress()
@@ -57,7 +51,7 @@ namespace SIM.Core.Common
 
     public void ProcessorCrashed([CanBeNull] string error)
     {
-      this.Messages.Add(error);
+      Messages.Add(error);
     }
 
     public void ProcessorDone([CanBeNull] string title)
@@ -66,7 +60,7 @@ namespace SIM.Core.Common
 
     public void ProcessorSkipped(string processorName)
     {
-      this.Messages.Add("Skipped: " + processorName);
+      Messages.Add("Skipped: " + processorName);
     }
 
     public void ProcessorStarted(string title)
@@ -88,6 +82,12 @@ namespace SIM.Core.Common
 
     public void SetProgress(long progress)
     {
+    }
+
+    [NotNull]
+    public IEnumerable<string> GetMessages()
+    {
+      return Messages.ToArray();
     }
   }
 }

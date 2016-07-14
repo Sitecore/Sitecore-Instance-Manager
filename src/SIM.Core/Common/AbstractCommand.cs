@@ -2,7 +2,6 @@
 {
   using System;
   using System.Diagnostics;
-  using System.Linq;
   using Sitecore.Diagnostics.Base.Annotations;
   using Sitecore.Diagnostics.Logging;
 
@@ -15,7 +14,7 @@
 
     protected sealed override void DoExecute(CommandResult result)
     {
-      DoExecute((CommandResult<TResult>) result);
+      DoExecute((CommandResult<TResult>)result);
     }
 
     protected abstract void DoExecute([NotNull] CommandResult<TResult> result);
@@ -33,7 +32,7 @@
       {
         try
         {
-          this.DoExecute(result);
+          DoExecute(result);
         }
         finally
         {
@@ -49,7 +48,7 @@
       }
       catch (Exception ex)
       {
-        Log.Error(ex, "{0} command has failed with unhandled exception", this.GetType().Name);
+        Log.Error(ex, "{0} command has failed with unhandled exception", GetType().Name);
         result.Success = false;
         result.Error = new CustomException(ex);
       }

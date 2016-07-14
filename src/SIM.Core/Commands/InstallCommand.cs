@@ -2,13 +2,13 @@
 {
   using System.IO;
   using System.Linq;
+  using Sitecore.Diagnostics.Base;
+  using Sitecore.Diagnostics.Base.Annotations;
   using SIM.Adapters.SqlServer;
   using SIM.Core.Common;
   using SIM.Pipelines;
   using SIM.Pipelines.Install;
   using SIM.Products;
-  using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
 
   public class InstallCommand : AbstractCommand<string[]>
   {
@@ -28,13 +28,13 @@
     {
       Assert.ArgumentNotNull(result, "result");
 
-      var name = this.Name;
+      var name = Name;
       Assert.ArgumentNotNullOrEmpty(name, "name");
 
       var hostNames = new[] {name};
-      var product = this.Product;
-      var version = this.Version;
-      var revision = this.Revision;
+      var product = Product;
+      var version = Version;
+      var revision = Revision;
 
       var profile = Profile.Read();
       var repository = profile.LocalRepository;

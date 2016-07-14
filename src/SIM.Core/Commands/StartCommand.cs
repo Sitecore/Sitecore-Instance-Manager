@@ -2,9 +2,9 @@ namespace SIM.Core.Commands
 {
   using System;
   using System.Linq;
+  using Sitecore.Diagnostics.Base;
   using SIM.Core.Common;
   using SIM.Instances;
-  using Sitecore.Diagnostics.Base;
 
   public class StartCommand : AbstractInstanceActionCommand<Exception>
   {
@@ -12,9 +12,9 @@ namespace SIM.Core.Commands
     {
       Assert.ArgumentNotNull(result, "result");
 
-      var name = this.Name;
+      var name = Name;
       Assert.ArgumentNotNullOrEmpty(name, "name");
-      
+
       InstanceManager.Initialize();
       var instance = InstanceManager.Instances.FirstOrDefault(x => x.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
       Ensure.IsNotNull(instance, "instance is not found");

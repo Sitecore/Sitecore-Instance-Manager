@@ -26,12 +26,12 @@
 
       set
       {
-        if (this.originalFileName == null)
+        if (originalFileName == null)
         {
-          this.originalFileName = Path.Combine(ApplicationManager.LogsFolder, value.Equals("$(debugPath)", StringComparison.OrdinalIgnoreCase) ? GetLogFileName(string.Empty, "_DEBUG") : GetLogFileName());
+          originalFileName = Path.Combine(ApplicationManager.LogsFolder, value.Equals("$(debugPath)", StringComparison.OrdinalIgnoreCase) ? GetLogFileName(string.Empty, "_DEBUG") : GetLogFileName());
         }
 
-        base.File = this.originalFileName;
+        base.File = originalFileName;
       }
     }
 

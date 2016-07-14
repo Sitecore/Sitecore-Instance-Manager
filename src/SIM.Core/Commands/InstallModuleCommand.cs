@@ -28,12 +28,12 @@ namespace SIM.Core.Commands
     {
       Assert.ArgumentNotNull(result, "result");
 
-      var name = this.Name;
+      var name = Name;
       Assert.ArgumentNotNullOrEmpty(name, "name");
 
-      var product = this.Module;
-      var version = this.Version;
-      var revision = this.Revision;
+      var product = Module;
+      var version = Version;
+      var revision = Revision;
 
       var profile = Profile.Read();
       var repository = profile.LocalRepository;

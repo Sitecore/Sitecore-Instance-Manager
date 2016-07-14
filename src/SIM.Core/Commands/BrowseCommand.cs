@@ -12,7 +12,7 @@ namespace SIM.Core.Commands
     {
       Assert.ArgumentNotNull(result, "result");
 
-      var name = this.Name;
+      var name = Name;
       Assert.ArgumentNotNullOrEmpty(name, "name");
 
       InstanceManager.Initialize();
@@ -20,7 +20,7 @@ namespace SIM.Core.Commands
       Ensure.IsNotNull(instance, "instance is not found");
       Ensure.IsTrue(instance.State != InstanceState.Disabled, "instance is disabled");
       Ensure.IsTrue(instance.State != InstanceState.Stopped, "instance is stopped");
-      
+
       CoreInstance.Browse(instance, "/sitecore");
     }
   }

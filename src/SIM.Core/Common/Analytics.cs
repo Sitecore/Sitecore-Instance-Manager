@@ -29,13 +29,13 @@ namespace SIM.Core.Common
 
         configuration.TelemetryChannel = new PersistenceChannel("Sitecore Instance Manager");
         configuration.InstrumentationKey = "1447f72f-2d39-401b-91ac-4d5c502e3359";
-        
+
         var client = new TelemetryClient(configuration)
         {
           InstrumentationKey = "1447f72f-2d39-401b-91ac-4d5c502e3359"
         };
 
-        Analytics.telemetryClient = client;
+        telemetryClient = client;
         try
         {
           // ReSharper disable PossibleNullReferenceException

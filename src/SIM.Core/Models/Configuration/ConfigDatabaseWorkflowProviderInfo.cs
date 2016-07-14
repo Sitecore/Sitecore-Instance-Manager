@@ -15,11 +15,11 @@
       {
         return null;
       }
-      
+
       return new ConfigDatabaseWorkflowProviderInfo
       {
         Type = element.GetAttribute("type"),
-        Database = element.SelectElements("param").FirstOrDefault()?.InnerText,
+        Database = element.SelectElements("param").FirstOrDefault()?.InnerText
       };
     }
   }

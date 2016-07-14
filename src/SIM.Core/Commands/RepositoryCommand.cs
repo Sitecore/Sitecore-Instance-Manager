@@ -21,7 +21,7 @@ namespace SIM.Core.Commands
         Standalone = ProductManager.StandaloneProducts.Select(x => x.ToString()).ToArray(),
         Modules = ProductManager.Modules.Select(x => x.ToString()).ToArray()
       };
-      
+
       result.Data = data;
     }
   }

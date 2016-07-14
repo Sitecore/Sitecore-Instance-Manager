@@ -12,13 +12,13 @@ namespace SIM.Core.Commands
     {
       Assert.ArgumentNotNull(result, "result");
 
-      var name = this.Name;
+      var name = Name;
       Assert.ArgumentNotNullOrEmpty(name, "name");
 
       InstanceManager.Initialize();
       var instance = InstanceManager.Instances.FirstOrDefault(x => x.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
       Ensure.IsNotNull(instance, "instance is not found");
-      
+
       result.Data = instance.State.ToString();
     }
   }

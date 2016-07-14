@@ -14,10 +14,10 @@ namespace SIM.Core.Commands
     {
       Assert.ArgumentNotNull(result, "result");
 
-      var force = this.Force; 
-      var name = this.Name;
+      var force = Force;
+      var name = Name;
       Ensure.IsNotNullOrEmpty(name, "Name is not specified");
-      
+
       InstanceManager.Initialize();
       var instance = InstanceManager.Instances.FirstOrDefault(x => x.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
       Ensure.IsNotNull(instance, "instance is not found");
