@@ -48,7 +48,7 @@
         var dir = (instanceNode.GetValue("InstanceDirectory") as string ?? string.Empty).TrimEnd('\\');
         if (name.Equals(args.InstanceName, StringComparison.OrdinalIgnoreCase) || dir.Equals(args.Instance.RootPath.TrimEnd('\\'), StringComparison.OrdinalIgnoreCase))
         {
-          Log.Info(string.Format("Deleting {0}\\{1} key from registry", SitecoreNodePath, subKeyName));
+          Log.Info($"Deleting {SitecoreNodePath}\\{subKeyName} key from registry");
           sitecoreNode.DeleteSubKey(subKeyName);
 
           return;

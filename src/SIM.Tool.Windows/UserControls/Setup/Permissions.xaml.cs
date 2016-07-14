@@ -110,7 +110,7 @@
       catch (Exception ex)
       {
         Log.Error(ex, "Granting security permissions failed");
-        WindowHelper.ShowMessage(string.Format("Something went wrong while assigning necessary permissions, so please assign them manually: grant the \"{0}\" folder with FULL ACCESS rights for {1} user account.", path, accountName), MessageBoxButton.OK, MessageBoxImage.Asterisk);
+        WindowHelper.ShowMessage($"Something went wrong while assigning necessary permissions, so please assign them manually: grant the \"{path}\" folder with FULL ACCESS rights for {accountName} user account.", MessageBoxButton.OK, MessageBoxImage.Asterisk);
         return ProfileSection.Result(false);
       }
     }

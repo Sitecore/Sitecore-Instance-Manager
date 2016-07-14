@@ -104,8 +104,8 @@
       // var appPoolName = WebServerManager.CreateContext(string.Empty).Sites[websiteName].ApplicationDefaults.ApplicationPoolName;        
       this.ChangeAppPoolSettingsIfNeeded(args.temporaryPathToUnpack.PathCombine(ImportArgs.appPoolSettingsFileName), args);
       this.ChangeWebsiteSettingsIfNeeded(args.temporaryPathToUnpack.PathCombine(ImportArgs.websiteSettingsFileName), args);
-      var importAppPoolSettingsCommand = string.Format(@"%windir%\system32\inetsrv\appcmd add apppool /in < {0}", args.temporaryPathToUnpack.PathCombine(ImportArgs.appPoolSettingsFileName) + ".fixed.xml");
-      var importWebsiteSettingsCommand = string.Format(@"%windir%\system32\inetsrv\appcmd add site /in < {0}", args.temporaryPathToUnpack.PathCombine(ImportArgs.websiteSettingsFileName) + ".fixed.xml");
+      var importAppPoolSettingsCommand = $@"%windir%\system32\inetsrv\appcmd add apppool /in < {args.temporaryPathToUnpack.PathCombine(ImportArgs.appPoolSettingsFileName) + ".fixed.xml"}";
+      var importWebsiteSettingsCommand = $@"%windir%\system32\inetsrv\appcmd add site /in < {args.temporaryPathToUnpack.PathCombine(ImportArgs.websiteSettingsFileName) + ".fixed.xml"}";
 
       ExecuteCommand(importAppPoolSettingsCommand);
       ExecuteCommand(importWebsiteSettingsCommand);

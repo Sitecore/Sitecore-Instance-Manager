@@ -3,25 +3,23 @@
   using System;
   using System.Collections;
   using System.Collections.Generic;
-  using System.Diagnostics;
   using System.IO;
   using System.Linq;
   using System.Reflection;
-
   using CommandLine;
   using Newtonsoft.Json;
+  using Sitecore.Diagnostics.Base;
+  using Sitecore.Diagnostics.Base.Annotations;
   using SIM.Client.Commands;
   using SIM.Client.Serialization;
   using SIM.Core;
   using SIM.Core.Common;
-  using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
 
   public static class Program
   {
     public static void Main([NotNull] string[] args)
     {
-      Assert.ArgumentNotNull(args, "args");                
+      Assert.ArgumentNotNull(args, "args");
 
       CoreApp.InitializeLogging();
 
@@ -60,7 +58,7 @@
       var serializer = new JsonSerializer
       {
         NullValueHandling = NullValueHandling.Ignore,
-        Formatting = Formatting.Indented,
+        Formatting = Formatting.Indented
       };
 
       serializer.Converters.Add(new DirectoryInfoConverter());
@@ -154,7 +152,7 @@
       Assert.ArgumentNotNull(filteredArgs, "filteredArgs");
 
       var query = string.Empty;
-      for (int i = 0; i < filteredArgs.Count; i++)
+      for (var i = 0; i < filteredArgs.Count; i++)
       {
         if (filteredArgs[i] == "--data")
         {
@@ -185,7 +183,7 @@
     {
       Assert.ArgumentNotNull(filteredArgs, "filteredArgs");
 
-      for (int i = 0; i < filteredArgs.Count; i++)
+      for (var i = 0; i < filteredArgs.Count; i++)
       {
         if (filteredArgs[i] != "--wait")
         {

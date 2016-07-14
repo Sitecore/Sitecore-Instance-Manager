@@ -135,7 +135,7 @@
       }
       catch (ZipException)
       {
-        throw new InvalidOperationException(string.Format("The \"{0}\" package seems to be corrupted.", packagePath));
+        throw new InvalidOperationException($"The \"{packagePath}\" package seems to be corrupted.");
       }
     }
 

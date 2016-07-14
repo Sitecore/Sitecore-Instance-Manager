@@ -62,7 +62,7 @@
 
       using (SqlConnection sqlConnection = this.OpenConnection(connectionString))
       {
-        var command = string.Format("create database [{0}] on (filename = N'{1}'){2} for attach", name, path, attachLog && FileSystem.FileSystem.Local.File.Exists(ldf) ? ", (filename = N'" + ldf + "')" : string.Empty);
+        var command = $"create database [{name}] on (filename = N'{path}'){(attachLog && FileSystem.FileSystem.Local.File.Exists(ldf) ? ", (filename = N'" + ldf + "')" : string.Empty)} for attach";
         this.Execute(sqlConnection, command);
       }
     }
@@ -101,7 +101,7 @@
     public virtual void CloseConnectionsToDatabase(string dbName, SqlConnection sqlConnection)
     {
       Log.Info("Closing connection to the '{0}' database", dbName);
-      var command = string.Format("ALTER DATABASE [{0}] SET SINGLE_USER WITH ROLLBACK IMMEDIATE", dbName);
+      var command = $"ALTER DATABASE [{dbName}] SET SINGLE_USER WITH ROLLBACK IMMEDIATE";
       this.Execute(sqlConnection, command);
     }
 
@@ -110,7 +110,7 @@
       Assert.ArgumentNotNull(name, "name");
       Assert.ArgumentNotNull(sqlConnection, "sqlConnection");
 
-      var command = string.Format("select [name] from [master].[sys].[databases] where [name] = N'{0}'", name);
+      var command = $"select [name] from [master].[sys].[databases] where [name] = N'{name}'";
       using (SqlCommand sqlCmd = new SqlCommand(command, sqlConnection))
       {
         using (SqlDataReader reader = sqlCmd.ExecuteReader())
@@ -153,7 +153,7 @@
       using (SqlConnection sqlConnection = this.OpenConnection(connectionString))
       {
         this.CloseConnectionsToDatabase(realName, sqlConnection);
-        var command = string.Format("EXEC master.dbo.sp_detach_db @dbname = N'{0}', @skipchecks = 'false'", realName);
+        var command = $"EXEC master.dbo.sp_detach_db @dbname = N'{realName}', @skipchecks = 'false'";
         this.Execute(sqlConnection, command);
       }
     }

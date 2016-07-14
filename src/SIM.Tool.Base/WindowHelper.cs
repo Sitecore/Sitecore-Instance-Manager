@@ -236,7 +236,7 @@
 
                 break;
               case VistaTaskDialogNotification.Timer:
-                dialog.SetContent(string.Format("Time elapsed: {0}", TimeSpan.FromMilliseconds(args.TimerTickCount).ToString(@"h\:mm\:ss")));
+                dialog.SetContent($"Time elapsed: {TimeSpan.FromMilliseconds(args.TimerTickCount).ToString(@"h\:mm\:ss")}");
                 if (isDone)
                 {
                   dialog.ClickCustomButton(0);

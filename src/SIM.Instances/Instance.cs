@@ -384,7 +384,7 @@
     {
       get
       {
-        return string.Format("{0} ({1})", base.ToString(), this.ProductFullName);
+        return $"{base.ToString()} ({this.ProductFullName})";
       }
     }
 

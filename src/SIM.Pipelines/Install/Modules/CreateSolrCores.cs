@@ -77,7 +77,7 @@ namespace SIM.Pipelines.Install.Modules
 
       if (!schemaExists && !managedSchemaExists)
       {
-        throw new FileNotFoundException(string.Format("Schema file not found: Checked here {0} and here {1}.", schemaPath, managedSchemaPath));
+        throw new FileNotFoundException($"Schema file not found: Checked here {schemaPath} and here {managedSchemaPath}.");
       }
 
       string inputPath = managedSchemaExists ? managedSchemaPath : schemaPath;
@@ -96,8 +96,7 @@ namespace SIM.Pipelines.Install.Modules
 
     private void CallSolrCreateCoreAPI(string url, string coreName, string instanceDir)
     {
-      this.RequestAndGetResponse(string.Format(
-        "{0}/admin/cores?action=CREATE&name={1}&instanceDir={2}&config=solrconfig.xml&schema=schema.xml&dataDir=data", url, coreName, instanceDir));
+      this.RequestAndGetResponse($"{url}/admin/cores?action=CREATE&name={coreName}&instanceDir={instanceDir}&config=solrconfig.xml&schema=schema.xml&dataDir=data");
     }
 
     private void DeleteCopiedCorePropertiesFile(string newCorePath)
@@ -108,8 +107,7 @@ namespace SIM.Pipelines.Install.Modules
 
     private string GetDefaultCollectionPath(string url)
     {
-      var response = this.RequestAndGetResponse(string.Format(
-        "{0}/admin/cores", url));
+      var response = this.RequestAndGetResponse($"{url}/admin/cores");
 
       var doc = new XmlDocument();
       doc.Load(response.GetResponseStream());

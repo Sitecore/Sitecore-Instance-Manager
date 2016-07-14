@@ -66,21 +66,20 @@ namespace SIM.Tests.Pipelines
     {
       return "<sitecore>" +
              "<settings>" +
-             string.Format("<setting name='ContentSearch.Solr.ServiceBaseAddress' value='{0}' />", someUrl) +
+             $"<setting name='ContentSearch.Solr.ServiceBaseAddress' value='{someUrl}' />" +
              "</settings>" +
              "<contentSearch>" +
              "<configuration>" +
              "<indexes>" +
-             string.Format("<index  type='Sitecore.ContentSearch.SolrProvider.SolrSearchIndex, Sitecore.ContentSearch.SolrProvider' id='{0}'>", someId) +
-
-             string.Format("<param desc='core' id='$(id)'>{0}</param>", someCoreName) +
+             $"<index  type='Sitecore.ContentSearch.SolrProvider.SolrSearchIndex, Sitecore.ContentSearch.SolrProvider' id='{someId}'>" +
+             $"<param desc='core' id='$(id)'>{someCoreName}</param>" +
              "</index></indexes></configuration></contentSearch></sitecore>";
     }
 
     private void ArrangeGetCores(string coreInfo)
     {
       HttpWebResponse response = Substitute.For<HttpWebResponse>();
-      string returnValue = string.Format("<response><lst name='status' >{0}</lst></response>", coreInfo);
+      string returnValue = $"<response><lst name='status' >{coreInfo}</lst></response>";
       var bytes = UTF8Encoding.UTF8.GetBytes(returnValue);
       response.GetResponseStream().Returns(new MemoryStream(bytes));
       _sut.RequestAndGetResponse("SOME_URL/admin/cores").Returns(response);
@@ -139,9 +138,7 @@ namespace SIM.Tests.Pipelines
       string coreName = "SOME_CORE_NAME";
       _sut.Received()
         .RequestAndGetResponse(
-          string.Format(
-            "SOME_URL/admin/cores?action=CREATE&name={0}&instanceDir={1}&config=solrconfig.xml&schema=schema.xml&dataDir=data", coreName, dirPath
-            ));
+          $"SOME_URL/admin/cores?action=CREATE&name={coreName}&instanceDir={dirPath}&config=solrconfig.xml&schema=schema.xml&dataDir=data");
 
     }
 

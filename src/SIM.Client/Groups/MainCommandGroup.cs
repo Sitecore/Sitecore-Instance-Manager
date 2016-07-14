@@ -6,6 +6,14 @@
 
   public class MainCommandGroup : MainCommandGroupBase
   {
+    [CanBeNull]
+    [UsedImplicitly]
+    [HelpVerbOption]
+    public string GetUsage([CanBeNull] string verb)
+    {
+      return HelpText.AutoBuild(this, verb);
+    }
+
     #region Nested Commands
 
     [CanBeNull]
@@ -25,7 +33,7 @@
 
     [CanBeNull]
     [UsedImplicitly]
-    [VerbOption("start", HelpText="Start stopped instance.")]
+    [VerbOption("start", HelpText = "Start stopped instance.")]
     public StartCommandFacade StartCommandFacade { get; set; }
 
     [CanBeNull]
@@ -69,13 +77,5 @@
     public DeleteCommandFacade DeleteCommandFacade { get; set; }
 
     #endregion
-
-    [CanBeNull]
-    [UsedImplicitly]
-    [HelpVerbOption]
-    public string GetUsage([CanBeNull] string verb)
-    {
-      return HelpText.AutoBuild(this, verb);
-    }
   }
 }

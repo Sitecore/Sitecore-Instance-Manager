@@ -247,7 +247,7 @@ namespace SIM.Tool.Windows.UserControls.Install
       foreach (var host in hostNames)
       {
         var hostExists = WebServerManager.HostBindingExists(host);
-        Assert.IsTrue(!hostExists, string.Format("Website with the host name '{0}' already exists", host));
+        Assert.IsTrue(!hostExists, $"Website with the host name '{host}' already exists");
       }
       return hostNames;
     }

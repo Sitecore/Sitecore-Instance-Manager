@@ -33,7 +33,7 @@ namespace SIM.FileSystem
     {
       Assert.ArgumentNotNullOrEmpty(path, "path");
 
-      Assert.IsTrue(Directory.Exists(path), message.EmptyToNull() ?? string.Format("The {0} folder does not exist, but is expected to be", Environment.ExpandEnvironmentVariables(path)));
+      Assert.IsTrue(Directory.Exists(path), message.EmptyToNull() ?? $"The {Environment.ExpandEnvironmentVariables(path)} folder does not exist, but is expected to be");
     }
 
     public virtual string Combine(DirectoryInfo one, string two)

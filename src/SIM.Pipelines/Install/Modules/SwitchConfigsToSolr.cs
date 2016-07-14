@@ -65,7 +65,7 @@ namespace SIM.Pipelines.Install.Modules
     private void RenameCores()
     {
       string oldCore = @"<param desc=""core"">$(id)</param>";
-      string newCore = string.Format(@"<param desc=""core"">{0}_$(id)</param>", this.Instance.Name);
+      string newCore = $@"<param desc=""core"">{this.Instance.Name}_$(id)</param>";
       var solrFiles = GetConfigFiles().Where(s => s.ToLower().Contains(".solr.")).ToList();
       foreach (var file in solrFiles)
       {

@@ -147,7 +147,7 @@
     {
       var cookie = GetCookie();
 
-      return string.Format("public-{0}", cookie);
+      return $"public-{cookie}";
     }
 
     [NotNull]

@@ -43,7 +43,7 @@
         GeneratePackages(nugetFolderPath);
       };
 
-      var content = string.Format("The SC.* NuGet packages are now being generated in the {0} directory for all Sitecore versions that exist in the local repository. Read more: {1}", nugetFolderPath, Link);
+      var content = $"The SC.* NuGet packages are now being generated in the {nugetFolderPath} directory for all Sitecore versions that exist in the local repository. Read more: {Link}";
 
       WindowHelper.LongRunningTask(longRunningTask, "Generating NuGet Packages", mainWindow, null, content, true);
     }

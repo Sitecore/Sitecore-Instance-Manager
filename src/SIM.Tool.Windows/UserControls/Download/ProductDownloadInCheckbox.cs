@@ -53,7 +53,7 @@
 
     public override string ToString()
     {
-      return string.Format("{0} {1} rev. {2}{3}{4}", this.nameOverride ?? this.Name, this.Version, this.Revision, string.IsNullOrEmpty(this.Label) ? string.Empty : " (" + this.Label + ")", this.IsEnabled ? string.Empty : " - you already have it");
+      return $"{this.nameOverride ?? this.Name} {this.Version} rev. {this.Revision}{(string.IsNullOrEmpty(this.Label) ? string.Empty : " (" + this.Label + ")")}{(this.IsEnabled ? string.Empty : " - you already have it")}";
     }
 
     #endregion

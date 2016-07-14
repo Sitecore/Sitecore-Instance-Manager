@@ -2,7 +2,6 @@ namespace SIM.Client.Commands
 {
   using System.Linq;
   using CommandLine;
-  using CommandLine.Text;
   using Sitecore.Diagnostics.Base;
   using Sitecore.Diagnostics.Base.Annotations;
   using SIM.Core.Common;
@@ -14,7 +13,7 @@ namespace SIM.Client.Commands
     {
       get
       {
-        var command = this.FindCommand(this);
+        var command = FindCommand(this);
         Assert.IsNotNull(command, "There is no selected command");
 
         return command;
@@ -37,7 +36,7 @@ namespace SIM.Client.Commands
         var innerCommand = propertyInfo.GetValue(commandContainer, null) as ICommand;
         if (innerCommand != null)
         {
-          var command = this.FindCommand(innerCommand);
+          var command = FindCommand(innerCommand);
           if (command != null)
           {
             return command;

@@ -66,10 +66,7 @@ namespace SIM.Pipelines
         if (manifest == null)
         {
           Log.Warn("The {0} doesn't have a manifest", module);
-          if (done != null)
-          {
-            done.Add(module);
-          }
+          done?.Add(module);
 
           continue;
         }
@@ -78,10 +75,7 @@ namespace SIM.Pipelines
         if (!module.IsMatchRequirements(instanceProduct))
         {
           Log.Warn("The {0} doesn't suites for {1}", module, instanceProduct);
-          if (done != null)
-          {
-            done.Add(module);
-          }
+          done?.Add(module);
 
           continue;
         }
@@ -97,10 +91,7 @@ namespace SIM.Pipelines
         if (element == null)
         {
           Log.Warn("Can't find rules root (the {0} element in the manifest of the {3} file){1}The manifest is: {1}{2}", xpath, Environment.NewLine, manifest.OuterXml, module.PackagePath);
-          if (done != null)
-          {
-            done.Add(module);
-          }
+          done?.Add(module);
 
           continue;
         }
@@ -294,12 +285,12 @@ namespace SIM.Pipelines
     {
       if (path.StartsWith("/Website", true, CultureInfo.InvariantCulture) || path.StartsWith(@"\Website", true, CultureInfo.InvariantCulture))
       {
-        return string.Format(@"/{0}{1}", webRootName, path.Substring(8));
+        return $@"/{webRootName}{path.Substring(8)}";
       }
 
       if (path.StartsWith("Website", true, CultureInfo.InvariantCulture))
       {
-        return string.Format(@"/{0}{1}", webRootName, path.Substring(7));
+        return $@"/{webRootName}{path.Substring(7)}";
       }
 
       return path;
@@ -433,7 +424,7 @@ namespace SIM.Pipelines
         }
         catch (IOException e)
         {
-          throw new InvalidOperationException(string.Format("The installer can't extract the '{0}' file into the '{1}' folder. Check if there is already such a file or if the process has access rights", fileName, databasesFolder), e);
+          throw new InvalidOperationException($"The installer can't extract the '{fileName}' file into the '{databasesFolder}' folder. Check if there is already such a file or if the process has access rights", e);
         }
       }
 
@@ -453,7 +444,7 @@ namespace SIM.Pipelines
         }
         catch (IOException e)
         {
-          throw new InvalidOperationException(string.Format("The installer can't extract the '{0}' file into the '{1}' folder. Check if there is already such a file or if the process has access rights", fileName, databasesFolder), e);
+          throw new InvalidOperationException($"The installer can't extract the '{fileName}' file into the '{databasesFolder}' folder. Check if there is already such a file or if the process has access rights", e);
         }
 
         if (!string.IsNullOrEmpty(sourceFileName))
@@ -925,7 +916,7 @@ namespace SIM.Pipelines
             var file = action.GetAttribute("file").Replace("$(data)", instance.DataFolderPath).Replace("$(website)", instance.WebRootPath);
             if (!string.IsNullOrEmpty(file))
             {
-              Assert.IsTrue(File.Exists(file), string.Format("The {0} file does not exist", file));
+              Assert.IsTrue(File.Exists(file), $"The {file} file does not exist");
             }
 
             var sql = string.IsNullOrEmpty(file) ? action.InnerText : FileSystem.FileSystem.Local.File.ReadAllText(file);

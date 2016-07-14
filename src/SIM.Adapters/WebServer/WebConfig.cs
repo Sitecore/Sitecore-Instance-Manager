@@ -303,9 +303,9 @@
       Assert.ArgumentNotNull(webConfigResult, "webConfigResult");
 
       XmlElement element = webConfigResult.SelectSingleNode(string.Format(SettingXPath, name)) as XmlElement;
-      Assert.IsNotNull(element, string.Format("The \"{0}\" setting is missing in the instance configuration files", name));
+      Assert.IsNotNull(element, $"The \"{name}\" setting is missing in the instance configuration files");
       XmlAttribute value = element.Attributes["value"];
-      Assert.IsNotNull(value, string.Format("The value attribute of the \"{0}\" setting is missing in the instance configuration files", name));
+      Assert.IsNotNull(value, $"The value attribute of the \"{name}\" setting is missing in the instance configuration files");
       var settingValue = value.Value;
       Assert.IsNotNullOrEmpty(settingValue, "settingValue");
       return settingValue;

@@ -430,7 +430,7 @@
             case ProcessorState.Error:
             case ProcessorState.Inaccessible:
             {
-              var messageLabel = string.Format(@"{0} action failed with message: ", processor.Title);
+              var messageLabel = $@"{processor.Title} action failed with message: ";
               const string skipped = "Action was skipped because other one had problem - please find it, fix the problem and run the process again";
                 string message;
               Exception exception = processor.Error;

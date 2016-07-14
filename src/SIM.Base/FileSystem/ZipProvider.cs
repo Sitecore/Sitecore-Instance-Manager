@@ -55,14 +55,13 @@ namespace SIM.FileSystem
             if (!(data && databases && website))
             {
               throw new InvalidOperationException(
-                string.Format("The \"{0}\" archive isn't a Sitecore installation package.", packagePath));
+                $"The \"{packagePath}\" archive isn't a Sitecore installation package.");
             }
           }
         }
         catch (ZipException)
         {
-          throw new InvalidOperationException(string.Format("The \"{0}\" installation package seems to be corrupted.", 
-            packagePath));
+          throw new InvalidOperationException($"The \"{packagePath}\" installation package seems to be corrupted.");
         }
       }
     }
@@ -123,8 +122,7 @@ namespace SIM.FileSystem
         }
         catch (ZipException)
         {
-          throw new InvalidOperationException(string.Format("The \"{0}\" installation package seems to be corrupted.", 
-            packagePath));
+          throw new InvalidOperationException($"The \"{packagePath}\" installation package seems to be corrupted.");
         }
       }
 
@@ -219,7 +217,7 @@ namespace SIM.FileSystem
         }
         catch (ZipException)
         {
-          throw new InvalidOperationException(string.Format("The \"{0}\" package seems to be corrupted.", packagePath));
+          throw new InvalidOperationException($"The \"{packagePath}\" package seems to be corrupted.");
         }
       }
     }
@@ -311,7 +309,7 @@ namespace SIM.FileSystem
       }
       catch (ZipException)
       {
-        throw new InvalidOperationException(string.Format("The \"{0}\" package seems to be corrupted.", packagePath));
+        throw new InvalidOperationException($"The \"{packagePath}\" package seems to be corrupted.");
       }
     }
 

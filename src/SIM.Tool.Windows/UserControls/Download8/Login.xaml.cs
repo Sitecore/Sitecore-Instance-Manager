@@ -30,7 +30,7 @@
       request.ContentType = @"application/json;charset=UTF-8";
       var cookies = new CookieContainer();
       request.CookieContainer = cookies;
-      var content = "{" + string.Format("\"username\":\"{0}\",\"password\":\"{1}\"", username, password) + "}";
+      var content = "{" + $"\"username\":\"{username}\",\"password\":\"{password}\"" + "}";
       request.ContentLength = content.Length;
       using (var inputStream = request.GetRequestStream())
       {

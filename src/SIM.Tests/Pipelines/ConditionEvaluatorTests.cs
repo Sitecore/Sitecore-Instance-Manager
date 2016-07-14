@@ -118,7 +118,7 @@ namespace SIM.Tests.Pipelines
         private static XmlElement GetXmlElement(string action)
         {
             XmlDocument doc = new XmlDocument();
-            doc.LoadXml(string.Format("<root>{0}</root>", action));
+            doc.LoadXml($"<root>{action}</root>");
             var element = doc.GetElementsByTagName("action")[0] as XmlElement;
             return element;
         }
