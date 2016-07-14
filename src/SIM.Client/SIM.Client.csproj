@@ -59,9 +59,11 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Net" />
+    <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commands\BrowseCommandFacade.cs" />
+    <Compile Include="Commands\ConfigCommandFacade.cs" />
     <Compile Include="Commands\DeleteCommandFacade.cs" />
     <Compile Include="Commands\InstallCommandFacade.cs" />
     <Compile Include="Commands\InstallModuleCommandFacade.cs" />

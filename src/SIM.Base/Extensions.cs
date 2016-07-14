@@ -165,16 +165,22 @@
       }
     }
 
-    [CanBeNull]
+    [NotNull]
     public static IEnumerable<XmlElement> SelectElements(this XmlDocument document, string xpath)
     {
-      return document.SelectNodes(xpath).OfType<XmlElement>();
+      Assert.ArgumentNotNull(document, nameof(document));
+      Assert.ArgumentNotNull(xpath, nameof(xpath));
+      
+      return document.SelectNodes(xpath)?.OfType<XmlElement>() ?? new XmlElement[0];
     }
 
-    [CanBeNull]
+    [NotNull]
     public static IEnumerable<XmlElement> SelectElements(this XmlElement element, string xpath)
-    {
-      return element.SelectNodes(xpath).OfType<XmlElement>();
+    {    
+        Assert.ArgumentNotNull(element, nameof(element));
+        Assert.ArgumentNotNull(xpath, nameof(xpath));
+
+        return element.SelectNodes(xpath)?.OfType<XmlElement>() ?? new XmlElement[0];
     }
 
     [CanBeNull]

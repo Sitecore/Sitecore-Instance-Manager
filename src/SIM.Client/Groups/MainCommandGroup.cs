@@ -20,6 +20,11 @@
 
     [CanBeNull]
     [UsedImplicitly]
+    [VerbOption("config", HelpText = "Show config of an instance.")]
+    public ConfigCommandFacade ConfigCommandFacade { get; set; }
+
+    [CanBeNull]
+    [UsedImplicitly]
     [VerbOption("start", HelpText="Start stopped instance.")]
     public StartCommandFacade StartCommandFacade { get; set; }
 

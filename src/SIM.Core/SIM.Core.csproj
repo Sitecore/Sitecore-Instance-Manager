@@ -70,6 +70,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commands\BrowseCommand.cs" />
+    <Compile Include="Commands\ConfigCommand.cs" />
     <Compile Include="Commands\LoginCommand.cs" />
     <Compile Include="Commands\RepositoryCommand.cs" />
     <Compile Include="Commands\RepositoryCommandResult.cs" />
@@ -89,6 +90,10 @@
     <Compile Include="CoreAppSettings.cs" />
     <Compile Include="CoreInstance.cs" />
     <Compile Include="CoreInstanceAuth.cs" />
+    <Compile Include="Models\Configuration\ConfigDatabaseHistoryEngineInfo.cs" />
+    <Compile Include="Models\Configuration\ConfigDatabaseInfo.cs" />
+    <Compile Include="Models\Configuration\ConfigDatabaseNotificationProviderInfo.cs" />
+    <Compile Include="Models\Configuration\ConfigDatabaseWorkflowProviderInfo.cs" />
     <Compile Include="Models\InstanceInfo.cs" />
     <Compile Include="Common\Analytics.cs" />
     <Compile Include="Common\ProfileHelper.cs" />
