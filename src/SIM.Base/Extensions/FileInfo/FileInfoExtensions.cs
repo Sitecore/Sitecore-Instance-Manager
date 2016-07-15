@@ -8,5 +8,10 @@
     {
       File.WriteAllText(file.FullName, contents);
     }
+
+    public static string GetAllText(this FileInfo file)
+    {
+      return File.ReadAllText(file.FullName);
+    }
   }
 }

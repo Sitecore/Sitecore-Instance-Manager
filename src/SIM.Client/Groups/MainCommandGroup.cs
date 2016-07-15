@@ -18,6 +18,11 @@
 
     [CanBeNull]
     [UsedImplicitly]
+    [VerbOption("pipe", HelpText = "Create named pipe.")]
+    public CreatePipeCommandFacade CreatePipeCommandFacade { get; set; }
+
+    [CanBeNull]
+    [UsedImplicitly]
     [VerbOption("list", HelpText = "Show already installed instances.")]
     public ListCommandFacade ListCommandFacade { get; set; }
 

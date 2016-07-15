@@ -24,6 +24,9 @@
     [CanBeNull]
     public virtual string Revision { get; [UsedImplicitly] set; }
 
+    [CanBeNull]
+    public virtual string Pipe { get; [UsedImplicitly] set; }
+
     protected override void DoExecute(CommandResult<string[]> result)
     {
       Assert.ArgumentNotNull(result, "result");
