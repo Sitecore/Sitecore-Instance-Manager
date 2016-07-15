@@ -9,6 +9,7 @@ namespace SIM.Pipelines.Install
   using SIM.Instances;
   using Sitecore.Diagnostics.Base;
   using Sitecore.Diagnostics.Base.Annotations;
+  using SIM.Extensions;
 
   #endregion
 

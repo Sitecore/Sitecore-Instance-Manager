@@ -6,6 +6,7 @@
   using System.Linq;
   using Microsoft.VisualStudio.TestTools.UnitTesting;
   using SIM.Adapters.SqlServer;
+  using SIM.Extensions;
   using SIM.Instances;
 
   [TestClass]

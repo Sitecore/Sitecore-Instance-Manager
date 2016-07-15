@@ -8,6 +8,8 @@ using SIM.Products;
 
 namespace SIM.Pipelines.Install.Modules
 {
+  using SIM.Extensions;
+
   public class SwitchConfigsToSolr:IPackageInstallActions
   {
     #region Properties

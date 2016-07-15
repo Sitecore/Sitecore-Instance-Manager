@@ -12,6 +12,7 @@
   using Sitecore.Diagnostics.Base.Annotations;
   using Sitecore.Diagnostics.Logging;
   using Sitecore.NuGet.Core;
+  using SIM.Extensions;
   using SIM.Tool.Base.Profiles;
 
   [UsedImplicitly]

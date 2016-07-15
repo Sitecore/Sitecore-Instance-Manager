@@ -9,6 +9,7 @@ using Sitecore.Diagnostics.Base.Annotations;
 namespace SIM.FileSystem
 {
   using Sitecore.Diagnostics.Logging;
+  using SIM.Extensions;
 
   public class DirectoryProvider
   {

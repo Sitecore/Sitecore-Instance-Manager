@@ -6,6 +6,7 @@
   using Sitecore.Diagnostics.Base;
   using Sitecore.Diagnostics.Base.Annotations;
   using Sitecore.Diagnostics.InformationService.Client.Model;
+  using SIM.Extensions;
 
   public class ProductDownload8InCheckbox : DataObjectBase
   {

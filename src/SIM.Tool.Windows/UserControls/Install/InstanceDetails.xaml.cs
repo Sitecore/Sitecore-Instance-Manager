@@ -20,6 +20,7 @@
   using Sitecore.Diagnostics.Base;
   using Sitecore.Diagnostics.Base.Annotations;
   using Sitecore.Diagnostics.Logging;
+  using SIM.Extensions;
 
   #region
 
@@ -138,7 +139,7 @@
       var isClassic = ((string) modeItem.Content).EqualsIgnoreCase("Classic");
       var appPoolInfo = new AppPoolInfo
                         {
-                          FrameworkVersion = frameworkArr[0].EmptyToNull() ?? "v2.0",
+                          FrameworkVersion = Extensions.EmptyToNull(frameworkArr[0]) ?? "v2.0",
                           Enable32BitAppOnWin64 = force32Bit,
                           ManagedPipelineMode = !isClassic
                         };
@@ -207,7 +208,7 @@
       {
         using (var context = WebServerManager.CreateContext("InstanceDetails.OnMovingNext('{0}')".FormatWith(name)))
         {
-          var site = context.Sites.Single(s => s != null && s.Name.EqualsIgnoreCase(name));
+          var site = context.Sites.Single(s => s != null && Extensions.EqualsIgnoreCase(s.Name, name));
           var path = WebServerManager.GetWebRootPath(site);
           if (FileSystem.FileSystem.Local.Directory.Exists(path))
           {

@@ -17,6 +17,7 @@
   using Sitecore.Diagnostics.Base.Annotations;
   using Sitecore.Diagnostics.Logging;
   using SIM.Core;
+  using SIM.Extensions;
   using TaskDialogInterop;
 
   #region

@@ -12,6 +12,7 @@
   using Sitecore.Diagnostics.Base;
   using Sitecore.Diagnostics.Base.Annotations;
   using Sitecore.Diagnostics.InformationService.Client.Model;
+  using SIM.Extensions;
 
   public class DownloadWizardArgs : WizardArgs
   {
@@ -61,9 +62,8 @@
     {
       get
       {
-        return Product.Service.GetVersions("Sitecore CMS")
-          .With(x => x.Where(z => z.Name.StartsWith("8")))
-          .With(x => x.SelectMany(y => y.Releases).ToArray());
+        return Extensions.With(Product.Service.GetVersions("Sitecore CMS")
+            .With(x => x.Where(z => z.Name.StartsWith("8"))), x => x.SelectMany(y => y.Releases).ToArray());
       }
     }
 

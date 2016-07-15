@@ -8,6 +8,7 @@
   using SIM.Tool.Base.Profiles;
   using Sitecore.Diagnostics.Base;
   using Sitecore.Diagnostics.Base.Annotations;
+  using SIM.Extensions;
 
   [UsedImplicitly]
   public class ReinstallInstanceButton : IMainWindowButton

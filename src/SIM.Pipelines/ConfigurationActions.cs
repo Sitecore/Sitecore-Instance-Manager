@@ -18,6 +18,7 @@
   using Sitecore.Diagnostics.Base.Annotations;
   using Sitecore.Diagnostics.Logging;
   using SIM.Adapters.WebServer;
+  using SIM.Extensions;
 
   #region
 

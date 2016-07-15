@@ -9,6 +9,7 @@
   using Sitecore.Diagnostics.Base;
   using Sitecore.Diagnostics.Base.Annotations;
   using SIM.Core;
+  using SIM.Extensions;
   using SIM.Tool.Base.Wizards;
 
   #endregion

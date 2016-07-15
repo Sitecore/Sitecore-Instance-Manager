@@ -13,6 +13,7 @@
   using Sitecore.Diagnostics.Base.Annotations;
   using Sitecore.Diagnostics.Logging;
   using SIM.Core;
+  using SIM.Extensions;
 
   public partial class Permissions : IWizardStep, IFlowControl
   {

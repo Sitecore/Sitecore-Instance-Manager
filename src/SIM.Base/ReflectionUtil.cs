@@ -5,6 +5,7 @@
   using Sitecore.Diagnostics.Base.Annotations;
   using Sitecore.Diagnostics.Logging;
   using System.Reflection;
+  using SIM.Extensions;
 
   public static class ReflectionUtil
   {

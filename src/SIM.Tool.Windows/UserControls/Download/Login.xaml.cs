@@ -10,6 +10,7 @@
   using SIM.Tool.Base.Wizards;
   using Sitecore.Diagnostics.Base;
   using Sitecore.Diagnostics.Base.Annotations;
+  using SIM.Extensions;
 
   public partial class Login : IWizardStep, IFlowControl
   {

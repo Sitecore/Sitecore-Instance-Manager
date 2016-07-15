@@ -26,6 +26,8 @@
   using Sitecore.Diagnostics.Logging;
   using SIM.Tool.Base.Wizards;
   using Core;
+  using SIM.Extensions;
+
   #region
 
   #endregion
@@ -437,7 +439,7 @@
       }
 
       // create Ribbon Button
-      var splitButton = ribbonGroup.Items.OfType<SplitButton>().SingleOrDefault(x => x.Header.ToString().Trim().EqualsIgnoreCase(header.Trim()));
+      var splitButton = ribbonGroup.Items.OfType<SplitButton>().SingleOrDefault(x => Extensions.EqualsIgnoreCase(x.Header.ToString().Trim(), header.Trim()));
       if (splitButton == null)
       {
         var imageSource = getImage(button.GetNonEmptyAttribute("largeImage"));

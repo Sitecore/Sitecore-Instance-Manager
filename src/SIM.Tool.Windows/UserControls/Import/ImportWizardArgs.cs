@@ -4,6 +4,7 @@
   using System.Data.SqlClient;
   using System.IO;
   using System.Xml;
+  using SIM.Extensions;
   using SIM.Pipelines.Import;
   using SIM.Pipelines.Processors;
   using SIM.Tool.Base.Profiles;

@@ -7,6 +7,7 @@
   using SIM.Adapters.WebServer;
   using SIM.Instances;
   using Sitecore.Diagnostics.Base.Annotations;
+  using SIM.Extensions;
 
   [UsedImplicitly]
   internal class ImportRegisterWebsite : ImportProcessor

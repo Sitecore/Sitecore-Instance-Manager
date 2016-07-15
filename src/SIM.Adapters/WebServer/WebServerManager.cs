@@ -6,6 +6,7 @@
   using Sitecore.Diagnostics.Base;
   using Sitecore.Diagnostics.Base.Annotations;
   using Sitecore.Diagnostics.Logging;
+  using SIM.Extensions;
 
   #region
 
@@ -83,7 +84,7 @@
       bool result;
       using (WebServerContext context = CreateContext("WebServerManager.HostBindingExists('{0}')".FormatWith(host)))
       {
-        result = context.Sites.Any(site => site.Bindings.Any(binding => binding.Host.EqualsIgnoreCase(host)));
+        result = context.Sites.Any(site => site.Bindings.Any(binding => Extensions.EqualsIgnoreCase(binding.Host, host)));
       }
 
       return result;
@@ -96,7 +97,7 @@
 
       using (WebServerContext context = CreateContext("WebServerManager.AddHostBinding('{0}','{1}')".FormatWith(siteName, binding.Host)))
       {
-        Site siteInfo = context.Sites.FirstOrDefault(site => site.Name.EqualsIgnoreCase(siteName));
+        Site siteInfo = context.Sites.FirstOrDefault(site => Extensions.EqualsIgnoreCase(site.Name, siteName));
         if (HostBindingExists(binding.Host) || siteInfo == null)
         {
           return false;
@@ -124,7 +125,7 @@
       bool v;
       using (WebServerContext context = CreateContext("WebServerManager.WebsiteExists('{0}')".FormatWith(name)))
       {
-        v = context.Sites.Any(s => s.Name.EqualsIgnoreCase(name));
+        v = context.Sites.Any(s => Extensions.EqualsIgnoreCase(s.Name, name));
       }
 
       return v;
@@ -145,7 +146,7 @@
         ApplicationPool appplicationPool = context.ApplicationPools[applicationPoolName];
 
         // Application is used only in the current website or isn't used at all
-        if (appplicationPool != null && context.Sites.Count(s => s.ApplicationDefaults.ApplicationPoolName.EqualsIgnoreCase(applicationPoolName)) <= 1)
+        if (appplicationPool != null && context.Sites.Count(s => Extensions.EqualsIgnoreCase(s.ApplicationDefaults.ApplicationPoolName, applicationPoolName)) <= 1)
         {
           context.ApplicationPools.Remove(appplicationPool);
         }

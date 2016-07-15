@@ -6,6 +6,7 @@
   using System.Net;
   using System.Windows;
   using Alienlab.NetExtensions;
+  using SIM.Extensions;
   using SIM.Tool.Base;
   using SIM.Tool.Base.Wizards;
 

@@ -7,6 +7,8 @@ using SIM.Products;
 
 namespace SIM.Tests.Pipelines
 {
+  using SIM.Extensions;
+
   [TestClass]
   public class SwitchConfigsToSolrTests
   {

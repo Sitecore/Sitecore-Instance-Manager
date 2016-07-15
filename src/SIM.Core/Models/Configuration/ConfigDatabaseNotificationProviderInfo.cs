@@ -3,6 +3,7 @@
   using System.Linq;
   using System.Xml;
   using Sitecore.Diagnostics.Base.Annotations;
+  using SIM.Extensions;
 
   public class ConfigDatabaseNotificationProviderInfo
   {

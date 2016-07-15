@@ -6,6 +6,7 @@ namespace SIM.Tool.Windows.MainWindowComponents
   using SIM.Tool.Base.Plugins;
   using Sitecore.Diagnostics.Base;
   using Sitecore.Diagnostics.Base.Annotations;
+  using SIM.Extensions;
 
   [UsedImplicitly]
   public class ControlAppPoolButton : IMainWindowButton

@@ -17,6 +17,7 @@
   using Sitecore.Diagnostics.InformationService.Client;
   using Sitecore.Diagnostics.InformationService.Client.Model;
   using Sitecore.Diagnostics.Logging;
+  using SIM.Extensions;
 
   #endregion
 
@@ -209,10 +210,8 @@
           return null;
         }
 
-        release = Service.GetVersions("Sitecore CMS")
-          .With(x => x.FirstOrDefault(z => z.Name == this.Version))
-          .With(x => x.Releases)
-          .With(x => x.FirstOrDefault(z => z.Revision == this.Revision));
+        release = Extensions.With(Extensions.With(Service.GetVersions("Sitecore CMS")
+            .With(x => x.FirstOrDefault(z => z.Name == this.Version)), x => x.Releases), x => x.FirstOrDefault(z => z.Revision == this.Revision));
 
         if (release == null)
         {

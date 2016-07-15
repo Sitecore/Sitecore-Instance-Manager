@@ -7,6 +7,7 @@
   using SIM.Tool.Windows.Pipelines.Setup;
   using Sitecore.Diagnostics.Base.Annotations;
   using SIM.Core;
+  using SIM.Extensions;
 
   public partial class LocalRepository : IWizardStep, IFlowControl
   {

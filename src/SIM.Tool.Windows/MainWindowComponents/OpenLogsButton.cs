@@ -6,6 +6,7 @@
   using SIM.Instances;
   using SIM.Tool.Base.Plugins;
   using Sitecore.Diagnostics.Base.Annotations;
+  using SIM.Extensions;
 
   [UsedImplicitly]
   public class OpenLogsButton : AbstractDownloadAndRunButton, IMainWindowButton

@@ -1,6 +1,7 @@
 namespace SIM.Pipelines.Import
 {
   using Sitecore.Diagnostics.Base.Annotations;
+  using SIM.Extensions;
 
   [UsedImplicitly]
   public class ImportRestoreMongoDatabases : ImportProcessor

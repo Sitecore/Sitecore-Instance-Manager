@@ -8,6 +8,7 @@ namespace SIM.Pipelines
   using SIM.Pipelines.Install;
   using Sitecore.Diagnostics.Base;
   using Sitecore.Diagnostics.Base.Annotations;
+  using SIM.Extensions;
 
   public static class UpdateWebConfigHelper
   {

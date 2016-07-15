@@ -9,6 +9,7 @@
   using SIM.Tool.Base.Plugins;
   using Sitecore.Diagnostics.Base;
   using Sitecore.Diagnostics.Base.Annotations;
+  using SIM.Extensions;
   using SIM.Tool.Base.Wizards;
 
   [UsedImplicitly]

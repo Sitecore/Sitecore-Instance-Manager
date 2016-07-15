@@ -9,6 +9,8 @@ using Sitecore.Diagnostics.Base.Annotations;
 
 namespace SIM.Pipelines
 {
+  using SIM.Extensions;
+
   public class SetupWebsiteHelper
   {
     #region Constants

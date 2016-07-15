@@ -27,6 +27,7 @@ namespace SIM.Tool
   using Sitecore.Diagnostics.Base;
   using Sitecore.Diagnostics.Base.Annotations;
   using Sitecore.Diagnostics.Logging;
+  using SIM.Extensions;
   using SIM.Tool.Base.Wizards;
   using File = System.IO.File;
 

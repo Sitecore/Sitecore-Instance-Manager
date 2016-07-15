@@ -9,6 +9,7 @@
   using Sitecore.Diagnostics.Base.Annotations;
   using Sitecore.Diagnostics.Logging;
   using SIM.Adapters.SqlServer;
+  using SIM.Extensions;
   using SIM.Tool.Base.Profiles;
 
   public class EnvironmentHelper

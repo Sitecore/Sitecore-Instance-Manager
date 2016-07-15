@@ -8,6 +8,7 @@
   using SIM.Tool.Windows.Pipelines.Setup;
   using Sitecore.Diagnostics.Base.Annotations;
   using Sitecore.Diagnostics.Logging;
+  using SIM.Extensions;
 
   public partial class InstancesRoot : IWizardStep, IFlowControl
   {

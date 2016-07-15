@@ -1,6 +1,7 @@
 ﻿namespace SIM
 {
   using System.IO;
+  using SIM.Extensions;
 
   public class XmlBasedAdvancedSettingsStorage : IAdvancedSettingsStorage
   {

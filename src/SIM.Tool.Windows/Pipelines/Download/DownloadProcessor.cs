@@ -10,6 +10,7 @@
   using SIM.Tool.Base;
   using Sitecore.Diagnostics.Base;
   using Sitecore.Diagnostics.Logging;
+  using SIM.Extensions;
 
   public class DownloadProcessor : Processor
   {

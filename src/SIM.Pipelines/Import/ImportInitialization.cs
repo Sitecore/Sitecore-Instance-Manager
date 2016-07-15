@@ -2,6 +2,7 @@
 {
   using SIM.Adapters.WebServer;
   using Sitecore.Diagnostics.Base.Annotations;
+  using SIM.Extensions;
 
   [UsedImplicitly]
   internal class ImportInitialization : ImportProcessor

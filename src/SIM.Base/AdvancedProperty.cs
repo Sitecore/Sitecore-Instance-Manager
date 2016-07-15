@@ -1,5 +1,7 @@
 ﻿namespace SIM
 {
+  using SIM.Extensions;
+
   public delegate bool RawPropertyValueParser<TValue>(string valueToParse, out TValue result);
 
   public class AdvancedProperty<T> : AdvancedPropertyBase

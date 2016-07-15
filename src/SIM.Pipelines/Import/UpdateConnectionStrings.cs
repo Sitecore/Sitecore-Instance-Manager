@@ -4,6 +4,7 @@
   using System.Linq;
   using System.Xml;
   using SIM.Adapters.WebServer;
+  using SIM.Extensions;
 
   public class UpdateConnectionStrings : ImportProcessor
   {

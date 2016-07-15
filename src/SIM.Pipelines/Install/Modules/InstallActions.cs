@@ -5,6 +5,7 @@
   using SIM.Instances;
   using SIM.Products;
   using Sitecore.Diagnostics.Base;
+  using SIM.Extensions;
 
   #region
 

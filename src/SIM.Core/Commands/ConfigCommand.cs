@@ -3,6 +3,7 @@
   using Sitecore.Diagnostics.Base;
   using SIM.Core.Common;
   using SIM.Core.Models.Configuration;
+  using SIM.Extensions;
   using SIM.Instances;
 
   public class ConfigCommand : AbstractCommand<ConfigDatabaseInfo>

@@ -8,6 +8,7 @@
   using Sitecore.Diagnostics.Base;
   using Sitecore.Diagnostics.Base.Annotations;
   using Sitecore.Diagnostics.Logging;
+  using SIM.Extensions;
 
   #region
 
@@ -174,7 +175,7 @@
         using (WebServerManager.WebServerContext context = WebServerManager.CreateContext("Website.ProcessIds"))
         {
           ApplicationPool pool = this.GetPool(context);
-          return pool.WorkerProcesses.NotNull().Select(process => process.ProcessId);
+          return Extensions.NotNull(pool.WorkerProcesses).Select(process => process.ProcessId);
         }
       }
     }
@@ -372,7 +373,7 @@
       Assert.ArgumentNotNull(context, "context");
 
       var site = this.GetSite(context);
-      var application = site.Applications.FirstOrDefault(ap => ap.Path.EqualsIgnoreCase("/"));
+      var application = site.Applications.FirstOrDefault(ap => Extensions.EqualsIgnoreCase(ap.Path, "/"));
       Assert.IsNotNull(application, "Cannot find root application for {0} site".FormatWith(site.Name));
       var poolname = application.ApplicationPoolName;
       ApplicationPool pool = context.ApplicationPools[poolname];

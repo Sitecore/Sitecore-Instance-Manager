@@ -5,6 +5,7 @@
   using SIM.Adapters.MongoDb;
   using Sitecore.Diagnostics.Base;
   using Sitecore.Diagnostics.Base.Annotations;
+  using SIM.Extensions;
 
   public static class MongoHelper
   {

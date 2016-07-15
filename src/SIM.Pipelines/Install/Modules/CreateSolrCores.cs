@@ -10,6 +10,8 @@ using SIM.Products;
 
 namespace SIM.Pipelines.Install.Modules
 {
+  using SIM.Extensions;
+
   /// <summary>
   /// Creates cores for all configured Solr indexes
   /// </summary>

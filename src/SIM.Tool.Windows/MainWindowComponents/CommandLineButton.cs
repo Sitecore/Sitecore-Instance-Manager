@@ -6,6 +6,7 @@
   using Sitecore.Diagnostics.Base.Annotations;
   using SIM.Core;
   using SIM.Core.Common;
+  using SIM.Extensions;
   using SIM.Instances;
   using SIM.Tool.Base.Plugins;
 

@@ -6,6 +6,7 @@
   using System.Linq;
   using Sitecore.Diagnostics.Base.Annotations;
   using Sitecore.Diagnostics.Logging;
+  using SIM.Extensions;
 
   public static class VisualStudioHelper
   {

@@ -15,6 +15,7 @@
   using SIM.Tool.Base.Windows.Dialogs;
   using Sitecore.Diagnostics.Base;
   using Sitecore.Diagnostics.Base.Annotations;
+  using SIM.Extensions;
 
   public partial class DatabasesDialog
   {

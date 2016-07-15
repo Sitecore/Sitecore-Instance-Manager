@@ -4,6 +4,7 @@
   using System.IO;
   using System.Linq;
   using Microsoft.VisualStudio.TestTools.UnitTesting;
+  using SIM.Extensions;
   using SIM.Instances;
 
   [TestClass]
@@ -62,7 +63,7 @@
       {
         var a = actual[i];
         var e = expected[i];
-        Microsoft.VisualStudio.TestTools.UnitTesting.Assert.AreEqual(a, e, "Array[{0}]".FormatWith(i));
+        Microsoft.VisualStudio.TestTools.UnitTesting.Assert.AreEqual(a, e, Extensions.FormatWith("Array[{0}]", i));
       }
     }
 

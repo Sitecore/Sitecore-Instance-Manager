@@ -3,6 +3,7 @@
   using System;
   using System.Linq;
   using Microsoft.VisualStudio.TestTools.UnitTesting;
+  using SIM.Extensions;
 
   [TestClass]
   public class ExtensionsTest

@@ -6,6 +6,7 @@
   using SIM.Pipelines.Install;
   using SIM.Pipelines.Processors;
   using Sitecore.Diagnostics.Base;
+  using SIM.Extensions;
 
   public class ExportArgs : ProcessorArgs
   {

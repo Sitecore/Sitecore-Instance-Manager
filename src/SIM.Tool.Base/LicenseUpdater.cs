@@ -6,6 +6,7 @@ namespace SIM.Tool.Base
   using SIM.Instances;
   using SIM.Tool.Base.Profiles;
   using Sitecore.Diagnostics.Logging;
+  using SIM.Extensions;
 
   public static class LicenseUpdater
   {

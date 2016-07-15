@@ -10,6 +10,7 @@
   using Sitecore.Diagnostics.Base;
   using Sitecore.Diagnostics.Base.Annotations;
   using Sitecore.Diagnostics.Logging;
+  using SIM.Extensions;
 
   #region
 
@@ -242,7 +243,7 @@
       }
       catch (SqlException ex)
       {
-        if (ex.Message.ContainsIgnoreCase("Unable to open the physical file"))
+        if (Extensions.ContainsIgnoreCase(ex.Message, "Unable to open the physical file"))
         {
           return null;
         }
@@ -764,7 +765,7 @@
             sqlDataAdapter.Fill(dataSet);
             try
             {
-              return dataSet.Tables[1].Rows[0]["filename"].ToString().EmptyToNull();
+              return Extensions.EmptyToNull(dataSet.Tables[1].Rows[0]["filename"].ToString());
             }
             catch (Exception ex)
             {

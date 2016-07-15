@@ -8,6 +8,8 @@ using Sitecore.Diagnostics.Base;
 
 namespace SIM.Pipelines
 {
+  using SIM.Extensions;
+
   public static class DeleteDatabasesHelper
   {
     #region Public methods

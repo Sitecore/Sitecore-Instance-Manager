@@ -7,6 +7,7 @@
   using SIM.Tool.Base.Plugins;
   using Sitecore.Diagnostics.Base.Annotations;
   using SIM.Core;
+  using SIM.Extensions;
 
   [UsedImplicitly]
   public class OpenWebConfigButton : IMainWindowButton

@@ -12,6 +12,7 @@
   using Sitecore.Diagnostics.Base.Annotations;
   using Sitecore.Diagnostics.Logging;
   using SIM.Core.Logging;
+  using SIM.Extensions;
   using SIM.FileSystem;
 
   public static class CoreApp

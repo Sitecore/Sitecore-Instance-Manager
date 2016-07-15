@@ -9,6 +9,7 @@ using SIM.Tool.Base.Profiles;
 namespace SIM.Tool.Windows.Dialogs
 {
   using Sitecore.Diagnostics.Logging;
+  using SIM.Extensions;
 
   public partial class RestoreDatabaseDialog : Window
   {

@@ -8,6 +8,7 @@
   using System.Xml;
   using Sitecore.Diagnostics.Base;
   using Sitecore.Diagnostics.Logging;
+  using SIM.Extensions;
   using SIM.Pipelines.Processors;
   using SIM.Tool.Base;
   using SIM.Tool.Base.Windows;

@@ -2,6 +2,7 @@
 {
   using System.Linq;
   using System.Xml;
+  using SIM.Extensions;
 
   public class ConfigDatabaseWorkflowProviderInfo
   {

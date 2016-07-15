@@ -1,4 +1,4 @@
-﻿namespace SIM
+﻿namespace SIM.Extensions
 {
   #region
 
