@@ -48,7 +48,7 @@
           continue;
         }
 
-        AttachDatabasesHelper.AttachDatabase(connectionString, defaultConnectionString, args.Name, sqlPrefix, args.DatabasesFolderPath, instance.Name, controller);
+        AttachDatabasesHelper.AttachDatabase(connectionString, defaultConnectionString, args.Name, sqlPrefix, args.InstanceAttachSql, args.DatabasesFolderPath, instance.Name, controller);
 
         if (controller != null)
         {

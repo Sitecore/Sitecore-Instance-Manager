@@ -96,7 +96,9 @@
       var hostNames = GetValidHostNames();
 
       var sqlPrefix = GetValidSqlPrefix();
-      
+
+      var attachSql = this.attachSql.IsChecked ?? true;
+
       var connectionString = ProfileManager.GetConnectionString();
       SqlServerManager.Instance.ValidateConnectionString(connectionString);
 
@@ -110,6 +112,7 @@
       args.InstanceName = name;
       args.InstanceHostNames = hostNames;
       args.InstanceSqlPrefix = sqlPrefix;
+      args.InstanceAttachSql = attachSql;
       args.InstanceWebRootPath = GetWebRootPath(rootPath);
       args.InstanceRootName = rootName;
       args.InstanceRootPath = rootPath;

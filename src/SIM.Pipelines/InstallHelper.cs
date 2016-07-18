@@ -13,7 +13,7 @@
     public const string RadControls = "sitecore/shell/RadControls";
     public const string Dictionaries = "sitecore/shell/Controls/Rich Text Editor/Dictionaries";
       
-    public static void ExtractFile([NotNull] string packagePath, [NotNull] string webRootPath, [NotNull] string databasesFolderPath, [NotNull] string dataFolderPath, bool installRadControls, bool installDictionaries, [CanBeNull] IPipelineController controller = null)
+    public static void ExtractFile([NotNull] string packagePath, [NotNull] string webRootPath, [NotNull] string databasesFolderPath, [NotNull] string dataFolderPath, bool attachSql, bool installRadControls, bool installDictionaries, [CanBeNull] IPipelineController controller = null)
     {
       Assert.ArgumentNotNull(packagePath, "packagePath");
       Assert.ArgumentNotNull(webRootPath, "webRootPath");
@@ -83,6 +83,11 @@
             }
             else if (fileName.StartsWith(databasesPrefix, StringComparison.OrdinalIgnoreCase))
             {
+              if (!attachSql)
+              {
+                continue;
+              }
+
               if (fileName.EndsWith(".ldf"))
               {
                 continue;

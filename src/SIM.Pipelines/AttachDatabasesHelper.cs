@@ -24,9 +24,14 @@ namespace SIM.Pipelines
 
     #region Public methods
 
-    public static void AttachDatabase(string name, string sqlPrefix, string databasesFolderPath, ConnectionString connectionString, SqlConnectionStringBuilder defaultConnectionString, IPipelineController controller)
+    public static void AttachDatabase(string name, string sqlPrefix, bool attachSql, string databasesFolderPath, ConnectionString connectionString, SqlConnectionStringBuilder defaultConnectionString, IPipelineController controller)
     {
       SetConnectionStringNode(name, sqlPrefix, defaultConnectionString, connectionString);
+
+      if (!attachSql)
+      {
+        return;
+      }
 
       var databaseName = connectionString.GenerateDatabaseName(name, sqlPrefix);
 
@@ -63,7 +68,7 @@ namespace SIM.Pipelines
       }
     }
 
-    public static void AttachDatabase(ConnectionString connectionString, SqlConnectionStringBuilder defaultConnectionString, string name, string sqlPrefix, string databasesFolderPath, string instanceName, IPipelineController controller)
+    public static void AttachDatabase(ConnectionString connectionString, SqlConnectionStringBuilder defaultConnectionString, string name, string sqlPrefix, bool attachSql, string databasesFolderPath, string instanceName, IPipelineController controller)
     {
       if (connectionString.IsMongoConnectionString)
       {
@@ -76,7 +81,7 @@ namespace SIM.Pipelines
       {
         try
         {
-          AttachDatabasesHelper.AttachDatabase(name, sqlPrefix, databasesFolderPath, connectionString, defaultConnectionString, controller);
+          AttachDatabasesHelper.AttachDatabase(name, sqlPrefix, attachSql, databasesFolderPath, connectionString, defaultConnectionString, controller);
         }
         catch (Exception ex)
         {
