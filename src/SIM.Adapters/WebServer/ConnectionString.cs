@@ -139,11 +139,12 @@
     }
 
     [NotNull]
-    public string GenerateDatabaseName([NotNull] string instanceName)
+    public string GenerateDatabaseName([NotNull] string instanceName, [NotNull] string sqlPrefix)
     {
       Assert.ArgumentNotNull(instanceName, "instanceName");
+      Assert.ArgumentNotNull(sqlPrefix, "sqlPrefix");
 
-      return SqlServerManager.Instance.GenerateDatabaseRealName(instanceName, this.Name, this.GetProductName(instanceName));
+      return SqlServerManager.Instance.GenerateDatabaseRealName(instanceName, sqlPrefix, this.Name, this.GetProductName(instanceName));
     }
 
     public void SaveChanges()

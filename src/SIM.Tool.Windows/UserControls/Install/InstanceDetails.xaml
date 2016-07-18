@@ -34,7 +34,7 @@
     <TextBox Name="HostNames" AcceptsReturn="true" Grid.Row="1" Grid.Column="3" Grid.RowSpan="2" Height="50" VerticalScrollBarVisibility="Auto"/>
 
 		<TextBlock Grid.Row="3" Grid.Column="2" Text="SQL Prefix: " />
-		<TextBox Grid.Row="3" Grid.Column="3" Name="sqlPrefix" IsEnabled="False" />
+		<TextBox Grid.Row="3" Grid.Column="3" Name="sqlPrefix" />
 
 		<TextBlock Grid.Row="4" Text="Location: " Name="LocationLabel" />
 		<Grid Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2" Name="LocationGrid">

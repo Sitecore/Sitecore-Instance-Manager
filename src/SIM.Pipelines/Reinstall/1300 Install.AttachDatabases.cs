@@ -1,6 +1,7 @@
 ﻿namespace SIM.Pipelines.Reinstall
 {
   using System.Collections.Generic;
+  using System.Linq;
   using SIM.Adapters.WebServer;
   using SIM.Instances;
   using SIM.Pipelines.Processors;
@@ -37,6 +38,12 @@
       var instanceName = args.instanceName;
       var instance = InstanceManager.GetInstance(instanceName);
       var controller = this.Controller;
+
+      var connectionStrings = instance.Configuration.ConnectionStrings.Where(x => x.IsSqlConnectionString).ToArray();
+      Assert.IsTrue(connectionStrings.Length >= 2, "2 or more sql connection strings are required");
+
+      var sqlPrefix = AttachDatabasesHelper.GetSqlPrefix(connectionStrings[0].Value, connectionStrings[1].Value);
+
       foreach (ConnectionString connectionString in instance.Configuration.ConnectionStrings)
       {
         if (this.done.Contains(connectionString.Name))
@@ -44,7 +51,7 @@
           continue;
         }
 
-        AttachDatabasesHelper.AttachDatabase(connectionString, defaultConnectionString, args.Name, args.DatabasesFolderPath, args.InstanceName, controller);
+        AttachDatabasesHelper.AttachDatabase(connectionString, defaultConnectionString, args.Name, sqlPrefix, args.DatabasesFolderPath, args.InstanceName, controller);
 
         if (controller != null)
         {

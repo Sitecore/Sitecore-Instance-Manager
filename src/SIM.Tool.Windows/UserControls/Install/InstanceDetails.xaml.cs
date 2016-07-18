@@ -95,6 +95,8 @@
 
       var hostNames = GetValidHostNames();
 
+      var sqlPrefix = GetValidSqlPrefix();
+      
       var connectionString = ProfileManager.GetConnectionString();
       SqlServerManager.Instance.ValidateConnectionString(connectionString);
 
@@ -107,6 +109,7 @@
       var args = (InstallWizardArgs)wizardArgs;
       args.InstanceName = name;
       args.InstanceHostNames = hostNames;
+      args.InstanceSqlPrefix = sqlPrefix;
       args.InstanceWebRootPath = GetWebRootPath(rootPath);
       args.InstanceRootName = rootName;
       args.InstanceRootPath = rootPath;
@@ -229,6 +232,18 @@
       websiteExists = WebServerManager.WebsiteExists(name);
       Assert.IsTrue(!websiteExists, "The website with the same name already exists, please choose another instance name.");
       return name;
+    }
+
+    [NotNull]
+    private string GetValidSqlPrefix()
+    {
+      var sqlPrefix = this.sqlPrefix;
+      Assert.IsNotNull(sqlPrefix, "sqlPrefix");
+
+      var prefix = sqlPrefix.Text.EmptyToNull();
+      Assert.IsNotNull(prefix, @"Sql prefix isn't set");
+
+      return prefix;
     }
 
     [NotNull]

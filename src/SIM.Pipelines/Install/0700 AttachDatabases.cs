@@ -36,7 +36,11 @@
       var instance = args.Instance;
       Assert.IsNotNull(instance, "instance");
 
+      var sqlPrefix = args.InstanceSqlPrefix;
+      Assert.IsNotNull(sqlPrefix, "sqlPrefix");
+
       var controller = this.Controller;
+
       foreach (ConnectionString connectionString in instance.Configuration.ConnectionStrings)
       {
         if (this.done.Contains(connectionString.Name))
@@ -44,7 +48,7 @@
           continue;
         }
 
-        AttachDatabasesHelper.AttachDatabase(connectionString, defaultConnectionString, args.Name, args.DatabasesFolderPath, instance.Name, controller);
+        AttachDatabasesHelper.AttachDatabase(connectionString, defaultConnectionString, args.Name, sqlPrefix, args.DatabasesFolderPath, instance.Name, controller);
 
         if (controller != null)
         {

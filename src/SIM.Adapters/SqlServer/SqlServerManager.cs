@@ -215,13 +215,15 @@
     }
 
     [NotNull]
-    public virtual string GenerateDatabaseRealName([NotNull] string instanceName, [NotNull] string connectionStringName, [CanBeNull] string productName = null, [CanBeNull] string pattern = null)
+    public virtual string GenerateDatabaseRealName([NotNull] string instanceName, [NotNull] string sqlPrefix, [NotNull] string connectionStringName, [CanBeNull] string productName = null, [CanBeNull] string pattern = null)
     {
       Assert.ArgumentNotNull(instanceName, "instanceName");
+      Assert.ArgumentNotNull(sqlPrefix, "sqlPrefix");
       Assert.ArgumentNotNull(connectionStringName, "connectionStringName");
 
       return pattern.EmptyToNull() ??
              Settings.CoreSqlServerDatabaseNamePattern.Value
+               .Replace("{SqlPrefix}", sqlPrefix)
                .Replace("{InstanceName}", instanceName)
                .Replace("{DatabaseRole}", connectionStringName)
                .Replace("miniForum", "Forum")
@@ -814,7 +816,7 @@
 
       public static readonly AdvancedProperty<int> CoreSqlServerConnectionTimeout = AdvancedSettings.Create("Core/SqlServer/ConnectionTimeout", 1);
 
-      public static readonly AdvancedProperty<string> CoreSqlServerDatabaseNamePattern = AdvancedSettings.Create("Core/SqlServer/DatabaseNamePattern", "{InstanceName}{ProductName}_{DatabaseRole}");
+      public static readonly AdvancedProperty<string> CoreSqlServerDatabaseNamePattern = AdvancedSettings.Create("Core/SqlServer/DatabaseNamePattern", "{SqlPrefix}_{DatabaseRole}");
       public static readonly AdvancedProperty<int> CoreSqlServerExecutionTimeout = AdvancedSettings.Create("Core/SqlServer/ExecutionTimeout", 180);
 
       #endregion

@@ -34,7 +34,7 @@
       {
         return new Credentials
         {
-          UserName = "sitecore\\admin", 
+          UserName = "sitecore\\admin",
           Password = "b"
         };
       }
@@ -44,7 +44,7 @@
 
     #region Public Methods and Operators
 
-    public static void ExecuteActions([NotNull] Instance instance, [NotNull] Product[] modules, [CanBeNull] List<Product> done, [NotNull] string param, [CanBeNull] SqlConnectionStringBuilder connectionString, 
+    public static void ExecuteActions([NotNull] Instance instance, [NotNull] Product[] modules, [CanBeNull] List<Product> done, [NotNull] string param, [CanBeNull] SqlConnectionStringBuilder connectionString,
       [CanBeNull] IPipelineController controller = null, [CanBeNull] Dictionary<string, string> variables = null)
     {
       Assert.ArgumentNotNull(instance, "instance");
@@ -123,13 +123,13 @@
         var localDBs =
           instance.AttachedDatabases.Where(
             d => d.ConnectionString.DataSource == sqlServerInstanceName).ToArray();
-        Log.Debug("localDbs.Length: {0}",  localDBs.Length);
+        Log.Debug("localDbs.Length: {0}", localDBs.Length);
 
         foreach (string databaseName in firstOrderDatabaseNames)
         {
           mainDatabase = localDBs.SingleOrDefault(d => d.Name == databaseName);
-          Log.Debug("databaseName: {0}",  databaseName);
-          Log.Debug("mainDatabase!=null: {0}",  mainDatabase != null);
+          Log.Debug("databaseName: {0}", databaseName);
+          Log.Debug("mainDatabase!=null: {0}", mainDatabase != null);
           if (mainDatabase != null)
           {
             return ProfileSection.Result(mainDatabase);
@@ -161,6 +161,7 @@
       Assert.ArgumentNotNull(databases, "databases");
       Assert.ArgumentNotNull(module, "module");
       Assert.ArgumentNotNull(connectionString, "connectionString");
+
       foreach (XmlElement database in databases)
       {
         var name = database.GetAttribute("name");
@@ -172,8 +173,13 @@
         Assert.IsNotNull(databasesFolder, "databasesFolder");
         FileSystem.FileSystem.Local.Directory.AssertExists(databasesFolder);
 
+        var connectionStrings = instance.Configuration.ConnectionStrings.Where(x => x.IsSqlConnectionString).ToArray();
+        Assert.IsTrue(connectionStrings.Length >= 2, "2 or more sql connection strings are required");
+                           
+        var sqlPrefix = AttachDatabasesHelper.GetSqlPrefix(connectionStrings[0].Value, connectionStrings[1].Value);
+
         bool skipAttach = false;
-        var realDBname = SqlServerManager.Instance.GenerateDatabaseRealName(instance.Name, role);
+        var realDBname = SqlServerManager.Instance.GenerateDatabaseRealName(instance.Name, sqlPrefix, role);
         var physicalPath = Path.Combine(databasesFolder, fileName);
 
         var newDatabaseConnectionString = new SqlConnectionStringBuilder(connectionString.ToString());
@@ -307,58 +313,58 @@
         switch (name)
         {
           case "replace":
-          {
-            var source = child.GetAttribute("source");
-            var target = child.GetAttribute("target");
-            FileSystem.FileSystem.Local.File.WriteAllText(path, FileSystem.FileSystem.Local.File.ReadAllText(path).Replace(source, target));
-            break;
-          }
-
-          case "replacevariables":
-          {
-            var text = FileSystem.FileSystem.Local.File.ReadAllText(path);
-            foreach (var variable in variables)
             {
-              text = text.Replace(variable.Key, variable.Value);
+              var source = child.GetAttribute("source");
+              var target = child.GetAttribute("target");
+              FileSystem.FileSystem.Local.File.WriteAllText(path, FileSystem.FileSystem.Local.File.ReadAllText(path).Replace(source, target));
+              break;
             }
 
-            text = text.Replace("{InstanceName}", instance.Name);
-            FileSystem.FileSystem.Local.File.WriteAllText(path, text);
-            break;
-          }
+          case "replacevariables":
+            {
+              var text = FileSystem.FileSystem.Local.File.ReadAllText(path);
+              foreach (var variable in variables)
+              {
+                text = text.Replace(variable.Key, variable.Value);
+              }
+
+              text = text.Replace("{InstanceName}", instance.Name);
+              FileSystem.FileSystem.Local.File.WriteAllText(path, text);
+              break;
+            }
 
           case "write":
-            {                                                            
+            {
               var target = child.InnerXml;
               FileSystem.FileSystem.Local.File.WriteAllText(path, XmlDocumentEx.LoadXml(target).ToPrettyXmlString());
               break;
             }
 
           case "append":
-          {
-            var before = child.GetAttribute("before");
-            var target = child.InnerXml;
-            FileSystem.FileSystem.Local.File.WriteAllText(path, FileSystem.FileSystem.Local.File.ReadAllText(path).Replace(before, target + before));
-            break;
-          }
+            {
+              var before = child.GetAttribute("before");
+              var target = child.InnerXml;
+              FileSystem.FileSystem.Local.File.WriteAllText(path, FileSystem.FileSystem.Local.File.ReadAllText(path).Replace(before, target + before));
+              break;
+            }
 
           case "move":
-          {
-            var target = child.GetAttribute("target");
-            var destFileName = Path.Combine(instanceRootPath, target.TrimStart('/'));
-            FileSystem.FileSystem.Local.Directory.DeleteIfExists(destFileName);
-            FileSystem.FileSystem.Local.File.Move(path, destFileName);
-            break;
-          }
+            {
+              var target = child.GetAttribute("target");
+              var destFileName = Path.Combine(instanceRootPath, target.TrimStart('/'));
+              FileSystem.FileSystem.Local.Directory.DeleteIfExists(destFileName);
+              FileSystem.FileSystem.Local.File.Move(path, destFileName);
+              break;
+            }
 
           case "copy":
-          {
-            var target = child.GetAttribute("target");
-            var destFileName = Path.Combine(instanceRootPath, target.TrimStart('/'));
-            FileSystem.FileSystem.Local.Directory.DeleteIfExists(destFileName);
-            FileSystem.FileSystem.Local.File.Copy(path, destFileName);
-            break;
-          }
+            {
+              var target = child.GetAttribute("target");
+              var destFileName = Path.Combine(instanceRootPath, target.TrimStart('/'));
+              FileSystem.FileSystem.Local.Directory.DeleteIfExists(destFileName);
+              FileSystem.FileSystem.Local.File.Copy(path, destFileName);
+              break;
+            }
         }
       }
     }
@@ -499,7 +505,7 @@
         {
           databasesFolder = controller.Ask(
             "Can't find any local database of the " + instance +
-            " instance to detect the Databases folder. Please specify it manually:", 
+            " instance to detect the Databases folder. Please specify it manually:",
             instance.RootPath.TrimEnd('\\') + "\\Databases");
           if (string.IsNullOrEmpty(databasesFolder))
           {
@@ -589,181 +595,181 @@
         switch (name)
         {
           case "append":
-          {
-            var xpath = instruction.GetAttribute("xpath");
-            Assert.IsNotNull(xpath.EmptyToNull(), "xpath");
-            XmlNode parentNode = config.SelectSingleNode(xpath);
-            if (parentNode == null)
             {
-              Log.Warn("[InstallActions, Append] The {0} element isn't found", xpath);
+              var xpath = instruction.GetAttribute("xpath");
+              Assert.IsNotNull(xpath.EmptyToNull(), "xpath");
+              XmlNode parentNode = config.SelectSingleNode(xpath);
+              if (parentNode == null)
+              {
+                Log.Warn("[InstallActions, Append] The {0} element isn't found", xpath);
+                break;
+              }
+
+              parentNode.InnerXml += instruction.InnerXml;
               break;
             }
 
-            parentNode.InnerXml += instruction.InnerXml;
-            break;
-          }
-
           case "include":
-          {
-            var filePath = instruction.GetAttribute("path");
-            FileSystem.FileSystem.Local.Zip.UnpackZip(module.PackagePath, Path.Combine(instance.WebRootPath, "app_config\\include"), filePath);
-            break;
-          }
+            {
+              var filePath = instruction.GetAttribute("path");
+              FileSystem.FileSystem.Local.Zip.UnpackZip(module.PackagePath, Path.Combine(instance.WebRootPath, "app_config\\include"), filePath);
+              break;
+            }
 
           case "change":
-          {
-            var xpath = instruction.GetAttribute("xpath");
-            if (string.IsNullOrEmpty(xpath))
             {
-              Log.Warn("The xpath attribute is missing in the {0} instruction (outer xml: {1})", instruction.Name, instruction.OuterXml);
-              continue;
-            }
-
-            XmlElement targetElement = (XmlElement)config.SelectSingleNode(xpath);
-            if (targetElement == null)
-            {
-              Log.Warn("Can't find the {0} element in the {1} file", xpath, config.FilePath);
-              continue;
-            }
-
-            foreach (XmlElement element in instruction.ChildNodes.OfType<XmlElement>())
-            {
-              switch (element.Name.ToLower())
+              var xpath = instruction.GetAttribute("xpath");
+              if (string.IsNullOrEmpty(xpath))
               {
-                case "attribute":
-                {
-                  var attributeName = element.GetAttribute("name");
-                  var attributeValue = element.GetAttribute("value");
-                  targetElement.SetAttribute(attributeName, attributeValue);
-                  break;
-                }
-              }
-            }
-
-            break;
-          }
-
-          case "delete":
-          {
-            var xpath = instruction.GetAttribute("xpath");
-            if (string.IsNullOrEmpty(xpath))
-            {
-              Log.Warn("The xpath attribute is missing in the {0} instruction (outer xml: {1})", instruction.Name, instruction.OuterXml);
-              continue;
-            }
-
-            XmlNodeList nodes = config.SelectNodes(xpath);
-            if (nodes == null || nodes.Count == 0)
-            {
-              Log.Warn("Can't find the {0} nodes in the {1} file", xpath, config.FilePath);
-              continue;
-            }
-
-            foreach (XmlElement targetElement in nodes.OfType<XmlElement>())
-            {
-              XmlNode parent = targetElement.ParentNode;
-              if (parent == null)
-              {
-                Log.Warn("Can't find the parent node of the {0} element of the {1} file", xpath, config.FilePath);
+                Log.Warn("The xpath attribute is missing in the {0} instruction (outer xml: {1})", instruction.Name, instruction.OuterXml);
                 continue;
               }
 
-              parent.RemoveChild(targetElement);
+              XmlElement targetElement = (XmlElement)config.SelectSingleNode(xpath);
+              if (targetElement == null)
+              {
+                Log.Warn("Can't find the {0} element in the {1} file", xpath, config.FilePath);
+                continue;
+              }
+
+              foreach (XmlElement element in instruction.ChildNodes.OfType<XmlElement>())
+              {
+                switch (element.Name.ToLower())
+                {
+                  case "attribute":
+                    {
+                      var attributeName = element.GetAttribute("name");
+                      var attributeValue = element.GetAttribute("value");
+                      targetElement.SetAttribute(attributeName, attributeValue);
+                      break;
+                    }
+                }
+              }
+
               break;
             }
 
-            break;
-          }
-                    
-          case "disable":
-          {
-            var fromFileName = instruction.GetAttribute("path");
-            if (!string.IsNullOrEmpty(fromFileName))
+          case "delete":
             {
-              var includeFolderPath = Path.Combine(instance.WebRootPath, "app_config\\include");
-              var fromPath = Path.Combine(includeFolderPath, fromFileName);
-              if (!File.Exists(fromPath))
+              var xpath = instruction.GetAttribute("xpath");
+              if (string.IsNullOrEmpty(xpath))
               {
-                Log.Warn("The {0} file not found", fromPath);
-
-                break;
+                Log.Warn("The xpath attribute is missing in the {0} instruction (outer xml: {1})", instruction.Name, instruction.OuterXml);
+                continue;
               }
 
-              var toPath = fromPath + ".disabled";
-              RenameFile(fromPath, toPath, true);
-            }
-
-            break;
-          }
-
-          case "enable":
-          {
-            var fromFileName = instruction.GetAttribute("path");
-            if (!string.IsNullOrEmpty(fromFileName))
-            {
-              var includeFolderPath = Path.Combine(instance.WebRootPath, "app_config\\include");
-              var fromPath = Path.Combine(includeFolderPath, fromFileName);
-              if (!File.Exists(fromPath))
+              XmlNodeList nodes = config.SelectNodes(xpath);
+              if (nodes == null || nodes.Count == 0)
               {
-                Log.Warn("The {0} file not found", fromPath);
-
-                break;
+                Log.Warn("Can't find the {0} nodes in the {1} file", xpath, config.FilePath);
+                continue;
               }
 
-              var configPostfix = ".config";
-              if (Path.GetExtension(fromPath).EqualsIgnoreCase(configPostfix))
+              foreach (XmlElement targetElement in nodes.OfType<XmlElement>())
               {
-                break;
-              }
-
-              var fileName = Path.GetFileName(fromPath);
-              var dir = Path.GetDirectoryName(fromPath);
-              var index = fileName.LastIndexOf(configPostfix, StringComparison.OrdinalIgnoreCase);
-              if (index > 0)
-              {
-                fileName = fileName.Substring(0, index + configPostfix.Length);
-                RenameFile(fromPath, Path.Combine(dir, fileName), true);
-                break;
-              }
-
-              foreach (var postfix in new[] { ".example", ".sample", ".disabled", ".remove", ".delete", ".ignore" })
-              {
-                var index2 = fileName.LastIndexOf(postfix, StringComparison.OrdinalIgnoreCase);
-                if (index2 <= 0)
+                XmlNode parent = targetElement.ParentNode;
+                if (parent == null)
                 {
+                  Log.Warn("Can't find the parent node of the {0} element of the {1} file", xpath, config.FilePath);
                   continue;
                 }
 
-                fileName = fileName.Substring(0, index2 + postfix.Length);
-                RenameFile(fromPath, Path.Combine(dir, fileName), true);
+                parent.RemoveChild(targetElement);
                 break;
               }
 
-              fileName += ".config";
-              RenameFile(fromPath, Path.Combine(dir, fileName), true);
+              break;
             }
 
-            break;
-          }
+          case "disable":
+            {
+              var fromFileName = instruction.GetAttribute("path");
+              if (!string.IsNullOrEmpty(fromFileName))
+              {
+                var includeFolderPath = Path.Combine(instance.WebRootPath, "app_config\\include");
+                var fromPath = Path.Combine(includeFolderPath, fromFileName);
+                if (!File.Exists(fromPath))
+                {
+                  Log.Warn("The {0} file not found", fromPath);
+
+                  break;
+                }
+
+                var toPath = fromPath + ".disabled";
+                RenameFile(fromPath, toPath, true);
+              }
+
+              break;
+            }
+
+          case "enable":
+            {
+              var fromFileName = instruction.GetAttribute("path");
+              if (!string.IsNullOrEmpty(fromFileName))
+              {
+                var includeFolderPath = Path.Combine(instance.WebRootPath, "app_config\\include");
+                var fromPath = Path.Combine(includeFolderPath, fromFileName);
+                if (!File.Exists(fromPath))
+                {
+                  Log.Warn("The {0} file not found", fromPath);
+
+                  break;
+                }
+
+                var configPostfix = ".config";
+                if (Path.GetExtension(fromPath).EqualsIgnoreCase(configPostfix))
+                {
+                  break;
+                }
+
+                var fileName = Path.GetFileName(fromPath);
+                var dir = Path.GetDirectoryName(fromPath);
+                var index = fileName.LastIndexOf(configPostfix, StringComparison.OrdinalIgnoreCase);
+                if (index > 0)
+                {
+                  fileName = fileName.Substring(0, index + configPostfix.Length);
+                  RenameFile(fromPath, Path.Combine(dir, fileName), true);
+                  break;
+                }
+
+                foreach (var postfix in new[] { ".example", ".sample", ".disabled", ".remove", ".delete", ".ignore" })
+                {
+                  var index2 = fileName.LastIndexOf(postfix, StringComparison.OrdinalIgnoreCase);
+                  if (index2 <= 0)
+                  {
+                    continue;
+                  }
+
+                  fileName = fileName.Substring(0, index2 + postfix.Length);
+                  RenameFile(fromPath, Path.Combine(dir, fileName), true);
+                  break;
+                }
+
+                fileName += ".config";
+                RenameFile(fromPath, Path.Combine(dir, fileName), true);
+              }
+
+              break;
+            }
 
           case "rename":
-          {
-            var skipOnErrorText = instruction.GetAttribute("skipOnError");
-            var skipOnError = skipOnErrorText.EqualsIgnoreCase("true");
-            var fromFileName = instruction.GetAttribute("from");
-            var toFileName = instruction.GetAttribute("to");
-
-            if (!string.IsNullOrEmpty(fromFileName) && !string.IsNullOrEmpty(toFileName))
             {
-              var includeFolderPath = Path.Combine(instance.WebRootPath, "app_config\\include");
-              var fromPath = Path.Combine(includeFolderPath, fromFileName);
-              var toPath = Path.Combine(includeFolderPath, toFileName);
+              var skipOnErrorText = instruction.GetAttribute("skipOnError");
+              var skipOnError = skipOnErrorText.EqualsIgnoreCase("true");
+              var fromFileName = instruction.GetAttribute("from");
+              var toFileName = instruction.GetAttribute("to");
 
-              RenameFile(fromPath, toPath, skipOnError);
+              if (!string.IsNullOrEmpty(fromFileName) && !string.IsNullOrEmpty(toFileName))
+              {
+                var includeFolderPath = Path.Combine(instance.WebRootPath, "app_config\\include");
+                var fromPath = Path.Combine(includeFolderPath, fromFileName);
+                var toPath = Path.Combine(includeFolderPath, toFileName);
+
+                RenameFile(fromPath, toPath, skipOnError);
+              }
+
+              break;
             }
-
-            break;
-          }
         }
       }
 
@@ -793,12 +799,12 @@
       }
     }
 
-    private static void ProcessActions(Instance instance, SqlConnectionStringBuilder connectionString, 
-      IPipelineController controller, Product module, Dictionary<string, string> variables, 
+    private static void ProcessActions(Instance instance, SqlConnectionStringBuilder connectionString,
+      IPipelineController controller, Product module, Dictionary<string, string> variables,
       XmlElement actionsElement)
     {
       // made replacement
-      actionsElement.InnerXml = variables.Aggregate(actionsElement.InnerXml, 
+      actionsElement.InnerXml = variables.Aggregate(actionsElement.InnerXml,
         (result, variable) => result.Replace(variable.Key, variable.Value))
         .Replace("{InstanceName}", instance.Name)
         .Replace("{InstanceHost}", instance.HostNames.First());
@@ -837,102 +843,102 @@
         switch (actionName)
         {
           case "extract":
-          {
-            // give extract more priority
-            // FileSystem.Instance.UnpackZip(module.PackagePath, instance.GetRootPath(webRootPath));
-            break;
-          }
+            {
+              // give extract more priority
+              // FileSystem.Instance.UnpackZip(module.PackagePath, instance.GetRootPath(webRootPath));
+              break;
+            }
 
           case "addSiteBinding":
-          {
-            AddSiteBinding(instance.Name, action);
-           
-            break;
-          }
+            {
+              AddSiteBinding(instance.Name, action);
+
+              break;
+            }
 
           case "addHostName":
-          {
-            Hosts.Append(action.GetAttribute("hostName"));
+            {
+              Hosts.Append(action.GetAttribute("hostName"));
 
-            break;
-          }
+              break;
+            }
 
           case "config":
-          {
-            var configPath = action.GetAttribute("path");
-            try
             {
-              XmlDocumentEx config = !string.IsNullOrEmpty(configPath)
-                ? XmlDocumentEx.LoadFile(Path.Combine(webRootPath, configPath))
-                : instance.GetWebConfig(webRootPath);
-              PerformConfigChanges(instance, children, module, config, variables);
-            }
-            catch (XmlDocumentEx.FileIsMissingException ex)
-            {
-              Log.Warn(ex, "The path attribute is specified (path: {0}) but the file doesn't exist", configPath);
-            }
+              var configPath = action.GetAttribute("path");
+              try
+              {
+                XmlDocumentEx config = !string.IsNullOrEmpty(configPath)
+                  ? XmlDocumentEx.LoadFile(Path.Combine(webRootPath, configPath))
+                  : instance.GetWebConfig(webRootPath);
+                PerformConfigChanges(instance, children, module, config, variables);
+              }
+              catch (XmlDocumentEx.FileIsMissingException ex)
+              {
+                Log.Warn(ex, "The path attribute is specified (path: {0}) but the file doesn't exist", configPath);
+              }
 
-            break;
-          }
+              break;
+            }
 
           case "databases":
-          {
-            AddDatabase(instance, children, module, connectionString, controller);
-            break;
-          }
+            {
+              AddDatabase(instance, children, module, connectionString, controller);
+              break;
+            }
 
           case "editfile":
-          {
-            EditFile(action.GetAttribute("path"), children, instance, variables);
-            break;
-          }
+            {
+              EditFile(action.GetAttribute("path"), children, instance, variables);
+              break;
+            }
 
           case "deployfile":
-          {
-            DeployFile(action.GetAttribute("path"), action.GetAttribute("target"), instance);
-            break;
-          }
+            {
+              DeployFile(action.GetAttribute("path"), action.GetAttribute("target"), instance);
+              break;
+            }
 
 
           case "setRestrictingPlaceholders":
-          {
-            InstanceHelper.StartInstance(instance);
-            SetRestrictingPlaceholders(action.GetAttribute("names"), GetWebServiceUrl(instance));
-            break;
-          }
+            {
+              InstanceHelper.StartInstance(instance);
+              SetRestrictingPlaceholders(action.GetAttribute("names"), GetWebServiceUrl(instance));
+              break;
+            }
 
           case "custom":
-          {
-            var typeName = action.GetAttribute("type").EmptyToNull().IsNotNull("The type attribute is missing in the <custom> install action");
-            var obj = (IPackageInstallActions)ReflectionUtil.CreateObject(typeName);
-            obj.Execute(instance, module);
-            break;
-          }
+            {
+              var typeName = action.GetAttribute("type").EmptyToNull().IsNotNull("The type attribute is missing in the <custom> install action");
+              var obj = (IPackageInstallActions)ReflectionUtil.CreateObject(typeName);
+              obj.Execute(instance, module);
+              break;
+            }
 
           case "sql":
-          {
-            var db = action.GetAttribute("database");
-            var file = action.GetAttribute("file").Replace("$(data)", instance.DataFolderPath).Replace("$(website)", instance.WebRootPath);
-            if (!string.IsNullOrEmpty(file))
             {
-              Assert.IsTrue(File.Exists(file), $"The {file} file does not exist");
-            }
-
-            var sql = string.IsNullOrEmpty(file) ? action.InnerText : FileSystem.FileSystem.Local.File.ReadAllText(file);
-            Assert.IsNotNullOrEmpty(sql.Trim(), "The SQL command is empty");
-
-            var cstr = instance.Configuration.ConnectionStrings.FirstOrDefault(x => x.Name == db);
-            Assert.IsNotNull(cstr, "The {0} connection string is not found".FormatWith(db));
-            using (var conn = SqlServerManager.Instance.OpenConnection(new SqlConnectionStringBuilder(cstr.Value), false))
-            {
-              foreach (var command in sql.Split("GO"))
+              var db = action.GetAttribute("database");
+              var file = action.GetAttribute("file").Replace("$(data)", instance.DataFolderPath).Replace("$(website)", instance.WebRootPath);
+              if (!string.IsNullOrEmpty(file))
               {
-                SqlServerManager.Instance.Execute(conn, command);
+                Assert.IsTrue(File.Exists(file), $"The {file} file does not exist");
               }
-            }
 
-            break;
-          }
+              var sql = string.IsNullOrEmpty(file) ? action.InnerText : FileSystem.FileSystem.Local.File.ReadAllText(file);
+              Assert.IsNotNullOrEmpty(sql.Trim(), "The SQL command is empty");
+
+              var cstr = instance.Configuration.ConnectionStrings.FirstOrDefault(x => x.Name == db);
+              Assert.IsNotNull(cstr, "The {0} connection string is not found".FormatWith(db));
+              using (var conn = SqlServerManager.Instance.OpenConnection(new SqlConnectionStringBuilder(cstr.Value), false))
+              {
+                foreach (var command in sql.Split("GO"))
+                {
+                  SqlServerManager.Instance.Execute(conn, command);
+                }
+              }
+
+              break;
+            }
         }
       }
     }
