@@ -1,0 +1,96 @@
+namespace SIM.Tool.Windows.MainWindowComponents
+{
+  using System;
+  using System.Data.SqlClient;
+  using System.IO;
+  using System.IO.Compression;
+  using System.Linq;
+  using System.Windows;
+  using Sitecore.Diagnostics.Base;
+  using Sitecore.Diagnostics.Base.Annotations;
+  using SIM.Adapters.SqlServer;
+  using SIM.Core.Common;
+  using SIM.Extensions;
+  using SIM.Instances;
+  using SIM.Pipelines;
+  using SIM.Tool.Base.Plugins;
+
+  public class AttachReportingDatabaseButton : IMainWindowButton
+  {
+    [UsedImplicitly]
+    public AttachReportingDatabaseButton()
+    {
+    }
+
+    public bool IsEnabled(Window mainWindow, Instance instance)
+    {
+      return instance != null && instance.Configuration.ConnectionStrings.All(x => x.Name != "reporting");
+    }
+
+    public void OnClick(Window mainWindow, Instance instance)
+    {
+      Assert.ArgumentNotNull(instance, nameof(instance));
+
+      var firstDatabase = instance.AttachedDatabases?.FirstOrDefault();
+      Assert.IsNotNull(firstDatabase, "The databases information is not available");
+
+      var databaseFilePath = firstDatabase.FileName.EmptyToNull();
+      Assert.IsNotNull(databaseFilePath, nameof(databaseFilePath));
+
+      var databasesFolderPath = Path.GetDirectoryName(databaseFilePath);
+      Assert.IsNotNull(databasesFolderPath, nameof(databasesFolderPath));
+
+      var reportingCstr = instance.Configuration.ConnectionStrings.FirstOrDefault(x => x.Name == "reporting");
+      if (reportingCstr != null)
+      {
+        var sqlName = new SqlConnectionStringBuilder(reportingCstr.Value).InitialCatalog;
+        var database = instance.AttachedDatabases.FirstOrDefault(x => x.RealName.Equals(sqlName));
+        var fileName = database?.FileName;
+        if (fileName != null)
+        {
+          var file = new FileInfo(fileName);
+          Assert.IsTrue(!file.Exists, "The {0} reporting database file already exist", file.FullName);
+        }
+
+        reportingCstr.Delete();
+      }
+
+      var reportingFile = new FileInfo(Path.Combine(databasesFolderPath, "Sitecore.Reporting.mdf"));
+      if (reportingFile.Exists)
+      {
+        reportingFile.Delete();
+      }
+
+      ExtractReportingDatabase(instance, reportingFile);
+
+      var sqlPrefix = AttachDatabasesHelper.GetSqlPrefix(instance);
+      var reportingSqlName = sqlPrefix + "_reporting";
+
+      var mgmtText = Profile.Read().ConnectionString;
+      var mgmtValue = new SqlConnectionStringBuilder(mgmtText);
+      SqlServerManager.Instance.AttachDatabase(reportingSqlName, reportingFile.FullName, mgmtValue);
+
+      var reportingValue = new SqlConnectionStringBuilder(mgmtText)
+      {
+        InitialCatalog = reportingSqlName
+      };
+
+      instance.Configuration.ConnectionStrings.Add("reporting", reportingValue);
+    }
+
+    private static void ExtractReportingDatabase(Instance instance, FileInfo reportingSecondary)
+    {
+      var product = instance.Product;
+      var package = new FileInfo(product.PackagePath);
+      Assert.IsTrue(package.Exists, $"The {package.FullName} file does not exist");
+
+      using (var zip = ZipFile.OpenRead(package.FullName))
+      {
+        var entry = zip.Entries.FirstOrDefault(x => x.FullName.EndsWith("Sitecore.Analytics.mdf"));
+        Assert.IsNotNull(entry, "Cannot find Sitecore.Analytics.mdf in the {0} file", package.FullName);
+
+        entry.ExtractToFile(reportingSecondary.FullName);
+      }
+    }
+  }
+}
