@@ -93,7 +93,13 @@
                 continue;
               }
 
-              var filePath = Path.Combine(databasesFolderPath, fileName.Substring(databasesPrefixLength));
+              var text = fileName.Substring(databasesPrefixLength);
+              if (text.Contains("Sitecore.Analytics.mdf"))
+              {
+                text = text.Replace("Sitecore.Analytics.mdf", "Sitecore.Reporting.mdf");
+              }
+
+              var filePath = Path.Combine(databasesFolderPath, text);
               if (entry.IsDirectory)
               {
                 Directory.CreateDirectory(filePath);
