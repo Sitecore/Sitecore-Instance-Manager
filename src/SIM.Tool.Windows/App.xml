@@ -155,6 +155,9 @@
             <button     label="Publish (Smart)"                                     largeImage="/Images/$sm/publish.png, SIM.Tool.Windows"                    type="SIM.Tool.Windows.MainWindowComponents.PublishButton, SIM.Tool.Windows"        param="smart" />
             <button     label="Publish (Republish)"                                 largeImage="/Images/$sm/publish.png, SIM.Tool.Windows"                    type="SIM.Tool.Windows.MainWindowComponents.PublishButton, SIM.Tool.Windows"        param="republish" />
             <separator />
+            <button     label="Attach Reporting.Secondary database"                 largeImage="/Images/$sm/data.png, SIM.Tool.Windows"                        type="SIM.Tool.Windows.MainWindowComponents.AttachReportingSecondaryDatabaseButton, SIM.Tool.Windows" />
+            <button     label="Replace Reporting database with Reporting.Secondary" largeImage="/Images/$sm/data.png, SIM.Tool.Windows"                        type="SIM.Tool.Windows.MainWindowComponents.ReplaceReportingDatabaseWithSecondaryButton, SIM.Tool.Windows" />
+            <separator />
             <button     label="Clear Event Queues of All Databases"                 largeImage="/Images/$sm/data.png, SIM.Tool.Windows"                        type="SIM.Tool.Windows.MainWindowComponents.ClearEventQueueButton, SIM.Tool.Windows" />
             <button     label="Clear Event Queues of Core Database"                 largeImage="/Images/$sm/data.png, SIM.Tool.Windows"                        type="SIM.Tool.Windows.MainWindowComponents.ClearEventQueueButton, SIM.Tool.Windows" param="core" />
             <button     label="Clear Event Queues of Master Database"               largeImage="/Images/$sm/data.png, SIM.Tool.Windows"                        type="SIM.Tool.Windows.MainWindowComponents.ClearEventQueueButton, SIM.Tool.Windows" param="master" />

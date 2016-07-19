@@ -1,0 +1,46 @@
+namespace SIM.Tool.Windows.MainWindowComponents
+{
+  using System.Data.SqlClient;
+  using System.Linq;
+  using System.Windows;
+  using Sitecore.Diagnostics.Base;
+  using Sitecore.Diagnostics.Base.Annotations;
+  using SIM.Adapters.SqlServer;
+  using SIM.Instances;
+  using SIM.Tool.Base.Plugins;
+
+  public class ReplaceReportingDatabaseWithSecondaryButton : IMainWindowButton
+  {
+    [UsedImplicitly]
+    public ReplaceReportingDatabaseWithSecondaryButton()
+    {
+    }
+
+    public bool IsEnabled(Window mainWindow, Instance instance)
+    {
+      return instance != null && instance.Configuration.ConnectionStrings.Any(x => x.Name == "reporting.secondary");
+    }
+
+    public void OnClick(Window mainWindow, Instance instance)
+    {
+      var connectionStrings = instance.Configuration.ConnectionStrings;
+
+      var primary = connectionStrings.FirstOrDefault(x => x.Name == "reporting");
+      Assert.IsNotNull(primary, nameof(primary));
+
+      var secondary = connectionStrings.FirstOrDefault(x => x.Name == "reporting.secondary");
+      Assert.IsNotNull(secondary, nameof(secondary));
+
+      var value = secondary.Value;
+
+      secondary.Delete();
+
+      var cstr = new SqlConnectionStringBuilder(primary.Value);
+      SqlServerManager.Instance.DeleteDatabase(cstr.InitialCatalog, cstr);
+
+      primary.Value = value;
+
+      primary.SaveChanges();
+    }
+  }
+}

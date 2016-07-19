@@ -103,6 +103,8 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.IO.Compression.FileSystem" />
     <Reference Include="System.Net" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -140,6 +142,7 @@
     <Compile Include="MainWindowComponents\AbstractInstanceButton.cs" />
     <Compile Include="MainWindowComponents\AbstractSimpleButton.cs" />
     <Compile Include="MainWindowComponents\AttachDebuggerButton.cs" />
+    <Compile Include="MainWindowComponents\AttachReportingSecondaryDatabaseButton.cs" />
     <Compile Include="MainWindowComponents\BackupInstanceButton.cs" />
     <Compile Include="MainWindowComponents\BrowseButton.cs" />
     <Compile Include="MainWindowComponents\ClearEventQueueButton.cs" />
@@ -175,6 +178,7 @@
     <Compile Include="MainWindowComponents\RecycleAllButThisButton.cs" />
     <Compile Include="MainWindowComponents\RefreshButton.cs" />
     <Compile Include="MainWindowComponents\ReinstallInstanceButton.cs" />
+    <Compile Include="MainWindowComponents\ReplaceReportingDatabaseWithSecondaryButton.cs" />
     <Compile Include="MainWindowComponents\RestoreInstanceButton.cs" />
     <Compile Include="MainWindowComponents\SettingsButton.cs" />
     <Compile Include="MainWindowComponents\UpdateLicenseButton.cs" />
