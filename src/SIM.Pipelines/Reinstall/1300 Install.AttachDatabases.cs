@@ -39,10 +39,7 @@
       var instance = InstanceManager.GetInstance(instanceName);
       var controller = this.Controller;
 
-      var connectionStrings = instance.Configuration.ConnectionStrings.Where(x => x.IsSqlConnectionString).ToArray();
-      Assert.IsTrue(connectionStrings.Length >= 2, "2 or more sql connection strings are required");
-
-      var sqlPrefix = AttachDatabasesHelper.GetSqlPrefix(connectionStrings[0].Value, connectionStrings[1].Value);
+      var sqlPrefix = AttachDatabasesHelper.GetSqlPrefix(instance);
 
       foreach (ConnectionString connectionString in instance.Configuration.ConnectionStrings)
       {

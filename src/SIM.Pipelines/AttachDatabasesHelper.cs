@@ -14,6 +14,7 @@ namespace SIM.Pipelines
   using Sitecore.Diagnostics.Logging;
   using SIM.Extensions;
   using SIM.FileSystem;
+  using SIM.Instances;
 
   #endregion
 
@@ -99,16 +100,18 @@ namespace SIM.Pipelines
     {
       var one = new SqlConnectionStringBuilder(cstr1).InitialCatalog;
       var two = new SqlConnectionStringBuilder(cstr2).InitialCatalog;
-      var min = Math.Min(one.Length, two.Length) - 1;
-      var i = -1;
-      while (i < min - 1 && one[i] == two[i])
+      var min = Math.Min(one.Length, two.Length);
+      var sqlPrefix = string.Empty;
+      for (var i = 0; i < min; ++i)
       {
-        i++;
+        if (one[i] == two[i])
+        {
+          sqlPrefix = one.Substring(0, i + 1);
+        }
       }
 
-      Assert.IsTrue(i >= 0, "two first database names have different prefixes when they must be similar");
-      var sqlPrefix = one.Substring(0, i + 1);
-      return sqlPrefix;
+      Assert.IsNotNull(sqlPrefix.EmptyToNull(), "two first database names have different prefixes when they must be similar");
+      return sqlPrefix.TrimEnd('_');
     }
 
     [NotNull]
@@ -248,5 +251,13 @@ namespace SIM.Pipelines
     }
 
     #endregion
+
+    public static string GetSqlPrefix(Instance instance)
+    {
+      var connectionStrings = instance.Configuration.ConnectionStrings.Where(x => x.IsSqlConnectionString).ToArray();
+      Assert.IsTrue(connectionStrings.Length >= 2, "2 or more sql connection strings are required");
+
+      return AttachDatabasesHelper.GetSqlPrefix(connectionStrings[0].Value, connectionStrings[1].Value);
+    }
   }
 }
