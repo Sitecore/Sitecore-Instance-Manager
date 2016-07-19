@@ -10,7 +10,7 @@
 
     protected override sealed void Process([NotNull] ProcessorArgs args)
     {
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(args, nameof(args));
 
       this.Process((MultipleDeletionArgs)args);
     }

@@ -46,14 +46,14 @@
 
     public ImportArgs([NotNull] string pathToExportedInstance, [NotNull] SqlConnectionStringBuilder connectionString)
     {
-      Assert.ArgumentNotNull(pathToExportedInstance, "pathToExportedInstance");
+      Assert.ArgumentNotNull(pathToExportedInstance, nameof(pathToExportedInstance));
       this.PathToExportedInstance = pathToExportedInstance;
       this.connectionString = connectionString;
     }
 
     public ImportArgs([NotNull] string pathToExportedInstance, [NotNull] string siteName, [NotNull] SqlConnectionStringBuilder connectionString)
     {
-      Assert.ArgumentNotNull(pathToExportedInstance, "pathToExportedInstance");
+      Assert.ArgumentNotNull(pathToExportedInstance, nameof(pathToExportedInstance));
       this.PathToExportedInstance = pathToExportedInstance;
       this.siteName = siteName;
       this.connectionString = connectionString;
@@ -61,7 +61,7 @@
 
     public ImportArgs([NotNull] string pathToExportedInstance, [NotNull] string siteName, [NotNull] string temporaryPathToUnpack, [NotNull] string rootPath, [NotNull] SqlConnectionStringBuilder connectionString, bool updateLicense, [CanBeNull] string pathToLicenseFile, [NotNull] Dictionary<string, int> bindings)
     {
-      Assert.ArgumentNotNull(pathToExportedInstance, "pathToExportedInstance");
+      Assert.ArgumentNotNull(pathToExportedInstance, nameof(pathToExportedInstance));
       this.PathToExportedInstance = pathToExportedInstance;
       this.siteName = siteName;
       this.temporaryPathToUnpack = temporaryPathToUnpack;

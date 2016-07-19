@@ -18,7 +18,7 @@ namespace SIM.FileSystem
 
     public UncDirectoryProvider([NotNull] FileSystem fileSystem) : base(fileSystem)
     {
-      Assert.ArgumentNotNull(fileSystem, "fileSystem");
+      Assert.ArgumentNotNull(fileSystem, nameof(fileSystem));
 
       this.fileSystem = fileSystem;
     }

@@ -153,7 +153,7 @@
 
     private void Append([NotNull] IEnumerable<IRelease> records)
     {
-      Assert.ArgumentNotNull(records, "records");
+      Assert.ArgumentNotNull(records, nameof(records));
 
       this.checkBoxItems.AddRange(records.Select(r => new ProductDownload8InCheckbox(r)).ToList());
     }

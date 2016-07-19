@@ -20,21 +20,21 @@ namespace SIM.Pipelines.Restore
 
     protected override long EvaluateStepsCount(RestoreArgs args)
     {
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(args, nameof(args));
 
       return args.Backup.MongoDatabaseFilenames.Count();
     }
 
     protected override bool IsRequireProcessing(RestoreArgs args)
     {
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(args, nameof(args));
 
       return args.Backup.BackupMongoDatabases;
     }
 
     protected override void Process([NotNull] RestoreArgs args)
     {
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(args, nameof(args));
 
       var databases = args.Backup.MongoDatabaseFilenames;
 

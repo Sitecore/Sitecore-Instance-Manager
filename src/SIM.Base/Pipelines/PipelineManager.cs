@@ -29,7 +29,7 @@
     [NotNull]
     public static XmlElement GetPipelines(XmlDocumentEx document)
     {
-      Assert.ArgumentNotNull(document, "document");
+      Assert.ArgumentNotNull(document, nameof(document));
 
       XmlElement pipelinesNode = document.SelectSingleNode("configuration/pipelines") as XmlElement;
       Assert.IsNotNull(pipelinesNode, "Can't find pipelines configuration node");
@@ -39,7 +39,7 @@
 
     public static XmlElement Initialize(string pipelinesConfigFilePath)
     {
-      Assert.ArgumentNotNull(pipelinesConfigFilePath, "pipelinesConfigFilePath");
+      Assert.ArgumentNotNull(pipelinesConfigFilePath, nameof(pipelinesConfigFilePath));
 
       var document = XmlDocumentEx.LoadFile(pipelinesConfigFilePath);
       XmlElement pipelinesNode = GetPipelines(document);
@@ -115,8 +115,8 @@
 
     public static void StartPipeline([NotNull] string pipelineName, [NotNull] ProcessorArgs args, [CanBeNull] IPipelineController pipelineController = null, bool isAsync = true)
     {
-      Assert.ArgumentNotNull(pipelineName, "pipelineName");
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(pipelineName, nameof(pipelineName));
+      Assert.ArgumentNotNull(args, nameof(args));
 
       Log.Info("Pipeline '{0}' starts, isAsync: {1}", pipelineName, isAsync.ToString(CultureInfo.InvariantCulture));
       using (new ProfileSection("Start pipeline"))
@@ -154,8 +154,8 @@
     [NotNull]
     private static Pipeline CreatePipeline([NotNull] string pipelineName, [NotNull] ProcessorArgs args, [CanBeNull] IPipelineController controller = null, bool isAsync = true)
     {
-      Assert.ArgumentNotNull(pipelineName, "pipelineName");
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(pipelineName, nameof(pipelineName));
+      Assert.ArgumentNotNull(args, nameof(args));
 
       using (new ProfileSection("Create pipeline"))
       {

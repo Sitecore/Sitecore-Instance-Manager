@@ -24,13 +24,13 @@
 
     public ConnectionString([NotNull] XmlElement element, [NotNull] XmlDocumentEx document) : this(new XmlElementEx(element, document))
     {
-      Assert.ArgumentNotNull(element, "element");
-      Assert.ArgumentNotNull(document, "document");
+      Assert.ArgumentNotNull(element, nameof(element));
+      Assert.ArgumentNotNull(document, nameof(document));
     }
 
     private ConnectionString([NotNull] XmlElementEx xmlElement)
     {
-      Assert.ArgumentNotNull(xmlElement, "xmlElement");
+      Assert.ArgumentNotNull(xmlElement, nameof(xmlElement));
 
       this.element = xmlElement;
     }
@@ -99,7 +99,7 @@
 
       set
       {
-        Assert.ArgumentNotNull(value, "value");
+        Assert.ArgumentNotNull(value, nameof(value));
 
         SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder(this.Value)
         {
@@ -120,7 +120,7 @@
 
       set
       {
-        Assert.ArgumentNotNull(value, "value");
+        Assert.ArgumentNotNull(value, nameof(value));
 
         XmlAttribute attribute = this.element.Attributes["connectionString"] ?? this.element.CreateAttribute("connectionString");
         attribute.Value = value;
@@ -141,8 +141,8 @@
     [NotNull]
     public string GenerateDatabaseName([NotNull] string instanceName, [NotNull] string sqlPrefix)
     {
-      Assert.ArgumentNotNull(instanceName, "instanceName");
-      Assert.ArgumentNotNull(sqlPrefix, "sqlPrefix");
+      Assert.ArgumentNotNull(instanceName, nameof(instanceName));
+      Assert.ArgumentNotNull(sqlPrefix, nameof(sqlPrefix));
 
       return SqlServerManager.Instance.GenerateDatabaseRealName(instanceName, sqlPrefix, this.Name, this.GetProductName(instanceName));
     }
@@ -159,7 +159,7 @@
     [NotNull]
     protected string GetProductName([NotNull] string instanceName)
     {
-      Assert.ArgumentNotNull(instanceName, "instanceName");
+      Assert.ArgumentNotNull(instanceName, nameof(instanceName));
 
       var value = new SqlConnectionStringBuilder(this.Value).InitialCatalog;
       string[] arr = value.Split('_');

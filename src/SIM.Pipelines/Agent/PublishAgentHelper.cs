@@ -12,7 +12,7 @@
 
     public static void CopyAgentFiles(Instance instance)
     {
-      Assert.ArgumentNotNull(instance, "instance");
+      Assert.ArgumentNotNull(instance, nameof(instance));
 
       var agent = Path.Combine(instance.WebRootPath, AgentHelper.AgentPath);
       FileSystem.FileSystem.Local.Directory.Ensure(agent);
@@ -41,7 +41,7 @@
 
     public static void Publish(Instance instance)
     {
-      Assert.ArgumentNotNull(instance, "instance");
+      Assert.ArgumentNotNull(instance, nameof(instance));
 
       var publishUrl = AgentHelper.GetUrl(instance, PublishAgentFiles.PublishFileName);
 

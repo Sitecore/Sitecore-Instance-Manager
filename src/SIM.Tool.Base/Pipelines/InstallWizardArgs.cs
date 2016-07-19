@@ -30,7 +30,7 @@
 
     private static void Init(InstallWizardArgs args)
     {
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(args, nameof(args));
 
       args.SkipRadControls = !Settings.CoreInstallRadControls.Value;
       args.SkipDictionaries = !Settings.CoreInstallDictionaries.Value;

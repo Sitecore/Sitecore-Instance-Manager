@@ -31,7 +31,7 @@
 
     public BackupArgs([NotNull] Instance instance, string backupName = null, bool backupFiles = false, bool backupDatabases = false, bool backupClient = false, bool backupMongoDatabases = false)
     {
-      Assert.ArgumentNotNull(instance, "instance");
+      Assert.ArgumentNotNull(instance, nameof(instance));
       this.BackupFiles = backupFiles;
       this.BackupClient = backupClient;
       this.BackupMongoDatabases = backupMongoDatabases;

@@ -19,9 +19,9 @@ namespace SIM.Tool.Base
 
     public static void BrowseInstance([NotNull] Instance instance, [NotNull] Window owner, [NotNull] string virtualPath, bool isFrontEnd, [CanBeNull] string browser = null, [CanBeNull] string[] parameters = null)
     {
-      Assert.ArgumentNotNull(instance, "instance");
-      Assert.ArgumentNotNull(owner, "owner");
-      Assert.ArgumentNotNull(virtualPath, "virtualPath");
+      Assert.ArgumentNotNull(instance, nameof(instance));
+      Assert.ArgumentNotNull(owner, nameof(owner));
+      Assert.ArgumentNotNull(virtualPath, nameof(virtualPath));
 
       if (!EnsureAppPoolState(instance, owner))
       {
@@ -43,8 +43,8 @@ namespace SIM.Tool.Base
 
     public static void OpenCurrentLogFile([NotNull] Instance instance, [NotNull] Window owner, [CanBeNull] string logFileType = null)
     {
-      Assert.ArgumentNotNull(instance, "instance");
-      Assert.ArgumentNotNull(owner, "owner");
+      Assert.ArgumentNotNull(instance, nameof(instance));
+      Assert.ArgumentNotNull(owner, nameof(owner));
 
       var dataFolderPath = instance.DataFolderPath;
       FileSystem.FileSystem.Local.Directory.AssertExists(dataFolderPath, "The data folder ({0}) of the {1} instance doesn't exist".FormatWith(dataFolderPath, instance.Name));
@@ -180,8 +180,8 @@ namespace SIM.Tool.Base
 
     public static void OpenInBrowserAsAdmin([NotNull] Instance instance, [NotNull] Window owner, [CanBeNull] string pageUrl = null, [CanBeNull] string browser = null, [CanBeNull] string[] parameters = null)
     {
-      Assert.ArgumentNotNull(instance, "instance");
-      Assert.ArgumentNotNull(owner, "owner");
+      Assert.ArgumentNotNull(instance, nameof(instance));
+      Assert.ArgumentNotNull(owner, nameof(owner));
 
       AuthenticationHelper.LoginAsAdmin(instance, owner, pageUrl, browser, parameters);
     }
@@ -253,8 +253,8 @@ namespace SIM.Tool.Base
 
     private static bool EnsureAppPoolState([NotNull] Instance instance, [NotNull] Window mainWindow)
     {
-      Assert.ArgumentNotNull(instance, "instance");
-      Assert.ArgumentNotNull(mainWindow, "mainWindow");
+      Assert.ArgumentNotNull(instance, nameof(instance));
+      Assert.ArgumentNotNull(mainWindow, nameof(mainWindow));
 
       var state = instance.ApplicationPoolState;
       if (state == ObjectState.Stopped || state == ObjectState.Stopping)

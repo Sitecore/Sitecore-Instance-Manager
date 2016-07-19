@@ -20,7 +20,7 @@
 
     protected override void Process(ReinstallArgs args)
     {
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(args, nameof(args));
 
       UpdateWebConfigHelper.Process(args.RootPath, args.WebRootPath, args.DataFolderPath, args.ServerSideRedirect, args.IncreaseExecutionTimeout);
     }

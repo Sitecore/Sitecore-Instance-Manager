@@ -28,7 +28,7 @@
 
     public ProductDownload8InCheckbox([NotNull] IRelease release)
     {
-      Assert.ArgumentNotNull(release, "release");
+      Assert.ArgumentNotNull(release, nameof(release));
 
       this.name = "Sitecore CMS";
       this.version = release.Version;

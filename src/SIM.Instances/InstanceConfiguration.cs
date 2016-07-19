@@ -25,7 +25,7 @@
 
     public InstanceConfiguration([NotNull] Instance instance)
     {
-      Assert.ArgumentNotNull(instance, "instance");
+      Assert.ArgumentNotNull(instance, nameof(instance));
 
       this.instance = instance;
     }
@@ -101,7 +101,7 @@
     private XmlElementEx GetConnectionStringsElement()
     {
       XmlDocumentEx webConfig = this.instance.GetWebConfig();
-      Assert.IsNotNull(webConfig, "webConfig");
+      Assert.IsNotNull(webConfig, nameof(webConfig));
 
       return GetConnectionStringsElement(webConfig);
     }

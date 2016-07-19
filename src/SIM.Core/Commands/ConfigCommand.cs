@@ -14,13 +14,13 @@
 
     protected override void DoExecute(CommandResult<ConfigDatabaseInfo> result)
     {
-      Assert.ArgumentNotNullOrEmpty(Name, "Name");
+      Assert.ArgumentNotNullOrEmpty(Name, nameof(Name));
 
       var instance = InstanceManager.GetInstance(Name);
       Ensure.IsNotNull(instance, "The {0} instance is not found", Name);
 
       var config = instance.GetShowconfig();
-      Assert.IsNotNull(config, "config");
+      Assert.IsNotNull(config, nameof(config));
 
       var database = config.SelectSingleElement($"/sitecore/databases/database[@id='{Database}']");
       Ensure.IsNotNull(database, "The {0} database cannot be found", Database);

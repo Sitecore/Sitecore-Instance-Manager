@@ -23,10 +23,10 @@
 
     protected override void Process(DeleteArgs args)
     {
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(args, nameof(args));
 
       var localMachine = Registry.LocalMachine;
-      Assert.IsNotNull(localMachine, "localMachine");
+      Assert.IsNotNull(localMachine, nameof(localMachine));
 
       var sitecoreNode = localMachine.OpenSubKey(SitecoreNodePath, true);
       if (sitecoreNode == null)
@@ -36,7 +36,7 @@
 
       foreach (var subKeyName in sitecoreNode.GetSubKeyNames())
       {
-        Assert.IsNotNull(subKeyName, "subKeyName");
+        Assert.IsNotNull(subKeyName, nameof(subKeyName));
 
         var instanceNode = sitecoreNode.OpenSubKey(subKeyName);
         if (instanceNode == null)

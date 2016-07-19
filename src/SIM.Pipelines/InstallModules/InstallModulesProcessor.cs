@@ -16,14 +16,14 @@
 
     public override sealed long EvaluateStepsCount(ProcessorArgs args)
     {
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(args, nameof(args));
 
       return this.EvaluateStepsCount((InstallModulesArgs)args);
     }
 
     public override sealed bool IsRequireProcessing(ProcessorArgs args)
     {
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(args, nameof(args));
 
       return this.IsRequireProcessing((InstallModulesArgs)args);
     }
@@ -34,21 +34,21 @@
 
     protected virtual long EvaluateStepsCount([NotNull] InstallModulesArgs args)
     {
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(args, nameof(args));
 
       return 1;
     }
 
     protected virtual bool IsRequireProcessing([NotNull] InstallModulesArgs args)
     {
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(args, nameof(args));
 
       return true;
     }
 
     protected override void Process(ProcessorArgs args)
     {
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(args, nameof(args));
 
       this.Process((InstallModulesArgs)args);
     }

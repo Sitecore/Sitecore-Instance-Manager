@@ -16,9 +16,9 @@ namespace SIM.Pipelines
 
     public static void Process([NotNull] string rootFolderPath, [NotNull] string webRootPath, [NotNull] string dataFolder, bool serverSideRedirect, bool increaseExecutionTimeout)
     {
-      Assert.ArgumentNotNull(rootFolderPath, "rootFolderPath");
-      Assert.ArgumentNotNull(webRootPath, "webRootPath");
-      Assert.ArgumentNotNull(dataFolder, "dataFolder");
+      Assert.ArgumentNotNull(rootFolderPath, nameof(rootFolderPath));
+      Assert.ArgumentNotNull(webRootPath, nameof(webRootPath));
+      Assert.ArgumentNotNull(dataFolder, nameof(dataFolder));
 
       if (increaseExecutionTimeout)
       {
@@ -113,9 +113,9 @@ namespace SIM.Pipelines
 
     private static void CreateIncludeFile([NotNull] string rootFolderPath, [NotNull] string includeFileName, [NotNull] NameValueCollection settings)
     {
-      Assert.ArgumentNotNull(rootFolderPath, "rootFolderPath");
-      Assert.ArgumentNotNull(includeFileName, "includeFileName");
-      Assert.ArgumentNotNull(settings, "settings");
+      Assert.ArgumentNotNull(rootFolderPath, nameof(rootFolderPath));
+      Assert.ArgumentNotNull(includeFileName, nameof(includeFileName));
+      Assert.ArgumentNotNull(settings, nameof(settings));
 
       const string Prefix = @"<configuration xmlns:patch=""http://www.sitecore.net/xmlconfig/"">
   <sitecore>

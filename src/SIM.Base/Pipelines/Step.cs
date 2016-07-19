@@ -26,7 +26,7 @@
 
     public Step([NotNull] List<Processor> processors, [CanBeNull] string argsName)
     {
-      Assert.ArgumentNotNull(processors, "processors");
+      Assert.ArgumentNotNull(processors, nameof(processors));
 
       this.Processors = processors;
       this.ArgsName = argsName;
@@ -39,8 +39,8 @@
     [NotNull]
     public static List<Step> CreateSteps([NotNull] List<StepDefinition> stepDefinitions, [NotNull] ProcessorArgs args, [CanBeNull] IPipelineController controller = null)
     {
-      Assert.ArgumentNotNull(stepDefinitions, "stepDefinitions");
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(stepDefinitions, nameof(stepDefinitions));
+      Assert.ArgumentNotNull(args, nameof(args));
 
       return new List<Step>(CreateStepsPrivate(stepDefinitions, args, controller));
     }
@@ -52,8 +52,8 @@
     [NotNull]
     private static IEnumerable<Step> CreateStepsPrivate([NotNull] IEnumerable<StepDefinition> steps, [NotNull] ProcessorArgs args, [CanBeNull] IPipelineController controller = null)
     {
-      Assert.ArgumentNotNull(steps, "steps");
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(steps, nameof(steps));
+      Assert.ArgumentNotNull(args, nameof(args));
 
       foreach (StepDefinition stepDefinition in steps)
       {

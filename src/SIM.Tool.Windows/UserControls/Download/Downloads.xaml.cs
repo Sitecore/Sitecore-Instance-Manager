@@ -97,7 +97,7 @@
 
     private void CheckFileSize(UriBasedCollection<long> fileSizes, Uri url, string cookies)
     {
-      Assert.IsNotNull(url, "url");
+      Assert.IsNotNull(url, nameof(url));
 
       try
       {

@@ -16,7 +16,7 @@
 
     public override long EvaluateStepsCount(ProcessorArgs args)
     {
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(args, nameof(args));
 
       return InstallHelper.GetStepsCount(((ReinstallArgs)args).PackagePath);
     }
@@ -27,7 +27,7 @@
 
     protected override void Process(ReinstallArgs args)
     {
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(args, nameof(args));
 
       var installRadControls = Directory.Exists(Path.Combine(args.WebRootPath, InstallHelper.RadControls));
       var installDictionaries = Directory.Exists(Path.Combine(args.WebRootPath, InstallHelper.Dictionaries));

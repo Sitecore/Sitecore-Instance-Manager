@@ -15,7 +15,7 @@
 
     public void OnClick(Window mainWindow, Instance instance)
     {
-      Assert.ArgumentNotNull(mainWindow, "mainWindow");
+      Assert.ArgumentNotNull(mainWindow, nameof(mainWindow));
 
       this.OnClick(mainWindow);
     }

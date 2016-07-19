@@ -62,7 +62,7 @@
     {
       try
       {
-        Assert.ArgumentNotNull(e, "e");
+        Assert.ArgumentNotNull(e, nameof(e));
 
         if (e.Handled)
         {
@@ -128,7 +128,7 @@
     {
       var args = (InstallModulesWizardArgs)wizardArgs;
       Product product = args.Product;
-      Assert.IsNotNull(product, "product");
+      Assert.IsNotNull(product, nameof(product));
       Product[] selectedModules = this.unfilteredProductFamilies.Where(mm => mm.IsChecked).Select(mm => mm.Value).ToArray();
       args.Modules.AddRange(selectedModules.Where(module => !args.Modules.Any(p => p.Name.Equals(module.Name, StringComparison.OrdinalIgnoreCase))));
 

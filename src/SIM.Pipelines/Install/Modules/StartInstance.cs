@@ -15,10 +15,10 @@ namespace SIM.Pipelines.Install.Modules
 
     protected override void Process([NotNull] InstallArgs args)
     {
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(args, nameof(args));
 
       Instance instance = args.Instance;
-      Assert.IsNotNull(instance, "Instance");
+      Assert.IsNotNull(instance, nameof(instance));
 
       if (this.ProcessorDefinition.Param == "nowait")
       {

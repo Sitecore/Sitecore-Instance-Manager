@@ -23,14 +23,14 @@
 
     public override long EvaluateStepsCount(ProcessorArgs args)
     {
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(args, nameof(args));
 
       return ((ReinstallArgs)args).InstanceDatabases.Count;
     }
 
     protected override void Process([NotNull] ReinstallArgs args)
     {
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(args, nameof(args));
 
       IEnumerable<Database> detectedDatabases = args.InstanceDatabases;
       var rootPath = args.RootPath.ToLower();

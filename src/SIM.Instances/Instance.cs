@@ -622,7 +622,7 @@
             continue;
           }
 
-          Assert.IsNotNullOrEmpty(folder, "folder1");
+          Assert.IsNotNullOrEmpty(folder, nameof(folder));
           var common = FileSystem.FileSystem.Local.Directory.FindCommonParent(webRootPath, folder);
           if (string.IsNullOrEmpty(common))
           {
@@ -648,7 +648,7 @@
         {
           var webRootPath = this.WebRootPath;
           var dataFolderPath = this.GetDataFolderPath();
-          Assert.IsNotNullOrEmpty(dataFolderPath, "dataFolderPath");
+          Assert.IsNotNullOrEmpty(dataFolderPath, nameof(dataFolderPath));
 
           // data folder is inside website folder
           if (dataFolderPath.ContainsIgnoreCase(this.WebRootPath))

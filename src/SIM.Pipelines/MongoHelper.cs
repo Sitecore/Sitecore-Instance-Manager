@@ -13,8 +13,8 @@
 
     public static void Backup([NotNull] MongoDbDatabase database, [NotNull] string folder)
     {
-      Assert.ArgumentNotNull(database, "database");
-      Assert.ArgumentNotNull(folder, "folder");
+      Assert.ArgumentNotNull(database, nameof(database));
+      Assert.ArgumentNotNull(folder, nameof(folder));
 
       var arguments = @"--db ""{0}"" --out ""{1}""".FormatWith(database.LogicalName, folder);
       var info = new ProcessStartInfo(ApplicationManager.GetEmbeddedFile("mongo.tools.zip", "SIM.Pipelines", "mongodump.exe"), arguments)
@@ -30,7 +30,7 @@
 
     public static void Restore([NotNull] string directoryPath)
     {
-      Assert.ArgumentNotNull(directoryPath, "filePath");
+      Assert.ArgumentNotNull(directoryPath, nameof(directoryPath));
 
       var logicalName = Path.GetFileName(directoryPath);
       var arguments = @"--db ""{0}"" ""{1}""".FormatWith(logicalName, directoryPath);

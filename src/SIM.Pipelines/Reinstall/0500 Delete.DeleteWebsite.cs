@@ -15,7 +15,7 @@
 
     protected override void Process([NotNull] ReinstallArgs args)
     {
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(args, nameof(args));
 
       WebServerManager.DeleteWebsite(args.WebsiteID);
     }

@@ -37,7 +37,7 @@
     [NotNull]
     public static ICollection<Database> GetDatabases([NotNull] string webRootPath, XmlDocument webConfigDocument = null)
     {
-      Assert.ArgumentNotNullOrEmpty(webRootPath, "webRootPath");
+      Assert.ArgumentNotNullOrEmpty(webRootPath, nameof(webRootPath));
 
       using (new ProfileSection("Get databases from web.config"))
       {
@@ -80,7 +80,7 @@
     [NotNull]
     public static ICollection<MongoDbDatabase> GetMongoDatabases([NotNull] string webRootPath, XmlDocument webConfigDocument = null)
     {
-      Assert.ArgumentNotNullOrEmpty(webRootPath, "webRootPath");
+      Assert.ArgumentNotNullOrEmpty(webRootPath, nameof(webRootPath));
 
       using (new ProfileSection("Get mongo databases from web.config"))
       {
@@ -123,8 +123,8 @@
     [CanBeNull]
     public static string GetScVariable([NotNull] XmlDocument webConfig, [NotNull] string variableName)
     {
-      Assert.ArgumentNotNull(webConfig, "webConfig");
-      Assert.ArgumentNotNull(variableName, "variableName");
+      Assert.ArgumentNotNull(webConfig, nameof(webConfig));
+      Assert.ArgumentNotNull(variableName, nameof(variableName));
 
       using (new ProfileSection("Get Sitecore variable"))
       {
@@ -157,8 +157,8 @@
     [CanBeNull]
     public static XmlElement GetScVariableElement([NotNull] XmlDocument webConfig, [NotNull] string elementName)
     {
-      Assert.ArgumentNotNull(webConfig, "webConfig");
-      Assert.ArgumentNotNull(elementName, "elementName");
+      Assert.ArgumentNotNull(webConfig, nameof(webConfig));
+      Assert.ArgumentNotNull(elementName, nameof(elementName));
 
       return webConfig.SelectSingleNode(ScVariableXPath.FormatWith(elementName)) as XmlElement;
     }
@@ -166,7 +166,7 @@
     [NotNull]
     public static XmlDocumentEx GetWebConfig([NotNull] string webRootPath)
     {
-      Assert.ArgumentNotNull(webRootPath, "webRootPath");
+      Assert.ArgumentNotNull(webRootPath, nameof(webRootPath));
       var path = GetWebConfigPath(webRootPath);
       FileSystem.FileSystem.Local.File.AssertExists(path, BResources.FileIsMissing.FormatWith(path));
 
@@ -188,8 +188,8 @@
 
     public static void AddDatabases([NotNull] XmlElement connectionStringsNode, [NotNull] List<Database> databases)
     {
-      Assert.ArgumentNotNull(connectionStringsNode, "connectionStringsNode");
-      Assert.ArgumentNotNull(databases, "databases");
+      Assert.ArgumentNotNull(connectionStringsNode, nameof(connectionStringsNode));
+      Assert.ArgumentNotNull(databases, nameof(databases));
 
       using (new ProfileSection("Add databases to web.config"))
       {
@@ -241,8 +241,8 @@
 
     public static void AddMongoDatabases([NotNull] XmlElement connectionStringsNode, [NotNull] List<MongoDbDatabase> databases)
     {
-      Assert.ArgumentNotNull(connectionStringsNode, "connectionStringsNode");
-      Assert.ArgumentNotNull(databases, "databases");
+      Assert.ArgumentNotNull(connectionStringsNode, nameof(connectionStringsNode));
+      Assert.ArgumentNotNull(databases, nameof(databases));
 
       using (new ProfileSection("Add mongo databases to web.config"))
       {
@@ -276,7 +276,7 @@
     [NotNull]
     public static string GetWebConfigPath([NotNull] string webRootPath)
     {
-      Assert.ArgumentNotNull(webRootPath, "webRootPath");
+      Assert.ArgumentNotNull(webRootPath, nameof(webRootPath));
 
       return Path.Combine(webRootPath, "web.config");
     }
@@ -288,7 +288,7 @@
     [CanBeNull]
     private static string GetDatabaseName([NotNull] SqlConnectionStringBuilder connectionString)
     {
-      Assert.ArgumentNotNull(connectionString, "connectionString");
+      Assert.ArgumentNotNull(connectionString, nameof(connectionString));
 
       return connectionString.InitialCatalog;
     }
@@ -301,14 +301,14 @@
 
     public static string GetSitecoreSetting(string name, XmlDocument webConfigResult)
     {
-      Assert.ArgumentNotNull(webConfigResult, "webConfigResult");
+      Assert.ArgumentNotNull(webConfigResult, nameof(webConfigResult));
 
       XmlElement element = webConfigResult.SelectSingleNode(string.Format(SettingXPath, name)) as XmlElement;
       Assert.IsNotNull(element, $"The \"{name}\" setting is missing in the instance configuration files");
       XmlAttribute value = element.Attributes["value"];
       Assert.IsNotNull(value, $"The value attribute of the \"{name}\" setting is missing in the instance configuration files");
       var settingValue = value.Value;
-      Assert.IsNotNullOrEmpty(settingValue, "settingValue");
+      Assert.IsNotNullOrEmpty(settingValue, nameof(settingValue));
       return settingValue;
     }
 

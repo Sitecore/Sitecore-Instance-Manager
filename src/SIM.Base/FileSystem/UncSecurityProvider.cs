@@ -13,7 +13,7 @@ namespace SIM.FileSystem
     public UncSecurityProvider([NotNull] FileSystem fileSystem)
       : base(fileSystem)
     {
-      Assert.ArgumentNotNull(fileSystem, "fileSystem");
+      Assert.ArgumentNotNull(fileSystem, nameof(fileSystem));
     }
 
     #endregion

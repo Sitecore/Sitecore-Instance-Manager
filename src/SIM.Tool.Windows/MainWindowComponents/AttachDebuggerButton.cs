@@ -23,7 +23,7 @@ namespace SIM.Tool.Windows.MainWindowComponents
 
     protected override void OnClick(Instance instance)
     {
-      Assert.ArgumentNotNull(instance, "instance");
+      Assert.ArgumentNotNull(instance, nameof(instance));
 
       var ids = instance.ProcessIds.ToArray();
       if (ids.Length == 0)

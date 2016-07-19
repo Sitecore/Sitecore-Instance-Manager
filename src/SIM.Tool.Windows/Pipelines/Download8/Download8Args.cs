@@ -30,9 +30,9 @@
 
     public Download8Args([NotNull] string cookies, [NotNull] ReadOnlyCollection<Uri> links, [NotNull] string localRepository)
     {
-      Assert.ArgumentNotNull(cookies, "cookies");
-      Assert.ArgumentNotNull(links, "links");
-      Assert.ArgumentNotNull(localRepository, "localRepository");
+      Assert.ArgumentNotNull(cookies, nameof(cookies));
+      Assert.ArgumentNotNull(links, nameof(links));
+      Assert.ArgumentNotNull(localRepository, nameof(localRepository));
       this.LocalRepository = localRepository;
       this.Links = links;
       this.Cookies = cookies;

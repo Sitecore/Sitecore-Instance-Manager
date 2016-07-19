@@ -31,7 +31,7 @@
 
     public LoginAdminButton([NotNull] string param)
     {
-      Assert.ArgumentNotNull(param, "param");
+      Assert.ArgumentNotNull(param, nameof(param));
 
       var par = Parameters.Parse(param);
       this.VirtualPath = par[0];
@@ -46,10 +46,10 @@
     [UsedImplicitly]
     public static void FinishAction([NotNull] InstallWizardArgs args)
     {
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(args, nameof(args));
 
       var instance = args.Instance;
-      Assert.IsNotNull(instance, "instance");
+      Assert.IsNotNull(instance, nameof(instance));
 
       InstanceHelperEx.OpenInBrowserAsAdmin(instance, MainWindow.Instance);
     }
@@ -57,10 +57,10 @@
     [UsedImplicitly]
     public static void FinishAction([NotNull] InstallModulesWizardArgs args)
     {
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(args, nameof(args));
 
       var instance = args.Instance;
-      Assert.IsNotNull(instance, "instance");
+      Assert.IsNotNull(instance, nameof(instance));
 
       InstanceHelperEx.OpenInBrowserAsAdmin(instance, MainWindow.Instance);
     }
@@ -72,8 +72,8 @@
 
     public void OnClick(Window mainWindow, Instance instance)
     {
-      Assert.ArgumentNotNull(mainWindow, "mainWindow");
-      Assert.IsNotNull(instance, "instance");
+      Assert.ArgumentNotNull(mainWindow, nameof(mainWindow));
+      Assert.IsNotNull(instance, nameof(instance));
 
       Analytics.TrackEvent("LogInAdmin");
 

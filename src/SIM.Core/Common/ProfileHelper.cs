@@ -9,7 +9,7 @@ namespace SIM.Core.Common
     [NotNull]
     public static SqlConnectionStringBuilder GetValidConnectionString([NotNull] this IProfile profile)
     {
-      Assert.ArgumentNotNull(profile, "profile");
+      Assert.ArgumentNotNull(profile, nameof(profile));
       var connectionString = profile.ConnectionString;
       var builder = new SqlConnectionStringBuilder(connectionString);
       Assert.IsNotNullOrEmpty(builder.DataSource, "Profile.ConnectionString.DataSource is null or empty");

@@ -16,17 +16,17 @@
 
     public bool IsEnabled(Window mainWindow, Instance instance)
     {
-      Assert.ArgumentNotNull(mainWindow, "mainWindow");
+      Assert.ArgumentNotNull(mainWindow, nameof(mainWindow));
 
       return instance != null;
     }
 
     public void OnClick(Window mainWindow, Instance instance)
     {
-      Assert.ArgumentNotNull(mainWindow, "mainWindow");
+      Assert.ArgumentNotNull(mainWindow, nameof(mainWindow));
 
       var instances = InstanceManager.PartiallyCachedInstances ?? InstanceManager.Instances;
-      Assert.IsNotNull(instances, "instances");
+      Assert.IsNotNull(instances, nameof(instances));
 
       var otherInstances = instances.Where(x => x.ID != instance.ID);
       foreach (var otherInstance in otherInstances)

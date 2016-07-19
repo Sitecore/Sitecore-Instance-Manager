@@ -23,7 +23,7 @@
 
     public OpenFolderButton(string folder)
     {
-      Assert.IsNotNullOrEmpty(folder, "folder");
+      Assert.IsNotNullOrEmpty(folder, nameof(folder));
 
       this.folder = folder;
     }

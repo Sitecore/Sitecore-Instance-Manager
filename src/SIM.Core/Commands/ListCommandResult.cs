@@ -14,7 +14,7 @@ namespace SIM.Core.Commands
 
     public ListCommandResult(IEnumerable<string> instances)
     {
-      Assert.ArgumentNotNull(instances, "instances");
+      Assert.ArgumentNotNull(instances, nameof(instances));
 
       Instances = instances.ToArray();
       Detailed = Empty;
@@ -22,7 +22,7 @@ namespace SIM.Core.Commands
 
     public ListCommandResult(IEnumerable<InstanceInfo> instances)
     {
-      Assert.ArgumentNotNull(instances, "instances");
+      Assert.ArgumentNotNull(instances, nameof(instances));
 
       var detailed = instances.ToDictionary(x => x.Name, x => x);
 

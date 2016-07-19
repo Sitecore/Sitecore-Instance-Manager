@@ -14,7 +14,7 @@
 
     protected override void Process([NotNull] ReinstallArgs args)
     {
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(args, nameof(args));
 
       var path = args.RootPath;
       if (!string.IsNullOrEmpty(path))

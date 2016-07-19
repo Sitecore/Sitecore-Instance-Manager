@@ -47,9 +47,9 @@
     public static void ExecuteActions([NotNull] Instance instance, [NotNull] Product[] modules, [CanBeNull] List<Product> done, [NotNull] string param, [CanBeNull] SqlConnectionStringBuilder connectionString,
       [CanBeNull] IPipelineController controller = null, [CanBeNull] Dictionary<string, string> variables = null)
     {
-      Assert.ArgumentNotNull(instance, "instance");
-      Assert.ArgumentNotNull(modules, "modules");
-      Assert.ArgumentNotNull(param, "param");
+      Assert.ArgumentNotNull(instance, nameof(instance));
+      Assert.ArgumentNotNull(modules, nameof(modules));
+      Assert.ArgumentNotNull(param, nameof(param));
 
       variables = variables ?? new Dictionary<string, string>();
       foreach (Product module in modules)
@@ -157,10 +157,10 @@
 
     private static void AddDatabase([NotNull] Instance instance, [NotNull] IEnumerable<XmlElement> databases, [NotNull] Product module, SqlConnectionStringBuilder connectionString, IPipelineController controller)
     {
-      Assert.ArgumentNotNull(instance, "instance");
-      Assert.ArgumentNotNull(databases, "databases");
-      Assert.ArgumentNotNull(module, "module");
-      Assert.ArgumentNotNull(connectionString, "connectionString");
+      Assert.ArgumentNotNull(instance, nameof(instance));
+      Assert.ArgumentNotNull(databases, nameof(databases));
+      Assert.ArgumentNotNull(module, nameof(module));
+      Assert.ArgumentNotNull(connectionString, nameof(connectionString));
 
       foreach (XmlElement database in databases)
       {
@@ -170,7 +170,7 @@
         var sourceFileName = database.GetAttribute("sourceFileName");
         var databasesFolder = GetDatabasesFolder(instance, connectionString, controller);
         var locationInPackage = database.GetAttribute("location");
-        Assert.IsNotNull(databasesFolder, "databasesFolder");
+        Assert.IsNotNull(databasesFolder, nameof(databasesFolder));
         FileSystem.FileSystem.Local.Directory.AssertExists(databasesFolder);
 
         var sqlPrefix = AttachDatabasesHelper.GetSqlPrefix(instance);
@@ -216,53 +216,53 @@
     private static void AddFormsToPlaceholder(string name, string url)
     {
       Credentials credentials = Credentials;
-      Assert.IsNotNull(credentials, "credentials");
+      Assert.IsNotNull(credentials, nameof(credentials));
 
       EndpointAddress remoteAddress = new EndpointAddress(url);
       var client = GetWebServiceClient(remoteAddress);
-      Assert.IsNotNull(client, "client");
+      Assert.IsNotNull(client, nameof(client));
 
       var doc = GetPlaceholders(credentials, client);
-      Assert.IsNotNull(doc, "doc");
+      Assert.IsNotNull(doc, nameof(doc));
 
       var items = GetItems(doc);
-      Assert.IsNotNull(items, "items");
+      Assert.IsNotNull(items, nameof(items));
 
       var firstItem = items.FirstOrDefault(node => node.InnerText.Equals(name));
-      Assert.IsNotNull(firstItem, "firstItem");
+      Assert.IsNotNull(firstItem, nameof(firstItem));
 
       var placeholderId = firstItem.GetAttribute("id");
-      Assert.IsNotNull(placeholderId, "placeholderId");
+      Assert.IsNotNull(placeholderId, nameof(placeholderId));
 
       XElement fields = client.GetItemFields(placeholderId, "en", "1", true, "master", credentials);
-      Assert.IsNotNull(fields, "fields");
+      Assert.IsNotNull(fields, nameof(fields));
 
       XmlDocument xmlDocument = GetXmlDocument(fields);
-      Assert.IsNotNull(xmlDocument, "xmlDocument");
+      Assert.IsNotNull(xmlDocument, nameof(xmlDocument));
 
       XmlNode field = xmlDocument.SelectSingleNode("/sitecore/field[@name='Allowed Controls']");
-      Assert.IsNotNull(fields, "field");
+      Assert.IsNotNull(fields, nameof(fields));
 
       XmlElement fieldValueElement = field.ChildNodes.OfType<XmlElement>().FirstOrDefault();
-      Assert.IsNotNull(fieldValueElement, "fieldValueElement");
+      Assert.IsNotNull(fieldValueElement, nameof(fieldValueElement));
 
       var value = fieldValueElement.InnerXml;
-      Assert.IsNotNull(value, "value");
+      Assert.IsNotNull(value, nameof(value));
 
       const string formsRenderingID = "|{6D3B4E7D-FEF8-4110-804A-B56605688830}";
       value += formsRenderingID;
       fieldValueElement.InnerXml = value.TrimStart('|');
 
       var xml = xmlDocument.OuterXml;
-      Assert.IsNotNull(xml, "xml");
+      Assert.IsNotNull(xml, nameof(xml));
 
       client.Save(xml, "master", credentials);
     }
 
     private static void AddSiteBinding(string instanceName, XmlElement action)
     {
-      Assert.ArgumentNotNullOrEmpty(instanceName, "instanceName");
-      Assert.ArgumentNotNull(action, "action");
+      Assert.ArgumentNotNullOrEmpty(instanceName, nameof(instanceName));
+      Assert.ArgumentNotNull(action, nameof(action));
 
       var host = action.GetAttribute("host");
       if (host.IsNullOrEmpty())
@@ -394,9 +394,9 @@
 
     private static void ExtractDatabaseInner(string fileName, [CanBeNull] string sourceFileName, string databasesFolder, string packagePath, string tmpPath = null, string location = null)
     {
-      Assert.ArgumentNotNullOrEmpty(fileName, "fileName");
-      Assert.ArgumentNotNullOrEmpty(databasesFolder, "databasesFolder");
-      Assert.ArgumentNotNullOrEmpty(packagePath, "packagePath");
+      Assert.ArgumentNotNullOrEmpty(fileName, nameof(fileName));
+      Assert.ArgumentNotNullOrEmpty(databasesFolder, nameof(databasesFolder));
+      Assert.ArgumentNotNullOrEmpty(packagePath, nameof(packagePath));
       Assert.IsTrue(string.IsNullOrEmpty(location) == string.IsNullOrEmpty(tmpPath), "tmpPath and location must be set or null at the same time");
 
       const string packageZipFileName = "package.zip";
@@ -579,11 +579,11 @@
 
     private static void PerformConfigChanges([NotNull] Instance instance, [NotNull] IEnumerable<XmlElement> instructions, [NotNull] Product module, [NotNull] XmlDocumentEx config, [NotNull] Dictionary<string, string> variables)
     {
-      Assert.ArgumentNotNull(instance, "instance");
-      Assert.ArgumentNotNull(instructions, "instructions");
-      Assert.ArgumentNotNull(module, "module");
-      Assert.ArgumentNotNull(config, "config");
-      Assert.ArgumentNotNull(variables, "variables");
+      Assert.ArgumentNotNull(instance, nameof(instance));
+      Assert.ArgumentNotNull(instructions, nameof(instructions));
+      Assert.ArgumentNotNull(module, nameof(module));
+      Assert.ArgumentNotNull(config, nameof(config));
+      Assert.ArgumentNotNull(variables, nameof(variables));
 
       foreach (XmlElement instruction in instructions)
       {

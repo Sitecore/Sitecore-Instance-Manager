@@ -26,10 +26,10 @@
 
     protected override void DoExecute(CommandResult<string[]> result)
     {
-      Assert.ArgumentNotNull(result, "result");
+      Assert.ArgumentNotNull(result, nameof(result));
 
       var name = Name;
-      Assert.ArgumentNotNullOrEmpty(name, "name");
+      Assert.ArgumentNotNullOrEmpty(name, nameof(name));
 
       var hostNames = new[] {name};
       var sqlPrefix = name;

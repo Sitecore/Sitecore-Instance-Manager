@@ -34,7 +34,7 @@
 
     public InstanceBackup([NotNull] string date, [NotNull] string folder, bool backupWebsiteFiles, bool backupDataFiles, bool backupDatabases, bool backupWebsiteFilesNoClient, bool backupMongoDatabases)
     {
-      Assert.ArgumentNotNull(folder, "folder");
+      Assert.ArgumentNotNull(folder, nameof(folder));
 
       this.BackupWebsiteFiles = backupWebsiteFiles;
       this.BackupWebsiteFilesNoClient = backupWebsiteFilesNoClient;
@@ -47,7 +47,7 @@
 
     public InstanceBackup(string date, [NotNull] string folder)
     {
-      Assert.ArgumentNotNull(folder, "folder");
+      Assert.ArgumentNotNull(folder, nameof(folder));
 
       this.FolderPath = folder;
       bool full = FileSystem.FileSystem.Local.File.Exists(this.WebRootFilePath);

@@ -46,9 +46,9 @@
 
     public virtual void AttachDatabase([NotNull] string name, [NotNull] string path, [NotNull] SqlConnectionStringBuilder connectionString, bool attachLog = true)
     {
-      Assert.ArgumentNotNullOrEmpty(name, "name");
-      Assert.ArgumentNotNullOrEmpty(path, "path");
-      Assert.ArgumentNotNull(connectionString, "connectionString");
+      Assert.ArgumentNotNullOrEmpty(name, nameof(name));
+      Assert.ArgumentNotNullOrEmpty(path, nameof(path));
+      Assert.ArgumentNotNull(connectionString, nameof(connectionString));
 
       Log.Info("Attaching the '{0}' database with '{1}' filename", name, path);
 
@@ -88,8 +88,8 @@
     [NotNull]
     public virtual SqlConnectionStringBuilder ChangeDatabaseName([NotNull] SqlConnectionStringBuilder connectionString, [NotNull] string databaseName)
     {
-      Assert.ArgumentNotNull(connectionString, "connectionString");
-      Assert.ArgumentNotNull(databaseName, "databaseName");
+      Assert.ArgumentNotNull(connectionString, nameof(connectionString));
+      Assert.ArgumentNotNull(databaseName, nameof(databaseName));
 
       connectionString = new SqlConnectionStringBuilder(connectionString.ConnectionString)
       {
@@ -108,8 +108,8 @@
 
     public virtual bool DatabaseExists([NotNull] string name, [NotNull] SqlConnection sqlConnection)
     {
-      Assert.ArgumentNotNull(name, "name");
-      Assert.ArgumentNotNull(sqlConnection, "sqlConnection");
+      Assert.ArgumentNotNull(name, nameof(name));
+      Assert.ArgumentNotNull(sqlConnection, nameof(sqlConnection));
 
       var command = $"select [name] from [master].[sys].[databases] where [name] = N'{name}'";
       using (SqlCommand sqlCmd = new SqlCommand(command, sqlConnection))
@@ -128,8 +128,8 @@
 
     public virtual bool DatabaseExists([NotNull] string databaseName, [NotNull] SqlConnectionStringBuilder connectionString)
     {
-      Assert.ArgumentNotNull(databaseName, "databaseName");
-      Assert.ArgumentNotNull(connectionString, "connectionString");
+      Assert.ArgumentNotNull(databaseName, nameof(databaseName));
+      Assert.ArgumentNotNull(connectionString, nameof(connectionString));
 
       using (SqlConnection connection = this.OpenConnection(connectionString))
       {
@@ -139,8 +139,8 @@
 
     public virtual void DeleteDatabase([NotNull] string databaseName, [NotNull] SqlConnectionStringBuilder connectionString)
     {
-      Assert.ArgumentNotNull(databaseName, "databaseName");
-      Assert.ArgumentNotNull(connectionString, "connectionString");
+      Assert.ArgumentNotNull(databaseName, nameof(databaseName));
+      Assert.ArgumentNotNull(connectionString, nameof(connectionString));
 
       using (SqlConnection connection = this.OpenConnection(connectionString))
       {
@@ -161,9 +161,9 @@
 
     public virtual void DetectDatabases(string rootPath, SqlConnectionStringBuilder connectionString, Action<string> action)
     {
-      Assert.ArgumentNotNullOrEmpty(rootPath, "rootPath");
-      Assert.ArgumentNotNull(connectionString, "connectionString");
-      Assert.ArgumentNotNull(action, "action");
+      Assert.ArgumentNotNullOrEmpty(rootPath, nameof(rootPath));
+      Assert.ArgumentNotNull(connectionString, nameof(connectionString));
+      Assert.ArgumentNotNull(action, nameof(action));
       rootPath = rootPath.TrimEnd('\\') + '\\';
       foreach (var name in this.GetDatabasesNames(connectionString))
       {
@@ -189,8 +189,8 @@
 
     public virtual void Execute([NotNull] SqlConnection sqlConnection, [NotNull] string command, int? executionTimeout = null)
     {
-      Assert.ArgumentNotNull(sqlConnection, "sqlConnection");
-      Assert.ArgumentNotNull(command, "command");
+      Assert.ArgumentNotNull(sqlConnection, nameof(sqlConnection));
+      Assert.ArgumentNotNull(command, nameof(command));
 
       Log.Info("SQL query is executed: {0}", command);
 
@@ -205,8 +205,8 @@
 
     public virtual void Execute([NotNull] SqlConnectionStringBuilder connectionString, [NotNull] string command, int? executionTimeout = null)
     {
-      Assert.ArgumentNotNull(connectionString, "connectionString");
-      Assert.ArgumentNotNull(command, "command");
+      Assert.ArgumentNotNull(connectionString, nameof(connectionString));
+      Assert.ArgumentNotNull(command, nameof(command));
 
       using (var connection = OpenConnection(connectionString, false))
       {
@@ -217,9 +217,9 @@
     [NotNull]
     public virtual string GenerateDatabaseRealName([NotNull] string instanceName, [NotNull] string sqlPrefix, [NotNull] string connectionStringName, [CanBeNull] string productName = null, [CanBeNull] string pattern = null)
     {
-      Assert.ArgumentNotNull(instanceName, "instanceName");
-      Assert.ArgumentNotNull(sqlPrefix, "sqlPrefix");
-      Assert.ArgumentNotNull(connectionStringName, "connectionStringName");
+      Assert.ArgumentNotNull(instanceName, nameof(instanceName));
+      Assert.ArgumentNotNull(sqlPrefix, nameof(sqlPrefix));
+      Assert.ArgumentNotNull(connectionStringName, nameof(connectionStringName));
 
       return pattern.EmptyToNull() ??
              Settings.CoreSqlServerDatabaseNamePattern.Value
@@ -233,8 +233,8 @@
     [CanBeNull]
     public virtual string GetDatabaseFileName([NotNull] string databaseName, [NotNull] SqlConnectionStringBuilder connectionString)
     {
-      Assert.ArgumentNotNull(databaseName, "databaseName");
-      Assert.ArgumentNotNull(connectionString, "connectionString");
+      Assert.ArgumentNotNull(databaseName, nameof(databaseName));
+      Assert.ArgumentNotNull(connectionString, nameof(connectionString));
 
       try
       {
@@ -257,7 +257,7 @@
     [NotNull]
     public virtual IEnumerable<string> GetDatabaseFolders([NotNull] IEnumerable<Database> databases)
     {
-      Assert.ArgumentNotNull(databases, "databases");
+      Assert.ArgumentNotNull(databases, nameof(databases));
 
       // ReSharper disable AssignNullToNotNullAttribute
       return databases.Where(d => !string.IsNullOrEmpty(d.FileName) && FileSystem.FileSystem.Local.File.Exists(d.FileName)).Select(d => Path.GetDirectoryName(d.FileName)).Distinct();
@@ -268,7 +268,7 @@
     [NotNull]
     public virtual string GetDatabaseNameFromFile([NotNull] SqlConnectionStringBuilder connectionString, [NotNull] string pathToMdf)
     {
-      Assert.ArgumentNotNull(connectionString, "connectionString");
+      Assert.ArgumentNotNull(connectionString, nameof(connectionString));
 
       var res = string.Empty;
 
@@ -291,7 +291,7 @@
     [NotNull]
     public virtual BackupInfo GetDatabasesNameFromBackup([NotNull] SqlConnectionStringBuilder connectionString, [NotNull] string pathToBak)
     {
-      Assert.ArgumentNotNull(connectionString, "connectionString");
+      Assert.ArgumentNotNull(connectionString, nameof(connectionString));
 
       BackupInfo res = new BackupInfo(string.Empty, string.Empty, string.Empty, string.Empty, string.Empty);
 
@@ -335,7 +335,7 @@
     [NotNull]
     public virtual List<string> GetDatabasesNames([NotNull] SqlConnectionStringBuilder connectionString)
     {
-      Assert.ArgumentNotNull(connectionString, "connectionString");
+      Assert.ArgumentNotNull(connectionString, nameof(connectionString));
 
       List<string> res = new List<string>();
 
@@ -361,7 +361,7 @@
     [NotNull]
     public virtual List<string> GetDatabasesNames([NotNull] SqlConnectionStringBuilder connectionString, [NotNull] string searchPattern)
     {
-      Assert.ArgumentNotNull(connectionString, "connectionString");
+      Assert.ArgumentNotNull(connectionString, nameof(connectionString));
 
       List<string> res = new List<string>();
 
@@ -386,8 +386,8 @@
 
     public virtual DataTable GetResultOfQueryExecution([NotNull] SqlConnectionStringBuilder connectionString, string sqlQuery)
     {
-      Assert.ArgumentNotNull(connectionString, "connectionString");
-      Assert.ArgumentNotNullOrEmpty(sqlQuery, "sqlQuery");
+      Assert.ArgumentNotNull(connectionString, nameof(connectionString));
+      Assert.ArgumentNotNullOrEmpty(sqlQuery, nameof(sqlQuery));
 
       DataTable dataTable;
 
@@ -442,7 +442,7 @@
 
     public virtual bool IsConnectionStringValid([NotNull] SqlConnectionStringBuilder connectionString)
     {
-      Assert.ArgumentNotNull(connectionString, "connectionString");
+      Assert.ArgumentNotNull(connectionString, nameof(connectionString));
 
       try
       {
@@ -482,7 +482,7 @@
     [NotNull]
     public virtual SqlConnection OpenConnection([NotNull] SqlConnectionStringBuilder connectionString, bool isManagement = true)
     {
-      Assert.ArgumentNotNull(connectionString, "connectionString");
+      Assert.ArgumentNotNull(connectionString, nameof(connectionString));
 
       SqlConnectionStringBuilder managementConnectionString = isManagement ? this.GetManagementConnectionString(connectionString) : connectionString;
       SqlConnection connection = new SqlConnection(managementConnectionString.ConnectionString);
@@ -492,16 +492,16 @@
 
     public virtual void RestoreDatabase([NotNull] string databaseName, [NotNull] SqlConnectionStringBuilder connectionString, [NotNull] string backupFileName)
     {
-      Assert.ArgumentNotNull(databaseName, "databaseName");
-      Assert.ArgumentNotNull(connectionString, "connectionString");
+      Assert.ArgumentNotNull(databaseName, nameof(databaseName));
+      Assert.ArgumentNotNull(connectionString, nameof(connectionString));
 
-      Assert.ArgumentNotNull(backupFileName, "backupFileName");
+      Assert.ArgumentNotNull(backupFileName, nameof(backupFileName));
       Assert.IsTrue(FileSystem.FileSystem.Local.File.Exists(backupFileName), "Backup file is missing");
 
       using (SqlConnection connection = this.OpenConnection(connectionString))
       {
-        Assert.ArgumentNotNull(databaseName, "databaseName");
-        Assert.ArgumentNotNull(backupFileName, "backupFileName");
+        Assert.ArgumentNotNull(databaseName, nameof(databaseName));
+        Assert.ArgumentNotNull(backupFileName, nameof(backupFileName));
 
         this.CloseConnectionsToDatabase(databaseName, connection);
 
@@ -513,16 +513,16 @@
 
     public virtual void RestoreDatabase([NotNull] string databaseName, [NotNull] SqlConnectionStringBuilder connectionString, [NotNull] string backupFileName, [NotNull] string pathTo, [NotNull] BackupInfo backupInfo)
     {
-      Assert.ArgumentNotNull(databaseName, "databaseName");
-      Assert.ArgumentNotNull(connectionString, "connectionString");
-      Assert.ArgumentNotNull(pathTo, "pathTo");
-      Assert.ArgumentNotNull(backupFileName, "backupFileName");
+      Assert.ArgumentNotNull(databaseName, nameof(databaseName));
+      Assert.ArgumentNotNull(connectionString, nameof(connectionString));
+      Assert.ArgumentNotNull(pathTo, nameof(pathTo));
+      Assert.ArgumentNotNull(backupFileName, nameof(backupFileName));
       Assert.IsTrue(FileSystem.FileSystem.Local.File.Exists(backupFileName), "Backup file is missing");
 
       using (SqlConnection connection = this.OpenConnection(connectionString))
       {
-        Assert.ArgumentNotNull(databaseName, "databaseName");
-        Assert.ArgumentNotNull(backupFileName, "backupFileName");
+        Assert.ArgumentNotNull(databaseName, nameof(databaseName));
+        Assert.ArgumentNotNull(backupFileName, nameof(backupFileName));
 
         var mdfName = string.Empty;
         var ldfName = string.Empty;
@@ -560,16 +560,16 @@
 
     public virtual void RestoreDatabase([NotNull] string databaseName, [NotNull] string databaseFileName, [NotNull] SqlConnectionStringBuilder connectionString, [NotNull] string backupFileName, [NotNull] string pathTo, [NotNull] BackupInfo backupInfo)
     {
-      Assert.ArgumentNotNull(databaseName, "databaseName");
-      Assert.ArgumentNotNull(connectionString, "connectionString");
-      Assert.ArgumentNotNull(pathTo, "pathTo");
-      Assert.ArgumentNotNull(backupFileName, "backupFileName");
+      Assert.ArgumentNotNull(databaseName, nameof(databaseName));
+      Assert.ArgumentNotNull(connectionString, nameof(connectionString));
+      Assert.ArgumentNotNull(pathTo, nameof(pathTo));
+      Assert.ArgumentNotNull(backupFileName, nameof(backupFileName));
       Assert.IsTrue(FileSystem.FileSystem.Local.File.Exists(backupFileName), "Backup file is missing");
 
       using (SqlConnection connection = this.OpenConnection(connectionString))
       {
-        Assert.ArgumentNotNull(databaseName, "databaseName");
-        Assert.ArgumentNotNull(backupFileName, "backupFileName");
+        Assert.ArgumentNotNull(databaseName, nameof(databaseName));
+        Assert.ArgumentNotNull(backupFileName, nameof(backupFileName));
 
         var mdfName = string.Empty;
         var ldfName = string.Empty;
@@ -642,7 +642,7 @@
     [UsedImplicitly]
     public virtual void ValidateConnectionString([NotNull] SqlConnectionStringBuilder connectionString)
     {
-      Assert.ArgumentNotNull(connectionString, "connectionString");
+      Assert.ArgumentNotNull(connectionString, nameof(connectionString));
 
       try
       {
@@ -716,7 +716,7 @@
     [NotNull]
     public virtual SqlConnectionStringBuilder GetManagementConnectionString([NotNull] SqlConnectionStringBuilder connectionString, int? timeout = null)
     {
-      Assert.ArgumentNotNull(connectionString, "connectionString");
+      Assert.ArgumentNotNull(connectionString, nameof(connectionString));
       connectionString = new SqlConnectionStringBuilder(connectionString.ConnectionString)
       {
         InitialCatalog = "master", 
@@ -732,8 +732,8 @@
 
     protected virtual void DeleteDatabase([NotNull] string databaseName, [NotNull] SqlConnection connection)
     {
-      Assert.ArgumentNotNull(databaseName, "databaseName");
-      Assert.ArgumentNotNull(connection, "connection");
+      Assert.ArgumentNotNull(databaseName, nameof(databaseName));
+      Assert.ArgumentNotNull(connection, nameof(connection));
 
       Log.Info("Deleting database: '{0}'", databaseName);
 

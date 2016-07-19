@@ -24,7 +24,7 @@
 
       set
       {
-        Assert.ArgumentNotNull(value, "value");
+        Assert.ArgumentNotNull(value, nameof(value));
 
         this.SetValue("AdvancedSettings", value);
       }
@@ -40,7 +40,7 @@
 
       set
       {
-        Assert.ArgumentNotNull(value, "value");
+        Assert.ArgumentNotNull(value, nameof(value));
 
         this.SetValue("ConnectionString", value);
       }
@@ -56,7 +56,7 @@
 
       set
       {
-        Assert.ArgumentNotNull(value, "value");
+        Assert.ArgumentNotNull(value, nameof(value));
 
         this.SetValue("InstancesFolder", value);
       }
@@ -72,7 +72,7 @@
 
       set
       {
-        Assert.ArgumentNotNull(value, "value");
+        Assert.ArgumentNotNull(value, nameof(value));
 
         this.SetValue("License", value);
       }
@@ -88,7 +88,7 @@
 
       set
       {
-        Assert.ArgumentNotNull(value, "value");
+        Assert.ArgumentNotNull(value, nameof(value));
 
         this.SetValue("LocalRepository", value);
       }

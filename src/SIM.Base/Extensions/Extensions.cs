@@ -121,8 +121,8 @@
     [NotNull]
     public static T1 IsTrue<T1>([CanBeNull] this T1 source, [NotNull] Func<T1, bool> act, [NotNull] string message) where T1 : class
     {
-      Assert.ArgumentNotNull(act, "act");
-      Assert.ArgumentNotNull(message, "message");
+      Assert.ArgumentNotNull(act, nameof(act));
+      Assert.ArgumentNotNull(message, nameof(message));
 
       Assert.IsNotNull(source, message);
       Assert.IsTrue(act(source), message);
@@ -198,8 +198,8 @@
     [NotNull]
     public static IEnumerable<string> Split([NotNull] this string source, [NotNull] string delimiter, bool skipEmpty = true)
     {
-      Assert.ArgumentNotNullOrEmpty(source, "source");
-      Assert.ArgumentNotNullOrEmpty(delimiter, "delimiter");
+      Assert.ArgumentNotNullOrEmpty(source, nameof(source));
+      Assert.ArgumentNotNullOrEmpty(delimiter, nameof(delimiter));
 
       var delimiterLength = delimiter.Length;
       var oldPos = 0;
@@ -238,8 +238,8 @@
     [NotNull]
     public static string TrimEnd([NotNull] this string source, [NotNull] string value)
     {
-      Assert.ArgumentNotNull(source, "source");
-      Assert.ArgumentNotNull(value, "value");
+      Assert.ArgumentNotNull(source, nameof(source));
+      Assert.ArgumentNotNull(value, nameof(value));
 
       return source.EndsWith(value) ? source.Substring(0, source.Length - value.Length) : source;
     }
@@ -267,8 +267,8 @@
     [NotNull]
     public static string TrimStart([NotNull] this string source, [NotNull] string value)
     {
-      Assert.ArgumentNotNull(source, "source");
-      Assert.ArgumentNotNull(value, "value");
+      Assert.ArgumentNotNull(source, nameof(source));
+      Assert.ArgumentNotNull(value, nameof(value));
 
       return source.StartsWith(value) ? source.Substring(value.Length) : source;
     }
@@ -355,9 +355,9 @@
     [NotNull]
     public static string Replace([NotNull] this string str, [NotNull] string source, [NotNull] Func<string> target)
     {
-      Assert.ArgumentNotNull(str, "str");
-      Assert.ArgumentNotNull(source, "source");
-      Assert.ArgumentNotNull(target, "target");
+      Assert.ArgumentNotNull(str, nameof(str));
+      Assert.ArgumentNotNull(source, nameof(source));
+      Assert.ArgumentNotNull(target, nameof(target));
 
       if (str.Contains(source))
       {

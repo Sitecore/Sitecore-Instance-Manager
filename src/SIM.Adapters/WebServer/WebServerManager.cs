@@ -38,7 +38,7 @@
 
     public static void DeleteWebsite([NotNull] string name)
     {
-      Assert.ArgumentNotNull(name, "name");
+      Assert.ArgumentNotNull(name, nameof(name));
 
       Log.Info("Deleting website {0}", name);
       using (WebServerContext context = CreateContext("WebServerManager.DeleteWebsite('{0}')".FormatWith(name)))
@@ -54,7 +54,7 @@
     [NotNull]
     public static string GetWebRootPath([NotNull] Site site)
     {
-      Assert.ArgumentNotNull(site, "site");
+      Assert.ArgumentNotNull(site, nameof(site));
 
       Application apps = site.Applications["/"];
       if (apps != null)
@@ -79,7 +79,7 @@
 
     public static bool HostBindingExists([NotNull] string host)
     {
-      Assert.ArgumentNotNull(host, "host");
+      Assert.ArgumentNotNull(host, nameof(host));
 
       bool result;
       using (WebServerContext context = CreateContext("WebServerManager.HostBindingExists('{0}')".FormatWith(host)))
@@ -92,8 +92,8 @@
 
     public static bool AddHostBinding([NotNull] string siteName, [NotNull] BindingInfo binding)
     {
-      Assert.ArgumentNotNull(siteName, "siteName");
-      Assert.ArgumentNotNull(binding, "binding");
+      Assert.ArgumentNotNull(siteName, nameof(siteName));
+      Assert.ArgumentNotNull(binding, nameof(binding));
 
       using (WebServerContext context = CreateContext("WebServerManager.AddHostBinding('{0}','{1}')".FormatWith(siteName, binding.Host)))
       {
@@ -113,14 +113,14 @@
 
     public static bool IsApplicationPoolRunning([NotNull] ApplicationPool appPool)
     {
-      Assert.ArgumentNotNull(appPool, "appPool");
+      Assert.ArgumentNotNull(appPool, nameof(appPool));
 
       return appPool.WorkerProcesses.Count > 0 && appPool.WorkerProcesses.Any(wp => wp != null && wp.State == WorkerProcessState.Running);
     }
 
     public static bool WebsiteExists([NotNull] string name)
     {
-      Assert.ArgumentNotNull(name, "name");
+      Assert.ArgumentNotNull(name, nameof(name));
 
       bool v;
       using (WebServerContext context = CreateContext("WebServerManager.WebsiteExists('{0}')".FormatWith(name)))
@@ -137,8 +137,8 @@
 
     private static void DeleteWebsite([NotNull] WebServerContext context, [NotNull] Site site)
     {
-      Assert.ArgumentNotNull(context, "context");
-      Assert.ArgumentNotNull(site, "site");
+      Assert.ArgumentNotNull(context, nameof(context));
+      Assert.ArgumentNotNull(site, nameof(site));
 
       foreach (Application application in site.Applications)
       {

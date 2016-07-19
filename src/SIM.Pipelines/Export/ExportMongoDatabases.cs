@@ -19,21 +19,21 @@ namespace SIM.Pipelines.Export
 
     protected override long EvaluateStepsCount([NotNull] ExportArgs args)
     {
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(args, nameof(args));
 
       return args.Instance.MongoDatabases.Count();
     }
 
     protected override bool IsRequireProcessing(ExportArgs args)
     {
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(args, nameof(args));
 
       return args.IncludeMongoDatabases;
     }
 
     protected override void Process(ExportArgs args)
     {
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(args, nameof(args));
 
       var mongoDatabases = args.Instance.MongoDatabases;
       var exportDatabasesFolder = FileSystem.FileSystem.Local.Directory.Ensure(Path.Combine(args.Folder, "MongoDatabases"));

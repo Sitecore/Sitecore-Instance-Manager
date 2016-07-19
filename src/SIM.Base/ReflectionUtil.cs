@@ -14,7 +14,7 @@
     [NotNull]
     public static object CreateObject(Type type, params object[] objects)
     {
-      Assert.ArgumentNotNull(type, "type");
+      Assert.ArgumentNotNull(type, nameof(type));
 
       using (new ProfileSection("Create object"))
       {
@@ -28,7 +28,7 @@
     [NotNull]
     public static object CreateObject(string typeName, params object[] objects)
     {
-      Assert.ArgumentNotNullOrEmpty(typeName, "typeName");
+      Assert.ArgumentNotNullOrEmpty(typeName, nameof(typeName));
 
       var type = GetType(typeName);
 
@@ -38,7 +38,7 @@
     [NotNull]
     public static Type GetType(string typeName)
     {
-      Assert.ArgumentNotNullOrEmpty(typeName, "typeName");
+      Assert.ArgumentNotNullOrEmpty(typeName, nameof(typeName));
 
       var type = Type.GetType(typeName);
       Assert.IsNotNull(type, "The {0} type cannot be found in the assemblies".FormatWith(typeName));
@@ -49,8 +49,8 @@
     [NotNull]
     public static Type GetType(Assembly assembly, string typeName)
     {
-      Assert.ArgumentNotNull(assembly, "assembly");
-      Assert.ArgumentNotNull(typeName, "typeName");
+      Assert.ArgumentNotNull(assembly, nameof(assembly));
+      Assert.ArgumentNotNull(typeName, nameof(typeName));
 
       Type type = assembly.GetType(typeName);
       Assert.IsNotNull(type,
@@ -62,7 +62,7 @@
     [NotNull]
     public static Assembly GetAssembly(string dllPath)
     {
-      Assert.ArgumentNotNullOrEmpty(dllPath, "dllPath");
+      Assert.ArgumentNotNullOrEmpty(dllPath, nameof(dllPath));
 
       Assembly assembly = Assembly.LoadFrom(dllPath);
       Assert.IsNotNull(assembly, "The assembly cannot be loaded from the path '{0}'.".FormatWith(dllPath));
@@ -73,8 +73,8 @@
     [CanBeNull]
     public static object InvokeMethod(object obj, string method, params object[] parameters)
     {
-      Assert.ArgumentNotNull(obj, "obj");
-      Assert.ArgumentNotNullOrEmpty(method, "method");
+      Assert.ArgumentNotNull(obj, nameof(obj));
+      Assert.ArgumentNotNullOrEmpty(method, nameof(method));
 
       Type type = obj.GetType();
 

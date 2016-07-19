@@ -23,7 +23,7 @@
 
     public ConnectionStringCollection([NotNull] XmlElementEx connectionStringsElement)
     {
-      Assert.ArgumentNotNull(connectionStringsElement, "connectionStringsElement");
+      Assert.ArgumentNotNull(connectionStringsElement, nameof(connectionStringsElement));
 
       this.connectionStringsElement = connectionStringsElement;
     }
@@ -34,8 +34,8 @@
 
     public void Add([NotNull] string role, [NotNull] SqlConnectionStringBuilder connectionString)
     {
-      Assert.ArgumentNotNull(role, "role");
-      Assert.ArgumentNotNull(connectionString, "connectionString");
+      Assert.ArgumentNotNull(role, nameof(role));
+      Assert.ArgumentNotNull(connectionString, nameof(connectionString));
       XmlElement addElement = this.connectionStringsElement.Element.SelectSingleElement("add[@name='" + role + "']");
       bool exists = addElement != null;
 

@@ -17,21 +17,21 @@
 
     protected override long EvaluateStepsCount(BackupArgs args)
     {
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(args, nameof(args));
 
       return 2;
     }
 
     protected override bool IsRequireProcessing(BackupArgs args)
     {
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(args, nameof(args));
 
       return args.BackupFiles;
     }
 
     protected override void Process([NotNull] BackupArgs args)
     {
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(args, nameof(args));
 
       var instance = args.Instance;
       var webRootPath = instance.WebRootPath;
@@ -54,9 +54,9 @@
 
     private void BackupFolder([NotNull] BackupArgs args, [NotNull] string path, [NotNull] string fileName, string ignore = null)
     {
-      Assert.ArgumentNotNull(args, "args");
-      Assert.ArgumentNotNull(path, "path");
-      Assert.ArgumentNotNull(fileName, "fileName");
+      Assert.ArgumentNotNull(args, nameof(args));
+      Assert.ArgumentNotNull(path, nameof(path));
+      Assert.ArgumentNotNull(fileName, nameof(fileName));
 
       if (FileSystem.FileSystem.Local.Directory.Exists(path))
       {

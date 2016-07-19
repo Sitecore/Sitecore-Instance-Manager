@@ -11,7 +11,7 @@
 
     private Parameters([NotNull] string paramString)
     {
-      Assert.ArgumentNotNull(paramString, "paramString");
+      Assert.ArgumentNotNull(paramString, nameof(paramString));
 
       this.array = paramString.Split(":|;".ToCharArray());
     }
@@ -33,7 +33,7 @@
     [NotNull]
     public static Parameters Parse([NotNull] string paramString)
     {
-      Assert.ArgumentNotNull(paramString, "paramString");
+      Assert.ArgumentNotNull(paramString, nameof(paramString));
 
       return new Parameters(paramString);
     }

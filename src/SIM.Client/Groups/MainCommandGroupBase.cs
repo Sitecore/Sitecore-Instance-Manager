@@ -23,7 +23,7 @@ namespace SIM.Client.Commands
     [CanBeNull]
     private ICommand FindCommand([NotNull] object commandContainer)
     {
-      Assert.ArgumentNotNull(commandContainer, "commandContainer");
+      Assert.ArgumentNotNull(commandContainer, nameof(commandContainer));
 
       var properties = commandContainer.GetType().GetProperties();
       foreach (var propertyInfo in properties)

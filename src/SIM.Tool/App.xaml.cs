@@ -366,7 +366,7 @@ namespace SIM.Tool
         {
           var wizardPipelinesConfig = XmlDocumentEx.LoadXml(WizardPipelinesConfig.Contents);
           var pipelinesNode = wizardPipelinesConfig.SelectSingleNode("/configuration/pipelines") as XmlElement;
-          Assert.IsNotNull(pipelinesNode, "pipelinesNode2");
+          Assert.IsNotNull(pipelinesNode, nameof(pipelinesNode));
 
           var pipelinesConfig = XmlDocumentEx.LoadXml(PipelinesConfig.Contents);
           pipelinesConfig.Merge(XmlDocumentEx.LoadXml(pipelinesNode.OuterXml));
@@ -421,8 +421,8 @@ namespace SIM.Tool
 
     private static T Safe<T>([NotNull] Func<T> func, [NotNull] string label)
     {
-      Assert.ArgumentNotNull(func, "func");
-      Assert.ArgumentNotNull(label, "label");
+      Assert.ArgumentNotNull(func, nameof(func));
+      Assert.ArgumentNotNull(label, nameof(label));
 
       try
       {

@@ -65,7 +65,7 @@
           Site site = this.GetSite(context);
 
           var bindings = site.Bindings;
-          Assert.IsNotNull(bindings, "bindings");
+          Assert.IsNotNull(bindings, nameof(bindings));
 
           foreach (Binding binding in bindings.Where(x => x.Protocol.StartsWith("http", StringComparison.OrdinalIgnoreCase)))
           {
@@ -296,7 +296,7 @@
         Site site = this.GetSite(context);
         Assert.IsNotNull(site, "Site is missing");
         ApplicationPool pool = this.GetPool(context);
-        Assert.IsNotNull(pool, "pool");
+        Assert.IsNotNull(pool, nameof(pool));
         if (!this.IsStarted(pool))
         {
           pool.Start();
@@ -370,7 +370,7 @@
     [NotNull]
     public virtual ApplicationPool GetPool([NotNull] WebServerManager.WebServerContext context)
     {
-      Assert.ArgumentNotNull(context, "context");
+      Assert.ArgumentNotNull(context, nameof(context));
 
       var site = this.GetSite(context);
       var application = site.Applications.FirstOrDefault(ap => Extensions.EqualsIgnoreCase(ap.Path, "/"));
@@ -385,7 +385,7 @@
     [NotNull]
     public virtual Site GetSite([NotNull] WebServerManager.WebServerContext context)
     {
-      Assert.ArgumentNotNull(context, "context");
+      Assert.ArgumentNotNull(context, nameof(context));
 
       Site site = context.Sites.SingleOrDefault(s => s.Id == this.ID);
       Assert.IsNotNull(site, "Website " + this.ID + " not found");
@@ -426,14 +426,14 @@
 
     private bool IsStarted([NotNull] Site site)
     {
-      Assert.ArgumentNotNull(site, "site");
+      Assert.ArgumentNotNull(site, nameof(site));
 
       return site.State == ObjectState.Started || site.State == ObjectState.Starting;
     }
 
     private bool IsStarted([NotNull] ApplicationPool pool)
     {
-      Assert.ArgumentNotNull(pool, "pool");
+      Assert.ArgumentNotNull(pool, nameof(pool));
 
       return pool.State == ObjectState.Started || pool.State == ObjectState.Starting;
     }

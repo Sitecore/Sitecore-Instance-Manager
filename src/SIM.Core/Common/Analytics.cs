@@ -25,7 +25,7 @@ namespace SIM.Core.Common
       try
       {
         var configuration = TelemetryConfiguration.Active;
-        Assert.IsNotNull(configuration, "configuration");
+        Assert.IsNotNull(configuration, nameof(configuration));
 
         configuration.TelemetryChannel = new PersistenceChannel("Sitecore Instance Manager");
         configuration.InstrumentationKey = "1447f72f-2d39-401b-91ac-4d5c502e3359";
@@ -64,7 +64,7 @@ namespace SIM.Core.Common
 
     public static void TrackEvent([NotNull] string eventName)
     {
-      Assert.ArgumentNotNull(eventName, "eventName");
+      Assert.ArgumentNotNull(eventName, nameof(eventName));
 
       var tc = telemetryClient;
       if (tc == null)

@@ -293,9 +293,9 @@
 
     public static void ReinstallInstance([NotNull] Instance instance, Window owner, [NotNull] string license, [NotNull] SqlConnectionStringBuilder connectionString)
     {
-      Assert.ArgumentNotNull(instance, "instance");
-      Assert.ArgumentNotNull(license, "license");
-      Assert.ArgumentNotNull(connectionString, "connectionString");
+      Assert.ArgumentNotNull(instance, nameof(instance));
+      Assert.ArgumentNotNull(license, nameof(license));
+      Assert.ArgumentNotNull(connectionString, nameof(connectionString));
 
       if (instance.IsSitecore)
       {
@@ -465,7 +465,7 @@
       }
 
       var items = splitButton.Items;
-      Assert.IsNotNull(items, "items");
+      Assert.IsNotNull(items, nameof(items));
 
       foreach (var menuItem in button.ChildNodes.OfType<XmlElement>())
       {
@@ -493,7 +493,7 @@
           var largeImage = menuItem.GetAttribute("largeImage");
           var menuIcon = string.IsNullOrEmpty(largeImage) ? null : getImage(largeImage);
           var menuHandler = (IMainWindowButton)Plugin.CreateInstance(menuItem);
-          Assert.IsNotNull(menuHandler, "model");
+          Assert.IsNotNull(menuHandler, nameof(menuHandler));
 
           var childrenButtons = splitButton.Tag as ICollection<KeyValuePair<string, IMainWindowButton>>;
           if (childrenButtons != null)
@@ -663,7 +663,7 @@
           FrameworkElement ribbonButton;
           ribbonButton = GetRibbonButton(window, getImage, button, ribbonGroup, mainWindowButton);
 
-          Assert.IsNotNull(ribbonButton, "ribbonButton");
+          Assert.IsNotNull(ribbonButton, nameof(ribbonButton));
 
           var width = button.GetAttribute("width");
           double d;
@@ -896,7 +896,7 @@
     // }
     public static void OpenFolder([NotNull] string path)
     {
-      Assert.ArgumentNotNull(path, "path");
+      Assert.ArgumentNotNull(path, nameof(path));
 
       if (FileSystem.FileSystem.Local.Directory.Exists(path))
       {

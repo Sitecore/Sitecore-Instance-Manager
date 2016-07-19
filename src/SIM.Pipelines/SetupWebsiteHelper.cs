@@ -32,8 +32,8 @@ namespace SIM.Pipelines
     [NotNull]
     public static string ChooseAppPoolName([NotNull] string name, [NotNull] ApplicationPoolCollection applicationPools)
     {
-      Assert.ArgumentNotNull(name, "name");
-      Assert.ArgumentNotNull(applicationPools, "applicationPools");
+      Assert.ArgumentNotNull(name, nameof(name));
+      Assert.ArgumentNotNull(applicationPools, nameof(applicationPools));
 
       var modifier = 0;
       var newname = name;
@@ -47,7 +47,7 @@ namespace SIM.Pipelines
 
     public static void SetDataFolder([NotNull] string rootFolderPath, [CanBeNull] string dataFolderPath = null)
     {
-      Assert.ArgumentNotNull(rootFolderPath, "rootFolderPath");
+      Assert.ArgumentNotNull(rootFolderPath, nameof(rootFolderPath));
 
       var dataFolder = Path.Combine(rootFolderPath, @"Website\App_Config\Include\zzz\DataFolder.config");
       var dir = Path.GetDirectoryName(dataFolder);
@@ -120,7 +120,7 @@ namespace SIM.Pipelines
           }
         }
 
-        Assert.IsNotNull(site, "site");
+        Assert.IsNotNull(site, nameof(site));
         siteId = site.Id;
         site.ApplicationDefaults.ApplicationPoolName = name;
         context.CommitChanges();
@@ -135,7 +135,7 @@ namespace SIM.Pipelines
 
     private static ProcessModelIdentityType GetIdentityType([NotNull] string name)
     {
-      Assert.ArgumentNotNull(name, "name");
+      Assert.ArgumentNotNull(name, nameof(name));
 
       if (name.EqualsIgnoreCase("NetworkService"))
       {

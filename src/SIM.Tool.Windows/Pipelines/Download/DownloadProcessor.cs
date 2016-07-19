@@ -48,11 +48,11 @@
       var cookies = download.Cookies;
       var localRepository = download.LocalRepository;
       var fileNames = download.FileNames;
-      Assert.IsNotNull(fileNames, "fileNames");
+      Assert.IsNotNull(fileNames, nameof(fileNames));
       
       var links = download.Links;
       var fileSizes = download.Sizes;
-      Assert.IsNotNull(fileSizes, "fileSizes");
+      Assert.IsNotNull(fileSizes, nameof(fileSizes));
 
       var parallelDownloadsNumber = WindowsSettings.AppDownloaderParallelThreads.Value;
 

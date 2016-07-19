@@ -29,8 +29,8 @@
     [NotNull]
     private static string GetSdnCookie([NotNull] string username, [NotNull] string password)
     {
-      Assert.ArgumentNotNull(username, "username");
-      Assert.ArgumentNotNull(password, "password");
+      Assert.ArgumentNotNull(username, nameof(username));
+      Assert.ArgumentNotNull(password, nameof(password));
 
       var cookies = FormHelper.SubmitAndGetCookies(
         new Uri(@"https://sdn.sitecore.net/sdn5/misc/loginpage.aspx"), 

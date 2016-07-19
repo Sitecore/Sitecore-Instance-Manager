@@ -14,7 +14,7 @@
 
     protected override void Process([NotNull] DeleteArgs args)
     {
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(args, nameof(args));
       args.WebRootPath = args.Instance.WebRootPath;
       args.RootPath = args.Instance.RootPath;
     }

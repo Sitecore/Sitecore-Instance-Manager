@@ -26,7 +26,7 @@
 
     public OpenCurrentLogButton([NotNull] string param)
     {
-      Assert.ArgumentNotNull(param, "param");
+      Assert.ArgumentNotNull(param, nameof(param));
 
       this.logFileType = param;
     }
@@ -37,14 +37,14 @@
 
     public bool IsEnabled(Window mainWindow, Instance instance)
     {
-      Assert.ArgumentNotNull(mainWindow, "mainWindow");
+      Assert.ArgumentNotNull(mainWindow, nameof(mainWindow));
 
       return instance != null;
     }
 
     public void OnClick(Window mainWindow, Instance instance)
     {
-      Assert.ArgumentNotNull(mainWindow, "mainWindow");
+      Assert.ArgumentNotNull(mainWindow, nameof(mainWindow));
 
       Analytics.TrackEvent("OpenLog");
 

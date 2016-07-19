@@ -20,7 +20,7 @@
 
     protected void NotifyPropertyChanged([NotNull] string name)
     {
-      Assert.ArgumentNotNull(name, "name");
+      Assert.ArgumentNotNull(name, nameof(name));
 
       if (this.PropertyChanged != null)
       {

@@ -298,8 +298,8 @@
 
     private void WindowKeyUp([NotNull] object sender, [NotNull] KeyEventArgs e)
     {
-      Assert.ArgumentNotNull(sender, "sender");
-      Assert.ArgumentNotNull(e, "e");
+      Assert.ArgumentNotNull(sender, nameof(sender));
+      Assert.ArgumentNotNull(e, nameof(e));
 
       if (e.Handled)
       {

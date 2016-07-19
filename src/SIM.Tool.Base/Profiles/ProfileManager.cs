@@ -63,7 +63,7 @@
         var profileFilePath = ProfileFilePath;
         var profile = ReadProfile(profileFilePath);
 
-        Assert.IsNotNull(profile, "profile");
+        Assert.IsNotNull(profile, nameof(profile));
         Profile = profile;
       }
     }

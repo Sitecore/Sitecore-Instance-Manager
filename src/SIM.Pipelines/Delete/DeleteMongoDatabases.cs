@@ -17,7 +17,7 @@ namespace SIM.Pipelines.Delete
 
     protected override void Process([NotNull] DeleteArgs args)
     {
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(args, nameof(args));
 
       var detectedDatabases = args.MongoDatabases;
 

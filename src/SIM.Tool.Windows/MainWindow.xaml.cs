@@ -162,7 +162,7 @@
     {
       try
       {
-        Assert.ArgumentNotNull(e, "e");
+        Assert.ArgumentNotNull(e, nameof(e));
 
         if (e.Handled)
         {
@@ -268,7 +268,7 @@
       {
         try
         {
-          Assert.ArgumentNotNull(e, "e");
+          Assert.ArgumentNotNull(e, nameof(e));
 
           WindowHelper.FocusClickedNode(e);
         }
@@ -322,7 +322,7 @@
     {
       try
       {
-        Assert.ArgumentNotNull(e, "e");
+        Assert.ArgumentNotNull(e, nameof(e));
 
         if (e.Handled)
         {

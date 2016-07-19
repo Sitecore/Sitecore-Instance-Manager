@@ -26,7 +26,7 @@
 
     public RestoreArgs([NotNull] Instance instance, InstanceBackup backup = null)
     {
-      Assert.ArgumentNotNull(instance, "instance");
+      Assert.ArgumentNotNull(instance, nameof(instance));
 
       // if(backup == null)
       // {

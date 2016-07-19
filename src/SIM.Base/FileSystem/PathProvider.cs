@@ -39,7 +39,7 @@ namespace SIM.FileSystem
     [NotNull]
     public virtual string ToUncPath([NotNull] string path)
     {
-      Assert.ArgumentNotNullOrEmpty(path, "path");
+      Assert.ArgumentNotNullOrEmpty(path, nameof(path));
 
       const string Prefix = @"\\127.0.0.1\";
       if (path.Length == 1 || path[1] != ':' || path.StartsWith(Prefix))

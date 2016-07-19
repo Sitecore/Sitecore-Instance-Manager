@@ -15,7 +15,7 @@
 
     public void InitializeStep([NotNull] WizardArgs wizardArgs)
     {
-      Assert.ArgumentNotNull(wizardArgs, "wizardArgs");
+      Assert.ArgumentNotNull(wizardArgs, nameof(wizardArgs));
 
       var args = (InstallWizardArgs)wizardArgs;
       this.PreHeat.IsChecked = args.PreHeat;
@@ -27,7 +27,7 @@
 
     public bool SaveChanges([NotNull] WizardArgs wizardArgs)
     {
-      Assert.ArgumentNotNull(wizardArgs, "wizardArgs");
+      Assert.ArgumentNotNull(wizardArgs, nameof(wizardArgs));
 
       var args = (InstallWizardArgs)wizardArgs;
       args.PreHeat = this.PreHeat.IsChecked ?? Throw("PreHeat");

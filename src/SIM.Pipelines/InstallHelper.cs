@@ -15,10 +15,10 @@
       
     public static void ExtractFile([NotNull] string packagePath, [NotNull] string webRootPath, [NotNull] string databasesFolderPath, [NotNull] string dataFolderPath, bool attachSql, bool installRadControls, bool installDictionaries, [CanBeNull] IPipelineController controller = null)
     {
-      Assert.ArgumentNotNull(packagePath, "packagePath");
-      Assert.ArgumentNotNull(webRootPath, "webRootPath");
-      Assert.ArgumentNotNull(databasesFolderPath, "databasesFolderPath");
-      Assert.ArgumentNotNull(dataFolderPath, "dataFolderPath");
+      Assert.ArgumentNotNull(packagePath, nameof(packagePath));
+      Assert.ArgumentNotNull(webRootPath, nameof(webRootPath));
+      Assert.ArgumentNotNull(databasesFolderPath, nameof(databasesFolderPath));
+      Assert.ArgumentNotNull(dataFolderPath, nameof(dataFolderPath));
 
       Log.Info("Extracting {0}", packagePath);
       var ignore = installRadControls ? ":#!" : RadControls;

@@ -15,7 +15,7 @@
 
     protected override void Process([NotNull] InstallArgs args)
     {
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(args, nameof(args));
       foreach (var hostName in args.HostNames)
       {
         Hosts.Append(hostName);

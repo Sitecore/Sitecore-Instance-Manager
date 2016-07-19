@@ -28,7 +28,7 @@
 
     protected override void Process(InstallArgs args)
     {
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(args, nameof(args));
       Assert.IsNotNull(args.Instance, "Instance");
 
       Instance instance = args.Instance;

@@ -49,7 +49,7 @@ namespace SIM.Tool.Windows.MainWindowComponents
 
     protected virtual void RunApp([NotNull] string path, [CanBeNull] string param)
     {
-      Assert.ArgumentNotNullOrEmpty(path, "path");
+      Assert.ArgumentNotNullOrEmpty(path, nameof(path));
 
       if (param != null)
       {

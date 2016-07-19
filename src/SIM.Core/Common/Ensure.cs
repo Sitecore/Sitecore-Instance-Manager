@@ -8,7 +8,7 @@
     [StringFormatMethod("message")]
     public static void IsNotNull(object obj, string message, params object[] args)
     {
-      Assert.ArgumentNotNullOrEmpty(message, "message");
+      Assert.ArgumentNotNullOrEmpty(message, nameof(message));
 
       if (obj != null)
       {
@@ -25,7 +25,7 @@
     [StringFormatMethod("message")]
     public static void IsNotNullOrEmpty(string str, string message, params object[] args)
     {
-      Assert.ArgumentNotNullOrEmpty(message, "message");
+      Assert.ArgumentNotNullOrEmpty(message, nameof(message));
 
       if (!string.IsNullOrEmpty(str))
       {
@@ -42,7 +42,7 @@
     [StringFormatMethod("message")]
     public static void IsTrue(bool condition, string message, params object[] args)
     {
-      Assert.ArgumentNotNullOrEmpty(message, "message");
+      Assert.ArgumentNotNullOrEmpty(message, nameof(message));
 
       if (condition)
       {

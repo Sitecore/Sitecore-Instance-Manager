@@ -22,7 +22,7 @@ namespace SIM.Pipelines.Install
 
     protected override void Process([NotNull] InstallArgs args)
     {
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(args, nameof(args));
 
       var name = args.Name;
       var webRootPath = args.WebRootPath;
@@ -41,8 +41,8 @@ namespace SIM.Pipelines.Install
     [NotNull]
     private static string ChooseAppPoolName([NotNull] string name, [NotNull] ApplicationPoolCollection applicationPools)
     {
-      Assert.ArgumentNotNull(name, "name");
-      Assert.ArgumentNotNull(applicationPools, "applicationPools");
+      Assert.ArgumentNotNull(name, nameof(name));
+      Assert.ArgumentNotNull(applicationPools, nameof(applicationPools));
 
       var modifier = 0;
       var newname = name;
@@ -56,7 +56,7 @@ namespace SIM.Pipelines.Install
 
     private ProcessModelIdentityType GetIdentityType([NotNull] string name)
     {
-      Assert.ArgumentNotNull(name, "name");
+      Assert.ArgumentNotNull(name, nameof(name));
 
       if (name.EqualsIgnoreCase("NetworkService"))
       {

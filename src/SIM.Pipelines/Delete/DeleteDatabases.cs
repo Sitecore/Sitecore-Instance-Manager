@@ -22,7 +22,7 @@
 
     protected override void Process([NotNull] DeleteArgs args)
     {
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(args, nameof(args));
 
       IEnumerable<Database> detectedDatabases = args.InstanceDatabases;
       var rootPath = args.RootPath.ToLower();

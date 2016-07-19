@@ -74,33 +74,33 @@
     public InstallArgs([NotNull] string name, [NotNull] string[] hosts, string instanceSqlPrefix, bool instanceAttachSql, [NotNull] Product product, [NotNull] string rootPath, [NotNull] SqlConnectionStringBuilder connectionString, [NotNull] string sqlServerIdentity, [NotNull] string webServerIdentity, [NotNull] FileInfo license, bool forceNetFramework4, bool is32Bit, bool isClassic, bool installRadControls, bool installDictionaries, bool serverSideRedirect, bool increaseExecutionTimeout, bool preheat, [NotNull] IEnumerable<Product> modules)
       : this(name, hosts, instanceSqlPrefix, instanceAttachSql, product, Path.Combine(rootPath, "Website"), Path.Combine(rootPath, "Data"), Path.Combine(rootPath, "Databases"), connectionString, sqlServerIdentity, webServerIdentity, license, forceNetFramework4, is32Bit, isClassic, installRadControls, installDictionaries, serverSideRedirect, increaseExecutionTimeout, preheat, rootPath, modules)
     {
-      Assert.ArgumentNotNull(name, "name");
-      Assert.ArgumentNotNull(hosts, "host");
-      Assert.ArgumentNotNull(product, "product");
-      Assert.ArgumentNotNull(rootPath, "rootPath");
-      Assert.ArgumentNotNull(connectionString, "connectionString");
-      Assert.ArgumentNotNull(sqlServerIdentity, "sqlServerIdentity");
-      Assert.ArgumentNotNull(webServerIdentity, "webServerIdentity");
-      Assert.ArgumentNotNull(license, "license");
-      Assert.ArgumentNotNull(modules, "modules");
+      Assert.ArgumentNotNull(name, nameof(name));
+      Assert.ArgumentNotNull(hosts, nameof(hosts));
+      Assert.ArgumentNotNull(product, nameof(product));
+      Assert.ArgumentNotNull(rootPath, nameof(rootPath));
+      Assert.ArgumentNotNull(connectionString, nameof(connectionString));
+      Assert.ArgumentNotNull(sqlServerIdentity, nameof(sqlServerIdentity));
+      Assert.ArgumentNotNull(webServerIdentity, nameof(webServerIdentity));
+      Assert.ArgumentNotNull(license, nameof(license));
+      Assert.ArgumentNotNull(modules, nameof(modules));
 
       this.Modules = modules;
     }
 
     public InstallArgs([NotNull] string name, [NotNull] string[] hosts, string instanceSqlPrefix, bool instanceAttachSql, [NotNull] Product product, [NotNull] string webRootPath, [NotNull] string dataFolderPath, [NotNull] string databasesFolderPath, [NotNull] SqlConnectionStringBuilder connectionString, [NotNull] string sqlServerIdentity, [NotNull] string webServerIdentity, [NotNull] FileInfo license, bool forceNetFramework4, bool is32Bit, bool isClassic, bool installRadControls, bool installDictionaries, bool serverSideRedirect, bool increaseExecutionTimeout, bool preheat, [NotNull] string rootPath, [NotNull] IEnumerable<Product> modules)
     {
-      Assert.ArgumentNotNull(name, "name");
-      Assert.ArgumentNotNull(hosts, "host");
-      Assert.ArgumentNotNull(product, "product");
-      Assert.ArgumentNotNull(webRootPath, "webRootPath");
-      Assert.ArgumentNotNull(dataFolderPath, "dataFolderPath");
-      Assert.ArgumentNotNull(databasesFolderPath, "databasesFolderPath");
-      Assert.ArgumentNotNull(connectionString, "connectionString");
-      Assert.ArgumentNotNull(sqlServerIdentity, "sqlServerIdentity");
-      Assert.ArgumentNotNull(webServerIdentity, "webServerIdentity");
-      Assert.ArgumentNotNull(license, "license");
-      Assert.ArgumentNotNull(rootPath, "rootPath");
-      Assert.ArgumentNotNull(modules, "modules");
+      Assert.ArgumentNotNull(name, nameof(name));
+      Assert.ArgumentNotNull(hosts, nameof(hosts));
+      Assert.ArgumentNotNull(product, nameof(product));
+      Assert.ArgumentNotNull(webRootPath, nameof(webRootPath));
+      Assert.ArgumentNotNull(dataFolderPath, nameof(dataFolderPath));
+      Assert.ArgumentNotNull(databasesFolderPath, nameof(databasesFolderPath));
+      Assert.ArgumentNotNull(connectionString, nameof(connectionString));
+      Assert.ArgumentNotNull(sqlServerIdentity, nameof(sqlServerIdentity));
+      Assert.ArgumentNotNull(webServerIdentity, nameof(webServerIdentity));
+      Assert.ArgumentNotNull(license, nameof(license));
+      Assert.ArgumentNotNull(rootPath, nameof(rootPath));
+      Assert.ArgumentNotNull(modules, nameof(modules));
 
       this.Name = name;
       this.Modules = modules;

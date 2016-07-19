@@ -26,7 +26,7 @@
 
     public static void Append([NotNull] string hostName)
     {
-      Assert.ArgumentNotNull(hostName, "hostName");
+      Assert.ArgumentNotNull(hostName, nameof(hostName));
 
       var path = GetHostsFilePath();
       string[] lines = FileSystem.FileSystem.Local.File.ReadAllLines(path);
@@ -48,7 +48,7 @@
     
     public static void Remove([NotNull] IEnumerable<string> hostNames)
     {
-      Assert.ArgumentNotNull(hostNames, "hostNames");
+      Assert.ArgumentNotNull(hostNames, nameof(hostNames));
 
       foreach (string hostName in hostNames)
       {
@@ -72,7 +72,7 @@
     
     private static void Remove([NotNull] string hostName)
     {
-      Assert.ArgumentNotNull(hostName, "hostName");
+      Assert.ArgumentNotNull(hostName, nameof(hostName));
 
       var path = GetHostsFilePath();
       var records = GetRecords().ToArray();

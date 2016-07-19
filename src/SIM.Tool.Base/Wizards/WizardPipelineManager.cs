@@ -159,14 +159,14 @@
 
     public static void Initialize(XmlElement wizardPipelinesElement)
     {
-      Assert.ArgumentNotNull(wizardPipelinesElement, "wizardPipelinesElement");
+      Assert.ArgumentNotNull(wizardPipelinesElement, nameof(wizardPipelinesElement));
 
       using (new ProfileSection("Initialize Wizard Pipeline Manager"))
       {
         try
         {
           var wizardPipelines = wizardPipelinesElement.SelectSingleNode("/configuration/wizardPipelines") as XmlElement;
-          Assert.IsNotNull(wizardPipelines, "wizardPipelines");
+          Assert.IsNotNull(wizardPipelines, nameof(wizardPipelines));
 
           var wizardElements = wizardPipelines.ChildNodes.OfType<XmlElement>();
           foreach (XmlElement element in wizardElements)

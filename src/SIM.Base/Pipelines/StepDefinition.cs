@@ -22,7 +22,7 @@
 
     public StepDefinition([NotNull] List<ProcessorDefinition> processorDefinitions, [CanBeNull] string argsName = null)
     {
-      Assert.ArgumentNotNull(processorDefinitions, "processorDefinitions");
+      Assert.ArgumentNotNull(processorDefinitions, nameof(processorDefinitions));
 
       this.ArgsName = argsName;
       this.ProcessorDefinitions = processorDefinitions;

@@ -15,7 +15,7 @@
 
     public override long EvaluateStepsCount(ProcessorArgs args)
     {
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(args, nameof(args));
 
       return InstallHelper.GetStepsCount(((InstallArgs)args).PackagePath);
     }
@@ -26,7 +26,7 @@
 
     protected override void Process(InstallArgs args)
     {
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(args, nameof(args));
       var packagePath = args.PackagePath;
 
       var webRootPath = args.WebRootPath;

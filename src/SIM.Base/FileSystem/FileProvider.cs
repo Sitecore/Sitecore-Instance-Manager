@@ -41,7 +41,7 @@ namespace SIM.FileSystem
 
     public virtual void AssertExists([NotNull] string path, [CanBeNull] string message = null, bool isError = true)
     {
-      Assert.ArgumentNotNullOrEmpty(path, "path");
+      Assert.ArgumentNotNullOrEmpty(path, nameof(path));
       if (string.IsNullOrEmpty(message))
       {
         message = "The '" + path + "' file doesn't exists";

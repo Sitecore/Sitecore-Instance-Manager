@@ -22,7 +22,7 @@ namespace SIM.Tool.Windows
 
     public CustomConverter([NotNull] IMainWindowButton mainWindowButton)
     {
-      Assert.ArgumentNotNull(mainWindowButton, "mainWindowButton");
+      Assert.ArgumentNotNull(mainWindowButton, nameof(mainWindowButton));
 
       this.button = mainWindowButton;
     }

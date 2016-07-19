@@ -237,7 +237,7 @@
     {
       var args = (InstallModulesWizardArgs)wizardArgs;
       Product product = args.Product;
-      Assert.IsNotNull(product, "product");
+      Assert.IsNotNull(product, nameof(product));
       IEnumerable<Product> selected = this.actualProducts;
       args.Modules.Clear();
       args.Modules.AddRange(selected);

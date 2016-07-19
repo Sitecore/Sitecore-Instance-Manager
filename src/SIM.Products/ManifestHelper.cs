@@ -63,7 +63,7 @@
 
     public static List<string> GetFileNamePatterns(string packageFile, string originalName = null)
     {
-      Assert.IsNotNullOrEmpty(packageFile, "packageFile");
+      Assert.IsNotNullOrEmpty(packageFile, nameof(packageFile));
 
       using (new ProfileSection("Get file name patterns"))
       {
@@ -373,7 +373,7 @@
 
       public LookupFolder([NotNull] string path, bool recursive)
       {
-        Assert.ArgumentNotNull(path, "path");
+        Assert.ArgumentNotNull(path, nameof(path));
 
         this.Path = path;
         this.Recursive = recursive;

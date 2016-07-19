@@ -19,7 +19,7 @@
 
     protected override void DoExecute(CommandResult<ListCommandResult> result)
     {
-      Assert.ArgumentNotNull(result, "result");
+      Assert.ArgumentNotNull(result, nameof(result));
 
       var filter = Filter ?? string.Empty;
       var root = !Everywhere ? null : Profile.Read().InstancesFolder;

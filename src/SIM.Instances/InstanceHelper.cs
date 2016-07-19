@@ -51,10 +51,10 @@
 
     public static void StartInstance(Instance instance, int? timeout = null, string reason = null)
     {
-      Assert.ArgumentNotNull(instance, "instance");
+      Assert.ArgumentNotNull(instance, nameof(instance));
 
       var url = instance.GetUrl(@"/sitecore/service/keepalive.aspx?ts=" + DateTime.Now.Ticks + "&reason=" + (reason ?? "default"));
-      Assert.IsNotNullOrEmpty(url, "url");
+      Assert.IsNotNullOrEmpty(url, nameof(url));
       try
       {
         WebRequestHelper.DownloadString(url, timeout);

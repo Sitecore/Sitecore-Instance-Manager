@@ -16,14 +16,14 @@ namespace SIM.Pipelines.Install.Modules
 
     protected override bool IsRequireProcessing(InstallArgs args)
     {
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(args, nameof(args));
 
       return args.Modules.Any(m => m.IsPackage);
     }
 
     protected override void Process([NotNull] InstallArgs args)
     {
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(args, nameof(args));
 
       Assert.IsNotNull(args.Instance, "Instance");
       AgentHelper.CopyAgentFiles(args.Instance);

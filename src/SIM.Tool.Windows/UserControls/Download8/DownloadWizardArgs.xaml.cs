@@ -32,8 +32,8 @@
 
     public DownloadWizardArgs([NotNull] string username, [NotNull] string password)
     {
-      Assert.ArgumentNotNull(username, "username");
-      Assert.ArgumentNotNull(password, "password");
+      Assert.ArgumentNotNull(username, nameof(username));
+      Assert.ArgumentNotNull(password, nameof(password));
       this.UserName = username;
       this.Password = password;
     }

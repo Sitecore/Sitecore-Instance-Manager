@@ -24,7 +24,7 @@
 
     public XmlDocumentEx([NotNull] string filePath)
     {
-      Assert.ArgumentNotNull(filePath, "filePath");
+      Assert.ArgumentNotNull(filePath, nameof(filePath));
 
       this.FilePath = filePath;
       this.Load(filePath);
@@ -74,7 +74,7 @@
 
     public override sealed void Load([NotNull] string filename)
     {
-      Assert.ArgumentNotNull(filename, "filename");
+      Assert.ArgumentNotNull(filename, nameof(filename));
 
       this.FilePath = filename;
       base.Load(filename);
@@ -106,7 +106,7 @@
     [NotNull]
     public static XmlDocumentEx LoadFile([NotNull] string path)
     {
-      Assert.ArgumentNotNull(path, "path");
+      Assert.ArgumentNotNull(path, nameof(path));
       if (!FileSystem.FileSystem.Local.File.Exists(path))
       {
         throw new FileIsMissingException("The " + path + " doesn't exists");
@@ -123,7 +123,7 @@
     [CanBeNull]
     public static XmlDocumentEx LoadFileSafe([NotNull] string path)
     {
-      Assert.ArgumentNotNull(path, "path");
+      Assert.ArgumentNotNull(path, nameof(path));
 
       if (!FileSystem.FileSystem.Local.File.Exists(path))
       {
@@ -166,7 +166,7 @@
 
     public XmlDocumentEx Merge(XmlDocument target)
     {
-      Assert.ArgumentNotNull(target, "target");
+      Assert.ArgumentNotNull(target, nameof(target));
       var root = this.DocumentElement.IsNotNull("The DocumentElement is missing");
       var importedRoot = target.DocumentElement.IsNotNull("The DocumentElement of imported xml is missing");
       Merge(root, importedRoot);

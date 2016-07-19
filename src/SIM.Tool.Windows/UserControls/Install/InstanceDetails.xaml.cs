@@ -78,10 +78,10 @@
     public bool OnMovingNext(WizardArgs wizardArgs)
     {
       var productRevision = this.ProductRevision;
-      Assert.IsNotNull(productRevision, "productRevision");
+      Assert.IsNotNull(productRevision, nameof(productRevision));
 
       Product product = productRevision.SelectedValue as Product;
-      Assert.IsNotNull(product, "product");
+      Assert.IsNotNull(product, nameof(product));
 
       var rootName = GetValidRootName();
 
@@ -129,7 +129,7 @@
     private AppPoolInfo GetAppPoolInfo()
     {
       var netFramework = this.NetFramework;
-      Assert.IsNotNull(netFramework, "netFramework");
+      Assert.IsNotNull(netFramework, nameof(netFramework));
 
       var framework = netFramework.SelectedValue.ToString();
       var frameworkArr = framework.Split(' ');
@@ -137,10 +137,10 @@
 
       var force32Bit = frameworkArr.Length == 2;
       var mode = this.Mode;
-      Assert.IsNotNull(mode, "mode");
+      Assert.IsNotNull(mode, nameof(mode));
 
       var modeItem = (ListBoxItem) mode.SelectedValue;
-      Assert.IsNotNull(modeItem, "modeItem");
+      Assert.IsNotNull(modeItem, nameof(modeItem));
 
       var isClassic = ((string) modeItem.Content).EqualsIgnoreCase("Classic");
       var appPoolInfo = new AppPoolInfo
@@ -162,7 +162,7 @@
     private string GetValidRootName()
     {
       var rootName = this.RootName;
-      Assert.IsNotNull(rootName, "rootName");
+      Assert.IsNotNull(rootName, nameof(rootName));
 
       var root = rootName.Text.EmptyToNull();
       Assert.IsNotNull(rootName, "Root folder name must not be emoty");
@@ -204,7 +204,7 @@
     private string GetValidWebsiteName()
     {
       var instanceName = this.InstanceName;
-      Assert.IsNotNull(instanceName, "instanceName");
+      Assert.IsNotNull(instanceName, nameof(instanceName));
 
       var name = instanceName.Text.EmptyToNull();
       Assert.IsNotNull(name, @"Instance name isn't set");
@@ -241,7 +241,7 @@
     private string GetValidSqlPrefix()
     {
       var sqlPrefix = this.sqlPrefix;
-      Assert.IsNotNull(sqlPrefix, "sqlPrefix");
+      Assert.IsNotNull(sqlPrefix, nameof(sqlPrefix));
 
       var prefix = sqlPrefix.Text.EmptyToNull();
       Assert.IsNotNull(prefix, @"Sql prefix isn't set");
@@ -277,8 +277,8 @@
 
     protected void Alert([NotNull] string message, [NotNull] params object[] args)
     {
-      Assert.ArgumentNotNull(message, "message");
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(message, nameof(message));
+      Assert.ArgumentNotNull(args, nameof(args));
 
       WindowHelper.ShowMessage(message.FormatWith(args), "Conflict is found", MessageBoxButton.OK, MessageBoxImage.Stop);
     }
@@ -333,7 +333,7 @@
     private void ProductNameChanged([CanBeNull] object sender, [CanBeNull] SelectionChangedEventArgs e)
     {
       var productName = this.ProductName;
-      Assert.IsNotNull(productName, "productName");
+      Assert.IsNotNull(productName, nameof(productName));
 
       var grouping = productName.SelectedValue as IGrouping<string, Product>;
       if (grouping == null)
@@ -342,7 +342,7 @@
       }
 
       var productVersion = this.ProductVersion;
-      Assert.IsNotNull(productVersion, "productVersion");
+      Assert.IsNotNull(productVersion, nameof(productVersion));
 
       productVersion.DataContext = grouping.Where(x => x != null).GroupBy(p => p.ShortVersion).Where(x => x != null).OrderBy(p => p.Key);
       this.SelectFirst(productVersion);
@@ -397,7 +397,7 @@
         }
 
         var netFramework = this.NetFramework;
-        Assert.IsNotNull(netFramework, "netFramework");
+        Assert.IsNotNull(netFramework, nameof(netFramework));
 
         netFramework.ItemsSource = frameworkVersions;
         netFramework.SelectedIndex = 0;
@@ -407,7 +407,7 @@
     private void ProductVersionChanged([CanBeNull] object sender, [CanBeNull] SelectionChangedEventArgs e)
     {
       var productVersion = this.ProductVersion;
-      Assert.IsNotNull(productVersion, "productVersion");
+      Assert.IsNotNull(productVersion, nameof(productVersion));
 
       var grouping = productVersion.SelectedValue as IGrouping<string, Product>;
       if (grouping == null)
@@ -421,8 +421,8 @@
 
     private void Select([NotNull] Selector element, [NotNull] string value)
     {
-      Assert.ArgumentNotNull(element, "element");
-      Assert.ArgumentNotNull(value, "value");
+      Assert.ArgumentNotNull(element, nameof(element));
+      Assert.ArgumentNotNull(value, nameof(value));
 
       if (element.Items.Count <= 0)
       {
@@ -460,7 +460,7 @@
 
     private void SelectByValue([NotNull] Selector element, string value)
     {
-      Assert.ArgumentNotNull(element, "element");
+      Assert.ArgumentNotNull(element, nameof(element));
 
       if (string.IsNullOrEmpty(value))
       {
@@ -515,7 +515,7 @@
 
     private void SelectFirst([NotNull] Selector element)
     {
-      Assert.ArgumentNotNull(element, "element");
+      Assert.ArgumentNotNull(element, nameof(element));
 
       if (element.Items.Count > 0)
       {
@@ -525,7 +525,7 @@
 
     private void SelectLast([NotNull] Selector element)
     {
-      Assert.ArgumentNotNull(element, "element");
+      Assert.ArgumentNotNull(element, nameof(element));
 
       if (element.Items.Count > 0)
       {
@@ -535,7 +535,7 @@
 
     private void SelectProductByValue([CanBeNull] Selector element, [NotNull] string value)
     {
-      Assert.ArgumentNotNull(value, "value");
+      Assert.ArgumentNotNull(value, nameof(value));
 
       if (element == null)
       {
@@ -549,7 +549,7 @@
       }
 
       var items = element.Items;
-      Assert.IsNotNull(items, "items");
+      Assert.IsNotNull(items, nameof(items));
       if (items.Count > 0)
       {
         foreach (IGrouping<string, Product> item in items)
@@ -574,7 +574,7 @@
       using (new ProfileSection("Window loaded", this))
       {
         var args = this.installParameters;
-        Assert.IsNotNull(args, "args");
+        Assert.IsNotNull(args, nameof(args));
 
         var product = args.Product;
         if (product != null)
@@ -587,7 +587,7 @@
         this.SelectByValue(this.ProductRevision, WindowsSettings.AppInstallationDefaultProductRevision.Value);
 
         var netFramework = this.NetFramework;
-        Assert.IsNotNull(netFramework, "netFramework");
+        Assert.IsNotNull(netFramework, nameof(netFramework));
 
         if (string.IsNullOrEmpty(WindowsSettings.AppInstallationDefaultFramework.Value))
         {
@@ -599,7 +599,7 @@
         }
 
         var mode = this.Mode;
-        Assert.IsNotNull(mode, "mode");
+        Assert.IsNotNull(mode, nameof(mode));
 
         if (string.IsNullOrEmpty(WindowsSettings.AppInstallationDefaultPoolMode.Value))
         {

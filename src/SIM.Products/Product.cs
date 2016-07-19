@@ -465,7 +465,7 @@
     [NotNull]
     public static Product Parse([NotNull] string path)
     {
-      Assert.ArgumentNotNull(path, "path");
+      Assert.ArgumentNotNull(path, nameof(path));
 
       Product product;
       return TryParse(path, out product) && product != null ? product : Undefined;
@@ -473,7 +473,7 @@
 
     public static bool TryParse([NotNull] string packagePath, [CanBeNull] out Product product)
     {
-      Assert.ArgumentNotNull(packagePath, "file");
+      Assert.ArgumentNotNull(packagePath, nameof(packagePath));
 
       product = null;
       Match match = ProductRegex.Match(packagePath);
@@ -487,7 +487,7 @@
 
     public bool IsMatchRequirements([NotNull] Product instanceProduct)
     {
-      Assert.ArgumentNotNull(instanceProduct, "instanceProduct");
+      Assert.ArgumentNotNull(instanceProduct, nameof(instanceProduct));
 
       // !ProductHelper.Settings.InstallModulesCheckRequirements.Value&& 
       if (!this.Name.EqualsIgnoreCase("Sitecore Analytics"))
@@ -611,8 +611,8 @@
 
     private static bool TryParse([NotNull] string packagePath, [NotNull] Match match, [CanBeNull] out Product product)
     {
-      Assert.ArgumentNotNull(packagePath, "file");
-      Assert.ArgumentNotNull(match, "match");
+      Assert.ArgumentNotNull(packagePath, nameof(packagePath));
+      Assert.ArgumentNotNull(match, nameof(match));
 
       product = null;
       if (!FileSystem.FileSystem.Local.File.Exists(packagePath))
@@ -648,7 +648,7 @@
     [NotNull]
     private string FormatString([NotNull] string pattern)
     {
-      Assert.ArgumentNotNull(pattern, "pattern");
+      Assert.ArgumentNotNull(pattern, nameof(pattern));
 
       return pattern.Replace("{ShortName}", this.ShortName).Replace("{Name}", this.Name).Replace("{ShortVersion}", this.ShortVersion).Replace("{Version}", this.Version).Replace("{Revision}", this.Revision)
         .Replace("{UpdateOrRevision}", this.UpdateOrRevision);
@@ -656,8 +656,8 @@
 
     private bool RevisionMatch([NotNull] Product instanceProduct, [NotNull] string revision)
     {
-      Assert.ArgumentNotNull(instanceProduct, "instanceProduct");
-      Assert.ArgumentNotNull(revision, "revision");
+      Assert.ArgumentNotNull(instanceProduct, nameof(instanceProduct));
+      Assert.ArgumentNotNull(revision, nameof(revision));
 
       if (string.IsNullOrEmpty(revision))
       {
@@ -675,9 +675,9 @@
 
     private bool VersionMatch([NotNull] Product instanceProduct, [NotNull] string version, [NotNull] XmlElement versionRule)
     {
-      Assert.ArgumentNotNull(instanceProduct, "instanceProduct");
-      Assert.ArgumentNotNull(version, "version");
-      Assert.ArgumentNotNull(versionRule, "versionRule");
+      Assert.ArgumentNotNull(instanceProduct, nameof(instanceProduct));
+      Assert.ArgumentNotNull(version, nameof(version));
+      Assert.ArgumentNotNull(versionRule, nameof(versionRule));
 
       if (string.IsNullOrEmpty(version))
       {

@@ -30,7 +30,7 @@
 
     protected override void Process(ReinstallArgs args)
     {
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(args, nameof(args));
 
       var defaultConnectionString = args.ConnectionString;
       Assert.IsNotNull(defaultConnectionString, "SQL Connection String isn't set in the Settings dialog");

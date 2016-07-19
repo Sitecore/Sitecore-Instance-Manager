@@ -27,21 +27,21 @@
 
     protected override long EvaluateStepsCount(RestoreArgs args)
     {
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(args, nameof(args));
 
       return this.GetDatabases(args).Count();
     }
 
     protected override bool IsRequireProcessing(RestoreArgs args)
     {
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(args, nameof(args));
 
       return args.Backup.BackupDatabases;
     }
 
     protected override void Process([NotNull] RestoreArgs args)
     {
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(args, nameof(args));
 
       IEnumerable<Database> databases = this.GetDatabases(args);
 
@@ -83,7 +83,7 @@
     [NotNull]
     private IEnumerable<Database> GetDatabases([NotNull] RestoreArgs args)
     {
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(args, nameof(args));
       Database[] dbs = args.Instance.AttachedDatabases.ToArray();
       foreach (string databaseFilename in args.Backup.DatabaseFilenames)
       {

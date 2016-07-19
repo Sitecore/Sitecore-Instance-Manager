@@ -41,7 +41,7 @@ namespace SIM.FileSystem
 
     public virtual void CheckZip([NotNull] string packagePath)
     {
-      Assert.ArgumentNotNullOrEmpty(packagePath, "packagePath");
+      Assert.ArgumentNotNullOrEmpty(packagePath, nameof(packagePath));
 
       if (System.IO.File.Exists(packagePath))
       {
@@ -134,8 +134,8 @@ namespace SIM.FileSystem
       [CanBeNull] string entriesPattern = null, int stepsCount = 1, 
       [CanBeNull] Action incrementProgress = null, bool skipErrors = false)
     {
-      Assert.ArgumentNotNull(packagePath, "packagePath");
-      Assert.ArgumentNotNull(path, "path");
+      Assert.ArgumentNotNull(packagePath, nameof(packagePath));
+      Assert.ArgumentNotNull(path, nameof(path));
 
       // TODO: comment this line when the progress bar is adjusted
       incrementProgress = null;
@@ -225,8 +225,8 @@ namespace SIM.FileSystem
 
     public virtual void UnpackZipWithActualWebRootName([NotNull] string packagePath, [NotNull] string path, string webRootName, [CanBeNull] string entriesPattern = null, int stepsCount = 1, [CanBeNull] Action incrementProgress = null)
     {
-      Assert.ArgumentNotNull(packagePath, "packagePath");
-      Assert.ArgumentNotNull(path, "path");
+      Assert.ArgumentNotNull(packagePath, nameof(packagePath));
+      Assert.ArgumentNotNull(path, nameof(path));
 
       // TODO: comment this line when the progress bar is adjusted
       incrementProgress = null;

@@ -13,7 +13,7 @@
     
     protected override void OnClick(Window mainWindow)
     {
-      Assert.ArgumentNotNull(mainWindow, "mainWindow");
+      Assert.ArgumentNotNull(mainWindow, nameof(mainWindow));
 
       WindowHelper.ShowDialog<AboutDialog>(null, mainWindow);
     }

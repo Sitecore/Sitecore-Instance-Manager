@@ -35,7 +35,7 @@ namespace SIM.Tool.Windows.MainWindowComponents
 
     public ControlAppPoolButton(string param)
     {
-      Assert.IsNotNullOrEmpty(param, "param");
+      Assert.IsNotNullOrEmpty(param, nameof(param));
 
       switch (param.ToLowerInvariant())
       {

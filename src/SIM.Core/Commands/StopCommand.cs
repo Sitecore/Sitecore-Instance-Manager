@@ -12,7 +12,7 @@ namespace SIM.Core.Commands
 
     protected override void DoExecute(CommandResult<Exception> result)
     {
-      Assert.ArgumentNotNull(result, "result");
+      Assert.ArgumentNotNull(result, nameof(result));
 
       var force = Force;
       var name = Name;

@@ -118,8 +118,8 @@ namespace SIM.Pipelines
     [NotNull]
     public static string DatabaseFilenameHook([NotNull] string databasePath, [NotNull] string databaseName, [NotNull] string databasesFolderPath)
     {
-      Assert.ArgumentNotNull(databasePath, "databasePath");
-      Assert.ArgumentNotNull(databaseName, "databaseName");
+      Assert.ArgumentNotNull(databasePath, nameof(databasePath));
+      Assert.ArgumentNotNull(databaseName, nameof(databaseName));
 
       if (!FileSystem.Local.File.Exists(databasePath))
       {
@@ -187,8 +187,8 @@ namespace SIM.Pipelines
     [NotNull]
     private static string GetMongoConnectionString([NotNull] string connectionStringName, [NotNull] string instanceName)
     {
-      Assert.ArgumentNotNull(connectionStringName, "connectionStringName");
-      Assert.ArgumentNotNull(instanceName, "instanceName");
+      Assert.ArgumentNotNull(connectionStringName, nameof(connectionStringName));
+      Assert.ArgumentNotNull(instanceName, nameof(instanceName));
 
       var mongoDbName = instanceName + "_" + connectionStringName;
       var invalidChars = new[]
@@ -207,8 +207,8 @@ namespace SIM.Pipelines
     [NotNull]
     private static string GetUnusedDatabaseName([NotNull] SqlConnectionStringBuilder defaultConnectionString, [NotNull] string databaseName)
     {
-      Assert.ArgumentNotNull(defaultConnectionString, "defaultConnectionString");
-      Assert.ArgumentNotNull(databaseName, "databaseName");
+      Assert.ArgumentNotNull(defaultConnectionString, nameof(defaultConnectionString));
+      Assert.ArgumentNotNull(databaseName, nameof(databaseName));
 
       const int K = 100;
       for (int i = 1; i <= K; i++)
@@ -225,9 +225,9 @@ namespace SIM.Pipelines
     [NotNull]
     private static string ResolveConflictByUnsedName([NotNull] SqlConnectionStringBuilder defaultConnectionString, [NotNull] ConnectionString connectionString, [NotNull] string databaseName)
     {
-      Assert.ArgumentNotNull(defaultConnectionString, "defaultConnectionString");
-      Assert.ArgumentNotNull(connectionString, "connectionString");
-      Assert.ArgumentNotNull(databaseName, "databaseName");
+      Assert.ArgumentNotNull(defaultConnectionString, nameof(defaultConnectionString));
+      Assert.ArgumentNotNull(connectionString, nameof(connectionString));
+      Assert.ArgumentNotNull(databaseName, nameof(databaseName));
 
       databaseName = GetUnusedDatabaseName(defaultConnectionString, databaseName);
       connectionString.RealName = databaseName;
@@ -237,10 +237,10 @@ namespace SIM.Pipelines
 
     private static void SetConnectionStringNode([NotNull] string name, [NotNull] string sqlPrefix, [NotNull] SqlConnectionStringBuilder defaultConnectionString, [NotNull] ConnectionString connectionString)
     {
-      Assert.ArgumentNotNull(name, "name");
-      Assert.ArgumentNotNull(sqlPrefix, "sqlPrefix");
-      Assert.ArgumentNotNull(defaultConnectionString, "defaultConnectionString");
-      Assert.ArgumentNotNull(connectionString, "connectionString");
+      Assert.ArgumentNotNull(name, nameof(name));
+      Assert.ArgumentNotNull(sqlPrefix, nameof(sqlPrefix));
+      Assert.ArgumentNotNull(defaultConnectionString, nameof(defaultConnectionString));
+      Assert.ArgumentNotNull(connectionString, nameof(connectionString));
 
       SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder(defaultConnectionString.ConnectionString)
       {

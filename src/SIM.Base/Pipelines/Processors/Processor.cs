@@ -42,7 +42,7 @@
       get
       {
         object value = this.GetValue("State");
-        Assert.IsNotNull(value, "value");
+        Assert.IsNotNull(value, nameof(value));
 
         return (ProcessorState)value;
       }
@@ -100,14 +100,14 @@
 
     public virtual long EvaluateStepsCount([NotNull] ProcessorArgs args)
     {
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(args, nameof(args));
 
       return 1;
     }
 
     public bool Execute([NotNull] ProcessorArgs args)
     {
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(args, nameof(args));
 
       var controller = this.Controller;
       if (!this.IsDone)
@@ -152,7 +152,7 @@
 
     public virtual bool IsRequireProcessing([NotNull] ProcessorArgs args)
     {
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(args, nameof(args));
 
       return true;
     }

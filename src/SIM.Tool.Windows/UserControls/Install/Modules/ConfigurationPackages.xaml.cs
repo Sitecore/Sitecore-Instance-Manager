@@ -115,7 +115,7 @@
     {
       var args = (InstallModulesWizardArgs)wizardArgs;
       Product product = args.Product;
-      Assert.IsNotNull(product, "product");
+      Assert.IsNotNull(product, nameof(product));
       IEnumerable<Product> selected = this.unfilteredCheckBoxItems.Where(mm => mm.IsChecked).Select(s => s.Value);
 
       foreach (ProductInCheckbox boxItem in this.unfilteredCheckBoxItems)
@@ -232,7 +232,7 @@
     {
       try
       {
-        Assert.ArgumentNotNull(e, "e");
+        Assert.ArgumentNotNull(e, nameof(e));
 
         if (e.Handled)
         {

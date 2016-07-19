@@ -14,7 +14,7 @@
 
     protected override void Process([NotNull] DeleteArgs args)
     {
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(args, nameof(args));
 
       var path = args.InstanceDataFolderPath;
       FileSystem.FileSystem.Local.Directory.DeleteIfExists(path);

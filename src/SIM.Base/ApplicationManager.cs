@@ -112,8 +112,8 @@ namespace SIM
     [NotNull]
     public static string GetEmbeddedFile([NotNull] string assemblyName, [NotNull] string fileName)
     {
-      Assert.ArgumentNotNull(assemblyName, "assemblyName");
-      Assert.ArgumentNotNull(fileName, "fileName");
+      Assert.ArgumentNotNull(assemblyName, nameof(assemblyName));
+      Assert.ArgumentNotNull(fileName, nameof(fileName));
 
       var folder = Path.Combine(TempFolder, assemblyName);
       if (!Directory.Exists(folder))
@@ -128,11 +128,11 @@ namespace SIM
       }
 
       var assembly = Assembly.Load(assemblyName);
-      Assert.IsNotNull(assembly, "assembly");
+      Assert.IsNotNull(assembly, nameof(assembly));
 
       using (var stream = assembly.GetManifestResourceStream(assemblyName + @"." + fileName))
       {
-        Assert.IsNotNull(stream, "stream");
+        Assert.IsNotNull(stream, nameof(stream));
 
         using (var fileStream = new FileStream(filePath, FileMode.Create))
         {
@@ -156,9 +156,9 @@ namespace SIM
     [NotNull]
     public static string GetEmbeddedFile([NotNull] string packageName, [NotNull] string assemblyName, [NotNull] string fileName)
     {
-      Assert.ArgumentNotNull(packageName, "packageName");
-      Assert.ArgumentNotNull(assemblyName, "assemblyName");
-      Assert.ArgumentNotNull(fileName, "fileName");
+      Assert.ArgumentNotNull(packageName, nameof(packageName));
+      Assert.ArgumentNotNull(assemblyName, nameof(assemblyName));
+      Assert.ArgumentNotNull(fileName, nameof(fileName));
 
       var folder = Path.Combine(TempFolder, assemblyName, packageName);
       var filePath = Path.Combine(folder, fileName);
@@ -173,11 +173,11 @@ namespace SIM
       }
 
       var assembly = Assembly.Load(assemblyName);
-      Assert.IsNotNull(assembly, "assembly");
+      Assert.IsNotNull(assembly, nameof(assembly));
 
       using (var stream = assembly.GetManifestResourceStream(assemblyName + @"." + packageName))
       {
-        Assert.IsNotNull(stream, "stream");
+        Assert.IsNotNull(stream, nameof(stream));
 
         var tempFilePath = Path.GetTempFileName();
         try
@@ -284,7 +284,7 @@ namespace SIM
     [NotNull]
     private static string InitializeDataFolder([NotNull] string folder)
     {
-      Assert.ArgumentNotNull(folder, "folder");
+      Assert.ArgumentNotNull(folder, nameof(folder));
 
       return InitializeFolder(Path.Combine(DataFolder, folder));
     }
@@ -292,7 +292,7 @@ namespace SIM
     [NotNull]
     private static string InitializeFolder([NotNull] string folder)
     {
-      Assert.ArgumentNotNull(folder, "folder");
+      Assert.ArgumentNotNull(folder, nameof(folder));
 
       var path = Path.Combine(Environment.CurrentDirectory, folder);
       if (!FileSystem.FileSystem.Local.Directory.Exists(folder))

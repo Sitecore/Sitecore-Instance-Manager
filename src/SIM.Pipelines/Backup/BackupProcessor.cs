@@ -17,7 +17,7 @@
 
     public override bool IsRequireProcessing(ProcessorArgs args)
     {
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(args, nameof(args));
 
       return this.IsRequireProcessing((BackupArgs)args);
     }
@@ -33,14 +33,14 @@
 
     protected virtual bool IsRequireProcessing([NotNull] BackupArgs args)
     {
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(args, nameof(args));
 
       return true;
     }
 
     protected override void Process(ProcessorArgs args)
     {
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(args, nameof(args));
 
       this.Process((BackupArgs)args);
     }

@@ -33,9 +33,9 @@
     [CanBeNull]
     public static string AskForSelection([NotNull] string title, [CanBeNull] string header, [NotNull] string message, [NotNull] IEnumerable<string> options, [CanBeNull] Window owner, [CanBeNull] string defaultValue = null, [CanBeNull] bool? allowMultiSelect = null, [CanBeNull] bool? forceShinyDialog = null)
     {
-      Assert.ArgumentNotNull(title, "title");
-      Assert.ArgumentNotNull(message, "message");
-      Assert.ArgumentNotNull(options, "options");
+      Assert.ArgumentNotNull(title, nameof(title));
+      Assert.ArgumentNotNull(message, nameof(message));
+      Assert.ArgumentNotNull(options, nameof(options));
 
       var optionsArray = options.ToArray();
       if (forceShinyDialog == true || (optionsArray.Length < 5 && allowMultiSelect != true))
@@ -102,7 +102,7 @@
 
     public static void HandleError([NotNull] string fullmessage, bool isError, [CanBeNull] Exception ex = null, [CanBeNull] object typeOwner = null)
     {
-      Assert.ArgumentNotNull(fullmessage, "fullmessage");
+      Assert.ArgumentNotNull(fullmessage, nameof(fullmessage));
 
       if (ex != null)
       {
@@ -270,8 +270,8 @@
     [CanBeNull]
     public static string PickFile([NotNull] string message, [CanBeNull] System.Windows.Controls.TextBox textBox, [CanBeNull] System.Windows.Controls.Control otherControl, [NotNull] string pattern)
     {
-      Assert.ArgumentNotNullOrEmpty(message, "message");
-      Assert.ArgumentNotNullOrEmpty(pattern, "pattern");
+      Assert.ArgumentNotNullOrEmpty(message, nameof(message));
+      Assert.ArgumentNotNullOrEmpty(pattern, nameof(pattern));
 
       OpenFileDialog fileBrowserDialog = new OpenFileDialog
       {
@@ -309,8 +309,8 @@
 
     public static void PickFolder([NotNull] string message, [NotNull] System.Windows.Controls.TextBox textBox, [CanBeNull] System.Windows.Controls.Control otherControl, string initialPath = null)
     {
-      Assert.ArgumentNotNull(message, "message");
-      Assert.ArgumentNotNull(textBox, "textBox");
+      Assert.ArgumentNotNull(message, nameof(message));
+      Assert.ArgumentNotNull(textBox, nameof(textBox));
 
       FolderBrowserDialog folderBrowserDialog = new FolderBrowserDialog
       {
@@ -349,7 +349,7 @@
     [CanBeNull]
     public static object ShowDialog([NotNull] Window window, [CanBeNull] Window owner)
     {
-      Assert.ArgumentNotNull(window, "window");
+      Assert.ArgumentNotNull(window, nameof(window));
 
       if (window.Owner == null)
       {
@@ -403,7 +403,7 @@
 
     public static void ShowWindow([NotNull] Window window, [CanBeNull] Window owner)
     {
-      Assert.ArgumentNotNull(window, "window");
+      Assert.ArgumentNotNull(window, nameof(window));
 
       try
       {
@@ -426,7 +426,7 @@
     [CanBeNull]
     public static DependencyObject VisualUpwardSearch<T>([NotNull] DependencyObject source)
     {
-      Assert.ArgumentNotNull(source, "source");
+      Assert.ArgumentNotNull(source, nameof(source));
 
       while (source != null && source.GetType() != typeof(T))
       {
@@ -442,7 +442,7 @@
 
     public static void FocusClickedNode([NotNull] MouseButtonEventArgs e)
     {
-      Assert.ArgumentNotNull(e, "e");
+      Assert.ArgumentNotNull(e, nameof(e));
 
       DependencyObject originalSource = e.OriginalSource as DependencyObject;
       if (originalSource != null)
@@ -457,8 +457,8 @@
 
     public static void SetTextboxTextValue([NotNull] System.Windows.Controls.TextBox textBox, [NotNull] string value, [CanBeNull] System.Windows.Controls.Control otherControl)
     {
-      Assert.ArgumentNotNull(textBox, "textBox");
-      Assert.ArgumentNotNull(value, "value");
+      Assert.ArgumentNotNull(textBox, nameof(textBox));
+      Assert.ArgumentNotNull(value, nameof(value));
 
       textBox.Text = value;
       textBox.Focus();
@@ -475,7 +475,7 @@
 
     public static string Ask(string title, string defaultValue, Window window)
     {
-      Assert.ArgumentNotNull(title, "title");
+      Assert.ArgumentNotNull(title, nameof(title));
 
       var dialog = new InputDialog
       {
@@ -496,8 +496,8 @@
    
     public static ImageSource GetImage(string imageName, string assemblyName)
     {
-      Assert.ArgumentNotNull(imageName, "imageName");
-      Assert.ArgumentNotNull(assemblyName, "assemblyName");
+      Assert.ArgumentNotNull(imageName, nameof(imageName));
+      Assert.ArgumentNotNull(assemblyName, nameof(assemblyName));
 
       assemblyName = assemblyName.Trim().TrimStart('/');
       var result = GetImageInternal(imageName, assemblyName, WinAppSettings.AppUiHighDpiEnabled.Value);
@@ -517,8 +517,8 @@
 
     private static ImageSource GetImageInternal(string imageName, string assemblyName, bool highDpi)
     {
-      Assert.ArgumentNotNull(imageName, "imageName");
-      Assert.ArgumentNotNull(assemblyName, "assemblyName");
+      Assert.ArgumentNotNull(imageName, nameof(imageName));
+      Assert.ArgumentNotNull(assemblyName, nameof(assemblyName));
 
       var uri = "pack://application:,,,/{0};component/{1}"
         .FormatWith(

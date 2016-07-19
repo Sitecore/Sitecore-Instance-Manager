@@ -21,7 +21,7 @@
     [NotNull]
     public static string DetectProductFullName([NotNull] string webRootPath)
     {
-      Assert.ArgumentNotNull(webRootPath, "webRootPath");
+      Assert.ArgumentNotNull(webRootPath, nameof(webRootPath));
 
       var jetstreamAssemblies = FileSystem.FileSystem.Local.Directory.GetFiles(Path.Combine(webRootPath, "bin"), "Jetstream.*.dll");
       if (jetstreamAssemblies.Any())
@@ -88,7 +88,7 @@
     [NotNull]
     public static string GetKernelPath([NotNull] string webRootPath)
     {
-      Assert.ArgumentNotNullOrEmpty(webRootPath, "webRootPath");
+      Assert.ArgumentNotNullOrEmpty(webRootPath, nameof(webRootPath));
 
       return Path.Combine(webRootPath, "bin\\Sitecore.Kernel.dll");
     }
@@ -96,7 +96,7 @@
     [CanBeNull]
     public static string LocateAnalytics([NotNull] Product product)
     {
-      Assert.ArgumentNotNull(product, "product");
+      Assert.ArgumentNotNull(product, nameof(product));
 
       Assert.IsTrue(product.Name.EqualsIgnoreCase("sitecore cms"), "Analytics can be located only for the sitecore product");
 
@@ -120,13 +120,13 @@
     [NotNull]
     private static string GetProductFullName([NotNull] string assemblyPath)
     {
-      Assert.ArgumentNotNull(assemblyPath, "assemblyPath");
+      Assert.ArgumentNotNull(assemblyPath, nameof(assemblyPath));
 
       var websiteFolderPath = Path.GetDirectoryName(Path.GetDirectoryName(assemblyPath));
-      Assert.IsNotNull(websiteFolderPath, "folder");
+      Assert.IsNotNull(websiteFolderPath, nameof(websiteFolderPath));
 
       var sitecoreVersionFilePath = Path.Combine(websiteFolderPath, "sitecore\\shell\\sitecore.version.xml");
-      Assert.IsNotNull(sitecoreVersionFilePath, "sitecoreVersionFilePath");
+      Assert.IsNotNull(sitecoreVersionFilePath, nameof(sitecoreVersionFilePath));
 
       if (FileSystem.FileSystem.Local.File.Exists(sitecoreVersionFilePath))
       {
@@ -134,10 +134,10 @@
         {
           var xml = new XmlDocumentEx(sitecoreVersionFilePath);
           var major = xml.SelectSingleNode("information/version/major");
-          Assert.IsNotNull(major, "major");
+          Assert.IsNotNull(major, nameof(major));
 
           var minor = xml.SelectSingleNode("information/version/minor");
-          Assert.IsNotNull(minor, "minor");
+          Assert.IsNotNull(minor, nameof(minor));
 
           var build = xml.SelectSingleNode("information/version/build");
           var revision = xml.SelectSingleNode("information/version/revision");

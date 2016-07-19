@@ -28,7 +28,7 @@
 
     protected override void Process(InstallModulesArgs args)
     {
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(args, nameof(args));
 
       Instance instance = args.Instance;
       IEnumerable<Product> modules = args.Modules;

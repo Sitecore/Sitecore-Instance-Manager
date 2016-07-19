@@ -26,7 +26,7 @@ namespace SIM.Pipelines.InstallModules
 
     protected override void Process([NotNull] InstallModulesArgs args)
     {
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(args, nameof(args));
 
       foreach (Product module in args.Modules.Where(m => m.IsPackage))
       {

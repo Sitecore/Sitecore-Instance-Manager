@@ -131,8 +131,8 @@
 
     private bool RequireDownloading([NotNull] string fileName, [NotNull] string localRepository)
     {
-      Assert.ArgumentNotNull(fileName, "fileName");
-      Assert.ArgumentNotNull(localRepository, "localRepository");
+      Assert.ArgumentNotNull(fileName, nameof(fileName));
+      Assert.ArgumentNotNull(localRepository, nameof(localRepository));
       fileName = FixFileName(fileName);
       var filePath1 = ProductManager.Products.Select(product => product.PackagePath).FirstOrDefault(packagePath => Path.GetFileName(packagePath).EqualsIgnoreCase(fileName));
       if (!string.IsNullOrEmpty(filePath1))

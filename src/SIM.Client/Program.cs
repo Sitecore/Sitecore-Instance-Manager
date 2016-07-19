@@ -19,7 +19,7 @@
   {
     public static void Main([NotNull] string[] args)
     {
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(args, nameof(args));
 
       CoreApp.InitializeLogging();
 
@@ -32,7 +32,7 @@
       var wait = GetWaitAndFilterArgs(filteredArgs);
 
       var parser = new Parser(with => with.HelpWriter = Console.Error);
-      Assert.IsNotNull(parser, "parser");
+      Assert.IsNotNull(parser, nameof(parser));
 
       var options = new MainCommandGroup();
       EnsureAutoCompeteForCommands(options);
@@ -98,7 +98,7 @@
     [CanBeNull]
     private static object QueryResult([NotNull] CommandResult result, [CanBeNull] string query)
     {
-      Assert.ArgumentNotNull(result, "result");
+      Assert.ArgumentNotNull(result, nameof(result));
 
       if (string.IsNullOrEmpty(query) || !result.Success)
       {
@@ -149,7 +149,7 @@
     [CanBeNull]
     private static string GetQueryAndFilterArgs([NotNull] List<string> filteredArgs)
     {
-      Assert.ArgumentNotNull(filteredArgs, "filteredArgs");
+      Assert.ArgumentNotNull(filteredArgs, nameof(filteredArgs));
 
       var query = string.Empty;
       for (var i = 0; i < filteredArgs.Count; i++)
@@ -181,7 +181,7 @@
 
     private static bool GetWaitAndFilterArgs([NotNull] List<string> filteredArgs)
     {
-      Assert.ArgumentNotNull(filteredArgs, "filteredArgs");
+      Assert.ArgumentNotNull(filteredArgs, nameof(filteredArgs));
 
       for (var i = 0; i < filteredArgs.Count; i++)
       {

@@ -24,7 +24,7 @@
 
     public Product([NotNull] Func<Products.Product, string> target)
     {
-      Assert.ArgumentNotNull(target, "target");
+      Assert.ArgumentNotNull(target, nameof(target));
 
       this.target = target;
     }

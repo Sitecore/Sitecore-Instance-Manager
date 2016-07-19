@@ -43,7 +43,7 @@
 
     public static void CopyAgentFiles([NotNull] Instance instance)
     {
-      Assert.ArgumentNotNull(instance, "instance");
+      Assert.ArgumentNotNull(instance, nameof(instance));
 
       var agent = Path.Combine(instance.WebRootPath, AgentPath);
       FileSystem.FileSystem.Local.Directory.Ensure(agent);
@@ -76,8 +76,8 @@
 
     public static void CopyPackages([NotNull] Instance instance, [NotNull] IEnumerable<Product> modules)
     {
-      Assert.ArgumentNotNull(instance, "instance");
-      Assert.ArgumentNotNull(modules, "modules");
+      Assert.ArgumentNotNull(instance, nameof(instance));
+      Assert.ArgumentNotNull(modules, nameof(modules));
 
       var packages = FileSystem.FileSystem.Local.Directory.Ensure(instance.PackagesFolderPath);
       foreach (Product product in modules)
@@ -91,7 +91,7 @@
 
     public static void DeleteAgentFiles([NotNull] Instance instance)
     {
-      Assert.ArgumentNotNull(instance, "instance");
+      Assert.ArgumentNotNull(instance, nameof(instance));
 
       var agent = Path.Combine(instance.WebRootPath, AgentPath);
       FileSystem.FileSystem.Local.Directory.DeleteIfExists(agent);
@@ -103,11 +103,11 @@
 
     public static void InstallPackage([NotNull] Instance instance, [NotNull] Product module)
     {
-      Assert.ArgumentNotNull(instance, "instance");
-      Assert.ArgumentNotNull(module, "module");
+      Assert.ArgumentNotNull(instance, nameof(instance));
+      Assert.ArgumentNotNull(module, nameof(module));
 
       var fileName = Path.GetFileName(module.PackagePath);
-      Assert.IsNotNull(fileName, "name");
+      Assert.IsNotNull(fileName, nameof(fileName));
 
       var installPackageUrl = GetUrl(instance, AgentFiles.InstallPackageFileName, fileName);
 
@@ -172,7 +172,7 @@
       }
 
       var fileName = Path.GetFileName(module.PackagePath);
-      Assert.IsNotNull(fileName, "name");
+      Assert.IsNotNull(fileName, nameof(fileName));
       var url = GetUrl(instance, AgentFiles.PostInstallActionsFileName, fileName);
       ExecuteAgent(AgentFiles.StatusFileName, statusUrl, AgentFiles.PostInstallActionsFileName, url, ActionsPerforming, ActionsPerformed);
     }
@@ -191,8 +191,8 @@
     [NotNull]
     public static string Request([NotNull] string url, [NotNull] string pageName)
     {
-      Assert.ArgumentNotNull(url, "url");
-      Assert.ArgumentNotNullOrEmpty(pageName, "pageName");
+      Assert.ArgumentNotNull(url, nameof(url));
+      Assert.ArgumentNotNullOrEmpty(pageName, nameof(pageName));
 
       string result;
       var errorPrefix = pageName + " returned an error: ";

@@ -71,7 +71,7 @@
         {
           try
           {
-            Assert.ArgumentNotNull(responseStream, "responseStream");
+            Assert.ArgumentNotNull(responseStream, nameof(responseStream));
             responseStream.ReadTimeout = Settings.CoreWebDownloadTimeoutMinutes.Value * Minute;
             DownloadFile(destFileName, responseStream, token, indicateProgress);
 
@@ -146,16 +146,16 @@
 
     public static string GetCookie(string cookies, string cookieName)
     {
-      Assert.ArgumentNotNullOrEmpty(cookies, "cookies");
-      Assert.ArgumentNotNullOrEmpty(cookieName, "cookieName");
+      Assert.ArgumentNotNullOrEmpty(cookies, nameof(cookies));
+      Assert.ArgumentNotNullOrEmpty(cookieName, nameof(cookieName));
 
       return cookies.Split(';').Single(s => s.Split('=')[0].Trim().Equals(cookieName)).Trim();
     }
 
     public static string GetCookieValue(string cookies, string cookieName)
     {
-      Assert.ArgumentNotNullOrEmpty(cookies, "cookies");
-      Assert.ArgumentNotNullOrEmpty(cookieName, "cookieName");
+      Assert.ArgumentNotNullOrEmpty(cookies, nameof(cookies));
+      Assert.ArgumentNotNullOrEmpty(cookieName, nameof(cookieName));
 
       var cookie = GetCookie(cookies, cookieName);
       if (string.IsNullOrEmpty(cookie))

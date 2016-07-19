@@ -9,9 +9,9 @@ namespace SIM.Core.Models
   {
     public InstanceInfo(long id, [NotNull] string name, [NotNull] string state, [NotNull] string webRootPath)
     {
-      Assert.ArgumentNotNull(name, "name");
-      Assert.ArgumentNotNull(state, "state");
-      Assert.ArgumentNotNull(webRootPath, "webRootPath");
+      Assert.ArgumentNotNull(name, nameof(name));
+      Assert.ArgumentNotNull(state, nameof(state));
+      Assert.ArgumentNotNull(webRootPath, nameof(webRootPath));
 
       Id = id;
       Name = name;

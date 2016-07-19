@@ -15,7 +15,7 @@
     [UsedImplicitly]
     protected override void Process([NotNull] ReinstallArgs args)
     {
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(args, nameof(args));
 
       FileSystem.FileSystem.Local.Zip.CheckZip(args.PackagePath);
     }

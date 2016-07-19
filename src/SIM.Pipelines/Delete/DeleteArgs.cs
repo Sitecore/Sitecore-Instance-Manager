@@ -38,7 +38,7 @@
     public DeleteArgs([NotNull] Instance instance, [NotNull] SqlConnectionStringBuilder connectionString)
     {
       this.Instance = instance;
-      Assert.ArgumentNotNull(instance, "instance");
+      Assert.ArgumentNotNull(instance, nameof(instance));
 
       this.ConnectionString = connectionString.IsNotNull("ConnectionString");
       this.InstanceID = instance.ID;

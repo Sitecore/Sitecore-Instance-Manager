@@ -27,7 +27,7 @@
 
     public void OnClick(Window mainWindow, Instance instance)
     {
-      Assert.ArgumentNotNull(mainWindow, "mainWindow");
+      Assert.ArgumentNotNull(mainWindow, nameof(mainWindow));
 
       var nugetFolderPath = Environment.ExpandEnvironmentVariables(WindowsSettings.AppNuGetDirectory.Value);
 
@@ -49,7 +49,7 @@
 
     private static void GeneratePackages([NotNull] string nugetFolderPath)
     {
-      Assert.ArgumentNotNull(nugetFolderPath, "nugetFolderPath");
+      Assert.ArgumentNotNull(nugetFolderPath, nameof(nugetFolderPath));
 
       Log.Info("Generating NuGet packages from {0} to {1}", ProfileManager.Profile.LocalRepository, nugetFolderPath);
       ProcessFolder(ProfileManager.Profile.LocalRepository, nugetFolderPath);
@@ -77,7 +77,7 @@
 
     private static void UpdateSettings([NotNull] string nugetFolderPath)
     {
-      Assert.ArgumentNotNull(nugetFolderPath, "nugetFolderPath");
+      Assert.ArgumentNotNull(nugetFolderPath, nameof(nugetFolderPath));
 
       var nugetConfigPath = Environment.ExpandEnvironmentVariables(@"%appdata%\NuGet\nuget.config");
       var bakFilePath = nugetConfigPath + ".bak";
@@ -87,18 +87,18 @@
       }
 
       var nugetConfig = XmlDocumentEx.LoadFile(nugetConfigPath);
-      Assert.IsNotNull(nugetConfig, "nugetConfig");
+      Assert.IsNotNull(nugetConfig, nameof(nugetConfig));
 
       var config = nugetConfig.SelectSingleNode("/configuration") ?? nugetConfig.DocumentElement.AddElement("configuration");
-      Assert.IsNotNull(config, "config");
+      Assert.IsNotNull(config, nameof(config));
 
       var keyName = "Sitecore NuGet";
       var packageSources = nugetConfig.SelectSingleElement("/configuration/packageSources") ?? config.AddElement("packageSources");
-      Assert.IsNotNull(packageSources, "packageSources");
+      Assert.IsNotNull(packageSources, nameof(packageSources));
 
       var addElements = packageSources.ChildNodes.OfType<XmlElement>();
       var add = addElements.FirstOrDefault(x => x.GetAttribute("key").Equals(keyName, StringComparison.OrdinalIgnoreCase)) ?? packageSources.AddElement("add");
-      Assert.IsNotNull(add, "add");
+      Assert.IsNotNull(add, nameof(add));
 
       add.SetAttribute("key", keyName);
       add.SetAttribute("value", nugetFolderPath);

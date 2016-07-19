@@ -22,7 +22,7 @@ namespace SIM.Core.Commands
 
     protected override void DoExecute(CommandResult<IProfile> result)
     {
-      Assert.ArgumentNotNull(result, "result");
+      Assert.ArgumentNotNull(result, nameof(result));
 
       var profile = Profile.Read();
 

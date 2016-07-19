@@ -81,7 +81,7 @@
         return;
       }
 
-      Assert.IsNotNull(instance, "instance");
+      Assert.IsNotNull(instance, nameof(instance));
 
       var folder = Path.Combine(ApplicationManager.TempFolder, "configs", instance.Name);
       if (!Directory.Exists(folder))

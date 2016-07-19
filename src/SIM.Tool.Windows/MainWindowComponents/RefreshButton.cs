@@ -42,7 +42,7 @@
 
     public RefreshButton([NotNull] string param)
     {
-      Assert.ArgumentNotNull(param, "param");
+      Assert.ArgumentNotNull(param, nameof(param));
 
       switch (param.ToLower())
       {
@@ -106,7 +106,7 @@
 
     private RefreshMode GetMode([NotNull] Window mainWindow)
     {
-      Assert.ArgumentNotNull(mainWindow, "mainWindow");
+      Assert.ArgumentNotNull(mainWindow, nameof(mainWindow));
 
       if (this.mode != RefreshMode.Undefined)
       {
