@@ -5,6 +5,7 @@ namespace SIM.Pipelines
   using System;
   using System.Data.SqlClient;
   using System.IO;
+  using System.IO.Compression;
   using System.Linq;
   using SIM.Adapters.SqlServer;
   using SIM.Adapters.WebServer;
@@ -258,6 +259,26 @@ namespace SIM.Pipelines
       Assert.IsTrue(connectionStrings.Length >= 2, "2 or more sql connection strings are required");
 
       return AttachDatabasesHelper.GetSqlPrefix(connectionStrings[0].Value, connectionStrings[1].Value);
+    }
+
+    public static void ExtractReportingDatabase(Instance instance, FileInfo destination)
+    {
+      Assert.ArgumentNotNull(instance, nameof(instance));
+      Assert.ArgumentNotNull(destination, nameof(destination));
+
+      var product = instance.Product;
+      Assert.IsNotNull(product.PackagePath.EmptyToNull(), "The {0} product distributive is not available in local repository", instance.ProductFullName);
+
+      var package = new FileInfo(product.PackagePath);
+      Assert.IsTrue(package.Exists, $"The {package.FullName} file does not exist");
+
+      using (var zip = ZipFile.OpenRead(package.FullName))
+      {
+        var entry = zip.Entries.FirstOrDefault(x => x.FullName.EndsWith("Sitecore.Analytics.mdf"));
+        Assert.IsNotNull(entry, "Cannot find Sitecore.Analytics.mdf in the {0} file", package.FullName);
+
+        entry.ExtractToFile(destination.FullName);
+      }
     }
   }
 }

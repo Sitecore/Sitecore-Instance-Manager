@@ -13,6 +13,7 @@
   using SIM.Extensions;
   using SIM.Instances;
   using SIM.Pipelines;
+  using SIM.Tool.Base;
   using SIM.Tool.Base.Plugins;
 
   public class AttachReportingSecondaryDatabaseButton : IMainWindowButton
@@ -31,6 +32,11 @@
     {
       Assert.ArgumentNotNull(instance, nameof(instance));
 
+      WindowHelper.LongRunningTask(() => Process(instance), "Attaching database", mainWindow);
+    }
+
+    private static void Process(Instance instance)
+    {
       var database = instance.AttachedDatabases?.FirstOrDefault();
       Assert.IsNotNull(database, "The databases information is not available");
 
@@ -69,8 +75,8 @@
       {
         secondaryFile.Delete();
       }
-                                   
-      ExtractReportingDatabase(instance, secondaryFile);      
+
+      AttachDatabasesHelper.ExtractReportingDatabase(instance, secondaryFile);
 
       var sqlPrefix = AttachDatabasesHelper.GetSqlPrefix(instance);
       var sqlName = sqlPrefix + "_reporting";
@@ -86,21 +92,6 @@
       };
 
       instance.Configuration.ConnectionStrings.Add("reporting.secondary", secondaryBuilder);
-    }
-
-    private static void ExtractReportingDatabase(Instance instance, FileInfo reportingSecondary)
-    {
-      var product = instance.Product;
-      var package = new FileInfo(product.PackagePath);
-      Assert.IsTrue(package.Exists, $"The {package.FullName} file does not exist");
-
-      using (var zip = ZipFile.OpenRead(package.FullName))
-      {
-        var entry = zip.Entries.FirstOrDefault(x => x.FullName.EndsWith("Sitecore.Analytics.mdf"));
-        Assert.IsNotNull(entry, "Cannot find Sitecore.Analytics.mdf in the {0} file", package.FullName);
-
-        entry.ExtractToFile(reportingSecondary.FullName);
-      }
-    }
+    }   
   }
 }

@@ -7,6 +7,7 @@ namespace SIM.Tool.Windows.MainWindowComponents
   using Sitecore.Diagnostics.Base.Annotations;
   using SIM.Adapters.SqlServer;
   using SIM.Instances;
+  using SIM.Tool.Base;
   using SIM.Tool.Base.Plugins;
 
   public class ReplaceReportingDatabaseWithSecondaryButton : IMainWindowButton
@@ -22,6 +23,11 @@ namespace SIM.Tool.Windows.MainWindowComponents
     }
 
     public void OnClick(Window mainWindow, Instance instance)
+    {
+      WindowHelper.LongRunningTask(() => Process(instance), "Replacing reporting database", mainWindow);
+    }
+
+    private static void Process(Instance instance)
     {
       var connectionStrings = instance.Configuration.ConnectionStrings;
 

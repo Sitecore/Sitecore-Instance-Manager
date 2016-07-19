@@ -1,13 +1,12 @@
 namespace SIM.Tool.Windows.MainWindowComponents
 {
-  using System;
-  using System.Data;
   using System.Data.SqlClient;
   using System.Linq;
   using System.Windows;
   using Sitecore.Diagnostics.Base;
   using Sitecore.Diagnostics.Base.Annotations;
   using SIM.Instances;
+  using SIM.Tool.Base;
   using SIM.Tool.Base.Plugins;
 
   public class CopyMarketingDefinitionTablesButton : IMainWindowButton
@@ -23,6 +22,11 @@ namespace SIM.Tool.Windows.MainWindowComponents
     }
 
     public void OnClick(Window mainWindow, Instance instance)
+    {                                                                                         
+      WindowHelper.LongRunningTask(() => Process(instance), "Copying definitions", mainWindow);
+    }
+
+    private static void Process(Instance instance)
     {
       var connectionStrings = instance.Configuration.ConnectionStrings;
 
@@ -32,7 +36,7 @@ namespace SIM.Tool.Windows.MainWindowComponents
       var secondary = connectionStrings.FirstOrDefault(x => x.Name == "reporting.secondary");
       Assert.IsNotNull(secondary, nameof(secondary));
 
-      var tablesNames = new[] { "CampaignActivityDefinitions", "GoalDefinitions", "OutcomeDefinitions", "MarketingAssetDefinitions", "Taxonomy_TaxonEntity", "Taxonomy_TaxonEntityFieldDefinition", "Taxonomy_TaxonEntityFieldValue" };
+      var tablesNames = new[] {"CampaignActivityDefinitions", "GoalDefinitions", "OutcomeDefinitions", "MarketingAssetDefinitions", "Taxonomy_TaxonEntity", "Taxonomy_TaxonEntityFieldDefinition", "Taxonomy_TaxonEntityFieldValue"};
 
       using (var connection = new SqlConnection(primary.Value))
       {

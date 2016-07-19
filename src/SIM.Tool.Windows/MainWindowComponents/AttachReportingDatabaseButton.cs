@@ -13,6 +13,7 @@ namespace SIM.Tool.Windows.MainWindowComponents
   using SIM.Extensions;
   using SIM.Instances;
   using SIM.Pipelines;
+  using SIM.Tool.Base;
   using SIM.Tool.Base.Plugins;
 
   public class AttachReportingDatabaseButton : IMainWindowButton
@@ -30,7 +31,12 @@ namespace SIM.Tool.Windows.MainWindowComponents
     public void OnClick(Window mainWindow, Instance instance)
     {
       Assert.ArgumentNotNull(instance, nameof(instance));
+                    
+      WindowHelper.LongRunningTask(() => Process(instance), "Attaching database", mainWindow);
+    }
 
+    private static void Process(Instance instance)
+    {
       var firstDatabase = instance.AttachedDatabases?.FirstOrDefault();
       Assert.IsNotNull(firstDatabase, "The databases information is not available");
 
@@ -61,7 +67,7 @@ namespace SIM.Tool.Windows.MainWindowComponents
         reportingFile.Delete();
       }
 
-      ExtractReportingDatabase(instance, reportingFile);
+      AttachDatabasesHelper.ExtractReportingDatabase(instance, reportingFile);
 
       var sqlPrefix = AttachDatabasesHelper.GetSqlPrefix(instance);
       var reportingSqlName = sqlPrefix + "_reporting";
@@ -76,21 +82,6 @@ namespace SIM.Tool.Windows.MainWindowComponents
       };
 
       instance.Configuration.ConnectionStrings.Add("reporting", reportingValue);
-    }
-
-    private static void ExtractReportingDatabase(Instance instance, FileInfo reportingSecondary)
-    {
-      var product = instance.Product;
-      var package = new FileInfo(product.PackagePath);
-      Assert.IsTrue(package.Exists, $"The {package.FullName} file does not exist");
-
-      using (var zip = ZipFile.OpenRead(package.FullName))
-      {
-        var entry = zip.Entries.FirstOrDefault(x => x.FullName.EndsWith("Sitecore.Analytics.mdf"));
-        Assert.IsNotNull(entry, "Cannot find Sitecore.Analytics.mdf in the {0} file", package.FullName);
-
-        entry.ExtractToFile(reportingSecondary.FullName);
-      }
     }
   }
 }
