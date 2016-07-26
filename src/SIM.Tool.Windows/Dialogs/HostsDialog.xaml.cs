@@ -91,7 +91,7 @@
     {
       try
       {
-        this.records = Hosts.GetRecords().ToList();
+        this.records = Hosts.GetRecords().Where(r => r is Hosts.IpHostRecord).ToList();
         this.HostsList.DataContext = this.records;
       }
       catch (Exception ex)
