@@ -15,7 +15,7 @@
   {
     #region Fields
 
-    private List<Hosts.IHostRecord> records;
+    private IList<Hosts.IpHostRecord> records;
 
     #endregion
 
@@ -91,7 +91,7 @@
     {
       try
       {
-        this.records = Hosts.GetRecords().Where(r => r is Hosts.IpHostRecord).ToList();
+        this.records = Hosts.GetRecords().OfType<Hosts.IpHostRecord>().ToList();
         this.HostsList.DataContext = this.records;
       }
       catch (Exception ex)
