@@ -141,7 +141,7 @@
       }
     }
 
-    public static void Save(List<IHostRecord> records)
+    public static void Save(IEnumerable<IHostRecord> records)
     {
       var path = GetHostsFilePath();
       var text = FileSystem.FileSystem.Local.File.ReadAllText(path);
