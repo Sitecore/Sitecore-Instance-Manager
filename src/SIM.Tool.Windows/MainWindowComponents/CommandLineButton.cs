@@ -8,10 +8,9 @@
   using SIM.Core.Common;
   using SIM.Extensions;
   using SIM.Instances;
-  using SIM.Tool.Base.Plugins;
 
   [UsedImplicitly]
-  public class CommandLineButton : AbstractDownloadAndRunButton, IMainWindowButton
+  public class CommandLineButton : AbstractDownloadAndRunButton
   {
     protected override string BaseUrl
     {
@@ -43,27 +42,11 @@
 
     #region Public methods
 
-    public bool IsEnabled(Window mainWindow, Instance instance)
-    {
-      return true;
-    }
-
-    public void OnClick(Window mainWindow, Instance instance)
+    public override void OnClick(Window mainWindow, Instance instance)
     {
       Analytics.TrackEvent("OpenCommandLine");
 
-      if (instance != null)
-      {
-        var dataFolderPath = instance.DataFolderPath;
-        FileSystem.FileSystem.Local.Directory.AssertExists(dataFolderPath, "The data folder ({0}) of the {1} instance doesn't exist".FormatWith(dataFolderPath, instance.Name));
-
-        var logs = Path.Combine(dataFolderPath, "logs");
-        RunApp(mainWindow, logs);
-
-        return;
-      }
-
-      RunApp(mainWindow);
+      base.OnClick(mainWindow, instance);
     }
 
     #endregion

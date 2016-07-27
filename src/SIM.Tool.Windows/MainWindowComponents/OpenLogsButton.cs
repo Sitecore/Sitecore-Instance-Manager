@@ -42,7 +42,7 @@
       return true;
     }
 
-    public void OnClick(Window mainWindow, Instance instance)
+    public override void OnClick(Window mainWindow, Instance instance)
     {
       Analytics.TrackEvent("OpenLogAnalyzer");
       

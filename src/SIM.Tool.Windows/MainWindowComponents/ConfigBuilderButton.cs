@@ -8,10 +8,11 @@
   using Sitecore.Diagnostics.Base;
   using Sitecore.Diagnostics.Base.Annotations;
   using SIM.Core;
+  using SIM.Core.Common;
   using SIM.Extensions;
 
   [UsedImplicitly]
-  public class ConfigBuilderButton : AbstractDownloadAndRunButton, IMainWindowButton
+  public class ConfigBuilderButton : AbstractDownloadAndRunButton
   {
     #region Fields
 
@@ -65,14 +66,11 @@
     }
 
     #region Public methods
-
-    public bool IsEnabled(Window mainWindow, Instance instance)
+                     
+    public override void OnClick(Window mainWindow, Instance instance)
     {
-      return true;
-    }
+      Analytics.TrackEvent("RunConfigBuilder");
 
-    public void OnClick(Window mainWindow, Instance instance)
-    {
       if (!this.Showconfig && !this.WebConfigResult)
       {
         var param = instance != null ? Path.Combine(instance.WebRootPath, "web.config") : null;

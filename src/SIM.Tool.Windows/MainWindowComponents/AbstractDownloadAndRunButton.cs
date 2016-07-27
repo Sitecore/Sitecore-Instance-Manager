@@ -10,23 +10,39 @@ namespace SIM.Tool.Windows.MainWindowComponents
   using Sitecore.Diagnostics.Base;
   using Sitecore.Diagnostics.Base.Annotations;
   using SIM.Core;
+  using SIM.Core.Common;
+  using SIM.Instances;
+  using SIM.Tool.Base.Plugins;
 
-  public abstract class AbstractDownloadAndRunButton
+  public abstract class AbstractDownloadAndRunButton : IMainWindowButton
   {
+    [NotNull]
     protected abstract string BaseUrl { get; }
 
+    [NotNull]
     protected abstract string AppName { get; }
 
+    [NotNull]
     protected abstract string ExecutableName { get; }
 
     [NotNull]
-    protected string AppFolder
+    protected string AppFolder => Path.Combine(ApplicationManager.AppsFolder, AppName);
+
+    #region Public methods
+
+    public virtual bool IsEnabled(Window mainWindow, Instance instance)
     {
-      get
-      {
-        return Path.Combine(ApplicationManager.AppsFolder, this.AppName);
-      }
+      return true;
     }
+
+    public virtual void OnClick(Window mainWindow, Instance instance)
+    {
+      Analytics.TrackEvent("OpenCommandLine");             
+
+      RunApp(mainWindow);
+    }
+
+    #endregion
 
     protected void RunApp(Window mainWindow, string param = null)
     {
@@ -34,7 +50,7 @@ namespace SIM.Tool.Windows.MainWindowComponents
 
       var latestVersion = GetLatestVersion();
 
-      if (!FileSystem.FileSystem.Local.File.Exists(path) || (!String.IsNullOrEmpty(latestVersion) && FileVersionInfo.GetVersionInfo(path).ProductVersion != latestVersion))
+      if (!FileSystem.FileSystem.Local.File.Exists(path) || (!string.IsNullOrEmpty(latestVersion) && FileVersionInfo.GetVersionInfo(path).ProductVersion != latestVersion))
       {
         GetLatestVersion(mainWindow, path);
 
@@ -43,7 +59,7 @@ namespace SIM.Tool.Windows.MainWindowComponents
           return;
         }
       }
-      
+
       RunApp(path, param);
     }
 
@@ -58,14 +74,14 @@ namespace SIM.Tool.Windows.MainWindowComponents
       else
       {
         CoreApp.RunApp(path);
-      }      
+      }
     }
 
     #region Private methods
 
     private string GetLatestVersion()
     {
-      var latestVersion = String.Empty;
+      var latestVersion = string.Empty;
       var url = this.BaseUrl.TrimEnd('/') + "/latest-version.txt";
       try
       {
