@@ -152,6 +152,7 @@
     <Compile Include="MainWindowComponents\ConfigBuilderButton.cs" />
     <Compile Include="MainWindowComponents\ControlAppPoolButton.cs" />
     <Compile Include="MainWindowComponents\CopyMarketingDefinitionTablesButton.cs" />
+    <Compile Include="MainWindowComponents\CreateSupportPatchButton.cs" />
     <Compile Include="MainWindowComponents\DatabaseManagerButton.cs" />
     <Compile Include="MainWindowComponents\DeleteInstanceButton.cs" />
     <Compile Include="MainWindowComponents\Download8Button.cs" />

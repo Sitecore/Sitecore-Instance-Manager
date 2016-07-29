@@ -25,6 +25,8 @@
             <button     label="SIM Logs"                                            largeImage="/Images/$sm/folder_document2.png, SIM.Tool.Windows"            type="SIM.Tool.Windows.MainWindowComponents.OpenFolderButton, SIM.Tool.Windows"     param="%APPDATA%\Sitecore\Sitecore Instance Manager\Logs" />
             <button     label="SIM Data Folder"                                     largeImage="/Images/$sm/folder_window.png, SIM.Tool.Windows"               type="SIM.Tool.Windows.MainWindowComponents.OpenFolderButton, SIM.Tool.Windows"     param="%APPDATA%\Sitecore\Sitecore Instance Manager" />
             <separator />
+            <button     label="Create Support Patch"                                largeImage="/Images/$sm/vs.png, SIM.Tool.Windows"                          type="SIM.Tool.Windows.MainWindowComponents.CreateSupportPatchButton, SIM.Tool.Windows" />
+            <separator />
             <button     label="Download Sitecore 8.x"                               largeImage="/Images/$sm/cloud_download.png, SIM.Tool.Windows"              type="SIM.Tool.Windows.MainWindowComponents.Download8Button, SIM.Tool.Windows" />
             <button     label="Download Sitecore 6.x and 7.x"                       largeImage="/Images/$sm/cloud_download.png, SIM.Tool.Windows"             type="SIM.Tool.Windows.MainWindowComponents.DownloadButton, SIM.Tool.Windows" />
             <separator />
@@ -129,7 +131,10 @@
           </button>
         </group>
         <group name="Apps">
-          <button       label="Visual Studio"                                       largeImage="/Images/$lg/vs.png, SIM.Tool.Windows"                      type="SIM.Tool.Windows.MainWindowComponents.OpenVisualStudioButton, SIM.Tool.Windows" />
+          <button       label="Visual Studio"                                       largeImage="/Images/$lg/vs.png, SIM.Tool.Windows"                      type="SIM.Tool.Windows.MainWindowComponents.OpenVisualStudioButton, SIM.Tool.Windows">
+            <button     label="Visual Studio"                                       largeImage="/Images/$sm/vs.png, SIM.Tool.Windows"                      type="SIM.Tool.Windows.MainWindowComponents.OpenVisualStudioButton, SIM.Tool.Windows" />
+            <button     label="Create Support Patch"                                largeImage="/Images/$sm/console.png, SIM.Tool.Windows"                 type="SIM.Tool.Windows.MainWindowComponents.CreateSupportPatchButton, SIM.Tool.Windows" />
+          </button>
         </group>
       </tab>
       <tab     name="Edit">

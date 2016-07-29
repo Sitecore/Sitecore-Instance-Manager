@@ -458,6 +458,24 @@
       }
     }
 
+    public int Update
+    {
+      get
+      {
+        var version = Service.GetVersions("Sitecore CMS").FirstOrDefault(x => x.Name.StartsWith(this.Version) || this.Version.StartsWith(x.Name));
+        var releases = version.Releases.OrderBy(x => x.Revision).ToArray();
+        for (int i = 0; i < releases.Length; i++)
+        {
+          if (Revision.Equals(releases[i].Revision))
+          {
+            return i;
+          }
+        }
+
+        return 0;
+      }
+    }
+
     #endregion
 
     #region Public methods
