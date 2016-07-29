@@ -184,6 +184,7 @@
     <Compile Include="MainWindowComponents\RestoreInstanceButton.cs" />
     <Compile Include="MainWindowComponents\SettingsButton.cs" />
     <Compile Include="MainWindowComponents\UpdateLicenseButton.cs" />
+    <Compile Include="NuGetHelper.cs" />
     <Compile Include="Pipelines\Agreement\AcceptAgreement.cs" />
     <Compile Include="Pipelines\Download\DownloadArgs.cs" />
     <Compile Include="Pipelines\Download\DownloadProcessor.cs" />
