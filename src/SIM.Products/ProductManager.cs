@@ -37,6 +37,11 @@
 
     #region Public Methods
 
+    public static Product GetProduct(FileInfo file)
+    {
+      return GetProduct(file.FullName);
+    }
+
     [NotNull]
     public static Product GetProduct([NotNull] string productName)
     {

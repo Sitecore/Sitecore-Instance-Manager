@@ -36,7 +36,12 @@
               
       NuGetHelper.UpdateSettings();
 
-      NuGetHelper.GeneratePackages(new FileInfo(product.PackagePath));      
+      NuGetHelper.GeneratePackages(new FileInfo(product.PackagePath));
+
+      foreach (var module in instance.Modules)
+      {
+        NuGetHelper.GeneratePackages(new FileInfo(module.PackagePath));
+      }
     }
 
     #endregion

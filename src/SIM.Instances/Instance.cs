@@ -394,9 +394,26 @@
     {
       get
       {
-        // TODO: replace with modules detector implemenation
-        var modulesNames = Directory.GetFiles(this.PackagesFolderPath, "*.zip").Select(x => ProductManager.GetProduct(x)).Where(x => x != Product.Undefined).Select(x => x.Name.TrimStart("Sitecore "));
+        var modulesNames = Modules.Select(x => x.Name.TrimStart("Sitecore "));
         return (string.Join(", ", modulesNames) + (File.Exists(Path.Combine(this.WebRootPath, "App_Config\\Include\\Sitecore.Analytics.config")) ? ", DMS" : string.Empty)).TrimStart(" ,".ToCharArray());
+      }
+    }
+
+    [NotNull]
+    public virtual IReadOnlyCollection<Product> Modules
+    {
+      get
+      {
+        return ModulesFiles.Select(x => ProductManager.GetProduct(x)).Where(x => x != Product.Undefined).ToArray();
+      }
+    }
+
+    [NotNull]
+    public virtual IReadOnlyCollection<FileInfo> ModulesFiles
+    {
+      get
+      {
+        return new DirectoryInfo(this.PackagesFolderPath).GetFiles("*.zip");
       }
     }
 
