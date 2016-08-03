@@ -112,7 +112,7 @@ namespace SIM.Pipelines
       }
 
       Assert.IsNotNull(sqlPrefix.EmptyToNull(), "two first database names have different prefixes when they must be similar");
-      return sqlPrefix.TrimEnd('_');
+      return sqlPrefix.Replace(".", "_").TrimEnd('_');
     }
 
     [NotNull]
