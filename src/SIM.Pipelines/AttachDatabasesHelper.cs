@@ -74,7 +74,7 @@ namespace SIM.Pipelines
     {
       if (connectionString.IsMongoConnectionString)
       {
-        connectionString.Value = AttachDatabasesHelper.GetMongoConnectionString(connectionString.Name, instanceName);
+        connectionString.Value = AttachDatabasesHelper.GetMongoConnectionString(connectionString.Name, sqlPrefix);
         connectionString.SaveChanges();
         return;
       }
