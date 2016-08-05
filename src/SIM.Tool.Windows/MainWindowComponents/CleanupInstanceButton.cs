@@ -55,7 +55,7 @@
 
         foreach (var file in Directory.GetFiles(tempFolder))
         {
-          if (file.EndsWith("dictionary.data"))
+          if (file.EndsWith("dictionary.dat"))
           {
             continue;
           }
@@ -70,6 +70,7 @@
         Path.Combine(instance.WebRootPath, "App_Data/MediaCache"),
         Path.Combine(instance.DataFolderPath, "ViewState"),
         Path.Combine(instance.DataFolderPath, "Diagnostics"),
+        Path.Combine(instance.DataFolderPath, "Submit Queue"),
       };
 
       foreach (var folder in folders)
