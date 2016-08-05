@@ -184,7 +184,7 @@
       
       public static readonly AdvancedProperty<string> CoreProductRootFolderNamePattern = AdvancedSettings.Create("App/Product/RootFolderNamePattern", "{ShortName}{ShortVersion}{UpdateOrRevision}");
       
-      public static readonly AdvancedProperty<bool> CoreProductHostNameEndsWithLocal = AdvancedSettings.Create("App/Product/HostName/EndsWithLocal", false);
+      public static readonly AdvancedProperty<bool> CoreProductHostNameEndsWithLocal = AdvancedSettings.Create("App/Product/HostName/EndsWithLocal", true);
 
       public static readonly AdvancedProperty<bool> CoreProductReverseHostName = AdvancedSettings.Create("App/Product/HostName/Reverse", true);
 
