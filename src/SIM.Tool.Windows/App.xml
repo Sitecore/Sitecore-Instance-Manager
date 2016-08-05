@@ -160,6 +160,8 @@
             <button     label="Publish (Smart)"                                     largeImage="/Images/$sm/publish.png, SIM.Tool.Windows"                    type="SIM.Tool.Windows.MainWindowComponents.PublishButton, SIM.Tool.Windows"        param="smart" />
             <button     label="Publish (Republish)"                                 largeImage="/Images/$sm/publish.png, SIM.Tool.Windows"                    type="SIM.Tool.Windows.MainWindowComponents.PublishButton, SIM.Tool.Windows"        param="republish" />
             <separator />
+            <button     label="Cleanup logs and temp folder"                        largeImage="/Images/$sm/uninstall.png, SIM.Tool.Windows"                   type="SIM.Tool.Windows.MainWindowComponents.CleanupInstanceButton, SIM.Tool.Windows" />
+            <separator />
             <button     label="Attach Reporting database"                           largeImage="/Images/$sm/data.png, SIM.Tool.Windows"                        type="SIM.Tool.Windows.MainWindowComponents.AttachReportingDatabaseButton, SIM.Tool.Windows" />
             <separator />
             <button     label="Attach Reporting.Secondary database"                 largeImage="/Images/$sm/data.png, SIM.Tool.Windows"                        type="SIM.Tool.Windows.MainWindowComponents.AttachReportingSecondaryDatabaseButton, SIM.Tool.Windows" />

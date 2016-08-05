@@ -146,6 +146,7 @@
     <Compile Include="MainWindowComponents\AttachReportingSecondaryDatabaseButton.cs" />
     <Compile Include="MainWindowComponents\BackupInstanceButton.cs" />
     <Compile Include="MainWindowComponents\BrowseButton.cs" />
+    <Compile Include="MainWindowComponents\CleanupInstanceButton.cs" />
     <Compile Include="MainWindowComponents\ClearEventQueueButton.cs" />
     <Compile Include="MainWindowComponents\CollectMemoryDumpButton.cs" />
     <Compile Include="MainWindowComponents\CommandLineButton.cs" />
