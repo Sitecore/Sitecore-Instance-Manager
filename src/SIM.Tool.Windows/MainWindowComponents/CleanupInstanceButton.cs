@@ -45,13 +45,6 @@
         }
       }
 
-      var logsFolder = instance.LogsFolderPath;
-      if (!string.IsNullOrEmpty(logsFolder) && Directory.Exists(logsFolder))
-      {
-        Directory.Delete(logsFolder, true);
-        Directory.CreateDirectory(logsFolder);
-      }
-
       var tempFolder = instance.TempFolderPath;
       if (!string.IsNullOrEmpty(tempFolder) && Directory.Exists(tempFolder))
       {
@@ -69,7 +62,25 @@
 
           File.Delete(file);
         }
-      }      
+      }
+
+      var folders = new[]
+      {
+        instance.LogsFolderPath,
+        Path.Combine(instance.WebRootPath, "App_Data/MediaCache"),
+        Path.Combine(instance.DataFolderPath, "ViewState"),
+        Path.Combine(instance.DataFolderPath, "Diagnostics"),
+      };
+
+      foreach (var folder in folders)
+      {
+        if (string.IsNullOrEmpty(folder) || !Directory.Exists(folder))
+        {
+          continue;
+        }
+        Directory.Delete(folder, true);
+        Directory.CreateDirectory(folder);
+      }
     }
   }
 }
