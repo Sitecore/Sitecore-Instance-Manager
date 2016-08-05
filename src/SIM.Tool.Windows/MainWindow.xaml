@@ -36,17 +36,16 @@
         <Image Source="pack://application:,,,/SIM.Tool.Windows;component/Images/24/view.png" />
       </Button>
     </Grid>
-    <StackPanel DockPanel.Dock="Bottom" Height="42">
+    <StackPanel DockPanel.Dock="Bottom" Height="64">
       <StackPanel.Background>
         <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
           <GradientStop Color="#FFCCD9EA" Offset="0.0" />
           <GradientStop Color="#FFF1F5FB" Offset="0.1" />
         </LinearGradientBrush>
       </StackPanel.Background>
-      <TextBlock Text="{Binding ElementName=InstanceList, Path=SelectedItem}" Padding="4"></TextBlock>
-      <TextBlock Padding="4 0">
-        <TextBlock Text="{Binding ElementName=InstanceList, Path=SelectedItem.ModulesNames}" />
-      </TextBlock>
+      <TextBlock Text="{Binding ElementName=InstanceList, Path=SelectedItem}" Padding="4,4,4,2"></TextBlock>
+      <TextBlock Text="{Binding ElementName=InstanceList, Path=SelectedItem.BindingsNames}" Padding="4,4,4,2"/>
+      <TextBlock Text="{Binding ElementName=InstanceList, Path=SelectedItem.ModulesNames}" Padding="4,4,4,0" />
     </StackPanel>
     <ListBox Margin="0 1 0 1" Name="InstanceList" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" ItemsSource="{Binding}" BorderThickness="0" MouseRightButtonUp="ItemsTreeViewMouseRightClick" MouseDoubleClick="ItemsTreeViewMouseDoubleClick" KeyUp="ItemsTreeViewKeyPressed" SelectionChanged="InstanceSelected" SelectionMode="Single">
       <ListBox.ItemTemplate>

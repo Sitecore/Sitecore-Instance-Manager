@@ -399,6 +399,15 @@
       }
     }
 
+    [UsedImplicitly]
+    public virtual string BindingsNames
+    {
+      get
+      {
+        return "Hosts: " + string.Join(", ", this.Bindings.Select(x => (x.Host.EmptyToNull() ?? x.IP) + (x.Port != 80 ? $":{x.Port}" : "")));
+      }
+    }
+
     [NotNull]
     public virtual IReadOnlyCollection<Product> Modules
     {
