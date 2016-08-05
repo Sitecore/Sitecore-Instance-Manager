@@ -101,6 +101,7 @@
     <Compile Include="InstallModules\IPackageInstallActions.cs" />
     <Compile Include="Install\0150 GrantPermissions.cs" />
     <Compile Include="Install\0600 UpdateWebConfig.cs" />
+    <Compile Include="Install\0650 AddServerTxt.cs" />
     <Compile Include="Install\Modules\CreateSolrCores.cs" />
     <Compile Include="Install\Modules\SwitchConfigsToSolr.cs" />
     <Compile Include="Install\Settings.cs" />
@@ -147,6 +148,7 @@
     <Compile Include="PipelinesConfig.cs" />
     <Compile Include="Reinstall\1200 Install.UpdateWebConfig.cs" />
     <Compile Include="Reinstall\1500 Install.StartInstance.cs" />
+    <Compile Include="Reinstall\1250 Install.AddServerTxt.cs" />
     <Compile Include="Restore\RestoreMongoDatabases.cs" />
     <Compile Include="SetupWebsiteHelper.cs" />
     <Compile Include="Install\InstallArgs.cs" />

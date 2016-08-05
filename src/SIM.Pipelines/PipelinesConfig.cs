@@ -13,6 +13,7 @@
         <processor type=""SIM.Pipelines.Install.CopyLicense, SIM.Pipelines"" title=""Copying license"" />
         <processor type=""SIM.Pipelines.Install.SetupWebsite, SIM.Pipelines"" title=""Configuring IIS website"" />
         <processor type=""SIM.Pipelines.Install.UpdateWebConfig, SIM.Pipelines"" title=""Setting data folder"" />
+        <processor type=""SIM.Pipelines.Install.AddServerTxt, SIM.Pipelines"" title=""Adding server.txt file"" />
       </processor>
       <processor type=""SIM.Pipelines.Install.UpdateHosts, SIM.Pipelines"" title=""Updating hosts file"" />
     </step>
@@ -97,7 +98,8 @@
       <processor type=""SIM.Pipelines.Reinstall.Extract, SIM.Pipelines"" title=""Extracting files"">
         <processor type=""SIM.Pipelines.Reinstall.CopyLicense, SIM.Pipelines"" title=""Copying license"" />
         <processor type=""SIM.Pipelines.Reinstall.SetupWebsite, SIM.Pipelines"" title=""Configuring IIS website"" />
-        <processor type=""SIM.Pipelines.Reinstall.UpdateWebConfig, SIM.Pipelines"" title=""Setting the data folder"" />
+        <processor type=""SIM.Pipelines.Reinstall.UpdateWebConfig, SIM.Pipelines"" title=""Setting the data folder"" />  
+        <processor type=""SIM.Pipelines.Reinstall.AddServerTxt, SIM.Pipelines"" title=""Adding server.txt file"" />
         <processor type=""SIM.Pipelines.Reinstall.DeleteTempFolder, SIM.Pipelines"" title=""Collecting garbage"" />
       </processor>
     </step>
