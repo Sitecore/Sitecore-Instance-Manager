@@ -50,8 +50,16 @@
       <SpecificVersion>False</SpecificVersion>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Sitecore.Diagnostics.Base, Version=1.0.0.0, Culture=neutral, PublicKeyToken=2a430da507ea8b02, processorArchitecture=MSIL">
       <HintPath>..\packages\Sitecore.Diagnostics.Base.1.0.0.24\lib\net35\Sitecore.Diagnostics.Base.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Sitecore.Diagnostics.Database, Version=1.0.0.0, Culture=neutral, PublicKeyToken=1eb7b03b14a31fae, processorArchitecture=MSIL">
+      <HintPath>..\packages\Sitecore.Diagnostics.Database.1.0.0.8\lib\net40\Sitecore.Diagnostics.Database.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Sitecore.Diagnostics.Logging, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
@@ -60,6 +68,10 @@
     </Reference>
     <Reference Include="Sitecore.Diagnostics.Logging.Log4Net, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Sitecore.Diagnostics.Logging.Log4Net.1.0.1.0\lib\net40\Sitecore.Diagnostics.Logging.Log4Net.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Sitecore.Diagnostics.SqlDataProvider, Version=1.0.0.0, Culture=neutral, PublicKeyToken=c788ca2f03123fe0, processorArchitecture=MSIL">
+      <HintPath>..\packages\Sitecore.Diagnostics.SqlDataProvider.1.0.0.18\lib\net40\Sitecore.Diagnostics.SqlDataProvider.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -71,6 +83,7 @@
   <ItemGroup>
     <Compile Include="Commands\BrowseCommand.cs" />
     <Compile Include="Commands\ConfigCommand.cs" />
+    <Compile Include="Commands\JsonExportCommand.cs" />
     <Compile Include="Commands\LoginCommand.cs" />
     <Compile Include="Commands\RepositoryCommand.cs" />
     <Compile Include="Commands\RepositoryCommandResult.cs" />

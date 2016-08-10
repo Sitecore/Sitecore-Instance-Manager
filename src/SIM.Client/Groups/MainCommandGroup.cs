@@ -53,6 +53,11 @@
 
     [CanBeNull]
     [UsedImplicitly]
+    [VerbOption("json-export", HelpText = "Log in user as admin to an instance.")]
+    public JsonExportCommandFacade JsonExportCommandFacade { get; set; }
+
+    [CanBeNull]
+    [UsedImplicitly]
     [VerbOption("repository", HelpText = "Show contents of repository.")]
     public RepositoryCommandFacade RepositoryCommandFacade { get; set; }
 

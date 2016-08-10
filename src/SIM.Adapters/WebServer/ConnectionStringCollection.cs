@@ -4,6 +4,7 @@
 
   using System.Collections.Generic;
   using System.Data.SqlClient;
+  using System.Linq;
   using System.Xml;
   using Sitecore.Diagnostics.Base;
   using Sitecore.Diagnostics.Base.Annotations;
@@ -59,6 +60,15 @@
     public void Save()
     {
       this.connectionStringsElement.Save();
+    }
+
+    [CanBeNull]
+    public ConnectionString this[string name]
+    {
+      get
+      {
+        return this.FirstOrDefault(x => x.Name.EqualsIgnoreCase(name));
+      }
     }
 
     #endregion
