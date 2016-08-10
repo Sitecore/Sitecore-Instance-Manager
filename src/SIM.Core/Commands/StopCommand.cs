@@ -1,7 +1,6 @@
 namespace SIM.Core.Commands
 {
   using System;
-  using System.Linq;
   using Sitecore.Diagnostics.Base;
   using SIM.Core.Common;
   using SIM.Instances;
@@ -10,21 +9,15 @@ namespace SIM.Core.Commands
   {
     public virtual bool? Force { get; set; }
 
-    protected override void DoExecute(CommandResult<Exception> result)
+    protected override void DoExecute(Instance instance, CommandResult<Exception> result)
     {
+      Assert.ArgumentNotNull(instance, nameof(instance));
       Assert.ArgumentNotNull(result, nameof(result));
 
-      var force = Force;
-      var name = Name;
-      Ensure.IsNotNullOrEmpty(name, "Name is not specified");
-
-      InstanceManager.Initialize();
-      var instance = InstanceManager.Instances.FirstOrDefault(x => x.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
-      Ensure.IsNotNull(instance, "instance is not found");
       Ensure.IsTrue(instance.State != InstanceState.Disabled, "instance is disabled");
       Ensure.IsTrue(instance.State != InstanceState.Stopped, "instance is already stopped");
 
-      instance.Stop(force);
+      instance.Stop(Force);
     }
   }
 }
