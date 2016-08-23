@@ -39,7 +39,7 @@
       var instance = InstanceManager.GetInstance(instanceName);
       var controller = this.Controller;
 
-      var sqlPrefix = AttachDatabasesHelper.GetSqlPrefix(instance);
+      var sqlPrefix = args.SqlPrefix;
 
       foreach (ConnectionString connectionString in instance.Configuration.ConnectionStrings)
       {
