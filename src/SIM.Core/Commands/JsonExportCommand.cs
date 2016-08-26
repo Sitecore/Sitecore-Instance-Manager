@@ -50,37 +50,45 @@ namespace SIM.Core.Commands
         Assert.IsNotNullOrEmpty(connectionString, nameof(connectionString));
       }
 
-      var context = ItemManager.Initialize(connectionString);
-      var items = context.GetItems();
-      var rootItemId = Guid.Parse("11111111-1111-1111-1111-111111111111");
-      if (!string.IsNullOrEmpty(ItemName))
+      using (var writer = new StreamWriter(File.OpenWrite(OutputFile)))
       {
-        if (!Guid.TryParse(ItemName, out rootItemId))
+        var context = ItemManager.Initialize(connectionString);
+        var items = context.GetItems();
+        var rootItemId = Guid.Parse("11111111-1111-1111-1111-111111111111");
+        if (!string.IsNullOrEmpty(ItemName))
         {
-          Assert.IsTrue(ItemName.StartsWith("/sitecore", StringComparison.OrdinalIgnoreCase), "Invalid item path: " + ItemName);
-          var itemNames = ItemName.Split("/".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
-          var path = "/sitecore";
-          Item rootItem = items.FirstOrDefault(x => x.ParentID == Guid.Empty);
-
-          foreach (var itemName in itemNames.Skip(1))
+          if (!Guid.TryParse(ItemName, out rootItemId))
           {
-            path += $"/{itemName}";
-            rootItem = items.FirstOrDefault(x => x.ParentID == rootItem.ID && x.Name == itemName);
-            Assert.IsNotNull(rootItem, $"Item path is not found: {path}");
+            Assert.IsTrue(ItemName.StartsWith("/sitecore", StringComparison.OrdinalIgnoreCase), "Invalid item path: " + ItemName);
+            var itemNames = ItemName.Split("/".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
+            var path = "/sitecore";
+            Item rootItem = items.FirstOrDefault(x => x.ParentID == Guid.Empty);
+
+            foreach (var itemName in itemNames.Skip(1))
+            {
+              path += $"/{itemName}";
+              rootItem = items.FirstOrDefault(x => x.ParentID == rootItem.ID && x.Name == itemName);
+              Assert.IsNotNull(rootItem, $"Item path is not found: {path}");
+            }
+
+            rootItemId = rootItem.ID;
           }
-
-          rootItemId = rootItem.ID;
         }
+
+        var tree = BuildTree(rootItemId, items);
+
+        if (SystemFields == null || !SystemFields.Value)
+        {
+          StripSystemFields(tree);
+        }
+
+        var serializer = new JsonSerializer
+        {
+          Formatting = Formatting.Indented
+        };
+
+        serializer.Serialize(writer,tree);
       }
-
-      var tree = BuildTree(rootItemId, items);
-
-      if (SystemFields == null || !SystemFields.Value)
-      {
-        StripSystemFields(tree);
-      }
-
-      File.WriteAllText(OutputFile, JsonConvert.SerializeObject(tree, Formatting.Indented));
     }
 
     private void StripSystemFields(ContentItem item)
