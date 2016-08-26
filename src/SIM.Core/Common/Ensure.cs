@@ -5,6 +5,7 @@
 
   public static class Ensure
   {
+    [ContractAnnotation("obj:null=>stop")]
     [StringFormatMethod("message")]
     public static void IsNotNull(object obj, string message, params object[] args)
     {
@@ -22,6 +23,7 @@
       throw new MessageException(string.Format(message, args));
     }
 
+    [ContractAnnotation("str:null=>stop")]
     [StringFormatMethod("message")]
     public static void IsNotNullOrEmpty(string str, string message, params object[] args)
     {
@@ -39,6 +41,7 @@
       throw new MessageException(string.Format(message, args));
     }
 
+    [ContractAnnotation("condition:false=>stop")]
     [StringFormatMethod("message")]
     public static void IsTrue(bool condition, string message, params object[] args)
     {
