@@ -34,6 +34,7 @@ namespace SIM.Core.Common
       this.DoExecute(instance, result);
     }
 
+    [NotNull]
     internal static Instance GetInstance(string name)
     {
       InstanceManager.Initialize();

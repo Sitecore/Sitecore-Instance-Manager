@@ -16,7 +16,7 @@
       ClassName = ex.GetType().FullName;
       Message = ex.Message;
       Data = ex.Data;
-      StackTrace = ex.StackTrace.Split("\r\n".ToCharArray(), StringSplitOptions.RemoveEmptyEntries).Select(x => StripSourceFile(x).Trim());
+      StackTrace = ex.StackTrace?.Split("\r\n".ToCharArray(), StringSplitOptions.RemoveEmptyEntries).Select(x => StripSourceFile(x).Trim()) ?? new string[0];
       InnerException = ex.InnerException.With(x => new CustomException(x));
     }
 

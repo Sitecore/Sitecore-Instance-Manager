@@ -48,7 +48,7 @@
       }
       catch (Exception ex)
       {
-        Log.Error(ex, "{0} command has failed with unhandled exception", GetType().Name);
+        Log.Error(ex, $"{GetType().Name} command has failed with unhandled exception");
         result.Success = false;
         result.Error = new CustomException(ex);
       }
