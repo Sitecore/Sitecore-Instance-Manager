@@ -31,7 +31,12 @@
       var query = GetQueryAndFilterArgs(filteredArgs);
       var wait = GetWaitAndFilterArgs(filteredArgs);
 
-      var parser = new Parser(with => with.HelpWriter = Console.Error);
+      var parser = new Parser(with =>
+      {
+        with.MutuallyExclusive = true;
+        with.HelpWriter = Console.Error;
+      });
+
       Assert.IsNotNull(parser, nameof(parser));
 
       var options = new MainCommandGroup();

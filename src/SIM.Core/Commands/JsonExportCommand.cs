@@ -14,7 +14,7 @@ namespace SIM.Core.Commands
   using SIM.Extensions;
   using SIM.Instances;
 
-  public class JsonExportCommand : AbstractInstanceActionCommand
+  public class JsonExportCommand : AbstractCommand
   {
     private readonly string[] FieldIDs =
     {
@@ -32,14 +32,27 @@ namespace SIM.Core.Commands
 
     public virtual bool? SystemFields { get; set; }
 
-    protected override void DoExecute(Instance instance, CommandResult result)
-    {
-      Assert.ArgumentNotNull(Database, nameof(Database));
-                                                                                                                     
-      var context = ItemManager.Initialize(instance.Configuration.ConnectionStrings[Database].Value);
+    public virtual string ConnectionString { get; set; }
+
+    public virtual string Name { get; set; }
+
+    protected override void DoExecute(CommandResult result)
+    {      
+      var connectionString = ConnectionString;
+      if (string.IsNullOrEmpty(connectionString))
+      {
+        Assert.ArgumentNotNull(Name, nameof(Name));
+        Assert.ArgumentNotNull(Database, nameof(Database));
+
+        var instance = AbstractInstanceActionCommand.GetInstance(Name);
+
+        connectionString = instance.Configuration.ConnectionStrings[Database]?.Value;
+        Assert.IsNotNullOrEmpty(connectionString, nameof(connectionString));
+      }
+
+      var context = ItemManager.Initialize(connectionString);
       var items = context.GetItems();
       var rootItemId = Guid.Parse("11111111-1111-1111-1111-111111111111");
-      bool filter = false;
       if (!string.IsNullOrEmpty(ItemName))
       {
         if (!Guid.TryParse(ItemName, out rootItemId))
