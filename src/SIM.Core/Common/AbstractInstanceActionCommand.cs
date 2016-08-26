@@ -13,12 +13,7 @@ namespace SIM.Core.Common
 
     protected sealed override void DoExecute(CommandResult<T> result)
     {
-      InstanceManager.Initialize();
-      var name = Name;
-      Assert.ArgumentNotNullOrEmpty(name, nameof(name));
-
-      var instance = InstanceManager.Instances.FirstOrDefault(x => x.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
-      Ensure.IsNotNull(instance, "instance is not found");
+      var instance = AbstractInstanceActionCommand.GetInstance(Name);
                                    
       this.DoExecute(instance, result);
     }
@@ -33,14 +28,21 @@ namespace SIM.Core.Common
 
     protected sealed override void DoExecute(CommandResult result)
     {
-      InstanceManager.Initialize();
       var name = Name;
+      var instance = GetInstance(name);
+
+      this.DoExecute(instance, result);
+    }
+
+    internal static Instance GetInstance(string name)
+    {
+      InstanceManager.Initialize();
       Assert.ArgumentNotNullOrEmpty(name, nameof(name));
 
       var instance = InstanceManager.Instances.FirstOrDefault(x => x.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
       Ensure.IsNotNull(instance, "instance is not found");
 
-      this.DoExecute(instance, result);
+      return instance;
     }
 
     protected abstract void DoExecute(Instance instance, CommandResult result);
