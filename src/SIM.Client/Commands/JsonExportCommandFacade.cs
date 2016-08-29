@@ -26,7 +26,13 @@
     [Option('o', "output", Required = true, HelpText = "Output json file")]
     public override string OutputFile { get; set; }
 
-    [Option('s', "system", HelpText = "Include system fields")]
+    [Option('s', "system", DefaultValue = SystemFieldsDefault, HelpText = "Include system fields")]
     public override bool? SystemFields { get; set; }
+
+    [Option("sort", DefaultValue = SortDefault, HelpText = "Sort items and fields by ID")]
+    public override bool? Sort { get; set; }
+
+    [Option("ignore", HelpText = "Specify IDs of fields to ignore in export")]
+    public override string IgnoreFieldIDs { get; set; }
   }
 }
