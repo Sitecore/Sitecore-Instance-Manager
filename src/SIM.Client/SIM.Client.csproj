@@ -67,7 +67,6 @@
     <Compile Include="Commands\DeleteCommandFacade.cs" />
     <Compile Include="Commands\InstallCommandFacade.cs" />
     <Compile Include="Commands\InstallModuleCommandFacade.cs" />
-    <Compile Include="Commands\JsonExportCommandFacade.cs" />
     <Compile Include="Commands\ListCommandFacade.cs" />
     <Compile Include="Commands\LoginCommandFacade.cs" />
     <Compile Include="Groups\MainCommandGroupBase.cs" />
