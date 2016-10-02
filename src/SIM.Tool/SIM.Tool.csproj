@@ -336,8 +336,12 @@
     <Content Include="Manifests\Modules\Sitecore SPEAK.manifest.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Manifests\Modules\Sitecore.Solr.Support.manifest.xml">
+    <Content Include="Manifests\Modules\Sitecore.Solr.Support 2.0.0.manifest.xml">
+      <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Manifests\Modules\Sitecore.Solr.Support 1.0.0.manifest.xml">
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="Manifests\Modules\SitecoreAzure.manifest.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

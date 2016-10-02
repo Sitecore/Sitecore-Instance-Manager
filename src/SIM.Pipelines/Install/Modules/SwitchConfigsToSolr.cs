@@ -23,21 +23,41 @@ namespace SIM.Pipelines.Install.Modules
     public void Execute(Instance instance, Product module)
     {
       Instance = instance;
-      EnableSolrFiles();
-      DisableLuceneFiles();
-      RenameCores();
+      EnableSolrFiles(GetConfigFiles());
+
+      IList<string> configFiles = GetConfigFiles();
+      List<string> solrFiles = GetSolrFrom(configFiles);
+      DisabledMatchedFiles(GetLuceneSkippingDefaultsFrom(configFiles), solrFiles);
+      DisabledSpecificFile(configFiles, "Sitecore.Social.Lucene.Index.Analytics.Facebook.config");
+      RenameCores(solrFiles);
     }
+
+
+    private static List<string> GetSolrFrom(IEnumerable<string> configFiles)
+    {
+      return configFiles.Where(fileName =>
+        fileName.ToLower().Contains(".solr.") && 
+        fileName.EndsWith(".config")).ToList();
+    }
+
+    private static List<string> GetLuceneSkippingDefaultsFrom(IEnumerable<string> configFiles)
+    {
+      return configFiles.Where(fileName => 
+        fileName.ToLower().Contains(".lucene.") &&
+        !fileName.ToLower().Contains("default") &&
+        fileName.EndsWith(".config")).ToList();
+    }
+
     #endregion
 
     #region Private methods
 
-    private void EnableSolrFiles()
+    private void EnableSolrFiles(IEnumerable<string> configFiles)
     {
-      IEnumerable<string> configFiles = GetConfigFiles();
-
       List<string> disabledSolrFiles =
         configFiles.Where(
           s => s.ToLower().Contains(".solr.") && 
+          !s.ToLower().Contains(".ioc.") &&
         (s.EndsWith(".example") || s.EndsWith(".disabled"))).ToList();
 
       disabledSolrFiles.ForEach(f => RenameFile(f, RemoveEnding(f)));
@@ -48,27 +68,33 @@ namespace SIM.Pipelines.Install.Modules
       return Regex.Replace(fileName, @"\.(example|disabled)$", "");
     }
 
-    private void DisableLuceneFiles()
+    private void DisabledMatchedFiles(List<string> filesToDisabledIfMatched, List<string> matchingFiles)
     {
-      IEnumerable<string> configFiles = GetConfigFiles();
 
-      List<string> luceneFiles = 
-        configFiles.Where(s => s.ToLower().Contains(".lucene.") && s.EndsWith(".config")).ToList();
+      List<string> filesToDisable =
+        filesToDisabledIfMatched.Where(file => AnyMatchingSolrFile(matchingFiles, file)).ToList();
 
-      List<string> solrFiles = 
-        configFiles.Where(s => s.ToLower().Contains(".solr.") && s.EndsWith(".config")).ToList();
-
-      List<string> filesToRename =
-        luceneFiles.Where(file => AnyMatchingSolrFile(solrFiles, file)).ToList();
-
-      filesToRename.ForEach(s => RenameFile(s, s + ".disabled"));
+      filesToDisable.ForEach(DisableFile);
     }
 
-    private void RenameCores()
+    private void DisabledSpecificFile(IEnumerable<string> fileList, string specificFile)
+    {
+
+      List<string> filesToDisable =
+        fileList.Where(file => file.EndsWith(specificFile)).ToList(); 
+
+      filesToDisable.ForEach(DisableFile);
+    }
+
+    private void DisableFile(string configFileName)
+    {
+      RenameFile(configFileName, configFileName + ".disabled");
+    }
+
+    private void RenameCores(IList<string> solrFiles)
     {
       string oldCore = @"<param desc=""core"">$(id)</param>";
       string newCore = $@"<param desc=""core"">{this.Instance.Name}_$(id)</param>";
-      var solrFiles = GetConfigFiles().Where(s => s.ToLower().Contains(".solr.")).ToList();
       foreach (var file in solrFiles)
       {
         string oldContents = FileReadAllText(file);
@@ -77,12 +103,13 @@ namespace SIM.Pipelines.Install.Modules
       }
     }
 
+    //TODO Rename
     private static bool AnyMatchingSolrFile(List<string> solrFiles, string luceneFileName)
     {
       return solrFiles.Any(solrFile => solrFile.ToLower().Replace(".solr.", ".lucene.") == luceneFileName.ToLower());
     }
 
-    public IEnumerable<string> GetConfigFiles()
+    public IList<string> GetConfigFiles()
     {
       string path = Instance.WebRootPath.EnsureEnd(@"\") + @"App_Config\Include";
       const string filter = "*";
