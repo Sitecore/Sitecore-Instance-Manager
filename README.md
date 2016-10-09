@@ -55,14 +55,16 @@ Note, we are in progress of migrating from bitbucket to github so don't be confu
 
 * Enable by downloading "Solr support package" from http://doc.sitecore.net/downloads, and adding to SIM using the "Add Module" button on the "Modules list" screen during installation.
 * Requires an active Solr 4.x instance with "collection1". Solr 5.x and 6.x are not yet supported.
-* Supports Sitecore 8.1 (all updates).
-* Automates the following tasks:
+* Supports Sitecore 8.1 and 8.2 (all updates). 
+  * Note: Make sure to use support package 2.0.0 for Sitecore 8.2, 1.0.0 for Sitecore 8.1. The correct package can be found on the Sitecore Experience Platform download page, under Additional Tools.
+* This module automates the following tasks:
     * Activates all Solr config files, deactivates matching Lucene configs
     * Sets core name to instance name + index name (e.g. "sc81rev151207_sitecore_web_index")
     * Copies configuration from "collection1" for each new core.
     * Calls Sitecore schema update wizard ("Generate the Solr Schema.xml file") for each new core.
     * Calls Solr API to create cores.
     * Indexes are left empty, but can be built from Control Panel/Indexing Manager.
+    * Not implemented yet (but on roadmap): Enabling Solr Term support, as described [here.](https://doc.sitecore.net/sitecore_experience_platform/80/setting_up__maintaining/search_and_indexing/walkthrough_setting_up_solr#_Toc399318998)
 
 
 #### Extra features
