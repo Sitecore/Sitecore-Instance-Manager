@@ -3,7 +3,7 @@
     <name>Sitecore Solr Support</name>
     <install>
       <params>
-          <param name="{SOLR URL}" title="Please enter or confirm Solr URL 1.0" defaultValue="http://localhost:8983/solr" />
+          <param name="{SOLR URL}" title="Please enter or confirm Solr URL" defaultValue="http://localhost:8983/solr" />
         </params>
       <actions>
         <extract />
