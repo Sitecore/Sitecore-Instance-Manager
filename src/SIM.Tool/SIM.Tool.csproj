@@ -342,6 +342,7 @@
     </Content>
     <Content Include="Manifests\Modules\Sitecore.Solr.Support 1.0.0.manifest.xml">
       <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Manifests\Modules\SitecoreAzure.manifest.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
