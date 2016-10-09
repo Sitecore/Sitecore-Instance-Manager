@@ -98,7 +98,6 @@ namespace SIM.Tests.Pipelines
         SomeWebRootPath + @"\App_Config\Some.Solr.File.IOC.config.example",
         SomeWebRootPath + @"\App_Config\Some.Solr.File.IOC.config");
     }
-
  
 
     [TestMethod]
