@@ -32,25 +32,24 @@ namespace SIM.Pipelines.Install.Modules
       RenameCores(solrFiles);
     }
 
+    #endregion
+
+    #region Private methods
 
     private static List<string> GetSolrFrom(IEnumerable<string> configFiles)
     {
       return configFiles.Where(fileName =>
-        fileName.ToLower().Contains(".solr.") && 
+        fileName.ToLower().Contains(".solr.") &&
         fileName.EndsWith(".config")).ToList();
     }
 
     private static List<string> GetLuceneSkippingDefaultsFrom(IEnumerable<string> configFiles)
     {
-      return configFiles.Where(fileName => 
+      return configFiles.Where(fileName =>
         fileName.ToLower().Contains(".lucene.") &&
         !fileName.ToLower().Contains("default") &&
         fileName.EndsWith(".config")).ToList();
     }
-
-    #endregion
-
-    #region Private methods
 
     private void EnableSolrFiles(IEnumerable<string> configFiles)
     {
