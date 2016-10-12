@@ -213,6 +213,9 @@
     <Content Include="Configurations\Configuration - Sitecore 8.1 - Scaling - CD.manifest.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Configurations\Configuration - Sitecore 8.2 - ContentSearch - Solr.manifest.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="first-run.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -336,10 +339,6 @@
     <Content Include="Manifests\Modules\Sitecore SPEAK.manifest.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Manifests\Modules\Sitecore.Solr.Support 2.0.0.manifest.xml">
-      <SubType>Designer</SubType>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="Manifests\Modules\Sitecore.Solr.Support 1.0.0.manifest.xml">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -405,6 +404,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Configurations\Configuration - Sitecore 8.1 - Scaling - CD.zip">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Configurations\Configuration - Sitecore 8.2 - ContentSearch - Solr.zip">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="packages.config" />
