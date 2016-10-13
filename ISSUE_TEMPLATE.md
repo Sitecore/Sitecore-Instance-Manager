@@ -1,29 +1,26 @@
-!!! Before reporting issue read this aloud: !!!
+> !!! Before reporting issue read this aloud: !!!
+>
+> I solemnly swear that the issue I am going to report is reproducible on the latest QA version which was downloaded today from http://dl.sitecore.net/updater/qa/sim
+>
+> !!! delete this line and all lines above, and modify template below !!!
 
-I solemnly swear that the issue I am going to report is reproducible on 
-the latest QA version which was downloaded today from 
-http://dl.sitecore.net/updater/qa/sim
+**Importance:**
+**Critical** (I need this issue to be fixed)
+or
+**Normal** (I have a workaround, but it would be nice to fix it)
+or
+**FYI** (I only wanted to let you know)
 
-!!! delete this line and all lines above, and modify template below !!!
-
-**Importance:**  
-**Critical** (I need this issue to be fixed)  
-or  
-**Normal** (I have a workaround, but it would be nice to fix it)  
-or  
-**FYI** (I only wanted to let you know)  
-
-**Description:**  
+**Description:**
 The issue is...
 
 **Scenario:**
-
 1. 
 2. 
 3. 
 
-**Attachments:**  
-Please find attached latest log files from this folders:  
+**Attachments:**
+Please find attached latest log files from this folders:
 ```
 %APPDATA%\..\Roaming\Sitecore\Sitecore Instance Management\logs 
 %APPDATA%\..\Roaming\Sitecore\Sitecore Instance Manager-QA\logs 
