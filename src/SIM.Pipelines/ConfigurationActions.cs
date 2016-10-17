@@ -353,6 +353,14 @@
               FileSystem.FileSystem.Local.File.Move(path, destFileName);
               break;
             }
+            
+          case "movefolder":
+            {
+              var target = child.GetAttribute("target");
+              var destPath = Path.Combine(instanceRootPath, target.TrimStart('/'));
+              FileSystem.FileSystem.Local.Directory.Move(path, destPath);
+              break;
+            }
 
           case "copy":
             {
