@@ -34,7 +34,8 @@ $ReleaseFolder = "$OutputFolder\Application Files\$Name.$Version"
 $ApplicationFileName = "$Name.application"
 $ApplicationFile = "$OutputFolder\$ApplicationFileName"
 $URL = "$BaseApplicationUrl/$ApplicationFileName"
-$ManifestFile = "$ReleaseFolder\$Name.exe.manifest"
+$ExecutableFile = "$ReleaseFolder\$Name.exe"
+$ManifestFile = "$ExecutableFile.manifest"
 
 # create parent folder of $ReleaseFolder
 MKDIR $ReleaseFolder
@@ -43,6 +44,16 @@ RMDIR $ReleaseFolder -Force
 # move
 Write-Host "Move-Item $BuildFolder -Destination $ReleaseFolder"
 Move-Item $BuildFolder -Destination $ReleaseFolder
+
+# clean up files
+"" | Set-Content "stderr.txt"
+"" | Set-Content "stdout.txt"
+
+# sign executable file
+Write-Host "> tools\signtool.exe sign /f `"$CertificatePath`" /p `"$CertificatePassword`" /t `"http://timestamp.verisign.com/scripts/timstamp.dll`" `"$ExecutableFile`""
+Start-Process -FilePath "tools\signtool.exe" -ArgumentList "sign /f `"$CertificatePath`" /p `"$CertificatePassword`" /t `"http://timestamp.verisign.com/scripts/timstamp.dll`" `"$ExecutableFile`"" -Wait -RedirectStandardOutput stdout.txt -RedirectStandardError stderr.txt
+Get-Content stdout.txt | Write-Host
+Get-Content stderr.txt | Write-Host
 
 # create manifest
 Write-Host "> tools\mage.exe -New Application -IconFile `"$Icon`" -ToFile `"$ManifestFile`" -FromDirectory `"$ReleaseFolder`" -Name `"$Name`" -Version `"$Version`" -Processor x86"
