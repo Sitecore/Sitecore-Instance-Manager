@@ -13,6 +13,17 @@
   [UsedImplicitly]
   public class GenerateNuGetPackagesButton : IMainWindowButton
   {
+    private readonly bool InstanceMode;
+
+    public GenerateNuGetPackagesButton()
+    {
+    }
+
+    public GenerateNuGetPackagesButton(string mode)
+    {
+      InstanceMode = mode == "instance";
+    }
+
     private const string Link = "http://bitbucket.org/sitecoresupport/sitecore-nuget-packages-generator";
 
     public bool IsEnabled([CanBeNull] Window mainWindow, Instance instance)
@@ -34,7 +45,18 @@
         }
 
         NuGetHelper.UpdateSettings(nugetFolderPath);
-        NuGetHelper.GeneratePackages(ProfileManager.Profile.LocalRepository, nugetFolderPath);
+
+        if (InstanceMode)
+        {   
+          var product = instance.Product;
+          Assert.IsNotNull(product, $"The {instance.ProductFullName} distributive is not available in local repository. You need to get it first.");
+                                           
+          NuGetHelper.GeneratePackages(new FileInfo(product.PackagePath));
+        }
+        else
+        {
+          NuGetHelper.GeneratePackages(ProfileManager.Profile.LocalRepository, nugetFolderPath);
+        }
       };
 
       var content = $"The SC.* NuGet packages are now being generated in the {nugetFolderPath} directory for all Sitecore versions that exist in the local repository. Read more: {Link}";
