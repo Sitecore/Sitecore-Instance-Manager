@@ -291,26 +291,31 @@ private string path;
 <%@ Import Namespace=""Sitecore.Diagnostics"" %>
 <script runat=""server"">
 
-#region Methods
+#region Methods 
 
   protected override void OnInitComplete(EventArgs e)
   {
 	  this.Server.ScriptTimeout = 10*60*60; // 10 hours should be enough
     var installedTemp = this.Server.MapPath(Path.Combine(Settings.TempFolderPath, ""sim.status""));
-    var message;
-    if (File.Exists(installedTemp))
+    var message = GetMessage(installedTemp);
+    
+    Log.Info(@""[SIM] Status.aspx: "" + message, this);
+    this.Response.Write(message);
+  }
+	
+	private static string GetMessage(string installedTemp)
+	{
+		if (File.Exists(installedTemp))
     {
-      message = File.ReadAllText(installedTemp);
+      var message = File.ReadAllText(installedTemp);
       File.Delete(installedTemp);
+			return message;
     }
     else
     {
-      message = @""Pending: no information"";
+      return @""Pending: no information"";
     }
-
-    Log.Info(@""[SIM] " + AgentFiles.StatusFileName + @": "" + message, this);
-    this.Response.Write(message);
-  }
+	}
 
 #endregion
 

@@ -119,23 +119,28 @@
   protected override void OnInitComplete(EventArgs e)
   {
     var installedTemp = this.Server.MapPath(Path.Combine(Settings.TempFolderPath, ""sim.status""));
-    var message;
+    var message = GetMessage(installedTemp);
+    
+    Log.Info(@""[SIM] " + AgentFiles.StatusFileName + @": "" + message, this);
+    this.Response.Write(message);
+  }
+
+  private string GetMessage(string installedTemp)
+  {
     if (File.Exists(installedTemp))
     {
-      message = File.ReadAllText(installedTemp);
+      var message = File.ReadAllText(installedTemp);
       var pos = message.LastIndexOf(' ');
       if(pos<0) throw new Exception(""CANT BE"");
       var id = message.Substring(pos).Trim();
       var state = PublishManager.GetStatus(Handle.Parse(id));
       message = GetState(state) + "": publish "" + id;      
+      return message;
     }
     else
     {
-      message = @""Pending: no information"";
+      return @""Pending: no information"";
     }
-
-    Log.Info(@""[SIM] " + AgentFiles.StatusFileName + @": "" + message, this);
-    this.Response.Write(message);
   }
 
   private string GetState(PublishStatus state)
