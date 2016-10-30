@@ -154,27 +154,10 @@ namespace SIM.Pipelines.Install.Modules
     /// </summary>
     public virtual void GenerateSchema(string dllPath, string inputPath, string outputPath)
     {
-      FileStream fs = File.OpenRead(dllPath);
-  
-      
-      Assembly assembly = GetAssemblyFromMemoryStream(dllPath);
+      Assembly assembly = AssemblyHelper.GetFromFilePath(dllPath);
       Type generateSchema = ReflectionUtil.GetType(assembly, GenerateSchemaClass);
       object obj = ReflectionUtil.CreateObject(generateSchema);
       ReflectionUtil.InvokeMethod(obj, GenerateSchemaMethod, inputPath, outputPath);
-    }
-
-    /// <summary>
-    /// Adapted from http://stackoverflow.com/a/20080196/402949
-    /// </summary>
-    private static Assembly GetAssemblyFromMemoryStream(string dllPath)
-    { 
-      FileStream stream = File.OpenRead(dllPath);
-      using (stream)
-      {
-        byte[] data = new byte[stream.Length];
-        stream.Read(data, 0, data.Length);
-        return Assembly.Load(data);
-      }
     }
 
     #endregion
