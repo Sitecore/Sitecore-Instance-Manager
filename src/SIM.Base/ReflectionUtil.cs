@@ -1,6 +1,7 @@
 ﻿namespace SIM
 {
   using System;
+  using System.IO;
   using Sitecore.Diagnostics.Base;
   using Sitecore.Diagnostics.Base.Annotations;
   using Sitecore.Diagnostics.Logging;
@@ -59,15 +60,25 @@
       return type;
     }
 
+    /// <summary>
+    /// Assembly is loaded from file stream to prevent
+    /// maintaining a lock on DLL.
+    /// </summary>
     [NotNull]
     public static Assembly GetAssembly(string dllPath)
     {
       Assert.ArgumentNotNullOrEmpty(dllPath, nameof(dllPath));
 
-      Assembly assembly = Assembly.LoadFrom(dllPath);
-      Assert.IsNotNull(assembly, "The assembly cannot be loaded from the path '{0}'.".FormatWith(dllPath));
+      FileStream stream = File.OpenRead(dllPath);
 
-      return assembly;
+      Assert.IsNotNull(stream, nameof(stream));
+
+      using (stream)
+      {
+        byte[] data = new byte[stream.Length];
+        stream.Read(data, 0, data.Length);
+        return Assembly.Load(data);
+      }
     }
 
     [CanBeNull]

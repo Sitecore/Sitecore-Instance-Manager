@@ -154,7 +154,7 @@ namespace SIM.Pipelines.Install.Modules
     /// </summary>
     public virtual void GenerateSchema(string dllPath, string inputPath, string outputPath)
     {
-      Assembly assembly = AssemblyHelper.GetFromFilePath(dllPath);
+      Assembly assembly = ReflectionUtil.GetAssembly(dllPath);
       Type generateSchema = ReflectionUtil.GetType(assembly, GenerateSchemaClass);
       object obj = ReflectionUtil.CreateObject(generateSchema);
       ReflectionUtil.InvokeMethod(obj, GenerateSchemaMethod, inputPath, outputPath);

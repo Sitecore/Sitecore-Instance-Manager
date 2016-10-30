@@ -60,7 +60,6 @@
     <Compile Include="AdvancedSettings.cs" />
     <Compile Include="AdvancedSettingsManager.cs" />
     <Compile Include="ApplicationManager.cs" />
-    <Compile Include="AssemblyHelper.cs" />
     <Compile Include="CacheManager.cs" />
     <Compile Include="DataObject.cs" />
     <Compile Include="DataObjectBase.cs" />
