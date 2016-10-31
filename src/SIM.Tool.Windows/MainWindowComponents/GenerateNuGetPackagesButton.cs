@@ -52,6 +52,12 @@
           Assert.IsNotNull(product, $"The {instance.ProductFullName} distributive is not available in local repository. You need to get it first.");
                                            
           NuGetHelper.GeneratePackages(new FileInfo(product.PackagePath));
+
+          var modules = instance.Modules;
+          foreach (var module in modules)
+          {
+            NuGetHelper.GeneratePackages(new FileInfo(module.PackagePath));
+          }
         }
         else
         {
