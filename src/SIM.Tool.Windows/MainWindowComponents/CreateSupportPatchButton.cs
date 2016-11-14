@@ -41,7 +41,7 @@
         instance.WebRootPath
       };
 
-      var dir = Environment.ExpandEnvironmentVariables("%APPDATA%\\Sitecore\\CreatePatch");
+      var dir = Environment.ExpandEnvironmentVariables("%APPDATA%\\Sitecore\\PatchCreator");
       if (!Directory.Exists(dir))
       {
         Directory.CreateDirectory(dir);
@@ -49,7 +49,7 @@
 
       File.WriteAllLines(Path.Combine(dir, "args.txt"), args);
 
-      CoreApp.RunApp("iexplore", $"http://dl.sitecore.net/updater/pc/CreatePatch.application");
+      CoreApp.RunApp("iexplore", $"http://dl.sitecore.net/updater/pc/PatchCreator.application");
               
       NuGetHelper.UpdateSettings();
 
