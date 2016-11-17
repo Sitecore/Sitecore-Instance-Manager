@@ -104,7 +104,14 @@ namespace SIM.Tool
         CacheManager.ClearAll();
         foreach (var dir in Directory.GetDirectories(ApplicationManager.TempFolder))
         {
-          Directory.Delete(dir, true);
+          try
+          {
+            Directory.Delete(dir, true);
+          }
+          catch (Exception ex)
+          {
+            throw new InvalidOperationException($"Failed to delete directory1: {dir}", ex);
+          }
         }
 
         var ext = ".deploy.txt";
@@ -118,7 +125,14 @@ namespace SIM.Tool
           var newFilePath = filePath.Substring(0, filePath.Length - ext.Length);
           if (File.Exists(newFilePath))
           {
-            File.Delete(newFilePath);
+            try
+            {
+              File.Delete(newFilePath);
+            }
+            catch (Exception ex)
+            {
+              throw new InvalidOperationException($"Failed to delete file: {newFilePath}", ex);
+            }            
           }
 
           File.Move(filePath, newFilePath);
