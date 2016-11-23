@@ -1,4 +1,4 @@
-﻿namespace SIM.Tool.Windows.UserControls.Install
+namespace SIM.Tool.Windows.UserControls.Install
 {
   using System;
   using System.Collections.Generic;
@@ -222,12 +222,15 @@
             return null;
           }
 
-          if (WindowHelper.ShowMessage("There website with the same name already exists, but points to non-existing location. Would you like to delete it?", MessageBoxButton.OKCancel, MessageBoxImage.Asterisk) != MessageBoxResult.OK)
-          {
-            return null;
-          }
+            if (
+                WindowHelper.ShowMessage(
+                    "A website with the name " + name + " already exists. Would you like to remove it?",
+                    MessageBoxButton.OKCancel, MessageBoxImage.Asterisk) != MessageBoxResult.OK)
+            {
+                return null;
+            }
 
-          site.Delete();
+            site.Delete();
           context.CommitChanges();
         }
       }
