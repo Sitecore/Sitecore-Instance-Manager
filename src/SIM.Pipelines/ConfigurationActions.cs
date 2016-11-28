@@ -338,12 +338,21 @@
             }
 
           case "append":
-            {
-              var before = child.GetAttribute("before");
-              var target = child.InnerXml;
-              if (!string.IsNullOrEmpty(before))
+            {                                               
+              var before = child.GetAttribute("before");  
+              var stopword = child.GetAttribute("stopword");      
+              var target = child.InnerText;
+              if (!string.IsNullOrEmpty(before) || !string.IsNullOrEmpty(stopword))
               {
-                FileSystem.FileSystem.Local.File.WriteAllText(path, FileSystem.FileSystem.Local.File.ReadAllText(path).Replace(before, target + before));
+                var text = FileSystem.FileSystem.Local.File.ReadAllText(path);
+                if (!string.IsNullOrEmpty(stopword) && text.Contains(stopword))
+                {
+                  break;
+                }
+
+                var newText = string.IsNullOrEmpty(before) ? (text + target) : text.Replace(before, target + before);
+
+                FileSystem.FileSystem.Local.File.WriteAllText(path, newText);
               }
               else
               {
@@ -614,8 +623,15 @@
               XmlNode parentNode = config.SelectSingleNode(xpath);
               if (parentNode == null)
               {
-                Log.Warn("[InstallActions, Append] The {0} element isn't found", xpath);
-                break;
+                if (instruction.GetAttribute("appendIfMissing").ToLower() == "true")
+                {
+                  parentNode = config.SelectSingleElementOrCreate(xpath);
+                }
+                else
+                {
+                  Log.Warn("[InstallActions, Append] The {0} element isn't found", xpath);
+                  break;
+                }
               }
 
               parentNode.InnerXml += instruction.InnerXml;

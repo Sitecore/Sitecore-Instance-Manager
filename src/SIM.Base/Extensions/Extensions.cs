@@ -189,6 +189,35 @@
       return document.SelectSingleNode(xpath) as XmlElement;
     }
 
+    [NotNull]
+    public static XmlElement SelectSingleElementOrCreate([NotNull] this XmlDocument document, [NotNull] string xpath)
+    {
+      Assert.ArgumentNotNull(document, nameof(document));
+      Assert.ArgumentNotNullOrEmpty(xpath, nameof(xpath));
+
+      var element = document.SelectSingleNode(xpath) as XmlElement;
+      if (element != null)
+      {
+        return element;
+      }
+
+      var pos = xpath.LastIndexOf('/');
+      Assert.IsTrue(pos >= 0, $"wrong xpath ({xpath})");
+
+      var parentXPath = xpath.Substring(0, pos);
+      var name = xpath.Substring(pos + 1);
+      Assert.IsNotNullOrEmpty(name, $"wrong name ({xpath})");
+
+      // recursion
+      var parent = SelectSingleElementOrCreate(document, parentXPath);
+
+      // create element
+      element = parent.AddElement(name);
+      Assert.IsNotNull(element, nameof(element));
+
+      return element;
+    }
+
     [CanBeNull]
     public static XmlElement SelectSingleElement(this XmlElement element, string xpath)
     {

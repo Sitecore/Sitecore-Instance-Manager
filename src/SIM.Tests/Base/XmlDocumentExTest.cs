@@ -2,6 +2,7 @@
 {
   using System;
   using Microsoft.VisualStudio.TestTools.UnitTesting;
+  using SIM.Extensions;
 
   [TestClass]
   public class XmldExTest
@@ -104,6 +105,18 @@
         expected = "<d><n1>n1</n1><n2>n2</n2><n3>some value</n3></d>";
         this.SetElementValueTest(str, path, value, expected);
       }
+    }
+
+    [TestMethod]
+    public void SelectSingleElementOrCreateTest()
+    {
+      var doc = XmlDocumentEx.LoadXml("<doc />");
+
+      var result = doc.SelectSingleElementOrCreate("/doc/test");
+
+      Assert.IsNotNull(result);
+      Assert.AreEqual("test", result.Name);
+      Assert.AreEqual(doc.DocumentElement, result.ParentNode);
     }
 
     #endregion
