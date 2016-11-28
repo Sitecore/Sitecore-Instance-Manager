@@ -341,7 +341,15 @@
             {
               var before = child.GetAttribute("before");
               var target = child.InnerXml;
-              FileSystem.FileSystem.Local.File.WriteAllText(path, FileSystem.FileSystem.Local.File.ReadAllText(path).Replace(before, target + before));
+              if (!string.IsNullOrEmpty(before))
+              {
+                FileSystem.FileSystem.Local.File.WriteAllText(path, FileSystem.FileSystem.Local.File.ReadAllText(path).Replace(before, target + before));
+              }
+              else
+              {
+                FileSystem.FileSystem.Local.File.AppendAllText(path, target);
+              }
+
               break;
             }
 
