@@ -147,6 +147,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>TResources.resx</DependentUpon>
     </Compile>
+    <Content Include="Configurations\Configuration - General - Enable Fiddler.manifest.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Configurations\Configuration - Sitecore 7 - Disable Robots Detection.zip">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -407,6 +410,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Configurations\Configuration - Sitecore 8.2 - ContentSearch - Solr.zip">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Configurations\Configuration - General - Enable Fiddler.zip">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="packages.config" />
