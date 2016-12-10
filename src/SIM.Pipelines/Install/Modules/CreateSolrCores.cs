@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Configuration;
 using System.IO;
 using System.Net;
 using System.Reflection;
+using System.Text;
+using System.Text.RegularExpressions;
 using System.Xml;
 using Sitecore.Diagnostics.Base;
 using SIM.Instances;
@@ -17,11 +20,22 @@ namespace SIM.Pipelines.Install.Modules
   /// </summary>
   public class CreateSolrCores : IPackageInstallActions
   {
-
     #region Constants
 
     private const string GenerateSchemaClass = "Sitecore.ContentSearch.ProviderSupport.Solr.SchemaGenerator";
     private const string GenerateSchemaMethod = "GenerateSchema";
+    public const string SolrConfigPatch =
+    @"<config>
+        <requestHandler name=""/select"" class=""solr.SearchHandler"">
+          <bool name=""terms"">true</bool>
+          <lst name=""defaults"">
+             <bool name=""terms"">true</bool>
+          </lst>
+          <arr name=""last-components"">
+            <str>terms</str>
+          </arr>
+        </requestHandler>
+      </config>";
 
     #endregion
 
@@ -41,6 +55,7 @@ namespace SIM.Pipelines.Install.Modules
         this.CopyDirectory(defaultCollectionPath, corePath);
         DeleteCopiedCorePropertiesFile(corePath);
         UpdateSchema(instance.WebRootPath, corePath);
+        UpdateSolrConfig(corePath);
         CallSolrCreateCoreAPI(solrUrl, coreName, corePath);
       }
     }
@@ -48,6 +63,14 @@ namespace SIM.Pipelines.Install.Modules
     #endregion
 
     #region Private methods
+
+    private void UpdateSolrConfig(string corePath)
+    {
+      string filePath = corePath + @"conf\solrconfig.xml";
+      XmlDocumentEx mergedXml = this.XmlMerge(filePath,SolrConfigPatch);
+      string mergedString = this.NormalizeXml(mergedXml);
+      this.WriteAllText(filePath, mergedString);
+    }
 
     private static XmlNodeList GetSolrIndexNodes(XmlDocument config)
     {
@@ -158,6 +181,22 @@ namespace SIM.Pipelines.Install.Modules
       Type generateSchema = ReflectionUtil.GetType(assembly, GenerateSchemaClass);
       object obj = ReflectionUtil.CreateObject(generateSchema);
       ReflectionUtil.InvokeMethod(obj, GenerateSchemaMethod, inputPath, outputPath);
+    }
+   
+    public virtual XmlDocumentEx XmlMerge(string filePath, string xmlString)
+    {
+      XmlDocumentEx doc1 = XmlDocumentEx.LoadFile(filePath);
+      XmlDocument doc2 = XmlDocumentEx.LoadXml(xmlString);
+      return doc1.Merge(doc2); 
+    }
+
+    public virtual string NormalizeXml(XmlDocumentEx xml)
+    {
+      string outerXml = xml.OuterXml;
+      string formatted = XmlDocumentEx.Normalize(outerXml);
+      Regex r = new Regex(@"^<\?.*\?>");
+      string corrected = r.Replace(formatted, @"<?xml version=""1.0"" encoding=""UTF-8"" ?>");  //Solr requires UTF-8.
+      return corrected;
     }
 
     #endregion
