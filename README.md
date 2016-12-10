@@ -67,7 +67,7 @@ Note, we are in progress of migrating from bitbucket to github so don't be confu
     * Calls Sitecore schema update wizard ("Generate the Solr Schema.xml file") for each new core.
     * Calls Solr API to create each core/collection.
     * Indexes are left empty, but can be built from Control Panel/Indexing Manager.
-    * Not implemented yet (on roadmap): Enabling Solr Term support, as described [here.](https://doc.sitecore.net/sitecore_experience_platform/80/setting_up__maintaining/search_and_indexing/walkthrough_setting_up_solr#_Toc399318998)
+    * Enables Solr term support, as described [here.](https://doc.sitecore.net/sitecore_experience_platform/80/setting_up__maintaining/search_and_indexing/walkthrough_setting_up_solr#_Toc399318998)
 
 
 #### Extra features
