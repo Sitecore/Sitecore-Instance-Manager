@@ -19,6 +19,7 @@ namespace SIM.Tests.Pipelines
 
     private const string DllPath = @"c:\some\website\bin\Sitecore.ContentSearch.dll";
     private const string SchemaPath = @"c:\some\path\SOME_CORE_NAME\conf\schema.xml";
+    private const string SolrConfigPath = @"c:\some\path\SOME_CORE_NAME\conf\solrconfig.xml";
     private const string ManagedSchemaPath = @"c:\some\path\SOME_CORE_NAME\conf\managed-schema";
 
     #endregion
@@ -51,6 +52,7 @@ namespace SIM.Tests.Pipelines
       ArrangeGetCores(@"<lst name='collection1'><str name='instanceDir'>c:\some\path\collection1\</str></lst>");
       _sut.FileExists(SchemaPath).Returns(true);
       _sut.FileExists(ManagedSchemaPath).Returns(false);
+      _sut.XmlMerge(Arg.Any<string>(), Arg.Any<string>()).Returns(new XmlDocumentEx());
 
     }
 
@@ -171,7 +173,50 @@ namespace SIM.Tests.Pipelines
       Act();
     }
 
-  #endregion
+    /// <summary>
+    /// See https://github.com/dsolovay/sitecore-instance-manager/issues/38
+    /// </summary>
+    [TestMethod]
+    public void ShouldMergeTermConfigSettings()
+    {
+      Arrange();
+
+      Act();
+
+      _sut.Received().XmlMerge(SolrConfigPath, CreateSolrCores.SolrConfigPatch);
+    }
+
+    /// <summary>
+    /// See https://github.com/dsolovay/sitecore-instance-manager/issues/38
+    /// </summary>
+    [TestMethod]
+    public void ShouldNormalizeXmlMergeOutput()
+    {
+      Arrange();
+      XmlDocumentEx anonymousDoc = XmlDocumentEx.LoadXml("<anonymous />");
+      _sut.XmlMerge(Arg.Any<string>(), Arg.Any<string>()).Returns(anonymousDoc);
+
+      Act();
+
+      _sut.Received().NormalizeXml(anonymousDoc);
+    }
+
+    /// <summary>
+    /// See https://github.com/dsolovay/sitecore-instance-manager/issues/38
+    /// </summary>
+    [TestMethod] public void ShouldSaveNormalizedOutput()
+    {
+      Arrange();
+      string anonymousString = "anonymous";
+      _sut.NormalizeXml(Arg.Any<XmlDocumentEx>()).Returns(anonymousString);
+
+      Act();
+
+      _sut.Received().WriteAllText(Arg.Any<string>(), anonymousString);
+    }
+
+ 
+    #endregion
 
   }
 }
