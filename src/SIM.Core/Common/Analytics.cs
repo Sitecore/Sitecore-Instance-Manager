@@ -1,12 +1,15 @@
 namespace SIM.Core.Common
 {
   using System;
+  using System.IO;
   using Microsoft.ApplicationInsights;
   using Microsoft.ApplicationInsights.Channel;
   using Microsoft.ApplicationInsights.Extensibility;
   using Sitecore.Diagnostics.Base;
   using Sitecore.Diagnostics.Base.Annotations;
   using Sitecore.Diagnostics.Logging;
+  using SIM.Extensions;
+  using SIM.FileSystem;
 
   public static class Analytics
   {
@@ -15,7 +18,7 @@ namespace SIM.Core.Common
 
     public static void Start()
     {
-      if (CoreApp.DoNotTrack())
+      if (DoNotTrack())
       {
         return;
       }
@@ -42,7 +45,7 @@ namespace SIM.Core.Common
           client.Context.Component.Version = string.IsNullOrEmpty(ApplicationManager.AppVersion) ? "0.0.0.0" : ApplicationManager.AppVersion;
           client.Context.Session.Id = Guid.NewGuid().ToString();
           client.Context.User.Id = Environment.MachineName + "\\" + Environment.UserName;
-          client.Context.User.AccountId = CoreApp.GetCookie();
+          client.Context.User.AccountId = GetCookie();
           client.Context.Device.OperatingSystem = Environment.OSVersion.ToString();
           // ReSharper restore PossibleNullReferenceException
           client.TrackEvent("Start");
@@ -100,6 +103,55 @@ namespace SIM.Core.Common
       {
         Log.Error(ex, "Error during flushing");
       }
+    }
+    public static bool DoNotTrack()
+    {
+      var path = Path.Combine(ApplicationManager.TempFolder, "donottrack.txt");
+
+      return FileSystem.Local.File.Exists(path);
+    }
+
+    [NotNull]
+    public static string GetCookie()
+    {
+      var tempFolder = ApplicationManager.TempFolder;
+      var path = Path.Combine(tempFolder, "cookie.txt");
+      if (Directory.Exists(tempFolder))
+      {
+        if (FileSystem.Local.File.Exists(path))
+        {
+          var cookie = FileSystem.Local.File.ReadAllText(path);
+          if (!string.IsNullOrEmpty(cookie))
+          {
+            return cookie;
+          }
+
+          try
+          {
+            FileSystem.Local.File.Delete(path);
+          }
+          catch (Exception ex)
+          {
+            Log.Error(ex, "Cannot delete cookie file");
+          }
+        }
+      }
+      else
+      {
+        Directory.CreateDirectory(tempFolder);
+      }
+
+      var newCookie = Guid.NewGuid().ToShortGuid();
+      try
+      {
+        FileSystem.Local.File.WriteAllText(path, newCookie);
+      }
+      catch (Exception ex)
+      {
+        Log.Error(ex, "Cannot write cookie");
+      }
+
+      return newCookie;
     }
   }
 }

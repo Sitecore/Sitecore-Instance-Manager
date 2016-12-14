@@ -137,63 +137,6 @@
       }
     }
 
-    public static bool DoNotTrack()
-    {
-      var path = Path.Combine(ApplicationManager.TempFolder, "donottrack.txt");
-
-      return FileSystem.Local.File.Exists(path);
-    }
-
-    public static string GetId()
-    {
-      var cookie = GetCookie();
-
-      return $"public-{cookie}";
-    }
-
-    [NotNull]
-    public static string GetCookie()
-    {
-      var tempFolder = ApplicationManager.TempFolder;
-      var path = Path.Combine(tempFolder, "cookie.txt");
-      if (Directory.Exists(tempFolder))
-      {
-        if (FileSystem.Local.File.Exists(path))
-        {
-          var cookie = FileSystem.Local.File.ReadAllText(path);
-          if (!string.IsNullOrEmpty(cookie))
-          {
-            return cookie;
-          }
-
-          try
-          {
-            FileSystem.Local.File.Delete(path);
-          }
-          catch (Exception ex)
-          {
-            Log.Error(ex, "Cannot delete cookie file");
-          }
-        }
-      }
-      else
-      {
-        Directory.CreateDirectory(tempFolder);
-      }
-
-      var newCookie = Guid.NewGuid().ToShortGuid();
-      try
-      {
-        FileSystem.Local.File.WriteAllText(path, newCookie);
-      }
-      catch (Exception ex)
-      {
-        Log.Error(ex, "Cannot write cookie");
-      }
-
-      return newCookie;
-    }
-
     public static void OpenFile(string path)
     {
       RunApp("explorer.exe", path.Replace('/', '\\'));
