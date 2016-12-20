@@ -47,8 +47,18 @@
         {
           MainWindowHelper.SoftlyRefreshInstances();
 
-          var install = (InstallArgs)args;
+          if (args == null)
+          {
+            return;
+          }
+
+          var install = (InstallWizardArgs)args;
           var product = install.Product;
+          if (product == null)
+          {
+            return;
+          }
+
           Analytics.TrackEvent($"install-{product.Version}");
         });
       }

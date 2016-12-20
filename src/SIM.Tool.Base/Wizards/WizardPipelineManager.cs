@@ -97,7 +97,7 @@
 
     #region Public methods
 
-    public static void Start(string name, Window owner, ProcessorArgs args = null, bool? isAsync = null, Action<ProcessorArgs> action = null, params object[] wizardArgsParameters)
+    public static void Start(string name, Window owner, ProcessorArgs args = null, bool? isAsync = null, Action<WizardArgs> action = null, params object[] wizardArgsParameters)
     {
       Log.Info("Wizard pipeline '{0}' starts", name);
       using (new ProfileSection("Start wizard"))
@@ -115,7 +115,10 @@
           WindowHelper.ShowDialog(wizard, owner);
           if (action != null)
           {
-            action(args);
+            var wizardArgs = wizard.ProcessorArgs;
+            Assert.IsNotNull(wizardArgs, nameof(wizardArgs));
+
+            action(wizard.ProcessorArgs);
           }
         }
         else
@@ -125,7 +128,10 @@
             flag = true;
             wizard.Closed += (o, e) =>
             {
-              action(args);
+              var wizardArgs = wizard.ProcessorArgs;
+              Assert.IsNotNull(wizardArgs, nameof(wizardArgs));
+
+              action(wizardArgs);
               flag = false;
             };
           }
