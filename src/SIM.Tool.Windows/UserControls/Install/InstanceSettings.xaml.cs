@@ -37,7 +37,7 @@
       InstallWizardArgs.SaveLastTimeOption(nameof(args.SkipDictionaries), args.SkipDictionaries);
 
       args.SkipRadControls = this.RadControls.IsChecked ?? Throw("RadControls");
-      InstallWizardArgs.SaveLastTimeOption(nameof(args.SkipDictionaries), args.SkipDictionaries);
+      InstallWizardArgs.SaveLastTimeOption(nameof(args.SkipRadControls), args.SkipRadControls);
 
       args.ServerSideRedirect = this.ServerSideRedirect.IsChecked ?? Throw("ServerSideRedirect");
       InstallWizardArgs.SaveLastTimeOption(nameof(args.ServerSideRedirect), args.ServerSideRedirect);
