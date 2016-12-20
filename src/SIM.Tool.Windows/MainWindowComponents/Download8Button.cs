@@ -24,7 +24,7 @@
 
       if (FileSystem.FileSystem.Local.Directory.Exists(ProfileManager.Profile.LocalRepository))
       {
-        WizardPipelineManager.Start("download8", mainWindow, null, null, MainWindowHelper.RefreshInstaller, WindowsSettings.AppDownloaderSdnUserName.Value, WindowsSettings.AppDownloaderSdnPassword.Value);
+        WizardPipelineManager.Start("download8", mainWindow, null, null, ignore => MainWindowHelper.RefreshInstaller(), WindowsSettings.AppDownloaderSdnUserName.Value, WindowsSettings.AppDownloaderSdnPassword.Value);
       }
     }
 

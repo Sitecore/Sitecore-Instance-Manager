@@ -342,7 +342,7 @@
         }
 
         var name = instance.Name;
-        WizardPipelineManager.Start("reinstall", owner, args, null, () => MainWindowHelper.MakeInstanceSelected(name));
+        WizardPipelineManager.Start("reinstall", owner, args, null, ignore => MainWindowHelper.MakeInstanceSelected(name));
       }
     }
 

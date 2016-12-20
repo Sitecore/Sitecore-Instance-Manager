@@ -24,7 +24,7 @@
     {
       var id = MainWindowHelper.GetListItemID(args.Instance.ID);
       Assert.IsTrue(id >= 0, "id ({0}) should be >= 0".FormatWith(id));
-      WizardPipelineManager.Start("backup", args.WizardWindow, new BackupArgs(args.Instance, null, true, true), null, () => MainWindowHelper.MakeInstanceSelected(id), args.Instance);
+      WizardPipelineManager.Start("backup", args.WizardWindow, new BackupArgs(args.Instance, null, true, true), null, ignore => MainWindowHelper.MakeInstanceSelected(id), args.Instance);
     }
 
     [UsedImplicitly]
@@ -32,7 +32,7 @@
     {
       var id = MainWindowHelper.GetListItemID(args.Instance.ID);
       Assert.IsTrue(id >= 0, "id ({0}) should be >= 0".FormatWith(id));
-      WizardPipelineManager.Start("backup", args.WizardWindow, new BackupArgs(args.Instance, null, true, true), null, () => MainWindowHelper.MakeInstanceSelected(id), args.Instance);
+      WizardPipelineManager.Start("backup", args.WizardWindow, new BackupArgs(args.Instance, null, true, true), null, ignore => MainWindowHelper.MakeInstanceSelected(id), args.Instance);
     }
 
     [UsedImplicitly]

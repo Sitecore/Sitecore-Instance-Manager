@@ -25,7 +25,7 @@
       if (instance != null)
       {
         var id = MainWindowHelper.GetListItemID(instance.ID);
-        WizardPipelineManager.Start("backup", mainWindow, new BackupArgs(instance), null, () => MainWindowHelper.MakeInstanceSelected(id), instance);
+        WizardPipelineManager.Start("backup", mainWindow, new BackupArgs(instance), null, ignore => MainWindowHelper.MakeInstanceSelected(id), instance);
       }
     }
 

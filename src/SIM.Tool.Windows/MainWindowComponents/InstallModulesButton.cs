@@ -24,7 +24,7 @@
       if (instance != null)
       {
         var id = MainWindowHelper.GetListItemID(instance.ID);
-        WizardPipelineManager.Start("installmodules", mainWindow, null, null, () => MainWindowHelper.MakeInstanceSelected(id), instance);
+        WizardPipelineManager.Start("installmodules", mainWindow, null, null, ignore => MainWindowHelper.MakeInstanceSelected(id), instance);
       }
     }
 

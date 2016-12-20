@@ -26,7 +26,7 @@
       {
         var args = new RestoreArgs(instance);
         var id = MainWindowHelper.GetListItemID(instance.ID);
-        WizardPipelineManager.Start("restore", mainWindow, args, null, () => MainWindowHelper.MakeInstanceSelected(id), instance);
+        WizardPipelineManager.Start("restore", mainWindow, args, null, ignore => MainWindowHelper.MakeInstanceSelected(id), instance);
       }
     }
 

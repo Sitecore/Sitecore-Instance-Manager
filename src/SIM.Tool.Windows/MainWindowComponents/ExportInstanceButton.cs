@@ -25,7 +25,7 @@
       if (instance != null)
       {
         var id = MainWindowHelper.GetListItemID(instance.ID);
-        WizardPipelineManager.Start("export", mainWindow, new ExportArgs(instance, false, true, true, true, false, false, false, false, false), null, () => MainWindowHelper.MakeInstanceSelected(id), instance, string.Empty);
+        WizardPipelineManager.Start("export", mainWindow, new ExportArgs(instance, false, true, true, true, false, false, false, false, false), null, ignore => MainWindowHelper.MakeInstanceSelected(id), instance, string.Empty);
       }
     }
 

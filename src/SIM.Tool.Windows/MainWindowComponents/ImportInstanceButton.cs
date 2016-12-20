@@ -67,7 +67,7 @@
         return;
       }
 
-      WizardPipelineManager.Start("import", mainWindow, null, null, MainWindowHelper.SoftlyRefreshInstances, filePath);
+      WizardPipelineManager.Start("import", mainWindow, null, null, ignore => MainWindowHelper.SoftlyRefreshInstances(), filePath);
     }
 
     #endregion

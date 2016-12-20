@@ -10,6 +10,8 @@
   using SIM.Tool.Base.Profiles;
   using Sitecore.Diagnostics.Base;
   using Sitecore.Diagnostics.Base.Annotations;
+  using SIM.Pipelines.Install;
+  using SIM.Tool.Base.Pipelines;
   using SIM.Tool.Base.Wizards;
 
   [UsedImplicitly]
@@ -27,7 +29,7 @@
       Analytics.TrackEvent("Install");
 
       Assert.IsTrue(ProfileManager.IsValid, "Some of configuration settings are invalid - please fix them in Settings dialog and try again", false);
-      Assert.IsTrue(ProductManager.StandaloneProducts.Any(), 
+      Assert.IsTrue(ProductManager.StandaloneProducts.Any(),
         @"You don't have any standalone product package in your repository. Options to solve:
 
 1. (recommended) Use Ribbon -> Home -> Bundled Tools -> Download Sitecores button to download them.
@@ -41,7 +43,14 @@
 
       if (EnvironmentHelper.CheckSqlServer())
       {
-        WizardPipelineManager.Start("install", mainWindow, null, null, MainWindowHelper.SoftlyRefreshInstances);
+        WizardPipelineManager.Start("install", mainWindow, null, null, (args) =>
+        {
+          MainWindowHelper.SoftlyRefreshInstances();
+
+          var install = (InstallArgs)args;
+          var product = install.Product;
+          Analytics.TrackEvent($"install-{product.Version}");
+        });
       }
     }
 

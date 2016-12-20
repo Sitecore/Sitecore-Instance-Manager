@@ -21,7 +21,7 @@
 
     public void OnClick(Window mainWindow, Instance instance)
     {
-      WizardPipelineManager.Start("multipleDeletion", mainWindow, new MultipleDeletionArgs(new List<string>()), null, OnWizardCompleted);
+      WizardPipelineManager.Start("multipleDeletion", mainWindow, new MultipleDeletionArgs(new List<string>()), null, ignore => OnWizardCompleted());
     }
 
     #endregion

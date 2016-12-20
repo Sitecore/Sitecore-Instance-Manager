@@ -97,7 +97,7 @@
 
     #region Public methods
 
-    public static void Start(string name, Window owner, ProcessorArgs args = null, bool? isAsync = null, Action action = null, params object[] wizardArgsParameters)
+    public static void Start(string name, Window owner, ProcessorArgs args = null, bool? isAsync = null, Action<ProcessorArgs> action = null, params object[] wizardArgsParameters)
     {
       Log.Info("Wizard pipeline '{0}' starts", name);
       using (new ProfileSection("Start wizard"))
@@ -115,7 +115,7 @@
           WindowHelper.ShowDialog(wizard, owner);
           if (action != null)
           {
-            action();
+            action(args);
           }
         }
         else
@@ -125,7 +125,7 @@
             flag = true;
             wizard.Closed += (o, e) =>
             {
-              action();
+              action(args);
               flag = false;
             };
           }
