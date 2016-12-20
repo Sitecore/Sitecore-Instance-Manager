@@ -8,6 +8,7 @@ namespace SIM.Pipelines
   using SIM.Pipelines.Install;
   using Sitecore.Diagnostics.Base;
   using Sitecore.Diagnostics.Base.Annotations;
+  using Sitecore.Diagnostics.Logging;
   using SIM.Extensions;
 
   public static class UpdateWebConfigHelper
@@ -23,11 +24,20 @@ namespace SIM.Pipelines
       if (increaseExecutionTimeout)
       {
         var executionTimeout = Settings.CoreInstallHttpRuntimeExecutionTimeout.Value;
-        var webConfig = XmlDocumentEx.LoadFile(Path.Combine(webRootPath, "web.config"));
-        var httpRuntime = GetHttpRuntime(webConfig, true);
-
-        httpRuntime.SetAttribute("executionTimeout", executionTimeout.ToString());
-        webConfig.Save();
+        if (!string.IsNullOrEmpty(executionTimeout))
+        {
+          var webConfig = XmlDocumentEx.LoadFile(Path.Combine(webRootPath, "web.config"));
+          var httpRuntime = GetHttpRuntime(webConfig, true);
+          if (httpRuntime == null)
+          {
+            Log.Error("Cannot extend executionTimeout as httpRuntime element is missing");
+          }
+          else
+          {
+            httpRuntime.SetAttribute("executionTimeout", executionTimeout);
+            webConfig.Save();
+          }           
+        }
       }
 
       SetupWebsiteHelper.SetDataFolder(rootFolderPath, dataFolder);
