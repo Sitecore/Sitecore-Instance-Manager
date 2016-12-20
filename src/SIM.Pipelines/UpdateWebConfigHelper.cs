@@ -33,7 +33,7 @@ namespace SIM.Pipelines
       SetupWebsiteHelper.SetDataFolder(rootFolderPath, dataFolder);
       if (serverSideRedirect)
       {
-        CreateIncludeFile(rootFolderPath, "UseServerSideRedirect.config", new NameValueCollection
+        CreateSettingsIncludeFile(rootFolderPath, "UseServerSideRedirect.config", new NameValueCollection
         {
           {
             "RequestErrors.UseServerSideRedirect", "true"
@@ -73,9 +73,10 @@ namespace SIM.Pipelines
         }
       };
 
-      CreateIncludeFile(rootFolderPath, "MailServer.config", settings);
+      CreateSettingsIncludeFile(rootFolderPath, "MailServer.config", settings);
     }
 
+    [CanBeNull]
     public static XmlElement GetHttpRuntime(XmlDocument configuration, bool createIfMissing = false)
     {
       var systemWeb = configuration.SelectSingleElement("/configuration/system.web");
@@ -111,7 +112,7 @@ namespace SIM.Pipelines
 
     #region Private methods
 
-    private static void CreateIncludeFile([NotNull] string rootFolderPath, [NotNull] string includeFileName, [NotNull] NameValueCollection settings)
+    private static void CreateSettingsIncludeFile([NotNull] string rootFolderPath, [NotNull] string includeFileName, [NotNull] NameValueCollection settings)
     {
       Assert.ArgumentNotNull(rootFolderPath, nameof(rootFolderPath));
       Assert.ArgumentNotNull(includeFileName, nameof(includeFileName));
