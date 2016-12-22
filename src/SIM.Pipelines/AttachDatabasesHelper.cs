@@ -59,6 +59,18 @@ namespace SIM.Pipelines
 
       FileSystem.Local.File.AssertExists(databasePath, databasePath + " file doesn't exist");
 
+      // Make the database data file also matching databaseName
+      var newPath = databasePath.Replace(connectionString.DefaultFileName, string.Concat(databaseName, ".mdf"));
+      try
+      { 
+        File.Move(databasePath, newPath);
+      }
+      catch { }
+      
+      // Assert again
+      databasePath = newPath;
+      FileSystem.Local.File.AssertExists(databasePath, databasePath + " file doesn't exist");
+
       if (SqlServerManager.Instance.DatabaseExists(databaseName, defaultConnectionString))
       {
         databaseName = ResolveConflict(defaultConnectionString, connectionString, databasePath, databaseName, controller);
