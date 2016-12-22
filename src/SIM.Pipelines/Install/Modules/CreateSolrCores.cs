@@ -3,6 +3,7 @@ using System.Configuration;
 using System.IO;
 using System.Net;
 using System.Reflection;
+using System.Runtime.Remoting.Messaging;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Xml;
@@ -43,9 +44,14 @@ namespace SIM.Pipelines.Install.Modules
 
     public void Execute(Instance instance, Product module)
     {
-      XmlDocument config = instance.GetShowconfig();
-      string solrUrl = GetUrl(config);
-      XmlNodeList solrIndexes = GetSolrIndexNodes(config);
+      XmlDocument sitecoreConfig = instance.GetShowconfig();
+      string solrUrl = GetUrlFrom(sitecoreConfig);
+      XmlNodeList solrIndexes = GetSolrIndexNodesFrom(sitecoreConfig);
+
+      SolrInfoDto info = GetSolrInfo(solrUrl);
+      
+      if (info.Version >= 5) throw new ApplicationException("Currently, only Solr 4.x is supported.");
+
       string defaultCollectionPath = GetDefaultCollectionPath(solrUrl);
 
       foreach (XmlElement node in solrIndexes)
@@ -72,13 +78,13 @@ namespace SIM.Pipelines.Install.Modules
       this.WriteAllText(filePath, mergedString);
     }
 
-    private static XmlNodeList GetSolrIndexNodes(XmlDocument config)
+    private static XmlNodeList GetSolrIndexNodesFrom(XmlDocument config)
     {
       return config.SelectNodes(
         "/sitecore/contentSearch/configuration/indexes/index[@type='Sitecore.ContentSearch.SolrProvider.SolrSearchIndex, Sitecore.ContentSearch.SolrProvider']");
     }
 
-    private static string GetUrl(XmlDocument config)
+    private static string GetUrlFrom(XmlDocument config)
     {
       XmlNode serviceBaseAddressNode = config.SelectSingleNode("/sitecore/settings/setting[@name='ContentSearch.Solr.ServiceBaseAddress']");
       serviceBaseAddressNode = Assert.IsNotNull(serviceBaseAddressNode,
@@ -119,7 +125,7 @@ namespace SIM.Pipelines.Install.Modules
 
     private void CallSolrCreateCoreAPI(string url, string coreName, string instanceDir)
     {
-      this.RequestAndGetResponse($"{url}/admin/cores?action=CREATE&name={coreName}&instanceDir={instanceDir}&config=solrconfig.xml&schema=schema.xml&dataDir=data");
+      this.RequestAndGetResponseStream($"{url}/admin/cores?action=CREATE&name={coreName}&instanceDir={instanceDir}&config=solrconfig.xml&schema=schema.xml&dataDir=data");
     }
 
     private void DeleteCopiedCorePropertiesFile(string newCorePath)
@@ -128,12 +134,37 @@ namespace SIM.Pipelines.Install.Modules
       this.DeleteFile(path);
     }
 
+    private SolrInfoDto GetSolrInfo(string url)
+    {
+      var response = this.RequestAndGetResponseStream($"{url}/admin/info/system");
+      var doc = new XmlDocument();
+      doc.Load(response);
+      var node = doc.SelectSingleNode("/response/lst[@name='lucene']/str[@name='solr-spec-version']");
+      
+      var dto = new SolrInfoDto();
+      if (node != null && !node.InnerText.IsNullOrEmpty()) dto.Version = GetMajorVersionFrom(node.InnerText);
+
+      return dto;
+    }
+
+    private int? GetMajorVersionFrom(string version)
+    {
+      var r = new Regex(@"^(\d+)\.\d+.\d+");
+      GroupCollection groups = r.Match(version).Groups;
+      int value;
+      if (groups.Count > 1 && int.TryParse(groups[1].Value, out value))  
+      {
+        return value;
+      }
+      return null;
+    }
+
     private string GetDefaultCollectionPath(string url)
     {
-      var response = this.RequestAndGetResponse($"{url}/admin/cores");
+      var response = this.RequestAndGetResponseStream($"{url}/admin/cores");
 
       var doc = new XmlDocument();
-      doc.Load(response.GetResponseStream());
+      doc.Load(response);
 
       XmlNode collection1Node = doc.SelectSingleNode("/response/lst[@name='status']/lst[@name='collection1']");
       if (collection1Node == null) throw new ApplicationException("collection1 not found");
@@ -145,11 +176,6 @@ namespace SIM.Pipelines.Install.Modules
 
     #region Virtual methods
     // All system calls are wrapped in virtual methods for unit testing.
-
-    public virtual HttpWebResponse RequestAndGetResponse(string url)
-    {
-      return WebRequestHelper.RequestAndGetResponse(url);
-    }
 
     public virtual void CopyDirectory(string sourcePath, string destinationPath)
     {
@@ -199,6 +225,10 @@ namespace SIM.Pipelines.Install.Modules
       return corrected;
     }
 
+    public virtual Stream RequestAndGetResponseStream(string url)
+    {
+      return WebRequestHelper.RequestAndGetResponse(url).GetResponseStream();
+    }
     #endregion
   }
 }

@@ -29,6 +29,8 @@ namespace SIM.Tests.Pipelines
     private CreateSolrCores _sut;
     private Instance _instance;
     private Product _module;
+    private Stream _infoResponse;
+    private Stream _coreInfoResponse;
 
     #endregion
 
@@ -47,13 +49,41 @@ namespace SIM.Tests.Pipelines
 
     }
 
+    [TestCleanup]
+    public void CleanUp()
+    {
+      _infoResponse.Dispose();
+      _coreInfoResponse.Dispose();
+    }
+
     private void Arrange()
     {
+      ArrangeGetSolrInfo();
       ArrangeGetCores(@"<lst name='collection1'><str name='instanceDir'>c:\some\path\collection1\</str></lst>");
       _sut.FileExists(SchemaPath).Returns(true);
       _sut.FileExists(ManagedSchemaPath).Returns(false);
       _sut.XmlMerge(Arg.Any<string>(), Arg.Any<string>()).Returns(new XmlDocumentEx());
 
+    }
+
+    private void ArrangeGetSolrInfo()
+    {
+      string response = 
+        @"<response><lst name=""lucene""><str name=""solr-spec-version"">4.0.0</str></lst></response>";
+      _infoResponse = GenerateStreamFromString(response);
+ 
+      _sut.RequestAndGetResponseStream("SOME_URL/admin/info/system").Returns(_infoResponse);
+      
+    }
+
+    private static Stream GenerateStreamFromString(string s)
+    {
+      MemoryStream stream = new MemoryStream();
+      StreamWriter writer = new StreamWriter(stream);
+      writer.Write(s);
+      writer.Flush();
+      stream.Position = 0;
+      return stream;
     }
 
     private void Act()
@@ -79,14 +109,39 @@ namespace SIM.Tests.Pipelines
     {
       HttpWebResponse response = Substitute.For<HttpWebResponse>();
       string returnValue = $"<response><lst name='status' >{coreInfo}</lst></response>";
-      var bytes = UTF8Encoding.UTF8.GetBytes(returnValue);
-      response.GetResponseStream().Returns(new MemoryStream(bytes));
-      _sut.RequestAndGetResponse("SOME_URL/admin/cores").Returns(response);
+      _coreInfoResponse = GenerateStreamFromString(returnValue);
+
+      _sut.RequestAndGetResponseStream("SOME_URL/admin/cores").Returns(_coreInfoResponse);
     }
 
     #endregion
 
     #region Tests
+
+    [TestMethod]
+    public void ShouldGetSystemInfo()
+    {
+      Arrange();
+
+      Act();
+
+      _sut.Received().RequestAndGetResponseStream("SOME_URL/admin/info/system");
+    }
+
+    [TestMethod, ExpectedException(typeof(ApplicationException))]
+    public void ShouldThrowIfSolr5()
+    {
+      Arrange();
+      _infoResponse = GenerateStreamFromString(@"<response><lst name=""lucene"">
+        <str name=""solr-spec-version"">5.0.0</str></lst></response>");
+
+      _sut.RequestAndGetResponseStream("SOME_URL/admin/info/system").Returns(_infoResponse);
+        
+      Act();
+
+      
+    }
+
 
     [TestMethod]
     public void ShouldGetCores()
@@ -95,12 +150,13 @@ namespace SIM.Tests.Pipelines
 
       Act();
 
-      _sut.Received().RequestAndGetResponse("SOME_URL/admin/cores");
+      _sut.Received().RequestAndGetResponseStream("SOME_URL/admin/cores");
     }
 
     [TestMethod, ExpectedException(typeof(ApplicationException))]
     public void ShouldThrowIfNoCollection1()
     {
+      Arrange();
       ArrangeGetCores("");
 
       Act();
@@ -136,7 +192,7 @@ namespace SIM.Tests.Pipelines
       var dirPath = @"c:\some\path\SOME_CORE_NAME\";
       string coreName = "SOME_CORE_NAME";
       _sut.Received()
-        .RequestAndGetResponse(
+        .RequestAndGetResponseStream(
           $"SOME_URL/admin/cores?action=CREATE&name={coreName}&instanceDir={dirPath}&config=solrconfig.xml&schema=schema.xml&dataDir=data");
 
     }
