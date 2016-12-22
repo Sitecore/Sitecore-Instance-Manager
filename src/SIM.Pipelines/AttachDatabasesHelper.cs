@@ -69,7 +69,7 @@ namespace SIM.Pipelines
       
       // Assert again
       databasePath = newPath;
-      FileSystem.Local.File.AssertExists(databasePath, databasePath + " file doesn't exist");s
+      FileSystem.Local.File.AssertExists(databasePath, databasePath + " file doesn't exist");
 
       if (SqlServerManager.Instance.DatabaseExists(databaseName, defaultConnectionString))
       {
