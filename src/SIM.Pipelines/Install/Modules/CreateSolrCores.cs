@@ -111,7 +111,7 @@ namespace SIM.Pipelines.Install.Modules
 
       string inputPath = managedSchemaExists ? managedSchemaPath : schemaPath;
       string outputPath = schemaPath;
-      this.GenerateSchema(contentSearchDllPath, inputPath, outputPath);
+      this.InvokeSitecoreGenerateSchemaUtility(contentSearchDllPath, inputPath, outputPath);
     }
 
     private static string GetCoreName(XmlElement node)
@@ -172,9 +172,19 @@ namespace SIM.Pipelines.Install.Modules
       return collection1Node.SelectSingleNode("str[@name='instanceDir']").InnerText;
     }
 
+    private string NormalizeXml(XmlDocumentEx xml)
+    {
+      string outerXml = xml.OuterXml;
+      string formatted = XmlDocumentEx.Normalize(outerXml);
+      Regex r = new Regex(@"^<\?.*\?>");
+      string corrected = r.Replace(formatted, @"<?xml version=""1.0"" encoding=""UTF-8"" ?>");  //Solr requires UTF-8.
+      return corrected;
+    }
+
     #endregion
 
     #region Virtual methods
+
     // All system calls are wrapped in virtual methods for unit testing.
 
     public virtual void CopyDirectory(string sourcePath, string destinationPath)
@@ -197,18 +207,23 @@ namespace SIM.Pipelines.Install.Modules
       return FileSystem.FileSystem.Local.File.Exists(path);
     }
 
+    public virtual Stream RequestAndGetResponseStream(string url)
+    {
+      return WebRequestHelper.RequestAndGetResponse(url).GetResponseStream();
+    }
+
     /// <summary>
     /// Dynamically loads GenerateSchema class from target site, and uses it
     /// to applied required changes to the Solr schema.xml file.
     /// </summary>
-    public virtual void GenerateSchema(string dllPath, string inputPath, string outputPath)
+    public virtual void InvokeSitecoreGenerateSchemaUtility(string dllPath, string inputPath, string outputPath)
     {
       Assembly assembly = ReflectionUtil.GetAssembly(dllPath);
       Type generateSchema = ReflectionUtil.GetType(assembly, GenerateSchemaClass);
       object obj = ReflectionUtil.CreateObject(generateSchema);
       ReflectionUtil.InvokeMethod(obj, GenerateSchemaMethod, inputPath, outputPath);
     }
-   
+
     public virtual XmlDocumentEx XmlMerge(string filePath, string xmlString)
     {
       XmlDocumentEx doc1 = XmlDocumentEx.LoadFile(filePath);
@@ -216,19 +231,6 @@ namespace SIM.Pipelines.Install.Modules
       return doc1.Merge(doc2); 
     }
 
-    public virtual string NormalizeXml(XmlDocumentEx xml)
-    {
-      string outerXml = xml.OuterXml;
-      string formatted = XmlDocumentEx.Normalize(outerXml);
-      Regex r = new Regex(@"^<\?.*\?>");
-      string corrected = r.Replace(formatted, @"<?xml version=""1.0"" encoding=""UTF-8"" ?>");  //Solr requires UTF-8.
-      return corrected;
-    }
-
-    public virtual Stream RequestAndGetResponseStream(string url)
-    {
-      return WebRequestHelper.RequestAndGetResponse(url).GetResponseStream();
-    }
     #endregion
   }
 }

@@ -62,7 +62,8 @@ namespace SIM.Tests.Pipelines
       ArrangeGetCores(@"<lst name='collection1'><str name='instanceDir'>c:\some\path\collection1\</str></lst>");
       _sut.FileExists(SchemaPath).Returns(true);
       _sut.FileExists(ManagedSchemaPath).Returns(false);
-      _sut.XmlMerge(Arg.Any<string>(), Arg.Any<string>()).Returns(new XmlDocumentEx());
+      var xmlDocumentEx = XmlDocumentEx.LoadXml("<anonymous />");
+      _sut.XmlMerge(Arg.Any<string>(), Arg.Any<string>()).Returns(xmlDocumentEx);
 
     }
 
@@ -204,7 +205,7 @@ namespace SIM.Tests.Pipelines
  
       Act();
 
-      _sut.Received().GenerateSchema(DllPath, SchemaPath, SchemaPath);
+      _sut.Received().InvokeSitecoreGenerateSchemaUtility(DllPath, SchemaPath, SchemaPath);
     }
 
     [TestMethod]
@@ -216,7 +217,7 @@ namespace SIM.Tests.Pipelines
 
       Act();
 
-      _sut.Received().GenerateSchema(DllPath, ManagedSchemaPath, SchemaPath);
+      _sut.Received().InvokeSitecoreGenerateSchemaUtility(DllPath, ManagedSchemaPath, SchemaPath);
     }
 
     [TestMethod, ExpectedException(typeof(FileNotFoundException))]
@@ -242,33 +243,25 @@ namespace SIM.Tests.Pipelines
       _sut.Received().XmlMerge(SolrConfigPath, CreateSolrCores.SolrConfigPatch);
     }
 
-    /// <summary>
-    /// See https://github.com/dsolovay/sitecore-instance-manager/issues/38
-    /// </summary>
-    [TestMethod]
-    public void ShouldNormalizeXmlMergeOutput()
-    {
-      Arrange();
-      XmlDocumentEx anonymousDoc = XmlDocumentEx.LoadXml("<anonymous />");
-      _sut.XmlMerge(Arg.Any<string>(), Arg.Any<string>()).Returns(anonymousDoc);
-
-      Act();
-
-      _sut.Received().NormalizeXml(anonymousDoc);
-    }
 
     /// <summary>
     /// See https://github.com/dsolovay/sitecore-instance-manager/issues/38
     /// </summary>
-    [TestMethod] public void ShouldSaveNormalizedOutput()
+    [TestMethod] public void ShouldSaveSorlConfigAsNormalizedUtf8()
     {
       Arrange();
-      string anonymousString = "anonymous";
-      _sut.NormalizeXml(Arg.Any<XmlDocumentEx>()).Returns(anonymousString);
+      const string nonIndentedXml = "<a><b/></a>";
+      var xmlDocumentEx = XmlDocumentEx.LoadXml(nonIndentedXml);
+      _sut.XmlMerge(Arg.Any<string>(), Arg.Any<string>()).Returns(xmlDocumentEx);
 
       Act();
 
-      _sut.Received().WriteAllText(Arg.Any<string>(), anonymousString);
+      string xmlDocumentDeclaration_WithUtf8 = @"<?xml version=""1.0"" encoding=""UTF-8"" ?>";
+      string indentedXml = "<a>\r\n  <b />\r\n</a>";
+
+      _sut.Received().WriteAllText(
+        path: SolrConfigPath,
+        text: xmlDocumentDeclaration_WithUtf8 + "\r\n" + indentedXml);
     }
 
  
