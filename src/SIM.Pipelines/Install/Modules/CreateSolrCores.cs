@@ -49,16 +49,15 @@ namespace SIM.Pipelines.Install.Modules
       XmlNodeList solrIndexes = GetSolrIndexNodesFrom(sitecoreConfig);
 
       SolrInfoDto info = GetSolrInfo(solrUrl);
-      
-      if (info.Version >= 5) throw new ApplicationException("Currently, only Solr 4.x is supported.");
 
-      string defaultCollectionPath = GetDefaultCollectionPath(solrUrl);
+      string sourcePath = GetSourcePath(info, solrUrl);
 
       foreach (XmlElement node in solrIndexes)
       {
         string coreName = GetCoreName(node);
-        string corePath = defaultCollectionPath.Replace("collection1", coreName);
-        this.CopyDirectory(defaultCollectionPath, corePath);
+        var oldValue = info.Version == 4 ? "collection1" : @"configsets\basic_configs";
+        string corePath = sourcePath.Replace(oldValue, coreName);
+        this.CopyDirectory(sourcePath, corePath);
         DeleteCopiedCorePropertiesFile(corePath);
         UpdateSchema(instance.WebRootPath, corePath);
         UpdateSolrConfig(corePath);
@@ -72,8 +71,8 @@ namespace SIM.Pipelines.Install.Modules
 
     private void UpdateSolrConfig(string corePath)
     {
-      string filePath = corePath + @"conf\solrconfig.xml";
-      XmlDocumentEx mergedXml = this.XmlMerge(filePath,SolrConfigPatch);
+      string filePath = corePath.EnsureEnd(@"\") + @"conf\solrconfig.xml";
+      XmlDocumentEx mergedXml = this.XmlMerge(filePath, SolrConfigPatch);
       string mergedString = this.NormalizeXml(mergedXml);
       this.WriteAllText(filePath, mergedString);
     }
@@ -140,9 +139,12 @@ namespace SIM.Pipelines.Install.Modules
       var doc = new XmlDocument();
       doc.Load(response);
       var node = doc.SelectSingleNode("/response/lst[@name='lucene']/str[@name='solr-spec-version']");
-      
+
       var dto = new SolrInfoDto();
       if (node != null && !node.InnerText.IsNullOrEmpty()) dto.Version = GetMajorVersionFrom(node.InnerText);
+
+      dto.SolrBasePath =
+        doc.SelectSingleNode("/response/str[@name='solr_home']")?.InnerText ?? "";
 
       return dto;
     }
@@ -152,24 +154,32 @@ namespace SIM.Pipelines.Install.Modules
       var r = new Regex(@"^(\d+)\.\d+.\d+");
       GroupCollection groups = r.Match(version).Groups;
       int value;
-      if (groups.Count > 1 && int.TryParse(groups[1].Value, out value))  
+      if (groups.Count > 1 && int.TryParse(groups[1].Value, out value))
       {
         return value;
       }
       return null;
     }
 
-    private string GetDefaultCollectionPath(string url)
+    private string GetSourcePath(SolrInfoDto info, string url)
     {
-      var response = this.RequestAndGetResponseStream($"{url}/admin/cores");
+      if (info.Version == 4)
+      {
+        var response = this.RequestAndGetResponseStream($"{url}/admin/cores");
 
-      var doc = new XmlDocument();
-      doc.Load(response);
+        var doc = new XmlDocument();
+        doc.Load(response);
 
-      XmlNode collection1Node = doc.SelectSingleNode("/response/lst[@name='status']/lst[@name='collection1']");
-      if (collection1Node == null) throw new ApplicationException("collection1 not found");
+        XmlNode collection1Node = doc.SelectSingleNode("/response/lst[@name='status']/lst[@name='collection1']");
+        if (collection1Node == null) throw new ApplicationException("collection1 not found");
 
-      return collection1Node.SelectSingleNode("str[@name='instanceDir']").InnerText;
+        return collection1Node.SelectSingleNode("str[@name='instanceDir']").InnerText;
+      }
+      else
+      {
+        return info.SolrBasePath.EnsureEnd(@"\") + @"configsets\basic_configs";
+      }
+
     }
 
     private string NormalizeXml(XmlDocumentEx xml)
@@ -228,7 +238,7 @@ namespace SIM.Pipelines.Install.Modules
     {
       XmlDocumentEx doc1 = XmlDocumentEx.LoadFile(filePath);
       XmlDocument doc2 = XmlDocumentEx.LoadXml(xmlString);
-      return doc1.Merge(doc2); 
+      return doc1.Merge(doc2);
     }
 
     #endregion

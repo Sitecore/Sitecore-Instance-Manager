@@ -17,8 +17,10 @@ namespace SIM.Tests.Pipelines
 
     #region Constants
 
+    private const string SolrBasePath = @"c:\some\path";
     private const string DllPath = @"c:\some\website\bin\Sitecore.ContentSearch.dll";
     private const string SchemaPath = @"c:\some\path\SOME_CORE_NAME\conf\schema.xml";
+    private const string SolrCorePath = @"c:\some\path\SOME_CORE_NAME";
     private const string SolrConfigPath = @"c:\some\path\SOME_CORE_NAME\conf\solrconfig.xml";
     private const string ManagedSchemaPath = @"c:\some\path\SOME_CORE_NAME\conf\managed-schema";
 
@@ -129,7 +131,7 @@ namespace SIM.Tests.Pipelines
       _sut.Received().RequestAndGetResponseStream("SOME_URL/admin/info/system");
     }
 
-    [TestMethod, ExpectedException(typeof(ApplicationException))]
+    [TestMethod,Ignore, ExpectedException(typeof(ApplicationException))]
     public void ShouldThrowIfSolr5()
     {
       Arrange();
@@ -141,6 +143,29 @@ namespace SIM.Tests.Pipelines
       Act();
 
       
+    }
+
+    [TestMethod]
+    public void ShouldCopyStockConfigIfSolr5()
+    {
+      Arrange();
+      _infoResponse = GenerateStreamFromString(
+        "<response>" +
+        "<lst name=\"lucene\">" +
+        "<str name=\"solr-spec-version\">5.0.0</str>" +
+        "</lst>" +
+        $"<str name=\"solr_home\">{SolrBasePath}</str>" +
+        "</response>");
+
+      _sut.RequestAndGetResponseStream("SOME_URL/admin/info/system").Returns(_infoResponse);
+      _sut.FileExists(Arg.Any<string>()).Returns(true); //TODO tighten
+
+      Act();
+
+      _sut.Received().CopyDirectory(SolrBasePath + @"\configsets\basic_configs", SolrCorePath);
+      _sut.Received().XmlMerge($"{SolrBasePath}\\SOME_CORE_NAME\\conf\\solrconfig.xml", Arg.Any<string>());
+
+
     }
 
 
@@ -247,7 +272,7 @@ namespace SIM.Tests.Pipelines
     /// <summary>
     /// See https://github.com/dsolovay/sitecore-instance-manager/issues/38
     /// </summary>
-    [TestMethod] public void ShouldSaveSorlConfigAsNormalizedUtf8()
+    [TestMethod] public void ShouldSaveSolrConfigAsNormalizedUtf8()
     {
       Arrange();
       const string nonIndentedXml = "<a><b/></a>";
