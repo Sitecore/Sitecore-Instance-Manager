@@ -268,11 +268,50 @@ namespace SIM.Tests.Pipelines
       _sut.Received().XmlMerge(SolrConfigPath, CreateSolrCores.SolrConfigPatch);
     }
 
+  
+    /// <summary>
+    /// See https://github.com/dsolovay/sitecore-instance-manager/issues/38
+    /// </summary>
+    [TestMethod]
+    public void ShouldChangeManagedToClassicConfig()
+    {
+      Arrange();
+      string solrconfig =
+        @"<config>
+            <schemaFactory class=""ManagedIndexSchemaFactory"">
+              <bool name=""mutable"">true</bool>
+              <str name=""managedSchemaResourceName"" >managed-schema</str>
+            </schemaFactory >
+          </config>";
+        
+      var xmlDocumentEx = XmlDocumentEx.LoadXml(solrconfig);
+      _sut.XmlMerge(Arg.Any<string>(), Arg.Any<string>()).Returns(xmlDocumentEx);
+
+      Act();
+
+      _sut.Received().WriteAllText(Arg.Any<string>(),
+        Arg.Is<string>(s => s.Contains(@"<schemaFactory class=""ClassicIndexSchemaFactory"" />")
+                            && !s.Contains("ManagedIndexSchemaFactory")));
+    }
 
     /// <summary>
     /// See https://github.com/dsolovay/sitecore-instance-manager/issues/38
     /// </summary>
-    [TestMethod] public void ShouldSaveSolrConfigAsNormalizedUtf8()
+    [TestMethod] public void ShouldSaveToSolrConfigPath()
+    {
+      Arrange();
+      
+      Act();
+
+      _sut.Received().WriteAllText(
+        path: SolrConfigPath,
+        text: Arg.Any<string>());
+    }
+    /// <summary>
+    /// See https://github.com/dsolovay/sitecore-instance-manager/issues/38
+    /// </summary>
+    [TestMethod]
+    public void ShouldNormalizeSolrConfig()
     {
       Arrange();
       const string nonIndentedXml = "<a><b/></a>";
@@ -284,12 +323,19 @@ namespace SIM.Tests.Pipelines
       string xmlDocumentDeclaration_WithUtf8 = @"<?xml version=""1.0"" encoding=""UTF-8"" ?>";
       string indentedXml = "<a>\r\n  <b />\r\n</a>";
 
+      // Note: StartsWith, Contains, EndsWith used to avoid polluting test with
+      // <schemaFactory> element.
       _sut.Received().WriteAllText(
-        path: SolrConfigPath,
-        text: xmlDocumentDeclaration_WithUtf8 + "\r\n" + indentedXml);
+        path: Arg.Any<string>(),
+        text: Arg.Is<string>(s =>
+          s.StartsWith(xmlDocumentDeclaration_WithUtf8 + "\r\n<a>\r\n") && 
+          s.Contains("\r\n  <b />\r\n") &&
+          s.EndsWith("\r\n</a>")));
     }
 
- 
+
+
+
     #endregion
 
   }

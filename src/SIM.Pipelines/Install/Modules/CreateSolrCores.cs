@@ -27,7 +27,6 @@ namespace SIM.Pipelines.Install.Modules
     private const string GenerateSchemaMethod = "GenerateSchema";
     public const string SolrConfigPatch =
     @"<config>
-        <schemaFactory class=""ClassicIndexSchemaFactory""/>
         <requestHandler name=""/select"" class=""solr.SearchHandler"">
           <bool name=""terms"">true</bool>
           <lst name=""defaults"">
@@ -76,8 +75,24 @@ namespace SIM.Pipelines.Install.Modules
     {
       string filePath = corePath.EnsureEnd(@"\") + @"conf\solrconfig.xml";
       XmlDocumentEx mergedXml = this.XmlMerge(filePath, SolrConfigPatch);
+      EnsureClassicSchemaMode(mergedXml);
       string mergedString = this.NormalizeXml(mergedXml);
       this.WriteAllText(filePath, mergedString);
+    }
+
+    private void EnsureClassicSchemaMode(XmlDocumentEx solrConfig)
+    {
+      var oldSchemaFactory = solrConfig.SelectSingleElement("/config/schemaFactory");
+      var newSchemaFactory = solrConfig.CreateElement("schemaFactory");
+      newSchemaFactory.SetAttribute("class", "ClassicIndexSchemaFactory");
+      if (oldSchemaFactory == null)
+      {
+        solrConfig.DocumentElement.AppendChild(newSchemaFactory);
+      }
+      else
+      {
+        solrConfig.DocumentElement.ReplaceChild(newSchemaFactory, oldSchemaFactory);
+      }
     }
 
     private static XmlNodeList GetSolrIndexNodesFrom(XmlDocument config)

@@ -105,7 +105,20 @@
         expected = "<d><n1>n1</n1><n2>n2</n2><n3>some value</n3></d>";
         this.SetElementValueTest(str, path, value, expected);
       }
+      {
+        str = "<d><n1><nn1><nnn1 /></nn1></n1></d>";
+        path = "d/n1";
+        expected = "<d><n1>some value</n1></d>";
+        this.SetElementValueTest(str, path, value, expected);
+      }
+      {
+        str = "<d/>";
+        path = "d/n1";
+        expected = "<d><n1 /></d>";
+        this.SetElementValueTest(str, path, "", expected);
+      }
     }
+ 
 
     [TestMethod]
     public void SelectSingleElementOrCreateTest()
