@@ -191,6 +191,8 @@
 
       if (element != null)
       {
+        if (value.IsNullOrEmpty()) return;
+
         element.InnerText = value;
         return;
       }
@@ -212,6 +214,8 @@
 
         element = newElement;
       }
+
+      if (value.IsNullOrEmpty()) return;
 
       element.InnerText = value;
     }
