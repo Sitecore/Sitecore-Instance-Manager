@@ -76,6 +76,7 @@ namespace SIM.Pipelines.Install.Modules
       string filePath = corePath.EnsureEnd(@"\") + @"conf\solrconfig.xml";
       XmlDocumentEx mergedXml = this.XmlMerge(filePath, SolrConfigPatch);
       EnsureClassicSchemaMode(mergedXml);
+      RemoveAddSchemaFieldsProcessor(mergedXml);
       string mergedString = this.NormalizeXml(mergedXml);
       this.WriteAllText(filePath, mergedString);
     }
@@ -92,6 +93,17 @@ namespace SIM.Pipelines.Install.Modules
       else
       {
         solrConfig.DocumentElement.ReplaceChild(newSchemaFactory, oldSchemaFactory);
+      }
+    }
+
+    private void RemoveAddSchemaFieldsProcessor(XmlDocumentEx solrConfig)
+    {
+      var element =
+        solrConfig.SelectSingleNode(
+          "/config/updateRequestProcessorChain/processor[@class='solr.AddSchemaFieldsUpdateProcessorFactory']");
+      if (element != null)
+      {
+        element.ParentNode.RemoveChild(element);
       }
     }
 

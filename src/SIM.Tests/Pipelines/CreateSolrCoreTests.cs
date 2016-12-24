@@ -268,10 +268,27 @@ namespace SIM.Tests.Pipelines
       _sut.Received().XmlMerge(SolrConfigPath, CreateSolrCores.SolrConfigPatch);
     }
 
-  
-    /// <summary>
-    /// See https://github.com/dsolovay/sitecore-instance-manager/issues/38
-    /// </summary>
+    // /config/updateRequestProcessorChain/processor
+    [TestMethod]
+    public void ShouldRemoveUpdateProcessor()
+    {
+      Arrange();
+      string solrconfig =
+        @"<config>
+            <updateRequestProcessorChain>
+                <processor class=""solr.AddSchemaFieldsUpdateProcessorFactory"" />
+            </updateRequestProcessorChain>
+          </config>";
+
+      var xmlDocumentEx = XmlDocumentEx.LoadXml(solrconfig);
+      _sut.XmlMerge(Arg.Any<string>(), Arg.Any<string>()).Returns(xmlDocumentEx);
+
+      Act();
+
+      _sut.Received().WriteAllText(Arg.Any<string>(),
+        Arg.Is<string>(s => !s.Contains(@"solr.AddSchemaFieldsUpdateProcessorFactory")));
+    }
+
     [TestMethod]
     public void ShouldChangeManagedToClassicConfig()
     {
@@ -294,9 +311,7 @@ namespace SIM.Tests.Pipelines
                             && !s.Contains("ManagedIndexSchemaFactory")));
     }
 
-    /// <summary>
-    /// See https://github.com/dsolovay/sitecore-instance-manager/issues/38
-    /// </summary>
+ 
     [TestMethod] public void ShouldSaveToSolrConfigPath()
     {
       Arrange();
