@@ -162,7 +162,7 @@ namespace SIM.Tests.Pipelines
 
       Act();
 
-      _sut.Received().CopyDirectory(SolrBasePath + @"\configsets\basic_configs", SolrCorePath);
+      _sut.Received().CopyDirectory(SolrBasePath + @"\configsets\data_driven_schema_configs", SolrCorePath);
       _sut.Received().XmlMerge($"{SolrBasePath}\\SOME_CORE_NAME\\conf\\solrconfig.xml", Arg.Any<string>());
 
 

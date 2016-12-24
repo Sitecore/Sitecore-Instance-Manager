@@ -55,7 +55,9 @@ namespace SIM.Pipelines.Install.Modules
       foreach (XmlElement node in solrIndexes)
       {
         string coreName = GetCoreName(node);
-        var oldValue = info.Version == 4 ? "collection1" : @"configsets\basic_configs";
+        // Both "collection1" for Solr 4 and "data_driven_schema_configs" for Solr 5+ have
+        // language definitions required to index stock Sitecore content.
+        var oldValue = info.Version == 4 ? "collection1" : @"configsets\data_driven_schema_configs";
         string corePath = sourcePath.Replace(oldValue, coreName);
         this.CopyDirectory(sourcePath, corePath);
         DeleteCopiedCorePropertiesFile(corePath);
@@ -177,7 +179,7 @@ namespace SIM.Pipelines.Install.Modules
       }
       else
       {
-        return info.SolrBasePath.EnsureEnd(@"\") + @"configsets\basic_configs";
+        return info.SolrBasePath.EnsureEnd(@"\") + @"configsets\data_driven_schema_configs";
       }
 
     }
