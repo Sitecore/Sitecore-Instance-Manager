@@ -27,6 +27,7 @@ namespace SIM.Pipelines.Install.Modules
     private const string GenerateSchemaMethod = "GenerateSchema";
     public const string SolrConfigPatch =
     @"<config>
+        <schemaFactory class=""ClassicIndexSchemaFactory""/>
         <requestHandler name=""/select"" class=""solr.SearchHandler"">
           <bool name=""terms"">true</bool>
           <lst name=""defaults"">
