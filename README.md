@@ -56,7 +56,9 @@ Note, we are in progress of migrating from bitbucket to github so don't be confu
 * SIM now includes Solr support.
   * For Sitecore 8.2, this is available as a Configuration Preset during the installation wizard. 
   * For Sitecore 8.1, it is necessary to download the appropriate "Solr support package" from http://dev.sitecore.net/downloads, and to add it to SIM using the "Add Module" button on the "Modules list" screen during installation.
-* This requires an active Solr 4.x instance with "collection1". Solr 5.x and 6.x are not yet supported.
+* This supports Solr 4 and higher. 
+  * Note: For Solr 4.x, the default "collection1" is used as a template, and must be present. For Solr 5.x and higher, the configuration located
+   at `server\solr\configsets\data_driven_schema_configs` is used, as it has the language support required to index non-English text.
 * This module automates the following tasks:
     * Activates all Solr config files, and deactivates matching Lucene config files (same name with "Lucene" replacing "Solr"), with the following exceptions:
       * Sitecore 8.2 Solr + IOC files are not enabled.
