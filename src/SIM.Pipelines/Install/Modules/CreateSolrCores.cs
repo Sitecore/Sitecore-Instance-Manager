@@ -25,7 +25,12 @@ namespace SIM.Pipelines.Install.Modules
 
     private const string GenerateSchemaClass = "Sitecore.ContentSearch.ProviderSupport.Solr.SchemaGenerator";
     private const string GenerateSchemaMethod = "GenerateSchema";
-    public const string SolrConfigPatch =
+
+    /// <summary>
+    /// Patch to SolrConfig.xml to enable term support, as specified in Sitecore documentation.
+    /// https://doc.sitecore.net/sitecore_experience_platform/82/setting_up__maintaining/search_and_indexing/walkthrough_setting_up_solr#_Enable_Solr_term
+    /// </summary>
+    public const string SolrTermSuppportPatch =
     @"<config>
         <requestHandler name=""/select"" class=""solr.SearchHandler"">
           <bool name=""terms"">true</bool>
@@ -47,23 +52,21 @@ namespace SIM.Pipelines.Install.Modules
       XmlDocument sitecoreConfig = instance.GetShowconfig();
       string solrUrl = GetUrlFrom(sitecoreConfig);
       XmlNodeList solrIndexes = GetSolrIndexNodesFrom(sitecoreConfig);
-
       SolrInfoDto info = GetSolrInfo(solrUrl);
-
-      string sourcePath = GetSourcePath(info, solrUrl);
+      string sourcePath = GetTemplateCollectionPath(info, solrUrl);
 
       foreach (XmlElement node in solrIndexes)
       {
         string coreName = GetCoreName(node);
         // Both "collection1" for Solr 4 and "data_driven_schema_configs" for Solr 5+ have
         // language definitions required to index stock Sitecore content.
-        var oldValue = info.Version == 4 ? "collection1" : @"configsets\data_driven_schema_configs";
-        string corePath = sourcePath.Replace(oldValue, coreName);
-        this.CopyDirectory(sourcePath, corePath);
-        DeleteCopiedCorePropertiesFile(corePath);
-        UpdateSchema(instance.WebRootPath, corePath);
-        UpdateSolrConfig(corePath);
-        CallSolrCreateCoreAPI(solrUrl, coreName, corePath);
+        string templateFolderName = info.Version == 4 ? "collection1" : @"configsets\data_driven_schema_configs";
+        string newCorePath = sourcePath.Replace(templateFolderName, coreName);
+        CopyDirectory(sourcePath, newCorePath);
+        RemoveCorePropertiesFile(newCorePath);
+        UpdateSchema(instance.WebRootPath, newCorePath);
+        UpdateSolrConfig(newCorePath);
+        CallSolrCreateCoreAPI(solrUrl, coreName, newCorePath);
       }
     }
 
@@ -74,7 +77,7 @@ namespace SIM.Pipelines.Install.Modules
     private void UpdateSolrConfig(string corePath)
     {
       string filePath = corePath.EnsureEnd(@"\") + @"conf\solrconfig.xml";
-      XmlDocumentEx mergedXml = this.XmlMerge(filePath, SolrConfigPatch);
+      XmlDocumentEx mergedXml = this.XmlMerge(filePath, SolrTermSuppportPatch);
       EnsureClassicSchemaMode(mergedXml);
       RemoveAddSchemaFieldsProcessor(mergedXml);
       string mergedString = this.NormalizeXml(mergedXml);
@@ -157,7 +160,7 @@ namespace SIM.Pipelines.Install.Modules
       this.RequestAndGetResponseStream($"{url}/admin/cores?action=CREATE&name={coreName}&instanceDir={instanceDir}&config=solrconfig.xml&schema=schema.xml&dataDir=data");
     }
 
-    private void DeleteCopiedCorePropertiesFile(string newCorePath)
+    private void RemoveCorePropertiesFile(string newCorePath)
     {
       string path = string.Format(newCorePath.EnsureEnd(@"\") + "core.properties");
       this.DeleteFile(path);
@@ -191,7 +194,7 @@ namespace SIM.Pipelines.Install.Modules
       return null;
     }
 
-    private string GetSourcePath(SolrInfoDto info, string url)
+    private string GetTemplateCollectionPath(SolrInfoDto info, string url)
     {
       if (info.Version == 4)
       {
@@ -201,7 +204,8 @@ namespace SIM.Pipelines.Install.Modules
         doc.Load(response);
 
         XmlNode collection1Node = doc.SelectSingleNode("/response/lst[@name='status']/lst[@name='collection1']");
-        if (collection1Node == null) throw new ApplicationException("collection1 not found");
+
+        if (collection1Node == null) throw new ApplicationException("The default 'collection1' index is missing, and it is required for Solr 4. Please reinstall Solr 4 or use a later version of Solr.");
 
         return collection1Node.SelectSingleNode("str[@name='instanceDir']").InnerText;
       }

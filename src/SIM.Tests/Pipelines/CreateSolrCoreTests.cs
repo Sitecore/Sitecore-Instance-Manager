@@ -68,6 +68,19 @@ namespace SIM.Tests.Pipelines
       _sut.XmlMerge(Arg.Any<string>(), Arg.Any<string>()).Returns(xmlDocumentEx);
 
     }
+    private void ArrangeGetCores(string coreInfo)
+    {
+      HttpWebResponse response = Substitute.For<HttpWebResponse>();
+      string returnValue = $"<response><lst name='status' >{coreInfo}</lst></response>";
+      _coreInfoResponse = GenerateStreamFromString(returnValue);
+
+      _sut.RequestAndGetResponseStream("SOME_URL/admin/cores").Returns(_coreInfoResponse);
+    }
+
+    private void Act()
+    {
+      _sut.Execute(_instance, _module);
+    }
 
     private void ArrangeGetSolrInfo()
     {
@@ -89,11 +102,6 @@ namespace SIM.Tests.Pipelines
       return stream;
     }
 
-    private void Act()
-    {
-      _sut.Execute(_instance, _module);
-    }
-
     private string GetConfigXml(string someUrl, string someCoreName, string someId)
     {
       return "<sitecore>" +
@@ -108,15 +116,6 @@ namespace SIM.Tests.Pipelines
              "</index></indexes></configuration></contentSearch></sitecore>";
     }
 
-    private void ArrangeGetCores(string coreInfo)
-    {
-      HttpWebResponse response = Substitute.For<HttpWebResponse>();
-      string returnValue = $"<response><lst name='status' >{coreInfo}</lst></response>";
-      _coreInfoResponse = GenerateStreamFromString(returnValue);
-
-      _sut.RequestAndGetResponseStream("SOME_URL/admin/cores").Returns(_coreInfoResponse);
-    }
-
     #endregion
 
     #region Tests
@@ -129,20 +128,6 @@ namespace SIM.Tests.Pipelines
       Act();
 
       _sut.Received().RequestAndGetResponseStream("SOME_URL/admin/info/system");
-    }
-
-    [TestMethod,Ignore, ExpectedException(typeof(ApplicationException))]
-    public void ShouldThrowIfSolr5()
-    {
-      Arrange();
-      _infoResponse = GenerateStreamFromString(@"<response><lst name=""lucene"">
-        <str name=""solr-spec-version"">5.0.0</str></lst></response>");
-
-      _sut.RequestAndGetResponseStream("SOME_URL/admin/info/system").Returns(_infoResponse);
-        
-      Act();
-
-      
     }
 
     [TestMethod]
@@ -168,7 +153,6 @@ namespace SIM.Tests.Pipelines
 
     }
 
-
     [TestMethod]
     public void ShouldGetCores()
     {
@@ -183,6 +167,7 @@ namespace SIM.Tests.Pipelines
     public void ShouldThrowIfNoCollection1()
     {
       Arrange();
+
       ArrangeGetCores("");
 
       Act();
@@ -265,10 +250,9 @@ namespace SIM.Tests.Pipelines
 
       Act();
 
-      _sut.Received().XmlMerge(SolrConfigPath, CreateSolrCores.SolrConfigPatch);
+      _sut.Received().XmlMerge(SolrConfigPath, CreateSolrCores.SolrTermSuppportPatch);
     }
 
-    // /config/updateRequestProcessorChain/processor
     [TestMethod]
     public void ShouldRemoveUpdateProcessor()
     {
@@ -310,7 +294,6 @@ namespace SIM.Tests.Pipelines
         Arg.Is<string>(s => s.Contains(@"<schemaFactory class=""ClassicIndexSchemaFactory"" />")
                             && !s.Contains("ManagedIndexSchemaFactory")));
     }
-
  
     [TestMethod] public void ShouldSaveToSolrConfigPath()
     {
@@ -322,9 +305,7 @@ namespace SIM.Tests.Pipelines
         path: SolrConfigPath,
         text: Arg.Any<string>());
     }
-    /// <summary>
-    /// See https://github.com/dsolovay/sitecore-instance-manager/issues/38
-    /// </summary>
+
     [TestMethod]
     public void ShouldNormalizeSolrConfig()
     {
@@ -347,9 +328,6 @@ namespace SIM.Tests.Pipelines
           s.Contains("\r\n  <b />\r\n") &&
           s.EndsWith("\r\n</a>")));
     }
-
-
-
 
     #endregion
 
