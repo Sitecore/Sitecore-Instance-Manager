@@ -70,6 +70,7 @@
     <Compile Include="Instances\InstanceTest.cs" />
     <Compile Include="Pipelines\ConditionEvaluatorTests.cs" />
     <Compile Include="Pipelines\CreateSolrCoreTests.cs" />
+    <Compile Include="Pipelines\SolrInformationTests.cs" />
     <Compile Include="Pipelines\SwitchConfigsToSolrTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Instances\InstanceHelperTests.cs" />

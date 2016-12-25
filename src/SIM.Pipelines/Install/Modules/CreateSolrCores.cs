@@ -52,7 +52,7 @@ namespace SIM.Pipelines.Install.Modules
       XmlDocument sitecoreConfig = instance.GetShowconfig();
       string solrUrl = GetUrlFrom(sitecoreConfig);
       XmlNodeList solrIndexes = GetSolrIndexNodesFrom(sitecoreConfig);
-      SolrInfoDto info = GetSolrInfo(solrUrl);
+      SolrInformation info = GetSolrInfo(solrUrl);
       string sourcePath = GetTemplateCollectionPath(info, solrUrl);
 
       foreach (XmlElement node in solrIndexes)
@@ -60,7 +60,7 @@ namespace SIM.Pipelines.Install.Modules
         string coreName = GetCoreName(node);
         // Both "collection1" for Solr 4 and "data_driven_schema_configs" for Solr 5+ have
         // language definitions required to index stock Sitecore content.
-        string templateFolderName = info.Version == 4 ? "collection1" : @"configsets\data_driven_schema_configs";
+        string templateFolderName = info.MajorVersion == 4 ? "collection1" : @"configsets\data_driven_schema_configs";
         string newCorePath = sourcePath.Replace(templateFolderName, coreName);
         CopyDirectory(sourcePath, newCorePath);
         RemoveCorePropertiesFile(newCorePath);
@@ -166,54 +166,41 @@ namespace SIM.Pipelines.Install.Modules
       this.DeleteFile(path);
     }
 
-    private SolrInfoDto GetSolrInfo(string url)
+    private SolrInformation GetSolrInfo(string url)
     {
-      var response = this.RequestAndGetResponseStream($"{url}/admin/info/system");
-      var doc = new XmlDocument();
-      doc.Load(response);
-      var node = doc.SelectSingleNode("/response/lst[@name='lucene']/str[@name='solr-spec-version']");
-
-      var dto = new SolrInfoDto();
-      if (node != null && !node.InnerText.IsNullOrEmpty()) dto.Version = GetMajorVersionFrom(node.InnerText);
-
-      dto.SolrBasePath =
-        doc.SelectSingleNode("/response/str[@name='solr_home']")?.InnerText ?? "";
-
-      return dto;
+      string solrInfoUrl = $"{url}/admin/info/system";
+      Stream response = this.RequestAndGetResponseStream(solrInfoUrl);
+      string responseAsString = GetStringFromStream(response);
+      var doc = XmlDocumentEx.LoadXml(responseAsString);
+        
+      return new SolrInformation(doc);
     }
 
-    private int? GetMajorVersionFrom(string version)
+    private string GetStringFromStream(Stream stream)
     {
-      var r = new Regex(@"^(\d+)\.\d+.\d+");
-      GroupCollection groups = r.Match(version).Groups;
-      int value;
-      if (groups.Count > 1 && int.TryParse(groups[1].Value, out value))
+      using (var reader = new StreamReader(stream))
       {
-        return value;
+        return reader.ReadToEnd();
       }
-      return null;
     }
 
-    private string GetTemplateCollectionPath(SolrInfoDto info, string url)
+    private string GetTemplateCollectionPath(SolrInformation info, string url)
     {
-      if (info.Version == 4)
-      {
-        var response = this.RequestAndGetResponseStream($"{url}/admin/cores");
-
-        var doc = new XmlDocument();
-        doc.Load(response);
-
-        XmlNode collection1Node = doc.SelectSingleNode("/response/lst[@name='status']/lst[@name='collection1']");
-
-        if (collection1Node == null) throw new ApplicationException("The default 'collection1' index is missing, and it is required for Solr 4. Please reinstall Solr 4 or use a later version of Solr.");
-
-        return collection1Node.SelectSingleNode("str[@name='instanceDir']").InnerText;
-      }
-      else
+      if (info.MajorVersion >= 5)
       {
         return info.SolrBasePath.EnsureEnd(@"\") + @"configsets\data_driven_schema_configs";
       }
 
+      var response = this.RequestAndGetResponseStream($"{url}/admin/cores");
+
+      var doc = new XmlDocument();
+      doc.Load(response);
+
+      XmlNode collection1Node = doc.SelectSingleNode("/response/lst[@name='status']/lst[@name='collection1']");
+
+      if (collection1Node == null) throw new ApplicationException("The default 'collection1' index is missing, and it is required for Solr 4. Please reinstall Solr 4 or use a later version of Solr.");
+
+      return collection1Node.SelectSingleNode("str[@name='instanceDir']").InnerText;
     }
 
     private string NormalizeXml(XmlDocumentEx xml)
