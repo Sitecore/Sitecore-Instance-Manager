@@ -23,7 +23,7 @@ namespace SIM.Tests.Pipelines
     private const string SolrCorePath = @"c:\some\path\SOME_CORE_NAME";
     private const string SolrConfigPath = @"c:\some\path\SOME_CORE_NAME\conf\solrconfig.xml";
     private const string ManagedSchemaPath = @"c:\some\path\SOME_CORE_NAME\conf\managed-schema";
-
+    private const string TemplateCollectionPath = @"c:\some\path\collection1";
     #endregion
 
     #region Fields
@@ -32,7 +32,8 @@ namespace SIM.Tests.Pipelines
     private Instance _instance;
     private Product _module;
     private Stream _infoResponse;
-    private Stream _coreInfoResponse;
+ 
+
 
     #endregion
 
@@ -55,27 +56,19 @@ namespace SIM.Tests.Pipelines
     public void CleanUp()
     {
       _infoResponse.Dispose();
-      _coreInfoResponse.Dispose();
     }
 
     private void Arrange()
     {
       ArrangeGetSolrInfo();
-      ArrangeGetCores(@"<lst name='collection1'><str name='instanceDir'>c:\some\path\collection1\</str></lst>");
+      _sut.FileExists(TemplateCollectionPath).Returns(true);
       _sut.FileExists(SchemaPath).Returns(true);
       _sut.FileExists(ManagedSchemaPath).Returns(false);
       var xmlDocumentEx = XmlDocumentEx.LoadXml("<anonymous />");
       _sut.XmlMerge(Arg.Any<string>(), Arg.Any<string>()).Returns(xmlDocumentEx);
 
     }
-    private void ArrangeGetCores(string coreInfo)
-    {
-      HttpWebResponse response = Substitute.For<HttpWebResponse>();
-      string returnValue = $"<response><lst name='status' >{coreInfo}</lst></response>";
-      _coreInfoResponse = GenerateStreamFromString(returnValue);
 
-      _sut.RequestAndGetResponseStream("SOME_URL/admin/cores").Returns(_coreInfoResponse);
-    }
 
     private void Act()
     {
@@ -84,8 +77,8 @@ namespace SIM.Tests.Pipelines
 
     private void ArrangeGetSolrInfo()
     {
-      string response = 
-        @"<response><lst name=""lucene""><str name=""solr-spec-version"">4.0.0</str></lst></response>";
+      string response =
+        @"<response><lst name=""lucene""><str name=""solr-spec-version"">4.0.0</str></lst><str name=""solr_home"">c:\some\path</str></response>";
       _infoResponse = GenerateStreamFromString(response);
  
       _sut.RequestAndGetResponseStream("SOME_URL/admin/info/system").Returns(_infoResponse);
@@ -154,33 +147,13 @@ namespace SIM.Tests.Pipelines
     }
 
     [TestMethod]
-    public void ShouldGetCores()
-    {
-      Arrange();
-
-      Act();
-
-      _sut.Received().RequestAndGetResponseStream("SOME_URL/admin/cores");
-    }
-
-    [TestMethod, ExpectedException(typeof(ApplicationException))]
-    public void ShouldThrowIfNoCollection1()
-    {
-      Arrange();
-
-      ArrangeGetCores("");
-
-      Act();
-    }
-
-    [TestMethod]
     public void ShouldCopyCollection1InstanceDirToNewCorePath()
     {
       Arrange();
 
       Act();
 
-      _sut.Received().CopyDirectory(@"c:\some\path\collection1\", @"c:\some\path\SOME_CORE_NAME\");
+      _sut.Received().CopyDirectory(@"c:\some\path\collection1", @"c:\some\path\SOME_CORE_NAME");
     }
 
     [TestMethod]
@@ -200,7 +173,7 @@ namespace SIM.Tests.Pipelines
 
       _sut.Execute(_instance,_module);
 
-      var dirPath = @"c:\some\path\SOME_CORE_NAME\";
+      var dirPath = @"c:\some\path\SOME_CORE_NAME";
       string coreName = "SOME_CORE_NAME";
       _sut.Received()
         .RequestAndGetResponseStream(
@@ -295,7 +268,8 @@ namespace SIM.Tests.Pipelines
                             && !s.Contains("ManagedIndexSchemaFactory")));
     }
  
-    [TestMethod] public void ShouldSaveToSolrConfigPath()
+    [TestMethod]
+    public void ShouldSaveToSolrConfigPath()
     {
       Arrange();
       
@@ -317,7 +291,6 @@ namespace SIM.Tests.Pipelines
       Act();
 
       string xmlDocumentDeclaration_WithUtf8 = @"<?xml version=""1.0"" encoding=""UTF-8"" ?>";
-      string indentedXml = "<a>\r\n  <b />\r\n</a>";
 
       // Note: StartsWith, Contains, EndsWith used to avoid polluting test with
       // <schemaFactory> element.

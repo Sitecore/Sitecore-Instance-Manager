@@ -52,21 +52,18 @@ namespace SIM.Pipelines.Install.Modules
       XmlDocument sitecoreConfig = instance.GetShowconfig();
       string solrUrl = GetUrlFrom(sitecoreConfig);
       XmlNodeList solrIndexes = GetSolrIndexNodesFrom(sitecoreConfig);
-      SolrInformation info = GetSolrInfo(solrUrl);
-      string sourcePath = GetTemplateCollectionPath(info, solrUrl);
-
+      SolrInformation info = GetSolrInformation(solrUrl);
+      string sourcePath = info.TemplateFullPath;
+       
       foreach (XmlElement node in solrIndexes)
       {
         string coreName = GetCoreName(node);
-        // Both "collection1" for Solr 4 and "data_driven_schema_configs" for Solr 5+ have
-        // language definitions required to index stock Sitecore content.
-        string templateFolderName = info.MajorVersion == 4 ? "collection1" : @"configsets\data_driven_schema_configs";
-        string newCorePath = sourcePath.Replace(templateFolderName, coreName);
+        string newCorePath = info.SolrBasePath.EnsureEnd(@"\") + coreName;
         CopyDirectory(sourcePath, newCorePath);
         RemoveCorePropertiesFile(newCorePath);
         UpdateSchema(instance.WebRootPath, newCorePath);
         UpdateSolrConfig(newCorePath);
-        CallSolrCreateCoreAPI(solrUrl, coreName, newCorePath);
+        CreateSolrCore(solrUrl, coreName, newCorePath);
       }
     }
 
@@ -110,15 +107,15 @@ namespace SIM.Pipelines.Install.Modules
       }
     }
 
-    private static XmlNodeList GetSolrIndexNodesFrom(XmlDocument config)
+    private static XmlNodeList GetSolrIndexNodesFrom(XmlDocument sitecoreConfig)
     {
-      return config.SelectNodes(
+      return sitecoreConfig.SelectNodes(
         "/sitecore/contentSearch/configuration/indexes/index[@type='Sitecore.ContentSearch.SolrProvider.SolrSearchIndex, Sitecore.ContentSearch.SolrProvider']");
     }
 
-    private static string GetUrlFrom(XmlDocument config)
+    private static string GetUrlFrom(XmlDocument sitecoreConfig)
     {
-      XmlNode serviceBaseAddressNode = config.SelectSingleNode("/sitecore/settings/setting[@name='ContentSearch.Solr.ServiceBaseAddress']");
+      XmlNode serviceBaseAddressNode = sitecoreConfig.SelectSingleNode("/sitecore/settings/setting[@name='ContentSearch.Solr.ServiceBaseAddress']");
       serviceBaseAddressNode = Assert.IsNotNull(serviceBaseAddressNode,
         "ContentSearch.Solr.ServiceBaseAddress not found in configuration.");
 
@@ -138,12 +135,12 @@ namespace SIM.Pipelines.Install.Modules
 
       if (!schemaExists && !managedSchemaExists)
       {
-        throw new FileNotFoundException($"Schema file not found: Checked here {schemaPath} and here {managedSchemaPath}.");
+        throw new FileNotFoundException($"The Schema.xml file was not found: Checked here {schemaPath} and here {managedSchemaPath}. This probably means that the collection1 (for Solr 4.x) or configsets directory (for Solr 5+) has been modified.  Please copy these from a fresh install of Solr of the same release version you are running.");
       }
 
       string inputPath = managedSchemaExists ? managedSchemaPath : schemaPath;
       string outputPath = schemaPath;
-      this.InvokeSitecoreGenerateSchemaUtility(contentSearchDllPath, inputPath, outputPath);
+      InvokeSitecoreGenerateSchemaUtility(contentSearchDllPath, inputPath, outputPath);
     }
 
     private static string GetCoreName(XmlElement node)
@@ -155,7 +152,7 @@ namespace SIM.Pipelines.Install.Modules
       return coreName;
     }
 
-    private void CallSolrCreateCoreAPI(string url, string coreName, string instanceDir)
+    private void CreateSolrCore(string url, string coreName, string instanceDir)
     {
       this.RequestAndGetResponseStream($"{url}/admin/cores?action=CREATE&name={coreName}&instanceDir={instanceDir}&config=solrconfig.xml&schema=schema.xml&dataDir=data");
     }
@@ -163,10 +160,10 @@ namespace SIM.Pipelines.Install.Modules
     private void RemoveCorePropertiesFile(string newCorePath)
     {
       string path = string.Format(newCorePath.EnsureEnd(@"\") + "core.properties");
-      this.DeleteFile(path);
+      DeleteFile(path);
     }
 
-    private SolrInformation GetSolrInfo(string url)
+    private SolrInformation GetSolrInformation(string url)
     {
       string solrInfoUrl = $"{url}/admin/info/system";
       Stream response = this.RequestAndGetResponseStream(solrInfoUrl);
@@ -182,25 +179,6 @@ namespace SIM.Pipelines.Install.Modules
       {
         return reader.ReadToEnd();
       }
-    }
-
-    private string GetTemplateCollectionPath(SolrInformation info, string url)
-    {
-      if (info.MajorVersion >= 5)
-      {
-        return info.SolrBasePath.EnsureEnd(@"\") + @"configsets\data_driven_schema_configs";
-      }
-
-      var response = this.RequestAndGetResponseStream($"{url}/admin/cores");
-
-      var doc = new XmlDocument();
-      doc.Load(response);
-
-      XmlNode collection1Node = doc.SelectSingleNode("/response/lst[@name='status']/lst[@name='collection1']");
-
-      if (collection1Node == null) throw new ApplicationException("The default 'collection1' index is missing, and it is required for Solr 4. Please reinstall Solr 4 or use a later version of Solr.");
-
-      return collection1Node.SelectSingleNode("str[@name='instanceDir']").InnerText;
     }
 
     private string NormalizeXml(XmlDocumentEx xml)
