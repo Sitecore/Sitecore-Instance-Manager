@@ -3,6 +3,7 @@ using System.Configuration;
 using System.IO;
 using System.Net;
 using System.Reflection;
+using System.Runtime.Remoting.Messaging;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Xml;
@@ -24,7 +25,12 @@ namespace SIM.Pipelines.Install.Modules
 
     private const string GenerateSchemaClass = "Sitecore.ContentSearch.ProviderSupport.Solr.SchemaGenerator";
     private const string GenerateSchemaMethod = "GenerateSchema";
-    public const string SolrConfigPatch =
+
+    /// <summary>
+    /// Patch to SolrConfig.xml to enable term support, as specified in Sitecore documentation.
+    /// https://doc.sitecore.net/sitecore_experience_platform/82/setting_up__maintaining/search_and_indexing/walkthrough_setting_up_solr#_Enable_Solr_term
+    /// </summary>
+    public const string SolrTermSuppportPatch =
     @"<config>
         <requestHandler name=""/select"" class=""solr.SearchHandler"">
           <bool name=""terms"">true</bool>
@@ -43,20 +49,21 @@ namespace SIM.Pipelines.Install.Modules
 
     public void Execute(Instance instance, Product module)
     {
-      XmlDocument config = instance.GetShowconfig();
-      string solrUrl = GetUrl(config);
-      XmlNodeList solrIndexes = GetSolrIndexNodes(config);
-      string defaultCollectionPath = GetDefaultCollectionPath(solrUrl);
-
+      XmlDocument sitecoreConfig = instance.GetShowconfig();
+      string solrUrl = GetUrlFrom(sitecoreConfig);
+      XmlNodeList solrIndexes = GetSolrIndexNodesFrom(sitecoreConfig);
+      SolrInformation info = GetSolrInformation(solrUrl);
+      string sourcePath = info.TemplateFullPath;
+       
       foreach (XmlElement node in solrIndexes)
       {
         string coreName = GetCoreName(node);
-        string corePath = defaultCollectionPath.Replace("collection1", coreName);
-        this.CopyDirectory(defaultCollectionPath, corePath);
-        DeleteCopiedCorePropertiesFile(corePath);
-        UpdateSchema(instance.WebRootPath, corePath);
-        UpdateSolrConfig(corePath);
-        CallSolrCreateCoreAPI(solrUrl, coreName, corePath);
+        string newCorePath = info.SolrBasePath.EnsureEnd(@"\") + coreName;
+        CopyDirectory(sourcePath, newCorePath);
+        RemoveCorePropertiesFile(newCorePath);
+        UpdateSchema(instance.WebRootPath, newCorePath);
+        UpdateSolrConfig(newCorePath);
+        CreateSolrCore(solrUrl, coreName, newCorePath);
       }
     }
 
@@ -66,21 +73,49 @@ namespace SIM.Pipelines.Install.Modules
 
     private void UpdateSolrConfig(string corePath)
     {
-      string filePath = corePath + @"conf\solrconfig.xml";
-      XmlDocumentEx mergedXml = this.XmlMerge(filePath,SolrConfigPatch);
+      string filePath = corePath.EnsureEnd(@"\") + @"conf\solrconfig.xml";
+      XmlDocumentEx mergedXml = this.XmlMerge(filePath, SolrTermSuppportPatch);
+      EnsureClassicSchemaMode(mergedXml);
+      RemoveAddSchemaFieldsProcessor(mergedXml);
       string mergedString = this.NormalizeXml(mergedXml);
       this.WriteAllText(filePath, mergedString);
     }
 
-    private static XmlNodeList GetSolrIndexNodes(XmlDocument config)
+    private void EnsureClassicSchemaMode(XmlDocumentEx solrConfig)
     {
-      return config.SelectNodes(
+      var oldSchemaFactory = solrConfig.SelectSingleElement("/config/schemaFactory");
+      var newSchemaFactory = solrConfig.CreateElement("schemaFactory");
+      newSchemaFactory.SetAttribute("class", "ClassicIndexSchemaFactory");
+      if (oldSchemaFactory == null)
+      {
+        solrConfig.DocumentElement.AppendChild(newSchemaFactory);
+      }
+      else
+      {
+        solrConfig.DocumentElement.ReplaceChild(newSchemaFactory, oldSchemaFactory);
+      }
+    }
+
+    private void RemoveAddSchemaFieldsProcessor(XmlDocumentEx solrConfig)
+    {
+      var element =
+        solrConfig.SelectSingleNode(
+          "/config/updateRequestProcessorChain/processor[@class='solr.AddSchemaFieldsUpdateProcessorFactory']");
+      if (element != null)
+      {
+        element.ParentNode.RemoveChild(element);
+      }
+    }
+
+    private static XmlNodeList GetSolrIndexNodesFrom(XmlDocument sitecoreConfig)
+    {
+      return sitecoreConfig.SelectNodes(
         "/sitecore/contentSearch/configuration/indexes/index[@type='Sitecore.ContentSearch.SolrProvider.SolrSearchIndex, Sitecore.ContentSearch.SolrProvider']");
     }
 
-    private static string GetUrl(XmlDocument config)
+    private static string GetUrlFrom(XmlDocument sitecoreConfig)
     {
-      XmlNode serviceBaseAddressNode = config.SelectSingleNode("/sitecore/settings/setting[@name='ContentSearch.Solr.ServiceBaseAddress']");
+      XmlNode serviceBaseAddressNode = sitecoreConfig.SelectSingleNode("/sitecore/settings/setting[@name='ContentSearch.Solr.ServiceBaseAddress']");
       serviceBaseAddressNode = Assert.IsNotNull(serviceBaseAddressNode,
         "ContentSearch.Solr.ServiceBaseAddress not found in configuration.");
 
@@ -100,12 +135,12 @@ namespace SIM.Pipelines.Install.Modules
 
       if (!schemaExists && !managedSchemaExists)
       {
-        throw new FileNotFoundException($"Schema file not found: Checked here {schemaPath} and here {managedSchemaPath}.");
+        throw new FileNotFoundException($"The Schema.xml file was not found: Checked here {schemaPath} and here {managedSchemaPath}. This probably means that the collection1 (for Solr 4.x) or configsets directory (for Solr 5+) has been modified.  Please copy these from a fresh install of Solr of the same release version you are running.");
       }
 
       string inputPath = managedSchemaExists ? managedSchemaPath : schemaPath;
       string outputPath = schemaPath;
-      this.GenerateSchema(contentSearchDllPath, inputPath, outputPath);
+      InvokeSitecoreGenerateSchemaUtility(contentSearchDllPath, inputPath, outputPath);
     }
 
     private static string GetCoreName(XmlElement node)
@@ -117,39 +152,49 @@ namespace SIM.Pipelines.Install.Modules
       return coreName;
     }
 
-    private void CallSolrCreateCoreAPI(string url, string coreName, string instanceDir)
+    private void CreateSolrCore(string url, string coreName, string instanceDir)
     {
-      this.RequestAndGetResponse($"{url}/admin/cores?action=CREATE&name={coreName}&instanceDir={instanceDir}&config=solrconfig.xml&schema=schema.xml&dataDir=data");
+      this.RequestAndGetResponseStream($"{url}/admin/cores?action=CREATE&name={coreName}&instanceDir={instanceDir}&config=solrconfig.xml&schema=schema.xml&dataDir=data");
     }
 
-    private void DeleteCopiedCorePropertiesFile(string newCorePath)
+    private void RemoveCorePropertiesFile(string newCorePath)
     {
       string path = string.Format(newCorePath.EnsureEnd(@"\") + "core.properties");
-      this.DeleteFile(path);
+      DeleteFile(path);
     }
 
-    private string GetDefaultCollectionPath(string url)
+    private SolrInformation GetSolrInformation(string url)
     {
-      var response = this.RequestAndGetResponse($"{url}/admin/cores");
+      string solrInfoUrl = $"{url}/admin/info/system";
+      Stream response = this.RequestAndGetResponseStream(solrInfoUrl);
+      string responseAsString = GetStringFromStream(response);
+      var doc = XmlDocumentEx.LoadXml(responseAsString);
+        
+      return new SolrInformation(doc);
+    }
 
-      var doc = new XmlDocument();
-      doc.Load(response.GetResponseStream());
+    private string GetStringFromStream(Stream stream)
+    {
+      using (var reader = new StreamReader(stream))
+      {
+        return reader.ReadToEnd();
+      }
+    }
 
-      XmlNode collection1Node = doc.SelectSingleNode("/response/lst[@name='status']/lst[@name='collection1']");
-      if (collection1Node == null) throw new ApplicationException("collection1 not found");
-
-      return collection1Node.SelectSingleNode("str[@name='instanceDir']").InnerText;
+    private string NormalizeXml(XmlDocumentEx xml)
+    {
+      string outerXml = xml.OuterXml;
+      string formatted = XmlDocumentEx.Normalize(outerXml);
+      Regex r = new Regex(@"^<\?.*\?>");
+      string corrected = r.Replace(formatted, @"<?xml version=""1.0"" encoding=""UTF-8"" ?>");  //Solr requires UTF-8.
+      return corrected;
     }
 
     #endregion
 
     #region Virtual methods
-    // All system calls are wrapped in virtual methods for unit testing.
 
-    public virtual HttpWebResponse RequestAndGetResponse(string url)
-    {
-      return WebRequestHelper.RequestAndGetResponse(url);
-    }
+    // All system calls are wrapped in virtual methods for unit testing.
 
     public virtual void CopyDirectory(string sourcePath, string destinationPath)
     {
@@ -171,32 +216,28 @@ namespace SIM.Pipelines.Install.Modules
       return FileSystem.FileSystem.Local.File.Exists(path);
     }
 
+    public virtual Stream RequestAndGetResponseStream(string url)
+    {
+      return WebRequestHelper.RequestAndGetResponse(url).GetResponseStream();
+    }
+
     /// <summary>
     /// Dynamically loads GenerateSchema class from target site, and uses it
     /// to applied required changes to the Solr schema.xml file.
     /// </summary>
-    public virtual void GenerateSchema(string dllPath, string inputPath, string outputPath)
+    public virtual void InvokeSitecoreGenerateSchemaUtility(string dllPath, string inputPath, string outputPath)
     {
       Assembly assembly = ReflectionUtil.GetAssembly(dllPath);
       Type generateSchema = ReflectionUtil.GetType(assembly, GenerateSchemaClass);
       object obj = ReflectionUtil.CreateObject(generateSchema);
       ReflectionUtil.InvokeMethod(obj, GenerateSchemaMethod, inputPath, outputPath);
     }
-   
+
     public virtual XmlDocumentEx XmlMerge(string filePath, string xmlString)
     {
       XmlDocumentEx doc1 = XmlDocumentEx.LoadFile(filePath);
       XmlDocument doc2 = XmlDocumentEx.LoadXml(xmlString);
-      return doc1.Merge(doc2); 
-    }
-
-    public virtual string NormalizeXml(XmlDocumentEx xml)
-    {
-      string outerXml = xml.OuterXml;
-      string formatted = XmlDocumentEx.Normalize(outerXml);
-      Regex r = new Regex(@"^<\?.*\?>");
-      string corrected = r.Replace(formatted, @"<?xml version=""1.0"" encoding=""UTF-8"" ?>");  //Solr requires UTF-8.
-      return corrected;
+      return doc1.Merge(doc2);
     }
 
     #endregion

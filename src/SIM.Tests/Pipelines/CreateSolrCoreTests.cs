@@ -17,11 +17,13 @@ namespace SIM.Tests.Pipelines
 
     #region Constants
 
+    private const string SolrBasePath = @"c:\some\path";
     private const string DllPath = @"c:\some\website\bin\Sitecore.ContentSearch.dll";
     private const string SchemaPath = @"c:\some\path\SOME_CORE_NAME\conf\schema.xml";
+    private const string SolrCorePath = @"c:\some\path\SOME_CORE_NAME";
     private const string SolrConfigPath = @"c:\some\path\SOME_CORE_NAME\conf\solrconfig.xml";
     private const string ManagedSchemaPath = @"c:\some\path\SOME_CORE_NAME\conf\managed-schema";
-
+    private const string TemplateCollectionPath = @"c:\some\path\collection1";
     #endregion
 
     #region Fields
@@ -29,6 +31,9 @@ namespace SIM.Tests.Pipelines
     private CreateSolrCores _sut;
     private Instance _instance;
     private Product _module;
+    private Stream _infoResponse;
+ 
+
 
     #endregion
 
@@ -47,18 +52,47 @@ namespace SIM.Tests.Pipelines
 
     }
 
+    [TestCleanup]
+    public void CleanUp()
+    {
+      _infoResponse.Dispose();
+    }
+
     private void Arrange()
     {
-      ArrangeGetCores(@"<lst name='collection1'><str name='instanceDir'>c:\some\path\collection1\</str></lst>");
+      ArrangeGetSolrInfo();
+      _sut.FileExists(TemplateCollectionPath).Returns(true);
       _sut.FileExists(SchemaPath).Returns(true);
       _sut.FileExists(ManagedSchemaPath).Returns(false);
-      _sut.XmlMerge(Arg.Any<string>(), Arg.Any<string>()).Returns(new XmlDocumentEx());
+      var xmlDocumentEx = XmlDocumentEx.LoadXml("<anonymous />");
+      _sut.XmlMerge(Arg.Any<string>(), Arg.Any<string>()).Returns(xmlDocumentEx);
 
     }
+
 
     private void Act()
     {
       _sut.Execute(_instance, _module);
+    }
+
+    private void ArrangeGetSolrInfo()
+    {
+      string response =
+        @"<response><lst name=""lucene""><str name=""solr-spec-version"">4.0.0</str></lst><str name=""solr_home"">c:\some\path</str></response>";
+      _infoResponse = GenerateStreamFromString(response);
+ 
+      _sut.RequestAndGetResponseStream("SOME_URL/admin/info/system").Returns(_infoResponse);
+      
+    }
+
+    private static Stream GenerateStreamFromString(string s)
+    {
+      MemoryStream stream = new MemoryStream();
+      StreamWriter writer = new StreamWriter(stream);
+      writer.Write(s);
+      writer.Flush();
+      stream.Position = 0;
+      return stream;
     }
 
     private string GetConfigXml(string someUrl, string someCoreName, string someId)
@@ -75,35 +109,41 @@ namespace SIM.Tests.Pipelines
              "</index></indexes></configuration></contentSearch></sitecore>";
     }
 
-    private void ArrangeGetCores(string coreInfo)
-    {
-      HttpWebResponse response = Substitute.For<HttpWebResponse>();
-      string returnValue = $"<response><lst name='status' >{coreInfo}</lst></response>";
-      var bytes = UTF8Encoding.UTF8.GetBytes(returnValue);
-      response.GetResponseStream().Returns(new MemoryStream(bytes));
-      _sut.RequestAndGetResponse("SOME_URL/admin/cores").Returns(response);
-    }
-
     #endregion
 
     #region Tests
 
     [TestMethod]
-    public void ShouldGetCores()
+    public void ShouldGetSystemInfo()
     {
       Arrange();
 
       Act();
 
-      _sut.Received().RequestAndGetResponse("SOME_URL/admin/cores");
+      _sut.Received().RequestAndGetResponseStream("SOME_URL/admin/info/system");
     }
 
-    [TestMethod, ExpectedException(typeof(ApplicationException))]
-    public void ShouldThrowIfNoCollection1()
+    [TestMethod]
+    public void ShouldCopyStockConfigIfSolr5()
     {
-      ArrangeGetCores("");
+      Arrange();
+      _infoResponse = GenerateStreamFromString(
+        "<response>" +
+        "<lst name=\"lucene\">" +
+        "<str name=\"solr-spec-version\">5.0.0</str>" +
+        "</lst>" +
+        $"<str name=\"solr_home\">{SolrBasePath}</str>" +
+        "</response>");
+
+      _sut.RequestAndGetResponseStream("SOME_URL/admin/info/system").Returns(_infoResponse);
+      _sut.FileExists(Arg.Any<string>()).Returns(true); //TODO tighten
 
       Act();
+
+      _sut.Received().CopyDirectory(SolrBasePath + @"\configsets\data_driven_schema_configs", SolrCorePath);
+      _sut.Received().XmlMerge($"{SolrBasePath}\\SOME_CORE_NAME\\conf\\solrconfig.xml", Arg.Any<string>());
+
+
     }
 
     [TestMethod]
@@ -113,7 +153,7 @@ namespace SIM.Tests.Pipelines
 
       Act();
 
-      _sut.Received().CopyDirectory(@"c:\some\path\collection1\", @"c:\some\path\SOME_CORE_NAME\");
+      _sut.Received().CopyDirectory(@"c:\some\path\collection1", @"c:\some\path\SOME_CORE_NAME");
     }
 
     [TestMethod]
@@ -133,10 +173,10 @@ namespace SIM.Tests.Pipelines
 
       _sut.Execute(_instance,_module);
 
-      var dirPath = @"c:\some\path\SOME_CORE_NAME\";
+      var dirPath = @"c:\some\path\SOME_CORE_NAME";
       string coreName = "SOME_CORE_NAME";
       _sut.Received()
-        .RequestAndGetResponse(
+        .RequestAndGetResponseStream(
           $"SOME_URL/admin/cores?action=CREATE&name={coreName}&instanceDir={dirPath}&config=solrconfig.xml&schema=schema.xml&dataDir=data");
 
     }
@@ -148,7 +188,7 @@ namespace SIM.Tests.Pipelines
  
       Act();
 
-      _sut.Received().GenerateSchema(DllPath, SchemaPath, SchemaPath);
+      _sut.Received().InvokeSitecoreGenerateSchemaUtility(DllPath, SchemaPath, SchemaPath);
     }
 
     [TestMethod]
@@ -160,7 +200,7 @@ namespace SIM.Tests.Pipelines
 
       Act();
 
-      _sut.Received().GenerateSchema(DllPath, ManagedSchemaPath, SchemaPath);
+      _sut.Received().InvokeSitecoreGenerateSchemaUtility(DllPath, ManagedSchemaPath, SchemaPath);
     }
 
     [TestMethod, ExpectedException(typeof(FileNotFoundException))]
@@ -183,39 +223,85 @@ namespace SIM.Tests.Pipelines
 
       Act();
 
-      _sut.Received().XmlMerge(SolrConfigPath, CreateSolrCores.SolrConfigPatch);
+      _sut.Received().XmlMerge(SolrConfigPath, CreateSolrCores.SolrTermSuppportPatch);
     }
 
-    /// <summary>
-    /// See https://github.com/dsolovay/sitecore-instance-manager/issues/38
-    /// </summary>
     [TestMethod]
-    public void ShouldNormalizeXmlMergeOutput()
+    public void ShouldRemoveUpdateProcessor()
     {
       Arrange();
-      XmlDocumentEx anonymousDoc = XmlDocumentEx.LoadXml("<anonymous />");
-      _sut.XmlMerge(Arg.Any<string>(), Arg.Any<string>()).Returns(anonymousDoc);
+      string solrconfig =
+        @"<config>
+            <updateRequestProcessorChain>
+                <processor class=""solr.AddSchemaFieldsUpdateProcessorFactory"" />
+            </updateRequestProcessorChain>
+          </config>";
+
+      var xmlDocumentEx = XmlDocumentEx.LoadXml(solrconfig);
+      _sut.XmlMerge(Arg.Any<string>(), Arg.Any<string>()).Returns(xmlDocumentEx);
 
       Act();
 
-      _sut.Received().NormalizeXml(anonymousDoc);
+      _sut.Received().WriteAllText(Arg.Any<string>(),
+        Arg.Is<string>(s => !s.Contains(@"solr.AddSchemaFieldsUpdateProcessorFactory")));
     }
 
-    /// <summary>
-    /// See https://github.com/dsolovay/sitecore-instance-manager/issues/38
-    /// </summary>
-    [TestMethod] public void ShouldSaveNormalizedOutput()
+    [TestMethod]
+    public void ShouldChangeManagedToClassicConfig()
     {
       Arrange();
-      string anonymousString = "anonymous";
-      _sut.NormalizeXml(Arg.Any<XmlDocumentEx>()).Returns(anonymousString);
+      string solrconfig =
+        @"<config>
+            <schemaFactory class=""ManagedIndexSchemaFactory"">
+              <bool name=""mutable"">true</bool>
+              <str name=""managedSchemaResourceName"" >managed-schema</str>
+            </schemaFactory >
+          </config>";
+        
+      var xmlDocumentEx = XmlDocumentEx.LoadXml(solrconfig);
+      _sut.XmlMerge(Arg.Any<string>(), Arg.Any<string>()).Returns(xmlDocumentEx);
 
       Act();
 
-      _sut.Received().WriteAllText(Arg.Any<string>(), anonymousString);
+      _sut.Received().WriteAllText(Arg.Any<string>(),
+        Arg.Is<string>(s => s.Contains(@"<schemaFactory class=""ClassicIndexSchemaFactory"" />")
+                            && !s.Contains("ManagedIndexSchemaFactory")));
     }
-
  
+    [TestMethod]
+    public void ShouldSaveToSolrConfigPath()
+    {
+      Arrange();
+      
+      Act();
+
+      _sut.Received().WriteAllText(
+        path: SolrConfigPath,
+        text: Arg.Any<string>());
+    }
+
+    [TestMethod]
+    public void ShouldNormalizeSolrConfig()
+    {
+      Arrange();
+      const string nonIndentedXml = "<a><b/></a>";
+      var xmlDocumentEx = XmlDocumentEx.LoadXml(nonIndentedXml);
+      _sut.XmlMerge(Arg.Any<string>(), Arg.Any<string>()).Returns(xmlDocumentEx);
+
+      Act();
+
+      string xmlDocumentDeclaration_WithUtf8 = @"<?xml version=""1.0"" encoding=""UTF-8"" ?>";
+
+      // Note: StartsWith, Contains, EndsWith used to avoid polluting test with
+      // <schemaFactory> element.
+      _sut.Received().WriteAllText(
+        path: Arg.Any<string>(),
+        text: Arg.Is<string>(s =>
+          s.StartsWith(xmlDocumentDeclaration_WithUtf8 + "\r\n<a>\r\n") && 
+          s.Contains("\r\n  <b />\r\n") &&
+          s.EndsWith("\r\n</a>")));
+    }
+
     #endregion
 
   }
