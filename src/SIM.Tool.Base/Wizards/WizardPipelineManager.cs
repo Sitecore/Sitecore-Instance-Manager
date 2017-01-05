@@ -116,9 +116,8 @@
           if (action != null)
           {
             var wizardArgs = wizard.ProcessorArgs;
-            Assert.IsNotNull(wizardArgs, nameof(wizardArgs));
 
-            action(wizard.ProcessorArgs);
+            action(wizardArgs);
           }
         }
         else
@@ -128,8 +127,7 @@
             flag = true;
             wizard.Closed += (o, e) =>
             {
-              var wizardArgs = wizard.ProcessorArgs;
-              Assert.IsNotNull(wizardArgs, nameof(wizardArgs));
+              var wizardArgs = wizard.ProcessorArgs;            
 
               action(wizardArgs);
               flag = false;
