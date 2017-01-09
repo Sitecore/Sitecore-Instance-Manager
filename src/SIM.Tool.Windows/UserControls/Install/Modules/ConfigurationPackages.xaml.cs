@@ -218,7 +218,7 @@
     #region Search Implementation
 
     private void DoSearch(string filter)
-    {
+    {                              
       this.checkBoxItems = new ObservableCollection<ProductInCheckbox>(this.unfilteredCheckBoxItems.Where(product => product.Name.ContainsIgnoreCase(filter) || product.Value.SearchToken.ContainsIgnoreCase(filter)));
       this.filePackages.ItemsSource = this.checkBoxItems;
     }

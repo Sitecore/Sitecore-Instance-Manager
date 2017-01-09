@@ -81,7 +81,7 @@ namespace SIM.Core.Common
       }
       catch (Exception ex)
       {
-        Log.Error(ex, string.Format("Error during event tracking: {0}", eventName));
+        Log.Error(ex, $"Error during event tracking: {eventName}");
       }
     }
 

@@ -198,7 +198,7 @@
       var errorPrefix = pageName + " returned an error: ";
       try
       {
-        Log.Info(string.Format("Requesting URL {0}", url));
+        Log.Info($"Requesting URL {url}");
         result = WebRequestHelper.DownloadString(url).Trim();
         if (result.ToLower().StartsWith("error:"))
         {
@@ -213,7 +213,7 @@
       }
 
 
-      Log.Info(string.Format("Install status: {0}", result));
+      Log.Info($"Install status: {result}");
       return result;
     }
 

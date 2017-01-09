@@ -177,7 +177,7 @@
       }
       catch (InvalidOperationException ex)
       {
-        Log.Warn(ex, string.Format("There is a problem with detecting file name of {0}", link));
+        Log.Warn(ex, $"There is a problem with detecting file name of {link}");
         var path = link.AbsolutePath;
         return path.Substring(path.LastIndexOf("/") + 1);
       }
@@ -204,7 +204,7 @@
       }
       catch (InvalidOperationException ex)
       {
-        Log.Warn(ex, string.Format("There is a problem with detecting file size of {0}", link));
+        Log.Warn(ex, $"There is a problem with detecting file size of {link}");
         return -1;
       }
     }

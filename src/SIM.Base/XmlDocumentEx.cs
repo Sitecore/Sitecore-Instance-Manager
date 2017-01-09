@@ -51,7 +51,7 @@
       }
       catch (Exception ex)
       {
-        Log.Warn(ex, string.Format("Cannot load xml: {0}. {1}\r\n{2}", xml, ex.Message, Environment.StackTrace));
+        Log.Warn(ex, $"Cannot load xml: {xml}. {ex.Message}\r\n{Environment.StackTrace}");
         return null;
       }
     }

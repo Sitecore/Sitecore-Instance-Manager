@@ -54,7 +54,7 @@
       Assert.IsNotNull(primaryDatabase, nameof(primaryDatabase));
 
       var primaryFile = new FileInfo(primaryDatabase.FileName);
-      Assert.IsTrue(primaryFile.Exists, string.Format("The {0} reporting database file does not exist", primaryFile.FullName));
+      Assert.IsTrue(primaryFile.Exists, $"The {primaryFile.FullName} reporting database file does not exist");
 
       var secondaryCstr = instance.Configuration.ConnectionStrings.FirstOrDefault(x => x.Name == "reporting.secondary");
       var mgmtCstr = new SqlConnectionStringBuilder(Profile.Read().ConnectionString);

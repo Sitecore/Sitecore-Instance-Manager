@@ -279,7 +279,7 @@ namespace SIM.Pipelines
       Assert.ArgumentNotNull(destination, nameof(destination));
 
       var product = instance.Product;
-      Assert.IsNotNull(product.PackagePath.EmptyToNull(), string.Format("The {0} product distributive is not available in local repository", instance.ProductFullName));
+      Assert.IsNotNull(product.PackagePath.EmptyToNull(), $"The {instance.ProductFullName} product distributive is not available in local repository");
 
       var package = new FileInfo(product.PackagePath);
       Assert.IsTrue(package.Exists, $"The {package.FullName} file does not exist");
@@ -287,7 +287,7 @@ namespace SIM.Pipelines
       using (var zip = ZipFile.OpenRead(package.FullName))
       {
         var entry = zip.Entries.FirstOrDefault(x => x.FullName.EndsWith("Sitecore.Analytics.mdf"));
-        Assert.IsNotNull(entry, string.Format("Cannot find Sitecore.Analytics.mdf in the {0} file", package.FullName));
+        Assert.IsNotNull(entry, $"Cannot find Sitecore.Analytics.mdf in the {package.FullName} file");
 
         entry.ExtractToFile(destination.FullName);
       }

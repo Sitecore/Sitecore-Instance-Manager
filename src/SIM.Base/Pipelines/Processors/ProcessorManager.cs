@@ -69,7 +69,7 @@
         }
         catch (Exception ex)
         {
-          Log.Error(ex, string.Format("Error during evaluating steps count of {0}",  item.GetType().FullName));
+          Log.Error(ex, $"Error during evaluating steps count of {item.GetType().FullName}");
         }
 
         return itemStepsCount + GetProcessorsCount(args, item.NestedProcessors);
@@ -98,7 +98,7 @@
           }
           catch (Exception ex)
           {
-            Log.Warn(ex, string.Format("Cannot detect if the processor {0} requires processing", processor.ProcessorDefinition.Type));
+            Log.Warn(ex, $"Cannot detect if the processor {processor.ProcessorDefinition.Type} requires processing");
           }
 
           if (isRequireProcessing)

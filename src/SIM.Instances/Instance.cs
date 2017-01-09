@@ -140,7 +140,7 @@
           var rootData = Path.Combine(this.DataFolderPath, "Indexes");
           if (FileSystem.FileSystem.Local.Directory.Exists(rootData))
           {
-            Log.Error(ex, string.Format("Cannot get indexes folder of {0}",  this.WebRootPath));
+            Log.Error(ex, $"Cannot get indexes folder of {this.WebRootPath}");
 
             return rootData;
           }
@@ -175,7 +175,7 @@
           var rootData = Path.Combine(this.DataFolderPath, "license.xml");
           if (FileSystem.FileSystem.Local.File.Exists(rootData))
           {
-            Log.Error(ex, string.Format("Cannot get license file of {0}",  this.WebRootPath));
+            Log.Error(ex, $"Cannot get license file of {this.WebRootPath}");
 
             return rootData;
           }
@@ -219,7 +219,7 @@
           var rootData = Path.Combine(this.DataFolderPath, "Packages");
           if (FileSystem.FileSystem.Local.Directory.Exists(rootData))
           {
-            Log.Error(ex, string.Format("Cannot get packages folder of {0}",  this.WebRootPath));
+            Log.Error(ex, $"Cannot get packages folder of {this.WebRootPath}");
 
             return rootData;
           }
@@ -272,7 +272,7 @@
           var rootData = Path.Combine(this.DataFolderPath, "Serialization");
           if (FileSystem.FileSystem.Local.Directory.Exists(rootData))
           {
-            Log.Error(ex, string.Format("Cannot get serialization folder of {0}",  this.WebRootPath));
+            Log.Error(ex, $"Cannot get serialization folder of {this.WebRootPath}");
 
             return rootData;
           }
@@ -573,7 +573,7 @@
           var rootData = Path.Combine(Path.GetDirectoryName(this.WebRootPath), "Data");
           if (FileSystem.FileSystem.Local.Directory.Exists(rootData))
           {
-            Log.Error(ex, string.Format("Cannot get data folder of {0}",  this.WebRootPath));
+            Log.Error(ex, $"Cannot get data folder of {this.WebRootPath}");
 
             return rootData;
           }
@@ -613,7 +613,7 @@
           var dataLogs = Path.Combine(this.DataFolderPath, "logs");
           if (FileSystem.FileSystem.Local.Directory.Exists(dataLogs))
           {
-            Log.Error(ex, string.Format("Cannot get logs folder of {0}",  this.WebRootPath));
+            Log.Error(ex, $"Cannot get logs folder of {this.WebRootPath}");
 
             return dataLogs;
           }
@@ -632,15 +632,15 @@
 
         foreach (var database in databases)
         {
-          Log.Debug(string.Format("Database: {0}",  database));
+          Log.Debug($"Database: {database}");
           var fileName = database.FileName;
           if (string.IsNullOrEmpty(fileName))
           {
-            Log.Warn(string.Format("The {0} database seems to be detached since it doesn't have a FileName property filled in", database.RealName));
+            Log.Warn($"The {database.RealName} database seems to be detached since it doesn't have a FileName property filled in");
             continue;
           }
 
-          Log.Debug(string.Format("name: {0}, fileName: {1}", database.Name, fileName));
+          Log.Debug($"name: {database.Name}, fileName: {fileName}");
           var folder = Path.GetDirectoryName(fileName);
           if (folder.ContainsIgnoreCase(webRootPath))
           {
@@ -716,7 +716,7 @@
           var rootData = Path.GetDirectoryName(this.WebRootPath);
           if (FileSystem.FileSystem.Local.Directory.Exists(rootData))
           {
-            Log.Error(ex, string.Format("Cannot get root folder of {0}",  this.WebRootPath));
+            Log.Error(ex, $"Cannot get root folder of {this.WebRootPath}");
 
             return rootData;
           }
@@ -746,7 +746,7 @@
           var websiteTemp = Path.Combine(this.WebRootPath, "temp");
           if (FileSystem.FileSystem.Local.Directory.Exists(websiteTemp))
           {
-            Log.Error(ex, string.Format("Cannot get temp folder of {0}",  this.WebRootPath));
+            Log.Error(ex, $"Cannot get temp folder of {this.WebRootPath}");
 
             return websiteTemp;
           }

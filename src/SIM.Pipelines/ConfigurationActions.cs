@@ -64,7 +64,7 @@
 
         if (manifest == null)
         {
-          Log.Warn(string.Format("The {0} doesn't have a manifest", module));
+          Log.Warn($"The {module} doesn't have a manifest");
           done?.Add(module);
 
           continue;
@@ -73,7 +73,7 @@
         Product instanceProduct = instance.Product;
         if (!module.IsMatchRequirements(instanceProduct))
         {
-          Log.Warn(string.Format("The {0} doesn't suites for {1}", module, instanceProduct));
+          Log.Warn($"The {module} doesn't suites for {instanceProduct}");
           done?.Add(module);
 
           continue;
@@ -123,13 +123,13 @@
         var localDBs =
           instance.AttachedDatabases.Where(
             d => d.ConnectionString.DataSource == sqlServerInstanceName).ToArray();
-        Log.Debug(string.Format("localDbs.Length: {0}", localDBs.Length));
+        Log.Debug($"localDbs.Length: {localDBs.Length}");
 
         foreach (string databaseName in firstOrderDatabaseNames)
         {
           mainDatabase = localDBs.SingleOrDefault(d => d.Name == databaseName);
-          Log.Debug(string.Format("databaseName: {0}", databaseName));
-          Log.Debug(string.Format("mainDatabase!=null: {0}", mainDatabase != null));
+          Log.Debug($"databaseName: {databaseName}");
+          Log.Debug($"mainDatabase!=null: {mainDatabase != null}");
           if (mainDatabase != null)
           {
             return ProfileSection.Result(mainDatabase);
@@ -629,7 +629,7 @@
                 }
                 else
                 {
-                  Log.Warn(string.Format("[InstallActions, Append] The {0} element isn't found", xpath));
+                  Log.Warn($"[InstallActions, Append] The {xpath} element isn't found");
                   break;
                 }
               }
@@ -650,14 +650,14 @@
               var xpath = instruction.GetAttribute("xpath");
               if (string.IsNullOrEmpty(xpath))
               {
-                Log.Warn(string.Format("The xpath attribute is missing in the {0} instruction (outer xml: {1})", instruction.Name, instruction.OuterXml));
+                Log.Warn($"The xpath attribute is missing in the {instruction.Name} instruction (outer xml: {instruction.OuterXml})");
                 continue;
               }
 
               XmlElement targetElement = (XmlElement)config.SelectSingleNode(xpath);
               if (targetElement == null)
               {
-                Log.Warn(string.Format("Can't find the {0} element in the {1} file", xpath, config.FilePath));
+                Log.Warn($"Can't find the {xpath} element in the {config.FilePath} file");
                 continue;
               }
 
@@ -683,14 +683,14 @@
               var xpath = instruction.GetAttribute("xpath");
               if (string.IsNullOrEmpty(xpath))
               {
-                Log.Warn(string.Format("The xpath attribute is missing in the {0} instruction (outer xml: {1})", instruction.Name, instruction.OuterXml));
+                Log.Warn($"The xpath attribute is missing in the {instruction.Name} instruction (outer xml: {instruction.OuterXml})");
                 continue;
               }
 
               XmlNodeList nodes = config.SelectNodes(xpath);
               if (nodes == null || nodes.Count == 0)
               {
-                Log.Warn(string.Format("Can't find the {0} nodes in the {1} file", xpath, config.FilePath));
+                Log.Warn($"Can't find the {xpath} nodes in the {config.FilePath} file");
                 continue;
               }
 
@@ -699,7 +699,7 @@
                 XmlNode parent = targetElement.ParentNode;
                 if (parent == null)
                 {
-                  Log.Warn(string.Format("Can't find the parent node of the {0} element of the {1} file", xpath, config.FilePath));
+                  Log.Warn($"Can't find the parent node of the {xpath} element of the {config.FilePath} file");
                   continue;
                 }
 
@@ -719,7 +719,7 @@
                 var fromPath = Path.Combine(includeFolderPath, fromFileName);
                 if (!File.Exists(fromPath))
                 {
-                  Log.Warn(string.Format("The {0} file not found", fromPath));
+                  Log.Warn($"The {fromPath} file not found");
 
                   break;
                 }
@@ -740,7 +740,7 @@
                 var fromPath = Path.Combine(includeFolderPath, fromFileName);
                 if (!File.Exists(fromPath))
                 {
-                  Log.Warn(string.Format("The {0} file not found", fromPath));
+                  Log.Warn($"The {fromPath} file not found");
 
                   break;
                 }
@@ -824,7 +824,7 @@
           throw;
         }
 
-        Log.Error(ex, string.Format("Cannot rename file {0} to {1}", fromPath, toPath));
+        Log.Error(ex, $"Cannot rename file {fromPath} to {toPath}");
       }
     }
 
@@ -904,7 +904,7 @@
               }
               catch (XmlDocumentEx.FileIsMissingException ex)
               {
-                Log.Warn(ex, string.Format("The path attribute is specified (path: {0}) but the file doesn't exist", configPath));
+                Log.Warn(ex, $"The path attribute is specified (path: {configPath}) but the file doesn't exist");
               }
 
               break;

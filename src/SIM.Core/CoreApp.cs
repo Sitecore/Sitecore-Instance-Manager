@@ -76,13 +76,13 @@
         Log.Info(string.Format("**********************************************************************"));
         Log.Info(string.Format("**********************************************************************"));
         Log.Info(string.Format("Sitecore Instance Manager started"));
-        Log.Info(string.Format("Version: {0}", ApplicationManager.AppVersion));
-        Log.Info(string.Format("Revision: {0}", ApplicationManager.AppRevision));
-        Log.Info(string.Format("Label: {0}", ApplicationManager.AppLabel));
-        Log.Info(string.Format("IsQA: {0}", ApplicationManager.IsQA));
-        Log.Info(string.Format("Executable: {0}", nativeArgs.FirstOrDefault() ?? ApplicationManager.ProcessName));
-        Log.Info(string.Format("Arguments: {0}", argsToLog));
-        Log.Info(string.Format("Directory: {0}", Environment.CurrentDirectory));
+        Log.Info($"Version: {ApplicationManager.AppVersion}");
+        Log.Info($"Revision: {ApplicationManager.AppRevision}");
+        Log.Info($"Label: {ApplicationManager.AppLabel}");
+        Log.Info($"IsQA: {ApplicationManager.IsQA}");
+        Log.Info($"Executable: {nativeArgs.FirstOrDefault() ?? ApplicationManager.ProcessName}");
+        Log.Info($"Arguments: {argsToLog}");
+        Log.Info($"Directory: {Environment.CurrentDirectory}");
         Log.Info(string.Format("**********************************************************************"));
         Log.Info(string.Format("**********************************************************************"));
       }
@@ -170,7 +170,7 @@
         ProfileSection.Argument("@params", @params);
 
         var resultParams = string.Join(" ", @params.Select(x => x.Trim('\"')).Select(x => x.Contains(" ") || x.Contains("=") ? "\"" + x + "\"" : x));
-        Log.Debug(string.Format("resultParams: {0}", resultParams));
+        Log.Debug($"resultParams: {resultParams}");
 
         var process = Process.Start(app, resultParams);
 

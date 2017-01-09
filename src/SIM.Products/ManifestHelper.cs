@@ -133,7 +133,7 @@
             var folderPath = lookupFolder.Path;
             if (!FileSystem.FileSystem.Local.Directory.Exists(folderPath))
             {
-              Log.Warn(string.Format("The {0} manifest lookup folder doesn't exist", lookupFolder));
+              Log.Warn($"The {lookupFolder} manifest lookup folder doesn't exist");
               continue;
             }
 
@@ -151,11 +151,11 @@
                   try
                   {
                     string[] findings = FileSystem.FileSystem.Local.Directory.GetFiles(folderPath, fileName, lookupFolder.Recursive ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly);
-                    Log.Debug(string.Format("Found {0} matches", findings.Length));
+                    Log.Debug($"Found {findings.Length} matches");
                     if (findings.Length == 1)
                     {
                       var path = findings.First();
-                      Log.Debug(string.Format("Found '{0}'", path));
+                      Log.Debug($"Found '{path}'");
                       try
                       {
                         if (mainDocument == null)
@@ -195,7 +195,7 @@
                   }
                   catch (Exception ex)
                   {
-                    Log.Warn(ex, string.Format("Failed looking for \"{0}\" manifests in \"{1}\"", fileNamePattern, folderPath));
+                    Log.Warn(ex, $"Failed looking for \"{fileNamePattern}\" manifests in \"{folderPath}\"");
                   }
                 }
               }
@@ -269,7 +269,7 @@
 
         if (FileSystem.FileSystem.Local.Zip.ZipContainsSingleFile(packageFile, "package.zip"))
         {
-          Log.Info(string.Format("The '{0}' file is considered as Sitecore Package, (type #1)", packageFile));
+          Log.Info($"The '{packageFile}' file is considered as Sitecore Package, (type #1)");
           CacheManager.SetEntry("IsPackage", packageFile, "true");
 
           return ProfileSection.Result(packageManifest);
@@ -278,7 +278,7 @@
         if (FileSystem.FileSystem.Local.Zip.ZipContainsFile(packageFile, "metadata/sc_name.txt") &&
             FileSystem.FileSystem.Local.Zip.ZipContainsFile(packageFile, "installer/version"))
         {
-          Log.Info(string.Format("The '{0}' file is considered as Sitecore Package, (type #2)", packageFile));
+          Log.Info($"The '{packageFile}' file is considered as Sitecore Package, (type #2)");
           CacheManager.SetEntry("IsPackage", packageFile, "true");
 
           return ProfileSection.Result(packageManifest);
@@ -340,7 +340,7 @@
     private static void HandleError(Exception ex, string path, IEnumerable<string> list)
     {
       var str = list.Join(", ", "'", "'");
-      Log.Warn(ex, string.Format("Failed merging '{0}' with successfully merged {1}. {2}", (object)path, (object)str, (object)ex.Message));
+      Log.Warn(ex, $"Failed merging '{(object)path}' with successfully merged {(object)str}. {(object)ex.Message}");
     }
 
     private static string TrimRevision(string fileName)

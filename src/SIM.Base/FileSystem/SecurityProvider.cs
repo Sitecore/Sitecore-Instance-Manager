@@ -116,14 +116,14 @@ namespace SIM.FileSystem
         }
         catch (Exception ex)
         {
-          Log.Warn(ex, string.Format("An error occurred during paring {0} security identifier", name));
+          Log.Warn(ex, $"An error occurred during paring {name} security identifier");
           try
           {
             reference = new NTAccount(name);
           }
           catch (Exception ex1)
           {
-            Log.Warn(ex, string.Format("An error occurred during parsing {0} user account", ex1));
+            Log.Warn(ex, $"An error occurred during parsing {ex1} user account");
           }
         }
       }
@@ -223,7 +223,7 @@ namespace SIM.FileSystem
       }
       catch (Exception ex)
       {
-        Log.Warn(ex, string.Format("Cannot get rules. {0}", ex.Message));
+        Log.Warn(ex, $"Cannot get rules. {ex.Message}");
         return new AuthorizationRule[0];
       }
     }

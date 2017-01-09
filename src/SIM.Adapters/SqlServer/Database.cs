@@ -37,7 +37,7 @@
         }
         catch (Exception ex)
         {
-          Log.Warn(ex, string.Format("An error while retrieving database file name, database: {0}, connection string: {1}", databaseName, connectionString));
+          Log.Warn(ex, $"An error while retrieving database file name, database: {databaseName}, connection string: {connectionString}");
           return null;
         }
       }

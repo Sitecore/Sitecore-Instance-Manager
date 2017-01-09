@@ -391,7 +391,7 @@
 
       if (!ctrl.GetInterfaces().Contains(typeof(IWizardStep)))
       {
-        Log.Debug(string.Format("Control {0} does not implement IWizardStep", fullName));
+        Log.Debug($"Control {fullName} does not implement IWizardStep");
       }
 
       var param = stepInfo.Param;
@@ -553,7 +553,7 @@
         var control = content as UIElement;
         if (control == null)
         {
-          Log.Warn(string.Format("The {0} type is not UIElement-based", fullName));
+          Log.Warn($"The {fullName} type is not UIElement-based");
           return;
         }
 
@@ -758,7 +758,7 @@
           var step = content as IWizardStep;
           if (step == null)
           {
-            Log.Warn(string.Format("The {0} control does not implement IWizardStep", fullName));
+            Log.Warn($"The {fullName} control does not implement IWizardStep");
 
             return ProfileSection.Result(true);
           }

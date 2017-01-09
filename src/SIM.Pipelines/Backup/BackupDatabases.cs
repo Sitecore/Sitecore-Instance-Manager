@@ -58,7 +58,7 @@
       {
         var databaseName = database.RealName;
         var fileName = Path.Combine(folder, database.BackupFilename);
-        Log.Info(string.Format("Backing up the '{0}' database to the '{1}' file", databaseName, fileName));
+        Log.Info($"Backing up the '{databaseName}' database to the '{fileName}' file");
 
         var command = "BACKUP DATABASE [" + databaseName + "] TO  DISK = N'" + fileName +
                       "' WITH NOFORMAT, NOINIT,  NAME = N'" + databaseName +

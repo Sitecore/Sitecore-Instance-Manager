@@ -57,7 +57,7 @@
 
           var destFileName = Path.Combine(localRepository, fileName);
           Assert.IsTrue(!FileSystem.FileSystem.Local.File.Exists(destFileName), "The {0} file already exists".FormatWith(destFileName));
-          Log.Info(string.Format("Downloading {0}",  destFileName));
+          Log.Info($"Downloading {destFileName}");
 
           if (this.TryCopyFromExternalRepository(fileName, destFileName))
           {
@@ -139,7 +139,7 @@
       {
         if (FileSystem.FileSystem.Local.File.Exists(filePath1))
         {
-          Log.Info(string.Format("Downloading is skipped, the {0} file already exists", filePath1));
+          Log.Info($"Downloading is skipped, the {filePath1} file already exists");
 
           return false;
         }
@@ -169,14 +169,14 @@
                 WindowHelper.CopyFileUI(externalRepositoryFilePath, destFileName, Microsoft.VisualBasic.FileIO.UIOption.AllDialogs, Microsoft.VisualBasic.FileIO.UICancelOption.ThrowException);
               }
 
-              Log.Info(string.Format("Copying the {0} file has completed", fileName));
+              Log.Info($"Copying the {fileName} file has completed");
               return true;
             }
           }
         }
         catch (Exception ex)
         {
-          Log.Warn(ex, string.Format("Unable to copy the {0} file from external repository", fileName));
+          Log.Warn(ex, $"Unable to copy the {fileName} file from external repository");
         }
       }
 

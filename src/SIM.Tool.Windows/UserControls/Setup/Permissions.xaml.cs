@@ -46,7 +46,7 @@
           return null;
         }
 
-        Log.Debug(string.Format("SQL Server Account name: {0}",  sqlServerAccountName));
+        Log.Debug($"SQL Server Account name: {sqlServerAccountName}");
         return new[]
         {
           sqlServerAccountName, Settings.CoreInstallWebServerIdentity.Value

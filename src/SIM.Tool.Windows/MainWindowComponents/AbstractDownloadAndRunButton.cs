@@ -89,7 +89,7 @@ namespace SIM.Tool.Windows.MainWindowComponents
       }
       catch (Exception ex)
       {
-        Log.Warn(ex, string.Format("The {0} URL is unavailable", url));
+        Log.Warn(ex, $"The {url} URL is unavailable");
       }
 
       return latestVersion;

@@ -173,7 +173,7 @@
             }
             catch (ThreadAbortException ex)
             {
-              Log.Warn(ex, string.Format("Long running task \"{0}\" failed with exception", title));
+              Log.Warn(ex, $"Long running task \"{title}\" failed with exception");
             }
             catch (Exception ex)
             {
@@ -542,7 +542,7 @@
       }
       catch (Exception ex)
       {
-        Log.Warn(ex, string.Format("The {0} image cannot be retrieved from {1} assembly", imageName, assemblyName));
+        Log.Warn(ex, $"The {imageName} image cannot be retrieved from {assemblyName} assembly");
 
         return null;
       }

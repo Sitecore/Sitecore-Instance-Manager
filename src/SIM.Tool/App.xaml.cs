@@ -89,7 +89,7 @@ namespace SIM.Tool
           }
           catch
           {
-            Log.Warn(string.Format("Tag was not found: {0}", url));
+            Log.Warn($"Tag was not found: {url}");
           }
 
           if (exists)
@@ -259,11 +259,11 @@ namespace SIM.Tool
       {
         using (var sc = new ServiceController("W3SVC"))
         {
-          Log.Info(string.Format("IIS.Name: {0}", sc.DisplayName));
-          Log.Info(string.Format("IIS.Status: {0}", sc.Status));
-          Log.Info(string.Format("IIS.MachineName: {0}", sc.MachineName));
-          Log.Info(string.Format("IIS.ServiceName: {0}", sc.ServiceName));
-          Log.Info(string.Format("IIS.ServiceType: {0}", sc.ServiceType));
+          Log.Info($"IIS.Name: {sc.DisplayName}");
+          Log.Info($"IIS.Status: {sc.Status}");
+          Log.Info($"IIS.MachineName: {sc.MachineName}");
+          Log.Info($"IIS.ServiceName: {sc.ServiceName}");
+          Log.Info($"IIS.ServiceType: {sc.ServiceType}");
 
           return sc.Status.Equals(ServiceControllerStatus.Running);
         }
@@ -444,7 +444,7 @@ namespace SIM.Tool
       }
       catch (Exception ex)
       {
-        Log.Error(ex, string.Format("Failed to process {0}", label));
+        Log.Error(ex, $"Failed to process {label}");
 
         return default(T);
       }

@@ -38,7 +38,7 @@
             continue;
           }
 
-          Log.Info(string.Format("Recycling instance {0}",  otherInstance));
+          Log.Info($"Recycling instance {otherInstance}");
           otherInstance.Recycle();
         }
         catch (Exception ex)

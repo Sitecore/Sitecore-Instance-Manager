@@ -49,7 +49,7 @@
 
     public static XmlElement Initialize(XmlElement pipelinesNode)
     {
-      Log.Debug(string.Format("Pipelines RAW configuration: {0}",  pipelinesNode.OuterXml));
+      Log.Debug($"Pipelines RAW configuration: {pipelinesNode.OuterXml}");
       Definitions.Clear();
       var resultXmlConfig = XmlDocumentEx.LoadXml("<pipelines />");
 
@@ -118,7 +118,7 @@
       Assert.ArgumentNotNull(pipelineName, nameof(pipelineName));
       Assert.ArgumentNotNull(args, nameof(args));
 
-      Log.Info(string.Format("Pipeline '{0}' starts, isAsync: {1}", pipelineName, isAsync.ToString(CultureInfo.InvariantCulture)));
+      Log.Info($"Pipeline '{pipelineName}' starts, isAsync: {isAsync.ToString(CultureInfo.InvariantCulture)}");
       using (new ProfileSection("Start pipeline"))
       {
         ProfileSection.Argument("pipelineName", pipelineName);

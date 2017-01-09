@@ -98,7 +98,7 @@
     public static Instance GetInstance([NotNull] string name)
     {
       Assert.ArgumentNotNull(name, nameof(name));
-      Log.Debug(string.Format("InstanceManager:GetInstance('{0}')", name));
+      Log.Debug($"InstanceManager:GetInstance('{name}')");
 
       Initialize();
       if (Instances == null)
@@ -184,7 +184,7 @@
       Assert.ArgumentNotNull(site, nameof(site));
 
       var id = (Int32)site.Id;
-      Log.Debug(string.Format("InstanceManager:GetInstance(Site: {0})", site.Id));
+      Log.Debug($"InstanceManager:GetInstance(Site: {site.Id})");
       return new Instance(id);
     }
 
@@ -213,7 +213,7 @@
     {
       Assert.ArgumentNotNull(site, nameof(site));
       var id = (Int32)site.Id;
-      Log.Debug(string.Format("InstanceManager:GetPartiallyCachedInstance(Site: {0})", site.Id));
+      Log.Debug($"InstanceManager:GetPartiallyCachedInstance(Site: {site.Id})");
       return new PartiallyCachedInstance(id);
     }
 

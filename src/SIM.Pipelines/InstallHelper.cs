@@ -20,7 +20,7 @@
       Assert.ArgumentNotNull(databasesFolderPath, nameof(databasesFolderPath));
       Assert.ArgumentNotNull(dataFolderPath, nameof(dataFolderPath));
 
-      Log.Info(string.Format("Extracting {0}", packagePath));
+      Log.Info($"Extracting {packagePath}");
       var ignore = installRadControls ? ":#!" : RadControls;
 
       var ignore2 = installDictionaries ? ":#!" : Dictionaries;
@@ -139,7 +139,7 @@
             }
             else
             {
-              Log.Warn(string.Format("Unexpected file or directory is ignored: {0}",  fileName));
+              Log.Warn($"Unexpected file or directory is ignored: {fileName}");
             }
           }
         }

@@ -269,7 +269,7 @@
 
     public virtual void Recycle()
     {
-      Log.Info(string.Format("Recycle the {0} instance's application pool", this.Name));
+      Log.Info($"Recycle the {this.Name} instance's application pool");
 
       using (WebServerManager.WebServerContext context = WebServerManager.CreateContext("Website.Recycle"))
       {
@@ -284,7 +284,7 @@
 
     public virtual void Start()
     {
-      Log.Info(string.Format("Starting website {0}", this.ID));
+      Log.Info($"Starting website {this.ID}");
       
       if (IsDisabled)
       {
@@ -318,7 +318,7 @@
 
     public virtual void Stop(bool? force = null)
     {
-      Log.Info(string.Format("Stop website {0} ({1})", this.Name, this.ID));
+      Log.Info($"Stop website {this.Name} ({this.ID})");
 
       using (WebServerManager.WebServerContext context = WebServerManager.CreateContext("Website.Stop"))
       {
@@ -335,7 +335,7 @@
             }
             catch (Exception ex)
             {
-              Log.Warn(ex, string.Format("Stop website {0} ({1}) failed", this.Name, this.ID));
+              Log.Warn(ex, $"Stop website {this.Name} ({this.ID}) failed");
             }
           }
         }
@@ -350,7 +350,7 @@
 
     public virtual void StopApplicationPool()
     {
-      Log.Info(string.Format("Stop app pool {0} ({1})", this.Name, this.ID));
+      Log.Info($"Stop app pool {this.Name} ({this.ID})");
 
       using (WebServerManager.WebServerContext context = WebServerManager.CreateContext("Website.StopApplicationPool"))
       {

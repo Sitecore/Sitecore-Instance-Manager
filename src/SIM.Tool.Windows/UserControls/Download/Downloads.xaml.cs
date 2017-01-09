@@ -109,7 +109,7 @@
       }
       catch (Exception ex)
       {
-        Log.Error(ex, string.Format("Error while downloading {0}", url.ToString()));
+        Log.Error(ex, $"Error while downloading {url.ToString()}");
       }
     }
 

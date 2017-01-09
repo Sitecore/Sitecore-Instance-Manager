@@ -95,11 +95,11 @@
         {
           if (FileSystem.FileSystem.Local.File.GetFileLength(filePath1) == fileSize)
           {
-            Log.Info(string.Format("Downloading is skipped, the {0} file already exists", filePath1));
+            Log.Info($"Downloading is skipped, the {filePath1} file already exists");
             return false;
           }
 
-          Log.Info(string.Format("The {0} file already exists, but its size is incorrect - file will be removed", filePath1));
+          Log.Info($"The {filePath1} file already exists, but its size is incorrect - file will be removed");
           FileSystem.FileSystem.Local.File.Delete(filePath1);
         }
       }
@@ -109,11 +109,11 @@
       {
         if (FileSystem.FileSystem.Local.File.GetFileLength(filePath2) == fileSize)
         {
-          Log.Info(string.Format("Downloading is skipped, the {0} file already exists", filePath2));
+          Log.Info($"Downloading is skipped, the {filePath2} file already exists");
           return false;
         }
 
-        Log.Info(string.Format("The {0} file already exists, but its size is incorrect - file will be removed", filePath2));
+        Log.Info($"The {filePath2} file already exists, but its size is incorrect - file will be removed");
         FileSystem.FileSystem.Local.File.Delete(filePath2);
       }
 
@@ -141,14 +141,14 @@
                 WindowHelper.CopyFileUI(externalRepositoryFilePath, destFileName, Microsoft.VisualBasic.FileIO.UIOption.AllDialogs, Microsoft.VisualBasic.FileIO.UICancelOption.ThrowException);
               }
 
-              Log.Info(string.Format("Copying the {0} file has completed", fileName));
+              Log.Info($"Copying the {fileName} file has completed");
               return true;
             }
           }
         }
         catch (Exception ex)
         {
-          Log.Warn(ex, string.Format("Unable to copy the {0} file from external repository", fileName));
+          Log.Warn(ex, $"Unable to copy the {fileName} file from external repository");
         }
       }
 

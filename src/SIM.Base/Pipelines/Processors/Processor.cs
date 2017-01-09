@@ -142,7 +142,7 @@
             controller.ProcessorCrashed(ex.Message);
           }
 
-          Log.Error(ex, string.Format("Processor of type '{0}' failed. {1}", this.ProcessorDefinition.Type.FullName, ex.Message));
+          Log.Error(ex, $"Processor of type '{this.ProcessorDefinition.Type.FullName}' failed. {ex.Message}");
           return false;
         }
       }

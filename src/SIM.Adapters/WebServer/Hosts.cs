@@ -31,7 +31,7 @@
       var path = GetHostsFilePath();
       string[] lines = FileSystem.FileSystem.Local.File.ReadAllLines(path);
 
-      Log.Info(string.Format("Appending host: {0}", hostName));
+      Log.Info($"Appending host: {hostName}");
       if (lines.Any(line => Matches(hostName, line)))
       {
         Log.Info(string.Format("Host already exists"));
@@ -52,7 +52,7 @@
 
       foreach (string hostName in hostNames)
       {
-        Log.Info(string.Format("Removing host: {0}", hostName));
+        Log.Info($"Removing host: {hostName}");
         Remove(hostName);
       }
     }
@@ -145,7 +145,7 @@
     {
       var path = GetHostsFilePath();
       var text = FileSystem.FileSystem.Local.File.ReadAllText(path);
-      Log.Info(string.Format("A backup of the hosts file\r\n{0}",  text));
+      Log.Info($"A backup of the hosts file\r\n{text}");
       var sb = new StringBuilder();
       foreach (IHostRecord hostRecord in records)
       {

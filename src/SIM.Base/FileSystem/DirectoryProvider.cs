@@ -86,7 +86,7 @@ namespace SIM.FileSystem
     {
       // TODO: Refactor this to edit attributes only on problem files and folders
       Assert.ArgumentNotNull(path, nameof(path));
-      Log.Info(string.Format("Deleting file or folder: {0}", path));
+      Log.Info($"Deleting file or folder: {path}");
 
       if (!string.IsNullOrEmpty(path))
       {
@@ -108,7 +108,7 @@ namespace SIM.FileSystem
           }
           catch (Exception ex)
           {
-            Log.Warn(ex, string.Format("Failed to delete {0} folder, altering attributes and trying again", path));
+            Log.Warn(ex, $"Failed to delete {path} folder, altering attributes and trying again");
             Thread.Sleep(100);
             foreach (var fileSystemInfo in directoryInfo.GetFileSystemInfos("*", SearchOption.AllDirectories))
             {
@@ -191,7 +191,7 @@ namespace SIM.FileSystem
 
       if (!Directory.Exists(folder))
       {
-        Log.Info(string.Format("Creating folder {0}", folder));
+        Log.Info($"Creating folder {folder}");
         Directory.CreateDirectory(folder);
       }
 
@@ -411,7 +411,7 @@ namespace SIM.FileSystem
       }
       catch (Exception ex)
       {
-        Log.Warn(ex, string.Format("Cannot delete the {0} file. {1}", path, ex.Message));
+        Log.Warn(ex, $"Cannot delete the {path} file. {ex.Message}");
       }
     }
 

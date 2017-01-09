@@ -55,7 +55,7 @@ namespace SIM.Tool.Windows.MainWindowComponents
         if (fileName != null)
         {
           var file = new FileInfo(fileName);
-          Assert.IsTrue(!file.Exists, string.Format("The {0} reporting database file already exist", file.FullName));
+          Assert.IsTrue(!file.Exists, $"The {file.FullName} reporting database file already exist");
         }
 
         reportingCstr.Delete();

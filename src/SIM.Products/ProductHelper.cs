@@ -148,7 +148,7 @@
         }
         catch (Exception ex)
         {
-          Log.Warn(ex, string.Format("An error occurred during reading {0} file", assemblyPath));
+          Log.Warn(ex, $"An error occurred during reading {assemblyPath} file");
         }
       }
 

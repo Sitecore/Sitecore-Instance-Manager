@@ -30,7 +30,7 @@
         }
         catch (Exception ex)
         {
-          Log.Error(ex, string.Format("Visual Studio project distinction failed on {0} file", filePath));
+          Log.Error(ex, $"Visual Studio project distinction failed on {filePath} file");
         }
       }
 
@@ -49,7 +49,7 @@
           var commaPos = line.IndexOf(',');
           if (commaPos < 0)
           {
-            Log.Warn(string.Format("File {0} seems to be corrupted, line: {1}", filePath, line));
+            Log.Warn($"File {filePath} seems to be corrupted, line: {line}");
             continue;
           }
 
@@ -57,7 +57,7 @@
           var quotePos = str.IndexOf('"');
           if (quotePos < 0)
           {
-            Log.Warn(string.Format("File {0} seems to be corrupted, line: {1}", filePath, line));
+            Log.Warn($"File {filePath} seems to be corrupted, line: {line}");
             continue;
           }
 

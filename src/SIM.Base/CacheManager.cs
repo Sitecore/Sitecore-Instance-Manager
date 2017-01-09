@@ -138,7 +138,7 @@
         }
         catch (Exception ex)
         {
-          Log.Warn(ex, string.Format("The {0} cache is corrupted and will be deleted", path));
+          Log.Warn(ex, $"The {path} cache is corrupted and will be deleted");
           FileSystem.FileSystem.Local.File.Delete(path);
         }
       }

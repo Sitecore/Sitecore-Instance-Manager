@@ -24,7 +24,7 @@
       }
       catch (Exception ex)
       {
-        Log.Warn(ex, string.Format("Cannot stop instance {0}. {1}", args.InstanceName, ex.Message));
+        Log.Warn(ex, $"Cannot stop instance {args.InstanceName}. {ex.Message}");
       }
     }
 

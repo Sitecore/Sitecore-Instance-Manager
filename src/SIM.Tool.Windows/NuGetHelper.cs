@@ -21,7 +21,7 @@
 
       outputFolderPath = outputFolderPath ?? NuGetFolderPath;
 
-      Log.Info(string.Format("Generating NuGet packages from {0} to {1}", ProfileManager.Profile.LocalRepository, outputFolderPath));
+      Log.Info($"Generating NuGet packages from {ProfileManager.Profile.LocalRepository} to {outputFolderPath}");
 
       var pattern = "*rev*.zip";
       var zipfiles = Directory.GetFiles(directory, pattern, SearchOption.AllDirectories);
@@ -43,7 +43,7 @@
     {
       Assert.ArgumentNotNull(file, nameof(file));
 
-      Log.Info(string.Format("Generating NuGet packages from {0} to {1} ", file, outputFolderPath));
+      Log.Info($"Generating NuGet packages from {file} to {outputFolderPath} ");
 
       // Create nupkg file
       new PackageGenerator().Generate(file.FullName, outputFolderPath ?? NuGetFolderPath);

@@ -44,7 +44,7 @@
           {
             var process = Process.GetProcessById(processId);
 
-            Log.Info(string.Format("Killing process {0}",  processId));
+            Log.Info($"Killing process {processId}");
             process.Kill();
           }
         }

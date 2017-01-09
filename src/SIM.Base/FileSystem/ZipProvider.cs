@@ -151,7 +151,7 @@ namespace SIM.FileSystem
           }
           else 
           {
-            Log.Info(string.Format("Unzipping the '{0}' archive to the '{1}' folder", packagePath, path));
+            Log.Info($"Unzipping the '{packagePath}' archive to the '{path}' folder");
           }
 
           using (ZipFile zip = new ZipFile(packagePath))
@@ -245,7 +245,7 @@ namespace SIM.FileSystem
         }
         else
         {
-          Log.Info(string.Format("Unzipping the '{0}' archive to the '{1}' folder", packagePath, path));
+          Log.Info($"Unzipping the '{packagePath}' archive to the '{path}' folder");
         }
 
         using (var zip = new ZipFile(packagePath))

@@ -50,7 +50,7 @@
       Assert.ArgumentNotNullOrEmpty(path, nameof(path));
       Assert.ArgumentNotNull(connectionString, nameof(connectionString));
 
-      Log.Info(string.Format("Attaching the '{0}' database with '{1}' filename", name, path));
+      Log.Info($"Attaching the '{name}' database with '{path}' filename");
 
       var sqlServerAccountName = this.GetSqlServerAccountName(connectionString);
       FileSystem.FileSystem.Local.Security.EnsurePermissions(Path.GetDirectoryName(path), sqlServerAccountName);
@@ -70,7 +70,7 @@
 
     public virtual void BackupDatabase(SqlConnectionStringBuilder connectionString, string databaseName, string pathToBackup)
     {
-      Log.Info(string.Format("Backuping the '{0}' database", databaseName));
+      Log.Info($"Backuping the '{databaseName}' database");
 
       using (SqlConnection sqlConnection = this.OpenConnection(connectionString))
       {
@@ -101,7 +101,7 @@
 
     public virtual void CloseConnectionsToDatabase(string dbName, SqlConnection sqlConnection)
     {
-      Log.Info(string.Format("Closing connection to the '{0}' database", dbName));
+      Log.Info($"Closing connection to the '{dbName}' database");
       var command = $"ALTER DATABASE [{dbName}] SET SINGLE_USER WITH ROLLBACK IMMEDIATE";
       this.Execute(sqlConnection, command);
     }
@@ -150,7 +150,7 @@
 
     public virtual void DetachDatabase(string realName, SqlConnectionStringBuilder connectionString)
     {
-      Log.Info(string.Format("Detaching the '{0}' database", realName));
+      Log.Info($"Detaching the '{realName}' database");
       using (SqlConnection sqlConnection = this.OpenConnection(connectionString))
       {
         this.CloseConnectionsToDatabase(realName, sqlConnection);
@@ -192,7 +192,7 @@
       Assert.ArgumentNotNull(sqlConnection, nameof(sqlConnection));
       Assert.ArgumentNotNull(command, nameof(command));
 
-      Log.Info(string.Format("SQL query is executed: {0}", command));
+      Log.Info($"SQL query is executed: {command}");
 
       using (SqlCommand sqlCmd = new SqlCommand(command, sqlConnection)
       {
@@ -455,7 +455,7 @@
       }
       catch (Exception ex)
       {
-        Log.Warn(ex, string.Format("An error occurred during checking connection string {0}", connectionString.ToString()));
+        Log.Warn(ex, $"An error occurred during checking connection string {connectionString.ToString()}");
 
         return false;
       }
@@ -505,7 +505,7 @@
 
         this.CloseConnectionsToDatabase(databaseName, connection);
 
-        Log.Info(string.Format("Restoring database: {0}", databaseName));
+        Log.Info($"Restoring database: {databaseName}");
         var restoreCommand = "RESTORE DATABASE [" + databaseName + "] FROM  DISK = N'" + backupFileName + "' WITH REPLACE, RECOVERY --force restore over specified database";
         this.Execute(connection, restoreCommand);
       }
@@ -544,7 +544,7 @@
           ldfName = backupInfo.logicalNameLdf;
         }
 
-        Log.Info(string.Format("Restoring database: {0}", databaseName));
+        Log.Info($"Restoring database: {databaseName}");
         var command = string.Format(@"
                         RESTORE DATABASE [{0}]
                         FROM DISK='{1}'
@@ -591,7 +591,7 @@
           ldfName = backupInfo.logicalNameLdf;
         }
 
-        Log.Info(string.Format("Restoring database: {0}", databaseName));
+        Log.Info($"Restoring database: {databaseName}");
         var command = string.Format(@"
                         RESTORE DATABASE [{0}]
                         FROM DISK='{1}'
@@ -735,7 +735,7 @@
       Assert.ArgumentNotNull(databaseName, nameof(databaseName));
       Assert.ArgumentNotNull(connection, nameof(connection));
 
-      Log.Info(string.Format("Deleting database: '{0}'", databaseName));
+      Log.Info($"Deleting database: '{databaseName}'");
 
       const string dropDatabase = "DROP DATABASE [{0}]";
 
@@ -771,7 +771,7 @@
             }
             catch (Exception ex)
             {
-              Log.Warn(ex, string.Format("Cannot get database file name for {0}", databaseName));
+              Log.Warn(ex, $"Cannot get database file name for {databaseName}");
             }
           }
         }

@@ -65,12 +65,12 @@
           yield break;
         }
 
-        Assert.IsTrue(start + 1 < length, string.Format("Cannot replace variables in the \"{0}\" string - line unexpectedly ends after {1} position", message, start));
+        Assert.IsTrue(start + 1 < length, $"Cannot replace variables in the \"{message}\" string - line unexpectedly ends after {start} position");
         end = message.IndexOf(endChar, start + 1);
-        Assert.IsTrue(end > start, string.Format("Cannot replace variables in the \"{0}\" string - no closing {1} character after {2} position", message, end, start));
+        Assert.IsTrue(end > start, $"Cannot replace variables in the \"{message}\" string - no closing {end} character after {start} position");
         start += includeBounds ? 0 : 1;
         var len = end - start + (includeBounds ? 1 : 0);
-        Assert.IsTrue(len > 0, string.Format("Cannot replace variables in the \"{0}\" string - the string contains invalid '{{}}' statement", message));
+        Assert.IsTrue(len > 0, $"Cannot replace variables in the \"{message}\" string - the string contains invalid '{{}}' statement");
         yield return message.Substring(start, len);
       }
     }
@@ -116,7 +116,7 @@
       }
       catch (Exception ex)
       {
-        Log.Warn(ex, string.Format("SafeCall of the {0} method failed", func.ToString()));
+        Log.Warn(ex, $"SafeCall of the {func.ToString()} method failed");
         return null;
       }
     }

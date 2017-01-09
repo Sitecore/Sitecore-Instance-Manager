@@ -119,7 +119,7 @@ namespace SIM.Tool.Windows.Dialogs
       }
       catch (Exception ex)
       {
-        Log.Warn(ex, string.Format("Cannot get information from '{0}' backup", dialog.FileName));
+        Log.Warn(ex, $"Cannot get information from '{dialog.FileName}' backup");
         WindowHelper.ShowMessage("Cannot get information from backup!", MessageBoxButton.OK, MessageBoxImage.Warning, MessageBoxResult.OK);
       }
     }

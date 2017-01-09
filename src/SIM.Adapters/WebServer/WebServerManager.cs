@@ -24,7 +24,7 @@
 
     public static void DeleteWebsite([NotNull] long id)
     {
-      Log.Info(string.Format("Deleting website {0}", id));
+      Log.Info($"Deleting website {id}");
 
       using (WebServerContext context = CreateContext("WebServerManager.DeleteWebsite({0})".FormatWith(id)))
       {
@@ -40,7 +40,7 @@
     {
       Assert.ArgumentNotNull(name, nameof(name));
 
-      Log.Info(string.Format("Deleting website {0}", name));
+      Log.Info($"Deleting website {name}");
       using (WebServerContext context = CreateContext("WebServerManager.DeleteWebsite('{0}')".FormatWith(name)))
       {
         Site site = context.Sites[name];

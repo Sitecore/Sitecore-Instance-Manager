@@ -129,7 +129,7 @@
         }
         catch (Exception ex)
         {
-          Log.Error(ex, string.Format("Installer failed to init. {0}", ex.Message));
+          Log.Error(ex, $"Installer failed to init. {ex.Message}");
           message = ex.Message;
         }
 
@@ -200,7 +200,7 @@
         foreach (var id in instance.ProcessIds)
         {
           Process process = Process.GetProcessById((int)id);
-          Log.Info(string.Format("Kill the w3wp.exe worker process ({0}) of the {1} instance", id, instance.Name));
+          Log.Info($"Kill the w3wp.exe worker process ({id}) of the {instance.Name} instance");
           process.Kill();
           OnInstanceSelected();
         }
@@ -485,7 +485,7 @@
 
           if (!name.EqualsIgnoreCase("button"))
           {
-            Log.Error(string.Format("This element is not supported as SplitButton element: {0}", menuItem.OuterXml));
+            Log.Error($"This element is not supported as SplitButton element: {menuItem.OuterXml}");
             continue;
           }
 
@@ -718,7 +718,7 @@
       var name = tabElement.GetNonEmptyAttribute("name");
       if (string.IsNullOrEmpty(name))
       {
-        Log.Error(string.Format("Ribbon tab doesn't have name: {0}",  tabElement.OuterXml));
+        Log.Error($"Ribbon tab doesn't have name: {tabElement.OuterXml}");
         return;
       }
 

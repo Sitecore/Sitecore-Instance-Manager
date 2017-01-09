@@ -608,7 +608,7 @@
       }
       catch (Exception ex)
       {
-        Log.Warn(ex, string.Format("An error occurred during extracting readme text from {0}",  path));
+        Log.Warn(ex, $"An error occurred during extracting readme text from {path}");
         readmeText = string.Empty;
       }
 
