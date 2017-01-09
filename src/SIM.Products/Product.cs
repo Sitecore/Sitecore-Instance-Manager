@@ -127,7 +127,7 @@
     public static readonly IServiceClient Service = new ServiceClient();
 
     [CanBeNull]
-    private IRelease release;
+    private IRelease _Release;
 
     private bool unknownRelease;
 
@@ -200,7 +200,7 @@
     {
       get
       {
-        var release = this.release;
+        var release = this._Release;
         if (release != null)
         {
           return release;
@@ -211,7 +211,22 @@
           return null;
         }
 
-        release = Service.GetVersions("Sitecore CMS").FirstOrDefault(z => z.MajorMinor == this.Version).Releases.TryGetValue(this.Revision);
+
+        var ver = this.Version;
+        switch (ver)
+        {
+          case "6.6.0":
+            ver = "6.6";
+            break;
+          case "6.5.0":
+            ver = "6.5";
+            break;
+        }
+
+        release = Service.GetVersions("Sitecore CMS")?
+          .FirstOrDefault(z => z.MajorMinor == ver)?
+          .Releases?
+          .TryGetValue(this.Revision);
 
         if (release == null)
         {
@@ -220,7 +235,7 @@
           return null;
         }
 
-        this.release = release;
+        this._Release = release;
 
         return release;
       }

@@ -47,24 +47,24 @@
       <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Sitecore.Diagnostics.Base, Version=2.0.0.8, Culture=neutral, processorArchitecture=x86">
-      <HintPath>..\packages\Sitecore.Diagnostics.Base.2.0.0.8\lib\Sitecore.Diagnostics.Base.dll</HintPath>
+    <Reference Include="Sitecore.Diagnostics.Base">
+      <HintPath>..\packages\Sitecore.Diagnostics.Base.2.0.0.14\lib\Sitecore.Diagnostics.Base.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Sitecore.Diagnostics.InfoService.Client.Core, Version=2.0.0.8, Culture=neutral, processorArchitecture=x86">
-      <HintPath>..\packages\Sitecore.Diagnostics.InfoService.Client.Core.2.0.0.8\lib\Sitecore.Diagnostics.InfoService.Client.Core.dll</HintPath>
+    <Reference Include="Sitecore.Diagnostics.InfoService.Client.Core">
+      <HintPath>..\packages\Sitecore.Diagnostics.InfoService.Client.Core.2.0.0.14\lib\Sitecore.Diagnostics.InfoService.Client.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Sitecore.Diagnostics.Logging, Version=2.0.0.8, Culture=neutral, processorArchitecture=x86">
-      <HintPath>..\packages\Sitecore.Diagnostics.Logging.2.0.0.8\lib\Sitecore.Diagnostics.Logging.dll</HintPath>
+    <Reference Include="Sitecore.Diagnostics.Logging">
+      <HintPath>..\packages\Sitecore.Diagnostics.Logging.2.0.0.14\lib\Sitecore.Diagnostics.Logging.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Sitecore.Diagnostics.Net, Version=2.0.0.8, Culture=neutral, processorArchitecture=x86">
-      <HintPath>..\packages\Sitecore.Diagnostics.Net.2.0.0.8\lib\Sitecore.Diagnostics.Net.dll</HintPath>
+    <Reference Include="Sitecore.Diagnostics.Net">
+      <HintPath>..\packages\Sitecore.Diagnostics.Net.2.0.0.14\lib\Sitecore.Diagnostics.Net.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Sitecore.Diagnostics.Objects, Version=2.0.0.8, Culture=neutral, processorArchitecture=x86">
-      <HintPath>..\packages\Sitecore.Diagnostics.Objects.2.0.0.8\lib\Sitecore.Diagnostics.Objects.dll</HintPath>
+    <Reference Include="Sitecore.Diagnostics.Objects">
+      <HintPath>..\packages\Sitecore.Diagnostics.Objects.2.0.0.14\lib\Sitecore.Diagnostics.Objects.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
