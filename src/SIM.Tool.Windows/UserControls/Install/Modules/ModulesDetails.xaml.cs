@@ -15,7 +15,7 @@
   using SIM.Tool.Base.Profiles;
   using SIM.Tool.Base.Wizards;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
   using SIM.Extensions;
 
   public partial class ModulesDetails : IWizardStep, ICustomButton
@@ -109,7 +109,7 @@
       this.productFamilies = new ObservableCollection<ProductInCheckbox>(productCheckboxes);
       this.unfilteredProductFamilies = new ObservableCollection<ProductInCheckbox>(productCheckboxes);
 
-      foreach (Product module in args.Modules)
+      foreach (var module in args.Modules)
       {
         Product alreadySelectedModule = module;
         ProductInCheckbox checkBoxItem = productCheckboxes.SingleOrDefault(cbi => cbi.Name.Equals(alreadySelectedModule.Name, StringComparison.OrdinalIgnoreCase));

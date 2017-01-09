@@ -3,7 +3,7 @@ namespace SIM.Core.Commands
   using System.IO;
   using System.Linq;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
   using SIM.Core.Common;
   using SIM.Instances;
   using SIM.Pipelines;

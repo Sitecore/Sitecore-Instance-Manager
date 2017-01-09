@@ -6,7 +6,7 @@
   using System.Xml;
   using SIM.Adapters.WebServer;
   using SIM.Instances;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
   using SIM.Extensions;
 
   [UsedImplicitly]

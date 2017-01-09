@@ -8,7 +8,7 @@
   using System.Text;
   using System.Xml;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
   using Sitecore.Diagnostics.Logging;
   using SIM.Extensions;
 
@@ -51,7 +51,7 @@
       }
       catch (Exception ex)
       {
-        Log.Warn(ex, "Cannot load xml: {0}. {1}\r\n{2}", xml, ex.Message, Environment.StackTrace);
+        Log.Warn(ex, string.Format("Cannot load xml: {0}. {1}\r\n{2}", xml, ex.Message, Environment.StackTrace));
         return null;
       }
     }
@@ -67,7 +67,7 @@
       }
       catch (Exception ex)
       {
-        Log.Warn(ex, "Cannot load xml. {1}\r\n{2}", ex.Message, Environment.StackTrace);
+        Log.Warn(ex, string.Format("Cannot load xml. {1}\r\n{2}", ex.Message, Environment.StackTrace));
         return null;
       }
     }

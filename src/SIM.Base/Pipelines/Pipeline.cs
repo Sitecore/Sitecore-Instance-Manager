@@ -6,7 +6,7 @@
   using System.Threading;
   using SIM.Pipelines.Processors;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
   using Sitecore.Diagnostics.Logging;
   using SIM.Extensions;
 
@@ -178,7 +178,7 @@
         }
         catch (Exception ex)
         {
-          Log.Warn(ex, "An error occurred during executing a pipeline");
+          Log.Warn(ex, string.Format("An error occurred during executing a pipeline"));
           info.ProcessorArgs.Dispose();
         }
       }

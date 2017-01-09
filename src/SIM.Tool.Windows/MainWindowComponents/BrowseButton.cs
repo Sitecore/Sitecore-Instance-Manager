@@ -6,7 +6,7 @@
   using SIM.Instances;
   using SIM.Tool.Base;
   using SIM.Tool.Base.Plugins;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
 
   [UsedImplicitly]
   public class BrowseButton : IMainWindowButton

@@ -8,7 +8,7 @@ using SIM.Tool.Base;
 namespace SIM.Tool.Windows.MainWindowComponents
 {
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
   using SIM.Core;
   using SIM.Core.Common;
   using SIM.Instances;
@@ -89,7 +89,7 @@ namespace SIM.Tool.Windows.MainWindowComponents
       }
       catch (Exception ex)
       {
-        Log.Warn(ex, "The {0} URL is unavailable", url);
+        Log.Warn(ex, string.Format("The {0} URL is unavailable", url));
       }
 
       return latestVersion;

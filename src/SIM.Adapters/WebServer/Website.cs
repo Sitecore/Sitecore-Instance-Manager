@@ -6,7 +6,7 @@
   using System.Linq;
   using Microsoft.Web.Administration;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
   using Sitecore.Diagnostics.Logging;
   using SIM.Extensions;
 
@@ -75,7 +75,7 @@
             }
             catch (Exception ex)
             {
-              Log.Error(ex, "Cannot retrieve binding info");
+              Log.Error(ex, string.Format("Cannot retrieve binding info"));
             }
           }
         }
@@ -269,7 +269,7 @@
 
     public virtual void Recycle()
     {
-      Log.Info("Recycle the {0} instance's application pool", this.Name);
+      Log.Info(string.Format("Recycle the {0} instance's application pool", this.Name));
 
       using (WebServerManager.WebServerContext context = WebServerManager.CreateContext("Website.Recycle"))
       {
@@ -284,7 +284,7 @@
 
     public virtual void Start()
     {
-      Log.Info("Starting website {0}", this.ID);
+      Log.Info(string.Format("Starting website {0}", this.ID));
       
       if (IsDisabled)
       {
@@ -318,7 +318,7 @@
 
     public virtual void Stop(bool? force = null)
     {
-      Log.Info("Stop website {0} ({1})", this.Name, this.ID);
+      Log.Info(string.Format("Stop website {0} ({1})", this.Name, this.ID));
 
       using (WebServerManager.WebServerContext context = WebServerManager.CreateContext("Website.Stop"))
       {
@@ -335,7 +335,7 @@
             }
             catch (Exception ex)
             {
-              Log.Warn(ex, "Stop website {0} ({1}) failed", this.Name, this.ID);
+              Log.Warn(ex, string.Format("Stop website {0} ({1}) failed", this.Name, this.ID));
             }
           }
         }
@@ -350,7 +350,7 @@
 
     public virtual void StopApplicationPool()
     {
-      Log.Info("Stop app pool {0} ({1})", this.Name, this.ID);
+      Log.Info(string.Format("Stop app pool {0} ({1})", this.Name, this.ID));
 
       using (WebServerManager.WebServerContext context = WebServerManager.CreateContext("Website.StopApplicationPool"))
       {

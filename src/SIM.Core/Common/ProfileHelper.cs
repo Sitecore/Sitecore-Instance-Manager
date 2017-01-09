@@ -2,7 +2,7 @@ namespace SIM.Core.Common
 {
   using System.Data.SqlClient;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
 
   public static class ProfileHelper
   {

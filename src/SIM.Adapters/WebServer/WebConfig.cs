@@ -12,7 +12,7 @@
   using SIM.Adapters.SqlServer;
   using SIM.Properties;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
   using Sitecore.Diagnostics.Logging;
   using SIM.Extensions;
 
@@ -49,17 +49,17 @@
         XmlElement connectionStringsNode = webConfigDocument.SelectSingleNode("/configuration/connectionStrings") as XmlElement;
         if (connectionStringsNode != null)
         {
-          Log.Debug("WebConfig:GetDatabases(...)#connectionStringsNode: {0}",  connectionStringsNode.OuterXml);
+          Log.Debug(string.Format("WebConfig:GetDatabases(...)#connectionStringsNode: {0}",  connectionStringsNode.OuterXml));
           AddDatabases(connectionStringsNode, databases);
           var configSourceValue = connectionStringsNode.GetAttribute("configSource");
-          Log.Debug("WebConfig:GetDatabases(...)#configSourceValue: {0}",  configSourceValue);
+          Log.Debug(string.Format("WebConfig:GetDatabases(...)#configSourceValue: {0}",  configSourceValue));
           if (string.IsNullOrEmpty(configSourceValue))
           {
             return databases;
           }
 
           var filePath = Path.Combine(webRootPath, configSourceValue);
-          Log.Debug("WebConfig:GetDatabases(...)#filePath: {0}",  filePath);
+          Log.Debug(string.Format("WebConfig:GetDatabases(...)#filePath: {0}",  filePath));
           if (!FileSystem.FileSystem.Local.File.Exists(filePath))
           {
             return databases;
@@ -92,17 +92,17 @@
         XmlElement connectionStringsNode = webConfigDocument.SelectSingleNode("/configuration/connectionStrings") as XmlElement;
         if (connectionStringsNode != null)
         {
-          Log.Debug("WebConfig:GetDatabases(...)#connectionStringsNode: {0}",  connectionStringsNode.OuterXml);
+          Log.Debug(string.Format("WebConfig:GetDatabases(...)#connectionStringsNode: {0}",  connectionStringsNode.OuterXml));
           AddMongoDatabases(connectionStringsNode, databases);
           var configSourceValue = connectionStringsNode.GetAttribute("configSource");
-          Log.Debug("WebConfig:GetDatabases(...)#configSourceValue: {0}",  configSourceValue);
+          Log.Debug(string.Format("WebConfig:GetDatabases(...)#configSourceValue: {0}",  configSourceValue));
           if (string.IsNullOrEmpty(configSourceValue))
           {
             return databases;
           }
 
           var filePath = Path.Combine(webRootPath, configSourceValue);
-          Log.Debug("WebConfig:GetDatabases(...)#filePath: {0}",  filePath);
+          Log.Debug(string.Format("WebConfig:GetDatabases(...)#filePath: {0}",  filePath));
           if (!FileSystem.FileSystem.Local.File.Exists(filePath))
           {
             return databases;
@@ -147,7 +147,7 @@
         }
         catch (Exception ex)
         {
-          Log.Warn(ex, "Cannot get sc variable {0}", variableName);
+          Log.Warn(ex, string.Format("Cannot get sc variable {0}", variableName));
         }
 
         return ProfileSection.Result<string>(null);
@@ -200,11 +200,11 @@
         if (nodes != null && nodes.Count > 0)
         {
           var elements = nodes.OfType<XmlElement>().ToArray();
-          Log.Debug("WebConfig:AddDatabases(...)#elements.Length: {0}",  elements.Length);
+          Log.Debug(string.Format("WebConfig:AddDatabases(...)#elements.Length: {0}",  elements.Length));
           foreach (XmlElement node in elements)
           {
             var value = node.GetAttribute("connectionString");
-            Log.Debug("WebConfig:AddDatabases(...)#value: {0}",  value);
+            Log.Debug(string.Format("WebConfig:AddDatabases(...)#value: {0}",  value));
 
             if (!SqlServerManager.Instance.IsSqlConnectionString(value))
             {
@@ -212,13 +212,13 @@
             }
 
             var name = node.GetAttribute("name");
-            Log.Debug("WebConfig:AddDatabases(...)#name: {0}",  name);
+            Log.Debug(string.Format("WebConfig:AddDatabases(...)#name: {0}",  name));
 
             if (!string.IsNullOrEmpty(value))
             {
               SqlConnectionStringBuilder connectionString = new SqlConnectionStringBuilder(value);
               var realName = GetDatabaseName(connectionString);
-              Log.Debug("WebConfig:AddDatabases(...)#realName: {0}",  realName);
+              Log.Debug(string.Format("WebConfig:AddDatabases(...)#realName: {0}",  realName));
               if (!string.IsNullOrEmpty(realName))
               {
                 if (!string.IsNullOrEmpty(name) && !string.IsNullOrEmpty(realName))
@@ -253,11 +253,11 @@
         if (nodes != null && nodes.Count > 0)
         {
           var elements = nodes.OfType<XmlElement>().ToArray();
-          Log.Debug("WebConfig:AddMongoDatabases(...)#elements.Length: {0}",  elements.Length);
+          Log.Debug(string.Format("WebConfig:AddMongoDatabases(...)#elements.Length: {0}",  elements.Length));
           foreach (XmlElement node in elements)
           {
             var value = node.GetAttribute("connectionString");
-            Log.Debug("WebConfig:AddMongoDatabases(...)#value: {0}",  value);
+            Log.Debug(string.Format("WebConfig:AddMongoDatabases(...)#value: {0}",  value));
 
             if (SqlServerManager.Instance.IsSqlConnectionString(value))
             {
@@ -265,7 +265,7 @@
             }
 
             var name = node.GetAttribute("name");
-            Log.Debug("WebConfig:AddMongoDatabases(...)#name: {0}",  name);
+            Log.Debug(string.Format("WebConfig:AddMongoDatabases(...)#name: {0}",  name));
 
             databases.Add(new MongoDbDatabase(name, value));
           }

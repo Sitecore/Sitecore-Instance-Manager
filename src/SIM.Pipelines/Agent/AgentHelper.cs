@@ -11,7 +11,7 @@
   using SIM.Instances;
   using SIM.Products;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
   using Sitecore.Diagnostics.Logging;
   using SIM.Extensions;
 
@@ -80,7 +80,7 @@
       Assert.ArgumentNotNull(modules, nameof(modules));
 
       var packages = FileSystem.FileSystem.Local.Directory.Ensure(instance.PackagesFolderPath);
-      foreach (Product product in modules)
+      foreach (var product in modules)
       {
         var targetFilePath = Path.Combine(packages, Path.GetFileName(product.PackagePath).EmptyToNull().IsNotNull());
         FileSystem.FileSystem.Local.Directory.DeleteIfExists(targetFilePath);
@@ -167,7 +167,7 @@
 
       if (skipPostActions)
       {
-        Log.Info("PostActions are skipped");
+        Log.Info(string.Format("PostActions are skipped"));
         return;
       }
 
@@ -198,7 +198,7 @@
       var errorPrefix = pageName + " returned an error: ";
       try
       {
-        Log.Info("Requesting URL {0}", url);
+        Log.Info(string.Format("Requesting URL {0}", url));
         result = WebRequestHelper.DownloadString(url).Trim();
         if (result.ToLower().StartsWith("error:"))
         {
@@ -213,7 +213,7 @@
       }
 
 
-      Log.Info("Install status: {0}", result);
+      Log.Info(string.Format("Install status: {0}", result));
       return result;
     }
 

@@ -7,7 +7,7 @@ namespace SIM.Tool.Windows.MainWindowComponents
   using System.Linq;
   using System.Windows;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
   using SIM.Adapters.SqlServer;
   using SIM.Core.Common;
   using SIM.Extensions;
@@ -55,7 +55,7 @@ namespace SIM.Tool.Windows.MainWindowComponents
         if (fileName != null)
         {
           var file = new FileInfo(fileName);
-          Assert.IsTrue(!file.Exists, "The {0} reporting database file already exist", file.FullName);
+          Assert.IsTrue(!file.Exists, string.Format("The {0} reporting database file already exist", file.FullName));
         }
 
         reportingCstr.Delete();

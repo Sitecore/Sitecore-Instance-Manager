@@ -1,11 +1,11 @@
 ﻿namespace SIM.Tool.Windows.MainWindowComponents
 {
   using System.Windows;
+  using JetBrains.Annotations;
   using SIM.Core.Common;
   using SIM.Instances;
   using SIM.Tool.Base.Plugins;
   using SIM.Tool.Base.Profiles;
-  using Sitecore.Diagnostics.Base.Annotations;
   using SIM.Tool.Base.Wizards;
 
   [UsedImplicitly]

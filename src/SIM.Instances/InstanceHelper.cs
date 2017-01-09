@@ -6,7 +6,7 @@
   using System.Net;
   using System.Text.RegularExpressions;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
   using SIM.Extensions;
 
   public static class InstanceHelper

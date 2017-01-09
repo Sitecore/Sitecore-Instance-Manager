@@ -6,7 +6,7 @@
   using SIM.Instances;
   using SIM.Tool.Base.Plugins;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
   using Sitecore.Diagnostics.Logging;
 
   [UsedImplicitly]
@@ -38,12 +38,12 @@
             continue;
           }
 
-          Log.Info("Recycling instance {0}",  otherInstance);
+          Log.Info(string.Format("Recycling instance {0}",  otherInstance));
           otherInstance.Recycle();
         }
         catch (Exception ex)
         {
-          Log.Warn(ex, "An error occurred");
+          Log.Warn(ex, string.Format("An error occurred"));
         }
       }
     }

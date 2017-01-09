@@ -6,7 +6,7 @@ using System.Linq;
 using Ionic.Zip;
 using Ionic.Zlib;
 using Sitecore.Diagnostics.Base;
-using Sitecore.Diagnostics.Base.Annotations;
+using JetBrains.Annotations;
 
 namespace SIM.FileSystem
 {
@@ -147,11 +147,11 @@ namespace SIM.FileSystem
         {
           if (entriesPattern != null)
           {
-            Log.Info("Unzipping the {2} entries of the '{0}' archive to the '{1}' folder", packagePath, path, entriesPattern);
+            Log.Info(string.Format("Unzipping the {2} entries of the '{0}' archive to the '{1}' folder", packagePath, path, entriesPattern));
           }
           else 
           {
-            Log.Info("Unzipping the '{0}' archive to the '{1}' folder", packagePath, path);
+            Log.Info(string.Format("Unzipping the '{0}' archive to the '{1}' folder", packagePath, path));
           }
 
           using (ZipFile zip = new ZipFile(packagePath))
@@ -171,7 +171,7 @@ namespace SIM.FileSystem
               {
                 if (skipErrors)
                 {
-                  Log.Error(ex, "Unpacking caused exception");
+                  Log.Error(ex, string.Format("Unpacking caused exception"));
                   continue;
                 }
 
@@ -200,7 +200,7 @@ namespace SIM.FileSystem
               {
                 if (skipErrors)
                 {
-                  Log.Error(ex, "Unpacking caused exception");
+                  Log.Error(ex, string.Format("Unpacking caused exception"));
                   continue;
                 }
               }
@@ -241,11 +241,11 @@ namespace SIM.FileSystem
       {
         if (entriesPattern != null)
         {
-          Log.Info("Unzipping the {2} entries of the '{0}' archive to the '{1}' folder", packagePath, path, entriesPattern);
+          Log.Info(string.Format("Unzipping the {2} entries of the '{0}' archive to the '{1}' folder", packagePath, path, entriesPattern));
         }
         else
         {
-          Log.Info("Unzipping the '{0}' archive to the '{1}' folder", packagePath, path);
+          Log.Info(string.Format("Unzipping the '{0}' archive to the '{1}' folder", packagePath, path));
         }
 
         using (var zip = new ZipFile(packagePath))

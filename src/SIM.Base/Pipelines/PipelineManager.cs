@@ -8,7 +8,7 @@
   using System.Xml;
   using SIM.Pipelines.Processors;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
   using Sitecore.Diagnostics.Logging;
   using SIM.Extensions;
 
@@ -49,7 +49,7 @@
 
     public static XmlElement Initialize(XmlElement pipelinesNode)
     {
-      Log.Debug("Pipelines RAW configuration: {0}",  pipelinesNode.OuterXml);
+      Log.Debug(string.Format("Pipelines RAW configuration: {0}",  pipelinesNode.OuterXml));
       Definitions.Clear();
       var resultXmlConfig = XmlDocumentEx.LoadXml("<pipelines />");
 
@@ -118,7 +118,7 @@
       Assert.ArgumentNotNull(pipelineName, nameof(pipelineName));
       Assert.ArgumentNotNull(args, nameof(args));
 
-      Log.Info("Pipeline '{0}' starts, isAsync: {1}", pipelineName, isAsync.ToString(CultureInfo.InvariantCulture));
+      Log.Info(string.Format("Pipeline '{0}' starts, isAsync: {1}", pipelineName, isAsync.ToString(CultureInfo.InvariantCulture)));
       using (new ProfileSection("Start pipeline"))
       {
         ProfileSection.Argument("pipelineName", pipelineName);

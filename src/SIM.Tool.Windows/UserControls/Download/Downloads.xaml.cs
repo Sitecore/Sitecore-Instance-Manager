@@ -12,9 +12,9 @@
   using SIM.Tool.Base.Wizards;
   using SIM.Tool.Windows.Pipelines.Download;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
   using Sitecore.Diagnostics.Logging;
-  using Sitecore.Diagnostics.InformationService.Client.Model;
+  using Sitecore.Diagnostics.InfoService.Client.Model;
   using SIM.Core;
 
   #region
@@ -109,7 +109,7 @@
       }
       catch (Exception ex)
       {
-        Log.Error(ex, "Error while downloading {0}", url.ToString());
+        Log.Error(ex, string.Format("Error while downloading {0}", url.ToString()));
       }
     }
 

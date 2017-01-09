@@ -2,7 +2,7 @@
 {
   using System;
   using System.Collections.Generic;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
 
   #region
 

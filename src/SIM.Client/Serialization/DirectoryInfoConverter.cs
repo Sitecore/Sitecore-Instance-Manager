@@ -4,7 +4,7 @@ namespace SIM.Client.Serialization
   using System.IO;
   using Newtonsoft.Json;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
 
   public class DirectoryInfoConverter : JsonConverter
   {

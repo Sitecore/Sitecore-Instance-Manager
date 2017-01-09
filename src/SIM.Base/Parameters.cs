@@ -2,7 +2,7 @@
 {
   using System.Linq;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
 
   public class Parameters
   {

@@ -5,7 +5,7 @@
   using SIM.Tool.Base;
   using SIM.Tool.Base.Wizards;
   using SIM.Tool.Windows.Pipelines.Setup;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
   using SIM.Core;
   using SIM.Extensions;
 

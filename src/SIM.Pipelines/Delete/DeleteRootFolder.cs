@@ -1,7 +1,7 @@
 ﻿namespace SIM.Pipelines.Delete
 {
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
 
   #region
 

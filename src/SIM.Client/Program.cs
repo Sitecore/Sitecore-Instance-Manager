@@ -9,7 +9,7 @@
   using CommandLine;
   using Newtonsoft.Json;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
   using SIM.Client.Commands;
   using SIM.Client.Serialization;
   using SIM.Core;

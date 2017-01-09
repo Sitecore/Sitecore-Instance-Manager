@@ -8,7 +8,7 @@
   using System.Linq;
   using System.Xml;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
   using Sitecore.Diagnostics.Logging;
 
   #endregion
@@ -65,12 +65,12 @@
           yield break;
         }
 
-        Assert.IsTrue(start + 1 < length, "Cannot replace variables in the \"{0}\" string - line unexpectedly ends after {1} position", message, start);
+        Assert.IsTrue(start + 1 < length, string.Format("Cannot replace variables in the \"{0}\" string - line unexpectedly ends after {1} position", message, start));
         end = message.IndexOf(endChar, start + 1);
-        Assert.IsTrue(end > start, "Cannot replace variables in the \"{0}\" string - no closing {1} character after {2} position", message, end, start);
+        Assert.IsTrue(end > start, string.Format("Cannot replace variables in the \"{0}\" string - no closing {1} character after {2} position", message, end, start));
         start += includeBounds ? 0 : 1;
         var len = end - start + (includeBounds ? 1 : 0);
-        Assert.IsTrue(len > 0, "Cannot replace variables in the \"{0}\" string - the string contains invalid '{{}}' statement", message);
+        Assert.IsTrue(len > 0, string.Format("Cannot replace variables in the \"{0}\" string - the string contains invalid '{{}}' statement", message));
         yield return message.Substring(start, len);
       }
     }
@@ -86,60 +86,16 @@
       return element.GetAttribute(name).EmptyToNull().IsNotNull("{0} doesn't have the {1} attribute filled in".FormatWith(element.OuterXml, name));
     }
 
-    [CanBeNull]
-    public static string GetXPath(this XmlElement element)
-    {
-      var result = string.Empty;
-      XmlElement iterator = element;
-      while (iterator != null)
-      {
-        result = iterator.Name + '/' + result;
-        iterator = iterator.ParentNode as XmlElement;
-      }
-
-      return result.TrimEnd('/');
-    }
-
-    [NotNull]
-    public static T1 IsNotNull<T1>([CanBeNull] this T1 source, [CanBeNull] string message = null) where T1 : class
-    {
-      Assert.IsNotNull(source, message ?? "Value is null");
-
-      return source;
-    }
-
-    public static bool IsNull([CanBeNull] this object @object)
-    {
-      return @object == null;
-    }
-
     public static bool IsNullOrEmpty([CanBeNull] this string @string)
     {
       return string.IsNullOrEmpty(@string);
-    }
-
-    [NotNull]
-    public static T1 IsTrue<T1>([CanBeNull] this T1 source, [NotNull] Func<T1, bool> act, [NotNull] string message) where T1 : class
-    {
-      Assert.ArgumentNotNull(act, nameof(act));
-      Assert.ArgumentNotNull(message, nameof(message));
-
-      Assert.IsNotNull(source, message);
-      Assert.IsTrue(act(source), message);
-
-      return source;
-    }
+    }      
 
     [NotNull]
     public static IEnumerable<T1> NotNull<T1>([CanBeNull] this IEnumerable<T1> source) where T1 : class
     {
       return source.Where(item => item != null);
-    }
-
-    public static bool NullOrEmpty<T>(this ICollection<T> arr)
-    {
-      return arr.NullOrTrue(x => x.Count == 0);
-    }
+    }                   
 
     public static bool NullOrTrue<T>(this T arr, Func<T, bool> condition) where T : class
     {
@@ -160,7 +116,7 @@
       }
       catch (Exception ex)
       {
-        Log.Warn(ex, "SafeCall of the {0} method failed", func.ToString());
+        Log.Warn(ex, string.Format("SafeCall of the {0} method failed", func.ToString()));
         return null;
       }
     }

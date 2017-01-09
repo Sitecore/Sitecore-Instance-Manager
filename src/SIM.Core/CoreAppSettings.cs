@@ -1,6 +1,6 @@
 namespace SIM.Core
 {
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
 
   public static class CoreAppSettings
   {

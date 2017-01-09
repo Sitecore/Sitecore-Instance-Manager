@@ -8,7 +8,7 @@ namespace SIM.Tool.Windows.MainWindowComponents
   using SIM.Instances;
   using SIM.Tool.Base;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
 
   [UsedImplicitly]
   public class AttachDebuggerButton : InstanceOnlyButton

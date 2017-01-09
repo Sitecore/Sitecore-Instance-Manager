@@ -2,7 +2,7 @@
 {
   using System.IO;
   using SIM.Pipelines.Processors;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
 
   [UsedImplicitly]
   public class AcceptAgreement : Processor

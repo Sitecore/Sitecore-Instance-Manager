@@ -1,7 +1,7 @@
 ﻿namespace SIM.Client.Commands
 {
   using CommandLine;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
   using SIM.Core.Commands;
 
   public class StateCommandFacade : StateCommand

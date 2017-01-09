@@ -2,7 +2,7 @@
 {
   using System;
   using System.Diagnostics;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
   using Sitecore.Diagnostics.Logging;
 
   public abstract class AbstractCommand<TResult> : AbstractCommand

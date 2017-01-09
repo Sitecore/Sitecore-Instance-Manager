@@ -3,7 +3,7 @@ namespace SIM.Core.Commands
   using System;
   using System.Data;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
   using SIM.Core.Common;
 
   public class ProfileCommand : AbstractCommand<IProfile>

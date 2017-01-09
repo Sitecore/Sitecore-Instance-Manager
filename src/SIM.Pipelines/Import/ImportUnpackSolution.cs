@@ -1,6 +1,6 @@
 ﻿namespace SIM.Pipelines.Import
 {
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
 
   [UsedImplicitly]
   internal class ImportUnpackSolution : ImportProcessor

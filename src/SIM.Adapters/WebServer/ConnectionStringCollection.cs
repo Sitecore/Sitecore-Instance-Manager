@@ -7,7 +7,7 @@
   using System.Linq;
   using System.Xml;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
   using SIM.Extensions;
 
   #endregion

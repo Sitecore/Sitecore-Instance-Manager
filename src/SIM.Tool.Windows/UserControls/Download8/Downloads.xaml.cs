@@ -10,8 +10,8 @@
   using SIM.Tool.Base.Profiles;
   using SIM.Tool.Base.Wizards;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
-  using Sitecore.Diagnostics.InformationService.Client.Model;
+  using JetBrains.Annotations;
+  using Sitecore.Diagnostics.InfoService.Client.Model;
   using Sitecore.Diagnostics.Logging;
   using SIM.Core;
 
@@ -97,7 +97,7 @@
       }
       catch (Exception ex)
       {
-        Log.Error(ex, "Error while preparing data");
+        Log.Error(ex, string.Format("Error while preparing data"));
       }
     }
 

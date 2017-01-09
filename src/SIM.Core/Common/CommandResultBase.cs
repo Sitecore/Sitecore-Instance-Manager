@@ -1,7 +1,7 @@
 ﻿namespace SIM.Core.Common
 {
   using System;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
 
   public class CommandResult<TResult> : CommandResult
   {

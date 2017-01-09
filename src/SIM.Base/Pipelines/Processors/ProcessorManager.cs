@@ -5,7 +5,7 @@
   using System.Linq;
   using System.Xml;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
   using Sitecore.Diagnostics.Logging;
   using SIM.Extensions;
 
@@ -69,7 +69,7 @@
         }
         catch (Exception ex)
         {
-          Log.Error(ex, "Error during evaluating steps count of {0}",  item.GetType().FullName);
+          Log.Error(ex, string.Format("Error during evaluating steps count of {0}",  item.GetType().FullName));
         }
 
         return itemStepsCount + GetProcessorsCount(args, item.NestedProcessors);
@@ -98,7 +98,7 @@
           }
           catch (Exception ex)
           {
-            Log.Warn(ex, "Cannot detect if the processor {0} requires processing", processor.ProcessorDefinition.Type);
+            Log.Warn(ex, string.Format("Cannot detect if the processor {0} requires processing", processor.ProcessorDefinition.Type));
           }
 
           if (isRequireProcessing)

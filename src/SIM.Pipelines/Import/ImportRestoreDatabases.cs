@@ -4,7 +4,7 @@
   using System.Collections.Generic;
   using System.Data.SqlClient;
   using SIM.Adapters.SqlServer;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
   using SIM.Extensions;
 
   [UsedImplicitly]

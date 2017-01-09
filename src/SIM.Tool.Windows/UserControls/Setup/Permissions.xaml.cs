@@ -10,7 +10,7 @@
   using SIM.Tool.Base;
   using SIM.Tool.Base.Wizards;
   using SIM.Tool.Windows.Pipelines.Setup;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
   using Sitecore.Diagnostics.Logging;
   using SIM.Core;
   using SIM.Extensions;
@@ -46,7 +46,7 @@
           return null;
         }
 
-        Log.Debug("SQL Server Account name: {0}",  sqlServerAccountName);
+        Log.Debug(string.Format("SQL Server Account name: {0}",  sqlServerAccountName));
         return new[]
         {
           sqlServerAccountName, Settings.CoreInstallWebServerIdentity.Value
@@ -110,7 +110,7 @@
       }
       catch (Exception ex)
       {
-        Log.Error(ex, "Granting security permissions failed");
+        Log.Error(ex, string.Format("Granting security permissions failed"));
         WindowHelper.ShowMessage($"Something went wrong while assigning necessary permissions, so please assign them manually: grant the \"{path}\" folder with FULL ACCESS rights for {accountName} user account.", MessageBoxButton.OK, MessageBoxImage.Asterisk);
         return ProfileSection.Result(false);
       }
@@ -164,7 +164,7 @@
       }
       catch (Exception ex)
       {
-        Log.Error(ex, "Cannot verify permissions");
+        Log.Error(ex, string.Format("Cannot verify permissions"));
         return true;
       }
     }

@@ -4,7 +4,7 @@
   using SIM.Tool.Base;
   using SIM.Tool.Windows.Dialogs;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
 
   [UsedImplicitly]
   public class AboutOnlyButton : WindowOnlyButton

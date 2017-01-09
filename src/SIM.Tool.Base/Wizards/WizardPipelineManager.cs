@@ -46,28 +46,28 @@
       var text = ch.GetAttribute("text");
       if (string.IsNullOrEmpty(text))
       {
-        Log.Error("Finish action doesn't have 'text' specified: {0}", ch.OuterXml);
+        Log.Error(string.Format("Finish action doesn't have 'text' specified: {0}", ch.OuterXml));
         return null;
       }
 
       var typeName = ch.GetAttribute("type");
       if (string.IsNullOrEmpty(typeName))
       {
-        Log.Error("Finish action doesn't have 'type' specified: {0}", ch.OuterXml);
+        Log.Error(string.Format("Finish action doesn't have 'type' specified: {0}", ch.OuterXml));
         return null;
       }
 
       var type = Type.GetType(typeName);
       if (type == null)
       {
-        Log.Error("Finish action points to missing '{0}' type: {1}", typeName, ch.OuterXml);
+        Log.Error(string.Format("Finish action points to missing '{0}' type: {1}", typeName, ch.OuterXml));
         return null;
       }
 
       var methodName = ch.GetAttribute("method");
       if (string.IsNullOrEmpty(methodName))
       {
-        Log.Error("Finish action doesn't have 'method' specified: {0}", ch.OuterXml);
+        Log.Error(string.Format("Finish action doesn't have 'method' specified: {0}", ch.OuterXml));
         return null;
       }
 
@@ -77,7 +77,7 @@
       } : new Type[0], null);
       if (method == null)
       {
-        Log.Error("Finish action points to missing '{0}' method of the '{1}' type: {2}", methodName, typeName, ch.OuterXml);
+        Log.Error(string.Format("Finish action points to missing '{0}' method of the '{1}' type: {2}", methodName, typeName, ch.OuterXml));
         return null;
       }
 
@@ -99,7 +99,7 @@
 
     public static void Start(string name, Window owner, ProcessorArgs args = null, bool? isAsync = null, Action<WizardArgs> action = null, params object[] wizardArgsParameters)
     {
-      Log.Info("Wizard pipeline '{0}' starts", name);
+      Log.Info(string.Format("Wizard pipeline '{0}' starts", name));
       using (new ProfileSection("Start wizard"))
       {
         ProfileSection.Argument("name", name);

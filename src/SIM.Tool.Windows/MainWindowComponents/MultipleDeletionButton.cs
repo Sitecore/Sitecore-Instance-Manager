@@ -6,7 +6,7 @@
   using SIM.Pipelines.MultipleDeletion;
   using SIM.Tool.Base.Plugins;
   using SIM.Tool.Windows;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
   using SIM.Tool.Base.Wizards;
 
   [UsedImplicitly]

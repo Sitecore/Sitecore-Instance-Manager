@@ -3,7 +3,7 @@
   using System.Diagnostics;
   using System.IO;
   using System.Windows;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
   using SIM.Core;
   using SIM.Core.Common;
   using SIM.Extensions;

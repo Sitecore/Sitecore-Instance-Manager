@@ -5,7 +5,7 @@
   using System;
   using Microsoft.Win32;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
   using Sitecore.Diagnostics.Logging;
 
   #endregion

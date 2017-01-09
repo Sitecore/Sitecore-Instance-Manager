@@ -2,7 +2,7 @@
 {
   using System.IO;
   using CommandLine;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
   using SIM.Core.Commands;
   using SIM.Core.Common;
 

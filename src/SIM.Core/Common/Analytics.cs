@@ -6,7 +6,7 @@ namespace SIM.Core.Common
   using Microsoft.ApplicationInsights.Channel;
   using Microsoft.ApplicationInsights.Extensibility;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
   using Sitecore.Diagnostics.Logging;
   using SIM.Extensions;
   using SIM.FileSystem;
@@ -23,7 +23,7 @@ namespace SIM.Core.Common
         return;
       }
 
-      Log.Debug("Insights - starting");
+      Log.Debug(string.Format("Insights - starting"));
 
       try
       {
@@ -54,15 +54,15 @@ namespace SIM.Core.Common
         catch (Exception ex)
         {
           client.TrackException(ex);
-          Log.Error(ex, "Error in app insights");
+          Log.Error(ex, string.Format("Error in app insights"));
         }
       }
       catch (Exception ex)
       {
-        Log.Error(ex, "Error in app insights");
+        Log.Error(ex, string.Format("Error in app insights"));
       }
 
-      Log.Debug("Insights - started");
+      Log.Debug(string.Format("Insights - started"));
     }
 
     public static void TrackEvent([NotNull] string eventName)
@@ -81,7 +81,7 @@ namespace SIM.Core.Common
       }
       catch (Exception ex)
       {
-        Log.Error(ex, "Error during event tracking: {0}", eventName);
+        Log.Error(ex, string.Format("Error during event tracking: {0}", eventName));
       }
     }
 
@@ -101,7 +101,7 @@ namespace SIM.Core.Common
       }
       catch (Exception ex)
       {
-        Log.Error(ex, "Error during flushing");
+        Log.Error(ex, string.Format("Error during flushing"));
       }
     }
     public static bool DoNotTrack()
@@ -132,7 +132,7 @@ namespace SIM.Core.Common
           }
           catch (Exception ex)
           {
-            Log.Error(ex, "Cannot delete cookie file");
+            Log.Error(ex, string.Format("Cannot delete cookie file"));
           }
         }
       }
@@ -148,7 +148,7 @@ namespace SIM.Core.Common
       }
       catch (Exception ex)
       {
-        Log.Error(ex, "Cannot write cookie");
+        Log.Error(ex, string.Format("Cannot write cookie"));
       }
 
       return newCookie;

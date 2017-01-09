@@ -14,7 +14,7 @@
   using Microsoft.VisualBasic.FileIO;
   using SIM.Tool.Base.Windows.Dialogs;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
   using Sitecore.Diagnostics.Logging;
   using SIM.Core;
   using SIM.Extensions;
@@ -173,7 +173,7 @@
             }
             catch (ThreadAbortException ex)
             {
-              Log.Warn(ex, "Long running task \"{0}\" failed with exception", title);
+              Log.Warn(ex, string.Format("Long running task \"{0}\" failed with exception", title));
             }
             catch (Exception ex)
             {
@@ -542,7 +542,7 @@
       }
       catch (Exception ex)
       {
-        Log.Warn(ex, "The {0} image cannot be retrieved from {1} assembly", imageName, assemblyName);
+        Log.Warn(ex, string.Format("The {0} image cannot be retrieved from {1} assembly", imageName, assemblyName));
 
         return null;
       }

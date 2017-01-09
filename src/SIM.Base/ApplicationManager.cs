@@ -7,7 +7,7 @@ namespace SIM
   using System.Reflection;
   using Ionic.Zip;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
   using SIM.Extensions;
 
   #region
@@ -147,7 +147,7 @@ namespace SIM
           }
         }
 
-        Assert.IsTrue(File.Exists(filePath), "The {0} file path doesn't exist after successful extracting {1} package into {2} folder", filePath, filePath, folder);
+        Assert.IsTrue(File.Exists(filePath), string.Format("The {0} file path doesn't exist after successful extracting {1} package into {2} folder", filePath, filePath, folder));
 
         return filePath;
       }
@@ -200,7 +200,7 @@ namespace SIM
             zip.ExtractAll(folder, ExtractExistingFileAction.OverwriteSilently);
           }
 
-        Assert.IsTrue(File.Exists(filePath) || Directory.Exists(filePath), "The {0} file path doesn't exist after successful extracting {1} package into {2} folder", filePath, tempFilePath, folder);
+        Assert.IsTrue(File.Exists(filePath) || Directory.Exists(filePath), string.Format("The {0} file path doesn't exist after successful extracting {1} package into {2} folder", filePath, tempFilePath, folder));
 
           return filePath;
         }

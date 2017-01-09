@@ -6,7 +6,7 @@
   using System.IO;
   using System.Linq;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
   using Sitecore.Diagnostics.Logging;
   using SIM.Extensions;
 
@@ -148,7 +148,7 @@
         }
         catch (Exception ex)
         {
-          Log.Warn(ex, "An error occurred during reading {0} file", assemblyPath);
+          Log.Warn(ex, string.Format("An error occurred during reading {0} file", assemblyPath));
         }
       }
 

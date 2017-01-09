@@ -10,7 +10,7 @@
   using SIM.Products;
   using SIM.Tool.Base;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
   using Sitecore.Diagnostics.Logging;
   using SIM.Extensions;
 
@@ -57,7 +57,7 @@
 
           var destFileName = Path.Combine(localRepository, fileName);
           Assert.IsTrue(!FileSystem.FileSystem.Local.File.Exists(destFileName), "The {0} file already exists".FormatWith(destFileName));
-          Log.Info("Downloading {0}",  destFileName);
+          Log.Info(string.Format("Downloading {0}",  destFileName));
 
           if (this.TryCopyFromExternalRepository(fileName, destFileName))
           {
@@ -96,7 +96,7 @@
         }
         catch (Exception ex)
         {
-          Log.Warn(ex, "An error occurred during downloading files");
+          Log.Warn(ex, string.Format("An error occurred during downloading files"));
 
           cancellation.Cancel();
           throw new InvalidOperationException("An unhandled exception happened during downloading '{0}' file".FormatWith(url));
@@ -139,7 +139,7 @@
       {
         if (FileSystem.FileSystem.Local.File.Exists(filePath1))
         {
-          Log.Info("Downloading is skipped, the {0} file already exists", filePath1);
+          Log.Info(string.Format("Downloading is skipped, the {0} file already exists", filePath1));
 
           return false;
         }
@@ -169,14 +169,14 @@
                 WindowHelper.CopyFileUI(externalRepositoryFilePath, destFileName, Microsoft.VisualBasic.FileIO.UIOption.AllDialogs, Microsoft.VisualBasic.FileIO.UICancelOption.ThrowException);
               }
 
-              Log.Info("Copying the {0} file has completed", fileName);
+              Log.Info(string.Format("Copying the {0} file has completed", fileName));
               return true;
             }
           }
         }
         catch (Exception ex)
         {
-          Log.Warn(ex, "Unable to copy the {0} file from external repository", fileName);
+          Log.Warn(ex, string.Format("Unable to copy the {0} file from external repository", fileName));
         }
       }
 

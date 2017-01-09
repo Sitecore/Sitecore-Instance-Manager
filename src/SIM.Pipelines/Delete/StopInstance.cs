@@ -2,7 +2,7 @@
 {
   using System;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
   using Sitecore.Diagnostics.Logging;
 
   #region
@@ -24,7 +24,7 @@
       }
       catch (Exception ex)
       {
-        Log.Warn(ex, "Cannot stop instance {0}. {1}", args.InstanceName, ex.Message);
+        Log.Warn(ex, string.Format("Cannot stop instance {0}. {1}", args.InstanceName, ex.Message));
       }
     }
 

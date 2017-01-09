@@ -5,7 +5,7 @@
   using System.Linq;
   using SIM.Tool.Base;
   using SIM.Tool.Base.Pipelines;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
   using SIM.Core;
 
   public static class FinishActions

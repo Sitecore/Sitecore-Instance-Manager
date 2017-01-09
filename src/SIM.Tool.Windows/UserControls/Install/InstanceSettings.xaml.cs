@@ -4,7 +4,7 @@
   using SIM.Tool.Base.Pipelines;
   using SIM.Tool.Base.Wizards;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
 
   public partial class InstanceSettings : IWizardStep
   {

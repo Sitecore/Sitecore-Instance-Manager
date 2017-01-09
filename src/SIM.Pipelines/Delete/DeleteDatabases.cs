@@ -3,7 +3,7 @@
   using System.Collections.Generic;
   using SIM.Adapters.SqlServer;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
 
   #region
 

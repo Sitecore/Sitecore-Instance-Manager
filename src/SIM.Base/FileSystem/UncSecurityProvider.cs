@@ -2,7 +2,7 @@ using System.IO;
 using System.Security.AccessControl;
 using System.Security.Principal;
 using Sitecore.Diagnostics.Base;
-using Sitecore.Diagnostics.Base.Annotations;
+using JetBrains.Annotations;
 
 namespace SIM.FileSystem
 {

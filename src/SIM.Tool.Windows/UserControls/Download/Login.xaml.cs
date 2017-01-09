@@ -9,7 +9,8 @@
   using SIM.Tool.Base;
   using SIM.Tool.Base.Wizards;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
+  using Sitecore.Diagnostics.InfoService.Client;
   using SIM.Extensions;
 
   public partial class Login : IWizardStep, IFlowControl
@@ -73,8 +74,8 @@
       }
 
       args.Releases = Product.Service.GetVersions("Sitecore CMS")
-        .Where(x => !x.Name.StartsWith("8"))
-          .SelectMany(y => y.Releases).ToArray();
+        .Where(x => !x.MajorMinor.StartsWith("8"))
+          .SelectMany(y => y.Releases.Values).ToArray();
 
       var username = args.UserName;
       var password = args.Password;

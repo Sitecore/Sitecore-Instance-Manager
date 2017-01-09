@@ -8,7 +8,7 @@ namespace SIM.Pipelines.Install
   using SIM.Adapters.WebServer;
   using SIM.Instances;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
   using SIM.Extensions;
 
   #endregion

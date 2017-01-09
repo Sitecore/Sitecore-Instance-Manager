@@ -1,7 +1,7 @@
 ﻿namespace SIM.Pipelines.Import
 {
   using SIM.Adapters.WebServer;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
   using SIM.Extensions;
 
   [UsedImplicitly]

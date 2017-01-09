@@ -5,7 +5,7 @@
   using System.Collections.Generic;
   using SIM.Pipelines.Processors;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
 
   #endregion
 

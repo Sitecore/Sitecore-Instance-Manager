@@ -3,7 +3,7 @@ namespace SIM.Client.Commands
   using System.Linq;
   using CommandLine;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
   using SIM.Core.Common;
 
   public abstract class MainCommandGroupBase

@@ -25,7 +25,7 @@ namespace SIM.Tool
   using SIM.Tool.Base.Profiles;
   using SIM.Tool.Windows;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
   using Sitecore.Diagnostics.Logging;
   using SIM.Extensions;
   using SIM.Tool.Base.Wizards;
@@ -89,7 +89,7 @@ namespace SIM.Tool
           }
           catch
           {
-            Log.Warn("Tag was not found: {0}", url);
+            Log.Warn(string.Format("Tag was not found: {0}", url));
           }
 
           if (exists)
@@ -180,7 +180,7 @@ namespace SIM.Tool
       // Initialize Profile Manager
       if (!App.InitializeProfileManager(main))
       {
-        Log.Info("Application closes due to invalid configuration");
+        Log.Info(string.Format("Application closes due to invalid configuration"));
 
         // Since the main window instance was already created we need to "dispose" it by showing and closing.
         main.Width = 0;
@@ -239,7 +239,7 @@ namespace SIM.Tool
 
       if (!Directory.Exists("IOC_Containers"))
       {
-        Log.Info("Copying IOC dlls", typeof(App));
+        Log.Info(string.Format("Copying IOC dlls", typeof(App)));
         ApplicationManager.GetEmbeddedFile("IOC_Containers.zip", "SIM.Pipelines", "IOC_Containers");
       }
     }
@@ -259,18 +259,18 @@ namespace SIM.Tool
       {
         using (var sc = new ServiceController("W3SVC"))
         {
-          Log.Info("IIS.Name: {0}", sc.DisplayName);
-          Log.Info("IIS.Status: {0}", sc.Status);
-          Log.Info("IIS.MachineName: {0}", sc.MachineName);
-          Log.Info("IIS.ServiceName: {0}", sc.ServiceName);
-          Log.Info("IIS.ServiceType: {0}", sc.ServiceType);
+          Log.Info(string.Format("IIS.Name: {0}", sc.DisplayName));
+          Log.Info(string.Format("IIS.Status: {0}", sc.Status));
+          Log.Info(string.Format("IIS.MachineName: {0}", sc.MachineName));
+          Log.Info(string.Format("IIS.ServiceName: {0}", sc.ServiceName));
+          Log.Info(string.Format("IIS.ServiceType: {0}", sc.ServiceType));
 
           return sc.Status.Equals(ServiceControllerStatus.Running);
         }
       }
       catch (Exception ex)
       {
-        Log.Error(ex, "Error during checking IIS state");
+        Log.Error(ex, string.Format("Error during checking IIS state"));
 
         return false;
       }
@@ -306,12 +306,12 @@ namespace SIM.Tool
             throw;
           }
 
-          Log.Info("User cancelled permissions elevation");
+          Log.Info(string.Format("User cancelled permissions elevation"));
         }
       }
       catch (Exception ex)
       {
-        Log.Error(ex, "An unhandled exception was thrown");
+        Log.Error(ex, string.Format("An unhandled exception was thrown"));
       }
 
       return false;
@@ -366,7 +366,7 @@ namespace SIM.Tool
       }
       catch (Exception ex)
       {
-        Log.Error(ex, "Error during detecting profile defaults");
+        Log.Error(ex, string.Format("Error during detecting profile defaults"));
 
         return new Base.Profiles.Profile();
       }
@@ -444,7 +444,7 @@ namespace SIM.Tool
       }
       catch (Exception ex)
       {
-        Log.Error(ex, "Failed to process {0}", label);
+        Log.Error(ex, string.Format("Failed to process {0}", label));
 
         return default(T);
       }

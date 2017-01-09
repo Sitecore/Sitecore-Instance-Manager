@@ -18,7 +18,7 @@ namespace SIM.Tool.Windows.UserControls.Install
   using SIM.Tool.Base.Profiles;
   using SIM.Tool.Base.Wizards;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
   using Sitecore.Diagnostics.Logging;
   using SIM.Extensions;
 

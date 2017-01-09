@@ -4,8 +4,8 @@
   using System.Linq;
   using SIM.Products;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
-  using Sitecore.Diagnostics.InformationService.Client.Model;
+  using JetBrains.Annotations;
+  using Sitecore.Diagnostics.InfoService.Client.Model;
   using SIM.Extensions;
 
   public class ProductDownload8InCheckbox : DataObjectBase
@@ -31,10 +31,13 @@
       Assert.ArgumentNotNull(release, nameof(release));
 
       this.name = "Sitecore CMS";
-      this.version = release.Version;
-      this.revision = release.Revision;
+      this.version = release.Version.MajorMinor;
+      this.revision = release.Version.Revision.ToString();
       this.label = release.Label;
-      this.value = new Uri(release.Downloads.First(x => x.StartsWith("http")));
+      var distribution = release.DefaultDistribution;
+      Assert.IsNotNull(distribution, nameof(distribution));
+
+      this.value = new Uri(distribution.Downloads.First(x => x.StartsWith("http")));
       this.isEnabled = !ProductManager.Products.Any(this.CheckProduct);
     }
 
@@ -51,13 +54,13 @@
 
     #region Private methods
 
-    private bool CheckAnalyticsProduct(Product product)
+    private bool CheckAnalyticsProduct(Products.Product product)
     {
       return product.Name.Equals("Sitecore Analytics")
              && product.Revision == this.revision;
     }
 
-    private bool CheckProduct([CanBeNull] Product product)
+    private bool CheckProduct([CanBeNull] Products.Product product)
     {
       if (product == null)
       {

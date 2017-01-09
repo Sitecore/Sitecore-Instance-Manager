@@ -6,7 +6,7 @@
   using System.Linq;
   using System.ServiceProcess;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
   using Sitecore.Diagnostics.Logging;
   using SIM.Adapters.SqlServer;
   using SIM.Extensions;
@@ -75,7 +75,7 @@
       }
       catch (Exception ex)
       {
-        Log.Warn(ex, "Failed to check SQL Server state");
+        Log.Warn(ex, string.Format("Failed to check SQL Server state"));
         return ProfileSection.Result(true);
       }
     }
@@ -121,7 +121,7 @@
       }
       catch (Exception ex)
       {
-        Log.Error(ex, "GetSqlServerServiceName");
+        Log.Error(ex, string.Format("GetSqlServerServiceName"));
         return null;
       }
     }

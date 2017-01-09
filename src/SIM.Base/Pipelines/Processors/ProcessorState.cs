@@ -2,7 +2,7 @@
 {
   #region
 
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
 
   #endregion
 

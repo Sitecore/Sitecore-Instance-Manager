@@ -2,7 +2,7 @@
 {
   using System;
   using System.IO;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
 
   public class AddServerTxt : InstallProcessor
   {

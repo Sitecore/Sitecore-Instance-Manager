@@ -8,7 +8,7 @@
   using SIM.Products;
   using SIM.Tool.Base.Profiles;
   using SIM.Tool.Base.Wizards;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
 
   [UsedImplicitly]
   public class InstallModulesWizardArgs : WizardArgs

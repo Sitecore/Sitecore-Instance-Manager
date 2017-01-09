@@ -2,7 +2,7 @@
 {
   using CommandLine;
   using CommandLine.Text;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
 
   public class MainCommandGroup : MainCommandGroupBase
   {

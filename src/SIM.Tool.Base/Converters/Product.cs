@@ -4,7 +4,7 @@
   using System.Globalization;
   using System.Windows.Data;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
 
   #region
 

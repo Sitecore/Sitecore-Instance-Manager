@@ -5,7 +5,7 @@
   using SIM.Instances;
   using SIM.Pipelines.Export;
   using SIM.Tool.Base.Plugins;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
   using SIM.Tool.Base.Wizards;
 
   [UsedImplicitly]

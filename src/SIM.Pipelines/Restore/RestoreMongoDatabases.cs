@@ -4,7 +4,7 @@ namespace SIM.Pipelines.Restore
   using System.Collections.Generic;
   using System.Linq;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
   using Sitecore.Diagnostics.Logging;
 
   [UsedImplicitly]
@@ -64,7 +64,7 @@ namespace SIM.Pipelines.Restore
         }
         catch (Exception ex)
         {
-          Log.Warn(ex, "An error occurred during starting an instance");
+          Log.Warn(ex, string.Format("An error occurred during starting an instance"));
         }
       }
 

@@ -5,8 +5,8 @@
   using System.Linq;
   using SIM.Products;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
-  using Sitecore.Diagnostics.InformationService.Client.Model;
+  using JetBrains.Annotations;
+  using Sitecore.Diagnostics.InfoService.Client.Model;
   using SIM.Extensions;
 
   #region
@@ -36,10 +36,13 @@
       Assert.ArgumentNotNull(release, nameof(release));
 
       this.name = "Sitecore CMS";
-      this.version = release.Version;
-      this.revision = release.Revision;
+      this.version = release.Version.MajorMinor;
+      this.revision = release.Version.Revision.ToString();
       this.label = release.Label;
-      this.value = new ReadOnlyCollection<Uri>(release.Downloads.Where(x => x.StartsWith("http")).Select(x => new Uri(x)).ToArray());
+      var distribution = release.DefaultDistribution;
+      Assert.IsNotNull(distribution, nameof(distribution));
+
+      this.value = new ReadOnlyCollection<Uri>(distribution.Downloads.Where(x => x.StartsWith("http")).Select(x => new Uri(x)).ToArray());
       this.isEnabled = !ProductManager.Products.Any(this.CheckProduct);
       if (!this.isEnabled && this.name.EqualsIgnoreCase("Sitecore CMS") && !ProductManager.Products.Any(this.CheckAnalyticsProduct) && this.value.Count > 1)
       {
@@ -61,13 +64,13 @@
 
     #region Private methods
 
-    private bool CheckAnalyticsProduct(Product product)
+    private bool CheckAnalyticsProduct(Products.Product product)
     {
       return product.Name.Equals("Sitecore Analytics")
              && product.Revision == this.revision;
     }
 
-    private bool CheckProduct(Product product)
+    private bool CheckProduct(Products.Product product)
     {
       return (product.Name.EqualsIgnoreCase(this.name) || product.OriginalName.EqualsIgnoreCase(this.name))
              && product.Version == this.version

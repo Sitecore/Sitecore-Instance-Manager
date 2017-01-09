@@ -3,7 +3,7 @@
   using System;
   using System.Globalization;
   using System.IO;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
   using SIM.FileSystem;
   using SIM.Instances;
 

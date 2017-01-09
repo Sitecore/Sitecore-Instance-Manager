@@ -11,7 +11,7 @@ namespace SIM.Pipelines
   using SIM.Adapters.WebServer;
   using SIM.Pipelines.Install;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
   using Sitecore.Diagnostics.Logging;
   using SIM.Extensions;
   using SIM.FileSystem;
@@ -104,7 +104,7 @@ namespace SIM.Pipelines
             throw;
           }
 
-          Log.Warn(ex, "Attaching reporting.secondary database failed. Skipping...");
+          Log.Warn(ex, string.Format("Attaching reporting.secondary database failed. Skipping..."));
         }
       }
     }
@@ -279,7 +279,7 @@ namespace SIM.Pipelines
       Assert.ArgumentNotNull(destination, nameof(destination));
 
       var product = instance.Product;
-      Assert.IsNotNull(product.PackagePath.EmptyToNull(), "The {0} product distributive is not available in local repository", instance.ProductFullName);
+      Assert.IsNotNull(product.PackagePath.EmptyToNull(), string.Format("The {0} product distributive is not available in local repository", instance.ProductFullName));
 
       var package = new FileInfo(product.PackagePath);
       Assert.IsTrue(package.Exists, $"The {package.FullName} file does not exist");
@@ -287,7 +287,7 @@ namespace SIM.Pipelines
       using (var zip = ZipFile.OpenRead(package.FullName))
       {
         var entry = zip.Entries.FirstOrDefault(x => x.FullName.EndsWith("Sitecore.Analytics.mdf"));
-        Assert.IsNotNull(entry, "Cannot find Sitecore.Analytics.mdf in the {0} file", package.FullName);
+        Assert.IsNotNull(entry, string.Format("Cannot find Sitecore.Analytics.mdf in the {0} file", package.FullName));
 
         entry.ExtractToFile(destination.FullName);
       }

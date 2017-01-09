@@ -2,7 +2,7 @@ namespace SIM.Core.Common
 {
   using System.IO;
   using System.Xml.Serialization;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
 
   public class Profile : IProfile
   {

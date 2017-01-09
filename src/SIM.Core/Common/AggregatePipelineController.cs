@@ -2,7 +2,7 @@ namespace SIM.Core.Common
 {
   using System;
   using System.Collections.Generic;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
   using SIM.Pipelines;
 
   public class AggregatePipelineController : IPipelineController

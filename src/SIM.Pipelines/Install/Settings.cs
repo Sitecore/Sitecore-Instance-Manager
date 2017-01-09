@@ -1,6 +1,6 @@
 ﻿namespace SIM.Pipelines.Install
 {
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
 
   public static class Settings
   {

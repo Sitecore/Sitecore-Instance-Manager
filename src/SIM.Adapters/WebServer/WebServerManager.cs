@@ -4,7 +4,7 @@
   using System.Linq;
   using Microsoft.Web.Administration;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
   using Sitecore.Diagnostics.Logging;
   using SIM.Extensions;
 
@@ -24,7 +24,7 @@
 
     public static void DeleteWebsite([NotNull] long id)
     {
-      Log.Info("Deleting website {0}", id);
+      Log.Info(string.Format("Deleting website {0}", id));
 
       using (WebServerContext context = CreateContext("WebServerManager.DeleteWebsite({0})".FormatWith(id)))
       {
@@ -40,7 +40,7 @@
     {
       Assert.ArgumentNotNull(name, nameof(name));
 
-      Log.Info("Deleting website {0}", name);
+      Log.Info(string.Format("Deleting website {0}", name));
       using (WebServerContext context = CreateContext("WebServerManager.DeleteWebsite('{0}')".FormatWith(name)))
       {
         Site site = context.Sites[name];

@@ -6,7 +6,7 @@
   using System.Linq;
   using Ionic.Zip;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
   using Sitecore.Diagnostics.Logging;
   using SIM.Extensions;
 
@@ -54,7 +54,7 @@
         }
         catch (Exception ex)
         {
-          Log.Error(ex, "Failed to build a manifest for " + packageFile);
+          Log.Error(ex, string.Format("Failed to build a manifest for " + packageFile));
 
           return Product.EmptyManifest;
         }
@@ -133,7 +133,7 @@
             var folderPath = lookupFolder.Path;
             if (!FileSystem.FileSystem.Local.Directory.Exists(folderPath))
             {
-              Log.Warn("The {0} manifest lookup folder doesn't exist", lookupFolder);
+              Log.Warn(string.Format("The {0} manifest lookup folder doesn't exist", lookupFolder));
               continue;
             }
 
@@ -151,23 +151,23 @@
                   try
                   {
                     string[] findings = FileSystem.FileSystem.Local.Directory.GetFiles(folderPath, fileName, lookupFolder.Recursive ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly);
-                    Log.Debug("Found {0} matches", findings.Length);
+                    Log.Debug(string.Format("Found {0} matches", findings.Length));
                     if (findings.Length == 1)
                     {
                       var path = findings.First();
-                      Log.Debug("Found '{0}'", path);
+                      Log.Debug(string.Format("Found '{0}'", path));
                       try
                       {
                         if (mainDocument == null)
                         {
-                          Log.Debug("Loading file 'as main document'");
+                          Log.Debug(string.Format("Loading file 'as main document'"));
                           mainDocument = XmlDocumentEx.LoadFile(path);
 
                           ProfileSection.Result("Loaded");
                         }
                         else
                         {
-                          Log.Debug("Loading file 'for merge'");
+                          Log.Debug(string.Format("Loading file 'for merge'"));
                           mainDocument.Merge(XmlDocumentEx.LoadFile(path));
 
                           ProfileSection.Result("Merged");
@@ -195,7 +195,7 @@
                   }
                   catch (Exception ex)
                   {
-                    Log.Warn(ex, "Failed looking for \"{0}\" manifests in \"{1}\"", fileNamePattern, folderPath);
+                    Log.Warn(ex, string.Format("Failed looking for \"{0}\" manifests in \"{1}\"", fileNamePattern, folderPath));
                   }
                 }
               }
@@ -212,7 +212,7 @@
                   var entry = zip[filenamePattern + ManifestExtension];
                   if (entry != null)
                   {
-                    Log.Debug("Loading file 'as main document'");
+                    Log.Debug(string.Format("Loading file 'as main document'"));
 
                     using (var stream = new MemoryStream())
                     {
@@ -230,7 +230,7 @@
         }
         catch (Exception ex)
         {
-          Log.Error(ex, "Failed to find and merge manifests on file system");
+          Log.Error(ex, string.Format("Failed to find and merge manifests on file system"));
         }
 
         XmlDocumentEx archiveManifest = Product.ArchiveManifest;
@@ -242,7 +242,7 @@
             CacheManager.SetEntry("IsPackage", packageFile, "false");
             try
             {
-              Log.Debug("Merging with 'archiveManifest'");
+              Log.Debug(string.Format("Merging with 'archiveManifest'"));
               mainDocument.Merge(archiveManifest);
             }
             catch (Exception ex)
@@ -255,7 +255,7 @@
             CacheManager.SetEntry("IsPackage", packageFile, "true");
             try
             {
-              Log.Debug("Merging with 'packageManifest'");
+              Log.Debug(string.Format("Merging with 'packageManifest'"));
               mainDocument.Merge(packageManifest);
             }
             catch (Exception ex)
@@ -269,7 +269,7 @@
 
         if (FileSystem.FileSystem.Local.Zip.ZipContainsSingleFile(packageFile, "package.zip"))
         {
-          Log.Info("The '{0}' file is considered as Sitecore Package, (type #1)", packageFile);
+          Log.Info(string.Format("The '{0}' file is considered as Sitecore Package, (type #1)", packageFile));
           CacheManager.SetEntry("IsPackage", packageFile, "true");
 
           return ProfileSection.Result(packageManifest);
@@ -278,7 +278,7 @@
         if (FileSystem.FileSystem.Local.Zip.ZipContainsFile(packageFile, "metadata/sc_name.txt") &&
             FileSystem.FileSystem.Local.Zip.ZipContainsFile(packageFile, "installer/version"))
         {
-          Log.Info("The '{0}' file is considered as Sitecore Package, (type #2)", packageFile);
+          Log.Info(string.Format("The '{0}' file is considered as Sitecore Package, (type #2)", packageFile));
           CacheManager.SetEntry("IsPackage", packageFile, "true");
 
           return ProfileSection.Result(packageManifest);
@@ -340,7 +340,7 @@
     private static void HandleError(Exception ex, string path, IEnumerable<string> list)
     {
       var str = list.Join(", ", "'", "'");
-      Log.Warn(ex, "Failed merging '{0}' with successfully merged {1}. {2}", (object)path, (object)str, (object)ex.Message);
+      Log.Warn(ex, string.Format("Failed merging '{0}' with successfully merged {1}. {2}", (object)path, (object)str, (object)ex.Message));
     }
 
     private static string TrimRevision(string fileName)

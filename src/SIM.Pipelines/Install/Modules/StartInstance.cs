@@ -2,7 +2,7 @@ namespace SIM.Pipelines.Install.Modules
 {
   using SIM.Instances;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
 
   #region
 

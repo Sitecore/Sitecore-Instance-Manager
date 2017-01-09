@@ -6,7 +6,7 @@
   using Microsoft.Web.Administration;
   using SIM.Adapters.WebServer;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
   using Sitecore.Diagnostics.Logging;
   using SIM.Extensions;
 
@@ -98,7 +98,7 @@
     public static Instance GetInstance([NotNull] string name)
     {
       Assert.ArgumentNotNull(name, nameof(name));
-      Log.Debug("InstanceManager:GetInstance('{0}')", name);
+      Log.Debug(string.Format("InstanceManager:GetInstance('{0}')", name));
 
       Initialize();
       if (Instances == null)
@@ -184,7 +184,7 @@
       Assert.ArgumentNotNull(site, nameof(site));
 
       var id = (Int32)site.Id;
-      Log.Debug("InstanceManager:GetInstance(Site: {0})", site.Id);
+      Log.Debug(string.Format("InstanceManager:GetInstance(Site: {0})", site.Id));
       return new Instance(id);
     }
 
@@ -213,7 +213,7 @@
     {
       Assert.ArgumentNotNull(site, nameof(site));
       var id = (Int32)site.Id;
-      Log.Debug("InstanceManager:GetPartiallyCachedInstance(Site: {0})", site.Id);
+      Log.Debug(string.Format("InstanceManager:GetPartiallyCachedInstance(Site: {0})", site.Id));
       return new PartiallyCachedInstance(id);
     }
 

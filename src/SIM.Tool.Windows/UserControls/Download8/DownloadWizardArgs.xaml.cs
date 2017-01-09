@@ -10,8 +10,9 @@
   using SIM.Tool.Base.Wizards;
   using SIM.Tool.Windows.Pipelines.Download8;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
-  using Sitecore.Diagnostics.InformationService.Client.Model;
+  using JetBrains.Annotations;
+  using Sitecore.Diagnostics.InfoService.Client;
+  using Sitecore.Diagnostics.InfoService.Client.Model;
   using SIM.Extensions;
 
   public class DownloadWizardArgs : WizardArgs
@@ -62,8 +63,8 @@
     {
       get
       {
-        return Extensions.With(Product.Service.GetVersions("Sitecore CMS")
-            .With(x => x.Where(z => z.Name.StartsWith("8"))), x => x.SelectMany(y => y.Releases).ToArray());
+        return Extensions.With(SIM.Products.Product.Service.GetVersions("Sitecore CMS")
+            .With(x => x.Where(z => z.MajorMinor.StartsWith("8"))), x => x.SelectMany(y => y.Releases.Values).ToArray());
       }
     }
 

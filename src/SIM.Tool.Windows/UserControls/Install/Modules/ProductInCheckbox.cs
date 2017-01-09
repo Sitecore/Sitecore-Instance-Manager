@@ -90,7 +90,7 @@
       get
       {
         var i = 0;
-        foreach (Product product in this.Scope)
+        foreach (var product in this.Scope)
         {
           if (product == this.Value)
           {

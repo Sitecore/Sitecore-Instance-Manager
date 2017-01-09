@@ -6,7 +6,7 @@
   using System.Xml;
   using SIM.Adapters.SqlServer;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
   using SIM.Extensions;
 
   #endregion

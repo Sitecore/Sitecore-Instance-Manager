@@ -6,7 +6,7 @@
   using System.Linq;
   using System.Text;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
   using Sitecore.Diagnostics.Logging;
   using SIM.Extensions;
 
@@ -31,10 +31,10 @@
       var path = GetHostsFilePath();
       string[] lines = FileSystem.FileSystem.Local.File.ReadAllLines(path);
 
-      Log.Info("Appending host: {0}", hostName);
+      Log.Info(string.Format("Appending host: {0}", hostName));
       if (lines.Any(line => Matches(hostName, line)))
       {
-        Log.Info("Host already exists");
+        Log.Info(string.Format("Host already exists"));
         return;
       }
       
@@ -52,7 +52,7 @@
 
       foreach (string hostName in hostNames)
       {
-        Log.Info("Removing host: {0}", hostName);
+        Log.Info(string.Format("Removing host: {0}", hostName));
         Remove(hostName);
       }
     }
@@ -145,7 +145,7 @@
     {
       var path = GetHostsFilePath();
       var text = FileSystem.FileSystem.Local.File.ReadAllText(path);
-      Log.Info("A backup of the hosts file\r\n{0}",  text);
+      Log.Info(string.Format("A backup of the hosts file\r\n{0}",  text));
       var sb = new StringBuilder();
       foreach (IHostRecord hostRecord in records)
       {

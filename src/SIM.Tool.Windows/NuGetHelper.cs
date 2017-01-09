@@ -5,7 +5,7 @@
   using System.Linq;
   using System.Xml;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
   using Sitecore.Diagnostics.Logging;
   using Sitecore.NuGet.Core;
   using SIM.Extensions;
@@ -21,7 +21,7 @@
 
       outputFolderPath = outputFolderPath ?? NuGetFolderPath;
 
-      Log.Info("Generating NuGet packages from {0} to {1}", ProfileManager.Profile.LocalRepository, outputFolderPath);
+      Log.Info(string.Format("Generating NuGet packages from {0} to {1}", ProfileManager.Profile.LocalRepository, outputFolderPath));
 
       var pattern = "*rev*.zip";
       var zipfiles = Directory.GetFiles(directory, pattern, SearchOption.AllDirectories);
@@ -34,7 +34,7 @@
         }
         catch (Exception ex)
         {
-          Log.Error("Error processing file " + file + ". " + ex.Message + Environment.NewLine + "Stack trace:" + Environment.NewLine + ex.StackTrace);
+          Log.Error(string.Format("Error processing file " + file + ". " + ex.Message + Environment.NewLine + "Stack trace:" + Environment.NewLine + ex.StackTrace));
         }
       }
     }
@@ -43,7 +43,7 @@
     {
       Assert.ArgumentNotNull(file, nameof(file));
 
-      Log.Info("Generating NuGet packages from {0} to {1} ", file, outputFolderPath);
+      Log.Info(string.Format("Generating NuGet packages from {0} to {1} ", file, outputFolderPath));
 
       // Create nupkg file
       new PackageGenerator().Generate(file.FullName, outputFolderPath ?? NuGetFolderPath);

@@ -14,7 +14,7 @@
   using System.Windows.Shell;
   using System.Windows.Threading;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
   using Sitecore.Diagnostics.Logging;
   using SIM.Core;
   using SIM.Extensions;
@@ -252,7 +252,7 @@
       }
       catch (Exception ex)
       {
-        Log.Error(ex, "Error during setting progress");
+        Log.Error(ex, string.Format("Error during setting progress"));
       }
     }
 
@@ -391,7 +391,7 @@
 
       if (!ctrl.GetInterfaces().Contains(typeof(IWizardStep)))
       {
-        Log.Debug("Control {0} does not implement IWizardStep", fullName);
+        Log.Debug(string.Format("Control {0} does not implement IWizardStep", fullName));
       }
 
       var param = stepInfo.Param;
@@ -553,7 +553,7 @@
         var control = content as UIElement;
         if (control == null)
         {
-          Log.Warn("The {0} type is not UIElement-based", fullName);
+          Log.Warn(string.Format("The {0} type is not UIElement-based", fullName));
           return;
         }
 
@@ -758,7 +758,7 @@
           var step = content as IWizardStep;
           if (step == null)
           {
-            Log.Warn("The {0} control does not implement IWizardStep", fullName);
+            Log.Warn(string.Format("The {0} control does not implement IWizardStep", fullName));
 
             return ProfileSection.Result(true);
           }

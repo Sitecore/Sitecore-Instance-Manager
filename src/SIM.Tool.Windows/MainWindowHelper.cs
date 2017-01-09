@@ -22,7 +22,7 @@
   using SIM.Tool.Base.Plugins;
   using SIM.Tool.Base.Profiles;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
   using Sitecore.Diagnostics.Logging;
   using SIM.Tool.Base.Wizards;
   using Core;
@@ -109,7 +109,7 @@
             }
             else if (item.Name == "plugins")
             {
-              Log.Error("Plugins no longer supported");
+              Log.Error(string.Format("Plugins no longer supported"));
             }
           }
         }
@@ -129,7 +129,7 @@
         }
         catch (Exception ex)
         {
-          Log.Error(ex, "Installer failed to init. {0}", ex.Message);
+          Log.Error(ex, string.Format("Installer failed to init. {0}", ex.Message));
           message = ex.Message;
         }
 
@@ -185,7 +185,7 @@
       }
       catch (Exception ex)
       {
-        Log.Warn(ex, "An error occurred during checking if installer ready");
+        Log.Warn(ex, string.Format("An error occurred during checking if installer ready"));
 
         return false;
       }
@@ -200,7 +200,7 @@
         foreach (var id in instance.ProcessIds)
         {
           Process process = Process.GetProcessById((int)id);
-          Log.Info("Kill the w3wp.exe worker process ({0}) of the {1} instance", id, instance.Name);
+          Log.Info(string.Format("Kill the w3wp.exe worker process ({0}) of the {1} instance", id, instance.Name));
           process.Kill();
           OnInstanceSelected();
         }
@@ -485,7 +485,7 @@
 
           if (!name.EqualsIgnoreCase("button"))
           {
-            Log.Error("This element is not supported as SplitButton element: {0}", menuItem.OuterXml);
+            Log.Error(string.Format("This element is not supported as SplitButton element: {0}", menuItem.OuterXml));
             continue;
           }
 
@@ -641,7 +641,7 @@
       }
       catch (Exception ex)
       {
-        Log.Error(ex, "Plugin Menu Item caused an exception");
+        Log.Error(ex, string.Format("Plugin Menu Item caused an exception"));
       }
     }
 
@@ -718,7 +718,7 @@
       var name = tabElement.GetNonEmptyAttribute("name");
       if (string.IsNullOrEmpty(name))
       {
-        Log.Error("Ribbon tab doesn't have name: {0}",  tabElement.OuterXml);
+        Log.Error(string.Format("Ribbon tab doesn't have name: {0}",  tabElement.OuterXml));
         return;
       }
 

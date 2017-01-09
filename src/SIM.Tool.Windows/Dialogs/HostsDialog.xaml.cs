@@ -9,7 +9,7 @@
   using SIM.Adapters.WebServer;
   using SIM.Tool.Base;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
 
   public partial class HostsDialog
   {

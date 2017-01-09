@@ -4,7 +4,7 @@ namespace SIM.Core.Common
   using System.Linq;
   using Instances;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
 
   public abstract class AbstractInstanceActionCommand<T> : AbstractCommand<T>
   {

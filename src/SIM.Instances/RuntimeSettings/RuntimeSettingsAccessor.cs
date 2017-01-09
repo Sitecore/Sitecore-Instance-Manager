@@ -6,7 +6,7 @@
   using SIM.Adapters.MongoDb;
   using SIM.Adapters.SqlServer;
   using SIM.Adapters.WebServer;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
   using Sitecore.Diagnostics.ConfigBuilder;
   using Sitecore.Diagnostics.Logging;
 

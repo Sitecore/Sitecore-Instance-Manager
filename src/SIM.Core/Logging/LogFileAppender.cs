@@ -3,7 +3,7 @@
   using System;
   using System.IO;
   using log4net.Appender;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
   using SIM.Extensions;
 
   [UsedImplicitly]

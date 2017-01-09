@@ -7,7 +7,7 @@ namespace SIM.Pipelines
   using System.Text;
   using SIM.Pipelines.Install;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
   using Sitecore.Diagnostics.Logging;
   using SIM.Extensions;
 
@@ -30,7 +30,7 @@ namespace SIM.Pipelines
           var httpRuntime = GetHttpRuntime(webConfig, true);
           if (httpRuntime == null)
           {
-            Log.Error("Cannot extend executionTimeout as httpRuntime element is missing");
+            Log.Error(string.Format("Cannot extend executionTimeout as httpRuntime element is missing"));
           }
           else
           {

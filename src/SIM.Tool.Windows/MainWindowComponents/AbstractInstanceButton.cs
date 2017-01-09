@@ -3,7 +3,7 @@ namespace SIM.Tool.Windows.MainWindowComponents
   using System.Windows;
   using SIM.Instances;
   using SIM.Tool.Base.Plugins;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
 
   public abstract class InstanceOnlyButton : IMainWindowButton
   {

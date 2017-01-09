@@ -13,9 +13,10 @@
   using System.Xml.Serialization;
   using Ionic.Zip;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
-  using Sitecore.Diagnostics.InformationService.Client;
-  using Sitecore.Diagnostics.InformationService.Client.Model;
+  using JetBrains.Annotations;
+  using Sitecore.Diagnostics.Base.Extensions.DictionaryExtensions;
+  using Sitecore.Diagnostics.InfoService.Client;
+  using Sitecore.Diagnostics.InfoService.Client.Model;
   using Sitecore.Diagnostics.Logging;
   using SIM.Extensions;
 
@@ -123,7 +124,7 @@
 </manifest>");
     private bool? isArchive;
     private string searchToken;
-    public static readonly IServiceClient Service = new ServiceClientEx();
+    public static readonly IServiceClient Service = new ServiceClient();
 
     [CanBeNull]
     private IRelease release;
@@ -210,8 +211,7 @@
           return null;
         }
 
-        release = Extensions.With(Extensions.With(Service.GetVersions("Sitecore CMS")
-            .With(x => x.FirstOrDefault(z => z.Name == this.Version)), x => x.Releases), x => x.FirstOrDefault(z => z.Revision == this.Revision));
+        release = Service.GetVersions("Sitecore CMS").FirstOrDefault(z => z.MajorMinor == this.Version).Releases.TryGetValue(this.Revision);
 
         if (release == null)
         {
@@ -393,7 +393,7 @@
         var pos = label.Length - 1;
         if (!char.IsDigit(label[pos]))
         {
-          Log.Warn("Strange label: " + label);
+          Log.Warn(string.Format("Strange label: " + label));
 
           return revision;
         }
@@ -415,7 +415,7 @@
           return "sp" + num;
         }
 
-        Log.Warn("Strange label: " + label);
+        Log.Warn(string.Format("Strange label: " + label));
 
         return revision;
       }
@@ -462,11 +462,11 @@
     {
       get
       {
-        var version = Service.GetVersions("Sitecore CMS").FirstOrDefault(x => x.Name.StartsWith(this.Version) || this.Version.StartsWith(x.Name));
-        var releases = version.Releases.OrderBy(x => x.Revision).ToArray();
+        var version = Service.GetVersions("Sitecore CMS").FirstOrDefault(x => x.MajorMinor.StartsWith(this.Version) || this.Version.StartsWith(x.MajorMinor));
+        var releases = version.Releases.Values.OrderBy(x => x.Version.Revision).ToArray();
         for (int i = 0; i < releases.Length; i++)
         {
-          if (Revision.Equals(releases[i].Revision))
+          if (Revision.Equals(releases[i].Version.Revision))
           {
             return i;
           }
@@ -608,7 +608,7 @@
       }
       catch (Exception ex)
       {
-        Log.Warn(ex, "An error occurred during extracting readme text from {0}",  path);
+        Log.Warn(ex, string.Format("An error occurred during extracting readme text from {0}",  path));
         readmeText = string.Empty;
       }
 
@@ -790,7 +790,7 @@
         }
         catch (Exception e)
         {
-          Log.Warn("Detecting if the '{0}' file is a Sitecore Package failed with exception.", path, e);
+          Log.Warn(string.Format("Detecting if the '{0}' file is a Sitecore Package failed with exception.", path, e));
           CacheManager.SetEntry(cacheName, path, "false");
 
           return ProfileSection.Result(false);

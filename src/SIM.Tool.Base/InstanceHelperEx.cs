@@ -8,7 +8,7 @@ namespace SIM.Tool.Base
   using Microsoft.Web.Administration;
   using SIM.Instances;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
   using Sitecore.Diagnostics.Logging;
   using SIM.Core;
   using SIM.Extensions;
@@ -155,7 +155,7 @@ namespace SIM.Tool.Base
         catch (Exception ex)
         {
           fileSystemWatcher.EnableRaisingEvents = false;
-          Log.Error(ex, "Unhandled error happened while reopening log file");
+          Log.Error(ex, string.Format("Unhandled error happened while reopening log file"));
         }
       };
 

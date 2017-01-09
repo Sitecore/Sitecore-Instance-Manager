@@ -4,7 +4,7 @@
   using System.Collections.Generic;
   using System.IO;
   using System.Linq;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
   using Sitecore.Diagnostics.Logging;
   using SIM.Extensions;
 
@@ -30,7 +30,7 @@
         }
         catch (Exception ex)
         {
-          Log.Error(ex, "Visual Studio project distinction failed on {0} file", filePath);
+          Log.Error(ex, string.Format("Visual Studio project distinction failed on {0} file", filePath));
         }
       }
 
@@ -49,7 +49,7 @@
           var commaPos = line.IndexOf(',');
           if (commaPos < 0)
           {
-            Log.Warn("File {0} seems to be corrupted, line: {1}", filePath, line);
+            Log.Warn(string.Format("File {0} seems to be corrupted, line: {1}", filePath, line));
             continue;
           }
 
@@ -57,7 +57,7 @@
           var quotePos = str.IndexOf('"');
           if (quotePos < 0)
           {
-            Log.Warn("File {0} seems to be corrupted, line: {1}", filePath, line);
+            Log.Warn(string.Format("File {0} seems to be corrupted, line: {1}", filePath, line));
             continue;
           }
 

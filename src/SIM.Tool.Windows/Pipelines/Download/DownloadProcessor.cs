@@ -74,7 +74,7 @@
         }
         catch (Exception ex)
         {
-          Log.Warn(ex, "An error occurred during downloading files");
+          Log.Warn(ex, string.Format("An error occurred during downloading files"));
 
           cancellation.Cancel();
           throw;
@@ -95,11 +95,11 @@
         {
           if (FileSystem.FileSystem.Local.File.GetFileLength(filePath1) == fileSize)
           {
-            Log.Info("Downloading is skipped, the {0} file already exists", filePath1);
+            Log.Info(string.Format("Downloading is skipped, the {0} file already exists", filePath1));
             return false;
           }
 
-          Log.Info("The {0} file already exists, but its size is incorrect - file will be removed", filePath1);
+          Log.Info(string.Format("The {0} file already exists, but its size is incorrect - file will be removed", filePath1));
           FileSystem.FileSystem.Local.File.Delete(filePath1);
         }
       }
@@ -109,11 +109,11 @@
       {
         if (FileSystem.FileSystem.Local.File.GetFileLength(filePath2) == fileSize)
         {
-          Log.Info("Downloading is skipped, the {0} file already exists", filePath2);
+          Log.Info(string.Format("Downloading is skipped, the {0} file already exists", filePath2));
           return false;
         }
 
-        Log.Info("The {0} file already exists, but its size is incorrect - file will be removed", filePath2);
+        Log.Info(string.Format("The {0} file already exists, but its size is incorrect - file will be removed", filePath2));
         FileSystem.FileSystem.Local.File.Delete(filePath2);
       }
 
@@ -141,14 +141,14 @@
                 WindowHelper.CopyFileUI(externalRepositoryFilePath, destFileName, Microsoft.VisualBasic.FileIO.UIOption.AllDialogs, Microsoft.VisualBasic.FileIO.UICancelOption.ThrowException);
               }
 
-              Log.Info("Copying the {0} file has completed", fileName);
+              Log.Info(string.Format("Copying the {0} file has completed", fileName));
               return true;
             }
           }
         }
         catch (Exception ex)
         {
-          Log.Warn(ex, "Unable to copy the {0} file from external repository", fileName);
+          Log.Warn(ex, string.Format("Unable to copy the {0} file from external repository", fileName));
         }
       }
 

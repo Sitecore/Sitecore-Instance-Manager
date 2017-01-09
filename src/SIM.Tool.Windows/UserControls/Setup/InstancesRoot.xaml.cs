@@ -6,7 +6,7 @@
   using SIM.Tool.Base;
   using SIM.Tool.Base.Wizards;
   using SIM.Tool.Windows.Pipelines.Setup;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
   using Sitecore.Diagnostics.Logging;
   using SIM.Extensions;
 
@@ -46,7 +46,7 @@
       }
       catch (Exception ex)
       {
-        Log.Warn(ex, "An error occurred during moving next in InstancesRoot.xaml.cs");
+        Log.Warn(ex, string.Format("An error occurred during moving next in InstancesRoot.xaml.cs"));
         WindowHelper.ShowMessage("The specified path is not valid", MessageBoxButton.OK, MessageBoxImage.Hand, 
           MessageBoxResult.OK);
         return false;

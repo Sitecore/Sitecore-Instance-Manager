@@ -5,7 +5,7 @@
   using System.Windows.Input;
   using System.Windows.Navigation;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
   using SIM.Core;
 
   public partial class AboutDialog

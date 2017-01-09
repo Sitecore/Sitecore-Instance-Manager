@@ -14,7 +14,7 @@
   using SIM.Tool.Base.Profiles;
   using SIM.Tool.Base.Windows.Dialogs;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
   using SIM.Extensions;
 
   public partial class DatabasesDialog

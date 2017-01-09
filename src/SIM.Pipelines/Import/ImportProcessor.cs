@@ -2,7 +2,7 @@
 {
   using SIM.Pipelines.Processors;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
 
   public abstract class ImportProcessor : Processor
   {

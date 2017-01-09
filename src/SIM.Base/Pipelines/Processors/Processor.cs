@@ -4,7 +4,7 @@
   using System.Collections.Generic;
   using System.Threading;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
   using Sitecore.Diagnostics.Logging;
   using SIM.Extensions;
 
@@ -83,7 +83,7 @@
         }
         catch (Exception ex)
         {
-          Log.Warn(ex, "An error occurred during calculating processor.IsDone property");
+          Log.Warn(ex, string.Format("An error occurred during calculating processor.IsDone property"));
 
           return false;
         }
@@ -142,7 +142,7 @@
             controller.ProcessorCrashed(ex.Message);
           }
 
-          Log.Error(ex, "Processor of type '{0}' failed. {1}", this.ProcessorDefinition.Type.FullName, ex.Message);
+          Log.Error(ex, string.Format("Processor of type '{0}' failed. {1}", this.ProcessorDefinition.Type.FullName, ex.Message));
           return false;
         }
       }
