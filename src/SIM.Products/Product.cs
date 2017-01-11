@@ -477,17 +477,19 @@
     {
       get
       {
-        var version = Service.GetVersions("Sitecore CMS").FirstOrDefault(x => x.MajorMinor.StartsWith(this.Version) || this.Version.StartsWith(x.MajorMinor));
-        var releases = version.Releases.Values.OrderBy(x => x.Version.Revision).ToArray();
-        for (int i = 0; i < releases.Length; i++)
-        {
-          if (Revision.Equals(releases[i].Version.Revision))
-          {
-            return i;
-          }
-        }
+        var productName = "Sitecore CMS";
+        var versions = Service.GetVersions(productName)?.ToArray();
+        Assert.IsNotNull(versions, nameof(versions));
 
-        return 0;
+        var ver = new Version(Version);
+        var majorMinor = $"{ver.Major}.{ver.Minor}";
+        var version = versions.FirstOrDefault(x => x.MajorMinor.Equals(majorMinor, StringComparison.Ordinal));
+        Assert.IsNotNull(version, $"Cannot find {productName} version {majorMinor}");
+
+        var release = version.Releases.TryGetValue(Revision);
+        Assert.IsNotNull(release, $"Cannot find {productName} version {majorMinor} revision {Revision}");
+
+        return release.Update;
       }
     }
 
