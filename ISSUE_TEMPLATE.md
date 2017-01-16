@@ -1,15 +1,13 @@
-> !!! Before reporting issue read this aloud: !!!
->
-> I solemnly swear that the issue I am going to report is reproducible on the latest QA version which was downloaded today from http://dl.sitecore.net/updater/qa/sim
->
-> !!! delete this line and all lines above, and modify template below !!!
-
 **Importance:**
-**Critical** (I need this issue to be fixed)
-or
-**Normal** (I have a workaround, but it would be nice to fix it)
-or
-**FYI** (I only wanted to let you know)
+Critical (I need this issue to be fixed)
+OR
+Normal (I have a workaround, but it would be nice to fix it)
+OR
+FYI (I only wanted to let you know)
+
+**Valid for QA**
+I hereby confirm the issue is reproducible on the latest QA version [PUT HERE EXACT VERSION NUMBER] 
+which was downloaded today from http://dl.sitecore.net/updater/qa/sim
 
 **Description:**
 The issue is...
