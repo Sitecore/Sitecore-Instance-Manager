@@ -186,14 +186,14 @@ namespace SIM.Tool.Base
       AuthenticationHelper.LoginAsAdmin(instance, owner, pageUrl, browser, parameters);
     }
 
-    public static bool PreheatInstance(Instance instance, Window mainWindow, bool ignoreAdvancedSetting = false)
+    public static bool PreheatInstance(Instance instance, Window mainWindow)
     {
       if (!EnsureAppPoolState(instance, mainWindow))
       {
         return false;
       }
 
-      if (!WinAppSettings.AppPreheatEnabled.Value && !ignoreAdvancedSetting)
+      if (!WinAppSettings.AppPreheatEnabled.Value)
       {
         return true;
       }

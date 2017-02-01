@@ -17,7 +17,7 @@
       Assert.ArgumentNotNull(instance, nameof(instance));
       Assert.ArgumentNotNull(owner, nameof(owner));
 
-      if (!InstanceHelperEx.PreheatInstance(instance, owner, true))
+      if (!InstanceHelperEx.PreheatInstance(instance, owner))
       {
         return;
       }
