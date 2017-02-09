@@ -173,7 +173,7 @@ private string path;
             MethodInfo method = type.GetMethod(methodName, BindingFlags.NonPublic | BindingFlags.Instance);
             var infoMessage = ""method: "" + methodName + "" of class: "" + className;
             Assert.IsNotNull(method, infoMessage);
-            Log.Info(string.Format(""Custom PostStepAction executing: "" + infoMessage, this);
+            Log.Info(""Custom PostStepAction executing: "" + infoMessage, this);
             this.UpdateStatus(""Started: actions performing"");
             method.Invoke(instance, new object[0]);
             this.Finish(@""Done: actions performed"");
