@@ -1,4 +1,4 @@
-﻿namespace SIM.Tool.Windows.MainWindowComponents
+namespace SIM.Tool.Windows.MainWindowComponents
 {
   using System.Windows;
   using SIM.Instances;
@@ -18,7 +18,7 @@
 
     public void OnClick(Window mainWindow, Instance instance)
     {
-      CoreApp.RunApp("iexplore", "http://dl.sitecore.net/updater/clickonce/sspg/SSPG.application");
+      CoreApp.RunApp("iexplore", "http://dl.sitecore.net/updater/sspg/SSPG.application");
     }
 
     #endregion
