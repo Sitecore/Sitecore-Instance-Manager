@@ -54,12 +54,25 @@
       nugetFolderPath = nugetFolderPath ?? NuGetFolderPath;
 
       var nugetConfigPath = Environment.ExpandEnvironmentVariables(@"%appdata%\NuGet\nuget.config");
-      var bakFilePath = nugetConfigPath + ".bak";
-      if (!File.Exists(bakFilePath))
+      if (!File.Exists(nugetConfigPath))
       {
-        File.Copy(nugetConfigPath, bakFilePath);
+        var nugetConfigDir = Path.GetDirectoryName(nugetConfigPath);
+        if (!Directory.Exists(nugetConfigDir))
+        {
+          Directory.CreateDirectory(nugetConfigDir);
+        }
+        
+        File.WriteAllText(nugetConfigPath, "<configuration></configuration>");
       }
-
+      else
+      {
+        var bakFilePath = nugetConfigPath + ".bak";
+        if (!File.Exists(bakFilePath))
+        {
+          File.Copy(nugetConfigPath, bakFilePath);
+        }
+      }
+      
       var nugetConfig = XmlDocumentEx.LoadFile(nugetConfigPath);
       Assert.IsNotNull(nugetConfig, nameof(nugetConfig));
 
