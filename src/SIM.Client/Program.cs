@@ -41,17 +41,25 @@
 
       var options = new MainCommandGroup();
       EnsureAutoCompeteForCommands(options);
-      if (!parser.ParseArguments(filteredArgs.ToArray(), options, delegate { }))
+      ICommand selectedCommand = null;
+      if (!parser.ParseArguments(filteredArgs.ToArray(), options, (verb, command) => selectedCommand = (ICommand)command))
       {
         Console.WriteLine("Note, commands provide output when work is done i.e. without any progress indication.");
         Console.WriteLine("\r\n  --query\t   When specified, allows returning only part of any command's output");
         Console.WriteLine("\r\n  --data\t   When specified, allows returning only 'data' part of any command's output");
         Console.WriteLine("\r\n  --wait\t   When specified, waits for keyboard input before terminating");
 
+        if (wait)
+        {
+          Console.ReadKey();
+        }
+
         Environment.Exit(Parser.DefaultExitCodeFail);
       }
 
-      var commandResult = options.SelectedCommand.Execute();
+      Assert.IsNotNull(selectedCommand, nameof(selectedCommand));
+
+      var commandResult = selectedCommand.Execute();
       Assert.IsNotNull(commandResult, nameof(commandResult));
 
       var result = QueryResult(commandResult, query);
