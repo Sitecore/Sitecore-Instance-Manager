@@ -439,6 +439,18 @@
     <Content Include="Configurations\Configuration - General - Enable Fiddler.zip">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Configurations\Configuration - Sitecore 7 - Disable Analytics.zip">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Configurations\Configuration - Sitecore 8.0 - Disable Analytics.zip">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Configurations\Configuration - Sitecore 8.1 - Disable Xdb.zip">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Configurations\Configuration - Sitecore 8.2 - Disable Xdb.zip">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="packages.config" />
     <Content Include="Packages\Visual Studio 2015 Website Project.manifest.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
