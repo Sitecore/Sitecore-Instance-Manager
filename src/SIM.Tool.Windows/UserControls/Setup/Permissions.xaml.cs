@@ -139,7 +139,7 @@
 
       try
       {
-        const string message = "You probably don't have necessary permissions set. Please try to click 'Grant' button before you proceed.";
+        const string message = "You probably don't have necessary permissions set. Please try to click 'Grant' button before you proceed.\r\n\r\nNote, the SQL Server account that you selected previously must have necessary permissions to create a SQL database in the instances root folder you specified earlier - please ensure that it is correct. In addition, the SQL Server service must use NETWORK SERVICE identity so that SIM can assign necessary permissions for it.";
         foreach (var account in this.Accounts)
         {
           if (!this.ValidateAccount(account))
