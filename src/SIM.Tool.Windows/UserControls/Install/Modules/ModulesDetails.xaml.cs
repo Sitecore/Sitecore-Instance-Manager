@@ -187,7 +187,7 @@
               "There was a problem installing a Sitecore module package. The requested package had the following properties: " +
               $"addedProduct is null: [{addedProduct == null}] | addedProduct name: [{addedProduct?.Name}] | addedProduct version: [{addedProduct?.Version}] | " +
               $"addedProduct revision: [{addedProduct?.Revision}]";
-          WindowHelper.ShowMessage($"Selected file is not a Sitecore module package {Environment.NewLine}{errorMessage}");
+          WindowHelper.ShowMessage($"Selected file is not a Sitecore module package");
           Log.Error(errorMessage);
           return;
         }
