@@ -15,6 +15,7 @@
   using SIM.Tool.Base.Profiles;
   using SIM.Tool.Base.Wizards;
   using Sitecore.Diagnostics.Base;
+  using Sitecore.Diagnostics.Logging;
   using JetBrains.Annotations;
   using SIM.Extensions;
 
@@ -180,9 +181,14 @@
 
         Product.TryParse(path, out addedProduct);
 
-        if (addedProduct == null || string.IsNullOrEmpty(addedProduct.Name) || string.IsNullOrEmpty(addedProduct.Version) || string.IsNullOrEmpty(addedProduct.Revision))
+        if (string.IsNullOrEmpty(addedProduct?.Name) || string.IsNullOrEmpty(addedProduct.Version) || string.IsNullOrEmpty(addedProduct.Revision))
         {
-          WindowHelper.ShowMessage("Selected file is not a Sitecore module package");
+          var errorMessage =
+              "There was a problem installing a Sitecore module package. The requested package had the following properties: " +
+              $"addedProduct is null: [{addedProduct == null}] | addedProduct name: [{addedProduct?.Name}] | addedProduct version: [{addedProduct?.Version}] | " +
+              $"addedProduct revision: [{addedProduct?.Revision}]";
+          WindowHelper.ShowMessage($"Selected file is not a Sitecore module package");
+          Log.Error(errorMessage);
           return;
         }
 
