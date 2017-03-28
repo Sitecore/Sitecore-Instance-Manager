@@ -19,6 +19,8 @@
     public static readonly AdvancedProperty<int> CoreExportZipCompressionLevel = AdvancedSettings.Create("Core/Export/ZipCompressionLevel", 9);
     [NotNull]
     public static readonly AdvancedProperty<bool> CoreInstallDictionaries = AdvancedSettings.Create("Core/Install/Defaults/Dictionaries", true);
+    [NotNull]
+    public static readonly AdvancedProperty<bool> CoreInstallCreateServerTxt = AdvancedSettings.Create("Core/Install/CreateServerTxt", false);
 
     [NotNull]
     public static readonly AdvancedProperty<string> CoreInstallMailServerAddress = AdvancedSettings.Create("Core/Install/MailServer/Address", string.Empty);

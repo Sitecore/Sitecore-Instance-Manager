@@ -3,6 +3,7 @@
   using System;
   using System.IO;
   using JetBrains.Annotations;
+  using SIM.Pipelines.Install;
 
   public class AddServerTxt : ReinstallProcessor
   {
@@ -13,7 +14,10 @@
       
     protected override void Process(ReinstallArgs args)
     {
-      File.WriteAllText(Path.Combine(args.WebRootPath, "server.txt"), $"{Environment.MachineName}-{args.InstanceName}");
+      if (Settings.CoreInstallCreateServerTxt.Value)
+      {
+        File.WriteAllText(Path.Combine(args.WebRootPath, "server.txt"), $"{Environment.MachineName}-{args.InstanceName}");
+      }
     }
   }
 }

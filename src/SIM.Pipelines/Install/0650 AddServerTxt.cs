@@ -13,7 +13,10 @@
 
     protected override void Process(InstallArgs args)
     {
-      File.WriteAllText(Path.Combine(args.WebRootPath, "server.txt"), $"{Environment.MachineName}-{args.InstanceName}");
+      if (Settings.CoreInstallCreateServerTxt.Value)
+      {
+        File.WriteAllText(Path.Combine(args.WebRootPath, "server.txt"), $"{Environment.MachineName}-{args.InstanceName}");
+      }
     }
   }
 }
