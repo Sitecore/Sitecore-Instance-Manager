@@ -23,6 +23,9 @@
     public static readonly AdvancedProperty<bool> CoreInstallCreateServerTxt = AdvancedSettings.Create("Core/Install/CreateServerTxt", false);
 
     [NotNull]
+    public static readonly AdvancedProperty<bool> CoreInstallRenameSqlFiles = AdvancedSettings.Create("Core/Install/RenameSqlFiles", false);
+
+    [NotNull]
     public static readonly AdvancedProperty<string> CoreInstallMailServerAddress = AdvancedSettings.Create("Core/Install/MailServer/Address", string.Empty);
 
     [NotNull]
