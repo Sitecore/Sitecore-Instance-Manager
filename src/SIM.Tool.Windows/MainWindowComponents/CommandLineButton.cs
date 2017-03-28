@@ -15,12 +15,8 @@
     protected override string BaseUrl
     {
       get
-      {
-        var qaFolder = ApplicationManager.IsQA
-          ? "qa/" 
-          : string.Empty;
-
-        return "http://dl.sitecore.net/updater/1.1/simcmd/" + qaFolder;
+      {                         
+        return "http://dl.sitecore.net/updater/1.1/simcmd/";
       }
     }
 
