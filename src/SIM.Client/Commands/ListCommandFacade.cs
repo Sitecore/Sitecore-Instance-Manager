@@ -2,8 +2,8 @@
 {
   using System.IO;
   using CommandLine;
+  using JetBrains.Annotations;
   using SIM.Core.Commands;
-  using Sitecore.Diagnostics.Base.Annotations;
   using SIM.Core.Common;
 
   public class ListCommandFacade : ListCommand

@@ -44,6 +44,10 @@
       <HintPath>..\packages\DotNetZip.Reduced.1.9.1.8\lib\net20\Ionic.Zip.Reduced.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="JetBrains.Annotations, Version=10.2.1.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
+      <HintPath>..\packages\JetBrains.Annotations.10.2.1\lib\net\JetBrains.Annotations.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.Web.Administration, Version=7.9.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Web.Administration.7.0.0.0\lib\net20\Microsoft.Web.Administration.dll</HintPath>
       <SpecificVersion>False</SpecificVersion>
@@ -57,24 +61,18 @@
       <HintPath>..\packages\mongocsharpdriver.1.10.1\lib\net35\MongoDB.Driver.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Sitecore.Diagnostics.Base, Version=2.0.0.30, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Sitecore.Diagnostics.Base.2.0.0.30\lib\Sitecore.Diagnostics.Base.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Sitecore.Diagnostics.Base, Version=1.0.0.0, Culture=neutral, PublicKeyToken=2a430da507ea8b02, processorArchitecture=MSIL">
-      <HintPath>..\packages\Sitecore.Diagnostics.Base.1.0.0.24\lib\net35\Sitecore.Diagnostics.Base.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Sitecore.Diagnostics.InformationService.Client.Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Sitecore.Diagnostics.InformationService.Client.Core.1.3.0.6\lib\net40\Sitecore.Diagnostics.InformationService.Client.Core.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Sitecore.Diagnostics.Logging, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Sitecore.Diagnostics.Logging.1.0.1.0\lib\net40\Sitecore.Diagnostics.Logging.dll</HintPath>
+    <Reference Include="Sitecore.Diagnostics.Logging, Version=2.0.0.30, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Sitecore.Diagnostics.Logging.2.0.0.30\lib\Sitecore.Diagnostics.Logging.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.IO.Compression.FileSystem" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.Web" />
@@ -94,6 +92,7 @@
     <Compile Include="Backup\BackupFiles.cs" />
     <Compile Include="Backup\BackupMongoDatabases.cs" />
     <Compile Include="Backup\BackupProcessor.cs" />
+    <Compile Include="ConditionEvaluator.cs" />
     <Compile Include="ConfigurationActions.cs" />
     <Compile Include="Delete\DeleteMongoDatabases.cs" />
     <Compile Include="Delete\DeleteRegistryKey.cs" />
@@ -103,8 +102,13 @@
     <Compile Include="Import\UpdateConnectionStrings.cs" />
     <Compile Include="Import\UpdateDataFolder.cs" />
     <Compile Include="InstallHelper.cs" />
+    <Compile Include="InstallModules\IPackageInstallActions.cs" />
     <Compile Include="Install\0150 GrantPermissions.cs" />
     <Compile Include="Install\0600 UpdateWebConfig.cs" />
+    <Compile Include="Install\0650 AddServerTxt.cs" />
+    <Compile Include="Install\Modules\CreateSolrCores.cs" />
+    <Compile Include="Install\Modules\SolrInformation.cs" />
+    <Compile Include="Install\Modules\SwitchConfigsToSolr.cs" />
     <Compile Include="Install\Settings.cs" />
     <Compile Include="MongoHelper.cs" />
     <Compile Include="MultipleDeletion\MultipleDeletionArgs.cs" />
@@ -148,6 +152,8 @@
     <Compile Include="Install\0200 Extract.cs" />
     <Compile Include="PipelinesConfig.cs" />
     <Compile Include="Reinstall\1200 Install.UpdateWebConfig.cs" />
+    <Compile Include="Reinstall\1500 Install.StartInstance.cs" />
+    <Compile Include="Reinstall\1250 Install.AddServerTxt.cs" />
     <Compile Include="Restore\RestoreMongoDatabases.cs" />
     <Compile Include="SetupWebsiteHelper.cs" />
     <Compile Include="Install\InstallArgs.cs" />
@@ -192,6 +198,7 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="mongo.tools.zip" />
+    <EmbeddedResource Include="IOC_Containers.zip" />
     <None Include="packages.config" />
     <None Include="Properties\DataSources\System.Xml.Linq.XElement.datasource" />
     <None Include="Service References\SitecoreWebservices\Reference.svcmap">
@@ -205,9 +212,6 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="app.config" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadataStorage Include="Service References\SitecoreWebservices\" />

@@ -3,7 +3,8 @@
   using System.Net;
   using Microsoft.Web.Administration;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
+  using SIM.Extensions;
 
   public sealed class BindingInfo
   {
@@ -20,9 +21,9 @@
 
     public BindingInfo([NotNull] string protocol, [NotNull] string host, int port, [NotNull] string ip)
     {
-      Assert.ArgumentNotNull(protocol, "protocol");
-      Assert.ArgumentNotNull(host, "host");
-      Assert.ArgumentNotNull(ip, "ip");
+      Assert.ArgumentNotNull(protocol, nameof(protocol));
+      Assert.ArgumentNotNull(host, nameof(host));
+      Assert.ArgumentNotNull(ip, nameof(ip));
 
       if (host == "*")
       {
@@ -46,14 +47,14 @@
         binding.Host.IsNotNull("binding.Host"), 
         binding.EndPoint.IsNotNull("binding.EndPoint"))
     {
-      Assert.ArgumentNotNull(binding, "binding");
+      Assert.ArgumentNotNull(binding, nameof(binding));
     }
 
     private BindingInfo([NotNull] string protocol, [NotNull] string host, [NotNull] IPEndPoint endPoint) : this(protocol, host, endPoint.Port, endPoint.Address.ToString())
     {
-      Assert.ArgumentNotNull(protocol, "protocol");
-      Assert.ArgumentNotNull(host, "host");
-      Assert.ArgumentNotNull(endPoint, "endPoint");
+      Assert.ArgumentNotNull(protocol, nameof(protocol));
+      Assert.ArgumentNotNull(host, nameof(host));
+      Assert.ArgumentNotNull(endPoint, nameof(endPoint));
     }
 
     #endregion

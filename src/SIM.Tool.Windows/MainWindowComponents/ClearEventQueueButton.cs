@@ -7,7 +7,7 @@
   using Base;
   using Base.Plugins;
   using SIM.Instances;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
 
   public class ClearEventQueueButton : IMainWindowButton
   {

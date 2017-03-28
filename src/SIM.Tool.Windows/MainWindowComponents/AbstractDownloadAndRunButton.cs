@@ -7,33 +7,50 @@ using SIM.Tool.Base;
 
 namespace SIM.Tool.Windows.MainWindowComponents
 {
-  using Sitecore.Diagnostics.Base.Annotations;
+  using Sitecore.Diagnostics.Base;
+  using JetBrains.Annotations;
   using SIM.Core;
+  using SIM.Core.Common;
+  using SIM.Instances;
+  using SIM.Tool.Base.Plugins;
 
-  public abstract class AbstractDownloadAndRunButton
+  public abstract class AbstractDownloadAndRunButton : IMainWindowButton
   {
+    [NotNull]
     protected abstract string BaseUrl { get; }
 
+    [NotNull]
     protected abstract string AppName { get; }
 
+    [NotNull]
     protected abstract string ExecutableName { get; }
 
     [NotNull]
-    protected string AppFolder
+    protected string AppFolder => Path.Combine(ApplicationManager.AppsFolder, AppName);
+
+    #region Public methods
+
+    public virtual bool IsEnabled(Window mainWindow, Instance instance)
     {
-      get
-      {
-        return Path.Combine(ApplicationManager.AppsFolder, this.AppName);
-      }
+      return true;
     }
+
+    public virtual void OnClick(Window mainWindow, Instance instance)
+    {
+      Analytics.TrackEvent("OpenCommandLine");             
+
+      RunApp(mainWindow);
+    }
+
+    #endregion
 
     protected void RunApp(Window mainWindow, string param = null)
     {
-      string path = Path.Combine(AppFolder, this.ExecutableName);
+      var path = Path.Combine(AppFolder, this.ExecutableName);
 
       var latestVersion = GetLatestVersion();
 
-      if (!FileSystem.FileSystem.Local.File.Exists(path) || (!String.IsNullOrEmpty(latestVersion) && FileVersionInfo.GetVersionInfo(path).ProductVersion != latestVersion))
+      if (!FileSystem.FileSystem.Local.File.Exists(path) || (!string.IsNullOrEmpty(latestVersion) && FileVersionInfo.GetVersionInfo(path).ProductVersion != latestVersion))
       {
         GetLatestVersion(mainWindow, path);
 
@@ -42,20 +59,29 @@ namespace SIM.Tool.Windows.MainWindowComponents
           return;
         }
       }
-      
+
       RunApp(path, param);
     }
 
-    protected virtual void RunApp(string path, string param)
+    protected virtual void RunApp([NotNull] string path, [CanBeNull] string param)
     {
-      CoreApp.RunApp(path, param);      
+      Assert.ArgumentNotNullOrEmpty(path, nameof(path));
+
+      if (param != null)
+      {
+        CoreApp.RunApp(path, param);
+      }
+      else
+      {
+        CoreApp.RunApp(path);
+      }
     }
 
     #region Private methods
 
     private string GetLatestVersion()
     {
-      var latestVersion = String.Empty;
+      var latestVersion = string.Empty;
       var url = this.BaseUrl.TrimEnd('/') + "/latest-version.txt";
       try
       {
@@ -63,7 +89,7 @@ namespace SIM.Tool.Windows.MainWindowComponents
       }
       catch (Exception ex)
       {
-        Log.Warn(ex, "The {0} URL is unavailable", url);
+        Log.Warn(ex, $"The {url} URL is unavailable");
       }
 
       return latestVersion;

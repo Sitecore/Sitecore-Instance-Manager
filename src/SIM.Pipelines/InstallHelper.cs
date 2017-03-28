@@ -5,7 +5,7 @@
   using System.Linq;
   using Ionic.Zip;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
   using Sitecore.Diagnostics.Logging;
 
   public static class InstallHelper
@@ -13,14 +13,14 @@
     public const string RadControls = "sitecore/shell/RadControls";
     public const string Dictionaries = "sitecore/shell/Controls/Rich Text Editor/Dictionaries";
       
-    public static void ExtractFile([NotNull] string packagePath, [NotNull] string webRootPath, [NotNull] string databasesFolderPath, [NotNull] string dataFolderPath, bool installRadControls, bool installDictionaries, [CanBeNull] IPipelineController controller = null)
+    public static void ExtractFile([NotNull] string packagePath, [NotNull] string webRootPath, [NotNull] string databasesFolderPath, [NotNull] string dataFolderPath, bool attachSql, bool installRadControls, bool installDictionaries, [CanBeNull] IPipelineController controller = null)
     {
-      Assert.ArgumentNotNull(packagePath, "packagePath");
-      Assert.ArgumentNotNull(webRootPath, "webRootPath");
-      Assert.ArgumentNotNull(databasesFolderPath, "databasesFolderPath");
-      Assert.ArgumentNotNull(dataFolderPath, "dataFolderPath");
+      Assert.ArgumentNotNull(packagePath, nameof(packagePath));
+      Assert.ArgumentNotNull(webRootPath, nameof(webRootPath));
+      Assert.ArgumentNotNull(databasesFolderPath, nameof(databasesFolderPath));
+      Assert.ArgumentNotNull(dataFolderPath, nameof(dataFolderPath));
 
-      Log.Info("Extracting {0}", packagePath);
+      Log.Info($"Extracting {packagePath}");
       var ignore = installRadControls ? ":#!" : RadControls;
 
       var ignore2 = installDictionaries ? ":#!" : Dictionaries;
@@ -83,12 +83,23 @@
             }
             else if (fileName.StartsWith(databasesPrefix, StringComparison.OrdinalIgnoreCase))
             {
+              if (!attachSql)
+              {
+                continue;
+              }
+
               if (fileName.EndsWith(".ldf"))
               {
                 continue;
               }
 
-              var filePath = Path.Combine(databasesFolderPath, fileName.Substring(databasesPrefixLength));
+              var text = fileName.Substring(databasesPrefixLength);
+              if (text.Contains("Sitecore.Analytics.mdf"))
+              {
+                text = text.Replace("Sitecore.Analytics.mdf", "Sitecore.Reporting.mdf");
+              }
+
+              var filePath = Path.Combine(databasesFolderPath, text);
               if (entry.IsDirectory)
               {
                 Directory.CreateDirectory(filePath);
@@ -128,14 +139,14 @@
             }
             else
             {
-              Log.Warn("Unexpected file or directory is ignored: {0}",  fileName);
+              Log.Warn($"Unexpected file or directory is ignored: {fileName}");
             }
           }
         }
       }
       catch (ZipException)
       {
-        throw new InvalidOperationException(string.Format("The \"{0}\" package seems to be corrupted.", packagePath));
+        throw new InvalidOperationException($"The \"{packagePath}\" package seems to be corrupted.");
       }
     }
 

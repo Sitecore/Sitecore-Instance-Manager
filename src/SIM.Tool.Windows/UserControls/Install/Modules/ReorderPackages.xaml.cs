@@ -16,7 +16,7 @@
   using SIM.Tool.Base.Pipelines;
   using SIM.Tool.Base.Wizards;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
 
   internal class ReadmeToVisibilityConverter : IValueConverter
   {
@@ -144,8 +144,8 @@
 
       Assert.IsNotNull(droppedData, "[ReorderProducts] Drag-n-drop: droppedData is null");
       Assert.IsNotNull(target, "[ReorderProducts] Drag-n-drop: target is null");
-      int removeIndex = this.actualProducts.IndexOf(droppedData);
-      int insertIndex = this.actualProducts.IndexOf(target);
+      var removeIndex = this.actualProducts.IndexOf(droppedData);
+      var insertIndex = this.actualProducts.IndexOf(target);
 
       if (removeIndex < insertIndex)
       {
@@ -154,7 +154,7 @@
       }
       else
       {
-        int removeIndexNext = removeIndex + 1;
+        var removeIndexNext = removeIndex + 1;
         if (this.modulesList.Items.Count + 1 > removeIndexNext)
         {
           this.actualProducts.Insert(insertIndex, droppedData);
@@ -237,7 +237,7 @@
     {
       var args = (InstallModulesWizardArgs)wizardArgs;
       Product product = args.Product;
-      Assert.IsNotNull(product, "product");
+      Assert.IsNotNull(product, nameof(product));
       IEnumerable<Product> selected = this.actualProducts;
       args.Modules.Clear();
       args.Modules.AddRange(selected);

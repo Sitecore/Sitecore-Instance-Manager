@@ -25,6 +25,8 @@
             <button     label="SIM Logs"                                            largeImage="/Images/$sm/folder_document2.png, SIM.Tool.Windows"            type="SIM.Tool.Windows.MainWindowComponents.OpenFolderButton, SIM.Tool.Windows"     param="%APPDATA%\Sitecore\Sitecore Instance Manager\Logs" />
             <button     label="SIM Data Folder"                                     largeImage="/Images/$sm/folder_window.png, SIM.Tool.Windows"               type="SIM.Tool.Windows.MainWindowComponents.OpenFolderButton, SIM.Tool.Windows"     param="%APPDATA%\Sitecore\Sitecore Instance Manager" />
             <separator />
+            <button     label="Create Support Patch"                                largeImage="/Images/$sm/vs.png, SIM.Tool.Windows"                          type="SIM.Tool.Windows.MainWindowComponents.CreateSupportPatchButton, SIM.Tool.Windows" />
+            <separator />
             <button     label="Download Sitecore 8.x"                               largeImage="/Images/$sm/cloud_download.png, SIM.Tool.Windows"              type="SIM.Tool.Windows.MainWindowComponents.Download8Button, SIM.Tool.Windows" />
             <button     label="Download Sitecore 6.x and 7.x"                       largeImage="/Images/$sm/cloud_download.png, SIM.Tool.Windows"             type="SIM.Tool.Windows.MainWindowComponents.DownloadButton, SIM.Tool.Windows" />
             <separator />
@@ -40,6 +42,7 @@
             <button     label="Install MongoDB"                                     largeImage="/Images/$lg/scroll_refresh.png, SIM.Tool.Windows"              type="SIM.Tool.Windows.MainWindowComponents.InstallMongoDbButton, SIM.Tool.Windows" />
             <separator />
             <button     label="Generate NuGet packages"                             largeImage="/Images/$sm/new_package.png, SIM.Tool.Windows"                 type="SIM.Tool.Windows.MainWindowComponents.GenerateNuGetPackagesButton, SIM.Tool.Windows" />
+            <button     label="Generate NuGet packages for selected instance"       largeImage="/Images/$sm/new_package.png, SIM.Tool.Windows"                 type="SIM.Tool.Windows.MainWindowComponents.GenerateNuGetPackagesButton, SIM.Tool.Windows" param="instance" />
           </button>
         </group>
         <group name="App">
@@ -67,7 +70,7 @@
             <button     label="Internet Explorer (Private)"                         largeImage="/Images/$lg/ie.png, SIM.Tool.Windows"                         type="SIM.Tool.Windows.MainWindowComponents.BrowseButton, SIM.Tool.Windows"         param="/sitecore:iexplore:-private"/>
             <button     label="Apple Safari"                                        largeImage="/Images/$lg/safari.png, SIM.Tool.Windows"                      type="SIM.Tool.Windows.MainWindowComponents.BrowseButton, SIM.Tool.Windows"         param="/sitecore:safari"/>
             <separator />
-            <button     label="Support Toolbox"                                     largeImage="/Images/$lg/toolbox.png, SIM.Tool.Windows"                    type="SIM.Tool.Windows.MainWindowComponents.OpenToolboxButton, SIM.Tool.Windows" />
+            <button     label="Sitecore Admin"                                       largeImage="/Images/$lg/toolbox.png, SIM.Tool.Windows"                    type="SIM.Tool.Windows.MainWindowComponents.OpenToolboxButton, SIM.Tool.Windows" />
           </button>
           <button       label="Log in admin"                                        largeImage="/Images/$lg/log_in.png, SIM.Tool.Windows"                      type="SIM.Tool.Windows.MainWindowComponents.LoginAdminButton, SIM.Tool.Windows"     param="/sitecore/">
             <button     label="Sitecore Desktop"                                    largeImage="/Images/$sm/Windows Table.png, SIM.Tool.Windows"              type="SIM.Tool.Windows.MainWindowComponents.LoginAdminButton, SIM.Tool.Windows"     param="/sitecore/shell"/>
@@ -84,7 +87,7 @@
             <button     label="Internet Explorer (Private)"                         largeImage="/Images/$lg/ie.png, SIM.Tool.Windows"                         type="SIM.Tool.Windows.MainWindowComponents.LoginAdminButton, SIM.Tool.Windows"     param="/sitecore:iexplore:-private"/>
             <button     label="Apple Safari"                                        largeImage="/Images/$lg/safari.png, SIM.Tool.Windows"                     type="SIM.Tool.Windows.MainWindowComponents.LoginAdminButton, SIM.Tool.Windows"     param="/sitecore:safari"/>
             <separator />
-            <button     label="Support Toolbox"                                     largeImage="/Images/$lg/toolbox.png, SIM.Tool.Windows"                    type="SIM.Tool.Windows.MainWindowComponents.OpenToolboxButton, SIM.Tool.Windows"    param="bypass" />
+            <button     label="Sitecore Admin"                                      largeImage="/Images/$lg/toolbox.png, SIM.Tool.Windows"                    type="SIM.Tool.Windows.MainWindowComponents.OpenToolboxButton, SIM.Tool.Windows"    param="bypass" />
             <separator />
             <button     label="Copy URL"                                            largeImage="/Images/$lg/astrologer.png, SIM.Tool.Windows"                  type="SIM.Tool.Windows.MainWindowComponents.LoginAdminButton, SIM.Tool.Windows"     param="$(clipboard)"/>
           </button>
@@ -129,7 +132,10 @@
           </button>
         </group>
         <group name="Apps">
-          <button       label="Visual Studio"                                       largeImage="/Images/$lg/vs.png, SIM.Tool.Windows"                      type="SIM.Tool.Windows.MainWindowComponents.OpenVisualStudioButton, SIM.Tool.Windows" />
+          <button       label="Visual Studio"                                       largeImage="/Images/$lg/vs.png, SIM.Tool.Windows"                      type="SIM.Tool.Windows.MainWindowComponents.OpenVisualStudioButton, SIM.Tool.Windows">
+            <button     label="Visual Studio"                                       largeImage="/Images/$sm/vs.png, SIM.Tool.Windows"                      type="SIM.Tool.Windows.MainWindowComponents.OpenVisualStudioButton, SIM.Tool.Windows" />
+            <button     label="Create Support Patch"                                largeImage="/Images/$sm/console.png, SIM.Tool.Windows"                 type="SIM.Tool.Windows.MainWindowComponents.CreateSupportPatchButton, SIM.Tool.Windows" />
+          </button>
         </group>
       </tab>
       <tab     name="Edit">
@@ -154,6 +160,14 @@
             <button     label="Publish (Incremental)"                               largeImage="/Images/$sm/publish.png, SIM.Tool.Windows"                    type="SIM.Tool.Windows.MainWindowComponents.PublishButton, SIM.Tool.Windows"        param="incremental" />
             <button     label="Publish (Smart)"                                     largeImage="/Images/$sm/publish.png, SIM.Tool.Windows"                    type="SIM.Tool.Windows.MainWindowComponents.PublishButton, SIM.Tool.Windows"        param="smart" />
             <button     label="Publish (Republish)"                                 largeImage="/Images/$sm/publish.png, SIM.Tool.Windows"                    type="SIM.Tool.Windows.MainWindowComponents.PublishButton, SIM.Tool.Windows"        param="republish" />
+            <separator />
+            <button     label="Cleanup logs and temp folder"                        largeImage="/Images/$sm/uninstall.png, SIM.Tool.Windows"                   type="SIM.Tool.Windows.MainWindowComponents.CleanupInstanceButton, SIM.Tool.Windows" />
+            <separator />
+            <button     label="Attach Reporting database"                           largeImage="/Images/$sm/data.png, SIM.Tool.Windows"                        type="SIM.Tool.Windows.MainWindowComponents.AttachReportingDatabaseButton, SIM.Tool.Windows" />
+            <separator />
+            <button     label="Attach Reporting.Secondary database"                 largeImage="/Images/$sm/data.png, SIM.Tool.Windows"                        type="SIM.Tool.Windows.MainWindowComponents.AttachReportingSecondaryDatabaseButton, SIM.Tool.Windows" />
+            <button     label="Copy marketing definition tables"                    largeImage="/Images/$sm/data.png, SIM.Tool.Windows"                        type="SIM.Tool.Windows.MainWindowComponents.CopyMarketingDefinitionTablesButton, SIM.Tool.Windows" />
+            <button     label="Replace Reporting database with Reporting.Secondary" largeImage="/Images/$sm/data.png, SIM.Tool.Windows"                        type="SIM.Tool.Windows.MainWindowComponents.ReplaceReportingDatabaseWithSecondaryButton, SIM.Tool.Windows" />
             <separator />
             <button     label="Clear Event Queues of All Databases"                 largeImage="/Images/$sm/data.png, SIM.Tool.Windows"                        type="SIM.Tool.Windows.MainWindowComponents.ClearEventQueueButton, SIM.Tool.Windows" />
             <button     label="Clear Event Queues of Core Database"                 largeImage="/Images/$sm/data.png, SIM.Tool.Windows"                        type="SIM.Tool.Windows.MainWindowComponents.ClearEventQueueButton, SIM.Tool.Windows" param="core" />
@@ -186,11 +200,11 @@
         <item header="Internet Explorer"                        image="/Images/$lg/ie.png, SIM.Tool.Windows"                                                  type="SIM.Tool.Windows.MainWindowComponents.LoginAdminButton, SIM.Tool.Windows"     param="/sitecore:iexplore"/>
         <item header="Apple Safari"                             image="/Images/$lg/safari.png, SIM.Tool.Windows"                                              type="SIM.Tool.Windows.MainWindowComponents.LoginAdminButton, SIM.Tool.Windows"     param="/sitecore:safari"/>
         <separator/>
-        <item   header="Support Toolbox"                          image="/Images/$lg/toolbox.png, SIM.Tool.Windows"                                           type="SIM.Tool.Windows.MainWindowComponents.OpenToolboxButton, SIM.Tool.Windows"    param="bypass" />
+        <item   header="Sitecore Admin"                         image="/Images/$lg/toolbox.png, SIM.Tool.Windows"                                           type="SIM.Tool.Windows.MainWindowComponents.OpenToolboxButton, SIM.Tool.Windows"    param="bypass" />
         <separator/>
         <item header="Copy URL"                                 image="/Images/$lg/astrologer.png, SIM.Tool.Windows"                                           type="SIM.Tool.Windows.MainWindowComponents.LoginAdminButton, SIM.Tool.Windows"     param="$(clipboard)"/>
       </item>
-      <item   header="Support Toolbox"                          image="/Images/$lg/toolbox.png, SIM.Tool.Windows"                                             type="SIM.Tool.Windows.MainWindowComponents.OpenToolboxButton, SIM.Tool.Windows" />
+      <item   header="Sitecore Admin"                           image="/Images/$lg/toolbox.png, SIM.Tool.Windows"                                             type="SIM.Tool.Windows.MainWindowComponents.OpenToolboxButton, SIM.Tool.Windows" />
       <item   header="Open Folder"                              image="/Images/$sm/folder_open.png, SIM.Tool.Windows"                                         type="SIM.Tool.Windows.MainWindowComponents.OpenFolderButton, SIM.Tool.Windows"     param="$(website)"/>
       <item   header="Open Visual Studio"                       image="/Images/$sm/vs.png, SIM.Tool.Windows"                                              type="SIM.Tool.Windows.MainWindowComponents.OpenVisualStudioButton, SIM.Tool.Windows" />
       <separator />
@@ -204,8 +218,6 @@
       <item   header="Restore"                                  image="/Images/$sm/box_out.png, SIM.Tool.Windows"                                             type="SIM.Tool.Windows.MainWindowComponents.RestoreInstanceButton, SIM.Tool.Windows" />
       <separator />
       <item   header="Export"                                   image="/Images/$sm/download.png, SIM.Tool.Windows"                                            type="SIM.Tool.Windows.MainWindowComponents.ExportInstanceButton, SIM.Tool.Windows" />
-      <separator />
-      <plugins />
       <separator />
       <item   header="Install modules"                          image="/Images/$sm/install.png, SIM.Tool.Windows"                                             type="SIM.Tool.Windows.MainWindowComponents.InstallModulesButton, SIM.Tool.Windows" />
       <separator />

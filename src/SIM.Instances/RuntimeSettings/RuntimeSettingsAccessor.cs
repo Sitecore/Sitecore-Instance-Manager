@@ -6,7 +6,7 @@
   using SIM.Adapters.MongoDb;
   using SIM.Adapters.SqlServer;
   using SIM.Adapters.WebServer;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
   using Sitecore.Diagnostics.ConfigBuilder;
   using Sitecore.Diagnostics.Logging;
 
@@ -35,7 +35,7 @@
         }
         catch (Exception ex)
         {
-          throw new InvalidOperationException(string.Format("Failed to get web config path of {0}", this.Instance.WebRootPath), ex);
+          throw new InvalidOperationException($"Failed to get web config path of {this.Instance.WebRootPath}", ex);
         }
       }
     }
@@ -54,7 +54,7 @@
       }
       catch (Exception ex)
       {
-        throw new InvalidOperationException(string.Format("Failed to get databases of {0}", this.Instance.WebRootPath), ex);
+        throw new InvalidOperationException($"Failed to get databases of {this.Instance.WebRootPath}", ex);
       }
     }
 
@@ -68,7 +68,7 @@
       }
       catch (Exception ex)
       {
-        throw new InvalidOperationException(string.Format("Failed to get mongo databases of {0}", this.Instance.WebRootPath), ex);
+        throw new InvalidOperationException($"Failed to get mongo databases of {this.Instance.WebRootPath}", ex);
       }
     }
 
@@ -112,7 +112,7 @@
         }
         catch (Exception ex)
         {
-          throw new InvalidOperationException(string.Format("Failed to get showconfig of {0}", this.Instance.WebRootPath), ex);
+          throw new InvalidOperationException($"Failed to get showconfig of {this.Instance.WebRootPath}", ex);
         }
       }
     }
@@ -144,7 +144,7 @@
         }
         catch (Exception ex)
         {
-          throw new InvalidOperationException(string.Format("Failed to get web config result of {0}", this.Instance.WebRootPath), ex);
+          throw new InvalidOperationException($"Failed to get web config result of {this.Instance.WebRootPath}", ex);
         }
       }
     }

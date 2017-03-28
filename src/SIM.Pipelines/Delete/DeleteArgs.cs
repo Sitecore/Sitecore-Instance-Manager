@@ -10,7 +10,8 @@
   using SIM.Instances;
   using SIM.Pipelines.Processors;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
+  using SIM.Extensions;
 
   #endregion
 
@@ -37,7 +38,7 @@
     public DeleteArgs([NotNull] Instance instance, [NotNull] SqlConnectionStringBuilder connectionString)
     {
       this.Instance = instance;
-      Assert.ArgumentNotNull(instance, "instance");
+      Assert.ArgumentNotNull(instance, nameof(instance));
 
       this.ConnectionString = connectionString.IsNotNull("ConnectionString");
       this.InstanceID = instance.ID;

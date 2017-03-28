@@ -4,9 +4,11 @@
 
   using System.Collections.Generic;
   using System.Data.SqlClient;
+  using System.Linq;
   using System.Xml;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
+  using SIM.Extensions;
 
   #endregion
 
@@ -22,7 +24,7 @@
 
     public ConnectionStringCollection([NotNull] XmlElementEx connectionStringsElement)
     {
-      Assert.ArgumentNotNull(connectionStringsElement, "connectionStringsElement");
+      Assert.ArgumentNotNull(connectionStringsElement, nameof(connectionStringsElement));
 
       this.connectionStringsElement = connectionStringsElement;
     }
@@ -33,8 +35,8 @@
 
     public void Add([NotNull] string role, [NotNull] SqlConnectionStringBuilder connectionString)
     {
-      Assert.ArgumentNotNull(role, "role");
-      Assert.ArgumentNotNull(connectionString, "connectionString");
+      Assert.ArgumentNotNull(role, nameof(role));
+      Assert.ArgumentNotNull(connectionString, nameof(connectionString));
       XmlElement addElement = this.connectionStringsElement.Element.SelectSingleElement("add[@name='" + role + "']");
       bool exists = addElement != null;
 
@@ -58,6 +60,15 @@
     public void Save()
     {
       this.connectionStringsElement.Save();
+    }
+
+    [CanBeNull]
+    public ConnectionString this[string name]
+    {
+      get
+      {
+        return this.FirstOrDefault(x => x.Name.EqualsIgnoreCase(name));
+      }
     }
 
     #endregion

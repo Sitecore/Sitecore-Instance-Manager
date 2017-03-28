@@ -1,6 +1,6 @@
 namespace SIM.Tool.Windows
 {
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
 
   public static class WindowsSettings
   {

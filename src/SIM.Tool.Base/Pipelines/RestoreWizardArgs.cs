@@ -43,7 +43,7 @@
 
     public override ProcessorArgs ToProcessorArgs()
     {
-      Assert.IsNotNull(this.Backup, "Any backup wasn't chosen", false);
+      Assert.IsNotNull(this.Backup, string.Format("Any backup wasn't chosen"));
       return new RestoreArgs(this.Instance, this.Backup);
     }
 

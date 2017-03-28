@@ -14,9 +14,10 @@
   using System.Windows.Shell;
   using System.Windows.Threading;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
   using Sitecore.Diagnostics.Logging;
   using SIM.Core;
+  using SIM.Extensions;
   using SIM.Pipelines;
   using SIM.Pipelines.Processors;
   using SIM.Tool.Base;
@@ -92,7 +93,7 @@
     {
       set
       {
-        Assert.ArgumentNotNull(value, "value");
+        Assert.ArgumentNotNull(value, nameof(value));
 
         List<Processor> list = new List<Processor>();
         this.GetList(value, list);
@@ -165,21 +166,21 @@
     [CanBeNull]
     public string Ask([NotNull] string title, [NotNull] string defaultValue)
     {
-      Assert.ArgumentNotNull(title, "title");
+      Assert.ArgumentNotNull(title, nameof(title));
 
       return WindowHelper.Ask(title, defaultValue, this);
     }
 
     public bool Confirm([NotNull] string message)
     {
-      Assert.ArgumentNotNullOrEmpty(message, "message");
+      Assert.ArgumentNotNullOrEmpty(message, nameof(message));
 
       return WindowHelper.ShowMessage(message, "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes;
     }
 
     public void Execute([NotNull] string path, string arguments = null)
     {
-      Assert.ArgumentNotNull(path, "path");
+      Assert.ArgumentNotNull(path, nameof(path));
 
       if (arguments.EmptyToNull() == null)
       {
@@ -192,7 +193,7 @@
 
     public void Finish([NotNull] string message, bool closeInterface)
     {
-      Assert.ArgumentNotNull(message, "message");
+      Assert.ArgumentNotNull(message, nameof(message));
 
       this.Dispatcher.Invoke(DispatcherPriority.Normal, new Action(() => this.FinishUnsafe(message, closeInterface)));
     }
@@ -209,22 +210,22 @@
 
     public void ProcessorCrashed(string error)
     {
-      Assert.ArgumentNotNull(error, "error");
+      Assert.ArgumentNotNull(error, nameof(error));
     }
 
     public void ProcessorDone([NotNull] string title)
     {
-      Assert.ArgumentNotNull(title, "title");
+      Assert.ArgumentNotNull(title, nameof(title));
     }
 
     public void ProcessorSkipped([NotNull] string processorName)
     {
-      Assert.ArgumentNotNull(processorName, "processorName");
+      Assert.ArgumentNotNull(processorName, nameof(processorName));
     }
 
     public void ProcessorStarted([NotNull] string title)
     {
-      Assert.ArgumentNotNull(title, "title");
+      Assert.ArgumentNotNull(title, nameof(title));
 
       this.Dispatcher.Invoke(DispatcherPriority.Normal, new Action(() => this.SetStatusUnsafe(title)));
     }
@@ -237,8 +238,8 @@
     [CanBeNull]
     public string Select([NotNull] string message, [NotNull] IEnumerable<string> options, bool allowMultipleSelection = false, string defaultValue = null)
     {
-      Assert.ArgumentNotNull(message, "message");
-      Assert.ArgumentNotNull(options, "options");
+      Assert.ArgumentNotNull(message, nameof(message));
+      Assert.ArgumentNotNull(options, nameof(options));
 
       return (string)this.Dispatcher.Invoke(new Func<string>(() => WindowHelper.AskForSelection("Select an option", "Select an option", message, options, this, defaultValue, allowMultipleSelection)));
     }
@@ -251,7 +252,7 @@
       }
       catch (Exception ex)
       {
-        Log.Error(ex, "Error during setting progress");
+        Log.Error(ex, string.Format("Error during setting progress"));
       }
     }
 
@@ -262,8 +263,8 @@
 
     public void Start(string title, List<Step> steps)
     {
-      Assert.ArgumentNotNull(title, "title");
-      Assert.ArgumentNotNull(steps, "steps");
+      Assert.ArgumentNotNull(title, nameof(title));
+      Assert.ArgumentNotNull(steps, nameof(steps));
 
       this.Start(title, steps, 0);
     }
@@ -290,8 +291,8 @@
 
     protected void Start([NotNull] string title, [NotNull] List<Step> steps, int value)
     {
-      Assert.ArgumentNotNull(title, "title");
-      Assert.ArgumentNotNull(steps, "steps");
+      Assert.ArgumentNotNull(title, nameof(title));
+      Assert.ArgumentNotNull(steps, nameof(steps));
 
       this.HeaderDetails.Text = title;
       this.Maximum = value;
@@ -390,7 +391,7 @@
 
       if (!ctrl.GetInterfaces().Contains(typeof(IWizardStep)))
       {
-        Log.Debug("Control {0} does not implement IWizardStep", fullName);
+        Log.Debug($"Control {fullName} does not implement IWizardStep");
       }
 
       var param = stepInfo.Param;
@@ -417,7 +418,7 @@
 
     private void ErrorClick([CanBeNull] object sender, [NotNull] RoutedEventArgs e)
     {
-      Assert.ArgumentNotNull(e, "e");
+      Assert.ArgumentNotNull(e, nameof(e));
 
       Hyperlink hyperlink = e.OriginalSource as Hyperlink;
       if (hyperlink != null)
@@ -430,13 +431,13 @@
             case ProcessorState.Error:
             case ProcessorState.Inaccessible:
             {
-              string messageLabel = string.Format(@"{0} action failed with message: ", processor.Title);
+              var messageLabel = $@"{processor.Title} action failed with message: ";
               const string skipped = "Action was skipped because other one had problem - please find it, fix the problem and run the process again";
-              string message;
+                string message;
               Exception exception = processor.Error;
               if (exception != null)
               {
-                string exceptionMessage = exception.Message;
+                var exceptionMessage = exception.Message;
                 if (exceptionMessage.Contains("cannot be upgraded because it is read-only") || exceptionMessage.Contains(": 15105"))
                 {
                   message = "It seems that the NETWORK SERVICE identity doesn't have full access rights to the folder you selected to install the instance to." + Environment.NewLine + Environment.NewLine + exceptionMessage;
@@ -461,7 +462,7 @@
 
     private void FinishUnsafe([NotNull] string message, bool allDone)
     {
-      Assert.ArgumentNotNull(message, "message");
+      Assert.ArgumentNotNull(message, nameof(message));
 
       using (new ProfileSection("Finish wizard (unsafe)", this))
       {
@@ -501,8 +502,8 @@
 
     private void GetList([NotNull] IEnumerable<Processor> value, [NotNull] List<Processor> output)
     {
-      Assert.ArgumentNotNull(value, "value");
-      Assert.ArgumentNotNull(output, "output");
+      Assert.ArgumentNotNull(value, nameof(value));
+      Assert.ArgumentNotNull(output, nameof(output));
 
       foreach (Processor q in value)
       {
@@ -542,17 +543,17 @@
 
         this.CustomButton.Visibility = Visibility.Hidden;
         TabItem item = this.TabControl.Items[n] as TabItem;
-        Assert.IsNotNull(item, "item");
+        Assert.IsNotNull(item, nameof(item));
 
         var content = item.Content;
-        Assert.IsNotNull(content, "content");
+        Assert.IsNotNull(content, nameof(content));
 
         var fullName = content.GetType().FullName;
 
         var control = content as UIElement;
         if (control == null)
         {
-          Log.Warn("The {0} type is not UIElement-based", fullName);
+          Log.Warn($"The {fullName} type is not UIElement-based");
           return;
         }
 
@@ -560,7 +561,7 @@
         bool isVisible = customButtonStep != null;
         if (isVisible)
         {
-          string name = customButtonStep.CustomButtonText;
+          var name = customButtonStep.CustomButtonText;
           this.CustomButton.Content = name ?? string.Empty;
           isVisible = !string.IsNullOrEmpty(name);
         }
@@ -594,14 +595,14 @@
       {
         ProfileSection.Argument("i", i);
 
-        int n = i ?? this.PageNumber;
+        var n = i ?? this.PageNumber;
 
         using (new ProfileSection("Set header", this))
         {
           StepInfo[] stepInfos = this.wizardPipeline.StepInfos;
           if (stepInfos.Length > n)
           {
-            string title = stepInfos[n].Title;
+            var title = stepInfos[n].Title;
             this.HeaderDetails.Text = this.ReplaceVariables(title);
           }
         }
@@ -730,8 +731,8 @@
 
     private void OnClosing(object sender, CancelEventArgs e)
     {
-      Assert.ArgumentNotNull(sender, "sender");
-      Assert.ArgumentNotNull(e, "e");
+      Assert.ArgumentNotNull(sender, nameof(sender));
+      Assert.ArgumentNotNull(e, nameof(e));
 
       this.AbortPipeline();
     }
@@ -751,13 +752,13 @@
         {
           var item = (TabItem)this.TabControl.SelectedItem;
           var content = item.Content;
-          Assert.IsNotNull(content, "content");
+          Assert.IsNotNull(content, nameof(content));
 
           var fullName = content.GetType().FullName;
           var step = content as IWizardStep;
           if (step == null)
           {
-            Log.Warn("The {0} control does not implement IWizardStep", fullName);
+            Log.Warn($"The {fullName} control does not implement IWizardStep");
 
             return ProfileSection.Result(true);
           }
@@ -840,7 +841,7 @@
 
     private void SetStatusUnsafe([NotNull] string name)
     {
-      Assert.ArgumentNotNull(name, "name");
+      Assert.ArgumentNotNull(name, nameof(name));
 
       this.HeaderDetails.Text = name;
     }
@@ -852,8 +853,8 @@
 
     private void WindowKeyUp([NotNull] object sender, [NotNull] KeyEventArgs e)
     {
-      Assert.ArgumentNotNull(sender, "sender");
-      Assert.ArgumentNotNull(e, "e");
+      Assert.ArgumentNotNull(sender, nameof(sender));
+      Assert.ArgumentNotNull(e, nameof(e));
 
       if (this.PageNumber != this.StepsCount && e.Key == Key.Escape)
       {
@@ -883,7 +884,7 @@
         this.PageNumber = 0;
 
         this.InitializeStep();
-        string title = this.ReplaceVariables(this.wizardPipeline.Title);
+        var title = this.ReplaceVariables(this.wizardPipeline.Title);
         this.Title = title;
         this.Header.Text = title;
       }

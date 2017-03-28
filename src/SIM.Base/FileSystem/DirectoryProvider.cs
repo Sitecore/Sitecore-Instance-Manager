@@ -4,11 +4,12 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using Sitecore.Diagnostics.Base;
-using Sitecore.Diagnostics.Base.Annotations;
+using JetBrains.Annotations;
 
 namespace SIM.FileSystem
 {
   using Sitecore.Diagnostics.Logging;
+  using SIM.Extensions;
 
   public class DirectoryProvider
   {
@@ -31,9 +32,9 @@ namespace SIM.FileSystem
 
     public virtual void AssertExists([NotNull] string path, [CanBeNull] string message = null)
     {
-      Assert.ArgumentNotNullOrEmpty(path, "path");
+      Assert.ArgumentNotNullOrEmpty(path, nameof(path));
 
-      Assert.IsTrue(Directory.Exists(path), message.EmptyToNull() ?? string.Format("The {0} folder does not exist, but is expected to be", Environment.ExpandEnvironmentVariables(path)));
+      Assert.IsTrue(Directory.Exists(path), message.EmptyToNull() ?? $"The {Environment.ExpandEnvironmentVariables(path)} folder does not exist, but is expected to be");
     }
 
     public virtual string Combine(DirectoryInfo one, string two)
@@ -61,7 +62,7 @@ namespace SIM.FileSystem
       // Get the files in the directory and copy them to the new location.
       foreach (var file in this.fileSystem.Directory.GetFiles(path))
       {
-        string temppath = Path.Combine(newPath, Path.GetFileName(file));
+        var temppath = Path.Combine(newPath, Path.GetFileName(file));
         this.fileSystem.File.Copy(file, temppath);
       }
 
@@ -70,7 +71,7 @@ namespace SIM.FileSystem
       {
         foreach (DirectoryInfo subdir in dirs)
         {
-          string temppath = Path.Combine(newPath, subdir.Name);
+          var temppath = Path.Combine(newPath, subdir.Name);
           this.Copy(subdir.FullName, temppath, recursive);
         }
       }
@@ -84,8 +85,8 @@ namespace SIM.FileSystem
     public virtual void Delete([NotNull] string path)
     {
       // TODO: Refactor this to edit attributes only on problem files and folders
-      Assert.ArgumentNotNull(path, "path");
-      Log.Info("Deleting file or folder: {0}", path);
+      Assert.ArgumentNotNull(path, nameof(path));
+      Log.Info($"Deleting file or folder: {path}");
 
       if (!string.IsNullOrEmpty(path))
       {
@@ -107,7 +108,7 @@ namespace SIM.FileSystem
           }
           catch (Exception ex)
           {
-            Log.Warn(ex, "Failed to delete {0} folder, altering attributes and trying again", path);
+            Log.Warn(ex, $"Failed to delete {path} folder, altering attributes and trying again");
             Thread.Sleep(100);
             foreach (var fileSystemInfo in directoryInfo.GetFileSystemInfos("*", SearchOption.AllDirectories))
             {
@@ -146,7 +147,7 @@ namespace SIM.FileSystem
           Assert.IsTrue(!ignore.Contains('\\') && !ignore.Contains('/'), "Multi-level ignore is not supported for deleting");
           foreach (var directory in Directory.GetDirectories(path))
           {
-            string directoryName = new DirectoryInfo(directory).Name;
+            var directoryName = new DirectoryInfo(directory).Name;
             if (!directoryName.EqualsIgnoreCase(ignore))
             {
               this.Delete(directory);
@@ -186,11 +187,11 @@ namespace SIM.FileSystem
     [NotNull]
     public virtual string Ensure([NotNull] string folder)
     {
-      Assert.ArgumentNotNullOrEmpty(folder, "folder");
+      Assert.ArgumentNotNullOrEmpty(folder, nameof(folder));
 
       if (!Directory.Exists(folder))
       {
-        Log.Info("Creating folder {0}", folder);
+        Log.Info($"Creating folder {folder}");
         Directory.CreateDirectory(folder);
       }
 
@@ -205,9 +206,9 @@ namespace SIM.FileSystem
     [NotNull]
     public virtual string FindCommonParent([NotNull] string path1, [NotNull] string path2)
     {
-      Assert.ArgumentNotNull(path1, "path1");
-      Assert.ArgumentNotNull(path2, "path2");
-      string path = string.Empty;
+      Assert.ArgumentNotNull(path1, nameof(path1));
+      Assert.ArgumentNotNull(path2, nameof(path2));
+      var path = string.Empty;
       using (new ProfileSection("Find common parent", this))
       {
         ProfileSection.Argument("path1", path1);
@@ -215,11 +216,11 @@ namespace SIM.FileSystem
 
         string[] arr1 = path1.Replace('/', '\\').Split('\\');
         string[] arr2 = path2.Replace('/', '\\').Split('\\');
-        int minLen = Math.Min(arr1.Length, arr2.Length);
+        var minLen = Math.Min(arr1.Length, arr2.Length);
         for (int i = 0; i < minLen; ++i)
         {
-          string word1 = arr1[i];
-          string word2 = arr2[i];
+          var word1 = arr1[i];
+          var word2 = arr2[i];
           if (!word1.EqualsIgnoreCase(word2))
           {
             break;
@@ -238,7 +239,7 @@ namespace SIM.FileSystem
     [NotNull]
     public virtual string GenerateTempFolderPath([NotNull] string folder)
     {
-      Assert.ArgumentNotNull(folder, "folder");
+      Assert.ArgumentNotNull(folder, nameof(folder));
 
       return Path.Combine(folder, Guid.NewGuid().ToString());
     }
@@ -246,7 +247,7 @@ namespace SIM.FileSystem
     [CanBeNull]
     public virtual IEnumerable<string> GetAncestors([NotNull] string path)
     {
-      Assert.ArgumentNotNull(path, "folder");
+      Assert.ArgumentNotNull(path, nameof(path));
 
       DirectoryInfo dir = new DirectoryInfo(path);
       while (dir != null && dir.Exists)
@@ -274,8 +275,8 @@ namespace SIM.FileSystem
 
     public virtual int GetDistance(string directory1, string directory2)
     {
-      Assert.ArgumentNotNullOrEmpty(directory1, "directory1");
-      Assert.ArgumentNotNullOrEmpty(directory2, "directory2");
+      Assert.ArgumentNotNullOrEmpty(directory1, nameof(directory1));
+      Assert.ArgumentNotNullOrEmpty(directory2, nameof(directory2));
 
       using (new ProfileSection("Get distance", this))
       {
@@ -298,7 +299,7 @@ namespace SIM.FileSystem
           common++;
         }
 
-        int distance = arr1.Length + arr2.Length - 2 * common - 2;
+        var distance = arr1.Length + arr2.Length - 2 * common - 2;
 
         return ProfileSection.Result(distance);
       }
@@ -351,7 +352,7 @@ namespace SIM.FileSystem
 
     public virtual bool HasDriveLetter([NotNull] string folder)
     {
-      Assert.ArgumentNotNull(folder, "folder");
+      Assert.ArgumentNotNull(folder, nameof(folder));
 
       return folder.Length >= 3 && char.IsLetter(folder[0]) && folder[1] == ':' && folder[2] == '\\';
     }
@@ -374,8 +375,8 @@ namespace SIM.FileSystem
     [NotNull]
     public virtual string MapPath([NotNull] string virtualPath, [NotNull] string rootPath)
     {
-      Assert.ArgumentNotNull(virtualPath, "virtualPath");
-      Assert.ArgumentNotNullOrEmpty(rootPath, "rootPath");
+      Assert.ArgumentNotNull(virtualPath, nameof(virtualPath));
+      Assert.ArgumentNotNullOrEmpty(rootPath, nameof(rootPath));
       if (this.HasDriveLetter(virtualPath))
       {
         return virtualPath;
@@ -402,7 +403,7 @@ namespace SIM.FileSystem
 
     public virtual void TryDelete([NotNull] string path)
     {
-      Assert.ArgumentNotNull(path, "path");
+      Assert.ArgumentNotNull(path, nameof(path));
 
       try
       {
@@ -410,7 +411,7 @@ namespace SIM.FileSystem
       }
       catch (Exception ex)
       {
-        Log.Warn(ex, "Cannot delete the {0} file. {1}", path, ex.Message);
+        Log.Warn(ex, $"Cannot delete the {path} file. {ex.Message}");
       }
     }
 
@@ -421,8 +422,8 @@ namespace SIM.FileSystem
     [NotNull]
     protected virtual DirectoryInfo GetChild([NotNull] DirectoryInfo extracted, [NotNull] string folderName)
     {
-      Assert.ArgumentNotNull(extracted, "extracted");
-      Assert.ArgumentNotNullOrEmpty(folderName, "folderName");
+      Assert.ArgumentNotNull(extracted, nameof(extracted));
+      Assert.ArgumentNotNullOrEmpty(folderName, nameof(folderName));
 
       DirectoryInfo[] websites = extracted.GetDirectories(folderName);
       Assert.IsTrue(websites != null && websites.Length > 0, 

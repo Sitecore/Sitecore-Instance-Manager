@@ -1,11 +1,12 @@
 ﻿namespace SIM.Pipelines.Reinstall
 {
   using System.Collections.Generic;
+  using System.Linq;
   using SIM.Adapters.WebServer;
   using SIM.Instances;
   using SIM.Pipelines.Processors;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
 
   #region
 
@@ -29,14 +30,17 @@
 
     protected override void Process(ReinstallArgs args)
     {
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(args, nameof(args));
 
       var defaultConnectionString = args.ConnectionString;
       Assert.IsNotNull(defaultConnectionString, "SQL Connection String isn't set in the Settings dialog");
 
-      string instanceName = args.instanceName;
+      var instanceName = args.instanceName;
       var instance = InstanceManager.GetInstance(instanceName);
       var controller = this.Controller;
+
+      var sqlPrefix = args.SqlPrefix;
+
       foreach (ConnectionString connectionString in instance.Configuration.ConnectionStrings)
       {
         if (this.done.Contains(connectionString.Name))
@@ -44,7 +48,7 @@
           continue;
         }
 
-        AttachDatabasesHelper.AttachDatabase(connectionString, defaultConnectionString, args.Name, args.DatabasesFolderPath, args.InstanceName, controller);
+        AttachDatabasesHelper.AttachDatabase(connectionString, defaultConnectionString, args.Name, sqlPrefix, true, args.DatabasesFolderPath, args.InstanceName, controller);
 
         if (controller != null)
         {

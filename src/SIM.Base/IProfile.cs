@@ -1,6 +1,6 @@
 namespace SIM
 {
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
 
   public interface IProfile
   {

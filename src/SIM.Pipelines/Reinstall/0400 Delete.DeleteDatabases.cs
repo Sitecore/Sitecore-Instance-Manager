@@ -4,7 +4,7 @@
   using SIM.Adapters.SqlServer;
   using SIM.Pipelines.Processors;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
 
   #region
 
@@ -23,19 +23,19 @@
 
     public override long EvaluateStepsCount(ProcessorArgs args)
     {
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(args, nameof(args));
 
       return ((ReinstallArgs)args).InstanceDatabases.Count;
     }
 
     protected override void Process([NotNull] ReinstallArgs args)
     {
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(args, nameof(args));
 
       IEnumerable<Database> detectedDatabases = args.InstanceDatabases;
-      string rootPath = args.RootPath.ToLower();
+      var rootPath = args.RootPath.ToLower();
       var connectionString = args.ConnectionString;
-      string instanceName = args.InstanceName;
+      var instanceName = args.InstanceName;
       IPipelineController controller = this.Controller;
 
       DeleteDatabasesHelper.Process(detectedDatabases, rootPath, connectionString, instanceName, controller, this.done);

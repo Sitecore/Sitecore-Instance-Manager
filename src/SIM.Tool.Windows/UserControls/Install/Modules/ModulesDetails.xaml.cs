@@ -15,7 +15,9 @@
   using SIM.Tool.Base.Profiles;
   using SIM.Tool.Base.Wizards;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using Sitecore.Diagnostics.Logging;
+  using JetBrains.Annotations;
+  using SIM.Extensions;
 
   public partial class ModulesDetails : IWizardStep, ICustomButton
   {
@@ -61,7 +63,7 @@
     {
       try
       {
-        Assert.ArgumentNotNull(e, "e");
+        Assert.ArgumentNotNull(e, nameof(e));
 
         if (e.Handled)
         {
@@ -108,7 +110,7 @@
       this.productFamilies = new ObservableCollection<ProductInCheckbox>(productCheckboxes);
       this.unfilteredProductFamilies = new ObservableCollection<ProductInCheckbox>(productCheckboxes);
 
-      foreach (Product module in args.Modules)
+      foreach (var module in args.Modules)
       {
         Product alreadySelectedModule = module;
         ProductInCheckbox checkBoxItem = productCheckboxes.SingleOrDefault(cbi => cbi.Name.Equals(alreadySelectedModule.Name, StringComparison.OrdinalIgnoreCase));
@@ -127,7 +129,7 @@
     {
       var args = (InstallModulesWizardArgs)wizardArgs;
       Product product = args.Product;
-      Assert.IsNotNull(product, "product");
+      Assert.IsNotNull(product, nameof(product));
       Product[] selectedModules = this.unfilteredProductFamilies.Where(mm => mm.IsChecked).Select(mm => mm.Value).ToArray();
       args.Modules.AddRange(selectedModules.Where(module => !args.Modules.Any(p => p.Name.Equals(module.Name, StringComparison.OrdinalIgnoreCase))));
 
@@ -179,9 +181,14 @@
 
         Product.TryParse(path, out addedProduct);
 
-        if (addedProduct == null || string.IsNullOrEmpty(addedProduct.Name) || string.IsNullOrEmpty(addedProduct.Version) || string.IsNullOrEmpty(addedProduct.Revision))
+        if (string.IsNullOrEmpty(addedProduct?.Name) || string.IsNullOrEmpty(addedProduct.Version) || string.IsNullOrEmpty(addedProduct.Revision))
         {
-          WindowHelper.ShowMessage("Selected file is not a Sitecore module package");
+          var errorMessage =
+              "There was a problem installing a Sitecore module package. The requested package had the following properties: " +
+              $"addedProduct is null: [{addedProduct == null}] | addedProduct name: [{addedProduct?.Name}] | addedProduct version: [{addedProduct?.Version}] | " +
+              $"addedProduct revision: [{addedProduct?.Revision}]";
+          WindowHelper.ShowMessage($"Selected file is not a Sitecore module package");
+          Log.Error(errorMessage);
           return;
         }
 

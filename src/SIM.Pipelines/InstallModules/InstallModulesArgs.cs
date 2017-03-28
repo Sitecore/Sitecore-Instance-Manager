@@ -6,7 +6,7 @@
   using SIM.Pipelines.Processors;
   using SIM.Products;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
 
   #region
 
@@ -29,8 +29,8 @@
 
     public InstallModulesArgs([NotNull] Instance instance, [NotNull] IEnumerable<Product> modules, [CanBeNull] SqlConnectionStringBuilder connectionString = null)
     {
-      Assert.ArgumentNotNull(instance, "instance");
-      Assert.ArgumentNotNull(modules, "modules");
+      Assert.ArgumentNotNull(instance, nameof(instance));
+      Assert.ArgumentNotNull(modules, nameof(modules));
 
       this.Modules = modules;
       this.ConnectionString = connectionString;

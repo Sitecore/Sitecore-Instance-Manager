@@ -4,7 +4,7 @@
   using SIM.Instances;
   using SIM.Tool.Base.Plugins;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
 
   public abstract class WindowOnlyButton : IMainWindowButton
   {
@@ -15,7 +15,7 @@
 
     public void OnClick(Window mainWindow, Instance instance)
     {
-      Assert.ArgumentNotNull(mainWindow, "mainWindow");
+      Assert.ArgumentNotNull(mainWindow, nameof(mainWindow));
 
       this.OnClick(mainWindow);
     }

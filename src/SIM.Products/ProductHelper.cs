@@ -6,8 +6,9 @@
   using System.IO;
   using System.Linq;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
   using Sitecore.Diagnostics.Logging;
+  using SIM.Extensions;
 
   #region
 
@@ -20,7 +21,7 @@
     [NotNull]
     public static string DetectProductFullName([NotNull] string webRootPath)
     {
-      Assert.ArgumentNotNull(webRootPath, "webRootPath");
+      Assert.ArgumentNotNull(webRootPath, nameof(webRootPath));
 
       var jetstreamAssemblies = FileSystem.FileSystem.Local.Directory.GetFiles(Path.Combine(webRootPath, "bin"), "Jetstream.*.dll");
       if (jetstreamAssemblies.Any())
@@ -57,11 +58,11 @@
         return "{0} {1} rev. {2}".FormatWith(name, version, revision);
       }
 
-      string assemblyPath = Path.Combine(webRootPath, "bin\\Sitecore.Nicam.dll");
+      var assemblyPath = Path.Combine(webRootPath, "bin\\Sitecore.Nicam.dll");
       if (FileSystem.FileSystem.Local.File.Exists(assemblyPath))
       {
         FileVersionInfo versionInfo = FileVersionInfo.GetVersionInfo(assemblyPath);
-        string value = "Nicam {0}.{1}.{2} rev. {3}".FormatWith(new object[]
+        var value = "Nicam {0}.{1}.{2} rev. {3}".FormatWith(new object[]
         {
           0, 0, 0, versionInfo.FileVersion.Replace(".", string.Empty)
         });
@@ -74,7 +75,7 @@
         "Sitecore.Intranet.dll", "MSS.Kernel.dll"
       })
       {
-        string path = Path.Combine(webRootPath, "bin\\" + fileName);
+        var path = Path.Combine(webRootPath, "bin\\" + fileName);
         if (FileSystem.FileSystem.Local.File.Exists(path))
         {
           return GetProductFullName(path);
@@ -87,7 +88,7 @@
     [NotNull]
     public static string GetKernelPath([NotNull] string webRootPath)
     {
-      Assert.ArgumentNotNullOrEmpty(webRootPath, "webRootPath");
+      Assert.ArgumentNotNullOrEmpty(webRootPath, nameof(webRootPath));
 
       return Path.Combine(webRootPath, "bin\\Sitecore.Kernel.dll");
     }
@@ -95,12 +96,12 @@
     [CanBeNull]
     public static string LocateAnalytics([NotNull] Product product)
     {
-      Assert.ArgumentNotNull(product, "product");
+      Assert.ArgumentNotNull(product, nameof(product));
 
       Assert.IsTrue(product.Name.EqualsIgnoreCase("sitecore cms"), "Analytics can be located only for the sitecore product");
 
-      string rev = product.Revision;
-      string odms = product.Version.StartsWith("6.5") ? "dms" : "oms";
+      var rev = product.Revision;
+      var odms = product.Version.StartsWith("6.5") ? "dms" : "oms";
       IEnumerable<Product> products = ProductManager.GetProducts(odms, null, rev);
       if (products != null)
       {
@@ -119,13 +120,13 @@
     [NotNull]
     private static string GetProductFullName([NotNull] string assemblyPath)
     {
-      Assert.ArgumentNotNull(assemblyPath, "assemblyPath");
+      Assert.ArgumentNotNull(assemblyPath, nameof(assemblyPath));
 
       var websiteFolderPath = Path.GetDirectoryName(Path.GetDirectoryName(assemblyPath));
-      Assert.IsNotNull(websiteFolderPath, "folder");
+      Assert.IsNotNull(websiteFolderPath, nameof(websiteFolderPath));
 
       var sitecoreVersionFilePath = Path.Combine(websiteFolderPath, "sitecore\\shell\\sitecore.version.xml");
-      Assert.IsNotNull(sitecoreVersionFilePath, "sitecoreVersionFilePath");
+      Assert.IsNotNull(sitecoreVersionFilePath, nameof(sitecoreVersionFilePath));
 
       if (FileSystem.FileSystem.Local.File.Exists(sitecoreVersionFilePath))
       {
@@ -133,10 +134,10 @@
         {
           var xml = new XmlDocumentEx(sitecoreVersionFilePath);
           var major = xml.SelectSingleNode("information/version/major");
-          Assert.IsNotNull(major, "major");
+          Assert.IsNotNull(major, nameof(major));
 
           var minor = xml.SelectSingleNode("information/version/minor");
-          Assert.IsNotNull(minor, "minor");
+          Assert.IsNotNull(minor, nameof(minor));
 
           var build = xml.SelectSingleNode("information/version/build");
           var revision = xml.SelectSingleNode("information/version/revision");
@@ -147,7 +148,7 @@
         }
         catch (Exception ex)
         {
-          Log.Warn(ex, "An error occurred during reading {0} file", assemblyPath);
+          Log.Warn(ex, $"An error occurred during reading {assemblyPath} file");
         }
       }
 
@@ -179,10 +180,13 @@
     {
       #region Fields
 
-      public static readonly AdvancedProperty<string> CoreInstallInstanceNamePattern = AdvancedSettings.Create("Core/Product/InstanceNamePattern", "{ShortName}{ShortVersion}rev{Revision}");
+      public static readonly AdvancedProperty<string> CoreInstallInstanceNamePattern = AdvancedSettings.Create("Core/Product/InstanceNamePattern", "{ShortName}{ShortVersion}{UpdateOrRevision}");
+      
+      public static readonly AdvancedProperty<string> CoreProductRootFolderNamePattern = AdvancedSettings.Create("App/Product/RootFolderNamePattern", "{ShortName}{ShortVersion}{UpdateOrRevision}");
+      
+      public static readonly AdvancedProperty<bool> CoreProductHostNameEndsWithLocal = AdvancedSettings.Create("App/Product/HostName/EndsWithLocal", true);
 
-      public static readonly AdvancedProperty<bool> CoreManifestsUpdateEnabled = AdvancedSettings.Create("Core/Manifests/Update/Enabled", false);
-      public static readonly AdvancedProperty<string> CoreProductRootFolderNamePattern = AdvancedSettings.Create("App/Product/RootFolderNamePattern", "{ShortName}{ShortVersion}rev{Revision}");
+      public static readonly AdvancedProperty<bool> CoreProductReverseHostName = AdvancedSettings.Create("App/Product/HostName/Reverse", true);
 
       public static AdvancedProperty<string> CoreProductNamePattern = AdvancedSettings.Create("Core/Product/NamePattern", string.Empty);
 

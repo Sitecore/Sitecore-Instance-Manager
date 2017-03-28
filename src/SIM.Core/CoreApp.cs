@@ -9,10 +9,11 @@
   using log4net.Core;
   using log4net.Layout;
   using log4net.Util;
-  using SIM.Core.Logging;
-  using SIM.FileSystem;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
   using Sitecore.Diagnostics.Logging;
+  using SIM.Core.Logging;
+  using SIM.Extensions;
+  using SIM.FileSystem;
 
   public static class CoreApp
   {
@@ -28,7 +29,7 @@
           // when last-run exists it cannot be very first run
           return false;
         }
-        
+
         return File.Exists(FirstRunFileName);
       }
     }
@@ -61,7 +62,7 @@
 
     public static void Exit()
     {
-      Log.Info("Shutting down");
+      Log.Info(string.Format("Shutting down"));
     }
 
     public static void LogMainInfo()
@@ -70,20 +71,20 @@
       {
         var nativeArgs = Environment.GetCommandLineArgs();
         var commandLineArgs = nativeArgs.Skip(1).ToArray();
-        var argsToLog = commandLineArgs.Length > 0 ? String.Join("|", commandLineArgs) : "<NO ARGUMENTS>";
+        var argsToLog = commandLineArgs.Length > 0 ? string.Join("|", commandLineArgs) : "<NO ARGUMENTS>";
 
-        Log.Info("**********************************************************************");
-        Log.Info("**********************************************************************");
-        Log.Info("Sitecore Instance Manager started");
-        Log.Info("Version: {0}", ApplicationManager.AppVersion);
-        Log.Info("Revision: {0}", ApplicationManager.AppRevision);
-        Log.Info("Label: {0}", ApplicationManager.AppLabel);
-        Log.Info("IsQA: {0}", ApplicationManager.IsQA);
-        Log.Info("Executable: {0}", nativeArgs.FirstOrDefault() ?? ApplicationManager.ProcessName);
-        Log.Info("Arguments: {0}", argsToLog);
-        Log.Info("Directory: {0}", Environment.CurrentDirectory);
-        Log.Info("**********************************************************************");
-        Log.Info("**********************************************************************");
+        Log.Info(string.Format("**********************************************************************"));
+        Log.Info(string.Format("**********************************************************************"));
+        Log.Info(string.Format("Sitecore Instance Manager started"));
+        Log.Info($"Version: {ApplicationManager.AppVersion}");
+        Log.Info($"Revision: {ApplicationManager.AppRevision}");
+        Log.Info($"Label: {ApplicationManager.AppLabel}");
+        Log.Info($"IsQA: {ApplicationManager.IsQA}");
+        Log.Info($"Executable: {nativeArgs.FirstOrDefault() ?? ApplicationManager.ProcessName}");
+        Log.Info($"Arguments: {argsToLog}");
+        Log.Info($"Directory: {Environment.CurrentDirectory}");
+        Log.Info(string.Format("**********************************************************************"));
+        Log.Info(string.Format("**********************************************************************"));
       }
       catch
       {
@@ -132,65 +133,8 @@
       }
       catch (Exception ex)
       {
-        Log.Error(ex, "Deleting temp folders caused an exception");
+        Log.Error(ex, string.Format("Deleting temp folders caused an exception"));
       }
-    }
-
-    public static bool DoNotTrack()
-    {
-      var path = Path.Combine(ApplicationManager.TempFolder, "donottrack.txt");
-
-      return FileSystem.Local.File.Exists(path);
-    }
-
-    public static string GetId()
-    {
-      string cookie = GetCookie();
-
-      return String.Format("public-{0}", cookie);
-    }
-
-    [NotNull]
-    public static string GetCookie()
-    {
-      var tempFolder = ApplicationManager.TempFolder;
-      var path = Path.Combine(tempFolder, "cookie.txt");
-      if (Directory.Exists(tempFolder))
-      {
-        if (FileSystem.Local.File.Exists(path))
-        {
-          var cookie = FileSystem.Local.File.ReadAllText(path);
-          if (!String.IsNullOrEmpty(cookie))
-          {
-            return cookie;
-          }
-
-          try
-          {
-            FileSystem.Local.File.Delete(path);
-          }
-          catch (Exception ex)
-          {
-            Log.Error(ex, "Cannot delete cookie file");
-          }
-        }
-      }
-      else
-      {
-        Directory.CreateDirectory(tempFolder);
-      }
-
-      var newCookie = Guid.NewGuid().ToString().Replace("{", String.Empty).Replace("}", String.Empty).Replace("-", String.Empty);
-      try
-      {
-        FileSystem.Local.File.WriteAllText(path, newCookie);
-      }
-      catch (Exception ex)
-      {
-        Log.Error(ex, "Cannot write cookie");
-      }
-
-      return newCookie;
     }
 
     public static void OpenFile(string path)
@@ -205,7 +149,7 @@
 
     public static void OpenInBrowser(string url, bool isFrontEnd, string browser = null, [CanBeNull] string[] parameters = null)
     {
-      string app = browser.EmptyToNull() ?? (isFrontEnd ? CoreAppSettings.AppBrowsersFrontend.Value : CoreAppSettings.AppBrowsersBackend.Value);
+      var app = browser.EmptyToNull() ?? (isFrontEnd ? CoreAppSettings.AppBrowsersFrontend.Value : CoreAppSettings.AppBrowsersBackend.Value);
       if (!string.IsNullOrEmpty(app))
       {
         var arguments = parameters != null ? parameters.Where(x => !string.IsNullOrWhiteSpace(x)).ToList() : new List<string>();
@@ -226,7 +170,7 @@
         ProfileSection.Argument("@params", @params);
 
         var resultParams = string.Join(" ", @params.Select(x => x.Trim('\"')).Select(x => x.Contains(" ") || x.Contains("=") ? "\"" + x + "\"" : x));
-        Log.Debug("resultParams: {0}", resultParams);
+        Log.Debug($"resultParams: {resultParams}");
 
         var process = Process.Start(app, resultParams);
 

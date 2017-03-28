@@ -6,7 +6,7 @@
   using Microsoft.Web.Administration;
   using SIM.Adapters.SqlServer;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
 
   #region
 
@@ -27,21 +27,21 @@
 
     protected override long EvaluateStepsCount(RestoreArgs args)
     {
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(args, nameof(args));
 
       return this.GetDatabases(args).Count();
     }
 
     protected override bool IsRequireProcessing(RestoreArgs args)
     {
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(args, nameof(args));
 
       return args.Backup.BackupDatabases;
     }
 
     protected override void Process([NotNull] RestoreArgs args)
     {
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(args, nameof(args));
 
       IEnumerable<Database> databases = this.GetDatabases(args);
 
@@ -58,7 +58,7 @@
             continue;
           }
 
-          string bak = Path.Combine(args.Backup.DatabasesFolderPath, database.BackupFilename);
+          var bak = Path.Combine(args.Backup.DatabasesFolderPath, database.BackupFilename);
           database.Restore(bak);
           this.IncrementProgress();
 
@@ -83,11 +83,11 @@
     [NotNull]
     private IEnumerable<Database> GetDatabases([NotNull] RestoreArgs args)
     {
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(args, nameof(args));
       Database[] dbs = args.Instance.AttachedDatabases.ToArray();
       foreach (string databaseFilename in args.Backup.DatabaseFilenames)
       {
-        string databaseName = Path.GetFileNameWithoutExtension(databaseFilename);
+        var databaseName = Path.GetFileNameWithoutExtension(databaseFilename);
         foreach (Database database in dbs)
         {
           if (database.Name.Equals(databaseName))

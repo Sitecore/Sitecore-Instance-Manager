@@ -4,7 +4,7 @@
   using System.Linq;
   using SIM.Adapters.SqlServer;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
 
   #region
 
@@ -34,7 +34,7 @@
 
     public InstanceBackup([NotNull] string date, [NotNull] string folder, bool backupWebsiteFiles, bool backupDataFiles, bool backupDatabases, bool backupWebsiteFilesNoClient, bool backupMongoDatabases)
     {
-      Assert.ArgumentNotNull(folder, "folder");
+      Assert.ArgumentNotNull(folder, nameof(folder));
 
       this.BackupWebsiteFiles = backupWebsiteFiles;
       this.BackupWebsiteFilesNoClient = backupWebsiteFilesNoClient;
@@ -47,7 +47,7 @@
 
     public InstanceBackup(string date, [NotNull] string folder)
     {
-      Assert.ArgumentNotNull(folder, "folder");
+      Assert.ArgumentNotNull(folder, nameof(folder));
 
       this.FolderPath = folder;
       bool full = FileSystem.FileSystem.Local.File.Exists(this.WebRootFilePath);
@@ -97,7 +97,7 @@
       get
       {
         const string Separator = ", ";
-        string dbs = this.DatabaseFilenames.Aggregate(string.Empty, (current, file) => current + (Path.GetFileNameWithoutExtension(file) + Separator));
+        var dbs = this.DatabaseFilenames.Aggregate(string.Empty, (current, file) => current + (Path.GetFileNameWithoutExtension(file) + Separator));
         dbs = dbs.Substring(0, dbs.Length - Separator.Length);
         return dbs;
       }
@@ -134,7 +134,7 @@
       get
       {
         const string Separator = ", ";
-        string dbs = this.MongoDatabaseFilenames.Aggregate(string.Empty, (current, file) => current + (Path.GetFileName(file) + Separator));
+        var dbs = this.MongoDatabaseFilenames.Aggregate(string.Empty, (current, file) => current + (Path.GetFileName(file) + Separator));
         dbs = dbs.Substring(0, dbs.Length - Separator.Length);
         return dbs;
       }
@@ -164,7 +164,7 @@
 
     public override string ToString()
     {
-      string dbs = string.Empty;
+      var dbs = string.Empty;
       if (this.BackupDatabases)
       {
         dbs = this.DatabasesString;

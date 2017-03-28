@@ -6,6 +6,7 @@
   using System.Linq;
   using Sitecore.Diagnostics.Base;
   using Sitecore.Diagnostics.Logging;
+  using SIM.Extensions;
 
   public static class CacheManager
   {
@@ -137,7 +138,7 @@
         }
         catch (Exception ex)
         {
-          Log.Warn(ex, "The {0} cache is corrupted and will be deleted", path);
+          Log.Warn(ex, $"The {path} cache is corrupted and will be deleted");
           FileSystem.FileSystem.Local.File.Delete(path);
         }
       }

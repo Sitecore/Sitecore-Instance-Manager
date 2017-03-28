@@ -1,6 +1,7 @@
 ﻿namespace SIM.Pipelines.Import
 {
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
+  using SIM.Extensions;
 
   [UsedImplicitly]
   public class UpdateLicense : ImportProcessor
@@ -11,7 +12,7 @@
     {
       if (args.updateLicense)
       {
-        string pathToDataFolder = args.rootPath.PathCombine("Data");
+        var pathToDataFolder = args.rootPath.PathCombine("Data");
         FileSystem.FileSystem.Local.File.Copy(args.pathToLicenseFile, pathToDataFolder.PathCombine("license.xml"));
       }
     }

@@ -3,7 +3,7 @@ namespace SIM.Core.Commands
   using System.IO;
   using System.Linq;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
   using SIM.Core.Common;
   using SIM.Instances;
   using SIM.Pipelines;
@@ -26,14 +26,14 @@ namespace SIM.Core.Commands
 
     protected override void DoExecute(CommandResult<string[]> result)
     {
-      Assert.ArgumentNotNull(result, "result");
+      Assert.ArgumentNotNull(result, nameof(result));
 
-      var name = this.Name;
-      Assert.ArgumentNotNullOrEmpty(name, "name");
+      var name = Name;
+      Assert.ArgumentNotNullOrEmpty(name, nameof(name));
 
-      var product = this.Module;
-      var version = this.Version;
-      var revision = this.Revision;
+      var product = Module;
+      var version = Version;
+      var revision = Revision;
 
       var profile = Profile.Read();
       var repository = profile.LocalRepository;
@@ -47,7 +47,7 @@ namespace SIM.Core.Commands
       var builder = profile.GetValidConnectionString();
 
       var instance = InstanceManager.GetInstance(name);
-      Ensure.IsNotNull(instance, "instance is not found", name);
+      Ensure.IsNotNull(instance, "The {0} instance is not found", name);
 
       ProductManager.Initialize(repository);
 

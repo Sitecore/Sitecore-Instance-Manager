@@ -1,6 +1,6 @@
 namespace SIM.Client.Commands
 {
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
   using SIM.Core.Commands;
 
   public class RepositoryCommandFacade : RepositoryCommand

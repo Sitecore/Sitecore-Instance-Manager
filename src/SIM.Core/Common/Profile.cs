@@ -2,7 +2,7 @@ namespace SIM.Core.Common
 {
   using System.IO;
   using System.Xml.Serialization;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
 
   public class Profile : IProfile
   {
@@ -17,6 +17,15 @@ namespace SIM.Core.Common
 
     public string LocalRepository { get; set; }
 
+    public void Save()
+    {
+      var deserializer = new XmlSerializer(typeof(Profile));
+      using (var textWriter = new StreamWriter(ProfileFilePath))
+      {
+        deserializer.Serialize(textWriter, this);
+      }
+    }
+
     [NotNull]
     public static IProfile Read()
     {
@@ -24,15 +33,6 @@ namespace SIM.Core.Common
       using (var textReader = new StreamReader(ProfileFilePath))
       {
         return (IProfile)deserializer.Deserialize(textReader);
-      }
-    }
-
-    public void Save()
-    {
-      var deserializer = new XmlSerializer(typeof(Profile));
-      using (var textWriter = new StreamWriter(ProfileFilePath))
-      {
-        deserializer.Serialize(textWriter, this);
       }
     }
   }

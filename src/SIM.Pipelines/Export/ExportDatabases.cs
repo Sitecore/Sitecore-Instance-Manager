@@ -5,7 +5,7 @@
   using System.Linq;
   using SIM.Adapters.SqlServer;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
 
   [UsedImplicitly]
   public class ExportDatabases : ExportProcessor
@@ -22,14 +22,14 @@
 
     protected override long EvaluateStepsCount(ExportArgs args)
     {
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(args, nameof(args));
 
       return args.Instance.AttachedDatabases.Count();
     }
 
     protected override void Process([NotNull] ExportArgs args)
     {
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(args, nameof(args));
 
       var selectedDatabases = args.SelectedDatabases;
       var attachedDatabases = args.Instance.AttachedDatabases;
@@ -53,8 +53,8 @@
 
     private void Backup([NotNull] Database database, [NotNull] string folder)
     {
-      Assert.ArgumentNotNull(database, "database");
-      Assert.ArgumentNotNull(folder, "folder");
+      Assert.ArgumentNotNull(database, nameof(database));
+      Assert.ArgumentNotNull(folder, nameof(folder));
 
       var connectionString = database.ConnectionString;
 

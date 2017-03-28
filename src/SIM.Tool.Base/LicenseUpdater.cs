@@ -6,6 +6,7 @@ namespace SIM.Tool.Base
   using SIM.Instances;
   using SIM.Tool.Base.Profiles;
   using Sitecore.Diagnostics.Logging;
+  using SIM.Extensions;
 
   public static class LicenseUpdater
   {
@@ -41,7 +42,7 @@ namespace SIM.Tool.Base
         }
       }
 
-      string filePath = ProfileManager.Profile.License;
+      var filePath = ProfileManager.Profile.License;
 
       const string settings = "Definied in settings";
       const string custom = "Another license file";

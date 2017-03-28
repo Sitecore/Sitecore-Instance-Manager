@@ -2,9 +2,8 @@ namespace SIM.Client.Commands
 {
   using System.Linq;
   using CommandLine;
-  using CommandLine.Text;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
   using SIM.Core.Common;
 
   public abstract class MainCommandGroupBase
@@ -14,7 +13,7 @@ namespace SIM.Client.Commands
     {
       get
       {
-        var command = this.FindCommand(this);
+        var command = FindCommand(this);
         Assert.IsNotNull(command, "There is no selected command");
 
         return command;
@@ -24,7 +23,7 @@ namespace SIM.Client.Commands
     [CanBeNull]
     private ICommand FindCommand([NotNull] object commandContainer)
     {
-      Assert.ArgumentNotNull(commandContainer, "commandContainer");
+      Assert.ArgumentNotNull(commandContainer, nameof(commandContainer));
 
       var properties = commandContainer.GetType().GetProperties();
       foreach (var propertyInfo in properties)
@@ -37,7 +36,7 @@ namespace SIM.Client.Commands
         var innerCommand = propertyInfo.GetValue(commandContainer, null) as ICommand;
         if (innerCommand != null)
         {
-          var command = this.FindCommand(innerCommand);
+          var command = FindCommand(innerCommand);
           if (command != null)
           {
             return command;

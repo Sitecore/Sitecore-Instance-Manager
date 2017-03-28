@@ -4,6 +4,7 @@
   using System.Data.SqlClient;
   using System.IO;
   using System.Xml;
+  using SIM.Extensions;
   using SIM.Pipelines.Import;
   using SIM.Pipelines.Processors;
   using SIM.Tool.Base.Profiles;
@@ -32,7 +33,7 @@
       this.pathToExportedInstance = pathToExportedInstance;
       this.connectionString = ProfileManager.GetConnectionString();
       this.temporaryPathToUnpack = FileSystem.FileSystem.Local.Directory.RegisterTempFolder(FileSystem.FileSystem.Local.Directory.Ensure(Path.GetTempFileName() + "dir"));
-      string websiteSettingsFilePath = FileSystem.FileSystem.Local.Zip.ZipUnpackFile(pathToExportedInstance, this.temporaryPathToUnpack, ImportArgs.websiteSettingsFileName);
+      var websiteSettingsFilePath = FileSystem.FileSystem.Local.Zip.ZipUnpackFile(pathToExportedInstance, this.temporaryPathToUnpack, ImportArgs.websiteSettingsFileName);
       XmlDocumentEx websiteSettings = new XmlDocumentEx();
       websiteSettings.Load(websiteSettingsFilePath);
       this.siteName = websiteSettings.GetElementAttributeValue("/appcmd/SITE/site", "name");

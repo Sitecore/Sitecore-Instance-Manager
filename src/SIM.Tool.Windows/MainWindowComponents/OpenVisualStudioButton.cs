@@ -10,7 +10,7 @@
   using SIM.Tool.Base;
   using SIM.Tool.Base.Plugins;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
   using SIM.Core;
 
   [UsedImplicitly]
@@ -39,7 +39,7 @@
       }
 
       const string noThanks = "No, thanks";
-      const string yesAspNetMvc = "Yes, ASP.NET MVC";
+      const string yesAspNetMvc = "Yes, create new";
       
       var options = new[] { noThanks, yesAspNetMvc };
       var result = WindowHelper.AskForSelection("Choose Visual Studio Project Type", null, "There isn't any Visual Studio project in the instance's folder. \n\nWould you like us to create a new one?", options, mainWindow);

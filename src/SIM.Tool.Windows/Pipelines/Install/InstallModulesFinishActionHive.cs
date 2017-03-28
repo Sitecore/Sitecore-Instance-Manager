@@ -27,7 +27,7 @@
     {
       InstallModulesWizardArgs installModulesWizardArgs = (InstallModulesWizardArgs)wizardArgs;
       List<Product> modules = installModulesWizardArgs.Modules;
-      foreach (Product module in modules)
+      foreach (var module in modules)
       {
         XmlDocument manifest = module.Manifest;
         if (manifest != null && manifest != Product.EmptyManifest)

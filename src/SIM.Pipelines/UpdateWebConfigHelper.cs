@@ -7,7 +7,9 @@ namespace SIM.Pipelines
   using System.Text;
   using SIM.Pipelines.Install;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
+  using Sitecore.Diagnostics.Logging;
+  using SIM.Extensions;
 
   public static class UpdateWebConfigHelper
   {
@@ -15,24 +17,33 @@ namespace SIM.Pipelines
 
     public static void Process([NotNull] string rootFolderPath, [NotNull] string webRootPath, [NotNull] string dataFolder, bool serverSideRedirect, bool increaseExecutionTimeout)
     {
-      Assert.ArgumentNotNull(rootFolderPath, "rootFolderPath");
-      Assert.ArgumentNotNull(webRootPath, "webRootPath");
-      Assert.ArgumentNotNull(dataFolder, "dataFolder");
+      Assert.ArgumentNotNull(rootFolderPath, nameof(rootFolderPath));
+      Assert.ArgumentNotNull(webRootPath, nameof(webRootPath));
+      Assert.ArgumentNotNull(dataFolder, nameof(dataFolder));
 
       if (increaseExecutionTimeout)
       {
         var executionTimeout = Settings.CoreInstallHttpRuntimeExecutionTimeout.Value;
-        var webConfig = XmlDocumentEx.LoadFile(Path.Combine(webRootPath, "web.config"));
-        var httpRuntime = GetHttpRuntime(webConfig, true);
-
-        httpRuntime.SetAttribute("executionTimeout", executionTimeout.ToString());
-        webConfig.Save();
+        if (!string.IsNullOrEmpty(executionTimeout))
+        {
+          var webConfig = XmlDocumentEx.LoadFile(Path.Combine(webRootPath, "web.config"));
+          var httpRuntime = GetHttpRuntime(webConfig, true);
+          if (httpRuntime == null)
+          {
+            Log.Error(string.Format("Cannot extend executionTimeout as httpRuntime element is missing"));
+          }
+          else
+          {
+            httpRuntime.SetAttribute("executionTimeout", executionTimeout);
+            webConfig.Save();
+          }           
+        }
       }
 
       SetupWebsiteHelper.SetDataFolder(rootFolderPath, dataFolder);
       if (serverSideRedirect)
       {
-        CreateIncludeFile(rootFolderPath, "UseServerSideRedirect.config", new NameValueCollection
+        CreateSettingsIncludeFile(rootFolderPath, "UseServerSideRedirect.config", new NameValueCollection
         {
           {
             "RequestErrors.UseServerSideRedirect", "true"
@@ -72,9 +83,10 @@ namespace SIM.Pipelines
         }
       };
 
-      CreateIncludeFile(rootFolderPath, "MailServer.config", settings);
+      CreateSettingsIncludeFile(rootFolderPath, "MailServer.config", settings);
     }
 
+    [CanBeNull]
     public static XmlElement GetHttpRuntime(XmlDocument configuration, bool createIfMissing = false)
     {
       var systemWeb = configuration.SelectSingleElement("/configuration/system.web");
@@ -110,11 +122,11 @@ namespace SIM.Pipelines
 
     #region Private methods
 
-    private static void CreateIncludeFile([NotNull] string rootFolderPath, [NotNull] string includeFileName, [NotNull] NameValueCollection settings)
+    private static void CreateSettingsIncludeFile([NotNull] string rootFolderPath, [NotNull] string includeFileName, [NotNull] NameValueCollection settings)
     {
-      Assert.ArgumentNotNull(rootFolderPath, "rootFolderPath");
-      Assert.ArgumentNotNull(includeFileName, "includeFileName");
-      Assert.ArgumentNotNull(settings, "settings");
+      Assert.ArgumentNotNull(rootFolderPath, nameof(rootFolderPath));
+      Assert.ArgumentNotNull(includeFileName, nameof(includeFileName));
+      Assert.ArgumentNotNull(settings, nameof(settings));
 
       const string Prefix = @"<configuration xmlns:patch=""http://www.sitecore.net/xmlconfig/"">
   <sitecore>

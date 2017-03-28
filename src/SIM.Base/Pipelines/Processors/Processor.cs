@@ -4,8 +4,9 @@
   using System.Collections.Generic;
   using System.Threading;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
   using Sitecore.Diagnostics.Logging;
+  using SIM.Extensions;
 
   #region
 
@@ -41,7 +42,7 @@
       get
       {
         object value = this.GetValue("State");
-        Assert.IsNotNull(value, "value");
+        Assert.IsNotNull(value, nameof(value));
 
         return (ProcessorState)value;
       }
@@ -82,7 +83,7 @@
         }
         catch (Exception ex)
         {
-          Log.Warn(ex, "An error occurred during calculating processor.IsDone property");
+          Log.Warn(ex, string.Format("An error occurred during calculating processor.IsDone property"));
 
           return false;
         }
@@ -99,14 +100,14 @@
 
     public virtual long EvaluateStepsCount([NotNull] ProcessorArgs args)
     {
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(args, nameof(args));
 
       return 1;
     }
 
     public bool Execute([NotNull] ProcessorArgs args)
     {
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(args, nameof(args));
 
       var controller = this.Controller;
       if (!this.IsDone)
@@ -141,7 +142,7 @@
             controller.ProcessorCrashed(ex.Message);
           }
 
-          Log.Error(ex, "Processor of type '{0}' failed. {1}", this.ProcessorDefinition.Type.FullName, ex.Message);
+          Log.Error(ex, $"Processor of type '{this.ProcessorDefinition.Type.FullName}' failed. {ex.Message}");
           return false;
         }
       }
@@ -151,7 +152,7 @@
 
     public virtual bool IsRequireProcessing([NotNull] ProcessorArgs args)
     {
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(args, nameof(args));
 
       return true;
     }

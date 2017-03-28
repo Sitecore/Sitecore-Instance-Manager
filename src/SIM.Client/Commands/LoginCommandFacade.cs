@@ -4,7 +4,7 @@ namespace SIM.Client.Commands
   using System.IO;
   using System.Threading;
   using CommandLine;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
   using SIM.Core;
   using SIM.Core.Commands;
 

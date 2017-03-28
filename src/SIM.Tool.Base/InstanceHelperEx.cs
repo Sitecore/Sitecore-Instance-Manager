@@ -1,20 +1,17 @@
 namespace SIM.Tool.Base
 {
   using System;
-  using System.Collections.Generic;
-  using System.Diagnostics;
   using System.IO;
   using System.Linq;
-  using System.Text.RegularExpressions;
   using System.Threading;
   using System.Windows;
-  using System.Windows.Documents;
   using Microsoft.Web.Administration;
   using SIM.Instances;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
   using Sitecore.Diagnostics.Logging;
   using SIM.Core;
+  using SIM.Extensions;
 
   public static class InstanceHelperEx
   {
@@ -22,9 +19,9 @@ namespace SIM.Tool.Base
 
     public static void BrowseInstance([NotNull] Instance instance, [NotNull] Window owner, [NotNull] string virtualPath, bool isFrontEnd, [CanBeNull] string browser = null, [CanBeNull] string[] parameters = null)
     {
-      Assert.ArgumentNotNull(instance, "instance");
-      Assert.ArgumentNotNull(owner, "owner");
-      Assert.ArgumentNotNull(virtualPath, "virtualPath");
+      Assert.ArgumentNotNull(instance, nameof(instance));
+      Assert.ArgumentNotNull(owner, nameof(owner));
+      Assert.ArgumentNotNull(virtualPath, nameof(virtualPath));
 
       if (!EnsureAppPoolState(instance, owner))
       {
@@ -36,7 +33,7 @@ namespace SIM.Tool.Base
 
     public static void Browse(Instance instance, string virtualPath, bool isFrontEnd, string browser, string[] parameters)
     {
-      string url = instance.GetUrl();
+      var url = instance.GetUrl();
       if (!string.IsNullOrEmpty(url))
       {
         url += '/' + virtualPath.TrimStart('/');
@@ -46,8 +43,8 @@ namespace SIM.Tool.Base
 
     public static void OpenCurrentLogFile([NotNull] Instance instance, [NotNull] Window owner, [CanBeNull] string logFileType = null)
     {
-      Assert.ArgumentNotNull(instance, "instance");
-      Assert.ArgumentNotNull(owner, "owner");
+      Assert.ArgumentNotNull(instance, nameof(instance));
+      Assert.ArgumentNotNull(owner, nameof(owner));
 
       var dataFolderPath = instance.DataFolderPath;
       FileSystem.FileSystem.Local.Directory.AssertExists(dataFolderPath, "The data folder ({0}) of the {1} instance doesn't exist".FormatWith(dataFolderPath, instance.Name));
@@ -158,7 +155,7 @@ namespace SIM.Tool.Base
         catch (Exception ex)
         {
           fileSystemWatcher.EnableRaisingEvents = false;
-          Log.Error(ex, "Unhandled error happened while reopening log file");
+          Log.Error(ex, string.Format("Unhandled error happened while reopening log file"));
         }
       };
 
@@ -183,20 +180,20 @@ namespace SIM.Tool.Base
 
     public static void OpenInBrowserAsAdmin([NotNull] Instance instance, [NotNull] Window owner, [CanBeNull] string pageUrl = null, [CanBeNull] string browser = null, [CanBeNull] string[] parameters = null)
     {
-      Assert.ArgumentNotNull(instance, "instance");
-      Assert.ArgumentNotNull(owner, "owner");
+      Assert.ArgumentNotNull(instance, nameof(instance));
+      Assert.ArgumentNotNull(owner, nameof(owner));
 
       AuthenticationHelper.LoginAsAdmin(instance, owner, pageUrl, browser, parameters);
     }
 
-    public static bool PreheatInstance(Instance instance, Window mainWindow, bool ignoreAdvancedSetting = false)
+    public static bool PreheatInstance(Instance instance, Window mainWindow)
     {
       if (!EnsureAppPoolState(instance, mainWindow))
       {
         return false;
       }
 
-      if (!WinAppSettings.AppPreheatEnabled.Value && !ignoreAdvancedSetting)
+      if (!WinAppSettings.AppPreheatEnabled.Value)
       {
         return true;
       }
@@ -256,8 +253,8 @@ namespace SIM.Tool.Base
 
     private static bool EnsureAppPoolState([NotNull] Instance instance, [NotNull] Window mainWindow)
     {
-      Assert.ArgumentNotNull(instance, "instance");
-      Assert.ArgumentNotNull(mainWindow, "mainWindow");
+      Assert.ArgumentNotNull(instance, nameof(instance));
+      Assert.ArgumentNotNull(mainWindow, nameof(mainWindow));
 
       var state = instance.ApplicationPoolState;
       if (state == ObjectState.Stopped || state == ObjectState.Stopping)

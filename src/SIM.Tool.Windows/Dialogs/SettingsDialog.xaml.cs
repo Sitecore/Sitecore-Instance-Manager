@@ -7,7 +7,7 @@
   using SIM.Tool.Base;
   using SIM.Tool.Base.Profiles;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
 
   #region
 
@@ -44,7 +44,7 @@
 
       set
       {
-        Assert.ArgumentNotNull(value, "value");
+        Assert.ArgumentNotNull(value, nameof(value));
 
         this.DataContext = value;
       }
@@ -61,35 +61,35 @@
 
     private void PickConnectionString([NotNull] object sender, [NotNull] RoutedEventArgs e)
     {
-      Assert.ArgumentNotNull(sender, "sender");
-      Assert.ArgumentNotNull(e, "e");
+      Assert.ArgumentNotNull(sender, nameof(sender));
+      Assert.ArgumentNotNull(e, nameof(e));
 
       WindowHelper.ShowDialog<ConnectionStringDialog>(this.ConnectionString.Text, this);
       BindingExpression binding = this.ConnectionString.GetBindingExpression(TextBox.TextProperty);
-      Assert.IsNotNull(binding, "binding");
+      Assert.IsNotNull(binding, nameof(binding));
       binding.UpdateSource();
     }
 
     private void PickInstallsFolder([NotNull] object sender, [NotNull] RoutedEventArgs e)
     {
-      Assert.ArgumentNotNull(sender, "sender");
-      Assert.ArgumentNotNull(e, "e");
+      Assert.ArgumentNotNull(sender, nameof(sender));
+      Assert.ArgumentNotNull(e, nameof(e));
 
       WindowHelper.PickFolder("Choose folder with Sitecore zip installation packages", this.localRepository, this.DoneButton);
     }
 
     private void PickInstancesFolder([NotNull] object sender, [NotNull] RoutedEventArgs e)
     {
-      Assert.ArgumentNotNull(sender, "sender");
-      Assert.ArgumentNotNull(e, "e");
+      Assert.ArgumentNotNull(sender, nameof(sender));
+      Assert.ArgumentNotNull(e, nameof(e));
 
       WindowHelper.PickFolder("Choose folder where Sitecore instances must be installed", this.MainRootFolder, this.DoneButton);
     }
 
     private void PickLicenseFile([NotNull] object sender, [NotNull] RoutedEventArgs e)
     {
-      Assert.ArgumentNotNull(sender, "sender");
-      Assert.ArgumentNotNull(e, "e");
+      Assert.ArgumentNotNull(sender, nameof(sender));
+      Assert.ArgumentNotNull(e, nameof(e));
 
       WindowHelper.PickFile("Choose license file", this.LicenseFile, this.DoneButton, "XML Files|*.xml");
     }
@@ -119,7 +119,7 @@
         if (!string.IsNullOrEmpty(t) && FileSystem.FileSystem.Local.Directory.Exists(t))
         {
           BindingExpression binding = ((TextBox)sender).GetBindingExpression(TextBox.TextProperty);
-          Assert.IsNotNull(binding, "binding");
+          Assert.IsNotNull(binding, nameof(binding));
           binding.UpdateSource();
           this.SaveSettings();
 
@@ -132,8 +132,8 @@
 
     private void WindowKeyUp([NotNull] object sender, [NotNull] KeyEventArgs e)
     {
-      Assert.ArgumentNotNull(sender, "sender");
-      Assert.ArgumentNotNull(e, "e");
+      Assert.ArgumentNotNull(sender, nameof(sender));
+      Assert.ArgumentNotNull(e, nameof(e));
 
       if (e.Key == Key.Escape)
       {

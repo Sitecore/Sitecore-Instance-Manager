@@ -2,7 +2,8 @@
 {
   using System.IO;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
+  using SIM.Extensions;
 
   #region
 
@@ -17,7 +18,7 @@
 
     protected override void Process([NotNull] InstallArgs args)
     {
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(args, nameof(args));
 
       var tempRootFolder = FileSystem.FileSystem.Local.Zip.GetFirstRootFolder(args.PackagePath);
       Assert.IsNotNull(tempRootFolder, "The single root folder within {0} archive was not found".FormatWith(args.PackagePath));

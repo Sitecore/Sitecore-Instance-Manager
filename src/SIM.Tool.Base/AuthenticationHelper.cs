@@ -6,17 +6,18 @@
   using System.Windows;
   using SIM.Instances;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
   using SIM.Core;
+  using SIM.Extensions;
 
   public static class AuthenticationHelper
   {
     internal static void LoginAsAdmin([NotNull] Instance instance, [NotNull] Window owner, [CanBeNull] string pageUrl = null, [CanBeNull] string browser = null, [CanBeNull] string[] parameters = null)
     {
-      Assert.ArgumentNotNull(instance, "instance");
-      Assert.ArgumentNotNull(owner, "owner");
+      Assert.ArgumentNotNull(instance, nameof(instance));
+      Assert.ArgumentNotNull(owner, nameof(owner));
 
-      if (!InstanceHelperEx.PreheatInstance(instance, owner, true))
+      if (!InstanceHelperEx.PreheatInstance(instance, owner))
       {
         return;
       }

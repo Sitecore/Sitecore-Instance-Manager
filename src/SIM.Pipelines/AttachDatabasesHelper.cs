@@ -5,13 +5,17 @@ namespace SIM.Pipelines
   using System;
   using System.Data.SqlClient;
   using System.IO;
+  using System.IO.Compression;
   using System.Linq;
   using SIM.Adapters.SqlServer;
   using SIM.Adapters.WebServer;
   using SIM.Pipelines.Install;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
   using Sitecore.Diagnostics.Logging;
+  using SIM.Extensions;
+  using SIM.FileSystem;
+  using SIM.Instances;
 
   #endregion
 
@@ -22,17 +26,22 @@ namespace SIM.Pipelines
 
     #region Public methods
 
-    public static void AttachDatabase(string name, string databasesFolderPath, ConnectionString connectionString, SqlConnectionStringBuilder defaultConnectionString, IPipelineController controller)
+    public static void AttachDatabase(string name, string sqlPrefix, bool attachSql, string databasesFolderPath, ConnectionString connectionString, SqlConnectionStringBuilder defaultConnectionString, IPipelineController controller)
     {
-      SetConnectionStringNode(name, defaultConnectionString, connectionString);
+      SetConnectionStringNode(name, sqlPrefix, defaultConnectionString, connectionString);
 
-      string databaseName = connectionString.GenerateDatabaseName(name);
+      if (!attachSql)
+      {
+        return;
+      }
 
-      string databasePath =
+      var databaseName = connectionString.GenerateDatabaseName(name, sqlPrefix);
+
+      var databasePath =
         DatabaseFilenameHook(Path.Combine(databasesFolderPath, connectionString.DefaultFileName), 
           connectionString.Name.Replace("yafnet", "forum"), databasesFolderPath);
 
-      if (!FileSystem.FileSystem.Local.File.Exists(databasePath))
+      if (!FileSystem.Local.File.Exists(databasePath))
       {
         var file = Path.GetFileName(databasePath);
         if (connectionString.Name.EqualsIgnoreCase("reporting"))
@@ -48,7 +57,24 @@ namespace SIM.Pipelines
         }
       }
 
-      FileSystem.FileSystem.Local.File.AssertExists(databasePath, databasePath + " file doesn't exist");
+      FileSystem.Local.File.AssertExists(databasePath, databasePath + " file doesn't exist");
+
+      if (Settings.CoreInstallRenameSqlFiles.Value)
+      {
+        // Make the database data file also matching databaseName
+        var newPath = databasePath.Replace(connectionString.DefaultFileName, string.Concat(databaseName, ".mdf"));
+        try
+        {
+          File.Move(databasePath, newPath);
+        }
+        catch
+        {
+        }
+
+        // Assert again
+        databasePath = newPath;
+        FileSystem.Local.File.AssertExists(databasePath, databasePath + " file doesn't exist");
+      }
 
       if (SqlServerManager.Instance.DatabaseExists(databaseName, defaultConnectionString))
       {
@@ -61,11 +87,11 @@ namespace SIM.Pipelines
       }
     }
 
-    public static void AttachDatabase(ConnectionString connectionString, SqlConnectionStringBuilder defaultConnectionString, string name, string databasesFolderPath, string instanceName, IPipelineController controller)
+    public static void AttachDatabase(ConnectionString connectionString, SqlConnectionStringBuilder defaultConnectionString, string name, string sqlPrefix, bool attachSql, string databasesFolderPath, string instanceName, IPipelineController controller)
     {
       if (connectionString.IsMongoConnectionString)
       {
-        connectionString.Value = AttachDatabasesHelper.GetMongoConnectionString(connectionString.Name, instanceName);
+        connectionString.Value = AttachDatabasesHelper.GetMongoConnectionString(connectionString.Name, sqlPrefix);
         connectionString.SaveChanges();
         return;
       }
@@ -74,7 +100,7 @@ namespace SIM.Pipelines
       {
         try
         {
-          AttachDatabasesHelper.AttachDatabase(name, databasesFolderPath, connectionString, defaultConnectionString, controller);
+          AttachDatabasesHelper.AttachDatabase(name, sqlPrefix, attachSql, databasesFolderPath, connectionString, defaultConnectionString, controller);
         }
         catch (Exception ex)
         {
@@ -83,22 +109,40 @@ namespace SIM.Pipelines
             throw;
           }
 
-          Log.Warn(ex, "Attaching reporting.secondary database failed. Skipping...");
+          Log.Warn(ex, string.Format("Attaching reporting.secondary database failed. Skipping..."));
         }
       }
+    }
+
+    public static string GetSqlPrefix(string cstr1, string cstr2)
+    {
+      var one = new SqlConnectionStringBuilder(cstr1).InitialCatalog;
+      var two = new SqlConnectionStringBuilder(cstr2).InitialCatalog;
+      var min = Math.Min(one.Length, two.Length);
+      var sqlPrefix = string.Empty;
+      for (var i = 0; i < min; ++i)
+      {
+        if (one[i] == two[i])
+        {
+          sqlPrefix = one.Substring(0, i + 1);
+        }
+      }
+
+      Assert.IsNotNull(sqlPrefix.EmptyToNull(), "two first database names have different prefixes when they must be similar");
+      return sqlPrefix.Replace(".", "_").TrimEnd('_');
     }
 
     [NotNull]
     public static string DatabaseFilenameHook([NotNull] string databasePath, [NotNull] string databaseName, [NotNull] string databasesFolderPath)
     {
-      Assert.ArgumentNotNull(databasePath, "databasePath");
-      Assert.ArgumentNotNull(databaseName, "databaseName");
+      Assert.ArgumentNotNull(databasePath, nameof(databasePath));
+      Assert.ArgumentNotNull(databaseName, nameof(databaseName));
 
-      if (!FileSystem.FileSystem.Local.File.Exists(databasePath))
+      if (!FileSystem.Local.File.Exists(databasePath))
       {
-        string[] files = FileSystem.FileSystem.Local.Directory.GetFiles(databasesFolderPath, "*" + databaseName + ".mdf");
-        string file = files.SingleOrDefault();
-        if (!string.IsNullOrEmpty(file) && FileSystem.FileSystem.Local.File.Exists(file))
+        string[] files = FileSystem.Local.Directory.GetFiles(databasesFolderPath, "*" + databaseName + ".mdf");
+        var file = files.SingleOrDefault();
+        if (!String.IsNullOrEmpty(file) && FileSystem.Local.File.Exists(file))
         {
           return file;
         }
@@ -109,9 +153,9 @@ namespace SIM.Pipelines
 
     public static string ResolveConflict(SqlConnectionStringBuilder defaultConnectionString, ConnectionString connectionString, string databasePath, string databaseName, IPipelineController controller)
     {
-      string existingDatabasePath = SqlServerManager.Instance.GetDatabaseFileName(databaseName, defaultConnectionString);
+      var existingDatabasePath = SqlServerManager.Instance.GetDatabaseFileName(databaseName, defaultConnectionString);
 
-      if (string.IsNullOrEmpty(existingDatabasePath))
+      if (String.IsNullOrEmpty(existingDatabasePath))
       {
         var m = "The database with the same '{0}' name is already exists in the SQL Server metabase but points to non-existing file. ".FormatWith(databaseName);
         if (controller.Confirm(m + "Would you like to delete it?"))
@@ -129,15 +173,15 @@ namespace SIM.Pipelines
       }
 
       // todo: replce this with shiny message box
-      string delete = "Delete the '{0}' database".FormatWith(databaseName);
+      var delete = "Delete the '{0}' database".FormatWith(databaseName);
       const string AnotherName = "Use another database name";
       const string Cancel = "Terminate current action";
       string[] options = new[]
       {
         delete, AnotherName, Cancel
       };
-      string m2 = "The database with '{0}' name already exists".FormatWith(databaseName);
-      string result = controller.Select(m2, options);
+      var m2 = "The database with '{0}' name already exists".FormatWith(databaseName);
+      var result = controller.Select(m2, options);
       switch (result)
       {
         case Cancel:
@@ -160,8 +204,8 @@ namespace SIM.Pipelines
     [NotNull]
     private static string GetMongoConnectionString([NotNull] string connectionStringName, [NotNull] string instanceName)
     {
-      Assert.ArgumentNotNull(connectionStringName, "connectionStringName");
-      Assert.ArgumentNotNull(instanceName, "instanceName");
+      Assert.ArgumentNotNull(connectionStringName, nameof(connectionStringName));
+      Assert.ArgumentNotNull(instanceName, nameof(instanceName));
 
       var mongoDbName = instanceName + "_" + connectionStringName;
       var invalidChars = new[]
@@ -180,8 +224,8 @@ namespace SIM.Pipelines
     [NotNull]
     private static string GetUnusedDatabaseName([NotNull] SqlConnectionStringBuilder defaultConnectionString, [NotNull] string databaseName)
     {
-      Assert.ArgumentNotNull(defaultConnectionString, "defaultConnectionString");
-      Assert.ArgumentNotNull(databaseName, "databaseName");
+      Assert.ArgumentNotNull(defaultConnectionString, nameof(defaultConnectionString));
+      Assert.ArgumentNotNull(databaseName, nameof(databaseName));
 
       const int K = 100;
       for (int i = 1; i <= K; i++)
@@ -198,9 +242,9 @@ namespace SIM.Pipelines
     [NotNull]
     private static string ResolveConflictByUnsedName([NotNull] SqlConnectionStringBuilder defaultConnectionString, [NotNull] ConnectionString connectionString, [NotNull] string databaseName)
     {
-      Assert.ArgumentNotNull(defaultConnectionString, "defaultConnectionString");
-      Assert.ArgumentNotNull(connectionString, "connectionString");
-      Assert.ArgumentNotNull(databaseName, "databaseName");
+      Assert.ArgumentNotNull(defaultConnectionString, nameof(defaultConnectionString));
+      Assert.ArgumentNotNull(connectionString, nameof(connectionString));
+      Assert.ArgumentNotNull(databaseName, nameof(databaseName));
 
       databaseName = GetUnusedDatabaseName(defaultConnectionString, databaseName);
       connectionString.RealName = databaseName;
@@ -208,14 +252,16 @@ namespace SIM.Pipelines
       return databaseName;
     }
 
-    private static void SetConnectionStringNode([NotNull] string name, [NotNull] SqlConnectionStringBuilder defaultConnectionString, [NotNull] ConnectionString connectionString)
+    private static void SetConnectionStringNode([NotNull] string name, [NotNull] string sqlPrefix, [NotNull] SqlConnectionStringBuilder defaultConnectionString, [NotNull] ConnectionString connectionString)
     {
-      Assert.ArgumentNotNull(defaultConnectionString, "defaultConnectionString");
-      Assert.ArgumentNotNull(connectionString, "connectionString");
+      Assert.ArgumentNotNull(name, nameof(name));
+      Assert.ArgumentNotNull(sqlPrefix, nameof(sqlPrefix));
+      Assert.ArgumentNotNull(defaultConnectionString, nameof(defaultConnectionString));
+      Assert.ArgumentNotNull(connectionString, nameof(connectionString));
 
       SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder(defaultConnectionString.ConnectionString)
       {
-        InitialCatalog = connectionString.GenerateDatabaseName(name), 
+        InitialCatalog = connectionString.GenerateDatabaseName(name, sqlPrefix), 
         IntegratedSecurity = false
       };
       connectionString.Value = builder.ToString();
@@ -223,5 +269,33 @@ namespace SIM.Pipelines
     }
 
     #endregion
+
+    public static string GetSqlPrefix(Instance instance)
+    {
+      var connectionStrings = instance.Configuration.ConnectionStrings.Where(x => x.IsSqlConnectionString).ToArray();
+      Assert.IsTrue(connectionStrings.Length >= 2, "2 or more sql connection strings are required");
+
+      return AttachDatabasesHelper.GetSqlPrefix(connectionStrings[0].Value, connectionStrings[1].Value);
+    }
+
+    public static void ExtractReportingDatabase(Instance instance, FileInfo destination)
+    {
+      Assert.ArgumentNotNull(instance, nameof(instance));
+      Assert.ArgumentNotNull(destination, nameof(destination));
+
+      var product = instance.Product;
+      Assert.IsNotNull(product.PackagePath.EmptyToNull(), $"The {instance.ProductFullName} product distributive is not available in local repository");
+
+      var package = new FileInfo(product.PackagePath);
+      Assert.IsTrue(package.Exists, $"The {package.FullName} file does not exist");
+
+      using (var zip = ZipFile.OpenRead(package.FullName))
+      {
+        var entry = zip.Entries.FirstOrDefault(x => x.FullName.EndsWith("Sitecore.Analytics.mdf"));
+        Assert.IsNotNull(entry, $"Cannot find Sitecore.Analytics.mdf in the {package.FullName} file");
+
+        entry.ExtractToFile(destination.FullName);
+      }
+    }
   }
 }

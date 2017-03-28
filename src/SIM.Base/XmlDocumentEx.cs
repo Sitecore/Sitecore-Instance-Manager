@@ -8,8 +8,9 @@
   using System.Text;
   using System.Xml;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
   using Sitecore.Diagnostics.Logging;
+  using SIM.Extensions;
 
   #endregion
 
@@ -23,7 +24,7 @@
 
     public XmlDocumentEx([NotNull] string filePath)
     {
-      Assert.ArgumentNotNull(filePath, "filePath");
+      Assert.ArgumentNotNull(filePath, nameof(filePath));
 
       this.FilePath = filePath;
       this.Load(filePath);
@@ -50,14 +51,30 @@
       }
       catch (Exception ex)
       {
-        Log.Warn(ex, "Cannot load xml: {0}. {1}\r\n{2}", xml, ex.Message, Environment.StackTrace);
+        Log.Warn(ex, $"Cannot load xml: {xml}. {ex.Message}\r\n{Environment.StackTrace}");
+        return null;
+      }
+    }
+    
+    [CanBeNull]
+    public static XmlDocumentEx LoadStream(Stream stream)
+    {
+      try
+      {
+        XmlDocument doc = new XmlDocumentEx();
+        doc.Load(stream);
+        return (XmlDocumentEx)doc;
+      }
+      catch (Exception ex)
+      {
+        Log.Warn(ex, string.Format("Cannot load xml. {1}\r\n{2}", ex.Message, Environment.StackTrace));
         return null;
       }
     }
 
     public override sealed void Load([NotNull] string filename)
     {
-      Assert.ArgumentNotNull(filename, "filename");
+      Assert.ArgumentNotNull(filename, nameof(filename));
 
       this.FilePath = filename;
       base.Load(filename);
@@ -89,7 +106,7 @@
     [NotNull]
     public static XmlDocumentEx LoadFile([NotNull] string path)
     {
-      Assert.ArgumentNotNull(path, "path");
+      Assert.ArgumentNotNull(path, nameof(path));
       if (!FileSystem.FileSystem.Local.File.Exists(path))
       {
         throw new FileIsMissingException("The " + path + " doesn't exists");
@@ -106,7 +123,7 @@
     [CanBeNull]
     public static XmlDocumentEx LoadFileSafe([NotNull] string path)
     {
-      Assert.ArgumentNotNull(path, "path");
+      Assert.ArgumentNotNull(path, nameof(path));
 
       if (!FileSystem.FileSystem.Local.File.Exists(path))
       {
@@ -149,7 +166,7 @@
 
     public XmlDocumentEx Merge(XmlDocument target)
     {
-      Assert.ArgumentNotNull(target, "target");
+      Assert.ArgumentNotNull(target, nameof(target));
       var root = this.DocumentElement.IsNotNull("The DocumentElement is missing");
       var importedRoot = target.DocumentElement.IsNotNull("The DocumentElement of imported xml is missing");
       Merge(root, importedRoot);
@@ -174,13 +191,15 @@
 
       if (element != null)
       {
+        if (value.IsNullOrEmpty()) return;
+
         element.InnerText = value;
         return;
       }
 
       var segments = xpath.Split('/').Where(w => !string.IsNullOrEmpty(w)).ToArray();
 
-      string path = this.Prefix.TrimEnd("/");
+      var path = this.Prefix.TrimEnd("/");
       element = this.DocumentElement;
       for (int i = 1; i < segments.Length; ++i)
       {
@@ -195,6 +214,8 @@
 
         element = newElement;
       }
+
+      if (value.IsNullOrEmpty()) return;
 
       element.InnerText = value;
     }
@@ -281,5 +302,6 @@
 
       return sw.ToString();
     }
+    
   }
 }

@@ -6,21 +6,20 @@
   using System.IO;
   using System.Linq;
   using System.Reflection;
-
   using CommandLine;
   using Newtonsoft.Json;
+  using Sitecore.Diagnostics.Base;
+  using JetBrains.Annotations;
   using SIM.Client.Commands;
   using SIM.Client.Serialization;
   using SIM.Core;
   using SIM.Core.Common;
-  using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
 
   public static class Program
   {
     public static void Main([NotNull] string[] args)
     {
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(args, nameof(args));
 
       CoreApp.InitializeLogging();
 
@@ -32,24 +31,38 @@
       var query = GetQueryAndFilterArgs(filteredArgs);
       var wait = GetWaitAndFilterArgs(filteredArgs);
 
-      var parser = new Parser(with => with.HelpWriter = Console.Error);
-      Assert.IsNotNull(parser, "parser");
+      var parser = new Parser(with =>
+      {
+        with.MutuallyExclusive = true;
+        with.HelpWriter = Console.Error;
+      });
+
+      Assert.IsNotNull(parser, nameof(parser));
 
       var options = new MainCommandGroup();
       EnsureAutoCompeteForCommands(options);
-      if (!parser.ParseArguments(filteredArgs.ToArray(), options, delegate { }))
+      ICommand selectedCommand = null;
+      if (!parser.ParseArguments(filteredArgs.ToArray(), options, (verb, command) => selectedCommand = (ICommand)command))
       {
         Console.WriteLine("Note, commands provide output when work is done i.e. without any progress indication.");
         Console.WriteLine("\r\n  --query\t   When specified, allows returning only part of any command's output");
         Console.WriteLine("\r\n  --data\t   When specified, allows returning only 'data' part of any command's output");
         Console.WriteLine("\r\n  --wait\t   When specified, waits for keyboard input before terminating");
 
+        if (wait)
+        {
+          Console.ReadKey();
+        }
+
         Environment.Exit(Parser.DefaultExitCodeFail);
       }
 
-      var result = options.SelectedCommand.Execute();
+      Assert.IsNotNull(selectedCommand, nameof(selectedCommand));
 
-      result = QueryResult(result, query);
+      var commandResult = selectedCommand.Execute();
+      Assert.IsNotNull(commandResult, nameof(commandResult));
+
+      var result = QueryResult(commandResult, query);
       if (result == null)
       {
         return;
@@ -58,7 +71,7 @@
       var serializer = new JsonSerializer
       {
         NullValueHandling = NullValueHandling.Ignore,
-        Formatting = Formatting.Indented,        
+        Formatting = Formatting.Indented
       };
 
       serializer.Converters.Add(new DirectoryInfoConverter());
@@ -96,16 +109,16 @@
     }
 
     [CanBeNull]
-    private static CommandResult QueryResult([NotNull] CommandResult result, [CanBeNull] string query)
+    private static object QueryResult([NotNull] CommandResult result, [CanBeNull] string query)
     {
-      Assert.ArgumentNotNull(result, "result");
+      Assert.ArgumentNotNull(result, nameof(result));
 
       if (string.IsNullOrEmpty(query) || !result.Success)
       {
         return result;
       }
 
-      var obj = result;
+      object obj = result;
       foreach (var chunk in query.Split("./".ToCharArray()))
       {
         if (string.IsNullOrEmpty(chunk))
@@ -113,13 +126,13 @@
           continue;
         }
 
-        var newObj = null as CommandResult;
+        var newObj = null as object;
         var dictionary = obj as IDictionary;
         if (dictionary != null)
         {
           if (dictionary.Contains(chunk))
           {
-            newObj = dictionary[chunk] as CommandResult;
+            newObj = dictionary[chunk];
           }
         }
         else
@@ -128,7 +141,7 @@
           var prop = type.GetProperties().FirstOrDefault(x => x.Name.Equals(chunk, StringComparison.OrdinalIgnoreCase));
           if (prop != null)
           {
-            newObj = prop.GetValue(obj, null) as CommandResult;
+            newObj = prop.GetValue(obj, null);
           }
         }
 
@@ -149,10 +162,10 @@
     [CanBeNull]
     private static string GetQueryAndFilterArgs([NotNull] List<string> filteredArgs)
     {
-      Assert.ArgumentNotNull(filteredArgs, "filteredArgs");
+      Assert.ArgumentNotNull(filteredArgs, nameof(filteredArgs));
 
       var query = string.Empty;
-      for (int i = 0; i < filteredArgs.Count; i++)
+      for (var i = 0; i < filteredArgs.Count; i++)
       {
         if (filteredArgs[i] == "--data")
         {
@@ -181,9 +194,9 @@
 
     private static bool GetWaitAndFilterArgs([NotNull] List<string> filteredArgs)
     {
-      Assert.ArgumentNotNull(filteredArgs, "filteredArgs");
+      Assert.ArgumentNotNull(filteredArgs, nameof(filteredArgs));
 
-      for (int i = 0; i < filteredArgs.Count; i++)
+      for (var i = 0; i < filteredArgs.Count; i++)
       {
         if (filteredArgs[i] != "--wait")
         {

@@ -5,6 +5,7 @@
   using SIM.Instances;
   using SIM.Products;
   using Sitecore.Diagnostics.Base;
+  using SIM.Extensions;
 
   #region
 
@@ -27,12 +28,12 @@
 
     protected override void Process(InstallArgs args)
     {
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(args, nameof(args));
       Assert.IsNotNull(args.Instance, "Instance");
 
       Instance instance = args.Instance;
       IEnumerable<Product> modules = args.Modules;
-      string param = this.ProcessorDefinition.Param;
+      var param = this.ProcessorDefinition.Param;
       ConfigurationActions.ExecuteActions(instance, modules.ToArray(), this.done, param, args.ConnectionString, this.Controller);
     }
 

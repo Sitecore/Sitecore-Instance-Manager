@@ -1,23 +1,17 @@
 namespace SIM.Core.Commands
 {
   using System;
-  using System.Linq;
+  using Sitecore.Diagnostics.Base;
   using SIM.Core.Common;
   using SIM.Instances;
-  using Sitecore.Diagnostics.Base;
 
   public class StartCommand : AbstractInstanceActionCommand<Exception>
   {
-    protected override void DoExecute(CommandResult<Exception> result)
+    protected override void DoExecute(Instance instance, CommandResult<Exception> result)
     {
-      Assert.ArgumentNotNull(result, "result");
-
-      var name = this.Name;
-      Assert.ArgumentNotNullOrEmpty(name, "name");
-      
-      InstanceManager.Initialize();
-      var instance = InstanceManager.Instances.FirstOrDefault(x => x.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
-      Ensure.IsNotNull(instance, "instance is not found");
+      Assert.ArgumentNotNull(instance, nameof(instance));
+      Assert.ArgumentNotNull(result, nameof(result));
+                                                                                                                            
       Ensure.IsTrue(instance.State != InstanceState.Disabled, "instance is disabled");
       Ensure.IsTrue(instance.State == InstanceState.Stopped, "instance is not stopped");
 

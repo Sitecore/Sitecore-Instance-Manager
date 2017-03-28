@@ -7,7 +7,7 @@
   using SIM.Pipelines.Delete;
   using SIM.Tool.Base.Plugins;
   using SIM.Tool.Base.Profiles;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
   using SIM.Tool.Base.Wizards;
 
   [UsedImplicitly]
@@ -28,7 +28,7 @@
         var args = new DeleteArgs(instance, connectionString);
         args.OnCompleted += () => mainWindow.Dispatcher.Invoke(new Action(() => this.OnPipelineCompleted(args.RootPath)));
         var index = MainWindowHelper.GetListItemID(instance.ID);
-        WizardPipelineManager.Start("delete", mainWindow, args, null, () => OnWizardCompleted(index));
+        WizardPipelineManager.Start("delete", mainWindow, args, null, (ignore) => OnWizardCompleted(index));
       }
     }
 

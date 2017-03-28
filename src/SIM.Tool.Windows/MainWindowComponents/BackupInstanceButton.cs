@@ -5,7 +5,7 @@
   using SIM.Instances;
   using SIM.Pipelines.Backup;
   using SIM.Tool.Base.Plugins;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
   using SIM.Tool.Base.Wizards;
 
   [UsedImplicitly]
@@ -25,7 +25,7 @@
       if (instance != null)
       {
         var id = MainWindowHelper.GetListItemID(instance.ID);
-        WizardPipelineManager.Start("backup", mainWindow, new BackupArgs(instance), null, () => MainWindowHelper.MakeInstanceSelected(id), instance);
+        WizardPipelineManager.Start("backup", mainWindow, new BackupArgs(instance), null, ignore => MainWindowHelper.MakeInstanceSelected(id), instance);
       }
     }
 

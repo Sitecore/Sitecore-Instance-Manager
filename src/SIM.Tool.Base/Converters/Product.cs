@@ -4,7 +4,7 @@
   using System.Globalization;
   using System.Windows.Data;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
 
   #region
 
@@ -24,7 +24,7 @@
 
     public Product([NotNull] Func<Products.Product, string> target)
     {
-      Assert.ArgumentNotNull(target, "target");
+      Assert.ArgumentNotNull(target, nameof(target));
 
       this.target = target;
     }

@@ -4,7 +4,7 @@
 
   using System.Xml;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
 
   #endregion
 
@@ -24,8 +24,8 @@
 
     public XmlElementEx([NotNull] XmlElement element, [NotNull] XmlDocumentEx document)
     {
-      Assert.ArgumentNotNull(element, "element");
-      Assert.ArgumentNotNull(document, "document");
+      Assert.ArgumentNotNull(element, nameof(element));
+      Assert.ArgumentNotNull(document, nameof(document));
 
       this.Document = document;
       this.Element = element;
@@ -59,7 +59,7 @@
 
     public void AppendChild([NotNull] XmlElement element)
     {
-      Assert.ArgumentNotNull(element, "element");
+      Assert.ArgumentNotNull(element, nameof(element));
 
       this.Element.AppendChild(element);
     }
@@ -67,7 +67,7 @@
     [NotNull]
     public XmlAttribute CreateAttribute([NotNull] string name, [CanBeNull] string value = null)
     {
-      Assert.ArgumentNotNull(name, "name");
+      Assert.ArgumentNotNull(name, nameof(name));
 
       XmlAttribute attribute = this.Document.CreateAttribute(name);
       if (value != null)
@@ -81,7 +81,7 @@
     [NotNull]
     public XmlElement CreateElement([NotNull] string elementName)
     {
-      Assert.ArgumentNotNull(elementName, "elementName");
+      Assert.ArgumentNotNull(elementName, nameof(elementName));
 
       return this.Document.CreateElement(string.Empty, elementName, string.Empty);
     }

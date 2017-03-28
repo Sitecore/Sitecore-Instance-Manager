@@ -7,8 +7,9 @@
   using SIM.Tool.Base.Pipelines;
   using SIM.Tool.Windows.MainWindowComponents;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
   using SIM.Core;
+  using SIM.Extensions;
   using SIM.Tool.Base.Wizards;
 
   #endregion
@@ -21,17 +22,17 @@
     [UsedImplicitly]
     public static void BackupInstance(InstallModulesWizardArgs args)
     {
-      int id = MainWindowHelper.GetListItemID(args.Instance.ID);
+      var id = MainWindowHelper.GetListItemID(args.Instance.ID);
       Assert.IsTrue(id >= 0, "id ({0}) should be >= 0".FormatWith(id));
-      WizardPipelineManager.Start("backup", args.WizardWindow, new BackupArgs(args.Instance, null, true, true), null, () => MainWindowHelper.MakeInstanceSelected(id), args.Instance);
+      WizardPipelineManager.Start("backup", args.WizardWindow, new BackupArgs(args.Instance, null, true, true), null, ignore => MainWindowHelper.MakeInstanceSelected(id), args.Instance);
     }
 
     [UsedImplicitly]
     public static void BackupInstance(InstallWizardArgs args)
     {
-      int id = MainWindowHelper.GetListItemID(args.Instance.ID);
+      var id = MainWindowHelper.GetListItemID(args.Instance.ID);
       Assert.IsTrue(id >= 0, "id ({0}) should be >= 0".FormatWith(id));
-      WizardPipelineManager.Start("backup", args.WizardWindow, new BackupArgs(args.Instance, null, true, true), null, () => MainWindowHelper.MakeInstanceSelected(id), args.Instance);
+      WizardPipelineManager.Start("backup", args.WizardWindow, new BackupArgs(args.Instance, null, true, true), null, ignore => MainWindowHelper.MakeInstanceSelected(id), args.Instance);
     }
 
     [UsedImplicitly]

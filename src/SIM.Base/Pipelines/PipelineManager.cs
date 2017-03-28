@@ -8,8 +8,9 @@
   using System.Xml;
   using SIM.Pipelines.Processors;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
   using Sitecore.Diagnostics.Logging;
+  using SIM.Extensions;
 
   #endregion
 
@@ -28,7 +29,7 @@
     [NotNull]
     public static XmlElement GetPipelines(XmlDocumentEx document)
     {
-      Assert.ArgumentNotNull(document, "document");
+      Assert.ArgumentNotNull(document, nameof(document));
 
       XmlElement pipelinesNode = document.SelectSingleNode("configuration/pipelines") as XmlElement;
       Assert.IsNotNull(pipelinesNode, "Can't find pipelines configuration node");
@@ -38,7 +39,7 @@
 
     public static XmlElement Initialize(string pipelinesConfigFilePath)
     {
-      Assert.ArgumentNotNull(pipelinesConfigFilePath, "pipelinesConfigFilePath");
+      Assert.ArgumentNotNull(pipelinesConfigFilePath, nameof(pipelinesConfigFilePath));
 
       var document = XmlDocumentEx.LoadFile(pipelinesConfigFilePath);
       XmlElement pipelinesNode = GetPipelines(document);
@@ -48,14 +49,14 @@
 
     public static XmlElement Initialize(XmlElement pipelinesNode)
     {
-      Log.Debug("Pipelines RAW configuration: {0}",  pipelinesNode.OuterXml);
+      Log.Debug($"Pipelines RAW configuration: {pipelinesNode.OuterXml}");
       Definitions.Clear();
       var resultXmlConfig = XmlDocumentEx.LoadXml("<pipelines />");
 
       foreach (XmlElement element in pipelinesNode.ChildNodes.OfType<XmlElement>())
       {
-        string pipelineName = element.Name;
-        string title = element.GetAttribute("title");
+        var pipelineName = element.Name;
+        var title = element.GetAttribute("title");
         Assert.IsNotNullOrEmpty(title, "The '{0}' pipeline definition doesn't contain the title attribute".FormatWith(pipelineName));
 
         var pipelineNode = resultXmlConfig.DocumentElement.AddElement(pipelineName);
@@ -70,8 +71,8 @@
           foreach (XmlElement step in stepNodes.OfType<XmlElement>())
           {
             // Clever mechanism of steps reusing. Doesn't seem to be used somewhere.
-            string fromPipeline = step.GetAttribute("pipeline");
-            string args = step.GetAttribute("args").EmptyToNull();
+            var fromPipeline = step.GetAttribute("pipeline");
+            var args = step.GetAttribute("args").EmptyToNull();
             if (!string.IsNullOrEmpty(fromPipeline))
             {
               PipelineDefinition def = Definitions[fromPipeline];
@@ -114,10 +115,10 @@
 
     public static void StartPipeline([NotNull] string pipelineName, [NotNull] ProcessorArgs args, [CanBeNull] IPipelineController pipelineController = null, bool isAsync = true)
     {
-      Assert.ArgumentNotNull(pipelineName, "pipelineName");
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(pipelineName, nameof(pipelineName));
+      Assert.ArgumentNotNull(args, nameof(args));
 
-      Log.Info("Pipeline '{0}' starts, isAsync: {1}", pipelineName, isAsync.ToString(CultureInfo.InvariantCulture));
+      Log.Info($"Pipeline '{pipelineName}' starts, isAsync: {isAsync.ToString(CultureInfo.InvariantCulture)}");
       using (new ProfileSection("Start pipeline"))
       {
         ProfileSection.Argument("pipelineName", pipelineName);
@@ -153,8 +154,8 @@
     [NotNull]
     private static Pipeline CreatePipeline([NotNull] string pipelineName, [NotNull] ProcessorArgs args, [CanBeNull] IPipelineController controller = null, bool isAsync = true)
     {
-      Assert.ArgumentNotNull(pipelineName, "pipelineName");
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(pipelineName, nameof(pipelineName));
+      Assert.ArgumentNotNull(args, nameof(args));
 
       using (new ProfileSection("Create pipeline"))
       {

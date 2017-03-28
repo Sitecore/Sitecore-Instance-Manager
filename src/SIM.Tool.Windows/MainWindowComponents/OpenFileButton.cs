@@ -4,10 +4,10 @@ namespace SIM.Tool.Windows.MainWindowComponents
   using System.Windows;
   using SIM.Core.Common;
   using SIM.Instances;
-  using SIM.Tool.Base;
   using SIM.Tool.Base.Plugins;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
   using SIM.Core;
+  using SIM.Extensions;
 
   [UsedImplicitly]
   public class OpenFileButton : IMainWindowButton
@@ -40,10 +40,10 @@ namespace SIM.Tool.Windows.MainWindowComponents
 
       if (instance != null)
       {
-        string filePath = this.FilePath.StartsWith("/") ? Path.Combine(instance.WebRootPath, this.FilePath.Substring(1)) : this.FilePath;
+        var filePath = this.FilePath.StartsWith("/") ? Path.Combine(instance.WebRootPath, this.FilePath.Substring(1)) : this.FilePath;
         FileSystem.FileSystem.Local.File.AssertExists(filePath, "The {0} file of the {1} instance doesn't exist".FormatWith(filePath, instance.Name));
 
-        string editor = WindowsSettings.AppToolsConfigEditor.Value;
+        var editor = WindowsSettings.AppToolsConfigEditor.Value;
         if (!string.IsNullOrEmpty(editor))
         {
           CoreApp.RunApp(editor, filePath);

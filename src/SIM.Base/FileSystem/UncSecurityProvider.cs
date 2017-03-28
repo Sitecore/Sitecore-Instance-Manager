@@ -2,7 +2,7 @@ using System.IO;
 using System.Security.AccessControl;
 using System.Security.Principal;
 using Sitecore.Diagnostics.Base;
-using Sitecore.Diagnostics.Base.Annotations;
+using JetBrains.Annotations;
 
 namespace SIM.FileSystem
 {
@@ -13,7 +13,7 @@ namespace SIM.FileSystem
     public UncSecurityProvider([NotNull] FileSystem fileSystem)
       : base(fileSystem)
     {
-      Assert.ArgumentNotNull(fileSystem, "fileSystem");
+      Assert.ArgumentNotNull(fileSystem, nameof(fileSystem));
     }
 
     #endregion

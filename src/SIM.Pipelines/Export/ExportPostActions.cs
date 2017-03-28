@@ -1,5 +1,6 @@
 ﻿namespace SIM.Pipelines.Export
 {
+  using System.IO.Compression;
   using SIM.Pipelines.Install;
   internal class ExportPostActions : ExportProcessor
   {
@@ -8,7 +9,19 @@
     protected override void Process(ExportArgs args)
     {
       var zipName = args.ExportFile;
-      FileSystem.FileSystem.Local.Zip.CreateZip(args.Folder, zipName, compressionLevel: Settings.CoreExportZipCompressionLevel.Value);
+      var compressionLevel = Settings.CoreExportZipCompressionLevel.Value;
+
+      CompressionLevel zipCompressionLevel;
+      if (compressionLevel < 3 && typeof(CompressionLevel).IsEnumDefined(compressionLevel))
+      {
+        zipCompressionLevel = (CompressionLevel)compressionLevel;
+      }
+      else
+      {
+        zipCompressionLevel = CompressionLevel.Optimal;
+      }
+
+      ZipFile.CreateFromDirectory(args.Folder, zipName, zipCompressionLevel, false);
     }
 
     #endregion

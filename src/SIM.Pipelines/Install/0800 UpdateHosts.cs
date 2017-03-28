@@ -2,7 +2,7 @@
 {
   using SIM.Adapters.WebServer;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
 
   #region
 
@@ -15,8 +15,11 @@
 
     protected override void Process([NotNull] InstallArgs args)
     {
-      Assert.ArgumentNotNull(args, "args");
-      Hosts.Append(args.HostName);
+      Assert.ArgumentNotNull(args, nameof(args));
+      foreach (var hostName in args.HostNames)
+      {
+        Hosts.Append(hostName);
+      }
     }
 
     #endregion

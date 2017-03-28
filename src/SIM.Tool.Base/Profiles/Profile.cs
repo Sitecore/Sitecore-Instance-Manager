@@ -2,7 +2,7 @@
 {
   using System;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
 
   #region
 
@@ -24,7 +24,7 @@
 
       set
       {
-        Assert.ArgumentNotNull(value, "value");
+        Assert.ArgumentNotNull(value, nameof(value));
 
         this.SetValue("AdvancedSettings", value);
       }
@@ -40,7 +40,7 @@
 
       set
       {
-        Assert.ArgumentNotNull(value, "value");
+        Assert.ArgumentNotNull(value, nameof(value));
 
         this.SetValue("ConnectionString", value);
       }
@@ -56,7 +56,7 @@
 
       set
       {
-        Assert.ArgumentNotNull(value, "value");
+        Assert.ArgumentNotNull(value, nameof(value));
 
         this.SetValue("InstancesFolder", value);
       }
@@ -72,7 +72,7 @@
 
       set
       {
-        Assert.ArgumentNotNull(value, "value");
+        Assert.ArgumentNotNull(value, nameof(value));
 
         this.SetValue("License", value);
       }
@@ -88,7 +88,7 @@
 
       set
       {
-        Assert.ArgumentNotNull(value, "value");
+        Assert.ArgumentNotNull(value, nameof(value));
 
         this.SetValue("LocalRepository", value);
       }
@@ -106,7 +106,7 @@
     protected void ValidateInstancesFolder()
     {
       Assert.IsNotNullOrEmpty(this.InstancesFolder, "The InstancesFolder is null or empty");
-      FileSystem.FileSystem.Local.Directory.AssertExists(this.InstancesFolder, string.Format("The InstancesFolder does not exist ({0})", this.InstancesFolder));
+      FileSystem.FileSystem.Local.Directory.AssertExists(this.InstancesFolder, $"The InstancesFolder does not exist ({this.InstancesFolder})");
     }
 
     protected void ValidateLicense()

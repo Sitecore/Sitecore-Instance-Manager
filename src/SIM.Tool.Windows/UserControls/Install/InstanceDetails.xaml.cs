@@ -1,4 +1,4 @@
-﻿namespace SIM.Tool.Windows.UserControls.Install
+namespace SIM.Tool.Windows.UserControls.Install
 {
   using System;
   using System.Collections.Generic;
@@ -18,8 +18,9 @@
   using SIM.Tool.Base.Profiles;
   using SIM.Tool.Base.Wizards;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
   using Sitecore.Diagnostics.Logging;
+  using SIM.Extensions;
 
   #region
 
@@ -77,95 +78,58 @@
     public bool OnMovingNext(WizardArgs wizardArgs)
     {
       var productRevision = this.ProductRevision;
-      Assert.IsNotNull(productRevision, "productRevision");
+      Assert.IsNotNull(productRevision, nameof(productRevision));
 
       Product product = productRevision.SelectedValue as Product;
-      Assert.IsNotNull(product, "product");
+      Assert.IsNotNull(product, nameof(product));
 
-      var instanceName = this.InstanceName;
-      Assert.IsNotNull(instanceName, "instanceName");
+      var rootName = GetValidRootName();
 
-      string name = instanceName.Text.EmptyToNull();
-      Assert.IsNotNull(name, @"Instance name isn't set");
+      var rootPath = GetValidRootPath(rootName);
+      if (rootPath == null)
+        return false;
 
-      var hostName = this.HostName;
-      Assert.IsNotNull(hostName, "hostName");
+      var name = GetValidWebsiteName();
+      if (name == null)
+        return false;
 
-      string host = hostName.Text.EmptyToNull();
-      Assert.IsNotNull(host, "Hostname must not be emoty");
+      var hostNames = GetValidHostNames();
 
-      var rootName = this.RootName;
-      Assert.IsNotNull(rootName, "rootName");
+      var sqlPrefix = GetValidSqlPrefix();
 
-      string root = rootName.Text.EmptyToNull();
-      Assert.IsNotNull(rootName, "Root folder name must not be emoty");
-
-      string location = this.locationFolder.Text.EmptyToNull();
-      Assert.IsNotNull(location, @"The location folder isn't set");
-
-      string rootPath = Path.Combine(location, root);
-      bool locationIsPhysical = FileSystem.FileSystem.Local.Directory.HasDriveLetter(rootPath);
-      Assert.IsTrue(locationIsPhysical, "The location folder path must be physical i.e. contain a drive letter. Please choose another location folder");
-
-      string webRootPath = Path.Combine(rootPath, "Website");
-
-      bool websiteExists = WebServerManager.WebsiteExists(name);
-      if (websiteExists)
-      {
-        using (var context = WebServerManager.CreateContext("InstanceDetails.OnMovingNext('{0}')".FormatWith(name)))
-        {
-          var site = context.Sites.Single(s => s != null && s.Name.EqualsIgnoreCase(name));
-          var path = WebServerManager.GetWebRootPath(site);
-          if (FileSystem.FileSystem.Local.Directory.Exists(path))
-          {
-            this.Alert("The website with the same name already exists, please choose another instance name.");
-            return false;
-          }
-
-          if (
-            WindowHelper.ShowMessage("There website with the same name already exists, but points to non-existing location. Would you like to delete it?", 
-              MessageBoxButton.OKCancel, MessageBoxImage.Asterisk) != MessageBoxResult.OK)
-          {
-            return false;
-          }
-
-          site.Delete();
-          context.CommitChanges();
-        }
-      }
-
-      websiteExists = WebServerManager.WebsiteExists(name);
-      Assert.IsTrue(!websiteExists, "The website with the same name already exists, please choose another instance name.");
-
-      bool hostExists = WebServerManager.HostBindingExists(host);
-      Assert.IsTrue(!hostExists, "Website with the same host name already exists");
-
-      bool rootFolderExists = FileSystem.FileSystem.Local.Directory.Exists(rootPath);
-      if (rootFolderExists && InstanceManager.Instances != null)
-      {
-        if (InstanceManager.Instances.Any(i => i != null && i.WebRootPath.EqualsIgnoreCase(webRootPath)))
-        {
-          this.Alert("There is another instance with the same root path, please choose another folder");
-          return false;
-        }
-
-        if (WindowHelper.ShowMessage("The folder with the same name already exists. Would you like to delete it?", MessageBoxButton.OKCancel, MessageBoxImage.Question, MessageBoxResult.OK) != MessageBoxResult.OK)
-        {
-          return false;
-        }
-
-        FileSystem.FileSystem.Local.Directory.DeleteIfExists(rootPath);
-      }
+      var attachSql = this.attachSql.IsChecked ?? true;
 
       var connectionString = ProfileManager.GetConnectionString();
       SqlServerManager.Instance.ValidateConnectionString(connectionString);
 
-      string licensePath = ProfileManager.Profile.License;
+      var licensePath = ProfileManager.Profile.License;
       Assert.IsNotNull(licensePath, @"The license file isn't set in the Settings window");
       FileSystem.FileSystem.Local.File.AssertExists(licensePath, "The {0} file is missing".FormatWith(licensePath));
 
+      var appPoolInfo = GetAppPoolInfo();
+
+      var args = (InstallWizardArgs)wizardArgs;
+      args.InstanceName = name;
+      args.InstanceHostNames = hostNames;
+      args.InstanceSqlPrefix = sqlPrefix;
+      args.InstanceAttachSql = attachSql;
+      args.InstanceWebRootPath = GetWebRootPath(rootPath);
+      args.InstanceRootName = rootName;
+      args.InstanceRootPath = rootPath;
+      args.InstanceProduct = product;
+      args.InstanceConnectionString = connectionString;
+      args.LicenseFileInfo = new FileInfo(licensePath);
+      args.InstanceAppPoolInfo = appPoolInfo;
+      args.Product = product;
+
+      return true;
+    }
+
+    [NotNull]
+    private AppPoolInfo GetAppPoolInfo()
+    {
       var netFramework = this.NetFramework;
-      Assert.IsNotNull(netFramework, "netFramework");
+      Assert.IsNotNull(netFramework, nameof(netFramework));
 
       var framework = netFramework.SelectedValue.ToString();
       var frameworkArr = framework.Split(' ');
@@ -173,31 +137,139 @@
 
       var force32Bit = frameworkArr.Length == 2;
       var mode = this.Mode;
-      Assert.IsNotNull(mode, "mode");
+      Assert.IsNotNull(mode, nameof(mode));
 
-      var modeItem = (ListBoxItem)mode.SelectedValue;
-      Assert.IsNotNull(modeItem, "modeItem");
+      var modeItem = (ListBoxItem) mode.SelectedValue;
+      Assert.IsNotNull(modeItem, nameof(modeItem));
 
-      var isClassic = ((string)modeItem.Content).EqualsIgnoreCase("Classic");
+      var isClassic = ((string) modeItem.Content).EqualsIgnoreCase("Classic");
+      var appPoolInfo = new AppPoolInfo
+                        {
+                          FrameworkVersion = Extensions.EmptyToNull(frameworkArr[0]) ?? "v2.0",
+                          Enable32BitAppOnWin64 = force32Bit,
+                          ManagedPipelineMode = !isClassic
+                        };
+      return appPoolInfo;
+    }
 
-      var args = (InstallWizardArgs)wizardArgs;
-      args.InstanceName = name;
-      args.InstanceHost = host;
-      args.InstanceWebRootPath = webRootPath;
-      args.InstanceRootName = root;
-      args.InstanceRootPath = rootPath;
-      args.InstanceProduct = product;
-      args.InstanceConnectionString = connectionString;
-      args.LicenseFileInfo = new FileInfo(licensePath);
-      args.InstanceAppPoolInfo = new AppPoolInfo
+    private static string GetWebRootPath(string rootPath)
+    {
+      var webRootPath = Path.Combine(rootPath, "Website");
+      return webRootPath;
+    }
+
+    [NotNull]
+    private string GetValidRootName()
+    {
+      var rootName = this.RootName;
+      Assert.IsNotNull(rootName, nameof(rootName));
+
+      var root = rootName.Text.EmptyToNull();
+      Assert.IsNotNull(rootName, "Root folder name must not be emoty");
+      return root;
+    }
+
+    [CanBeNull]
+    private string GetValidRootPath(string root)
+    {
+      var location = this.locationFolder.Text.EmptyToNull();
+      Assert.IsNotNull(location, @"The location folder isn't set");
+
+      var rootPath = Path.Combine(location, root);
+      var locationIsPhysical = FileSystem.FileSystem.Local.Directory.HasDriveLetter(rootPath);
+      Assert.IsTrue(locationIsPhysical, "The location folder path must be physical i.e. contain a drive letter. Please choose another location folder");
+
+      var webRootPath = GetWebRootPath(rootPath);
+
+      var rootFolderExists = FileSystem.FileSystem.Local.Directory.Exists(rootPath);
+      if (!rootFolderExists || InstanceManager.Instances == null)
+        return rootPath;
+      if (InstanceManager.Instances.Any(i => i != null && i.WebRootPath.EqualsIgnoreCase(webRootPath)))
       {
-        FrameworkVersion = frameworkArr[0].EmptyToNull() ?? "v2.0", 
-        Enable32BitAppOnWin64 = force32Bit, 
-        ManagedPipelineMode = !isClassic
-      };
-      args.Product = product;
+        Alert("There is another instance with the same root path, please choose another folder");
+        return null;
+      }
 
-      return true;
+      if (WindowHelper.ShowMessage("The folder with the same name already exists. Would you like to delete it?", MessageBoxButton.OKCancel, MessageBoxImage.Question, MessageBoxResult.OK) != MessageBoxResult.OK)
+      {
+        return null;
+      }
+
+      FileSystem.FileSystem.Local.Directory.DeleteIfExists(rootPath);
+
+      return rootPath;
+    }
+
+    [CanBeNull]
+    private string GetValidWebsiteName()
+    {
+      var instanceName = this.InstanceName;
+      Assert.IsNotNull(instanceName, nameof(instanceName));
+
+      var name = instanceName.Text.EmptyToNull();
+      Assert.IsNotNull(name, @"Instance name isn't set");
+
+      var websiteExists = WebServerManager.WebsiteExists(name);
+      if (websiteExists)
+      {
+        using (var context = WebServerManager.CreateContext("InstanceDetails.OnMovingNext('{0}')".FormatWith(name)))
+        {
+          var site = context.Sites.Single(s => s != null && Extensions.EqualsIgnoreCase(s.Name, name));
+          var path = WebServerManager.GetWebRootPath(site);
+          if (FileSystem.FileSystem.Local.Directory.Exists(path))
+          {
+            this.Alert("The website with the same name already exists, please choose another instance name.");
+            return null;
+          }
+
+            if (
+                WindowHelper.ShowMessage(
+                    "A website with the name " + name + " already exists. Would you like to remove it?",
+                    MessageBoxButton.OKCancel, MessageBoxImage.Asterisk) != MessageBoxResult.OK)
+            {
+                return null;
+            }
+
+            site.Delete();
+          context.CommitChanges();
+        }
+      }
+
+      websiteExists = WebServerManager.WebsiteExists(name);
+      Assert.IsTrue(!websiteExists, "The website with the same name already exists, please choose another instance name.");
+      return name;
+    }
+
+    [NotNull]
+    private string GetValidSqlPrefix()
+    {
+      var sqlPrefix = this.sqlPrefix;
+      Assert.IsNotNull(sqlPrefix, nameof(sqlPrefix));
+
+      var prefix = sqlPrefix.Text.EmptyToNull();
+      Assert.IsNotNull(prefix, @"Sql prefix isn't set");
+
+      return prefix;
+    }
+
+    [NotNull]
+    private string[] GetValidHostNames()
+    {
+      var hostName = this.HostNames;
+      Assert.IsNotNull(hostName, "HostNames is null");
+
+      var hostNamesString = hostName.Text.EmptyToNull();
+      Assert.IsNotNull(hostNamesString, "Host names can not be empty");
+
+      var hostNames = hostNamesString.Split(new[] { '\r', '\n', ',', '|', ';' }, StringSplitOptions.RemoveEmptyEntries);
+      Assert.IsTrue(hostNames.Any(), "Host names can not be empty");
+
+      foreach (var host in hostNames)
+      {
+        var hostExists = WebServerManager.HostBindingExists(host);
+        Assert.IsTrue(!hostExists, $"Website with the host name '{host}' already exists");
+      }
+      return hostNames;
     }
 
     #endregion
@@ -208,8 +280,8 @@
 
     protected void Alert([NotNull] string message, [NotNull] params object[] args)
     {
-      Assert.ArgumentNotNull(message, "message");
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(message, nameof(message));
+      Assert.ArgumentNotNull(args, nameof(args));
 
       WindowHelper.ShowMessage(message.FormatWith(args), "Conflict is found", MessageBoxButton.OK, MessageBoxImage.Stop);
     }
@@ -232,10 +304,28 @@
       using (new ProfileSection("Instance name text changed", this))
       {
         var name = this.InstanceName.Text;
-        this.HostName.Text = name;
+
         this.RootName.Text = name;
         this.sqlPrefix.Text = name;
+        this.HostNames.Text = GenerateHostName(name);
       }
+    }
+
+    [NotNull]
+    private string GenerateHostName([NotNull]string name)
+    {
+      var hostName = name;
+      if (ProductHelper.Settings.CoreProductReverseHostName.Value)
+      {
+        // convert example.cm1 into cm1.example
+        hostName = string.Join(".", hostName.Split(".".ToCharArray(), StringSplitOptions.RemoveEmptyEntries).Reverse());
+      }
+      if (ProductHelper.Settings.CoreProductHostNameEndsWithLocal.Value && !hostName.EndsWith(".local", StringComparison.InvariantCultureIgnoreCase))
+      {
+        // convert to cm1.example.local
+        hostName = hostName + (ProductHelper.Settings.CoreProductHostNameEndsWithLocal.Value ? ".local" : "");
+      }
+      return hostName;
     }
 
     private void PickLocationFolder([CanBeNull] object sender, [CanBeNull] RoutedEventArgs e)
@@ -246,7 +336,7 @@
     private void ProductNameChanged([CanBeNull] object sender, [CanBeNull] SelectionChangedEventArgs e)
     {
       var productName = this.ProductName;
-      Assert.IsNotNull(productName, "productName");
+      Assert.IsNotNull(productName, nameof(productName));
 
       var grouping = productName.SelectedValue as IGrouping<string, Product>;
       if (grouping == null)
@@ -255,7 +345,7 @@
       }
 
       var productVersion = this.ProductVersion;
-      Assert.IsNotNull(productVersion, "productVersion");
+      Assert.IsNotNull(productVersion, nameof(productVersion));
 
       productVersion.DataContext = grouping.Where(x => x != null).GroupBy(p => p.ShortVersion).Where(x => x != null).OrderBy(p => p.Key);
       this.SelectFirst(productVersion);
@@ -273,9 +363,6 @@
 
         var name = product.DefaultInstanceName;
         this.InstanceName.Text = name;
-        this.HostName.Text = name;
-        this.RootName.Text = product.DefaultFolderName;
-        this.sqlPrefix.Text = name;
 
         var frameworkVersions = new ObservableCollection<string>(this.allFrameworkVersions);
 
@@ -313,7 +400,7 @@
         }
 
         var netFramework = this.NetFramework;
-        Assert.IsNotNull(netFramework, "netFramework");
+        Assert.IsNotNull(netFramework, nameof(netFramework));
 
         netFramework.ItemsSource = frameworkVersions;
         netFramework.SelectedIndex = 0;
@@ -323,7 +410,7 @@
     private void ProductVersionChanged([CanBeNull] object sender, [CanBeNull] SelectionChangedEventArgs e)
     {
       var productVersion = this.ProductVersion;
-      Assert.IsNotNull(productVersion, "productVersion");
+      Assert.IsNotNull(productVersion, nameof(productVersion));
 
       var grouping = productVersion.SelectedValue as IGrouping<string, Product>;
       if (grouping == null)
@@ -337,8 +424,8 @@
 
     private void Select([NotNull] Selector element, [NotNull] string value)
     {
-      Assert.ArgumentNotNull(element, "element");
-      Assert.ArgumentNotNull(value, "value");
+      Assert.ArgumentNotNull(element, nameof(element));
+      Assert.ArgumentNotNull(value, nameof(value));
 
       if (element.Items.Count <= 0)
       {
@@ -351,7 +438,7 @@
         IGrouping<string, Product> item1 = item0 as IGrouping<string, Product>;
         if (item1 != null)
         {
-          string key = item1.Key;
+          var key = item1.Key;
           if (key.EqualsIgnoreCase(value))
           {
             element.SelectedIndex = i;
@@ -363,7 +450,7 @@
           Product item2 = item0 as Product;
           if (item2 != null)
           {
-            string key = item2.Revision;
+            var key = item2.Revision;
             if (key.EqualsIgnoreCase(value))
             {
               element.SelectedIndex = i;
@@ -376,7 +463,7 @@
 
     private void SelectByValue([NotNull] Selector element, string value)
     {
-      Assert.ArgumentNotNull(element, "element");
+      Assert.ArgumentNotNull(element, nameof(element));
 
       if (string.IsNullOrEmpty(value))
       {
@@ -431,7 +518,7 @@
 
     private void SelectFirst([NotNull] Selector element)
     {
-      Assert.ArgumentNotNull(element, "element");
+      Assert.ArgumentNotNull(element, nameof(element));
 
       if (element.Items.Count > 0)
       {
@@ -441,7 +528,7 @@
 
     private void SelectLast([NotNull] Selector element)
     {
-      Assert.ArgumentNotNull(element, "element");
+      Assert.ArgumentNotNull(element, nameof(element));
 
       if (element.Items.Count > 0)
       {
@@ -451,7 +538,7 @@
 
     private void SelectProductByValue([CanBeNull] Selector element, [NotNull] string value)
     {
-      Assert.ArgumentNotNull(value, "value");
+      Assert.ArgumentNotNull(value, nameof(value));
 
       if (element == null)
       {
@@ -465,7 +552,7 @@
       }
 
       var items = element.Items;
-      Assert.IsNotNull(items, "items");
+      Assert.IsNotNull(items, nameof(items));
       if (items.Count > 0)
       {
         foreach (IGrouping<string, Product> item in items)
@@ -490,7 +577,7 @@
       using (new ProfileSection("Window loaded", this))
       {
         var args = this.installParameters;
-        Assert.IsNotNull(args, "args");
+        Assert.IsNotNull(args, nameof(args));
 
         var product = args.Product;
         if (product != null)
@@ -503,7 +590,7 @@
         this.SelectByValue(this.ProductRevision, WindowsSettings.AppInstallationDefaultProductRevision.Value);
 
         var netFramework = this.NetFramework;
-        Assert.IsNotNull(netFramework, "netFramework");
+        Assert.IsNotNull(netFramework, nameof(netFramework));
 
         if (string.IsNullOrEmpty(WindowsSettings.AppInstallationDefaultFramework.Value))
         {
@@ -515,7 +602,7 @@
         }
 
         var mode = this.Mode;
-        Assert.IsNotNull(mode, "mode");
+        Assert.IsNotNull(mode, nameof(mode));
 
         if (string.IsNullOrEmpty(WindowsSettings.AppInstallationDefaultPoolMode.Value))
         {
@@ -605,35 +692,30 @@
         this.SelectByValue(this.Mode, info.ManagedPipelineMode ? "Integrated" : "Classic");
       }
 
-      string name = args.InstanceName;
+      var name = args.InstanceName;
       if (!string.IsNullOrEmpty(name))
       {
         this.InstanceName.Text = name;
       }
 
-      string rootName = args.InstanceRootName;
+      var rootName = args.InstanceRootName;
       if (!string.IsNullOrEmpty(rootName))
       {
         this.RootName.Text = rootName;
       }
 
-      string host = args.InstanceHost;
-
-      if (!string.IsNullOrEmpty(host))
+      var hostNames = args.InstanceHostNames;
+      if (hostNames != null && hostNames.Any())
       {
-        this.HostName.Text = host;
+        this.HostNames.Text = hostNames.Join("\r\n");
       }
 
-      if (rootName != null)
+      if (rootName == null)
+        return;
+      var location = args.InstanceRootPath.TrimEnd(rootName).Trim('/', '\\');
+      if (!string.IsNullOrEmpty(location))
       {
-        string location = args.InstanceRootPath.TrimEnd(rootName).Trim(new[]
-        {
-          '/', '\\'
-        });
-        if (!string.IsNullOrEmpty(location))
-        {
-          this.locationFolder.Text = location;
-        }
+        this.locationFolder.Text = location;
       }
     }
 

@@ -6,7 +6,8 @@
   using System.Xml;
   using SIM.Adapters.WebServer;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
+  using SIM.Extensions;
 
   [UsedImplicitly]
   public class ExportFiles : ExportProcessor
@@ -17,14 +18,14 @@
 
     protected override long EvaluateStepsCount(ExportArgs args)
     {
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(args, nameof(args));
 
       return 1 + 10;
     }
 
     protected override void Process([NotNull] ExportArgs args)
     {
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(args, nameof(args));
 
       var instance = args.Instance;
       var webRootPath = instance.WebRootPath;
@@ -155,9 +156,9 @@
 
     private void BackupFolder([NotNull] ExportArgs args, [NotNull] string path, [NotNull] string fileName)
     {
-      Assert.ArgumentNotNull(args, "args");
-      Assert.ArgumentNotNull(path, "path");
-      Assert.ArgumentNotNull(fileName, "fileName");
+      Assert.ArgumentNotNull(args, nameof(args));
+      Assert.ArgumentNotNull(path, nameof(path));
+      Assert.ArgumentNotNull(fileName, nameof(fileName));
 
       if (!FileSystem.FileSystem.Local.Directory.Exists(path))
       {

@@ -2,7 +2,7 @@ namespace SIM.Pipelines.Delete
 {
   using System.Collections.Generic;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
 
   [UsedImplicitly]
   public class DeleteMongoDatabases : DeleteProcessor
@@ -17,7 +17,7 @@ namespace SIM.Pipelines.Delete
 
     protected override void Process([NotNull] DeleteArgs args)
     {
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(args, nameof(args));
 
       var detectedDatabases = args.MongoDatabases;
 

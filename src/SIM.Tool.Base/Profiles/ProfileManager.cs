@@ -5,7 +5,7 @@
   using System.IO;
   using System.Xml.Serialization;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
   using Sitecore.Diagnostics.Logging;
 
   #region
@@ -42,7 +42,7 @@
         }
         catch (Exception ex)
         {
-          Log.Warn(ex, "The profile is invalid");
+          Log.Warn(ex, string.Format("The profile is invalid"));
 
           return false;
         }
@@ -63,7 +63,7 @@
         var profileFilePath = ProfileFilePath;
         var profile = ReadProfile(profileFilePath);
 
-        Assert.IsNotNull(profile, "profile");
+        Assert.IsNotNull(profile, nameof(profile));
         Profile = profile;
       }
     }
@@ -80,7 +80,7 @@
       }
       catch (Exception ex)
       {
-        Log.Warn(ex, "An error occurred during reading profile");
+        Log.Warn(ex, string.Format("An error occurred during reading profile"));
 
         FileSystem.FileSystem.Local.Directory.TryDelete(profileFilePath);
         return null;
@@ -107,7 +107,7 @@
 
     public static SqlConnectionStringBuilder GetConnectionString()
     {
-      string profileConnectionString = ProfileManager.Profile.ConnectionString;
+      var profileConnectionString = ProfileManager.Profile.ConnectionString;
       Assert.IsNotNull(profileConnectionString, "Connection String Not Set");
       var connectionString = new SqlConnectionStringBuilder(profileConnectionString);
       return connectionString;

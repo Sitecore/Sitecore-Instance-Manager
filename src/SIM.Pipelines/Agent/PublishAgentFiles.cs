@@ -45,7 +45,7 @@
     }
     catch (Exception ex)
     {
-      string inn = string.Empty;
+      var inn = string.Empty;
       if (ex.InnerException != null)
       {
         inn = ""\n\nInner Exception:\n"" + ex.InnerException;
@@ -64,7 +64,7 @@
 
   private void UpdateStatus(string message)
   {
-    string installedTemp = this.Server.MapPath(Path.Combine(Settings.TempFolderPath, ""sim.status""));
+    var installedTemp = this.Server.MapPath(Path.Combine(Settings.TempFolderPath, ""sim.status""));
     File.WriteAllText(installedTemp, message);
   }
 
@@ -72,14 +72,14 @@
   {
     Assert.ArgumentNotNullOrEmpty(name, ""name"");
 
-    string packageFolderPath = Sitecore.Configuration.Settings.PackagePath;
+    var packageFolderPath = Sitecore.Configuration.Settings.PackagePath;
     Assert.IsNotNullOrEmpty(packageFolderPath, ""packageFolderPath"");
 
     // if path is virtual i.e. not C:\something then do a map path
     if (packageFolderPath.Length < 2 || packageFolderPath[1] != ':')
     {
       packageFolderPath = packageFolderPath.TrimStart('/');
-      string prefix = ""~/"";
+      var prefix = ""~/"";
       if (packageFolderPath.StartsWith(prefix))
       {
         packageFolderPath = packageFolderPath.Substring(prefix.Length);
@@ -118,24 +118,29 @@
 
   protected override void OnInitComplete(EventArgs e)
   {
-    string installedTemp = this.Server.MapPath(Path.Combine(Settings.TempFolderPath, ""sim.status""));
-    string message;
+    var installedTemp = this.Server.MapPath(Path.Combine(Settings.TempFolderPath, ""sim.status""));
+    var message = GetMessage(installedTemp);
+    
+    Log.Info(@""[SIM] " + AgentFiles.StatusFileName + @": "" + message, this);
+    this.Response.Write(message);
+  }
+
+  private string GetMessage(string installedTemp)
+  {
     if (File.Exists(installedTemp))
     {
-      message = File.ReadAllText(installedTemp);
+      var message = File.ReadAllText(installedTemp);
       var pos = message.LastIndexOf(' ');
       if(pos<0) throw new Exception(""CANT BE"");
       var id = message.Substring(pos).Trim();
       var state = PublishManager.GetStatus(Handle.Parse(id));
       message = GetState(state) + "": publish "" + id;      
+      return message;
     }
     else
     {
-      message = @""Pending: no information"";
+      return @""Pending: no information"";
     }
-
-    Log.Info(@""[SIM] " + AgentFiles.StatusFileName + @": "" + message, this);
-    this.Response.Write(message);
   }
 
   private string GetState(PublishStatus state)

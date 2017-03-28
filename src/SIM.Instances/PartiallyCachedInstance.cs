@@ -3,7 +3,7 @@
   using System;
   using System.IO;
   using System.Xml;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
 
   public sealed class PartiallyCachedInstance : Instance, IDisposable
   {
@@ -27,6 +27,7 @@
     private XmlDocument webConfigResultCache;
 
     private string webRootPath;
+    private string bindingsNames;
 
     #endregion
 
@@ -107,6 +108,14 @@
       get
       {
         return this.modulesNamesCache ?? (this.modulesNamesCache = base.ModulesNames);
+      }
+    }
+
+    public override string BindingsNames
+    {
+      get
+      {
+        return this.bindingsNames ?? (this.bindingsNames = base.BindingsNames);
       }
     }
 

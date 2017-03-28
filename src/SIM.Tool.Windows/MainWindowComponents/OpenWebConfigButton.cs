@@ -4,10 +4,10 @@
   using SIM.Adapters.WebServer;
   using SIM.Core.Common;
   using SIM.Instances;
-  using SIM.Tool.Base;
   using SIM.Tool.Base.Plugins;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
   using SIM.Core;
+  using SIM.Extensions;
 
   [UsedImplicitly]
   public class OpenWebConfigButton : IMainWindowButton
@@ -25,9 +25,9 @@
 
       if (instance != null)
       {
-        string webConfigPath = WebConfig.GetWebConfigPath(instance.WebRootPath);
+        var webConfigPath = WebConfig.GetWebConfigPath(instance.WebRootPath);
         FileSystem.FileSystem.Local.File.AssertExists(webConfigPath, "The web.config file ({0}) of the {1} instance doesn't exist".FormatWith(webConfigPath, instance.Name));
-        string editor = WindowsSettings.AppToolsConfigEditor.Value;
+        var editor = WindowsSettings.AppToolsConfigEditor.Value;
         if (!string.IsNullOrEmpty(editor))
         {
           CoreApp.RunApp(editor, webConfigPath);

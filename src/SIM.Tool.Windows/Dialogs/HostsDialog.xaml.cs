@@ -9,13 +9,13 @@
   using SIM.Adapters.WebServer;
   using SIM.Tool.Base;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
 
   public partial class HostsDialog
   {
     #region Fields
 
-    private List<Hosts.IHostRecord> records;
+    private IList<Hosts.IpHostRecord> records;
 
     #endregion
 
@@ -49,8 +49,8 @@
 
     private void WindowKeyUp([NotNull] object sender, [NotNull] KeyEventArgs e)
     {
-      Assert.ArgumentNotNull(sender, "sender");
-      Assert.ArgumentNotNull(e, "e");
+      Assert.ArgumentNotNull(sender, nameof(sender));
+      Assert.ArgumentNotNull(e, nameof(e));
 
       if (e.Key == Key.Escape)
       {
@@ -91,7 +91,7 @@
     {
       try
       {
-        this.records = Hosts.GetRecords().ToList();
+        this.records = Hosts.GetRecords().OfType<Hosts.IpHostRecord>().ToList();
         this.HostsList.DataContext = this.records;
       }
       catch (Exception ex)

@@ -7,8 +7,8 @@
   using System.Windows;
   using System.Xml;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
   using Sitecore.Diagnostics.Logging;
+  using SIM.Extensions;
   using SIM.Pipelines.Processors;
   using SIM.Tool.Base;
   using SIM.Tool.Base.Windows;
@@ -46,28 +46,28 @@
       var text = ch.GetAttribute("text");
       if (string.IsNullOrEmpty(text))
       {
-        Log.Error("Finish action doesn't have 'text' specified: {0}", ch.OuterXml);
+        Log.Error($"Finish action doesn't have 'text' specified: {ch.OuterXml}");
         return null;
       }
 
       var typeName = ch.GetAttribute("type");
       if (string.IsNullOrEmpty(typeName))
       {
-        Log.Error("Finish action doesn't have 'type' specified: {0}", ch.OuterXml);
+        Log.Error($"Finish action doesn't have 'type' specified: {ch.OuterXml}");
         return null;
       }
 
       var type = Type.GetType(typeName);
       if (type == null)
       {
-        Log.Error("Finish action points to missing '{0}' type: {1}", typeName, ch.OuterXml);
+        Log.Error($"Finish action points to missing '{typeName}' type: {ch.OuterXml}");
         return null;
       }
 
       var methodName = ch.GetAttribute("method");
       if (string.IsNullOrEmpty(methodName))
       {
-        Log.Error("Finish action doesn't have 'method' specified: {0}", ch.OuterXml);
+        Log.Error($"Finish action doesn't have 'method' specified: {ch.OuterXml}");
         return null;
       }
 
@@ -77,7 +77,7 @@
       } : new Type[0], null);
       if (method == null)
       {
-        Log.Error("Finish action points to missing '{0}' method of the '{1}' type: {2}", methodName, typeName, ch.OuterXml);
+        Log.Error($"Finish action points to missing '{methodName}' method of the '{typeName}' type: {ch.OuterXml}");
         return null;
       }
 
@@ -97,9 +97,9 @@
 
     #region Public methods
 
-    public static void Start(string name, Window owner, ProcessorArgs args = null, bool? isAsync = null, Action action = null, params object[] wizardArgsParameters)
+    public static void Start(string name, Window owner, ProcessorArgs args = null, bool? isAsync = null, Action<WizardArgs> action = null, params object[] wizardArgsParameters)
     {
-      Log.Info("Wizard pipeline '{0}' starts", name);
+      Log.Info($"Wizard pipeline '{name}' starts");
       using (new ProfileSection("Start wizard"))
       {
         ProfileSection.Argument("name", name);
@@ -115,7 +115,9 @@
           WindowHelper.ShowDialog(wizard, owner);
           if (action != null)
           {
-            action();
+            var wizardArgs = wizard.ProcessorArgs;
+
+            action(wizardArgs);
           }
         }
         else
@@ -125,7 +127,9 @@
             flag = true;
             wizard.Closed += (o, e) =>
             {
-              action();
+              var wizardArgs = wizard.ProcessorArgs;            
+
+              action(wizardArgs);
               flag = false;
             };
           }
@@ -159,14 +163,14 @@
 
     public static void Initialize(XmlElement wizardPipelinesElement)
     {
-      Assert.ArgumentNotNull(wizardPipelinesElement, "wizardPipelinesElement");
+      Assert.ArgumentNotNull(wizardPipelinesElement, nameof(wizardPipelinesElement));
 
       using (new ProfileSection("Initialize Wizard Pipeline Manager"))
       {
         try
         {
           var wizardPipelines = wizardPipelinesElement.SelectSingleNode("/configuration/wizardPipelines") as XmlElement;
-          Assert.IsNotNull(wizardPipelines, "wizardPipelines");
+          Assert.IsNotNull(wizardPipelines, nameof(wizardPipelines));
 
           var wizardElements = wizardPipelines.ChildNodes.OfType<XmlElement>();
           foreach (XmlElement element in wizardElements)
@@ -187,7 +191,7 @@
       {
         ProfileSection.Argument("element", element);
 
-        string name1 = element.Name;
+        var name1 = element.Name;
         try
         {
           XmlElement argsElement = element.SelectSingleElement("args");
@@ -196,7 +200,7 @@
               "Cannot find the {0} type".FormatWith(argsElement.GetAttribute("type")))
             : null;
           XmlElement finish = element.SelectSingleElement("finish");
-          string title = element.GetAttribute("title");
+          var title = element.GetAttribute("title");
           var steps =
             element.SelectSingleElement("steps").IsNotNull(
               "Can't find the steps element in the WizardPipelines.config file").ChildNodes.OfType<XmlElement>().
@@ -204,9 +208,9 @@
                 step =>
                   new StepInfo(step.GetAttribute("name"), Type.GetType(step.GetAttribute("type")),
                     step.GetAttribute("param"))).ToArray();
-          string cancelButtonText = element.GetAttribute("cancelButton");
-          string startButtonText = element.GetAttribute("startButton");
-          string finishText = element.GetAttribute("finishText");
+          var cancelButtonText = element.GetAttribute("cancelButton");
+          var startButtonText = element.GetAttribute("startButton");
+          var finishText = element.GetAttribute("finishText");
           FinishAction[] finishActions = finish != null ? GetFinishActions(finish, args).ToArray() : null;
           var finishActionHives = GetFinishActionHives(finish, args);
           WizardPipeline wizardPipeline = new WizardPipeline(name1, title, steps, args, startButtonText,

@@ -6,7 +6,8 @@
   using System.Xml;
   using SIM.Adapters.SqlServer;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
+  using SIM.Extensions;
 
   #endregion
 
@@ -23,13 +24,13 @@
 
     public ConnectionString([NotNull] XmlElement element, [NotNull] XmlDocumentEx document) : this(new XmlElementEx(element, document))
     {
-      Assert.ArgumentNotNull(element, "element");
-      Assert.ArgumentNotNull(document, "document");
+      Assert.ArgumentNotNull(element, nameof(element));
+      Assert.ArgumentNotNull(document, nameof(document));
     }
 
     private ConnectionString([NotNull] XmlElementEx xmlElement)
     {
-      Assert.ArgumentNotNull(xmlElement, "xmlElement");
+      Assert.ArgumentNotNull(xmlElement, nameof(xmlElement));
 
       this.element = xmlElement;
     }
@@ -98,7 +99,7 @@
 
       set
       {
-        Assert.ArgumentNotNull(value, "value");
+        Assert.ArgumentNotNull(value, nameof(value));
 
         SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder(this.Value)
         {
@@ -119,7 +120,7 @@
 
       set
       {
-        Assert.ArgumentNotNull(value, "value");
+        Assert.ArgumentNotNull(value, nameof(value));
 
         XmlAttribute attribute = this.element.Attributes["connectionString"] ?? this.element.CreateAttribute("connectionString");
         attribute.Value = value;
@@ -138,11 +139,12 @@
     }
 
     [NotNull]
-    public string GenerateDatabaseName([NotNull] string instanceName)
+    public string GenerateDatabaseName([NotNull] string instanceName, [NotNull] string sqlPrefix)
     {
-      Assert.ArgumentNotNull(instanceName, "instanceName");
+      Assert.ArgumentNotNull(instanceName, nameof(instanceName));
+      Assert.ArgumentNotNull(sqlPrefix, nameof(sqlPrefix));
 
-      return SqlServerManager.Instance.GenerateDatabaseRealName(instanceName, this.Name, this.GetProductName(instanceName));
+      return SqlServerManager.Instance.GenerateDatabaseRealName(instanceName, sqlPrefix, this.Name, this.GetProductName(instanceName));
     }
 
     public void SaveChanges()
@@ -157,9 +159,9 @@
     [NotNull]
     protected string GetProductName([NotNull] string instanceName)
     {
-      Assert.ArgumentNotNull(instanceName, "instanceName");
+      Assert.ArgumentNotNull(instanceName, nameof(instanceName));
 
-      string value = new SqlConnectionStringBuilder(this.Value).InitialCatalog;
+      var value = new SqlConnectionStringBuilder(this.Value).InitialCatalog;
       string[] arr = value.Split('_');
       return arr.Length == 2 ? arr[0].TrimStart(instanceName) : string.Empty;
     }

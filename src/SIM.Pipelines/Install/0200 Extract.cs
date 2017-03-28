@@ -2,7 +2,7 @@
 {
   using SIM.Pipelines.Processors;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
 
   #region
 
@@ -15,7 +15,7 @@
 
     public override long EvaluateStepsCount(ProcessorArgs args)
     {
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(args, nameof(args));
 
       return InstallHelper.GetStepsCount(((InstallArgs)args).PackagePath);
     }
@@ -26,7 +26,7 @@
 
     protected override void Process(InstallArgs args)
     {
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(args, nameof(args));
       var packagePath = args.PackagePath;
 
       var webRootPath = args.WebRootPath;
@@ -34,7 +34,7 @@
       var dataFolderPath = args.DataFolderPath;
 
 
-      InstallHelper.ExtractFile(packagePath, webRootPath, databasesFolderPath, dataFolderPath, args.InstallRadControls, args.InstallDictionaries, this.Controller);
+      InstallHelper.ExtractFile(packagePath, webRootPath, databasesFolderPath, dataFolderPath, args.InstanceAttachSql, args.InstallRadControls, args.InstallDictionaries, this.Controller);
     }
 
     #endregion

@@ -11,7 +11,7 @@
   using SIM.Instances;
   using SIM.Pipelines.Processors;
   using SIM.Products;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
 
   #endregion
 
@@ -73,6 +73,7 @@
     public readonly bool ServerSideRedirect;
 
     public readonly bool IncreaseExecutionTimeout;
+    public readonly string SqlPrefix;
 
     #endregion
 
@@ -100,6 +101,7 @@
       this.instanceName = instance.Name;
       this.StopInstance = instance.Stop;
       this.WebsiteID = instance.ID;
+      this.SqlPrefix = AttachDatabasesHelper.GetSqlPrefix(instance);
 
       var executionTimeout = UpdateWebConfigHelper.GetHttpRuntime(instance.GetWebResultConfig()).GetAttribute("executionTimeout");
       this.IncreaseExecutionTimeout = string.IsNullOrEmpty(executionTimeout) || executionTimeout != "600";

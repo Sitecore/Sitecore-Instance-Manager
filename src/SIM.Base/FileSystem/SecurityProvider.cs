@@ -5,11 +5,12 @@ using System.Linq;
 using System.Security.AccessControl;
 using System.Security.Principal;
 using Sitecore.Diagnostics.Base;
-using Sitecore.Diagnostics.Base.Annotations;
+using JetBrains.Annotations;
 
 namespace SIM.FileSystem
 {
   using Sitecore.Diagnostics.Logging;
+  using SIM.Extensions;
 
   public static class SecurityExtensions
   {
@@ -59,8 +60,8 @@ namespace SIM.FileSystem
 
     public virtual void EnsurePermissions([NotNull] string path, [NotNull] string identity)
     {
-      Assert.ArgumentNotNullOrEmpty(path, "path");
-      Assert.ArgumentNotNullOrEmpty(identity, "identity");
+      Assert.ArgumentNotNullOrEmpty(path, nameof(path));
+      Assert.ArgumentNotNullOrEmpty(identity, nameof(identity));
 
       var identityReference = this.GetIdentityReference(identity);
       Assert.IsNotNull(identityReference, "Cannot find {0} identity reference".FormatWith(identity));
@@ -83,7 +84,7 @@ namespace SIM.FileSystem
     [CanBeNull]
     public virtual IdentityReference GetIdentityReference([NotNull] string name)
     {
-      Assert.ArgumentNotNullOrEmpty(name, "name");
+      Assert.ArgumentNotNullOrEmpty(name, nameof(name));
 
       IdentityReference reference = null;
       if (name.EndsWith("NetworkService", StringComparison.OrdinalIgnoreCase) || name.EndsWith("Network Service", StringComparison.OrdinalIgnoreCase))
@@ -115,14 +116,14 @@ namespace SIM.FileSystem
         }
         catch (Exception ex)
         {
-          Log.Warn(ex, "An error occurred during paring {0} security identifier", name);
+          Log.Warn(ex, $"An error occurred during paring {name} security identifier");
           try
           {
             reference = new NTAccount(name);
           }
           catch (Exception ex1)
           {
-            Log.Warn(ex, "An error occurred during parsing {0} user account", ex1);
+            Log.Warn(ex, $"An error occurred during parsing {ex1} user account");
           }
         }
       }
@@ -134,9 +135,9 @@ namespace SIM.FileSystem
 
     public virtual bool HasPermissions(string path, string identity, FileSystemRights permissions)
     {
-      Assert.ArgumentNotNullOrEmpty(path, "path");
-      Assert.ArgumentNotNullOrEmpty(identity, "identity");
-      Assert.ArgumentNotNull(permissions, "permissions");
+      Assert.ArgumentNotNullOrEmpty(path, nameof(path));
+      Assert.ArgumentNotNullOrEmpty(identity, nameof(identity));
+      Assert.ArgumentNotNull(permissions, nameof(permissions));
 
       if (this.fileSystem.Directory.Exists(path))
       {
@@ -157,8 +158,8 @@ namespace SIM.FileSystem
 
     protected virtual void EnsureDirectoryPermissions([NotNull] string path, [NotNull] IdentityReference identity)
     {
-      Assert.ArgumentNotNull(path, "path");
-      Assert.ArgumentNotNull(identity, "identity");
+      Assert.ArgumentNotNull(path, nameof(path));
+      Assert.ArgumentNotNull(identity, nameof(identity));
 
       DirectoryInfo dirInfo = new DirectoryInfo(path);
       DirectorySecurity dirSecurity = dirInfo.GetAccessControl(AccessControlSections.All);
@@ -166,8 +167,8 @@ namespace SIM.FileSystem
 
       if (!HasPermissions(rules, identity, FileSystemRights.FullControl))
       {
-        Log.Info("Granting full access for '{0}' identity to the '{1}' folder", identity, path, 
-          typeof(FileSystem));
+        Log.Info(string.Format("Granting full access for '{0}' identity to the '{1}' folder", identity, path, 
+          typeof(FileSystem)));
         FileSystemAccessRule rule = new FileSystemAccessRule(identity, FileSystemRights.FullControl, 
           InheritanceFlags.ContainerInherit |
           InheritanceFlags.ObjectInherit, PropagationFlags.None, 
@@ -185,8 +186,8 @@ namespace SIM.FileSystem
 
     protected virtual void EnsureFilePermissions([NotNull] string path, [NotNull] IdentityReference identity)
     {
-      Assert.ArgumentNotNull(path, "path");
-      Assert.ArgumentNotNull(identity, "identity");
+      Assert.ArgumentNotNull(path, nameof(path));
+      Assert.ArgumentNotNull(identity, nameof(identity));
 
       var fileInfo = new FileInfo(path);
       var dirSecurity = fileInfo.GetAccessControl(AccessControlSections.All);
@@ -194,8 +195,8 @@ namespace SIM.FileSystem
 
       if (!HasPermissions(rules, identity, FileSystemRights.FullControl))
       {
-        Log.Info("Granting full access for '{0}' identity to the '{1}' file", identity, path, 
-          typeof(FileSystem));
+        Log.Info(string.Format("Granting full access for '{0}' identity to the '{1}' file", identity, path, 
+          typeof(FileSystem)));
 
         var rule = new FileSystemAccessRule(identity, FileSystemRights.FullControl, AccessControlType.Allow);
         dirSecurity.AddAccessRule(rule);
@@ -213,8 +214,8 @@ namespace SIM.FileSystem
     protected virtual IEnumerable<AuthorizationRule> GetRules([NotNull] AuthorizationRuleCollection rules, 
       [NotNull] IdentityReference identity)
     {
-      Assert.ArgumentNotNull(rules, "rules");
-      Assert.ArgumentNotNull(identity, "identity");
+      Assert.ArgumentNotNull(rules, nameof(rules));
+      Assert.ArgumentNotNull(identity, nameof(identity));
 
       try
       {
@@ -222,7 +223,7 @@ namespace SIM.FileSystem
       }
       catch (Exception ex)
       {
-        Log.Warn(ex, "Cannot get rules. {0}", ex.Message);
+        Log.Warn(ex, $"Cannot get rules. {ex.Message}");
         return new AuthorizationRule[0];
       }
     }
@@ -247,8 +248,8 @@ namespace SIM.FileSystem
 
     protected virtual bool HasPermissions([NotNull] AuthorizationRuleCollection rules, [NotNull] IdentityReference identity, FileSystemRights permissions)
     {
-      Assert.ArgumentNotNull(rules, "rules");
-      Assert.ArgumentNotNull(identity, "identity");
+      Assert.ArgumentNotNull(rules, nameof(rules));
+      Assert.ArgumentNotNull(identity, nameof(identity));
       try
       {
         return
@@ -257,7 +258,7 @@ namespace SIM.FileSystem
       }
       catch (Exception ex)
       {
-        Log.Warn(ex, "Cannot get permissions for rules collection");
+        Log.Warn(ex, string.Format("Cannot get permissions for rules collection"));
         return false;
       }
     }

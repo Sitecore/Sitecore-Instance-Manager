@@ -14,7 +14,8 @@
   using SIM.Tool.Base.Profiles;
   using SIM.Tool.Base.Windows.Dialogs;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
+  using SIM.Extensions;
 
   public partial class DatabasesDialog
   {
@@ -57,7 +58,7 @@
       var path = dialog.FileName;
       lastPathToAttach = path;
 
-      string dbName = SqlServerManager.Instance.GetDatabaseNameFromFile(ProfileManager.GetConnectionString(), path);
+      var dbName = SqlServerManager.Instance.GetDatabaseNameFromFile(ProfileManager.GetConnectionString(), path);
 
       if (dbName == string.Empty)
       {
@@ -96,7 +97,7 @@
       var connectionString = ProfileManager.GetConnectionString();
       var names = this.Databases.SelectedItems.Cast<string>().ToArray();
 
-      string result = names.Take(6).Aggregate((curr, name) => curr + "\n  • " + name) + (names.Length > 6 ? "\n    ..." : string.Empty);
+      var result = names.Take(6).Aggregate((curr, name) => curr + "\n  • " + name) + (names.Length > 6 ? "\n    ..." : string.Empty);
 
       if (MessageBox.Show("Are you sure that want to delete the following databases?\n {0}".FormatWith(result), "Confirm", MessageBoxButton.OKCancel) != MessageBoxResult.OK)
       {
@@ -134,8 +135,8 @@
       var names = this.Databases.SelectedItems;
       Func<IList, string> GetNamesAsString = (IList x) =>
       {
-        string result = string.Empty;
-        int i = 0;
+        var result = string.Empty;
+        var i = 0;
         foreach (string name in x)
         {
           i++;
@@ -250,7 +251,7 @@
     private void Rename(object sender, RoutedEventArgs e)
     {
       var connectionString = ProfileManager.GetConnectionString();
-      string name = this.Databases.SelectedItem as string;
+      var name = this.Databases.SelectedItem as string;
       if (!string.IsNullOrEmpty(name))
       {
         if (!SqlServerManager.Instance.DatabaseExists(name, connectionString))
@@ -259,7 +260,7 @@
           return;
         }
 
-        string newname = WindowHelper.ShowDialog<InputDialog>(new InputDialogArgs
+        var newname = WindowHelper.ShowDialog<InputDialog>(new InputDialogArgs
         {
           Title = "Select the new name", 
           DefaultValue = name
@@ -297,8 +298,8 @@
 
     private void WindowKeyUp([NotNull] object sender, [NotNull] KeyEventArgs e)
     {
-      Assert.ArgumentNotNull(sender, "sender");
-      Assert.ArgumentNotNull(e, "e");
+      Assert.ArgumentNotNull(sender, nameof(sender));
+      Assert.ArgumentNotNull(e, nameof(e));
 
       if (e.Handled)
       {
@@ -345,7 +346,7 @@
     private void Backup(object sender, RoutedEventArgs e)
     {
       var connectionString = ProfileManager.GetConnectionString();
-      string databaseName = this.Databases.SelectedItems[0].ToString();
+      var databaseName = this.Databases.SelectedItems[0].ToString();
       if (this.Databases.SelectedItems.Count == 1)
       {
         var dialog = new SaveFileDialog
@@ -392,7 +393,7 @@
       // };
       if (this.Databases.SelectedItems.Count == 1)
       {
-        string originalFolder = Path.GetDirectoryName(SqlServerManager.Instance.GetDatabaseFileName(this.Databases.SelectedItem.ToString(), ProfileManager.GetConnectionString()));
+        var originalFolder = Path.GetDirectoryName(SqlServerManager.Instance.GetDatabaseFileName(this.Databases.SelectedItem.ToString(), ProfileManager.GetConnectionString()));
         var fileDialog = new System.Windows.Forms.FolderBrowserDialog()
         {
           // Title = "Select folder for moving database"
@@ -400,12 +401,12 @@
         };
 
         fileDialog.ShowDialog();
-        string folderForRelocation = fileDialog.SelectedPath;
+        var folderForRelocation = fileDialog.SelectedPath;
 
         if (folderForRelocation != originalFolder && !folderForRelocation.IsNullOrEmpty())
         {
-          string dbFileName = Path.GetFileName(SqlServerManager.Instance.GetDatabaseFileName(this.Databases.SelectedItem.ToString(), ProfileManager.GetConnectionString()));
-          string dbName = this.Databases.SelectedItem.ToString();
+          var dbFileName = Path.GetFileName(SqlServerManager.Instance.GetDatabaseFileName(this.Databases.SelectedItem.ToString(), ProfileManager.GetConnectionString()));
+          var dbName = this.Databases.SelectedItem.ToString();
           var connString = ProfileManager.GetConnectionString();
           WindowHelper.LongRunningTask(() => this.MoveDatabase(folderForRelocation, originalFolder, dbName, dbFileName, connString), "Move database", this, "The database is being moved", null, true);
         }

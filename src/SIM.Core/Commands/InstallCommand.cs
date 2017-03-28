@@ -2,13 +2,13 @@
 {
   using System.IO;
   using System.Linq;
+  using Sitecore.Diagnostics.Base;
+  using JetBrains.Annotations;
   using SIM.Adapters.SqlServer;
   using SIM.Core.Common;
   using SIM.Pipelines;
   using SIM.Pipelines.Install;
   using SIM.Products;
-  using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
 
   public class InstallCommand : AbstractCommand<string[]>
   {
@@ -26,14 +26,16 @@
 
     protected override void DoExecute(CommandResult<string[]> result)
     {
-      Assert.ArgumentNotNull(result, "result");
+      Assert.ArgumentNotNull(result, nameof(result));
 
-      var name = this.Name;
-      Assert.ArgumentNotNullOrEmpty(name, "name");
+      var name = Name;
+      Assert.ArgumentNotNullOrEmpty(name, nameof(name));
 
-      var product = this.Product;
-      var version = this.Version;
-      var revision = this.Revision;
+      var hostNames = new[] {name};
+      var sqlPrefix = name;
+      var product = Product;
+      var version = Version;
+      var revision = Revision;
 
       var profile = Profile.Read();
       var repository = profile.LocalRepository;
@@ -62,7 +64,7 @@
 
       var sqlServerAccountName = SqlServerManager.Instance.GetSqlServerAccountName(builder);
       var webServerIdentity = Settings.CoreInstallWebServerIdentity.Value;
-      var installArgs = new InstallArgs(name, name, distributive, rootPath, builder, sqlServerAccountName, webServerIdentity, new FileInfo(license), true, false, false, false, false, false, true, new Product[0]);
+      var installArgs = new InstallArgs(name, hostNames, sqlPrefix, true, distributive, rootPath, builder, sqlServerAccountName, webServerIdentity, new FileInfo(license), true, false, false, false, false, false, true, true, new Product[0]);
       var controller = new AggregatePipelineController();
       PipelineManager.StartPipeline("install", installArgs, controller, false);
 

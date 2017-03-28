@@ -13,10 +13,12 @@
   using System.Xml.Serialization;
   using Ionic.Zip;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
-  using Sitecore.Diagnostics.InformationService.Client;
-  using Sitecore.Diagnostics.InformationService.Client.Model;
+  using JetBrains.Annotations;
+  using Sitecore.Diagnostics.Base.Extensions.DictionaryExtensions;
+  using Sitecore.Diagnostics.InfoService.Client;
+  using Sitecore.Diagnostics.InfoService.Client.Model;
   using Sitecore.Diagnostics.Logging;
+  using SIM.Extensions;
 
   #endregion
 
@@ -81,7 +83,7 @@
         XmlElement install = document.SelectSingleElement(ManifestPrefix + "package/install/postStepActions");
         if (install != null)
         {
-          string skip = install.GetAttribute("skipStandard");
+          var skip = install.GetAttribute("skipStandard");
           if (!string.IsNullOrEmpty(skip) && skip.EqualsIgnoreCase("true"))
           {
             return true;
@@ -125,7 +127,7 @@
     public static readonly IServiceClient Service = new ServiceClient();
 
     [CanBeNull]
-    private IRelease release;
+    private IRelease _Release;
 
     private bool unknownRelease;
 
@@ -198,7 +200,7 @@
     {
       get
       {
-        var release = this.release;
+        var release = this._Release;
         if (release != null)
         {
           return release;
@@ -209,10 +211,22 @@
           return null;
         }
 
-        release = Service.GetVersions("Sitecore CMS")
-          .With(x => x.FirstOrDefault(z => z.Name == this.Version))
-          .With(x => x.Releases)
-          .With(x => x.FirstOrDefault(z => z.Revision == this.Revision));
+
+        var ver = this.Version;
+        switch (ver)
+        {
+          case "6.6.0":
+            ver = "6.6";
+            break;
+          case "6.5.0":
+            ver = "6.5";
+            break;
+        }
+
+        release = Service.GetVersions("Sitecore CMS")?
+          .FirstOrDefault(z => z.MajorMinor == ver)?
+          .Releases?
+          .TryGetValue(this.Revision);
 
         if (release == null)
         {
@@ -221,7 +235,7 @@
           return null;
         }
 
-        this.release = release;
+        this._Release = release;
 
         return release;
       }
@@ -234,7 +248,7 @@
       {
         if (this.manifest == null)
         {
-          string packageFile = this.PackagePath;
+          var packageFile = this.PackagePath;
           if (string.IsNullOrEmpty(packageFile))
           {
             return EmptyManifest;
@@ -374,13 +388,61 @@
       }
     }
 
+    [NotNull]
+    public string UpdateOrRevision
+    {
+      get
+      {
+        var label = this.Label;
+        var revision = "rev" + this.Revision;
+        if (string.IsNullOrEmpty(label))
+        {
+          return revision;
+        }
+
+        if (label.EqualsIgnoreCase("initial release"))
+        {
+          return "u0";
+        }
+
+        var pos = label.Length - 1;
+        if (!char.IsDigit(label[pos]))
+        {
+          Log.Warn(string.Format("Strange label: " + label));
+
+          return revision;
+        }
+
+        while (pos >= 0 && char.IsDigit(label[pos]))
+        {
+          pos--;
+        }
+        pos++;
+
+        var num = int.Parse(label.Substring(pos));
+        if (label.StartsWith("update-", StringComparison.OrdinalIgnoreCase))
+        {
+          return "u" + num;
+        }
+
+        if (label.StartsWith("service pack-", StringComparison.OrdinalIgnoreCase))
+        {
+          return "sp" + num;
+        }
+
+        Log.Warn(string.Format("Strange label: " + label));
+
+        return revision;
+      }
+    }
+
     #endregion
 
     #region Private methods
 
     private string NormalizeName(string name)
     {
-      string result = string.Empty;
+      var result = string.Empty;
       var words = name.Split();
       foreach (var word in words)
       {
@@ -411,6 +473,26 @@
       }
     }
 
+    public int Update
+    {
+      get
+      {
+        var productName = "Sitecore CMS";
+        var versions = Service.GetVersions(productName)?.ToArray();
+        Assert.IsNotNull(versions, nameof(versions));
+
+        var ver = new Version(Version);
+        var majorMinor = $"{ver.Major}.{ver.Minor}";
+        var version = versions.FirstOrDefault(x => x.MajorMinor.Equals(majorMinor, StringComparison.Ordinal));
+        Assert.IsNotNull(version, $"Cannot find {productName} version {majorMinor}");
+
+        var release = version.Releases.TryGetValue(Revision);
+        Assert.IsNotNull(release, $"Cannot find {productName} version {majorMinor} revision {Revision}");
+
+        return release.Update;
+      }
+    }
+
     #endregion
 
     #region Public methods
@@ -418,7 +500,7 @@
     [NotNull]
     public static Product Parse([NotNull] string path)
     {
-      Assert.ArgumentNotNull(path, "path");
+      Assert.ArgumentNotNull(path, nameof(path));
 
       Product product;
       return TryParse(path, out product) && product != null ? product : Undefined;
@@ -426,7 +508,7 @@
 
     public static bool TryParse([NotNull] string packagePath, [CanBeNull] out Product product)
     {
-      Assert.ArgumentNotNull(packagePath, "file");
+      Assert.ArgumentNotNull(packagePath, nameof(packagePath));
 
       product = null;
       Match match = ProductRegex.Match(packagePath);
@@ -440,7 +522,7 @@
 
     public bool IsMatchRequirements([NotNull] Product instanceProduct)
     {
-      Assert.ArgumentNotNull(instanceProduct, "instanceProduct");
+      Assert.ArgumentNotNull(instanceProduct, nameof(instanceProduct));
 
       // !ProductHelper.Settings.InstallModulesCheckRequirements.Value&& 
       if (!this.Name.EqualsIgnoreCase("Sitecore Analytics"))
@@ -453,7 +535,7 @@
         IEnumerable<XmlElement> rules = product.ChildNodes.OfType<XmlElement>().ToArray();
         foreach (IGrouping<string, XmlElement> group in rules.GroupBy(ch => ch.Name.ToLower()))
         {
-          string key = group.Key;
+          var key = group.Key;
           switch (key)
           {
             case "version":
@@ -543,7 +625,7 @@
       }
       catch (Exception ex)
       {
-        Log.Warn(ex, "An error occurred during extracting readme text from {0}",  path);
+        Log.Warn(ex, $"An error occurred during extracting readme text from {path}");
         readmeText = string.Empty;
       }
 
@@ -564,8 +646,8 @@
 
     private static bool TryParse([NotNull] string packagePath, [NotNull] Match match, [CanBeNull] out Product product)
     {
-      Assert.ArgumentNotNull(packagePath, "file");
-      Assert.ArgumentNotNull(match, "match");
+      Assert.ArgumentNotNull(packagePath, nameof(packagePath));
+      Assert.ArgumentNotNull(match, nameof(match));
 
       product = null;
       if (!FileSystem.FileSystem.Local.File.Exists(packagePath))
@@ -573,11 +655,11 @@
         packagePath = null;
       }
 
-      string originalName = match.Groups[1].Value;
-      string name = originalName;
+      var originalName = match.Groups[1].Value;
+      var name = originalName;
       string shortName = null;
-      string version = match.Groups[2].Value;
-      string revision = match.Groups[5].Value;
+      var version = match.Groups[2].Value;
+      var revision = match.Groups[5].Value;
 
       if (name.EqualsIgnoreCase("sitecore") && version[0] == '5')
       {
@@ -601,22 +683,23 @@
     [NotNull]
     private string FormatString([NotNull] string pattern)
     {
-      Assert.ArgumentNotNull(pattern, "pattern");
+      Assert.ArgumentNotNull(pattern, nameof(pattern));
 
-      return pattern.Replace("{ShortName}", this.ShortName).Replace("{Name}", this.Name).Replace("{ShortVersion}", this.ShortVersion).Replace("{Version}", this.Version).Replace("{Revision}", this.Revision);
+      return pattern.Replace("{ShortName}", this.ShortName).Replace("{Name}", this.Name).Replace("{ShortVersion}", this.ShortVersion).Replace("{Version}", this.Version).Replace("{Revision}", this.Revision)
+        .Replace("{UpdateOrRevision}", this.UpdateOrRevision);
     }
 
     private bool RevisionMatch([NotNull] Product instanceProduct, [NotNull] string revision)
     {
-      Assert.ArgumentNotNull(instanceProduct, "instanceProduct");
-      Assert.ArgumentNotNull(revision, "revision");
+      Assert.ArgumentNotNull(instanceProduct, nameof(instanceProduct));
+      Assert.ArgumentNotNull(revision, nameof(revision));
 
       if (string.IsNullOrEmpty(revision))
       {
         revision = this.Revision;
       }
 
-      string instanceRevision = instanceProduct.Revision;
+      var instanceRevision = instanceProduct.Revision;
       if (instanceRevision == revision || string.IsNullOrEmpty(instanceRevision))
       {
         return true;
@@ -627,16 +710,16 @@
 
     private bool VersionMatch([NotNull] Product instanceProduct, [NotNull] string version, [NotNull] XmlElement versionRule)
     {
-      Assert.ArgumentNotNull(instanceProduct, "instanceProduct");
-      Assert.ArgumentNotNull(version, "version");
-      Assert.ArgumentNotNull(versionRule, "versionRule");
+      Assert.ArgumentNotNull(instanceProduct, nameof(instanceProduct));
+      Assert.ArgumentNotNull(version, nameof(version));
+      Assert.ArgumentNotNull(versionRule, nameof(versionRule));
 
       if (string.IsNullOrEmpty(version))
       {
         version = this.Version;
       }
 
-      string instanceVersion = instanceProduct.Version;
+      var instanceVersion = instanceProduct.Version;
       if (instanceVersion == version)
       {
         var rules = versionRule.SelectElements("revision").ToArray();
@@ -680,7 +763,7 @@
       }
 
       const string cacheName = "IsPackage";
-      string path = packagePath.ToLowerInvariant();
+      var path = packagePath.ToLowerInvariant();
       using (new ProfileSection("Is it package or not"))
       {
         ProfileSection.Argument("packagePath", packagePath);
@@ -724,7 +807,7 @@
         }
         catch (Exception e)
         {
-          Log.Warn("Detecting if the '{0}' file is a Sitecore Package failed with exception.", path, e);
+          Log.Warn(string.Format("Detecting if the '{0}' file is a Sitecore Package failed with exception.", path, e));
           CacheManager.SetEntry(cacheName, path, "false");
 
           return ProfileSection.Result(false);
@@ -759,5 +842,13 @@
     }
 
     #endregion
+
+    /// <summary>
+    /// Force manifest to be reloaded from disk, to reset variable replacements.
+    /// </summary>
+    public void ResetManifest()
+    {
+      this.manifest = null;
+    }
   }
 }

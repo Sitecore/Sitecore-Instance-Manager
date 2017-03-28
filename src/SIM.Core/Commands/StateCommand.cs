@@ -1,24 +1,16 @@
 namespace SIM.Core.Commands
 {
-  using System;
-  using System.Linq;
   using Sitecore.Diagnostics.Base;
   using SIM.Core.Common;
   using SIM.Instances;
 
   public class StateCommand : AbstractInstanceActionCommand<string>
   {
-    protected override void DoExecute(CommandResult<string> result)
+    protected override void DoExecute(Instance instance, CommandResult<string> result)
     {
-      Assert.ArgumentNotNull(result, "result");
+      Assert.ArgumentNotNull(instance, nameof(instance));
+      Assert.ArgumentNotNull(result, nameof(result));     
 
-      var name = this.Name;
-      Assert.ArgumentNotNullOrEmpty(name, "name");
-
-      InstanceManager.Initialize();
-      var instance = InstanceManager.Instances.FirstOrDefault(x => x.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
-      Ensure.IsNotNull(instance, "instance is not found");
-      
       result.Data = instance.State.ToString();
     }
   }

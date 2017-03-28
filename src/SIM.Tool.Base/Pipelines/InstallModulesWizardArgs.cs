@@ -8,7 +8,7 @@
   using SIM.Products;
   using SIM.Tool.Base.Profiles;
   using SIM.Tool.Base.Wizards;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
 
   [UsedImplicitly]
   public class InstallModulesWizardArgs : WizardArgs
@@ -25,7 +25,11 @@
 
     #region Constructors
 
-    public InstallModulesWizardArgs(Instance instance = null)
+    public InstallModulesWizardArgs()
+    { 
+    }
+
+    public InstallModulesWizardArgs(Instance instance)
     {
       this.Instance = instance;
       if (instance != null)
@@ -96,11 +100,6 @@
         this.webRootPath = value;
       }
     }
-
-    public bool? SkipDictionaries { get; set; }
-    public bool? SkipRadControls { get; set; }
-    public bool? ServerSideRedirect { get; set; }
-    public bool? IncreaseExecutionTimeout { get; set; }
 
     #endregion
   }

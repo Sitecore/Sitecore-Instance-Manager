@@ -3,7 +3,7 @@
   using SIM.Instances;
   using SIM.Pipelines.Processors;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
 
   #region
 
@@ -26,7 +26,7 @@
 
     public RestoreArgs([NotNull] Instance instance, InstanceBackup backup = null)
     {
-      Assert.ArgumentNotNull(instance, "instance");
+      Assert.ArgumentNotNull(instance, nameof(instance));
 
       // if(backup == null)
       // {

@@ -6,6 +6,7 @@
   using System.Net;
   using System.Windows;
   using Alienlab.NetExtensions;
+  using SIM.Extensions;
   using SIM.Tool.Base;
   using SIM.Tool.Base.Wizards;
 
@@ -30,7 +31,7 @@
       request.ContentType = @"application/json;charset=UTF-8";
       var cookies = new CookieContainer();
       request.CookieContainer = cookies;
-      var content = "{" + string.Format("\"username\":\"{0}\",\"password\":\"{1}\"", username, password) + "}";
+      var content = "{" + $"\"username\":\"{username}\",\"password\":\"{password}\"" + "}";
       request.ContentLength = content.Length;
       using (var inputStream = request.GetRequestStream())
       {
@@ -140,9 +141,9 @@
 
     bool IWizardStep.SaveChanges(WizardArgs wizardArgs)
     {
-      string username = this.UserName.Text.Trim();
+      var username = this.UserName.Text.Trim();
 
-      string password = this.Passowrd.Password;
+      var password = this.Passowrd.Password;
 
       var args = (DownloadWizardArgs)wizardArgs;
       args.UserName = username;

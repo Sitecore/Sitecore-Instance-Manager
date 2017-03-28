@@ -6,7 +6,8 @@
   using System.Net;
   using System.Text.RegularExpressions;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
+  using SIM.Extensions;
 
   public static class InstanceHelper
   {
@@ -50,17 +51,17 @@
 
     public static void StartInstance(Instance instance, int? timeout = null, string reason = null)
     {
-      Assert.ArgumentNotNull(instance, "instance");
+      Assert.ArgumentNotNull(instance, nameof(instance));
 
-      string url = instance.GetUrl(@"/sitecore/service/keepalive.aspx?ts=" + DateTime.Now.Ticks + "&reason=" + (reason ?? "default"));
-      Assert.IsNotNullOrEmpty(url, "url");
+      var url = instance.GetUrl(@"/sitecore/service/keepalive.aspx?ts=" + DateTime.Now.Ticks + "&reason=" + (reason ?? "default"));
+      Assert.IsNotNullOrEmpty(url, nameof(url));
       try
       {
         WebRequestHelper.DownloadString(url, timeout);
       }
       catch (WebException ex)
       {
-        string text = "There is an issue with requesting '" + url + "'. ";
+        var text = "There is an issue with requesting '" + url + "'. ";
         var webResponse = ex.Response;
         if (webResponse != null)
         {
@@ -84,7 +85,7 @@
           text += "No error response provided.";
         }
 
-        string text2 = string.Empty;
+        var text2 = string.Empty;
         try
         {
           text2 = text.Substring(text.IndexOf("<title>") + "<title>".Length);

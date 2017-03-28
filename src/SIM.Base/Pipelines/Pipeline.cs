@@ -6,8 +6,9 @@
   using System.Threading;
   using SIM.Pipelines.Processors;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
   using Sitecore.Diagnostics.Logging;
+  using SIM.Extensions;
 
   #region
 
@@ -43,8 +44,8 @@
 
     public Pipeline([NotNull] PipelineDefinition pipelineDefinition, [NotNull] ProcessorArgs args, [CanBeNull] IPipelineController controller = null, bool isAsync = true)
     {
-      Assert.ArgumentNotNull(pipelineDefinition, "pipelineDefinition");
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(pipelineDefinition, nameof(pipelineDefinition));
+      Assert.ArgumentNotNull(args, nameof(args));
 
       this.controller = controller;
       this.pipelineDefinition = pipelineDefinition;
@@ -63,8 +64,8 @@
     [NotNull]
     public static string ReplaceVariables([NotNull] string message, [NotNull] AbstractArgs args)
     {
-      Assert.ArgumentNotNull(message, "message");
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(message, nameof(message));
+      Assert.ArgumentNotNull(args, nameof(args));
 
       using (new ProfileSection("Replace pipeline variables in message"))
       {
@@ -144,7 +145,7 @@
 
     private static void Execute([NotNull] object obj)
     {
-      Assert.ArgumentNotNull(obj, "obj");
+      Assert.ArgumentNotNull(obj, nameof(obj));
 
       Pipeline.Execute((PipelineStartInfo)obj);
     }
@@ -177,7 +178,7 @@
         }
         catch (Exception ex)
         {
-          Log.Warn(ex, "An error occurred during executing a pipeline");
+          Log.Warn(ex, string.Format("An error occurred during executing a pipeline"));
           info.ProcessorArgs.Dispose();
         }
       }
@@ -185,8 +186,8 @@
 
     private static bool ExecuteProcessors([NotNull] ProcessorArgs args, [NotNull] IEnumerable<Processor> processorList, [CanBeNull] IPipelineController controller = null, bool startThisAndNestedProcessors = true)
     {
-      Assert.ArgumentNotNull(args, "args");
-      Assert.ArgumentNotNull(processorList, "processorList");
+      Assert.ArgumentNotNull(args, nameof(args));
+      Assert.ArgumentNotNull(processorList, nameof(processorList));
 
       using (new ProfileSection("Execute pipeline processors"))
       {
@@ -224,8 +225,8 @@
 
     private static bool ExecuteSteps([NotNull] ProcessorArgs args, [NotNull] IEnumerable<Step> steps, [CanBeNull] IPipelineController controller = null, bool startThisAndNestedProcessors = true)
     {
-      Assert.ArgumentNotNull(args, "args");
-      Assert.ArgumentNotNull(steps, "steps");
+      Assert.ArgumentNotNull(args, nameof(args));
+      Assert.ArgumentNotNull(steps, nameof(steps));
 
       using (new ProfileSection("Execute pipeline steps"))
       {
@@ -239,7 +240,7 @@
           ProcessorArgs innerArgs = null;
 
           /* Use args' member as args for nested pipeline*/
-          string argsName = step.ArgsName.EmptyToNull();
+          var argsName = step.ArgsName.EmptyToNull();
           if (argsName != null)
           {
             Type type = args.GetType();
@@ -292,8 +293,8 @@
 
       public PipelineStartInfo([NotNull] ProcessorArgs processorArgs, [NotNull] List<Step> steps, [CanBeNull] IPipelineController pipelineController = null)
       {
-        Assert.ArgumentNotNull(processorArgs, "processorArgs");
-        Assert.ArgumentNotNull(steps, "steps");
+        Assert.ArgumentNotNull(processorArgs, nameof(processorArgs));
+        Assert.ArgumentNotNull(steps, nameof(steps));
 
         this.ProcessorArgs = processorArgs;
         this.PipelineController = pipelineController;

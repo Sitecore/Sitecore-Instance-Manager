@@ -3,11 +3,12 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using Sitecore.Diagnostics.Base;
-using Sitecore.Diagnostics.Base.Annotations;
+using JetBrains.Annotations;
 
 namespace SIM.FileSystem
 {
   using Sitecore.Diagnostics.Logging;
+  using SIM.Extensions;
 
   public class FileProvider
   {
@@ -40,18 +41,18 @@ namespace SIM.FileSystem
 
     public virtual void AssertExists([NotNull] string path, [CanBeNull] string message = null, bool isError = true)
     {
-      Assert.ArgumentNotNullOrEmpty(path, "path");
+      Assert.ArgumentNotNullOrEmpty(path, nameof(path));
       if (string.IsNullOrEmpty(message))
       {
         message = "The '" + path + "' file doesn't exists";
       }
 
-      Assert.IsTrue(File.Exists(path), message, isError);
+      Assert.IsTrue(File.Exists(path), message);
     }
 
     public virtual void Copy(string path1, string path2, bool overwrite)
     {
-      Assert.IsTrue(!path1.EqualsIgnoreCase(path2), "Source and destination are same: {0}", path1);
+      Assert.IsTrue(!path1.EqualsIgnoreCase(path2), $"Source and destination are same: {path1}");
 
       File.Copy(path1, path2, overwrite);
     }
@@ -63,7 +64,7 @@ namespace SIM.FileSystem
 
     public virtual void Copy(string source, string target, bool sync = false, int timeout = 1000)
     {
-      Log.Info("Copying the {0} file to {1}", source, target);
+      Log.Info($"Copying the {source} file to {target}");
       if (File.Exists(target))
       {
         File.Delete(target);
@@ -72,7 +73,7 @@ namespace SIM.FileSystem
       File.Copy(source, target);
       if (sync && !File.Exists(target))
       {
-        int sleep = 100;
+        var sleep = 100;
         var times = timeout / sleep;
         for (int i = 0; i < times && !File.Exists(target); ++i)
         {
@@ -101,7 +102,7 @@ namespace SIM.FileSystem
           Assert.IsTrue(!ignore.Contains('\\') && !ignore.Contains('/'), "Multi-level ignore is not supported for deleting");
           foreach (var directory in Directory.GetDirectories(path))
           {
-            string directoryName = new DirectoryInfo(directory).Name;
+            var directoryName = new DirectoryInfo(directory).Name;
             if (!directoryName.EqualsIgnoreCase(ignore))
             {
               this.Delete(directory);

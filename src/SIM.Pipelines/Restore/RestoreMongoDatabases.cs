@@ -4,7 +4,7 @@ namespace SIM.Pipelines.Restore
   using System.Collections.Generic;
   using System.Linq;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
   using Sitecore.Diagnostics.Logging;
 
   [UsedImplicitly]
@@ -20,21 +20,21 @@ namespace SIM.Pipelines.Restore
 
     protected override long EvaluateStepsCount(RestoreArgs args)
     {
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(args, nameof(args));
 
       return args.Backup.MongoDatabaseFilenames.Count();
     }
 
     protected override bool IsRequireProcessing(RestoreArgs args)
     {
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(args, nameof(args));
 
       return args.Backup.BackupMongoDatabases;
     }
 
     protected override void Process([NotNull] RestoreArgs args)
     {
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(args, nameof(args));
 
       var databases = args.Backup.MongoDatabaseFilenames;
 
@@ -64,7 +64,7 @@ namespace SIM.Pipelines.Restore
         }
         catch (Exception ex)
         {
-          Log.Warn(ex, "An error occurred during starting an instance");
+          Log.Warn(ex, string.Format("An error occurred during starting an instance"));
         }
       }
 

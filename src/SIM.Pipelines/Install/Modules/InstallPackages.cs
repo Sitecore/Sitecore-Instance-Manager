@@ -5,7 +5,7 @@ namespace SIM.Pipelines.Install.Modules
   using SIM.Pipelines.Agent;
   using SIM.Products;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
 
   #region
 
@@ -24,11 +24,11 @@ namespace SIM.Pipelines.Install.Modules
 
     protected override void Process([NotNull] InstallArgs args)
     {
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(args, nameof(args));
 
       Assert.IsNotNull(args.Instance, "Instance");
 
-      foreach (Product module in args.Modules.Where(m => m.IsPackage))
+      foreach (var module in args.Modules.Where(m => m.IsPackage))
       {
         if (this.done.Contains(module))
         {

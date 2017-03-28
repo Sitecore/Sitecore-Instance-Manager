@@ -2,7 +2,7 @@
 {
   using System;
   using System.Data.SqlClient;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
   using Sitecore.Diagnostics.Logging;
 
   #region
@@ -37,8 +37,7 @@
         }
         catch (Exception ex)
         {
-          Log.Warn(ex, "An error while retrieving database file name, database: {0}, connection string: {1}", databaseName, connectionString);
-
+          Log.Warn(ex, $"An error while retrieving database file name, database: {databaseName}, connection string: {connectionString}");
           return null;
         }
       }

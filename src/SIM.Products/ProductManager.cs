@@ -6,8 +6,9 @@
   using System.IO;
   using System.Linq;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
   using Sitecore.Diagnostics.Logging;
+  using SIM.Extensions;
 
   #region
 
@@ -36,10 +37,15 @@
 
     #region Public Methods
 
+    public static Product GetProduct(FileInfo file)
+    {
+      return GetProduct(file.FullName);
+    }
+
     [NotNull]
     public static Product GetProduct([NotNull] string productName)
     {
-      Assert.ArgumentNotNull(productName, "productName");
+      Assert.ArgumentNotNull(productName, nameof(productName));
       var product = Products.FirstOrDefault(p => p.ToString().EqualsIgnoreCase(productName));
       if (product != null)
       {
@@ -84,7 +90,7 @@
 
     public static void Initialize([NotNull] string localRepository)
     {
-      Assert.ArgumentNotNull(localRepository, "localRepository");
+      Assert.ArgumentNotNull(localRepository, nameof(localRepository));
 
       Refresh(localRepository);
       OnProductManagerInitialized();
@@ -92,7 +98,7 @@
 
     public static void Initialize(List<string> zipFiles)
     {
-      Assert.ArgumentNotNull(zipFiles, "zipFiles");
+      Assert.ArgumentNotNull(zipFiles, nameof(zipFiles));
 
       Refresh(zipFiles);
       OnProductManagerInitialized();
@@ -125,7 +131,7 @@
 
     private static void ProcessFile(string file)
     {
-      Assert.IsNotNullOrEmpty(file, "file");
+      Assert.IsNotNullOrEmpty(file, nameof(file));
 
       using (new ProfileSection("Process file"))
       {
@@ -151,7 +157,7 @@
 
     private static void Refresh([NotNull] string localRepository)
     {
-      Assert.ArgumentNotNull(localRepository, "localRepository");
+      Assert.ArgumentNotNull(localRepository, nameof(localRepository));
 
       using (new ProfileSection("Refresh product manager"))
       {

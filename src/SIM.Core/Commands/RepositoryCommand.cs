@@ -9,7 +9,7 @@ namespace SIM.Core.Commands
   {
     protected override void DoExecute(CommandResult<RepositoryCommandResult> result)
     {
-      Assert.ArgumentNotNull(result, "result");
+      Assert.ArgumentNotNull(result, nameof(result));
 
       var profile = Profile.Read();
       var repository = profile.LocalRepository;
@@ -21,7 +21,7 @@ namespace SIM.Core.Commands
         Standalone = ProductManager.StandaloneProducts.Select(x => x.ToString()).ToArray(),
         Modules = ProductManager.Modules.Select(x => x.ToString()).ToArray()
       };
-      
+
       result.Data = data;
     }
   }

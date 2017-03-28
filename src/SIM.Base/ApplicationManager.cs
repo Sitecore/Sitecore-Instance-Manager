@@ -7,7 +7,8 @@ namespace SIM
   using System.Reflection;
   using Ionic.Zip;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
+  using SIM.Extensions;
 
   #region
 
@@ -28,7 +29,6 @@ namespace SIM
     public const string AppDataRoot = @"%AppData%\Sitecore\Sitecore Instance Manager";
     public const string DefaultConfigurations = "Configurations";
     public const string DefaultPackages = "Packages";
-    public const string StockPlugins = "Plugins";
 
     #endregion
 
@@ -66,10 +66,7 @@ namespace SIM
 
     [NotNull]
     public static readonly string LogsFolder;
-
-    [NotNull]
-    public static readonly string PluginsFolder;
-
+    
     [NotNull]
     public static readonly string ProfilesFolder;
 
@@ -93,7 +90,6 @@ namespace SIM
       IsQA = processName.ContainsIgnoreCase(".QA.");
 
       DataFolder = InitializeFolder(Environment.ExpandEnvironmentVariables(AppDataRoot + (IsQA ? "-QA" : "")));
-      PluginsFolder = InitializeDataFolder("Plugins");
       CachesFolder = InitializeDataFolder("Caches");
       FilePackagesFolder = InitializeDataFolder("Custom Packages");
       ConfigurationPackagesFolder = InitializeDataFolder("Custom Configurations");
@@ -116,8 +112,8 @@ namespace SIM
     [NotNull]
     public static string GetEmbeddedFile([NotNull] string assemblyName, [NotNull] string fileName)
     {
-      Assert.ArgumentNotNull(assemblyName, "assemblyName");
-      Assert.ArgumentNotNull(fileName, "fileName");
+      Assert.ArgumentNotNull(assemblyName, nameof(assemblyName));
+      Assert.ArgumentNotNull(fileName, nameof(fileName));
 
       var folder = Path.Combine(TempFolder, assemblyName);
       if (!Directory.Exists(folder))
@@ -132,11 +128,11 @@ namespace SIM
       }
 
       var assembly = Assembly.Load(assemblyName);
-      Assert.IsNotNull(assembly, "assembly");
+      Assert.IsNotNull(assembly, nameof(assembly));
 
       using (var stream = assembly.GetManifestResourceStream(assemblyName + @"." + fileName))
       {
-        Assert.IsNotNull(stream, "stream");
+        Assert.IsNotNull(stream, nameof(stream));
 
         using (var fileStream = new FileStream(filePath, FileMode.Create))
         {
@@ -151,7 +147,7 @@ namespace SIM
           }
         }
 
-        Assert.IsTrue(File.Exists(filePath), "The {0} file path doesn't exist after successful extracting {1} package into {2} folder", filePath, filePath, folder);
+        Assert.IsTrue(File.Exists(filePath), $"The {filePath} file path doesn't exist after successful extracting {filePath} package into {folder} folder");
 
         return filePath;
       }
@@ -160,13 +156,13 @@ namespace SIM
     [NotNull]
     public static string GetEmbeddedFile([NotNull] string packageName, [NotNull] string assemblyName, [NotNull] string fileName)
     {
-      Assert.ArgumentNotNull(packageName, "packageName");
-      Assert.ArgumentNotNull(assemblyName, "assemblyName");
-      Assert.ArgumentNotNull(fileName, "fileName");
+      Assert.ArgumentNotNull(packageName, nameof(packageName));
+      Assert.ArgumentNotNull(assemblyName, nameof(assemblyName));
+      Assert.ArgumentNotNull(fileName, nameof(fileName));
 
       var folder = Path.Combine(TempFolder, assemblyName, packageName);
       var filePath = Path.Combine(folder, fileName);
-      if (File.Exists(filePath))
+      if (File.Exists(filePath) || Directory.Exists(filePath))
       {
         return filePath;
       }
@@ -177,11 +173,11 @@ namespace SIM
       }
 
       var assembly = Assembly.Load(assemblyName);
-      Assert.IsNotNull(assembly, "assembly");
+      Assert.IsNotNull(assembly, nameof(assembly));
 
       using (var stream = assembly.GetManifestResourceStream(assemblyName + @"." + packageName))
       {
-        Assert.IsNotNull(stream, "stream");
+        Assert.IsNotNull(stream, nameof(stream));
 
         var tempFilePath = Path.GetTempFileName();
         try
@@ -204,7 +200,7 @@ namespace SIM
             zip.ExtractAll(folder, ExtractExistingFileAction.OverwriteSilently);
           }
 
-          Assert.IsTrue(File.Exists(filePath), "The {0} file path doesn't exist after successful extracting {1} package into {2} folder", filePath, tempFilePath, folder);
+        Assert.IsTrue(File.Exists(filePath) || Directory.Exists(filePath), $"The {filePath} file path doesn't exist after successful extracting {tempFilePath} package into {folder} folder");
 
           return filePath;
         }
@@ -288,7 +284,7 @@ namespace SIM
     [NotNull]
     private static string InitializeDataFolder([NotNull] string folder)
     {
-      Assert.ArgumentNotNull(folder, "folder");
+      Assert.ArgumentNotNull(folder, nameof(folder));
 
       return InitializeFolder(Path.Combine(DataFolder, folder));
     }
@@ -296,9 +292,9 @@ namespace SIM
     [NotNull]
     private static string InitializeFolder([NotNull] string folder)
     {
-      Assert.ArgumentNotNull(folder, "folder");
+      Assert.ArgumentNotNull(folder, nameof(folder));
 
-      string path = Path.Combine(Environment.CurrentDirectory, folder);
+      var path = Path.Combine(Environment.CurrentDirectory, folder);
       if (!FileSystem.FileSystem.Local.Directory.Exists(folder))
       {
         FileSystem.FileSystem.Local.Directory.CreateDirectory(folder);

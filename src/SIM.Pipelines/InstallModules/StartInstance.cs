@@ -2,7 +2,7 @@ namespace SIM.Pipelines.InstallModules
 {
   using SIM.Instances;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
 
   #region
 
@@ -15,9 +15,23 @@ namespace SIM.Pipelines.InstallModules
 
     protected override void Process([NotNull] InstallModulesArgs args)
     {
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(args, nameof(args));
 
-      InstanceHelper.StartInstance(args.Instance);
+      if (this.ProcessorDefinition.Param == "nowait")
+      {
+        try
+        {
+          InstanceHelper.StartInstance(args.Instance, 500);
+        }
+        catch
+        {
+          // ignore error
+        }
+      }
+      else
+      {
+        InstanceHelper.StartInstance(args.Instance);
+      }
     }
 
     #endregion

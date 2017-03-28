@@ -14,8 +14,9 @@
   using SIM.Instances.RuntimeSettings;
   using SIM.Products;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
   using Sitecore.Diagnostics.Logging;
+  using SIM.Extensions;
 
   [Serializable]
   public class Instance : Website, IXmlSerializable
@@ -139,7 +140,7 @@
           var rootData = Path.Combine(this.DataFolderPath, "Indexes");
           if (FileSystem.FileSystem.Local.Directory.Exists(rootData))
           {
-            Log.Error(ex, "Cannot get indexes folder of {0}",  this.WebRootPath);
+            Log.Error(ex, $"Cannot get indexes folder of {this.WebRootPath}");
 
             return rootData;
           }
@@ -174,7 +175,7 @@
           var rootData = Path.Combine(this.DataFolderPath, "license.xml");
           if (FileSystem.FileSystem.Local.File.Exists(rootData))
           {
-            Log.Error(ex, "Cannot get license file of {0}",  this.WebRootPath);
+            Log.Error(ex, $"Cannot get license file of {this.WebRootPath}");
 
             return rootData;
           }
@@ -218,7 +219,7 @@
           var rootData = Path.Combine(this.DataFolderPath, "Packages");
           if (FileSystem.FileSystem.Local.Directory.Exists(rootData))
           {
-            Log.Error(ex, "Cannot get packages folder of {0}",  this.WebRootPath);
+            Log.Error(ex, $"Cannot get packages folder of {this.WebRootPath}");
 
             return rootData;
           }
@@ -271,7 +272,7 @@
           var rootData = Path.Combine(this.DataFolderPath, "Serialization");
           if (FileSystem.FileSystem.Local.Directory.Exists(rootData))
           {
-            Log.Error(ex, "Cannot get serialization folder of {0}",  this.WebRootPath);
+            Log.Error(ex, $"Cannot get serialization folder of {this.WebRootPath}");
 
             return rootData;
           }
@@ -384,7 +385,7 @@
     {
       get
       {
-        return string.Format("{0} ({1})", base.ToString(), this.ProductFullName);
+        return $"{base.ToString()} ({this.ProductFullName})";
       }
     }
 
@@ -393,9 +394,35 @@
     {
       get
       {
-        // TODO: replace with modules detector implemenation
-        var modulesNames = Directory.GetFiles(this.PackagesFolderPath, "*.zip").Select(x => ProductManager.GetProduct(x)).Where(x => x != Product.Undefined).Select(x => x.Name.TrimStart("Sitecore "));
+        var modulesNames = Modules.Select(x => x.Name.TrimStart("Sitecore "));
         return (string.Join(", ", modulesNames) + (File.Exists(Path.Combine(this.WebRootPath, "App_Config\\Include\\Sitecore.Analytics.config")) ? ", DMS" : string.Empty)).TrimStart(" ,".ToCharArray());
+      }
+    }
+
+    [UsedImplicitly]
+    public virtual string BindingsNames
+    {
+      get
+      {
+        return "Hosts: " + string.Join(", ", this.Bindings.Select(x => (x.Host.EmptyToNull() ?? x.IP) + (x.Port != 80 ? $":{x.Port}" : "")));
+      }
+    }
+
+    [NotNull]
+    public virtual IReadOnlyCollection<Product> Modules
+    {
+      get
+      {
+        return ModulesFiles.Select(x => ProductManager.GetProduct(x)).Where(x => x != Product.Undefined).ToArray();
+      }
+    }
+
+    [NotNull]
+    public virtual IReadOnlyCollection<FileInfo> ModulesFiles
+    {
+      get
+      {
+        return new DirectoryInfo(this.PackagesFolderPath).GetFiles("*.zip");
       }
     }
 
@@ -406,7 +433,7 @@
     [NotNull]
     public virtual string GetBackupFolder(string name)
     {
-      string backups = this.GetBackupsFolder();
+      var backups = this.GetBackupsFolder();
       return Path.Combine(backups, name);
     }
 
@@ -464,7 +491,7 @@
       {
         var logs = this.LogsFolderPath;
         var files = FileSystem.FileSystem.Local.Directory.GetFiles(logs, "log*.txt").OrderBy(FileSystem.FileSystem.Local.File.GetCreationTimeUtc);
-        string lastOrDefault = files.LastOrDefault();
+        var lastOrDefault = files.LastOrDefault();
 
         return ProfileSection.Result(lastOrDefault);
       }
@@ -517,7 +544,7 @@
     [NotNull]
     protected virtual string GetBackupsFolder()
     {
-      string rootPath = this.GetRootPath();
+      var rootPath = this.GetRootPath();
       if (this.WebRootPath.EqualsIgnoreCase(rootPath))
       {
         DirectoryInfo parent = new DirectoryInfo(rootPath).Parent;
@@ -535,7 +562,7 @@
       {
         try
         {
-          string dataFolder = this.RuntimeSettingsAccessor.GetScVariableValue("dataFolder");
+          var dataFolder = this.RuntimeSettingsAccessor.GetScVariableValue("dataFolder");
           Assert.IsNotNull(dataFolder, "The <sc.variable name=\"dataFolder\" value=\"...\" /> element is not presented in the web.config file");
           Assert.IsNotNullOrEmpty(dataFolder, "The <sc.variable name=\"dataFolder\" value=\"...\" /> element value is empty string");
 
@@ -546,7 +573,7 @@
           var rootData = Path.Combine(Path.GetDirectoryName(this.WebRootPath), "Data");
           if (FileSystem.FileSystem.Local.Directory.Exists(rootData))
           {
-            Log.Error(ex, "Cannot get data folder of {0}",  this.WebRootPath);
+            Log.Error(ex, $"Cannot get data folder of {this.WebRootPath}");
 
             return rootData;
           }
@@ -564,7 +591,7 @@
       }
       catch (Exception ex)
       {
-        Log.Warn(ex, "An error occurred during checking if it is sitecore");
+        Log.Warn(ex, string.Format("An error occurred during checking if it is sitecore"));
 
         return false;
       }
@@ -576,7 +603,7 @@
       {
         try
         {
-          string dataFolder = this.RuntimeSettingsAccessor.GetSitecoreSettingValue("LogFolder");
+          var dataFolder = this.RuntimeSettingsAccessor.GetSitecoreSettingValue("LogFolder");
           var result = this.MapPath(dataFolder);
 
           return ProfileSection.Result(result);
@@ -586,7 +613,7 @@
           var dataLogs = Path.Combine(this.DataFolderPath, "logs");
           if (FileSystem.FileSystem.Local.Directory.Exists(dataLogs))
           {
-            Log.Error(ex, "Cannot get logs folder of {0}",  this.WebRootPath);
+            Log.Error(ex, $"Cannot get logs folder of {this.WebRootPath}");
 
             return dataLogs;
           }
@@ -598,30 +625,29 @@
 
     protected virtual string GetRootFolderViaDatabases(ICollection<Database> databases)
     {
-      string webRootPath = this.WebRootPath;
+      var webRootPath = this.WebRootPath;
       using (new ProfileSection("Get root folder (using databases)", this))
       {
         ProfileSection.Argument("databases", databases);
 
         foreach (var database in databases)
         {
-          Log.Debug("Database: {0}",  database);
-          string fileName = database.FileName;
+          Log.Debug($"Database: {database}");
+          var fileName = database.FileName;
           if (string.IsNullOrEmpty(fileName))
           {
-            Log.Warn("The {0} database seems to be detached since it doesn't have a FileName property filled in", database.RealName);
+            Log.Warn($"The {database.RealName} database seems to be detached since it doesn't have a FileName property filled in");
             continue;
           }
 
-          Log.Debug(
-            "name: {0}, fileName: {1}", database.Name, fileName);
+          Log.Debug($"name: {database.Name}, fileName: {fileName}");
           var folder = Path.GetDirectoryName(fileName);
           if (folder.ContainsIgnoreCase(webRootPath))
           {
             continue;
           }
 
-          Assert.IsNotNullOrEmpty(folder, "folder1");
+          Assert.IsNotNullOrEmpty(folder, nameof(folder));
           var common = FileSystem.FileSystem.Local.Directory.FindCommonParent(webRootPath, folder);
           if (string.IsNullOrEmpty(common))
           {
@@ -646,8 +672,8 @@
         try
         {
           var webRootPath = this.WebRootPath;
-          string dataFolderPath = this.GetDataFolderPath();
-          Assert.IsNotNullOrEmpty(dataFolderPath, "dataFolderPath");
+          var dataFolderPath = this.GetDataFolderPath();
+          Assert.IsNotNullOrEmpty(dataFolderPath, nameof(dataFolderPath));
 
           // data folder is inside website folder
           if (dataFolderPath.ContainsIgnoreCase(this.WebRootPath))
@@ -667,7 +693,7 @@
           }
 
           // trying to detect via data folder
-          string detectedRoot = FileSystem.FileSystem.Local.Directory.FindCommonParent(webRootPath, dataFolderPath);
+          var detectedRoot = FileSystem.FileSystem.Local.Directory.FindCommonParent(webRootPath, dataFolderPath);
 
           // if impossible
           if (string.IsNullOrEmpty(detectedRoot))
@@ -678,7 +704,7 @@
           InvalidConfigurationException.Assert(!webRootPath.ContainsIgnoreCase(dataFolderPath), 
             "The data folder accidentally was set to be parent ({0}) of the website root folder ({1})".FormatWith(
               dataFolderPath, webRootPath));
-          int distance = FileSystem.FileSystem.Local.Directory.GetDistance(webRootPath, detectedRoot);
+          var distance = FileSystem.FileSystem.Local.Directory.GetDistance(webRootPath, detectedRoot);
           InvalidConfigurationException.Assert(distance <= 1, 
             "Cannot detect the Root Folder - the detection result ({1}) is too far from the Website ({0}) folder"
               .FormatWith(this.WebRootPath, detectedRoot));
@@ -690,7 +716,7 @@
           var rootData = Path.GetDirectoryName(this.WebRootPath);
           if (FileSystem.FileSystem.Local.Directory.Exists(rootData))
           {
-            Log.Error(ex, "Cannot get root folder of {0}",  this.WebRootPath);
+            Log.Error(ex, $"Cannot get root folder of {this.WebRootPath}");
 
             return rootData;
           }
@@ -707,7 +733,7 @@
       {
         try
         {
-          string tempFolder = this.RuntimeSettingsAccessor.GetScVariableValue("tempFolder");
+          var tempFolder = this.RuntimeSettingsAccessor.GetScVariableValue("tempFolder");
           Assert.IsNotNull(tempFolder, "The <sc.variable name=\"tempFolder\" value=\"...\" /> element is not presented in the web.config file");
           Assert.IsNotNullOrEmpty(tempFolder, "The <sc.variable name=\"tempFolder\" value=\"...\" /> element value is empty string");
 
@@ -720,7 +746,7 @@
           var websiteTemp = Path.Combine(this.WebRootPath, "temp");
           if (FileSystem.FileSystem.Local.Directory.Exists(websiteTemp))
           {
-            Log.Error(ex, "Cannot get temp folder of {0}",  this.WebRootPath);
+            Log.Error(ex, $"Cannot get temp folder of {this.WebRootPath}");
 
             return websiteTemp;
           }

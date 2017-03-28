@@ -71,7 +71,7 @@
         {
           try
           {
-            Assert.ArgumentNotNull(responseStream, "responseStream");
+            Assert.ArgumentNotNull(responseStream, nameof(responseStream));
             responseStream.ReadTimeout = Settings.CoreWebDownloadTimeoutMinutes.Value * Minute;
             DownloadFile(destFileName, responseStream, token, indicateProgress);
 
@@ -102,7 +102,7 @@
         ProfileSection.Argument("token", token);
         ProfileSection.Argument("indicateProgress", indicateProgress);
 
-        int bufferSize = Settings.CoreWebDownloadBufferSize.Value;
+        var bufferSize = Settings.CoreWebDownloadBufferSize.Value;
         using (var fileStream = new FileStream(destFileName, FileMode.Create, FileAccess.Write, FileShare.Read, bufferSize))
         {
           var buffer = new byte[bufferSize];
@@ -113,7 +113,7 @@
               ((CancellationToken)token).ThrowIfCancellationRequested();
             }
 
-            int count = responseStream.Read(buffer, 0, bufferSize);
+            var count = responseStream.Read(buffer, 0, bufferSize);
 
             if (count == 0)
             {
@@ -146,18 +146,18 @@
 
     public static string GetCookie(string cookies, string cookieName)
     {
-      Assert.ArgumentNotNullOrEmpty(cookies, "cookies");
-      Assert.ArgumentNotNullOrEmpty(cookieName, "cookieName");
+      Assert.ArgumentNotNullOrEmpty(cookies, nameof(cookies));
+      Assert.ArgumentNotNullOrEmpty(cookieName, nameof(cookieName));
 
       return cookies.Split(';').Single(s => s.Split('=')[0].Trim().Equals(cookieName)).Trim();
     }
 
     public static string GetCookieValue(string cookies, string cookieName)
     {
-      Assert.ArgumentNotNullOrEmpty(cookies, "cookies");
-      Assert.ArgumentNotNullOrEmpty(cookieName, "cookieName");
+      Assert.ArgumentNotNullOrEmpty(cookies, nameof(cookies));
+      Assert.ArgumentNotNullOrEmpty(cookieName, nameof(cookieName));
 
-      string cookie = GetCookie(cookies, cookieName);
+      var cookie = GetCookie(cookies, cookieName);
       if (string.IsNullOrEmpty(cookie))
       {
         return null;
@@ -177,7 +177,7 @@
       }
       catch (InvalidOperationException ex)
       {
-        Log.Warn(ex, "There is a problem with detecting file name of {0}", link);
+        Log.Warn(ex, $"There is a problem with detecting file name of {link}");
         var path = link.AbsolutePath;
         return path.Substring(path.LastIndexOf("/") + 1);
       }
@@ -204,7 +204,7 @@
       }
       catch (InvalidOperationException ex)
       {
-        Log.Warn(ex, "There is a problem with detecting file size of {0}", link);
+        Log.Warn(ex, $"There is a problem with detecting file size of {link}");
         return -1;
       }
     }

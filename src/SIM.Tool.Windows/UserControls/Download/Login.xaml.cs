@@ -9,7 +9,9 @@
   using SIM.Tool.Base;
   using SIM.Tool.Base.Wizards;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
+  using Sitecore.Diagnostics.InfoService.Client;
+  using SIM.Extensions;
 
   public partial class Login : IWizardStep, IFlowControl
   {
@@ -28,8 +30,8 @@
     [NotNull]
     private static string GetSdnCookie([NotNull] string username, [NotNull] string password)
     {
-      Assert.ArgumentNotNull(username, "username");
-      Assert.ArgumentNotNull(password, "password");
+      Assert.ArgumentNotNull(username, nameof(username));
+      Assert.ArgumentNotNull(password, nameof(password));
 
       var cookies = FormHelper.SubmitAndGetCookies(
         new Uri(@"https://sdn.sitecore.net/sdn5/misc/loginpage.aspx"), 
@@ -72,8 +74,8 @@
       }
 
       args.Releases = Product.Service.GetVersions("Sitecore CMS")
-        .Where(x => !x.Name.StartsWith("8"))
-          .SelectMany(y => y.Releases).ToArray();
+        .Where(x => !x.MajorMinor.StartsWith("8"))
+          .SelectMany(y => y.Releases.Values).ToArray();
 
       var username = args.UserName;
       var password = args.Password;
@@ -125,9 +127,9 @@
 
     bool IWizardStep.SaveChanges(WizardArgs wizardArgs)
     {
-      string username = this.UserName.Text.Trim();
+      var username = this.UserName.Text.Trim();
 
-      string password = this.Passowrd.Password;
+      var password = this.Passowrd.Password;
 
       var args = (DownloadWizardArgs)wizardArgs;
       args.UserName = username;

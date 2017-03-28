@@ -8,7 +8,8 @@
   using SIM.Tool.Base;
   using SIM.Tool.Base.Plugins;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
+  using SIM.Extensions;
   using SIM.Tool.Base.Wizards;
 
   [UsedImplicitly]
@@ -23,7 +24,7 @@
 
     public void OnClick(Window mainWindow, Instance instance)
     {
-      Assert.ArgumentNotNull(mainWindow, "mainWindow");
+      Assert.ArgumentNotNull(mainWindow, nameof(mainWindow));
 
       Analytics.TrackEvent("Import");
 
@@ -66,7 +67,7 @@
         return;
       }
 
-      WizardPipelineManager.Start("import", mainWindow, null, null, MainWindowHelper.SoftlyRefreshInstances, filePath);
+      WizardPipelineManager.Start("import", mainWindow, null, null, ignore => MainWindowHelper.SoftlyRefreshInstances(), filePath);
     }
 
     #endregion

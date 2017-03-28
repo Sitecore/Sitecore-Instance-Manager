@@ -4,14 +4,14 @@ namespace SIM.Client.Serialization
   using System.IO;
   using Newtonsoft.Json;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
 
   public class DirectoryInfoConverter : JsonConverter
   {
     public override void WriteJson([NotNull] JsonWriter writer, [CanBeNull] object value, [NotNull] JsonSerializer serializer)
     {
-      Assert.ArgumentNotNull(writer, "writer");
-      Assert.ArgumentNotNull(serializer, "serializer");
+      Assert.ArgumentNotNull(writer, nameof(writer));
+      Assert.ArgumentNotNull(serializer, nameof(serializer));
 
       var dir = value as DirectoryInfo;
       serializer.Serialize(writer, dir != null ? dir.FullName : null);

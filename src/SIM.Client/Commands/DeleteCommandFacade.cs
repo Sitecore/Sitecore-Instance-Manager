@@ -1,8 +1,8 @@
 namespace SIM.Client.Commands
 {
   using CommandLine;
+  using JetBrains.Annotations;
   using SIM.Core.Commands;
-  using Sitecore.Diagnostics.Base.Annotations;
 
   public class DeleteCommandFacade : DeleteCommand
   {

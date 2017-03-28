@@ -22,10 +22,12 @@
   using SIM.Tool.Base.Plugins;
   using SIM.Tool.Base.Profiles;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
   using Sitecore.Diagnostics.Logging;
   using SIM.Tool.Base.Wizards;
   using Core;
+  using SIM.Extensions;
+
   #region
 
   #endregion
@@ -107,7 +109,7 @@
             }
             else if (item.Name == "plugins")
             {
-              Log.Error("Plugins no longer supported");
+              Log.Error(string.Format("Plugins no longer supported"));
             }
           }
         }
@@ -119,7 +121,7 @@
       using (new ProfileSection("Initialize Installer (Unsafe)"))
       {
         string message = null;
-        string localRepository = ProfileManager.Profile.LocalRepository;
+        var localRepository = ProfileManager.Profile.LocalRepository;
 
         try
         {
@@ -127,7 +129,7 @@
         }
         catch (Exception ex)
         {
-          Log.Error(ex, "Installer failed to init. {0}", ex.Message);
+          Log.Error(ex, $"Installer failed to init. {ex.Message}");
           message = ex.Message;
         }
 
@@ -155,7 +157,7 @@
         {
           foreach (var tab in window.MainRibbon.Tabs)
           {
-            int hiddenGroups = 0;
+            var hiddenGroups = 0;
             foreach (var group in tab.Groups)
             {
               if (group.Items.Count == 0)
@@ -183,7 +185,7 @@
       }
       catch (Exception ex)
       {
-        Log.Warn(ex, "An error occurred during checking if installer ready");
+        Log.Warn(ex, string.Format("An error occurred during checking if installer ready"));
 
         return false;
       }
@@ -198,7 +200,7 @@
         foreach (var id in instance.ProcessIds)
         {
           Process process = Process.GetProcessById((int)id);
-          Log.Info("Kill the w3wp.exe worker process ({0}) of the {1} instance", id, instance.Name);
+          Log.Info($"Kill the w3wp.exe worker process ({id}) of the {instance.Name} instance");
           process.Kill();
           OnInstanceSelected();
         }
@@ -266,7 +268,7 @@
         var tabIndex = mainWindow.MainRibbon.SelectedTabIndex;
         var instance = SelectedInstance;
         var name = instance != null ? instance.Name : null;
-        string instancesFolder = !CoreAppSettings.CoreInstancesDetectEverywhere.Value ? ProfileManager.Profile.InstancesFolder : null;
+        var instancesFolder = !CoreAppSettings.CoreInstancesDetectEverywhere.Value ? ProfileManager.Profile.InstancesFolder : null;
         InstanceManager.Initialize(instancesFolder);
         Search();
         if (string.IsNullOrEmpty(name))
@@ -291,9 +293,9 @@
 
     public static void ReinstallInstance([NotNull] Instance instance, Window owner, [NotNull] string license, [NotNull] SqlConnectionStringBuilder connectionString)
     {
-      Assert.ArgumentNotNull(instance, "instance");
-      Assert.ArgumentNotNull(license, "license");
-      Assert.ArgumentNotNull(connectionString, "connectionString");
+      Assert.ArgumentNotNull(instance, nameof(instance));
+      Assert.ArgumentNotNull(license, nameof(license));
+      Assert.ArgumentNotNull(connectionString, nameof(connectionString));
 
       if (instance.IsSitecore)
       {
@@ -302,7 +304,7 @@
         {
           if (WindowHelper.ShowMessage("The {0} product isn't presented in your local repository. Would you like to choose the zip installation package?".FormatWith(instance.ProductFullName), MessageBoxButton.YesNo, MessageBoxImage.Stop) == MessageBoxResult.Yes)
           {
-            string patt = instance.ProductFullName + ".zip";
+            var patt = instance.ProductFullName + ".zip";
             OpenFileDialog fileBrowserDialog = new OpenFileDialog
             {
               Title = @"Choose installation package", 
@@ -340,7 +342,7 @@
         }
 
         var name = instance.Name;
-        WizardPipelineManager.Start("reinstall", owner, args, null, () => MainWindowHelper.MakeInstanceSelected(name));
+        WizardPipelineManager.Start("reinstall", owner, args, null, ignore => MainWindowHelper.MakeInstanceSelected(name));
       }
     }
 
@@ -437,7 +439,7 @@
       }
 
       // create Ribbon Button
-      var splitButton = ribbonGroup.Items.OfType<SplitButton>().SingleOrDefault(x => x.Header.ToString().Trim().EqualsIgnoreCase(header.Trim()));
+      var splitButton = ribbonGroup.Items.OfType<SplitButton>().SingleOrDefault(x => Extensions.EqualsIgnoreCase(x.Header.ToString().Trim(), header.Trim()));
       if (splitButton == null)
       {
         var imageSource = getImage(button.GetNonEmptyAttribute("largeImage"));
@@ -463,7 +465,7 @@
       }
 
       var items = splitButton.Items;
-      Assert.IsNotNull(items, "items");
+      Assert.IsNotNull(items, nameof(items));
 
       foreach (var menuItem in button.ChildNodes.OfType<XmlElement>())
       {
@@ -483,7 +485,7 @@
 
           if (!name.EqualsIgnoreCase("button"))
           {
-            Log.Error("This element is not supported as SplitButton element: {0}", menuItem.OuterXml);
+            Log.Error($"This element is not supported as SplitButton element: {menuItem.OuterXml}");
             continue;
           }
 
@@ -491,7 +493,7 @@
           var largeImage = menuItem.GetAttribute("largeImage");
           var menuIcon = string.IsNullOrEmpty(largeImage) ? null : getImage(largeImage);
           var menuHandler = (IMainWindowButton)Plugin.CreateInstance(menuItem);
-          Assert.IsNotNull(menuHandler, "model");
+          Assert.IsNotNull(menuHandler, nameof(menuHandler));
 
           var childrenButtons = splitButton.Tag as ICollection<KeyValuePair<string, IMainWindowButton>>;
           if (childrenButtons != null)
@@ -639,7 +641,7 @@
       }
       catch (Exception ex)
       {
-        Log.Error(ex, "Plugin Menu Item caused an exception");
+        Log.Error(ex, string.Format("Plugin Menu Item caused an exception"));
       }
     }
 
@@ -661,7 +663,7 @@
           FrameworkElement ribbonButton;
           ribbonButton = GetRibbonButton(window, getImage, button, ribbonGroup, mainWindowButton);
 
-          Assert.IsNotNull(ribbonButton, "ribbonButton");
+          Assert.IsNotNull(ribbonButton, nameof(ribbonButton));
 
           var width = button.GetAttribute("width");
           double d;
@@ -716,7 +718,7 @@
       var name = tabElement.GetNonEmptyAttribute("name");
       if (string.IsNullOrEmpty(name))
       {
-        Log.Error("Ribbon tab doesn't have name: {0}",  tabElement.OuterXml);
+        Log.Error($"Ribbon tab doesn't have name: {tabElement.OuterXml}");
         return;
       }
 
@@ -777,7 +779,7 @@
       WindowHelper.LongRunningTask(() => MainWindow.Instance.Dispatcher.Invoke(
         new Action(delegate
         {
-          string header = menuItem.Header.ToString();
+          var header = menuItem.Header.ToString();
           selectedInstance.SetAppPoolMode(header.Contains("4.0"), header.Contains("32bit"));
           OnInstanceSelected();
         })), "Changing application pool", MainWindow.Instance, null, "The IIS metabase is being updated");
@@ -894,7 +896,7 @@
     // }
     public static void OpenFolder([NotNull] string path)
     {
-      Assert.ArgumentNotNull(path, "path");
+      Assert.ArgumentNotNull(path, nameof(path));
 
       if (FileSystem.FileSystem.Local.Directory.Exists(path))
       {
@@ -906,7 +908,7 @@
     {
       using (new ProfileSection("Main window search handler"))
       {
-        string searchPhrase = Invoke(w => w.SearchTextBox.Text.Trim());
+        var searchPhrase = Invoke(w => w.SearchTextBox.Text.Trim());
         IEnumerable<Instance> source = InstanceManager.PartiallyCachedInstances;
         if (source == null)
         {
@@ -1012,7 +1014,7 @@
 
     private static void RefreshInstallerTask()
     {
-      string message = InitializeInstallerUnsafe(MainWindow.Instance);
+      var message = InitializeInstallerUnsafe(MainWindow.Instance);
       MainWindowHelper.Invoke((mainWindow) => MainWindowHelper.UpdateInstallButtons(message, mainWindow));
       if (message != null)
       {

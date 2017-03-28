@@ -6,7 +6,7 @@
   using System.Windows.Controls;
   using System.Windows.Input;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
 
   #region
 
@@ -33,23 +33,23 @@
 
     private void ListMouseDoubleClick([NotNull] object sender, [NotNull] MouseButtonEventArgs e)
     {
-      Assert.ArgumentNotNull(sender, "sender");
-      Assert.ArgumentNotNull(e, "e");
+      Assert.ArgumentNotNull(sender, nameof(sender));
+      Assert.ArgumentNotNull(e, nameof(e));
 
       this.OKClick(sender, e);
     }
 
     private void OKClick([CanBeNull] object sender, [CanBeNull] RoutedEventArgs e)
     {
-      string s = this.AllowMultiSelect ? this.ListBox1.SelectedItems.Cast<string>().Aggregate(string.Empty, (current, selectedItem) => current + (selectedItem + ',')) : (string)this.ListBox1.SelectedItem;
+      var s = this.AllowMultiSelect ? this.ListBox1.SelectedItems.Cast<string>().Aggregate(string.Empty, (current, selectedItem) => current + (selectedItem + ',')) : (string)this.ListBox1.SelectedItem;
       this.DataContext = s.Trim(',');
       this.DialogResult = true;
     }
 
     private void WindowKeyUp([NotNull] object sender, [NotNull] KeyEventArgs e)
     {
-      Assert.ArgumentNotNull(sender, "sender");
-      Assert.ArgumentNotNull(e, "e");
+      Assert.ArgumentNotNull(sender, nameof(sender));
+      Assert.ArgumentNotNull(e, nameof(e));
 
       if (e.Key == Key.Escape)
       {

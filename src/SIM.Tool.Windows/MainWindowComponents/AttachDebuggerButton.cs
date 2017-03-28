@@ -8,7 +8,7 @@ namespace SIM.Tool.Windows.MainWindowComponents
   using SIM.Instances;
   using SIM.Tool.Base;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
 
   [UsedImplicitly]
   public class AttachDebuggerButton : InstanceOnlyButton
@@ -23,7 +23,7 @@ namespace SIM.Tool.Windows.MainWindowComponents
 
     protected override void OnClick(Instance instance)
     {
-      Assert.ArgumentNotNull(instance, "instance");
+      Assert.ArgumentNotNull(instance, nameof(instance));
 
       var ids = instance.ProcessIds.ToArray();
       if (ids.Length == 0)

@@ -5,8 +5,9 @@
   using SIM.Tool.Base;
   using SIM.Tool.Base.Wizards;
   using SIM.Tool.Windows.Pipelines.Setup;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
   using SIM.Core;
+  using SIM.Extensions;
 
   public partial class LocalRepository : IWizardStep, IFlowControl
   {
@@ -74,7 +75,7 @@
 
     private static string GetRepositoryPath()
     {
-      string path = Path.Combine(ApplicationManager.DataFolder, "Repository");
+      var path = Path.Combine(ApplicationManager.DataFolder, "Repository");
       FileSystem.FileSystem.Local.Directory.Ensure(path);
       return path;
     }

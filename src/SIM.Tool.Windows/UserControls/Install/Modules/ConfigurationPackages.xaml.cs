@@ -14,8 +14,8 @@
   using SIM.Tool.Base.Pipelines;
   using SIM.Tool.Base.Wizards;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
-  using SIM.Core;
+  using JetBrains.Annotations;
+  using SIM.Extensions;
 
   public partial class ConfigurationPackages : IWizardStep, ICustomButton, IFlowControl
   {
@@ -115,12 +115,12 @@
     {
       var args = (InstallModulesWizardArgs)wizardArgs;
       Product product = args.Product;
-      Assert.IsNotNull(product, "product");
+      Assert.IsNotNull(product, nameof(product));
       IEnumerable<Product> selected = this.unfilteredCheckBoxItems.Where(mm => mm.IsChecked).Select(s => s.Value);
 
-      foreach (ProductInCheckbox boxItem in this.unfilteredCheckBoxItems)
+      foreach (var boxItem in this.unfilteredCheckBoxItems)
       {
-        int moduleIndex = args.Modules.FindIndex(m => string.Equals(m.Name, boxItem.Value.Name, StringComparison.OrdinalIgnoreCase));
+        var moduleIndex = args.Modules.FindIndex(m => string.Equals(m.Name, boxItem.Value.Name, StringComparison.OrdinalIgnoreCase));
         while (moduleIndex >= 0)
         {
           args.Modules.RemoveAt(moduleIndex);
@@ -155,7 +155,7 @@
 
       this.unfilteredCheckBoxItems = new ObservableCollection<ProductInCheckbox>(this.checkBoxItems);
 
-      foreach (Product module in args.Modules)
+      foreach (var module in args.Modules)
       {
         Product alreadySelectedModule = module;
         ProductInCheckbox checkBoxItem = this.checkBoxItems.SingleOrDefault(cbi => cbi.Value.PackagePath.Equals(alreadySelectedModule.PackagePath, StringComparison.OrdinalIgnoreCase));
@@ -189,7 +189,7 @@
       IEnumerable<string> files = FileSystem.FileSystem.Local.Directory.GetFiles(folder, "*.zip", SearchOption.AllDirectories).Where(f => !f.ContainsIgnoreCase("- Sitecore") || (f.ContainsIgnoreCase("- Sitecore " + ver) || (f.ContainsIgnoreCase("- Sitecore " + ver.Substring(0, 3) + " ") || f.ContainsIgnoreCase("- Sitecore " + ver[0] + " "))));
 
       var productsToAdd = files.Select(f => new ProductInCheckbox(Product.GetFilePackageProduct(f))).ToList();
-      foreach (ProductInCheckbox productInCheckbox in productsToAdd)
+      foreach (var productInCheckbox in productsToAdd)
       {
         this.checkBoxItems.Add(productInCheckbox);
       }
@@ -218,7 +218,7 @@
     #region Search Implementation
 
     private void DoSearch(string filter)
-    {
+    {                              
       this.checkBoxItems = new ObservableCollection<ProductInCheckbox>(this.unfilteredCheckBoxItems.Where(product => product.Name.ContainsIgnoreCase(filter) || product.Value.SearchToken.ContainsIgnoreCase(filter)));
       this.filePackages.ItemsSource = this.checkBoxItems;
     }
@@ -232,7 +232,7 @@
     {
       try
       {
-        Assert.ArgumentNotNull(e, "e");
+        Assert.ArgumentNotNull(e, nameof(e));
 
         if (e.Handled)
         {

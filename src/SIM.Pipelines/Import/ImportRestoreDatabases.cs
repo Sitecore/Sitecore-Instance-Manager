@@ -4,7 +4,8 @@
   using System.Collections.Generic;
   using System.Data.SqlClient;
   using SIM.Adapters.SqlServer;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
+  using SIM.Extensions;
 
   [UsedImplicitly]
   internal class ImportRestoreDatabases : ImportProcessor
@@ -52,8 +53,8 @@
 
     public string GetDatabaseName(string oldName, SqlConnectionStringBuilder connectionString, ref int postfix)
     {
-      int postFix = postfix;
-      string newName = oldName;
+      var postFix = postfix;
+      var newName = oldName;
       while (true)
       {
         if (SqlServerManager.Instance.DatabaseExists(newName, connectionString))
@@ -96,8 +97,8 @@
         dbNames.Add(SqlServerManager.Instance.GetDatabasesNameFromBackup(connectionString, backupPath).dbOriginalName);
       }
 
-      int i = 0;
-      int counter = 0;
+      var i = 0;
+      var counter = 0;
       while (counter < 100)
       {
         // todo while true
@@ -152,7 +153,7 @@
     private List<string> ExtractDatabases(ImportArgs args)
     {
       List<string> result = new List<string>();
-      string folderWithExtractedBackups = FileSystem.FileSystem.Local.Zip.ZipUnpackFolder(args.PathToExportedInstance, args.rootPath.PathCombine("Databases"), "Databases");
+      var folderWithExtractedBackups = FileSystem.FileSystem.Local.Zip.ZipUnpackFolder(args.PathToExportedInstance, args.rootPath.PathCombine("Databases"), "Databases");
       foreach (string file in FileSystem.FileSystem.Local.Directory.GetFiles(folderWithExtractedBackups, "*.bak"))
       {
         result.Add(file);
@@ -183,7 +184,7 @@
       foreach (string backup in backupsPaths)
       {
         backupInfo = SqlServerManager.Instance.GetDatabasesNameFromBackup(args.connectionString, backup);
-        string dbName = backupInfo.dbOriginalName;
+        var dbName = backupInfo.dbOriginalName;
 
         // dbName = GetDatabaseName(dbName, args.connectionString, ref args.databaseNameAppend);
         dbName = this.GetDatabaseName(dbName, ref args.databaseNameAppend);

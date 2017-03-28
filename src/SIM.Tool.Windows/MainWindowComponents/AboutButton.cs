@@ -4,7 +4,7 @@
   using SIM.Tool.Base;
   using SIM.Tool.Windows.Dialogs;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
 
   [UsedImplicitly]
   public class AboutOnlyButton : WindowOnlyButton
@@ -13,7 +13,7 @@
     
     protected override void OnClick(Window mainWindow)
     {
-      Assert.ArgumentNotNull(mainWindow, "mainWindow");
+      Assert.ArgumentNotNull(mainWindow, nameof(mainWindow));
 
       WindowHelper.ShowDialog<AboutDialog>(null, mainWindow);
     }

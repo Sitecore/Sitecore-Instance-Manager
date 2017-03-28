@@ -10,8 +10,9 @@
   using SIM.Products;
   using SIM.Tool.Base;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
   using Sitecore.Diagnostics.Logging;
+  using SIM.Extensions;
 
   [UsedImplicitly]
   public class Download8Processor : Processor
@@ -56,7 +57,7 @@
 
           var destFileName = Path.Combine(localRepository, fileName);
           Assert.IsTrue(!FileSystem.FileSystem.Local.File.Exists(destFileName), "The {0} file already exists".FormatWith(destFileName));
-          Log.Info("Downloading {0}",  destFileName);
+          Log.Info($"Downloading {destFileName}");
 
           if (this.TryCopyFromExternalRepository(fileName, destFileName))
           {
@@ -95,7 +96,7 @@
         }
         catch (Exception ex)
         {
-          Log.Warn(ex, "An error occurred during downloading files");
+          Log.Warn(ex, string.Format("An error occurred during downloading files"));
 
           cancellation.Cancel();
           throw new InvalidOperationException("An unhandled exception happened during downloading '{0}' file".FormatWith(url));
@@ -130,15 +131,15 @@
 
     private bool RequireDownloading([NotNull] string fileName, [NotNull] string localRepository)
     {
-      Assert.ArgumentNotNull(fileName, "fileName");
-      Assert.ArgumentNotNull(localRepository, "localRepository");
+      Assert.ArgumentNotNull(fileName, nameof(fileName));
+      Assert.ArgumentNotNull(localRepository, nameof(localRepository));
       fileName = FixFileName(fileName);
-      string filePath1 = ProductManager.Products.Select(product => product.PackagePath).FirstOrDefault(packagePath => Path.GetFileName(packagePath).EqualsIgnoreCase(fileName));
+      var filePath1 = ProductManager.Products.Select(product => product.PackagePath).FirstOrDefault(packagePath => Path.GetFileName(packagePath).EqualsIgnoreCase(fileName));
       if (!string.IsNullOrEmpty(filePath1))
       {
         if (FileSystem.FileSystem.Local.File.Exists(filePath1))
         {
-          Log.Info("Downloading is skipped, the {0} file already exists", filePath1);
+          Log.Info($"Downloading is skipped, the {filePath1} file already exists");
 
           return false;
         }
@@ -168,14 +169,14 @@
                 WindowHelper.CopyFileUI(externalRepositoryFilePath, destFileName, Microsoft.VisualBasic.FileIO.UIOption.AllDialogs, Microsoft.VisualBasic.FileIO.UICancelOption.ThrowException);
               }
 
-              Log.Info("Copying the {0} file has completed", fileName);
+              Log.Info($"Copying the {fileName} file has completed");
               return true;
             }
           }
         }
         catch (Exception ex)
         {
-          Log.Warn(ex, "Unable to copy the {0} file from external repository", fileName);
+          Log.Warn(ex, $"Unable to copy the {fileName} file from external repository");
         }
       }
 

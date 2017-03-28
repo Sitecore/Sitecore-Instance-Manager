@@ -8,8 +8,9 @@
   using SIM.Tool.Base;
   using SIM.Tool.Base.Profiles;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
   using SIM.Core;
+  using SIM.Products;
 
   #region
 
@@ -30,7 +31,9 @@
         typeof(SIM.Tool.Windows.WindowsSettings), 
         typeof(SIM.Pipelines.Install.Settings), 
         typeof(SIM.Adapters.SqlServer.SqlServerManager.Settings), 
-        typeof(WebRequestHelper.Settings)
+        typeof(WebRequestHelper.Settings),
+        typeof(ProductHelper.Settings),
+        typeof(EnvironmentHelper)
       };
 
       foreach (Type type in types)
@@ -55,7 +58,7 @@
 
       set
       {
-        Assert.ArgumentNotNull(value, "value");
+        Assert.ArgumentNotNull(value, nameof(value));
 
         this.DataContext = value;
       }
@@ -77,7 +80,7 @@
 
     private IEnumerable<AdvancedPropertyBase> GetAdvancedProperties()
     {
-      string pluginPrefix = "App/Plugins/";
+      var pluginPrefix = "App/Plugins/";
 
       var nonPluginsSettings = new List<AdvancedPropertyBase>();
       var pluginsSettings = new List<AdvancedPropertyBase>();
@@ -118,8 +121,8 @@
 
     private void WindowKeyUp([NotNull] object sender, [NotNull] KeyEventArgs e)
     {
-      Assert.ArgumentNotNull(sender, "sender");
-      Assert.ArgumentNotNull(e, "e");
+      Assert.ArgumentNotNull(sender, nameof(sender));
+      Assert.ArgumentNotNull(e, nameof(e));
 
       if (e.Key == Key.Escape)
       {

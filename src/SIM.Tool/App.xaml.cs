@@ -25,8 +25,9 @@ namespace SIM.Tool
   using SIM.Tool.Base.Profiles;
   using SIM.Tool.Windows;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
   using Sitecore.Diagnostics.Logging;
+  using SIM.Extensions;
   using SIM.Tool.Base.Wizards;
   using File = System.IO.File;
 
@@ -53,7 +54,7 @@ namespace SIM.Tool
 
     public static string GetRepositoryPath()
     {
-      string path = Path.Combine(ApplicationManager.DataFolder, "Repository");
+      var path = Path.Combine(ApplicationManager.DataFolder, "Repository");
       FileSystem.FileSystem.Local.Directory.Ensure(path);
       return path;
     }
@@ -88,7 +89,7 @@ namespace SIM.Tool
           }
           catch
           {
-            Log.Warn("Tag was not found: {0}", url);
+            Log.Warn($"Tag was not found: {url}");
           }
 
           if (exists)
@@ -103,7 +104,14 @@ namespace SIM.Tool
         CacheManager.ClearAll();
         foreach (var dir in Directory.GetDirectories(ApplicationManager.TempFolder))
         {
-          Directory.Delete(dir, true);
+          try
+          {
+            Directory.Delete(dir, true);
+          }
+          catch (Exception ex)
+          {
+            throw new InvalidOperationException($"Failed to delete directory1: {dir}", ex);
+          }
         }
 
         var ext = ".deploy.txt";
@@ -117,7 +125,14 @@ namespace SIM.Tool
           var newFilePath = filePath.Substring(0, filePath.Length - ext.Length);
           if (File.Exists(newFilePath))
           {
-            File.Delete(newFilePath);
+            try
+            {
+              File.Delete(newFilePath);
+            }
+            catch (Exception ex)
+            {
+              throw new InvalidOperationException($"Failed to delete file: {newFilePath}", ex);
+            }            
           }
 
           File.Move(filePath, newFilePath);
@@ -165,7 +180,7 @@ namespace SIM.Tool
       // Initialize Profile Manager
       if (!App.InitializeProfileManager(main))
       {
-        Log.Info("Application closes due to invalid configuration");
+        Log.Info(string.Format("Application closes due to invalid configuration"));
 
         // Since the main window instance was already created we need to "dispose" it by showing and closing.
         main.Width = 0;
@@ -194,7 +209,9 @@ namespace SIM.Tool
       // Clean up garbage
       CoreApp.DeleteTempFolders();
 
+      App.LoadIocResourcesForSolr();
       Analytics.Start();
+
 
       CoreApp.WriteLastRunVersion();
 
@@ -209,11 +226,22 @@ namespace SIM.Tool
         WindowHelper.HandleError("Main window caused unhandled exception", true, ex);
       }
 
+
       CoreApp.Exit();
 
       Analytics.Flush();
 
       Environment.Exit(0);
+    }
+
+    private static void LoadIocResourcesForSolr()
+    {
+
+      if (!Directory.Exists("IOC_Containers"))
+      {
+        Log.Info(string.Format("Copying IOC dlls", typeof(App)));
+        ApplicationManager.GetEmbeddedFile("IOC_Containers.zip", "SIM.Pipelines", "IOC_Containers");
+      }
     }
 
     private static bool EnsureSingleProcess(string[] args)
@@ -231,18 +259,18 @@ namespace SIM.Tool
       {
         using (var sc = new ServiceController("W3SVC"))
         {
-          Log.Info("IIS.Name: {0}", sc.DisplayName);
-          Log.Info("IIS.Status: {0}", sc.Status);
-          Log.Info("IIS.MachineName: {0}", sc.MachineName);
-          Log.Info("IIS.ServiceName: {0}", sc.ServiceName);
-          Log.Info("IIS.ServiceType: {0}", sc.ServiceType);
+          Log.Info($"IIS.Name: {sc.DisplayName}");
+          Log.Info($"IIS.Status: {sc.Status}");
+          Log.Info($"IIS.MachineName: {sc.MachineName}");
+          Log.Info($"IIS.ServiceName: {sc.ServiceName}");
+          Log.Info($"IIS.ServiceType: {sc.ServiceType}");
 
           return sc.Status.Equals(ServiceControllerStatus.Running);
         }
       }
       catch (Exception ex)
       {
-        Log.Error(ex, "Error during checking IIS state");
+        Log.Error(ex, string.Format("Error during checking IIS state"));
 
         return false;
       }
@@ -278,12 +306,12 @@ namespace SIM.Tool
             throw;
           }
 
-          Log.Info("User cancelled permissions elevation");
+          Log.Info(string.Format("User cancelled permissions elevation"));
         }
       }
       catch (Exception ex)
       {
-        Log.Error(ex, "An unhandled exception was thrown");
+        Log.Error(ex, string.Format("An unhandled exception was thrown"));
       }
 
       return false;
@@ -338,7 +366,7 @@ namespace SIM.Tool
       }
       catch (Exception ex)
       {
-        Log.Error(ex, "Error during detecting profile defaults");
+        Log.Error(ex, string.Format("Error during detecting profile defaults"));
 
         return new Base.Profiles.Profile();
       }
@@ -352,7 +380,7 @@ namespace SIM.Tool
         {
           var wizardPipelinesConfig = XmlDocumentEx.LoadXml(WizardPipelinesConfig.Contents);
           var pipelinesNode = wizardPipelinesConfig.SelectSingleNode("/configuration/pipelines") as XmlElement;
-          Assert.IsNotNull(pipelinesNode, "pipelinesNode2");
+          Assert.IsNotNull(pipelinesNode, nameof(pipelinesNode));
 
           var pipelinesConfig = XmlDocumentEx.LoadXml(PipelinesConfig.Contents);
           pipelinesConfig.Merge(XmlDocumentEx.LoadXml(pipelinesNode.OuterXml));
@@ -407,8 +435,8 @@ namespace SIM.Tool
 
     private static T Safe<T>([NotNull] Func<T> func, [NotNull] string label)
     {
-      Assert.ArgumentNotNull(func, "func");
-      Assert.ArgumentNotNull(label, "label");
+      Assert.ArgumentNotNull(func, nameof(func));
+      Assert.ArgumentNotNull(label, nameof(label));
 
       try
       {
@@ -416,7 +444,7 @@ namespace SIM.Tool
       }
       catch (Exception ex)
       {
-        Log.Error(ex, "Failed to process {0}", label);
+        Log.Error(ex, $"Failed to process {label}");
 
         return default(T);
       }

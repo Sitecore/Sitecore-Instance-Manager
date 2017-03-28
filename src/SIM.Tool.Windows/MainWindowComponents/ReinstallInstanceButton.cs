@@ -7,7 +7,8 @@
   using SIM.Tool.Base.Plugins;
   using SIM.Tool.Base.Profiles;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
+  using SIM.Extensions;
 
   [UsedImplicitly]
   public class ReinstallInstanceButton : IMainWindowButton
@@ -31,7 +32,7 @@
           return;
         }
 
-        string license = ProfileManager.Profile.License;
+        var license = ProfileManager.Profile.License;
         Assert.IsNotNull(license, @"The license file isn't set in the Settings window");
         FileSystem.FileSystem.Local.File.AssertExists(license, "The {0} file is missing".FormatWith(license));
 

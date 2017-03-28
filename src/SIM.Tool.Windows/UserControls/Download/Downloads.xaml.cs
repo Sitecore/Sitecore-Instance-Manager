@@ -12,9 +12,9 @@
   using SIM.Tool.Base.Wizards;
   using SIM.Tool.Windows.Pipelines.Download;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
   using Sitecore.Diagnostics.Logging;
-  using Sitecore.Diagnostics.InformationService.Client.Model;
+  using Sitecore.Diagnostics.InfoService.Client.Model;
   using SIM.Core;
 
   #region
@@ -78,9 +78,16 @@
       {
         WindowHelper.HandleError("You didn't select any download, please select one to go further", false);
       }
-
-      WindowHelper.LongRunningTask(() => this.PrepareData(args), "Sitecore Versions Downloader", Window.GetWindow(this), "Preparing for downloading");
-
+      
+      Exception ex = null;
+      WindowHelper.LongRunningTask(() => { ex = this.PrepareData(args); }, "Sitecore Versions Downloader", Window.GetWindow(this), "Preparing for downloading");
+      if (ex != null)
+      {
+        WindowHelper.ShowMessage("Failed to prepare the data. " + ex + "\r\nMessage: " + ex.Message + "\r\nStackTrace:\r\n" + ex.StackTrace);
+        
+        return false;
+      }
+      
       return canMoveNext;
     }
 
@@ -90,7 +97,7 @@
 
     private void CheckFileSize(UriBasedCollection<long> fileSizes, Uri url, string cookies)
     {
-      Assert.IsNotNull(url, "url");
+      Assert.IsNotNull(url, nameof(url));
 
       try
       {
@@ -102,7 +109,7 @@
       }
       catch (Exception ex)
       {
-        Log.Error(ex, "Error while downloading {0}", url.ToString());
+        Log.Error(ex, $"Error while downloading {url.ToString()}");
       }
     }
 
@@ -115,11 +122,11 @@
     private UriBasedCollection<long> GetSizes(ReadOnlyCollection<Uri> urls, string cookies)
     {
       UriBasedCollection<long> sizes = new UriBasedCollection<long>();
-      int parallelDownloadsNumber = WindowsSettings.AppDownloaderParallelThreads.Value;
+      var parallelDownloadsNumber = WindowsSettings.AppDownloaderParallelThreads.Value;
 
       for (int i = 0; i < urls.Count; i += parallelDownloadsNumber)
       {
-        int remains = urls.Count - i;
+        var remains = urls.Count - i;
         var tasks = urls
           .Skip(i)
           .Take(Math.Min(parallelDownloadsNumber, remains))
@@ -132,7 +139,7 @@
       return sizes;
     }
 
-    private void PrepareData(DownloadWizardArgs args)
+    private Exception PrepareData(DownloadWizardArgs args)
     {
       try
       {
@@ -145,8 +152,10 @@
       }
       catch (Exception ex)
       {
-        Log.Error(ex, "Error while preparing data");
+        return ex;
       }
+      
+      return null;
     }
 
     #endregion

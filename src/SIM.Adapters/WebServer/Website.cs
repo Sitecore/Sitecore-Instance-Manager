@@ -6,8 +6,9 @@
   using System.Linq;
   using Microsoft.Web.Administration;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
   using Sitecore.Diagnostics.Logging;
+  using SIM.Extensions;
 
   #region
 
@@ -64,7 +65,7 @@
           Site site = this.GetSite(context);
 
           var bindings = site.Bindings;
-          Assert.IsNotNull(bindings, "bindings");
+          Assert.IsNotNull(bindings, nameof(bindings));
 
           foreach (Binding binding in bindings.Where(x => x.Protocol.StartsWith("http", StringComparison.OrdinalIgnoreCase)))
           {
@@ -74,7 +75,7 @@
             }
             catch (Exception ex)
             {
-              Log.Error(ex, "Cannot retrieve binding info");
+              Log.Error(ex, string.Format("Cannot retrieve binding info"));
             }
           }
         }
@@ -95,7 +96,7 @@
           {
             foreach (Binding binding in site.Bindings)
             {
-              string host = binding.Host;
+              var host = binding.Host;
               if (string.IsNullOrEmpty(host))
               {
                 host = "*";
@@ -174,7 +175,7 @@
         using (WebServerManager.WebServerContext context = WebServerManager.CreateContext("Website.ProcessIds"))
         {
           ApplicationPool pool = this.GetPool(context);
-          return pool.WorkerProcesses.NotNull().Select(process => process.ProcessId);
+          return Extensions.NotNull(pool.WorkerProcesses).Select(process => process.ProcessId);
         }
       }
     }
@@ -268,7 +269,7 @@
 
     public virtual void Recycle()
     {
-      Log.Info("Recycle the {0} instance's application pool", this.Name);
+      Log.Info($"Recycle the {this.Name} instance's application pool");
 
       using (WebServerManager.WebServerContext context = WebServerManager.CreateContext("Website.Recycle"))
       {
@@ -283,7 +284,7 @@
 
     public virtual void Start()
     {
-      Log.Info("Starting website {0}", this.ID);
+      Log.Info($"Starting website {this.ID}");
       
       if (IsDisabled)
       {
@@ -295,7 +296,7 @@
         Site site = this.GetSite(context);
         Assert.IsNotNull(site, "Site is missing");
         ApplicationPool pool = this.GetPool(context);
-        Assert.IsNotNull(pool, "pool");
+        Assert.IsNotNull(pool, nameof(pool));
         if (!this.IsStarted(pool))
         {
           pool.Start();
@@ -317,7 +318,7 @@
 
     public virtual void Stop(bool? force = null)
     {
-      Log.Info("Stop website {0} ({1})", this.Name, this.ID);
+      Log.Info($"Stop website {this.Name} ({this.ID})");
 
       using (WebServerManager.WebServerContext context = WebServerManager.CreateContext("Website.Stop"))
       {
@@ -334,7 +335,7 @@
             }
             catch (Exception ex)
             {
-              Log.Warn(ex, "Stop website {0} ({1}) failed", this.Name, this.ID);
+              Log.Warn(ex, $"Stop website {this.Name} ({this.ID}) failed");
             }
           }
         }
@@ -349,7 +350,7 @@
 
     public virtual void StopApplicationPool()
     {
-      Log.Info("Stop app pool {0} ({1})", this.Name, this.ID);
+      Log.Info($"Stop app pool {this.Name} ({this.ID})");
 
       using (WebServerManager.WebServerContext context = WebServerManager.CreateContext("Website.StopApplicationPool"))
       {
@@ -369,12 +370,12 @@
     [NotNull]
     public virtual ApplicationPool GetPool([NotNull] WebServerManager.WebServerContext context)
     {
-      Assert.ArgumentNotNull(context, "context");
+      Assert.ArgumentNotNull(context, nameof(context));
 
       var site = this.GetSite(context);
-      var application = site.Applications.FirstOrDefault(ap => ap.Path.EqualsIgnoreCase("/"));
+      var application = site.Applications.FirstOrDefault(ap => Extensions.EqualsIgnoreCase(ap.Path, "/"));
       Assert.IsNotNull(application, "Cannot find root application for {0} site".FormatWith(site.Name));
-      string poolname = application.ApplicationPoolName;
+      var poolname = application.ApplicationPoolName;
       ApplicationPool pool = context.ApplicationPools[poolname];
       Assert.IsNotNull(pool, "The " + poolname + "application pool doesn't exists");
 
@@ -384,7 +385,7 @@
     [NotNull]
     public virtual Site GetSite([NotNull] WebServerManager.WebServerContext context)
     {
-      Assert.ArgumentNotNull(context, "context");
+      Assert.ArgumentNotNull(context, nameof(context));
 
       Site site = context.Sites.SingleOrDefault(s => s.Id == this.ID);
       Assert.IsNotNull(site, "Website " + this.ID + " not found");
@@ -425,14 +426,14 @@
 
     private bool IsStarted([NotNull] Site site)
     {
-      Assert.ArgumentNotNull(site, "site");
+      Assert.ArgumentNotNull(site, nameof(site));
 
       return site.State == ObjectState.Started || site.State == ObjectState.Starting;
     }
 
     private bool IsStarted([NotNull] ApplicationPool pool)
     {
-      Assert.ArgumentNotNull(pool, "pool");
+      Assert.ArgumentNotNull(pool, nameof(pool));
 
       return pool.State == ObjectState.Started || pool.State == ObjectState.Starting;
     }

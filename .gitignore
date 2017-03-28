@@ -35,3 +35,9 @@ obj/
 *.pfx
 desktop.ini
 *.tmp_proj
+build/bin/
+build/publish/
+build/stderr.txt
+build/stdout.txt
+build/bin/
+build/publish/

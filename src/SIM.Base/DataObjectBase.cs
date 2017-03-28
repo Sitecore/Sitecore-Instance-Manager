@@ -4,7 +4,7 @@
 
   using System.ComponentModel;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
 
   #endregion
 
@@ -20,7 +20,7 @@
 
     protected void NotifyPropertyChanged([NotNull] string name)
     {
-      Assert.ArgumentNotNull(name, "name");
+      Assert.ArgumentNotNull(name, nameof(name));
 
       if (this.PropertyChanged != null)
       {

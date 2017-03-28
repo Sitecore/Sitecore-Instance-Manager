@@ -5,7 +5,7 @@
   using System.Collections.Generic;
   using SIM.Pipelines.Processors;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
 
   #endregion
 
@@ -22,7 +22,7 @@
 
     public StepDefinition([NotNull] List<ProcessorDefinition> processorDefinitions, [CanBeNull] string argsName = null)
     {
-      Assert.ArgumentNotNull(processorDefinitions, "processorDefinitions");
+      Assert.ArgumentNotNull(processorDefinitions, nameof(processorDefinitions));
 
       this.ArgsName = argsName;
       this.ProcessorDefinitions = processorDefinitions;

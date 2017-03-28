@@ -89,8 +89,8 @@
     {
       get
       {
-        int i = 0;
-        foreach (Product product in this.Scope)
+        var i = 0;
+        foreach (var product in this.Scope)
         {
           if (product == this.Value)
           {

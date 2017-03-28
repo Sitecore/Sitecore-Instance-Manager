@@ -5,7 +5,7 @@
   using System.Linq;
   using SIM.Instances;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
 
   #endregion
 
@@ -16,7 +16,7 @@
 
     protected override void Process([NotNull] DeleteArgs args)
     {
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(args, nameof(args));
 
       var cachedInstance = InstanceManager.PartiallyCachedInstances.SingleOrDefault(x => x.ID == args.InstanceID) as PartiallyCachedInstance;
       if (cachedInstance != null)

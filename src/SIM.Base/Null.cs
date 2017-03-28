@@ -3,7 +3,6 @@
 namespace SIM
 {
   using System.Collections.Generic;
-  using System.Collections.Specialized;
   using System.IO;
 
   public static class Null

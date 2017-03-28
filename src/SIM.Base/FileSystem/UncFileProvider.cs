@@ -1,7 +1,7 @@
 using System;
 using System.IO;
 using Sitecore.Diagnostics.Base;
-using Sitecore.Diagnostics.Base.Annotations;
+using JetBrains.Annotations;
 
 namespace SIM.FileSystem
 {
@@ -19,7 +19,7 @@ namespace SIM.FileSystem
     public UncFileProvider([NotNull] FileSystem fileSystem)
       : base(fileSystem)
     {
-      Assert.ArgumentNotNull(fileSystem, "fileSystem");
+      Assert.ArgumentNotNull(fileSystem, nameof(fileSystem));
 
       this.fileSystem = fileSystem;
     }

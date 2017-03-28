@@ -1,4 +1,6 @@
-﻿namespace SIM.Pipelines.Install
+﻿using System.Linq;
+
+namespace SIM.Pipelines.Install
 {
   #region
 
@@ -6,7 +8,8 @@
   using SIM.Adapters.WebServer;
   using SIM.Instances;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
+  using SIM.Extensions;
 
   #endregion
 
@@ -19,18 +22,15 @@
 
     protected override void Process([NotNull] InstallArgs args)
     {
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(args, nameof(args));
 
-      string name = args.Name;
-      string hostName = args.HostName;
-      string webRootPath = args.WebRootPath;
-      bool enable32BitAppOnWin64 = args.Is32Bit;
-      bool forceNetFramework4 = args.ForceNetFramework4;
-      bool isClassic = args.IsClassic;
-      var id = SetupWebsiteHelper.SetupWebsite(enable32BitAppOnWin64, webRootPath, forceNetFramework4, isClassic, new[]
-      {
-        new BindingInfo("http", hostName, 80, "*"), 
-      }, name);
+      var name = args.Name;
+      var webRootPath = args.WebRootPath;
+      var enable32BitAppOnWin64 = args.Is32Bit;
+      var forceNetFramework4 = args.ForceNetFramework4;
+      var isClassic = args.IsClassic;
+      var bindingInfos = args.HostNames.Select(hostName => new BindingInfo("http", hostName, 80, "*")).ToArray();
+      var id = SetupWebsiteHelper.SetupWebsite(enable32BitAppOnWin64, webRootPath, forceNetFramework4, isClassic, bindingInfos, name);
       args.Instance = InstanceManager.GetInstance(id);
     }
 
@@ -41,11 +41,11 @@
     [NotNull]
     private static string ChooseAppPoolName([NotNull] string name, [NotNull] ApplicationPoolCollection applicationPools)
     {
-      Assert.ArgumentNotNull(name, "name");
-      Assert.ArgumentNotNull(applicationPools, "applicationPools");
+      Assert.ArgumentNotNull(name, nameof(name));
+      Assert.ArgumentNotNull(applicationPools, nameof(applicationPools));
 
-      int modifier = 0;
-      string newname = name;
+      var modifier = 0;
+      var newname = name;
       while (applicationPools[newname] != null)
       {
         newname = name + '_' + ++modifier;
@@ -56,7 +56,7 @@
 
     private ProcessModelIdentityType GetIdentityType([NotNull] string name)
     {
-      Assert.ArgumentNotNull(name, "name");
+      Assert.ArgumentNotNull(name, nameof(name));
 
       if (name.EqualsIgnoreCase("NetworkService"))
       {

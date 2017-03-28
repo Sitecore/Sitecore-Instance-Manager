@@ -4,8 +4,9 @@
   using System.Linq;
   using SIM.Products;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
-  using Sitecore.Diagnostics.InformationService.Client.Model;
+  using JetBrains.Annotations;
+  using Sitecore.Diagnostics.InfoService.Client.Model;
+  using SIM.Extensions;
 
   public class ProductDownload8InCheckbox : DataObjectBase
   {
@@ -27,13 +28,16 @@
 
     public ProductDownload8InCheckbox([NotNull] IRelease release)
     {
-      Assert.ArgumentNotNull(release, "release");
+      Assert.ArgumentNotNull(release, nameof(release));
 
       this.name = "Sitecore CMS";
-      this.version = release.Version;
-      this.revision = release.Revision;
+      this.version = release.Version.MajorMinor;
+      this.revision = release.Version.Revision.ToString();
       this.label = release.Label;
-      this.value = new Uri(release.Downloads.First(x => x.StartsWith("http")));
+      var distribution = release.DefaultDistribution;
+      Assert.IsNotNull(distribution, nameof(distribution));
+
+      this.value = new Uri(distribution.Downloads.First(x => x.StartsWith("http")));
       this.isEnabled = !ProductManager.Products.Any(this.CheckProduct);
     }
 
@@ -43,20 +47,20 @@
 
     public override string ToString()
     {
-      return string.Format("{0} {1} rev. {2}{3}{4}", this.nameOverride ?? this.Name, this.Version, this.Revision, string.IsNullOrEmpty(this.Label) ? string.Empty : " (" + this.Label + ")", this.IsEnabled ? string.Empty : " - you already have it");
+      return $"{this.nameOverride ?? this.Name} {this.Version} rev. {this.Revision}{(string.IsNullOrEmpty(this.Label) ? string.Empty : " (" + this.Label + ")")}{(this.IsEnabled ? string.Empty : " - you already have it")}";
     }
 
     #endregion
 
     #region Private methods
 
-    private bool CheckAnalyticsProduct(Product product)
+    private bool CheckAnalyticsProduct(Products.Product product)
     {
       return product.Name.Equals("Sitecore Analytics")
              && product.Revision == this.revision;
     }
 
-    private bool CheckProduct([CanBeNull] Product product)
+    private bool CheckProduct([CanBeNull] Products.Product product)
     {
       if (product == null)
       {

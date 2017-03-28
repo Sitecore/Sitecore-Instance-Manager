@@ -10,9 +10,10 @@
   using SIM.Tool.Base;
   using SIM.Tool.Base.Wizards;
   using SIM.Tool.Windows.Pipelines.Setup;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
   using Sitecore.Diagnostics.Logging;
   using SIM.Core;
+  using SIM.Extensions;
 
   public partial class Permissions : IWizardStep, IFlowControl
   {
@@ -45,7 +46,7 @@
           return null;
         }
 
-        Log.Debug("SQL Server Account name: {0}",  sqlServerAccountName);
+        Log.Debug($"SQL Server Account name: {sqlServerAccountName}");
         return new[]
         {
           sqlServerAccountName, Settings.CoreInstallWebServerIdentity.Value
@@ -109,8 +110,8 @@
       }
       catch (Exception ex)
       {
-        Log.Error(ex, "Granting security permissions failed");
-        WindowHelper.ShowMessage(string.Format("Something went wrong while assigning necessary permissions, so please assign them manually: grant the \"{0}\" folder with FULL ACCESS rights for {1} user account.", path, accountName), MessageBoxButton.OK, MessageBoxImage.Asterisk);
+        Log.Error(ex, string.Format("Granting security permissions failed"));
+        WindowHelper.ShowMessage($"Something went wrong while assigning necessary permissions, so please assign them manually: grant the \"{path}\" folder with FULL ACCESS rights for {accountName} user account.", MessageBoxButton.OK, MessageBoxImage.Asterisk);
         return ProfileSection.Result(false);
       }
     }
@@ -138,7 +139,7 @@
 
       try
       {
-        const string message = "You probably don't have necessary permissions set. Please try to click 'Grant' button before you proceed.";
+        const string message = "You probably don't have necessary permissions set. Please try to click 'Grant' button before you proceed.\r\n\r\nNote, the SQL Server account that you selected previously must have necessary permissions to create a SQL database in the instances root folder you specified earlier - please ensure that it is correct. In addition, the SQL Server service must use NETWORK SERVICE identity so that SIM can assign necessary permissions for it.";
         foreach (var account in this.Accounts)
         {
           if (!this.ValidateAccount(account))
@@ -163,7 +164,7 @@
       }
       catch (Exception ex)
       {
-        Log.Error(ex, "Cannot verify permissions");
+        Log.Error(ex, string.Format("Cannot verify permissions"));
         return true;
       }
     }

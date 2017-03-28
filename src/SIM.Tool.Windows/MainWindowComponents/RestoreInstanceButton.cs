@@ -5,7 +5,7 @@
   using SIM.Instances;
   using SIM.Pipelines.Restore;
   using SIM.Tool.Base.Plugins;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
   using SIM.Tool.Base.Wizards;
 
   [UsedImplicitly]
@@ -26,7 +26,7 @@
       {
         var args = new RestoreArgs(instance);
         var id = MainWindowHelper.GetListItemID(instance.ID);
-        WizardPipelineManager.Start("restore", mainWindow, args, null, () => MainWindowHelper.MakeInstanceSelected(id), instance);
+        WizardPipelineManager.Start("restore", mainWindow, args, null, ignore => MainWindowHelper.MakeInstanceSelected(id), instance);
       }
     }
 

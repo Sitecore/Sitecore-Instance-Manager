@@ -7,7 +7,8 @@
   using System.Xml;
   using SIM.Adapters.WebServer;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
+  using SIM.Extensions;
 
   #endregion
 
@@ -24,7 +25,7 @@
 
     public InstanceConfiguration([NotNull] Instance instance)
     {
-      Assert.ArgumentNotNull(instance, "instance");
+      Assert.ArgumentNotNull(instance, nameof(instance));
 
       this.instance = instance;
     }
@@ -77,10 +78,10 @@
       XmlAttribute configSourceAttribute = webConfigConnectionStrings.Attributes[WebConfig.ConfigSourceAttributeName];
       if (configSourceAttribute != null)
       {
-        string configSourceValue = configSourceAttribute.Value;
+        var configSourceValue = configSourceAttribute.Value;
         if (!string.IsNullOrEmpty(configSourceValue) && !string.IsNullOrEmpty(webRootPath))
         {
-          string filePath = Path.Combine(webRootPath, configSourceValue);
+          var filePath = Path.Combine(webRootPath, configSourceValue);
           if (FileSystem.FileSystem.Local.File.Exists(filePath))
           {
             XmlDocumentEx connectionStringsConfig = XmlDocumentEx.LoadFile(filePath);
@@ -100,7 +101,7 @@
     private XmlElementEx GetConnectionStringsElement()
     {
       XmlDocumentEx webConfig = this.instance.GetWebConfig();
-      Assert.IsNotNull(webConfig, "webConfig");
+      Assert.IsNotNull(webConfig, nameof(webConfig));
 
       return GetConnectionStringsElement(webConfig);
     }

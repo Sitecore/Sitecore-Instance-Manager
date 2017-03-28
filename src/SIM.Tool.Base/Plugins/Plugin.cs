@@ -5,6 +5,7 @@ namespace SIM.Tool.Base.Plugins
   using System.Windows.Media;
   using System.Xml;
   using Sitecore.Diagnostics.Base;
+  using SIM.Extensions;
 
   public static class Plugin
   {

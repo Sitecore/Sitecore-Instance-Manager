@@ -5,10 +5,10 @@
   using System.IO;
   using System.Linq;
   using System.Text;
-  using System.Text.RegularExpressions;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
   using Sitecore.Diagnostics.Logging;
+  using SIM.Extensions;
 
   #region
 
@@ -26,15 +26,15 @@
 
     public static void Append([NotNull] string hostName)
     {
-      Assert.ArgumentNotNull(hostName, "hostName");
+      Assert.ArgumentNotNull(hostName, nameof(hostName));
 
-      string path = GetHostsFilePath();
+      var path = GetHostsFilePath();
       string[] lines = FileSystem.FileSystem.Local.File.ReadAllLines(path);
 
-      Log.Info("Appending host: {0}", hostName);
+      Log.Info($"Appending host: {hostName}");
       if (lines.Any(line => Matches(hostName, line)))
       {
-        Log.Info("Host already exists");
+        Log.Info(string.Format("Host already exists"));
         return;
       }
       
@@ -48,11 +48,11 @@
     
     public static void Remove([NotNull] IEnumerable<string> hostNames)
     {
-      Assert.ArgumentNotNull(hostNames, "hostNames");
+      Assert.ArgumentNotNull(hostNames, nameof(hostNames));
 
       foreach (string hostName in hostNames)
       {
-        Log.Info("Removing host: {0}", hostName);
+        Log.Info($"Removing host: {hostName}");
         Remove(hostName);
       }
     }
@@ -72,9 +72,9 @@
     
     private static void Remove([NotNull] string hostName)
     {
-      Assert.ArgumentNotNull(hostName, "hostName");
+      Assert.ArgumentNotNull(hostName, nameof(hostName));
 
-      string path = GetHostsFilePath();
+      var path = GetHostsFilePath();
       var records = GetRecords().ToArray();
       using (StreamWriter writer = new StreamWriter(path, false))
       {
@@ -97,7 +97,7 @@
 
     public static IEnumerable<IHostRecord> GetRecords()
     {
-      string path = GetHostsFilePath();
+      var path = GetHostsFilePath();
       string[] lines = FileSystem.FileSystem.Local.File.ReadAllLines(path);
       foreach (string line in lines)
       {
@@ -141,11 +141,11 @@
       }
     }
 
-    public static void Save(List<IHostRecord> records)
+    public static void Save(IEnumerable<IHostRecord> records)
     {
-      string path = GetHostsFilePath();
-      string text = FileSystem.FileSystem.Local.File.ReadAllText(path);
-      Log.Info("A backup of the hosts file\r\n{0}",  text);
+      var path = GetHostsFilePath();
+      var text = FileSystem.FileSystem.Local.File.ReadAllText(path);
+      Log.Info($"A backup of the hosts file\r\n{text}");
       var sb = new StringBuilder();
       foreach (IHostRecord hostRecord in records)
       {

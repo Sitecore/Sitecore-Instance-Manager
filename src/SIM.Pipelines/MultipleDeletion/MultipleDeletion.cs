@@ -1,6 +1,7 @@
 ﻿namespace SIM.Pipelines.MultipleDeletion
 {
   using System.Linq;
+  using SIM.Extensions;
   using SIM.Instances;
   using SIM.Pipelines.Delete;
   using SIM.Pipelines.Processors;

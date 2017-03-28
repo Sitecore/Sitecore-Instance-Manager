@@ -1,7 +1,7 @@
 ﻿namespace SIM.Pipelines.Reinstall
 {
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
 
   #region
 
@@ -14,9 +14,9 @@
 
     protected override void Process([NotNull] ReinstallArgs args)
     {
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(args, nameof(args));
 
-      string path = args.RootPath;
+      var path = args.RootPath;
       if (!string.IsNullOrEmpty(path))
       {
         FileSystem.FileSystem.Local.Directory.DeleteIfExists(path);

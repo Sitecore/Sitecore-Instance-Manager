@@ -6,7 +6,7 @@ namespace SIM.Tool.Windows
   using SIM.Instances;
   using SIM.Tool.Base.Plugins;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
   using Sitecore.Diagnostics.Logging;
 
   public class CustomConverter : IValueConverter
@@ -22,7 +22,7 @@ namespace SIM.Tool.Windows
 
     public CustomConverter([NotNull] IMainWindowButton mainWindowButton)
     {
-      Assert.ArgumentNotNull(mainWindowButton, "mainWindowButton");
+      Assert.ArgumentNotNull(mainWindowButton, nameof(mainWindowButton));
 
       this.button = mainWindowButton;
     }

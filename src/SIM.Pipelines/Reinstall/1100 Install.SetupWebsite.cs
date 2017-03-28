@@ -1,7 +1,7 @@
 ﻿namespace SIM.Pipelines.Reinstall
 {
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
 
   #region
 
@@ -20,11 +20,11 @@
 
     protected override void Process([NotNull] ReinstallArgs args)
     {
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(args, nameof(args));
 
-      string name = args.Name;
+      var name = args.Name;
       var bindings = args.Bindings;
-      string webRootPath = args.WebRootPath;
+      var webRootPath = args.WebRootPath;
       bool enable32BitAppOnWin64 = args.Is32Bit;
       bool forceNetFramework4 = args.ForceNetFramework4;
       bool isClassic = args.IsClassic;

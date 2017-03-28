@@ -7,13 +7,13 @@
   using System.Windows.Controls;
   using System.Windows.Input;
   using System.Windows.Threading;
-  using SIM.Core;
   using SIM.Tool.Base;
   using SIM.Tool.Base.Plugins;
   using SIM.Tool.Windows.MainWindowComponents;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
   using Sitecore.Diagnostics.Logging;
+  using SIM.Extensions;
 
   #region
 
@@ -162,7 +162,7 @@
     {
       try
       {
-        Assert.ArgumentNotNull(e, "e");
+        Assert.ArgumentNotNull(e, nameof(e));
 
         if (e.Handled)
         {
@@ -268,7 +268,7 @@
       {
         try
         {
-          Assert.ArgumentNotNull(e, "e");
+          Assert.ArgumentNotNull(e, nameof(e));
 
           WindowHelper.FocusClickedNode(e);
         }
@@ -322,7 +322,7 @@
     {
       try
       {
-        Assert.ArgumentNotNull(e, "e");
+        Assert.ArgumentNotNull(e, nameof(e));
 
         if (e.Handled)
         {
@@ -429,7 +429,7 @@
         }
         catch (Exception ex)
         {
-          Log.Error(ex, "Err");
+          Log.Error(ex, string.Format("Err"));
         }
       }
     }

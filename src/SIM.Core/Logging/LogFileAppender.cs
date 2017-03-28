@@ -3,7 +3,8 @@
   using System;
   using System.IO;
   using log4net.Appender;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
+  using SIM.Extensions;
 
   [UsedImplicitly]
   public class LogFileAppender : FileAppender
@@ -26,12 +27,12 @@
 
       set
       {
-        if (this.originalFileName == null)
+        if (originalFileName == null)
         {
-          this.originalFileName = Path.Combine(ApplicationManager.LogsFolder, value.Equals("$(debugPath)", StringComparison.OrdinalIgnoreCase) ? GetLogFileName(string.Empty, "_DEBUG") : GetLogFileName());
+          originalFileName = Path.Combine(ApplicationManager.LogsFolder, value.Equals("$(debugPath)", StringComparison.OrdinalIgnoreCase) ? GetLogFileName(string.Empty, "_DEBUG") : GetLogFileName());
         }
 
-        base.File = this.originalFileName;
+        base.File = originalFileName;
       }
     }
 

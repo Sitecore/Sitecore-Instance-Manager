@@ -3,7 +3,7 @@
   using System.Collections.Generic;
   using SIM.Adapters.SqlServer;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
 
   #region
 
@@ -22,12 +22,12 @@
 
     protected override void Process([NotNull] DeleteArgs args)
     {
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(args, nameof(args));
 
       IEnumerable<Database> detectedDatabases = args.InstanceDatabases;
-      string rootPath = args.RootPath.ToLower();
+      var rootPath = args.RootPath.ToLower();
       var connectionString = args.ConnectionString;
-      string instanceName = args.InstanceName;
+      var instanceName = args.InstanceName;
       IPipelineController controller = this.Controller;
 
       DeleteDatabasesHelper.Process(detectedDatabases, rootPath, connectionString, instanceName, controller, this.done);

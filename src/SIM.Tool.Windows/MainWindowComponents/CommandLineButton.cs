@@ -1,28 +1,22 @@
 ﻿namespace SIM.Tool.Windows.MainWindowComponents
 {
-  using System;
   using System.Diagnostics;
   using System.IO;
   using System.Windows;
-  using SIM.Tool.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
   using SIM.Core;
   using SIM.Core.Common;
+  using SIM.Extensions;
   using SIM.Instances;
-  using SIM.Tool.Base.Plugins;
 
   [UsedImplicitly]
-  public class CommandLineButton : AbstractDownloadAndRunButton, IMainWindowButton
+  public class CommandLineButton : AbstractDownloadAndRunButton
   {
     protected override string BaseUrl
     {
       get
-      {
-        var qaFolder = ApplicationManager.IsQA
-          ? "qa/" 
-          : string.Empty;
-
-        return "http://dl.sitecore.net/updater/1.1/simcmd/" + qaFolder;
+      {                         
+        return "http://dl.sitecore.net/updater/1.1/simcmd/";
       }
     }
 
@@ -44,27 +38,11 @@
 
     #region Public methods
 
-    public bool IsEnabled(Window mainWindow, Instance instance)
-    {
-      return true;
-    }
-
-    public void OnClick(Window mainWindow, Instance instance)
+    public override void OnClick(Window mainWindow, Instance instance)
     {
       Analytics.TrackEvent("OpenCommandLine");
 
-      if (instance != null)
-      {
-        string dataFolderPath = instance.DataFolderPath;
-        FileSystem.FileSystem.Local.Directory.AssertExists(dataFolderPath, "The data folder ({0}) of the {1} instance doesn't exist".FormatWith(dataFolderPath, instance.Name));
-
-        var logs = Path.Combine(dataFolderPath, "logs");
-        RunApp(mainWindow, logs);
-
-        return;
-      }
-
-      RunApp(mainWindow);
+      base.OnClick(mainWindow, instance);
     }
 
     #endregion

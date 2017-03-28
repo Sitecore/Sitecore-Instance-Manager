@@ -2,41 +2,53 @@ namespace SIM.Core.Commands
 {
   using System;
   using System.Data;
-  using SIM.Core.Common;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
+  using SIM.Core.Common;
 
   public class ProfileCommand : AbstractCommand<IProfile>
   {
+    [CanBeNull]
+    public virtual string ConnectionString { get; [UsedImplicitly] set; }
+
+    [CanBeNull]
+    public virtual string InstancesRoot { get; [UsedImplicitly] set; }
+
+    [CanBeNull]
+    public virtual string License { get; [UsedImplicitly] set; }
+
+    [CanBeNull]
+    public virtual string Repository { get; [UsedImplicitly] set; }
+
     protected override void DoExecute(CommandResult<IProfile> result)
     {
-      Assert.ArgumentNotNull(result, "result");
+      Assert.ArgumentNotNull(result, nameof(result));
 
       var profile = Profile.Read();
 
       var changes = 0;
-      var connectionString = this.ConnectionString;
+      var connectionString = ConnectionString;
       if (!string.IsNullOrEmpty(connectionString))
       {
         profile.ConnectionString = connectionString;
         changes += 1;
       }
 
-      var instancesRoot = this.InstancesRoot;
+      var instancesRoot = InstancesRoot;
       if (!string.IsNullOrEmpty(instancesRoot))
       {
         profile.InstancesFolder = instancesRoot;
         changes += 1;
       }
 
-      var license = this.License;
+      var license = License;
       if (!string.IsNullOrEmpty(license))
       {
         profile.License = license;
         changes += 1;
       }
 
-      var repository = this.Repository;
+      var repository = Repository;
       if (!string.IsNullOrEmpty(repository))
       {
         profile.LocalRepository = repository;
@@ -57,17 +69,5 @@ namespace SIM.Core.Commands
         throw new DataException("Profile file is corrupted", ex);
       }
     }
-
-    [CanBeNull]
-    public virtual string ConnectionString { get; [UsedImplicitly] set; }
-
-    [CanBeNull]
-    public virtual string InstancesRoot { get; [UsedImplicitly] set; }
-
-    [CanBeNull]
-    public virtual string License { get; [UsedImplicitly] set; }
-
-    [CanBeNull]
-    public virtual string Repository { get; [UsedImplicitly]  set; }
   }
 }

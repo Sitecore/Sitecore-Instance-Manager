@@ -4,8 +4,9 @@
   using System.Linq;
   using Microsoft.Web.Administration;
   using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Base.Annotations;
+  using JetBrains.Annotations;
   using Sitecore.Diagnostics.Logging;
+  using SIM.Extensions;
 
   #region
 
@@ -23,7 +24,7 @@
 
     public static void DeleteWebsite([NotNull] long id)
     {
-      Log.Info("Deleting website {0}", id);
+      Log.Info($"Deleting website {id}");
 
       using (WebServerContext context = CreateContext("WebServerManager.DeleteWebsite({0})".FormatWith(id)))
       {
@@ -37,9 +38,9 @@
 
     public static void DeleteWebsite([NotNull] string name)
     {
-      Assert.ArgumentNotNull(name, "name");
+      Assert.ArgumentNotNull(name, nameof(name));
 
-      Log.Info("Deleting website {0}", name);
+      Log.Info($"Deleting website {name}");
       using (WebServerContext context = CreateContext("WebServerManager.DeleteWebsite('{0}')".FormatWith(name)))
       {
         Site site = context.Sites[name];
@@ -53,7 +54,7 @@
     [NotNull]
     public static string GetWebRootPath([NotNull] Site site)
     {
-      Assert.ArgumentNotNull(site, "site");
+      Assert.ArgumentNotNull(site, nameof(site));
 
       Application apps = site.Applications["/"];
       if (apps != null)
@@ -64,7 +65,7 @@
           ConfigurationAttribute phpath = vdirs.Attributes["physicalPath"];
           if (phpath != null)
           {
-            string value = (string)phpath.Value;
+            var value = (string)phpath.Value;
             if (!string.IsNullOrEmpty(value))
             {
               return value;
@@ -78,12 +79,12 @@
 
     public static bool HostBindingExists([NotNull] string host)
     {
-      Assert.ArgumentNotNull(host, "host");
+      Assert.ArgumentNotNull(host, nameof(host));
 
       bool result;
       using (WebServerContext context = CreateContext("WebServerManager.HostBindingExists('{0}')".FormatWith(host)))
       {
-        result = context.Sites.Any(site => site.Bindings.Any(binding => binding.Host.EqualsIgnoreCase(host)));
+        result = context.Sites.Any(site => site.Bindings.Any(binding => Extensions.EqualsIgnoreCase(binding.Host, host)));
       }
 
       return result;
@@ -91,17 +92,17 @@
 
     public static bool AddHostBinding([NotNull] string siteName, [NotNull] BindingInfo binding)
     {
-      Assert.ArgumentNotNull(siteName, "siteName");
-      Assert.ArgumentNotNull(binding, "binding");
+      Assert.ArgumentNotNull(siteName, nameof(siteName));
+      Assert.ArgumentNotNull(binding, nameof(binding));
 
       using (WebServerContext context = CreateContext("WebServerManager.AddHostBinding('{0}','{1}')".FormatWith(siteName, binding.Host)))
       {
-        Site siteInfo = context.Sites.FirstOrDefault(site => site.Name.EqualsIgnoreCase(siteName));
+        Site siteInfo = context.Sites.FirstOrDefault(site => Extensions.EqualsIgnoreCase(site.Name, siteName));
         if (HostBindingExists(binding.Host) || siteInfo == null)
         {
           return false;
         }
-        string bindingInformation = binding.IP + ":" + binding.Port + ":" + binding.Host;
+        var bindingInformation = binding.IP + ":" + binding.Port + ":" + binding.Host;
         
         siteInfo.Bindings.Add(bindingInformation, binding.Protocol);
         context.CommitChanges();
@@ -112,19 +113,19 @@
 
     public static bool IsApplicationPoolRunning([NotNull] ApplicationPool appPool)
     {
-      Assert.ArgumentNotNull(appPool, "appPool");
+      Assert.ArgumentNotNull(appPool, nameof(appPool));
 
       return appPool.WorkerProcesses.Count > 0 && appPool.WorkerProcesses.Any(wp => wp != null && wp.State == WorkerProcessState.Running);
     }
 
     public static bool WebsiteExists([NotNull] string name)
     {
-      Assert.ArgumentNotNull(name, "name");
+      Assert.ArgumentNotNull(name, nameof(name));
 
       bool v;
       using (WebServerContext context = CreateContext("WebServerManager.WebsiteExists('{0}')".FormatWith(name)))
       {
-        v = context.Sites.Any(s => s.Name.EqualsIgnoreCase(name));
+        v = context.Sites.Any(s => Extensions.EqualsIgnoreCase(s.Name, name));
       }
 
       return v;
@@ -136,16 +137,16 @@
 
     private static void DeleteWebsite([NotNull] WebServerContext context, [NotNull] Site site)
     {
-      Assert.ArgumentNotNull(context, "context");
-      Assert.ArgumentNotNull(site, "site");
+      Assert.ArgumentNotNull(context, nameof(context));
+      Assert.ArgumentNotNull(site, nameof(site));
 
       foreach (Application application in site.Applications)
       {
-        string applicationPoolName = application.ApplicationPoolName;
+        var applicationPoolName = application.ApplicationPoolName;
         ApplicationPool appplicationPool = context.ApplicationPools[applicationPoolName];
 
         // Application is used only in the current website or isn't used at all
-        if (appplicationPool != null && context.Sites.Count(s => s.ApplicationDefaults.ApplicationPoolName.EqualsIgnoreCase(applicationPoolName)) <= 1)
+        if (appplicationPool != null && context.Sites.Count(s => Extensions.EqualsIgnoreCase(s.ApplicationDefaults.ApplicationPoolName, applicationPoolName)) <= 1)
         {
           context.ApplicationPools.Remove(appplicationPool);
         }

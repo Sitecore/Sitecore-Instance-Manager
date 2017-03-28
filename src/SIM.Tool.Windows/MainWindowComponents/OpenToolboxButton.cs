@@ -8,8 +8,7 @@
   using SIM.Products;
   using SIM.Tool.Base;
   using SIM.Tool.Base.Plugins;
-  using Sitecore.Diagnostics.Base.Annotations;
-  using SIM.Core;
+  using JetBrains.Annotations;
 
   [UsedImplicitly]
   public class OpenToolboxButton : IMainWindowButton
@@ -54,8 +53,8 @@
         return;
       }
 
-      var path = Path.Combine(instance.WebRootPath, @"sitecore\admin\toolbox");
-      if (!FileSystem.FileSystem.Local.Directory.Exists(path))
+      var path = Path.Combine(instance.WebRootPath, @"sitecore\admin\logs.aspx");
+      if (!FileSystem.FileSystem.Local.File.Exists(path))
       {
         var product = Product.GetFilePackageProduct(Path.Combine(ApplicationManager.DefaultPackages, PackageName)) ?? Product.GetFilePackageProduct(Path.Combine(ApplicationManager.FilePackagesFolder, PackageName));
         if (product == null)
@@ -69,7 +68,7 @@
         PipelineManager.StartPipeline("installmodules", args, isAsync: false);
       }
 
-      if (!FileSystem.FileSystem.Local.Directory.Exists(path))
+      if (!FileSystem.FileSystem.Local.File.Exists(path))
       {
         return;
       }
