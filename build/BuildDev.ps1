@@ -6,7 +6,7 @@ Param(
 
 $Name = "SIM.Tool.DEV"
 $Title = "Sitecore Instance Manager DEV (SIM)"
-$BaseVersion = "1.4"
+$BaseVersion = "1.5"
 $PublisherName = "Sitecore"
 $Icon = [System.IO.Path]::GetFullPath("..\src\SIM.Tool.Windows\Images\window.ico")
 $BaseApplicationURL = "http://dl.sitecore.net/updater/dev/sim"
