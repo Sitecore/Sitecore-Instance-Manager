@@ -180,7 +180,7 @@ namespace SIM.Tool
       // Initialize Profile Manager
       if (!App.InitializeProfileManager(main))
       {
-        Log.Info(string.Format("Application closes due to invalid configuration"));
+        Log.Info("Application closes due to invalid configuration");
 
         // Since the main window instance was already created we need to "dispose" it by showing and closing.
         main.Width = 0;
@@ -270,7 +270,7 @@ namespace SIM.Tool
       }
       catch (Exception ex)
       {
-        Log.Error(ex, string.Format("Error during checking IIS state"));
+        Log.Error(ex, "Error during checking IIS state");
 
         return false;
       }
@@ -306,12 +306,12 @@ namespace SIM.Tool
             throw;
           }
 
-          Log.Info(string.Format("User cancelled permissions elevation"));
+          Log.Info("User cancelled permissions elevation");
         }
       }
       catch (Exception ex)
       {
-        Log.Error(ex, string.Format("An unhandled exception was thrown"));
+        Log.Error(ex, "An unhandled exception was thrown");
       }
 
       return false;
@@ -366,7 +366,7 @@ namespace SIM.Tool
       }
       catch (Exception ex)
       {
-        Log.Error(ex, string.Format("Error during detecting profile defaults"));
+        Log.Error(ex, "Error during detecting profile defaults");
 
         return new Base.Profiles.Profile();
       }

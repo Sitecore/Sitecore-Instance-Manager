@@ -3,7 +3,7 @@
     <TextBlock Margin="0" HorizontalAlignment="Stretch" VerticalAlignment="Top" Name="TextBlock" TextWrapping="Wrap" TextAlignment="Justify" />
     <!-- Background="#FFF0F0F0" -->
     <WebBrowser Name="webBrowser" Width="0" Height="0" />
-    <TextBlock> </TextBlock>
+    <TextBlock />
     <TextBlock TextWrapping="Wrap" HorizontalAlignment="Stretch" TextAlignment="Justify" Margin="0" Padding="0">
       <Bold>User Name</Bold> - your email address 
     </TextBlock>
@@ -18,3 +18,4 @@
     </TextBlock>
   </StackPanel>	
 </UserControl>
+

@@ -96,7 +96,7 @@
         }
         catch (Exception ex)
         {
-          Log.Warn(ex, string.Format("An error occurred during downloading files"));
+          Log.Warn(ex, "An error occurred during downloading files");
 
           cancellation.Cancel();
           throw new InvalidOperationException("An unhandled exception happened during downloading '{0}' file".FormatWith(url));

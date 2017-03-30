@@ -19,15 +19,15 @@
         </Grid.RowDefinitions>
         <StackPanel Background="White" Grid.Row="0" Margin="0">
             <StackPanel Background="{DynamicResource Sitecore}" Margin="0">
-                <TextBlock FontSize="14" FontWeight="Bold" HorizontalAlignment="Left" Margin="4" Name="Header" Text="SQL Server Manager - SQL Shell"></TextBlock>
-                <TextBlock HorizontalAlignment="Left" Margin="16,0,120,15" Name="HeaderDetails" TextTrimming="None" TextWrapping="Wrap">You can execute an SQL query here.</TextBlock>
+                <TextBlock FontSize="14" FontWeight="Bold" HorizontalAlignment="Left" Margin="4" Name="Header" Text="SQL Server Manager - SQL Shell" />
+              <TextBlock HorizontalAlignment="Left" Margin="16,0,120,15" Name="HeaderDetails" TextTrimming="None" TextWrapping="Wrap">You can execute an SQL query here.</TextBlock>
             </StackPanel>
         </StackPanel>
         <Grid Background="#FFA0A0A0" Grid.Row="1" Height="1px" Margin="0" />
         <Grid Background="White" Grid.Row="2" Height="30px" Margin="0" />
           <TextBox BorderBrush="#FF828790" Grid.Row="3" HorizontalAlignment="Stretch" Margin="12" Name="databaseQueryInput"  VerticalAlignment="Stretch" AcceptsReturn="True" AcceptsTab="True" KeyUp="databaseQueryInput_KeyUp" />
-        <DataGrid AutoGenerateColumns="True" Grid.Row="4" HorizontalAlignment="Stretch" Margin="12" Name="dataGrid1" VerticalAlignment="Stretch" CanUserAddRows="True" CanUserDeleteRows="True" RowBackground="White" AlternatingRowBackground="{x:Null}" Foreground="Black" Background="White"></DataGrid>
-      <Grid Background="#FFA0A0A0" DockPanel.Dock="Top" Grid.Row="6" Margin="0" />
+        <DataGrid AutoGenerateColumns="True" Grid.Row="4" HorizontalAlignment="Stretch" Margin="12" Name="dataGrid1" VerticalAlignment="Stretch" CanUserAddRows="True" CanUserDeleteRows="True" RowBackground="White" AlternatingRowBackground="{x:Null}" Foreground="Black" Background="White" />
+    <Grid Background="#FFA0A0A0" DockPanel.Dock="Top" Grid.Row="6" Margin="0" />
         <Grid Background="White" DockPanel.Dock="Top" Grid.Row="7" Margin="0" />
         <Grid Grid.Row="8">
             <Grid Margin="23,11,21,12">
@@ -41,3 +41,6 @@
         </Grid>
     </Grid>
 </Window>
+
+
+

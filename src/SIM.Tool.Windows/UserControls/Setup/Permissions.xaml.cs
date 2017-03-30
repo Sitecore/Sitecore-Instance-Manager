@@ -110,7 +110,7 @@
       }
       catch (Exception ex)
       {
-        Log.Error(ex, string.Format("Granting security permissions failed"));
+        Log.Error(ex, "Granting security permissions failed");
         WindowHelper.ShowMessage($"Something went wrong while assigning necessary permissions, so please assign them manually: grant the \"{path}\" folder with FULL ACCESS rights for {accountName} user account.", MessageBoxButton.OK, MessageBoxImage.Asterisk);
         return ProfileSection.Result(false);
       }
@@ -164,7 +164,7 @@
       }
       catch (Exception ex)
       {
-        Log.Error(ex, string.Format("Cannot verify permissions"));
+        Log.Error(ex, "Cannot verify permissions");
         return true;
       }
     }

@@ -258,7 +258,7 @@ namespace SIM.FileSystem
       }
       catch (Exception ex)
       {
-        Log.Warn(ex, string.Format("Cannot get permissions for rules collection"));
+        Log.Warn(ex, "Cannot get permissions for rules collection");
         return false;
       }
     }

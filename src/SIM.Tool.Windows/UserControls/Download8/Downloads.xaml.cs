@@ -97,7 +97,7 @@
       }
       catch (Exception ex)
       {
-        Log.Error(ex, string.Format("Error while preparing data"));
+        Log.Error(ex, "Error while preparing data");
       }
     }
 

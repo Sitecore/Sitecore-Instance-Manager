@@ -109,7 +109,7 @@ namespace SIM.Pipelines
             throw;
           }
 
-          Log.Warn(ex, string.Format("Attaching reporting.secondary database failed. Skipping..."));
+          Log.Warn(ex, "Attaching reporting.secondary database failed. Skipping...");
         }
       }
     }

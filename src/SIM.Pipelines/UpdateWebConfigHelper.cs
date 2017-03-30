@@ -30,7 +30,7 @@ namespace SIM.Pipelines
           var httpRuntime = GetHttpRuntime(webConfig, true);
           if (httpRuntime == null)
           {
-            Log.Error(string.Format("Cannot extend executionTimeout as httpRuntime element is missing"));
+            Log.Error("Cannot extend executionTimeout as httpRuntime element is missing");
           }
           else
           {

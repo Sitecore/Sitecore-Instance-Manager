@@ -43,7 +43,7 @@
           <GradientStop Color="#FFF1F5FB" Offset="0.1" />
         </LinearGradientBrush>
       </StackPanel.Background>
-      <TextBlock Text="{Binding ElementName=InstanceList, Path=SelectedItem}" Padding="4,4,4,2"></TextBlock>
+      <TextBlock Text="{Binding ElementName=InstanceList, Path=SelectedItem}" Padding="4,4,4,2" />
       <TextBlock Text="{Binding ElementName=InstanceList, Path=SelectedItem.BindingsNames}" Padding="4,4,4,2"/>
       <TextBlock Text="{Binding ElementName=InstanceList, Path=SelectedItem.ModulesNames}" Padding="4,4,4,0" />
     </StackPanel>
@@ -61,3 +61,4 @@
     </ListBox>
   </DockPanel>
 </r:RibbonWindow>
+

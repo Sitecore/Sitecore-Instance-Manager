@@ -74,7 +74,7 @@
         }
         catch (Exception ex)
         {
-          Log.Warn(ex, string.Format("An error occurred during downloading files"));
+          Log.Warn(ex, "An error occurred during downloading files");
 
           cancellation.Cancel();
           throw;

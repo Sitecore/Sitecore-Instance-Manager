@@ -28,7 +28,7 @@
     {
       Analytics.TrackEvent("Install");
 
-      Assert.IsTrue(ProfileManager.IsValid, string.Format("Some of configuration settings are invalid - please fix them in Settings dialog and try again"));
+      Assert.IsTrue(ProfileManager.IsValid, "Some of configuration settings are invalid - please fix them in Settings dialog and try again");
       Assert.IsTrue(ProductManager.StandaloneProducts.Any(),
         $@"You don't have any standalone product package in your repository. Options to solve:
 

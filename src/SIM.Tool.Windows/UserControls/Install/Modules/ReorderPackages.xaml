@@ -10,23 +10,24 @@
 
   <Grid>
     <Grid.RowDefinitions>
-      <RowDefinition Height="23"></RowDefinition>
-      <RowDefinition></RowDefinition>
+      <RowDefinition Height="23" />
+      <RowDefinition />
     </Grid.RowDefinitions>
-    <TextBlock Name="selectedProductLabel" HorizontalAlignment="Left" VerticalAlignment="Center"><Bold>Product:&#160;</Bold><Run Text="{Binding Mode=OneWay}"></Run></TextBlock>
+    <TextBlock Name="selectedProductLabel" HorizontalAlignment="Left" VerticalAlignment="Center"><Bold>Product:&#160;</Bold><Run Text="{Binding Mode=OneWay}" />
+    </TextBlock>
     <ListBox IsManipulationEnabled="False" Name="modulesList" SelectionChanged="ModuleSelected" Padding="0,5,0,0" AllowDrop="True" Style="{DynamicResource ListStyle}" Grid.Row="1" HorizontalContentAlignment="Stretch">
       <ListBox.ItemTemplate>
         <DataTemplate>
           <DockPanel AllowDrop="True">
             <Image Width="16" Height="16">
               <Image.Source>
-                <BitmapImage UriSource="pack://application:,,,/SIM.Tool.Windows;component/Images/16/splitter_hor_b_d.png"></BitmapImage>
+                <BitmapImage UriSource="pack://application:,,,/SIM.Tool.Windows;component/Images/16/splitter_hor_b_d.png" />
               </Image.Source>
               <Image.Resources>
                 <Style TargetType="{x:Type Image}">
                   <Style.Triggers>
                     <Trigger Property="IsMouseOver" Value="True">
-                      <Setter Property="Cursor" Value="SizeNS"></Setter>
+                      <Setter Property="Cursor" Value="SizeNS" />
                     </Trigger>
                   </Style.Triggers>
                 </Style>
@@ -35,7 +36,7 @@
             <Label Content="{Binding Path=DisplayName}" VerticalAlignment="Center"/>
             <Image Width="16" Height="16" Margin="0" Cursor="Hand" HorizontalAlignment="Right" VerticalAlignment="Center" Visibility="{Binding Converter={StaticResource ReadmeToVisibilityConverter}, Path=Readme}" ToolTip="{Binding Converter={StaticResource ReadmeToStringConverter}, Path=Readme}" ToolTipService.ShowDuration="60000">
               <Image.Source>
-                <BitmapImage UriSource="pack://application:,,,/SIM.Tool.Windows;component/Images/16/note_information.png"></BitmapImage>
+                <BitmapImage UriSource="pack://application:,,,/SIM.Tool.Windows;component/Images/16/note_information.png" />
               </Image.Source>
               <Image.Resources>
                 <Style TargetType="{x:Type Button}">
@@ -79,3 +80,66 @@
     </ListBox>
   </Grid>
 </UserControl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

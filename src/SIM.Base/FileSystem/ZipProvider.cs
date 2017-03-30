@@ -171,7 +171,7 @@ namespace SIM.FileSystem
               {
                 if (skipErrors)
                 {
-                  Log.Error(ex, string.Format("Unpacking caused exception"));
+                  Log.Error(ex, "Unpacking caused exception");
                   continue;
                 }
 
@@ -200,7 +200,7 @@ namespace SIM.FileSystem
               {
                 if (skipErrors)
                 {
-                  Log.Error(ex, string.Format("Unpacking caused exception"));
+                  Log.Error(ex, "Unpacking caused exception");
                   continue;
                 }
               }

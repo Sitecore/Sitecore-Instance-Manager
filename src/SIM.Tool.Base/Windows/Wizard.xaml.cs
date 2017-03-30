@@ -252,7 +252,7 @@
       }
       catch (Exception ex)
       {
-        Log.Error(ex, string.Format("Error during setting progress"));
+        Log.Error(ex, "Error during setting progress");
       }
     }
 

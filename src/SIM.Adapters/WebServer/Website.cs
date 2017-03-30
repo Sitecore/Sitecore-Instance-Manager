@@ -75,7 +75,7 @@
             }
             catch (Exception ex)
             {
-              Log.Error(ex, string.Format("Cannot retrieve binding info"));
+              Log.Error(ex, "Cannot retrieve binding info");
             }
           }
         }

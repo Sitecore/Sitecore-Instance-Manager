@@ -83,7 +83,7 @@
         }
         catch (Exception ex)
         {
-          Log.Warn(ex, string.Format("An error occurred during calculating processor.IsDone property"));
+          Log.Warn(ex, "An error occurred during calculating processor.IsDone property");
 
           return false;
         }

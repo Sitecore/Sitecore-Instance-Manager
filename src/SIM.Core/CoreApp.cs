@@ -63,7 +63,7 @@
 
     public static void Exit()
     {
-      Log.Info(string.Format("Shutting down"));
+      Log.Info("Shutting down");
     }
 
     public static void LogMainInfo()
@@ -74,9 +74,9 @@
         var commandLineArgs = nativeArgs.Skip(1).ToArray();
         var argsToLog = commandLineArgs.Length > 0 ? string.Join("|", commandLineArgs) : "<NO ARGUMENTS>";
 
-        Log.Info(string.Format("**********************************************************************"));
-        Log.Info(string.Format("**********************************************************************"));
-        Log.Info(string.Format("Sitecore Instance Manager started"));
+        Log.Info("**********************************************************************");
+        Log.Info("**********************************************************************");
+        Log.Info("Sitecore Instance Manager started");
         Log.Info($"Version: {ApplicationManager.AppVersion}");
         Log.Info($"Revision: {ApplicationManager.AppRevision}");
         Log.Info($"Label: {ApplicationManager.AppLabel}");
@@ -84,8 +84,8 @@
         Log.Info($"Executable: {nativeArgs.FirstOrDefault() ?? ApplicationManager.ProcessName}");
         Log.Info($"Arguments: {argsToLog}");
         Log.Info($"Directory: {Environment.CurrentDirectory}");
-        Log.Info(string.Format("**********************************************************************"));
-        Log.Info(string.Format("**********************************************************************"));
+        Log.Info("**********************************************************************");
+        Log.Info("**********************************************************************");
       }
       catch
       {
@@ -134,7 +134,7 @@
       }
       catch (Exception ex)
       {
-        Log.Error(ex, string.Format("Deleting temp folders caused an exception"));
+        Log.Error(ex, "Deleting temp folders caused an exception");
       }
     }
 

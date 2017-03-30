@@ -36,7 +36,7 @@
       }
       catch (Exception ex)
       {
-        Log.Warn(ex, string.Format("An error occurred during checking if the path is valid"));
+        Log.Warn(ex, "An error occurred during checking if the path is valid");
         return false;
       }
     }

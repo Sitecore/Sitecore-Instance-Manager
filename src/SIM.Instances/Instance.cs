@@ -591,7 +591,7 @@
       }
       catch (Exception ex)
       {
-        Log.Warn(ex, string.Format("An error occurred during checking if it is sitecore"));
+        Log.Warn(ex, "An error occurred during checking if it is sitecore");
 
         return false;
       }

@@ -155,7 +155,7 @@ namespace SIM.Tool.Base
         catch (Exception ex)
         {
           fileSystemWatcher.EnableRaisingEvents = false;
-          Log.Error(ex, string.Format("Unhandled error happened while reopening log file"));
+          Log.Error(ex, "Unhandled error happened while reopening log file");
         }
       };
 

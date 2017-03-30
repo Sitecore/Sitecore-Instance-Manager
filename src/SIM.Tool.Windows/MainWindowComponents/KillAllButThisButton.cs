@@ -50,7 +50,7 @@
         }
         catch (Exception ex)
         {
-          Log.Warn(ex, string.Format("An error occurred"));
+          Log.Warn(ex, "An error occurred");
         }
       }
     }

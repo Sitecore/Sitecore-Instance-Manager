@@ -429,7 +429,7 @@
         }
         catch (Exception ex)
         {
-          Log.Error(ex, string.Format("Err"));
+          Log.Error(ex, "Err");
         }
       }
     }

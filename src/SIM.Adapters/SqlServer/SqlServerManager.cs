@@ -435,7 +435,7 @@
       }
       catch (Exception ex)
       {
-        Log.Error(ex, string.Format("GetSqlServerAccountName"));
+        Log.Error(ex, "GetSqlServerAccountName");
         throw new InvalidOperationException("Cannot retrieve SQL Server Account Name");
       }
     }
@@ -633,7 +633,7 @@
       }
       catch (Exception ex)
       {
-        Log.Error(ex, string.Format("Cannot create a test database"));
+        Log.Error(ex, "Cannot create a test database");
 
         return false;
       }

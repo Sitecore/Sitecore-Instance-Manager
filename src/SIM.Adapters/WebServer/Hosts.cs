@@ -34,7 +34,7 @@
       Log.Info($"Appending host: {hostName}");
       if (lines.Any(line => Matches(hostName, line)))
       {
-        Log.Info(string.Format("Host already exists"));
+        Log.Info("Host already exists");
         return;
       }
       

@@ -109,7 +109,7 @@
             }
             else if (item.Name == "plugins")
             {
-              Log.Error(string.Format("Plugins no longer supported"));
+              Log.Error("Plugins no longer supported");
             }
           }
         }
@@ -185,7 +185,7 @@
       }
       catch (Exception ex)
       {
-        Log.Warn(ex, string.Format("An error occurred during checking if installer ready"));
+        Log.Warn(ex, "An error occurred during checking if installer ready");
 
         return false;
       }
@@ -641,7 +641,7 @@
       }
       catch (Exception ex)
       {
-        Log.Error(ex, string.Format("Plugin Menu Item caused an exception"));
+        Log.Error(ex, "Plugin Menu Item caused an exception");
       }
     }
 

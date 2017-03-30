@@ -27,7 +27,7 @@
         }
         catch (ThreadInterruptedException)
         {
-          Log.Info(string.Format("The thread was interrupted"));
+          Log.Info("The thread was interrupted");
         }
         catch (Exception ex)
         {

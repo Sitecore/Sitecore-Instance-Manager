@@ -167,7 +167,7 @@
 
       if (skipPostActions)
       {
-        Log.Info(string.Format("PostActions are skipped"));
+        Log.Info("PostActions are skipped");
         return;
       }
 

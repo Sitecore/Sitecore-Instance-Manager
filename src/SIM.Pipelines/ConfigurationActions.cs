@@ -811,7 +811,7 @@
       {
         if (!FileSystem.FileSystem.Local.File.Exists(fromPath) && FileSystem.FileSystem.Local.File.Exists(toPath))
         {
-          Log.Warn(string.Format("The moving does not seem to be needed"));
+          Log.Warn("The moving does not seem to be needed");
           return;
         }
 

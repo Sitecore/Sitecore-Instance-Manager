@@ -160,14 +160,14 @@
                       {
                         if (mainDocument == null)
                         {
-                          Log.Debug(string.Format("Loading file 'as main document'"));
+                          Log.Debug("Loading file \'as main document\'");
                           mainDocument = XmlDocumentEx.LoadFile(path);
 
                           ProfileSection.Result("Loaded");
                         }
                         else
                         {
-                          Log.Debug(string.Format("Loading file 'for merge'"));
+                          Log.Debug("Loading file \'for merge\'");
                           mainDocument.Merge(XmlDocumentEx.LoadFile(path));
 
                           ProfileSection.Result("Merged");
@@ -212,7 +212,7 @@
                   var entry = zip[filenamePattern + ManifestExtension];
                   if (entry != null)
                   {
-                    Log.Debug(string.Format("Loading file 'as main document'"));
+                    Log.Debug("Loading file \'as main document\'");
 
                     using (var stream = new MemoryStream())
                     {
@@ -230,7 +230,7 @@
         }
         catch (Exception ex)
         {
-          Log.Error(ex, string.Format("Failed to find and merge manifests on file system"));
+          Log.Error(ex, "Failed to find and merge manifests on file system");
         }
 
         XmlDocumentEx archiveManifest = Product.ArchiveManifest;
@@ -242,7 +242,7 @@
             CacheManager.SetEntry("IsPackage", packageFile, "false");
             try
             {
-              Log.Debug(string.Format("Merging with 'archiveManifest'"));
+              Log.Debug("Merging with \'archiveManifest\'");
               mainDocument.Merge(archiveManifest);
             }
             catch (Exception ex)
@@ -255,7 +255,7 @@
             CacheManager.SetEntry("IsPackage", packageFile, "true");
             try
             {
-              Log.Debug(string.Format("Merging with 'packageManifest'"));
+              Log.Debug("Merging with \'packageManifest\'");
               mainDocument.Merge(packageManifest);
             }
             catch (Exception ex)

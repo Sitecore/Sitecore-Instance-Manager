@@ -42,7 +42,7 @@
         }
         catch (Exception ex)
         {
-          Log.Warn(ex, string.Format("The profile is invalid"));
+          Log.Warn(ex, "The profile is invalid");
 
           return false;
         }
@@ -80,7 +80,7 @@
       }
       catch (Exception ex)
       {
-        Log.Warn(ex, string.Format("An error occurred during reading profile"));
+        Log.Warn(ex, "An error occurred during reading profile");
 
         FileSystem.FileSystem.Local.Directory.TryDelete(profileFilePath);
         return null;
