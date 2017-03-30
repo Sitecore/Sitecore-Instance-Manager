@@ -117,6 +117,7 @@
     <Compile Include="Commands\StateCommand.cs" />
     <Compile Include="Commands\StopCommand.cs" />
     <Compile Include="Common\AbstractInstanceActionCommand.cs" />
+    <Compile Include="Common\AbstractMultiInstanceActionCommand.cs" />
     <Compile Include="Common\AggregatePipelineController.cs" />
     <Compile Include="Commands\StartCommand.cs" />
     <Compile Include="Commands\DeleteCommand.cs" />
