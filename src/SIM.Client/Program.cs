@@ -6,6 +6,7 @@
   using System.IO;
   using System.Linq;
   using System.Reflection;
+  using System.Security.Principal;
   using CommandLine;
   using Newtonsoft.Json;
   using Sitecore.Diagnostics.Base;
@@ -30,6 +31,19 @@
       var filteredArgs = args.ToList();
       var query = GetQueryAndFilterArgs(filteredArgs);
       var wait = GetWaitAndFilterArgs(filteredArgs);
+
+      if (!new WindowsPrincipal(WindowsIdentity.GetCurrent()).IsInRole(WindowsBuiltInRole.Administrator))
+      {
+        Console.WriteLine("Current user account is not Administrator. Please re-run using Administrator user account.");
+
+        if (wait)
+        {
+          Console.ReadKey();
+        }
+
+        Environment.Exit(403);
+        return;
+      }
 
       var parser = new Parser(with =>
       {
