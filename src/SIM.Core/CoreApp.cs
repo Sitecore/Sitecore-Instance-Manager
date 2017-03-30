@@ -10,6 +10,7 @@
   using log4net.Layout;
   using log4net.Util;
   using JetBrains.Annotations;
+  using log4net.Appender;
   using Sitecore.Diagnostics.Logging;
   using SIM.Core.Logging;
   using SIM.Extensions;
@@ -103,10 +104,10 @@
       }
       else
       {
-        var infoLogger = new LogFileAppender
+        var infoLogger = new FileAppender
         {
           AppendToFile = true,
-          File = "hard-coded",
+          File = "sim.log",
           Layout = new PatternLayout("%4t %d{ABSOLUTE} %-5p %m%n"),
           SecurityContext = new WindowsSecurityContext(),
           Threshold = Level.Info
