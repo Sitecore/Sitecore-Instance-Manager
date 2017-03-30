@@ -103,9 +103,14 @@
             continue;
           }
 
-          File.Create(command).Close();
+          CreateEmptyFileInCurrentDirectory(command);
         }
       }
+    }
+
+    private static void CreateEmptyFileInCurrentDirectory(string command)
+    {
+      File.Create(command).Close();
     }
 
     [CanBeNull]
