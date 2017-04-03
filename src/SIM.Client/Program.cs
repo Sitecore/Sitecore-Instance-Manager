@@ -15,6 +15,7 @@
   using log4net.Core;
   using log4net.Layout;
   using log4net.Util;
+  using Sitecore.Diagnostics.Logging;
   using SIM.Client.Commands;
   using SIM.Client.Serialization;
   using SIM.Core;
@@ -152,7 +153,14 @@
 
     private static void CreateEmptyFileInCurrentDirectory(string command)
     {
-      File.Create(command).Close();
+      try
+      {
+        File.Create(command).Close();
+      }
+      catch
+      {
+        Log.Warn($"Cannot create file: {command}");
+      }
     }
 
     [CanBeNull]
