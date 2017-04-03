@@ -81,6 +81,11 @@
       return parameters == null ? format ?? string.Empty : string.Format(format ?? string.Empty, parameters);
     }
 
+    public static TOut PipeTo<TIn, TOut>(this TIn obj, Func<TIn, TOut> func)
+    {
+      return func(obj);
+    }
+
     public static string GetNonEmptyAttribute(this XmlElement element, string name)
     {
       return element.GetAttribute(name).EmptyToNull().IsNotNull("{0} doesn't have the {1} attribute filled in".FormatWith(element.OuterXml, name));

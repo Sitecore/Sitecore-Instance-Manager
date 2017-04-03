@@ -11,10 +11,15 @@
   using Newtonsoft.Json;
   using Sitecore.Diagnostics.Base;
   using JetBrains.Annotations;
+  using log4net.Config;
+  using log4net.Core;
+  using log4net.Layout;
+  using log4net.Util;
   using SIM.Client.Commands;
   using SIM.Client.Serialization;
   using SIM.Core;
   using SIM.Core.Common;
+  using SIM.Core.Logging;
 
   public static class Program
   {
@@ -22,8 +27,8 @@
     {
       Assert.ArgumentNotNull(args, nameof(args));
 
-      CoreApp.InitializeLogging();
-
+      InitializeLogging();
+      
       CoreApp.LogMainInfo();
 
       Analytics.Start();
@@ -97,6 +102,29 @@
       {
         Console.ReadKey();
       }
+    }
+
+    private static void InitializeLogging()
+    {
+      var info = new LogFileAppender
+      {
+        AppendToFile = true,
+        File = "$(currentFolder)\\sim.log",
+        Layout = new PatternLayout("%4t %d{ABSOLUTE} %-5p %m%n"),
+        SecurityContext = new WindowsSecurityContext(),
+        Threshold = Level.Info
+      };
+
+      var debug = new LogFileAppender
+      {
+        AppendToFile = true,
+        File = "$(currentFolder)\\sim.debug",
+        Layout = new PatternLayout("%4t %d{ABSOLUTE} %-5p %m%n"),
+        SecurityContext = new WindowsSecurityContext(),
+        Threshold = Level.Debug
+      };
+
+      CoreApp.InitializeLogging(info, debug);
     }
 
     private static void EnsureAutoCompeteForCommands(MainCommandGroup options)

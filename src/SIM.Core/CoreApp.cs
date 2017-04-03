@@ -10,7 +10,6 @@
   using log4net.Layout;
   using log4net.Util;
   using JetBrains.Annotations;
-  using log4net.Appender;
   using Sitecore.Diagnostics.Logging;
   using SIM.Core.Logging;
   using SIM.Extensions;
@@ -93,37 +92,11 @@
       }
     }
 
-    public static void InitializeLogging()
+    public static void InitializeLogging(LogFileAppender infoLogger, LogFileAppender debugLogger)
     {
       Log.Initialize(new Log4NetLogProvider());
-
-      var logConfig = new FileInfo("Log.config");
-      if (logConfig.Exists)
-      {
-        XmlConfigurator.Configure(logConfig);
-      }
-      else
-      {
-        var infoLogger = new FileAppender
-        {
-          AppendToFile = true,
-          File = "sim.log",
-          Layout = new PatternLayout("%4t %d{ABSOLUTE} %-5p %m%n"),
-          SecurityContext = new WindowsSecurityContext(),
-          Threshold = Level.Info
-        };
-
-        var debugLogger = new LogFileAppender
-        {
-          AppendToFile = true,
-          File = "$(debugPath)",
-          Layout = new PatternLayout("%4t %d{ABSOLUTE} %-5p %m%n"),
-          SecurityContext = new WindowsSecurityContext(),
-          Threshold = Level.Debug
-        };
-
-        BasicConfigurator.Configure(infoLogger, debugLogger);
-      }
+                                          
+      BasicConfigurator.Configure(infoLogger, debugLogger);
     }
 
     public static void DeleteTempFolders()

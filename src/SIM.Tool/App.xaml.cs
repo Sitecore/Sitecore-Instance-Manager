@@ -26,7 +26,12 @@ namespace SIM.Tool
   using SIM.Tool.Windows;
   using Sitecore.Diagnostics.Base;
   using JetBrains.Annotations;
+  using log4net.Config;
+  using log4net.Core;
+  using log4net.Layout;
+  using log4net.Util;
   using Sitecore.Diagnostics.Logging;
+  using SIM.Core.Logging;
   using SIM.Extensions;
   using SIM.Tool.Base.Wizards;
   using File = System.IO.File;
@@ -146,7 +151,7 @@ namespace SIM.Tool
         return;
       }
 
-      CoreApp.InitializeLogging();
+      InitializeLogging();
 
       CoreApp.LogMainInfo();
 
@@ -232,6 +237,29 @@ namespace SIM.Tool
       Analytics.Flush();
 
       Environment.Exit(0);
+    }
+
+    private void InitializeLogging()
+    {
+      var info = new LogFileAppender
+      {
+        AppendToFile = true,
+        File = "$(logFolder)\\{0:yyyy-MM-dd}.txt",
+        Layout = new PatternLayout("%4t %d{ABSOLUTE} %-5p %m%n"),
+        SecurityContext = new WindowsSecurityContext(),
+        Threshold = Level.Info
+      };
+
+      var debug = new LogFileAppender
+      {
+        AppendToFile = true,
+        File = "$(logFolder)\\{0:yyyy-MM-dd}_DEBUG.txt",
+        Layout = new PatternLayout("%4t %d{ABSOLUTE} %-5p %m%n"),
+        SecurityContext = new WindowsSecurityContext(),
+        Threshold = Level.Debug
+      };
+
+      CoreApp.InitializeLogging(info, debug);
     }
 
     private static void LoadIocResourcesForSolr()
