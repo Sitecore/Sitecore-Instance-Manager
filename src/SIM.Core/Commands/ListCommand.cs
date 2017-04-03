@@ -4,6 +4,7 @@
   using System.Linq;
   using Sitecore.Diagnostics.Base;
   using JetBrains.Annotations;
+  using Sitecore.Diagnostics.Logging;
   using SIM.Core.Common;
   using SIM.Core.Models;
   using SIM.Instances;
@@ -55,7 +56,24 @@
         data = new ListCommandResult(instances.Select(x => x.Name));
       }
 
+      foreach (var instance in data.Instances)
+      {
+        CreateEmptyFileInCurrentDirectory(instance);
+      }
+
       result.Data = data;
+    }
+
+    private static void CreateEmptyFileInCurrentDirectory(string command)
+    {
+      try
+      {
+        File.Create(command).Close();
+      }
+      catch
+      {
+        Log.Warn($"Cannot create file: {command}");
+      }
     }
   }
 }
