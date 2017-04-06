@@ -41,7 +41,7 @@ namespace SIM.Core.Common
       Assert.ArgumentNotNullOrEmpty(name, nameof(name));
 
       var instance = InstanceManager.Instances.FirstOrDefault(x => x.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
-      Ensure.IsNotNull(instance, "instance is not found");
+      Ensure.IsNotNull(instance, $"The {name} instance is not found");
 
       return instance;
     }
