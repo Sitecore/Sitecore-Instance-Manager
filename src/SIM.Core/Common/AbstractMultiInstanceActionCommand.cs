@@ -36,20 +36,36 @@ namespace SIM.Core.Common
     }
 
     [NotNull]
-    internal static IReadOnlyList<Instance> GetInstances(string name)
+    internal static IReadOnlyList<Instance> GetInstances(string listString)
     {
       InstanceManager.Initialize();
-      Assert.ArgumentNotNullOrEmpty(name, nameof(name));
+      Assert.ArgumentNotNullOrEmpty(listString, nameof(listString));
 
-      var names = name.Split("|,;".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
+      var names = listString.Split("|,;".ToCharArray(), StringSplitOptions.RemoveEmptyEntries)
+        .GroupBy(x => x).Select(x => x.Key) // DISTINCT
+        .ToList();
 
-      var instances = InstanceManager.Instances
-        .Where(x => 
-          names.Any(z => 
-            string.Equals(z, x.Name, StringComparison.OrdinalIgnoreCase)))
-        .ToArray();
-                      
-      return instances;
+      var result = new List<Instance>();
+      var instances = InstanceManager.Instances.ToArray();
+      foreach (var name in names.ToArray())
+      {
+        var instance = instances.FirstOrDefault(x => name.Equals(x.Name, StringComparison.OrdinalIgnoreCase));
+        if (instance != null)
+        {
+          result.Add(instance);
+          names.Remove(name);
+        }
+      }
+
+      if (!names.Any())
+      {
+        return result;
+      }
+
+      var ex = new InvalidOperationException($"Cannot find instances by name: {string.Join(", ", names)}");
+      ex.Data.Add("names", names);
+
+      throw ex;
     }
 
     protected abstract void DoExecute(IReadOnlyList<Instance> instances, CommandResult result);
