@@ -10,7 +10,7 @@
   using SIM.Core.Common;
   using SIM.Instances;
 
-  public class SyncCommand : AbstractInstanceActionCommand
+  public class SyncCommand : AbstractMultiInstanceActionCommand
   {
     [CanBeNull]
     public virtual string Targets { get; [UsedImplicitly] set; }
@@ -18,28 +18,32 @@
     [CanBeNull]
     public virtual string Ignore { get; [UsedImplicitly] set; }
 
-    protected override void DoExecute(Instance instance, CommandResult result)
+    protected override void DoExecute([NotNull] IReadOnlyList<Instance> instances, CommandResult result)
     {
+      Assert.ArgumentNotNull(instances, nameof(instances));
       Assert.ArgumentNotNullOrEmpty(Targets, nameof(Targets));
 
       var ignore = Ignore?.Replace("/", "\\").Split("|;,".ToCharArray(), StringSplitOptions.RemoveEmptyEntries) ?? new string[0];
-      var targetRoots = AbstractMultiInstanceActionCommand.GetInstances(Targets)
+      var targetRoots = GetInstances(Targets)
         .Select(x => x.WebRootPath)
         .ToArray();
 
-      var websiteFolder = instance.WebRootPath;
-      var watcher = new FileSystemWatcher
+      var websiteFolders = instances.Select(x => x.WebRootPath).ToArray();
+      foreach (var websiteFolder in websiteFolders)
       {
-        Path = websiteFolder,
-        Filter = "*.*",
-        EnableRaisingEvents = true,
-        NotifyFilter = NotifyFilters.LastWrite,
-        IncludeSubdirectories = true
-      };
+        var watcher = new FileSystemWatcher
+        {
+          Path = websiteFolder,
+          Filter = "*.*",
+          EnableRaisingEvents = true,
+          NotifyFilter = NotifyFilters.LastWrite,
+          IncludeSubdirectories = true
+        };
 
-      watcher.Created += (sender, args) => Update(args, websiteFolder, targetRoots, ignore);
-      watcher.Changed += (sender, args) => Update(args, websiteFolder, targetRoots, ignore);
-      watcher.Deleted += (sender, args) => Update(args, websiteFolder, targetRoots, ignore);
+        watcher.Created += (sender, args) => Update(args, websiteFolder, targetRoots, ignore);
+        watcher.Changed += (sender, args) => Update(args, websiteFolder, targetRoots, ignore);
+        watcher.Deleted += (sender, args) => Update(args, websiteFolder, targetRoots, ignore);
+      }
 
       Console.WriteLine("Waiting for file system changes...");
       Console.WriteLine();
@@ -79,6 +83,11 @@
       foreach (var targetRoot in targetRoots)
       {
         var targetPath = Path.Combine(targetRoot, virtualPath);
+        if (Path.GetFullPath(targetRoot).Equals(sourcePath))
+        {
+          // this can be when syncing A;B => B;C
+          continue;
+        }
 
         try
         {
