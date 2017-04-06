@@ -113,7 +113,7 @@
     <Compile Include="Commands\LoginCommandFacade.cs" />
     <Compile Include="Groups\MainCommandGroupBase.cs" />
     <Compile Include="Commands\RepositoryCommandFacade.cs" />
-    <Compile Include="Commands\SetupCommandFacade.cs" />
+    <Compile Include="Commands\ProfileCommandFacade.cs" />
     <Compile Include="Commands\StartCommandFacade.cs" />
     <Compile Include="Commands\StateCommandFacade.cs" />
     <Compile Include="Commands\StopCommandFacade.cs" />
