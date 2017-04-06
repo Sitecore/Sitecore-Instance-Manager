@@ -58,6 +58,11 @@
 
     [CanBeNull]
     [UsedImplicitly]
+    [VerbOption("sync", HelpText = "One-way sync files between source instance and targets.")]
+    public SyncCommandFacade SyncCommandFacade { get; set; }
+
+    [CanBeNull]
+    [UsedImplicitly]
     [VerbOption("profile", HelpText = "Show profile.")]
     public ProfileCommandFacade ProfileCommandFacade { get; set; }
 
