@@ -22,7 +22,7 @@
     {
       Assert.ArgumentNotNullOrEmpty(Targets, nameof(Targets));
 
-      var ignore = Ignore.Replace("/", "\\").Split("|;,".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
+      var ignore = Ignore?.Replace("/", "\\").Split("|;,".ToCharArray(), StringSplitOptions.RemoveEmptyEntries) ?? new string[0];
       var targetRoots = AbstractMultiInstanceActionCommand.GetInstances(Targets)
         .Select(x => x.WebRootPath)
         .ToArray();
