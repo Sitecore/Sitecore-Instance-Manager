@@ -28,5 +28,8 @@
 
     [Option('a', "attach", HelpText = "Attach SQL databases, or just update ConnectionStrings.config", DefaultValue = AttachDatabasesDefault)]
     public override bool? AttachDatabases { get; set; }
+
+    [Option('u', "skipUnnecessaryFiles", HelpText = "Skip unnecessary files to speed up installation", DefaultValue = AttachDatabasesDefault)]
+    public override bool? SkipUnnecessaryFiles { get; set; }
   }
 }
