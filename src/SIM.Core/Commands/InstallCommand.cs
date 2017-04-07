@@ -24,6 +24,19 @@
     [CanBeNull]
     public virtual string Revision { get; [UsedImplicitly] set; }
 
+    [CanBeNull]
+    public virtual string SqlPrefix { get; [UsedImplicitly] set; }
+
+    [CanBeNull]
+    public virtual bool? AttachDatabases { get; [UsedImplicitly] set; }
+
+    public const bool AttachDatabasesDefault = true;
+
+    [CanBeNull]
+    public virtual bool? SkipUnnecessaryFiles { get; [UsedImplicitly] set; }
+
+    public const bool SkipUnnecessaryFilesDefault = false;
+
     protected override void DoExecute(CommandResult<string[]> result)
     {
       Assert.ArgumentNotNull(result, nameof(result));
@@ -32,10 +45,12 @@
       Assert.ArgumentNotNullOrEmpty(name, nameof(name));
 
       var hostNames = new[] {name};
-      var sqlPrefix = name;
+      var sqlPrefix = SqlPrefix ?? name;
       var product = Product;
       var version = Version;
       var revision = Revision;
+      var attachDatabases = AttachDatabases ?? AttachDatabasesDefault;
+      var skipUnnecessaryFiles = SkipUnnecessaryFiles ?? SkipUnnecessaryFilesDefault;
 
       var profile = Profile.Read();
       var repository = profile.LocalRepository;
@@ -64,7 +79,7 @@
 
       var sqlServerAccountName = SqlServerManager.Instance.GetSqlServerAccountName(builder);
       var webServerIdentity = Settings.CoreInstallWebServerIdentity.Value;
-      var installArgs = new InstallArgs(name, hostNames, sqlPrefix, true, distributive, rootPath, builder, sqlServerAccountName, webServerIdentity, new FileInfo(license), true, false, false, false, false, false, true, true, new Product[0]);
+      var installArgs = new InstallArgs(name, hostNames, sqlPrefix, attachDatabases, distributive, rootPath, builder, sqlServerAccountName, webServerIdentity, new FileInfo(license), true, false, false, !skipUnnecessaryFiles, !skipUnnecessaryFiles, false, false, false, new Product[0]);
       var controller = new AggregatePipelineController();
       PipelineManager.StartPipeline("install", installArgs, controller, false);
 
