@@ -154,12 +154,6 @@
           }
         }
 
-        if (!SqlServerManager.Instance.TestSqlServer(args.InstancesRootFolderPath, args.ConnectionString))
-        {
-          WindowHelper.ShowMessage(message, MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
-          return false;
-        }
-
         return true;
       }
       catch (Exception ex)

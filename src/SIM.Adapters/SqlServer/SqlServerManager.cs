@@ -605,7 +605,7 @@
       }
     }
 
-    public virtual bool TestSqlServer(string rootPath, string connectionString)
+    public virtual void TestSqlServer(string rootPath, string connectionString)
     {
       var createDatabase = string.Format("CREATE DATABASE TestDatabase ON PRIMARY (NAME = TestDatabase_Data, FILENAME = '{0}\\TestDatabase.mdf', SIZE = 20MB, MAXSIZE = 100MB, FILEGROWTH = 10%) " +
                                          "LOG ON (NAME = TestDatabase_Log, FILENAME = '{0}\\TestDatabase.ldf', SIZE = 10MB, MAXSIZE = 50MB, FILEGROWTH = 10%)", rootPath);
@@ -628,14 +628,12 @@
 
 
           command.ExecuteNonQuery();
-          return true;
         }
       }
       catch (Exception ex)
       {
         Log.Error(ex, "Cannot create a test database");
-
-        return false;
+        throw;
       }
     }
 

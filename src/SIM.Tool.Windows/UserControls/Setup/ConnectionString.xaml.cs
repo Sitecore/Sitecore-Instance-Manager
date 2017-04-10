@@ -4,6 +4,7 @@
   using System.Data.SqlClient;
   using System.Windows;
   using System.Windows.Controls;
+  using SIM.Adapters.SqlServer;
   using SIM.Tool.Base;
   using SIM.Tool.Base.Wizards;
   using SIM.Tool.Windows.Dialogs;
@@ -42,6 +43,9 @@
       {
         connection = SIM.Adapters.SqlServer.SqlServerManager.Instance.OpenConnection(new SqlConnectionStringBuilder(args.ConnectionString), true);
         connection.Close();
+
+        SqlServerManager.Instance.TestSqlServer(args.InstancesRootFolderPath, args.ConnectionString);
+
         return true;
       }
       catch (SqlException ex)
