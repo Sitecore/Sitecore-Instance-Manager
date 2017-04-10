@@ -31,7 +31,7 @@ namespace SIM.Pipelines.Install
       var isClassic = args.IsClassic;
       var bindingInfos = args.HostNames.Select(hostName => new BindingInfo("http", hostName, 80, "*")).ToArray();
       var id = SetupWebsiteHelper.SetupWebsite(enable32BitAppOnWin64, webRootPath, forceNetFramework4, isClassic, bindingInfos, name);
-      args.Instance = InstanceManager.GetInstance(id);
+      args.Instance = InstanceManager.Default.GetInstance(id);
     }
 
     #endregion

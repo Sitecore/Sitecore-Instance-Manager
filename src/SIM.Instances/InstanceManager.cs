@@ -14,13 +14,13 @@
 
   #endregion
 
-  public static class InstanceManager
+  public class InstanceManager
   {
     #region Fields
 
-    private static IEnumerable<Instance> cachedInstances;
-    private static IEnumerable<Instance> instances;
-    private static string instancesFolder;
+    private IEnumerable<Instance> cachedInstances;
+    private IEnumerable<Instance> instances;
+    private string instancesFolder;
 
     #endregion
 
@@ -28,14 +28,14 @@
 
     #region Delegates
 
-    public static event EventHandler InstancesListUpdated;
+    public event EventHandler InstancesListUpdated;
 
     #endregion
 
     #region Public properties
 
     [CanBeNull]
-    public static IEnumerable<Instance> Instances
+    public IEnumerable<Instance> Instances
     {
       get
       {
@@ -50,7 +50,7 @@
     }
 
     [CanBeNull]
-    public static IEnumerable<Instance> PartiallyCachedInstances
+    public IEnumerable<Instance> PartiallyCachedInstances
     {
       get
       {
@@ -86,6 +86,8 @@
       }
     }
 
+    public static InstanceManager Default { get; } = new InstanceManager();
+
     #endregion
 
     #endregion
@@ -95,7 +97,7 @@
     #region Public methods
 
     [CanBeNull]
-    public static Instance GetInstance([NotNull] string name)
+    public Instance GetInstance([NotNull] string name)
     {
       Assert.ArgumentNotNull(name, nameof(name));
       Log.Debug($"InstanceManager:GetInstance('{name}')");
@@ -109,7 +111,7 @@
       return Instances.SingleOrDefault(i => i.Name.EqualsIgnoreCase(name));
     }
 
-    public static void Initialize([CanBeNull] string defaultRootFolder = null)
+    public void Initialize([CanBeNull] string defaultRootFolder = null)
     {
       using (WebServerManager.WebServerContext context = WebServerManager.CreateContext("Initialize instance manager"))
       {
@@ -121,7 +123,7 @@
       }
     }
     
-    public static void InitializeWithSoftListRefresh([CanBeNull] string defaultRootFolder = null)
+    public void InitializeWithSoftListRefresh([CanBeNull] string defaultRootFolder = null)
     {
       using (new ProfileSection("Initialize with soft list refresh"))
       {
@@ -150,7 +152,7 @@
 
     #region Private methods
 
-    private static IEnumerable<Instance> GetInstances()
+    private IEnumerable<Instance> GetInstances()
     {
       using (new ProfileSection("Get instances"))
       {
@@ -160,7 +162,7 @@
       }
     }
 
-    private static IEnumerable<Instance> GetPartiallyCachedInstances(IEnumerable<Site> sites)
+    private IEnumerable<Instance> GetPartiallyCachedInstances(IEnumerable<Site> sites)
     {
       using (new ProfileSection("Getting partially cached Sitecore instances"))
       {
@@ -179,7 +181,7 @@
     #region Methods
 
     [NotNull]
-    private static Instance GetInstance([NotNull] Site site)
+    private Instance GetInstance([NotNull] Site site)
     {
       Assert.ArgumentNotNull(site, nameof(site));
 
@@ -188,7 +190,7 @@
       return new Instance(id);
     }
 
-    private static IEnumerable<Site> GetOperableSites([NotNull] WebServerManager.WebServerContext context, [CanBeNull] string defaultRootFolder = null)
+    private IEnumerable<Site> GetOperableSites([NotNull] WebServerManager.WebServerContext context, [CanBeNull] string defaultRootFolder = null)
     {
       Assert.IsNotNull(context, "Context cannot be null");
 
@@ -209,7 +211,7 @@
     }
 
     [NotNull]
-    private static Instance GetPartiallyCachedInstance([NotNull] Site site)
+    private Instance GetPartiallyCachedInstance([NotNull] Site site)
     {
       Assert.ArgumentNotNull(site, nameof(site));
       var id = (Int32)site.Id;
@@ -217,12 +219,12 @@
       return new PartiallyCachedInstance(id);
     }
 
-    private static bool IsSitecore([CanBeNull] Instance instance)
+    private bool IsSitecore([CanBeNull] Instance instance)
     {
       return instance != null && instance.IsSitecore;
     }
 
-    private static void OnInstancesListUpdated()
+    private void OnInstancesListUpdated()
     {
       EventHandler handler = InstancesListUpdated;
       if (handler != null)
@@ -235,7 +237,7 @@
 
     #region Public methods
 
-    public static Instance GetInstance(long id)
+    public Instance GetInstance(long id)
     {
       using (new ProfileSection("Get instance by id"))
       {

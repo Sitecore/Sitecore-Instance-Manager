@@ -37,10 +37,10 @@ namespace SIM.Core.Common
     [NotNull]
     internal static Instance GetInstance(string name)
     {
-      InstanceManager.Initialize();
+      InstanceManager.Default.Initialize();
       Assert.ArgumentNotNullOrEmpty(name, nameof(name));
 
-      var instance = InstanceManager.Instances.FirstOrDefault(x => x.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
+      var instance = InstanceManager.Default.Instances.FirstOrDefault(x => x.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
       Ensure.IsNotNull(instance, $"The {name} instance is not found");
 
       return instance;

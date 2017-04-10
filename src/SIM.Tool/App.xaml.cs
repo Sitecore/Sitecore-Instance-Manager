@@ -366,8 +366,8 @@ namespace SIM.Tool
     {
       try
       {
-        InstanceManager.Initialize();
-        var instances = InstanceManager.Instances.ToArray();
+        InstanceManager.Default.Initialize();
+        var instances = InstanceManager.Default.Instances.ToArray();
         if (!instances.Any())
         {
           return null;

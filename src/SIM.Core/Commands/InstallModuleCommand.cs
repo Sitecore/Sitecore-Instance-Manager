@@ -46,7 +46,7 @@ namespace SIM.Core.Commands
 
       var builder = profile.GetValidConnectionString();
 
-      var instance = InstanceManager.GetInstance(name);
+      var instance = InstanceManager.Default.GetInstance(name);
       Ensure.IsNotNull(instance, "The {0} instance is not found", name);
 
       ProductManager.Initialize(repository);

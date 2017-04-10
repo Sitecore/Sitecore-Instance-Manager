@@ -36,7 +36,7 @@
       Assert.IsNotNull(defaultConnectionString, "SQL Connection String isn't set in the Settings dialog");
 
       var instanceName = args.instanceName;
-      var instance = InstanceManager.GetInstance(instanceName);
+      var instance = InstanceManager.Default.GetInstance(instanceName);
       var controller = this.Controller;
 
       var sqlPrefix = args.SqlPrefix;

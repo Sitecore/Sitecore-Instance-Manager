@@ -182,9 +182,9 @@ namespace SIM.Tool.Windows.UserControls.Install
       var webRootPath = GetWebRootPath(rootPath);
 
       var rootFolderExists = FileSystem.FileSystem.Local.Directory.Exists(rootPath);
-      if (!rootFolderExists || InstanceManager.Instances == null)
+      if (!rootFolderExists || InstanceManager.Default.Instances == null)
         return rootPath;
-      if (InstanceManager.Instances.Any(i => i != null && i.WebRootPath.EqualsIgnoreCase(webRootPath)))
+      if (InstanceManager.Default.Instances.Any(i => i != null && i.WebRootPath.EqualsIgnoreCase(webRootPath)))
       {
         Alert("There is another instance with the same root path, please choose another folder");
         return null;

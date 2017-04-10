@@ -38,7 +38,7 @@ namespace SIM.Core.Common
     [NotNull]
     internal static IReadOnlyList<Instance> GetInstances(string listString)
     {
-      InstanceManager.Initialize();
+      InstanceManager.Default.Initialize();
       Assert.ArgumentNotNullOrEmpty(listString, nameof(listString));
 
       var names = listString.Split("|,;".ToCharArray(), StringSplitOptions.RemoveEmptyEntries)
@@ -46,7 +46,7 @@ namespace SIM.Core.Common
         .ToList();
 
       var result = new List<Instance>();
-      var instances = InstanceManager.Instances.ToArray();
+      var instances = InstanceManager.Default.Instances.ToArray();
       foreach (var name in names.ToArray())
       {
         var instance = instances.FirstOrDefault(x => name.Equals(x.Name, StringComparison.OrdinalIgnoreCase));

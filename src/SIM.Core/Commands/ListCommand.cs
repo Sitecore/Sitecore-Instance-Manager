@@ -25,9 +25,9 @@
       var filter = Filter ?? string.Empty;
       var root = !Everywhere ? null : Profile.Read().InstancesFolder;
 
-      InstanceManager.Initialize();
+      InstanceManager.Default.Initialize();
 
-      var instances = InstanceManager.Instances;
+      var instances = InstanceManager.Default.Instances;
       if (!string.IsNullOrEmpty(filter))
       {
         instances = instances.Where(x => x.Name.ToLowerInvariant().Contains(filter.ToLowerInvariant()));

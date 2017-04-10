@@ -13,9 +13,9 @@
 
     protected override void Process(ReinstallArgs args)
     {
-      InstanceManager.Initialize();
+      InstanceManager.Default.Initialize();
 
-      var instance = InstanceManager.GetInstance(args.InstanceName);
+      var instance = InstanceManager.Default.GetInstance(args.InstanceName);
       Assert.IsNotNull(instance, nameof(instance));
 
       if (this.ProcessorDefinition.Param == "nowait")

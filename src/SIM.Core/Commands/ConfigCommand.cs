@@ -16,7 +16,7 @@
     {
       Assert.ArgumentNotNullOrEmpty(Name, nameof(Name));
 
-      var instance = InstanceManager.GetInstance(Name);
+      var instance = InstanceManager.Default.GetInstance(Name);
       Ensure.IsNotNull(instance, "The {0} instance is not found", Name);
 
       var config = instance.GetShowconfig();

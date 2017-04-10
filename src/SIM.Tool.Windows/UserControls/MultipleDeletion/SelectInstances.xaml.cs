@@ -59,7 +59,7 @@
 
     void IWizardStep.InitializeStep(WizardArgs wizardArgs)
     {
-      this.Instances.DataContext = InstanceManager.Instances.OrderBy(instance => instance.Name);
+      this.Instances.DataContext = InstanceManager.Default.Instances.OrderBy(instance => instance.Name);
     }
 
     private void OnChecked(object sender, RoutedEventArgs e)

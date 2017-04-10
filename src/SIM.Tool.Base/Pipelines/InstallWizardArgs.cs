@@ -44,7 +44,7 @@
     {
       get
       {
-        return InstanceManager.GetInstance(this.InstanceName);
+        return InstanceManager.Default.GetInstance(this.InstanceName);
       }
     }
 

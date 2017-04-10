@@ -46,7 +46,7 @@
     public static void PublishSite(InstallWizardArgs args)
     {
       MainWindowHelper.RefreshInstances();
-      var instance = InstanceManager.GetInstance(args.InstanceName);
+      var instance = InstanceManager.Default.GetInstance(args.InstanceName);
       new PublishButton().OnClick(MainWindow.Instance, instance);
     }
 

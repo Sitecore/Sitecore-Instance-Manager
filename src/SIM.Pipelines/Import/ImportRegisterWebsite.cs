@@ -153,7 +153,7 @@
     {
       XmlDocumentEx websiteSettings = new XmlDocumentEx();
       websiteSettings.Load(path);
-      args.siteName = this.CreateNewSiteName(InstanceManager.Instances, args.siteName);
+      args.siteName = this.CreateNewSiteName(InstanceManager.Default.Instances, args.siteName);
       websiteSettings.SetElementAttributeValue("/appcmd/SITE", "SITE.NAME", args.siteName);
       websiteSettings.SetElementAttributeValue("/appcmd/SITE/site", "name", args.siteName);
 

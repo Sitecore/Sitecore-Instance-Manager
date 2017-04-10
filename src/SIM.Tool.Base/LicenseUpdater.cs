@@ -95,7 +95,7 @@ namespace SIM.Tool.Base
       }
       else
       {
-        foreach (Instance inst in InstanceManager.Instances)
+        foreach (Instance inst in InstanceManager.Default.Instances)
         {
           try
           {

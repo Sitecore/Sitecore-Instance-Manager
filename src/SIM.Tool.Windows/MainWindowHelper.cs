@@ -269,7 +269,7 @@
         var instance = SelectedInstance;
         var name = instance != null ? instance.Name : null;
         var instancesFolder = !CoreAppSettings.CoreInstancesDetectEverywhere.Value ? ProfileManager.Profile.InstancesFolder : null;
-        InstanceManager.Initialize(instancesFolder);
+        InstanceManager.Default.Initialize(instancesFolder);
         Search();
         if (string.IsNullOrEmpty(name))
         {
@@ -351,7 +351,7 @@
       using (new ProfileSection("Refresh instances (softly)"))
       {
         var instancesFolder = !CoreAppSettings.CoreInstancesDetectEverywhere.Value ?  ProfileManager.Profile.InstancesFolder : null;
-        InstanceManager.InitializeWithSoftListRefresh(instancesFolder);
+        InstanceManager.Default.InitializeWithSoftListRefresh(instancesFolder);
         Search();
       }
     }
@@ -909,7 +909,7 @@
       using (new ProfileSection("Main window search handler"))
       {
         var searchPhrase = Invoke(w => w.SearchTextBox.Text.Trim());
-        IEnumerable<Instance> source = InstanceManager.PartiallyCachedInstances;
+        IEnumerable<Instance> source = InstanceManager.Default.PartiallyCachedInstances;
         if (source == null)
         {
           return;
