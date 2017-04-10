@@ -19,7 +19,7 @@
 
     public string Contents { get; set; }
 
-    public Stream Open(OpenFileMode mode, OpenFileAccess access)
+    public Stream Open(OpenFileMode mode, OpenFileAccess access, OpenFileShare share)
     {
       throw new NotImplementedException();
     }

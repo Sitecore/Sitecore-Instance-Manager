@@ -3,11 +3,13 @@
   using CommandLine;
   using JetBrains.Annotations;
   using SIM.Core.Commands;
+  using SIM.IO.Real;
 
   public class InstallCommandFacade : InstallCommand
   {
     [UsedImplicitly]
     public InstallCommandFacade()
+      : base(new RealFileSystem())
     {
     }
 

@@ -2,12 +2,18 @@ namespace SIM.Core.Commands
 {
   using System;
   using System.Linq;
+  using JetBrains.Annotations;
   using Sitecore.Diagnostics.Base;
   using SIM.Core.Common;
   using SIM.Instances;
+  using SIM.IO;
 
   public class BrowseCommand : AbstractInstanceActionCommand<Exception>
   {
+    public BrowseCommand([NotNull] IFileSystem fileSystem) : base(fileSystem)
+    {
+    }
+
     protected override void DoExecute(Instance instance, CommandResult<Exception> result)
     {
       Assert.ArgumentNotNull(instance, nameof(instance));

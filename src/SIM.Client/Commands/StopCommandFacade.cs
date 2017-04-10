@@ -3,11 +3,13 @@ namespace SIM.Client.Commands
   using CommandLine;
   using JetBrains.Annotations;
   using SIM.Core.Commands;
+  using SIM.IO.Real;
 
   public class StopCommandFacade : StopCommand
   {
     [UsedImplicitly]
     public StopCommandFacade()
+      : base(new RealFileSystem())
     {
     }
 

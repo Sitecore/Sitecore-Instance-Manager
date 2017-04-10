@@ -3,11 +3,13 @@
   using CommandLine;
   using JetBrains.Annotations;
   using SIM.Core.Commands;
+  using SIM.IO.Real;
 
   public class SyncCommandFacade : SyncCommand
   {
     [UsedImplicitly]
     public SyncCommandFacade()
+      : base(new RealFileSystem())
     {
     }
 

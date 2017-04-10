@@ -5,11 +5,13 @@
   using JetBrains.Annotations;
   using SIM.Core.Commands;
   using SIM.Core.Common;
+  using SIM.IO.Real;
 
   public class ListCommandFacade : ListCommand
   {
     [UsedImplicitly]
     public ListCommandFacade()
+      : base(new RealFileSystem())
     {
     }
 

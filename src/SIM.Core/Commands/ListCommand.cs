@@ -8,9 +8,14 @@
   using SIM.Core.Common;
   using SIM.Core.Models;
   using SIM.Instances;
+  using SIM.IO;
 
   public class ListCommand : AbstractCommand<ListCommandResult>
   {
+    public ListCommand([NotNull] IFileSystem fileSystem) : base(fileSystem)
+    {
+    }
+
     [CanBeNull]
     public virtual string Filter { get; set; }
 
@@ -23,7 +28,7 @@
       Assert.ArgumentNotNull(result, nameof(result));
 
       var filter = Filter ?? string.Empty;
-      var root = !Everywhere ? null : Profile.Read().InstancesFolder;
+      var root = !Everywhere ? null : Profile.Read(FileSystem).InstancesFolder;
 
       InstanceManager.Default.Initialize();
 

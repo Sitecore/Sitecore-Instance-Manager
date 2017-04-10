@@ -12,6 +12,7 @@ namespace SIM.Tool.Windows.MainWindowComponents
   using SIM.Core.Common;
   using SIM.Extensions;
   using SIM.Instances;
+  using SIM.IO.Real;
   using SIM.Pipelines;
   using SIM.Tool.Base;
   using SIM.Tool.Base.Plugins;
@@ -72,7 +73,7 @@ namespace SIM.Tool.Windows.MainWindowComponents
       var sqlPrefix = AttachDatabasesHelper.GetSqlPrefix(instance);
       var reportingSqlName = sqlPrefix + "_reporting";
 
-      var mgmtText = Profile.Read().ConnectionString;
+      var mgmtText = Profile.Read(new RealFileSystem()).ConnectionString;
       var mgmtValue = new SqlConnectionStringBuilder(mgmtText);
       SqlServerManager.Instance.AttachDatabase(reportingSqlName, reportingFile.FullName, mgmtValue);
 

@@ -6,6 +6,7 @@ namespace SIM.Core.Commands
   using JetBrains.Annotations;
   using SIM.Core.Common;
   using SIM.Instances;
+  using SIM.IO;
   using SIM.Pipelines;
   using SIM.Pipelines.InstallModules;
   using SIM.Products;
@@ -35,7 +36,7 @@ namespace SIM.Core.Commands
       var version = Version;
       var revision = Revision;
 
-      var profile = Profile.Read();
+      var profile = Profile.Read(FileSystem);
       var repository = profile.LocalRepository;
       Ensure.IsNotNullOrEmpty(repository, "Profile.LocalRepository is not specified");
       Ensure.IsTrue(Directory.Exists(repository), "Profile.LocalRepository points to missing location");
@@ -63,6 +64,10 @@ namespace SIM.Core.Commands
       result.Success = !string.IsNullOrEmpty(controller.Message);
       result.Message = controller.Message;
       result.Data = controller.GetMessages().ToArray();
+    }
+
+    public InstallModuleCommand([NotNull] IFileSystem fileSystem) : base(fileSystem)
+    {
     }
   }
 }

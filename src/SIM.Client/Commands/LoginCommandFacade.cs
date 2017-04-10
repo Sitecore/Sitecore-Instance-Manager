@@ -7,11 +7,13 @@ namespace SIM.Client.Commands
   using JetBrains.Annotations;
   using SIM.Core;
   using SIM.Core.Commands;
+  using SIM.IO.Real;
 
   public class LoginCommandFacade : LoginCommand
   {
     [UsedImplicitly]
     public LoginCommandFacade()
+      : base(new RealFileSystem())
     {
     }
 

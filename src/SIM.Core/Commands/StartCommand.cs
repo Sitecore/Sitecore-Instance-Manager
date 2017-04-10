@@ -1,12 +1,18 @@
 namespace SIM.Core.Commands
 {
   using System;
+  using JetBrains.Annotations;
   using Sitecore.Diagnostics.Base;
   using SIM.Core.Common;
   using SIM.Instances;
+  using SIM.IO;
 
   public class StartCommand : AbstractInstanceActionCommand<Exception>
   {
+    public StartCommand([NotNull] IFileSystem fileSystem) : base(fileSystem)
+    {
+    }
+
     protected override void DoExecute(Instance instance, CommandResult<Exception> result)
     {
       Assert.ArgumentNotNull(instance, nameof(instance));

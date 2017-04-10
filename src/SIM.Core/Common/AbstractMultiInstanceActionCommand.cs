@@ -6,9 +6,15 @@ namespace SIM.Core.Common
   using JetBrains.Annotations;
   using Sitecore.Diagnostics.Base;
   using SIM.Instances;
+  using SIM.IO;
 
   public abstract class AbstractMultiInstanceActionCommand<T> : AbstractCommand<T>
   {
+    protected AbstractMultiInstanceActionCommand([NotNull] IFileSystem fileSystem) : base(fileSystem)
+    {
+      Assert.ArgumentNotNull(fileSystem, nameof(fileSystem));
+    }
+
     [CanBeNull]
     public virtual string Name { get; [UsedImplicitly] set; }
 
@@ -24,6 +30,11 @@ namespace SIM.Core.Common
 
   public abstract class AbstractMultiInstanceActionCommand : AbstractCommand
   {
+    protected AbstractMultiInstanceActionCommand([NotNull] IFileSystem fileSystem) : base(fileSystem)
+    {
+      Assert.ArgumentNotNull(fileSystem, nameof(fileSystem));
+    }
+
     [CanBeNull]
     public virtual string Name { get; [UsedImplicitly] set; }
 

@@ -7,7 +7,7 @@
   public interface IFile : IFileSystemEntry, IEquatable<IFile>
   {
     [NotNull]
-    Stream Open(OpenFileMode mode, OpenFileAccess access);
+    Stream Open(OpenFileMode mode, OpenFileAccess access, OpenFileShare share);
                                             
     [NotNull]
     IFolder Folder { get; }

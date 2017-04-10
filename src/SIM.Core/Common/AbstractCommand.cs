@@ -3,10 +3,17 @@
   using System;
   using System.Diagnostics;
   using JetBrains.Annotations;
+  using Sitecore.Diagnostics.Base;
   using Sitecore.Diagnostics.Logging;
+  using SIM.IO;
 
   public abstract class AbstractCommand<TResult> : AbstractCommand
-  {
+  {                                             
+    protected AbstractCommand([NotNull] IFileSystem fileSystem)
+      : base(fileSystem)
+    {                                                           
+    }
+
     protected sealed override CommandResult CreateResult()
     {
       return new CommandResult<TResult>();
@@ -22,6 +29,16 @@
 
   public abstract class AbstractCommand : ICommand
   {
+    [NotNull]
+    protected IO.IFileSystem FileSystem { get; }
+
+    protected AbstractCommand([NotNull] IFileSystem fileSystem)
+    {
+      Assert.ArgumentNotNull(fileSystem, nameof(fileSystem));
+
+      FileSystem = fileSystem;
+    }
+
     [NotNull]
     public CommandResult Execute()
     {

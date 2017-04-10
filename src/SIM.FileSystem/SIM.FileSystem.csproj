@@ -49,12 +49,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IO\IFile.cs" />
+    <Compile Include="IO\IFileExtensions.cs" />
     <Compile Include="IO\IFileSystem.cs" />
     <Compile Include="IO\IFileSystemEntry.cs" />
     <Compile Include="IO\IFolder.cs" />
     <Compile Include="IO\Mock\MockFileSystemEntry.cs" />
     <Compile Include="IO\OpenFileAccess.cs" />
     <Compile Include="IO\OpenFileMode.cs" />
+    <Compile Include="IO\OpenFileShare.cs" />
     <Compile Include="IO\Real\RealFile.cs" />
     <Compile Include="IO\Real\RealFileSystem.cs" />
     <Compile Include="IO\FileSystemEntry.cs" />

@@ -1,8 +1,10 @@
 namespace SIM.Core.Commands
 {
   using System.Linq;
+  using JetBrains.Annotations;
   using Sitecore.Diagnostics.Base;
   using SIM.Core.Common;
+  using SIM.IO;
   using SIM.Products;
 
   public class RepositoryCommand : AbstractCommand<RepositoryCommandResult>
@@ -11,7 +13,7 @@ namespace SIM.Core.Commands
     {
       Assert.ArgumentNotNull(result, nameof(result));
 
-      var profile = Profile.Read();
+      var profile = Profile.Read(FileSystem);
       var repository = profile.LocalRepository;
       Ensure.IsNotNullOrEmpty(repository, "Profile.LocalRepository is not specified");
 
@@ -23,6 +25,10 @@ namespace SIM.Core.Commands
       };
 
       result.Data = data;
+    }
+
+    public RepositoryCommand([NotNull] IFileSystem fileSystem) : base(fileSystem)
+    {
     }
   }
 }

@@ -3,12 +3,14 @@
   using CommandLine;
   using JetBrains.Annotations;
   using SIM.Core.Commands;
+  using SIM.IO.Real;
 
   public class ProfileCommandFacade : ProfileCommand
   {
     [UsedImplicitly]
-    public ProfileCommandFacade()
-    {
+    public ProfileCommandFacade() 
+      : base(new RealFileSystem())
+    {                                                             
     }
 
     [Option('c', "connectionString")]

@@ -9,9 +9,14 @@
   using Sitecore.Diagnostics.Base;
   using SIM.Core.Common;
   using SIM.Instances;
+  using SIM.IO;
 
   public class SyncCommand : AbstractMultiInstanceActionCommand
   {
+    public SyncCommand([NotNull] IFileSystem fileSystem) : base(fileSystem)
+    {
+    }
+
     [CanBeNull]
     public virtual string Targets { get; [UsedImplicitly] set; }
 

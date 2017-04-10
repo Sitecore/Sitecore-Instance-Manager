@@ -1,12 +1,18 @@
 namespace SIM.Core.Commands
 {
   using System;
+  using JetBrains.Annotations;
   using Sitecore.Diagnostics.Base;
   using SIM.Core.Common;
   using SIM.Instances;
+  using SIM.IO;
 
   public class StopCommand : AbstractInstanceActionCommand<Exception>
   {
+    public StopCommand([NotNull] IFileSystem fileSystem) : base(fileSystem)
+    {
+    }
+
     public virtual bool? Force { get; set; }
 
     protected override void DoExecute(Instance instance, CommandResult<Exception> result)

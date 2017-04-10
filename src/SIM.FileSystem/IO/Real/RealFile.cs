@@ -19,9 +19,9 @@
 
     public bool Exists => FileInfo.Exists;
 
-    public Stream Open(OpenFileMode mode, OpenFileAccess access)
+    public Stream Open(OpenFileMode mode, OpenFileAccess access, OpenFileShare share)
     {
-      return FileInfo.Open((FileMode)mode, (FileAccess)access);
+      return FileInfo.Open((FileMode)mode, (FileAccess)access, (FileShare)share);
     }
 
     public bool Equals(IFile other)

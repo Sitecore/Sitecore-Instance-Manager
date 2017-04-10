@@ -6,6 +6,7 @@
   using JetBrains.Annotations;
   using SIM.Adapters.SqlServer;
   using SIM.Core.Common;
+  using SIM.IO;
   using SIM.Pipelines;
   using SIM.Pipelines.Install;
   using SIM.Products;
@@ -52,7 +53,7 @@
       var attachDatabases = AttachDatabases ?? AttachDatabasesDefault;
       var skipUnnecessaryFiles = SkipUnnecessaryFiles ?? SkipUnnecessaryFilesDefault;
 
-      var profile = Profile.Read();
+      var profile = Profile.Read(FileSystem);
       var repository = profile.LocalRepository;
       Ensure.IsNotNullOrEmpty(repository, "Profile.LocalRepository is not specified");
       Ensure.IsTrue(Directory.Exists(repository), "Profile.LocalRepository points to missing folder");
@@ -86,6 +87,10 @@
       result.Success = !string.IsNullOrEmpty(controller.Message);
       result.Message = controller.Message;
       result.Data = controller.GetMessages().ToArray();
+    }
+
+    public InstallCommand([NotNull] IFileSystem fileSystem) : base(fileSystem)
+    {
     }
   }
 }

@@ -3,11 +3,13 @@
   using CommandLine;
   using JetBrains.Annotations;
   using SIM.Core.Commands;
+  using SIM.IO.Real;
 
   public class ConfigCommandFacade : ConfigCommand
   {
     [UsedImplicitly]
     public ConfigCommandFacade()
+      : base(new RealFileSystem())
     {
     }
 

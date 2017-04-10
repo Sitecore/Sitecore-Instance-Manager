@@ -2,12 +2,19 @@ namespace SIM.Core.Commands
 {
   using System;
   using System.Data;
+  using System.IO.Abstractions;
   using Sitecore.Diagnostics.Base;
   using JetBrains.Annotations;
   using SIM.Core.Common;
 
   public class ProfileCommand : AbstractCommand<IProfile>
   {
+    public ProfileCommand([NotNull] IO.IFileSystem fileSystem)
+      : base(fileSystem)
+    {
+      Assert.ArgumentNotNull(fileSystem, nameof(fileSystem));   
+    }
+
     [CanBeNull]
     public virtual string ConnectionString { get; [UsedImplicitly] set; }
 
@@ -24,7 +31,7 @@ namespace SIM.Core.Commands
     {
       Assert.ArgumentNotNull(result, nameof(result));
 
-      var profile = Profile.Read();
+      var profile = Profile.Read(FileSystem);
 
       var changes = 0;
       var connectionString = ConnectionString;
@@ -62,7 +69,7 @@ namespace SIM.Core.Commands
 
       try
       {
-        result.Data = Profile.Read();
+        result.Data = Profile.Read(FileSystem);
       }
       catch (Exception ex)
       {
