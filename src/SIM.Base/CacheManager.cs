@@ -22,9 +22,9 @@
       }
     };
 
-    private static readonly object GetCacheLock = new object();
+    private static object GetCacheLock { get; } = new object();
     private static readonly Dictionary<string, object> caches = new Dictionary<string, object>();
-    private static readonly object getEntryLock = new object();
+    private static object getEntryLock { get; } = new object();
     private static bool isReady;
 
     #endregion

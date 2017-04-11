@@ -9,7 +9,7 @@
 
   public sealed class CustomException
   {
-    private static readonly Regex StripSourceFileRegex = new Regex(@"^(.+) in (\\\\[^\\]+\\\\)?[^\\]+\\\\?.+\:line \d+$", RegexOptions.Compiled);
+    private static Regex StripSourceFileRegex { get; } = new Regex(@"^(.+) in (\\\\[^\\]+\\\\)?[^\\]+\\\\?.+\:line \d+$", RegexOptions.Compiled);
 
     public CustomException(Exception ex)
     {

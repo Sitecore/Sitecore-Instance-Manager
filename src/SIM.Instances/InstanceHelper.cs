@@ -12,7 +12,7 @@
   public static class InstanceHelper
   {
     [NotNull]
-    private static readonly Regex LogGroupRegex = new Regex(@"(.+)(\.\d\d\d\d\d\d\d\d)(\.\d\d\d\d\d\d)?\.txt", RegexOptions.Compiled);
+    private static Regex LogGroupRegex { get; } = new Regex(@"(.+)(\.\d\d\d\d\d\d\d\d)(\.\d\d\d\d\d\d)?\.txt", RegexOptions.Compiled);
 
     #region Public methods
 

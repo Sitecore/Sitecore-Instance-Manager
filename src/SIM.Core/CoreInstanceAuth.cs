@@ -45,8 +45,8 @@
     private const string FileContentsPattern = @"<%@ Page Language=""C#"" %>
 
 <script runat=""server"">
-  private static readonly object SyncRoot = new object();
-  private static readonly DateTime endDate = DateTime.Parse(""DATETIME_NOW"", System.Globalization.CultureInfo.InvariantCulture);
+  private static object SyncRoot { get; } = new object();
+  private static DateTime endDate { get; } = DateTime.Parse(""DATETIME_NOW"", System.Globalization.CultureInfo.InvariantCulture);
   private static bool done;
   void Page_Load(object sender, EventArgs e)
   {

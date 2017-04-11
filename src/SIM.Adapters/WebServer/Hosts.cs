@@ -18,7 +18,7 @@
   {
     #region Fields
 
-    private static readonly string AppendPattern = Environment.NewLine + "127.0.0.1\t{0}";
+    private static string AppendPattern { get; } = Environment.NewLine + "127.0.0.1\t{0}";
 
     #endregion
 

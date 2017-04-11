@@ -7,7 +7,7 @@
   {
     #region Fields
 
-    protected readonly string XPathPrefix = "/settings/";
+    protected string XPathPrefix { get; } = "/settings/";
 
     #endregion
 

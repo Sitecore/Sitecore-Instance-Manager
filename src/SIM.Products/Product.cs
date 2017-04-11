@@ -39,13 +39,13 @@
 
     #region Fields
 
-    public static readonly XmlDocumentEx EmptyManifest = XmlDocumentEx.LoadXml("<manifest version=\"1.4\" />");
+    public static XmlDocumentEx EmptyManifest { get; } = XmlDocumentEx.LoadXml("<manifest version=\"1.4\" />");
 
-    public static readonly string ProductFileNamePattern = ProductHelper.Settings.CoreProductNamePattern.Value.EmptyToNull() ?? ProductNamePattern + @"[\s]?[\-_]?[\s]?" + ProductVersionPattern + @"[\s\-]*(rev\.|build)[\s]*" + ProductRevisionPattern + @"(.zip)?$";
+    public static string ProductFileNamePattern { get; } = ProductHelper.Settings.CoreProductNamePattern.Value.EmptyToNull() ?? ProductNamePattern + @"[\s]?[\-_]?[\s]?" + ProductVersionPattern + @"[\s\-]*(rev\.|build)[\s]*" + ProductRevisionPattern + @"(.zip)?$";
 
-    public static readonly Regex ProductRegex = new Regex(ProductFileNamePattern, RegexOptions.IgnoreCase);
+    public static Regex ProductRegex { get; } = new Regex(ProductFileNamePattern, RegexOptions.IgnoreCase);
 
-    public static readonly Product Undefined = new Product()
+    public static Product Undefined { get; } = new Product()
     {
       Name = "Undefined", 
       OriginalName = "Undefined", 
@@ -109,7 +109,7 @@
     // Used when computing default standalone instance name
     #region Fields
 
-    public static readonly XmlDocumentEx ArchiveManifest = XmlDocumentEx.LoadXml(@"<manifest version=""1.4"">
+    public static XmlDocumentEx ArchiveManifest { get; } = XmlDocumentEx.LoadXml(@"<manifest version=""1.4"">
   <archive>
     <install>
       <actions>
@@ -119,12 +119,12 @@
   </archive>
 </manifest>");
 
-    public static readonly XmlDocumentEx PackageManifest = XmlDocumentEx.LoadXml(@"<manifest version=""1.4"">
+    public static XmlDocumentEx PackageManifest { get; } = XmlDocumentEx.LoadXml(@"<manifest version=""1.4"">
   <package />
 </manifest>");
     private bool? isArchive;
     private string searchToken;
-    public static readonly IServiceClient Service = new ServiceClient();
+    public static IServiceClient Service { get; } = new ServiceClient();
 
     [CanBeNull]
     private IRelease _Release;

@@ -16,7 +16,7 @@ namespace SIM.FileSystem
   {
     #region Fields
 
-    private static readonly Type SecurityIdentifier = typeof(SecurityIdentifier);
+    private static Type SecurityIdentifier { get; } = typeof(SecurityIdentifier);
 
     #endregion
 
@@ -35,13 +35,11 @@ namespace SIM.FileSystem
   public class SecurityProvider
   {
     #region Fields
-
-    protected readonly IdentityReference AuthenticatedUsers = new SecurityIdentifier("S-1-5-11").Translate(typeof(NTAccount));
-
-    protected readonly IdentityReference Everyone = new SecurityIdentifier("S-1-1-0").Translate(typeof(NTAccount));
-    protected readonly IdentityReference LocalService = new SecurityIdentifier("S-1-5-19").Translate(typeof(NTAccount));
-    protected readonly IdentityReference LocalSystem = new SecurityIdentifier("S-1-5-18").Translate(typeof(NTAccount));
-    protected readonly IdentityReference NetworkService = new SecurityIdentifier("S-1-5-20").Translate(typeof(NTAccount));
+                                          
+    protected IdentityReference Everyone { get; } = new SecurityIdentifier("S-1-1-0").Translate(typeof(NTAccount));
+    protected IdentityReference LocalService { get; } = new SecurityIdentifier("S-1-5-19").Translate(typeof(NTAccount));
+    protected IdentityReference LocalSystem { get; } = new SecurityIdentifier("S-1-5-18").Translate(typeof(NTAccount));
+    protected IdentityReference NetworkService { get; } = new SecurityIdentifier("S-1-5-20").Translate(typeof(NTAccount));
 
     protected FileSystem fileSystem { get; }
 

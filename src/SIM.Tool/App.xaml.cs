@@ -40,7 +40,7 @@ namespace SIM.Tool
   {
     #region Fields
 
-    private static readonly string AppLogsMessage = "The application will be suspended, look at the " + ApplicationManager.LogsFolder + " log file to find out what has happened";
+    private static string AppLogsMessage { get; } = "The application will be suspended, look at the " + ApplicationManager.LogsFolder + " log file to find out what has happened";
 
     #endregion
 

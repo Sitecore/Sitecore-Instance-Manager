@@ -192,7 +192,7 @@
 
       #endregion
 
-      // public readonly static AdvancedProperty<bool> InstallModulesCheckRequirements = AdvancedSettings.Create("Core/Install/CheckRequirements", false);
+      // public static AdvancedProperty { get; }<bool> InstallModulesCheckRequirements = AdvancedSettings.Create("Core/Install/CheckRequirements", false);
     }
 
     #endregion

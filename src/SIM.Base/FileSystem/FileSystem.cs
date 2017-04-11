@@ -7,7 +7,7 @@ namespace SIM.FileSystem
     #region Fields
 
     [NotNull]
-    public static readonly FileSystem Local = new FileSystem();
+    public static FileSystem Local { get; } = new FileSystem();
 
     [NotNull]
     public DirectoryProvider Directory { get; }

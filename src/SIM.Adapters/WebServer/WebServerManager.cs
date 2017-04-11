@@ -164,7 +164,7 @@
     {
       #region Fields
 
-      private readonly ServerManager serverManager = new ServerManager();
+      private ServerManager serverManager { get; } = new ServerManager();
 
       #endregion
 

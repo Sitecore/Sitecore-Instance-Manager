@@ -16,8 +16,8 @@ namespace SIM.Tests.Pipelines
     const string solr4xml = @"<response><lst name=""lucene""><str name=""solr-spec-version"">4.0.0</str></lst><str name=""solr_home"">anonymousPath</str></response>";
     const string solr5xml = @"<response><lst name=""lucene""><str name=""solr-spec-version"">5.0.0</str></lst><str name=""solr_home"">anonymousPath</str></response>";
 
-    readonly XmlDocumentEx solr4definition = XmlDocumentEx.LoadXml(solr4xml);
-    readonly XmlDocumentEx solr5definition = XmlDocumentEx.LoadXml(solr5xml);
+    XmlDocumentEx solr4definition { get; } = XmlDocumentEx.LoadXml(solr4xml);
+    XmlDocumentEx solr5definition { get; } = XmlDocumentEx.LoadXml(solr5xml);
 
     #endregion
 

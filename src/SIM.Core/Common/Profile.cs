@@ -10,7 +10,7 @@ namespace SIM.Core.Common
   public class Profile : IProfile
   {
     [NotNull]
-    private static readonly string ProfileFilePath = Path.Combine(ApplicationManager.ProfilesFolder, "profile.xml");
+    private static string ProfileFilePath { get; } = Path.Combine(ApplicationManager.ProfilesFolder, "profile.xml");
 
     public string ConnectionString { get; set; }
 

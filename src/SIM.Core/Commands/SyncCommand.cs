@@ -24,13 +24,13 @@
     public virtual string Ignore { get; [UsedImplicitly] set; }
 
     [NotNull]
-    private readonly HandlerBase OnChanged = new ChangedHandler();
+    private HandlerBase OnChanged { get; } = new ChangedHandler();
 
     [NotNull]
-    private readonly HandlerBase OnDeleted = new DeletedHandler();
+    private HandlerBase OnDeleted { get; } = new DeletedHandler();
 
     [NotNull]
-    private readonly HandlerBase OnRenamed = new RenamedHandler();
+    private HandlerBase OnRenamed { get; } = new RenamedHandler();
 
     protected override void DoExecute([NotNull] IReadOnlyList<Instance> instances, CommandResult result)
     {

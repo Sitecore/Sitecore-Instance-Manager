@@ -17,7 +17,7 @@
     #region Fields
 
     [NotNull]
-    private static readonly string ProfileFilePath = GetProfilePath("profile.xml");
+    private static string ProfileFilePath { get; } = GetProfilePath("profile.xml");
 
     #endregion
 
