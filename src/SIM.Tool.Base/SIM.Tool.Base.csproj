@@ -110,9 +110,6 @@
       <DependentUpon>InputDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\Dialogs\InputDialogArgs.cs" />
-    <Compile Include="Windows\Dialogs\ProgressDialog.xaml.cs">
-      <DependentUpon>ProgressDialog.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Windows\Dialogs\SelectDialog.xaml.cs">
       <DependentUpon>SelectDialog.xaml</DependentUpon>
     </Compile>
@@ -145,10 +142,6 @@
     <Page Include="Windows\Dialogs\InputDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Windows\Dialogs\ProgressDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Windows\Dialogs\SelectDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
