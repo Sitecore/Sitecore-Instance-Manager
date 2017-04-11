@@ -16,9 +16,9 @@
   {
     #region Fields
 
-    protected readonly bool Normalize;
-    protected readonly bool Showconfig;
-    protected readonly bool WebConfigResult;
+    protected bool Normalize { get; }
+    protected bool Showconfig { get; }
+    protected bool WebConfigResult { get; }
 
     #endregion
 

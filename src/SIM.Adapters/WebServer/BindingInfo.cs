@@ -10,10 +10,10 @@
   {
     #region Fields
 
-    public readonly string Host;
-    public readonly string IP;
-    public readonly int Port;
-    public readonly string Protocol;
+    public string Host { get; }
+    public string IP { get; }
+    public int Port { get; }
+    public string Protocol { get; }
 
     #endregion
 

@@ -17,7 +17,7 @@
     #region Fields
 
     [NotNull]
-    private readonly Instance instance;
+    private Instance instance { get; }
 
     #endregion
 

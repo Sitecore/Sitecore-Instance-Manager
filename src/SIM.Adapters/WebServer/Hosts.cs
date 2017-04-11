@@ -128,7 +128,7 @@
 
     public class CommentHostRecord : IHostRecord
     {
-      private readonly string Line;
+      private string Line { get; }
 
       public CommentHostRecord(string line)
       {
@@ -163,8 +163,7 @@
     {
       #region Fields
 
-      private static int _id;
-      private string id;
+      private static int NextId { get; set; }
 
       #endregion
 
@@ -174,7 +173,7 @@
       {
         this.IP = ip;
         this.Host = host ?? string.Empty;
-        this.id = _id++.ToString();
+        this.ID = NextId++.ToString();
       }
 
       #endregion
@@ -183,13 +182,7 @@
 
       public string Host { get; set; }
 
-      public string ID
-      {
-        get
-        {
-          return this.id;
-        }
-      }
+      public string ID { get; }
 
       public string IP { get; set; }
 

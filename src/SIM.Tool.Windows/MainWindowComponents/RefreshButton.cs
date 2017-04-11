@@ -29,7 +29,7 @@
 
     #region Fields
 
-    private readonly RefreshMode mode;
+    private RefreshMode mode { get; }
 
     #endregion
 

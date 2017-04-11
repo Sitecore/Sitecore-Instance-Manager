@@ -10,12 +10,12 @@
   {
     #region Fields
 
-    public readonly Instance Instance;
+    public Instance Instance { get; }
     public bool Databases;
     public bool ExcludeClient;
     public bool Files;
     public bool MongoDatabases;
-    private readonly string _instanceName;
+    private string _instanceName { get; }
 
     #endregion
 

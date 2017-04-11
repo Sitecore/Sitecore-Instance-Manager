@@ -12,12 +12,12 @@
   {
     #region Fields
 
-    private readonly bool isEnabled;
-    private readonly string label;
-    private readonly string name;
-    private readonly string nameOverride;
-    private readonly string revision;
-    private readonly string version;
+    private bool isEnabled { get; }
+    private string label { get; }
+    private string name { get; }
+    private string nameOverride { get; }
+    private string revision { get; }
+    private string version { get; }
     private bool isChecked;
 
     private Uri value;

@@ -18,54 +18,54 @@
     #region Fields
 
     [NotNull]
-    public readonly SqlConnectionStringBuilder ConnectionString;
+    public SqlConnectionStringBuilder ConnectionString { get; }
 
     [NotNull]
-    public readonly string DataFolderPath;
+    public string DataFolderPath { get; }
 
     [NotNull]
-    public readonly string DatabasesFolderPath;
+    public string DatabasesFolderPath { get; }
 
-    public readonly bool ForceNetFramework4;
+    public bool ForceNetFramework4 { get; }
 
     [NotNull]
     public readonly string[] HostNames;
 
-    public readonly string InstanceSqlPrefix;
-    public readonly bool InstanceAttachSql;
+    public string InstanceSqlPrefix { get; }
+    public bool InstanceAttachSql { get; }
 
-    public readonly bool Is32Bit;
+    public bool Is32Bit { get; }
 
-    public readonly bool IsClassic;
+    public bool IsClassic { get; }
 
-    public readonly bool PreHeat;
+    public bool PreHeat { get; }
 
     [NotNull]
-    public readonly string LicenseFilePath;
+    public string LicenseFilePath { get; }
 
     [NotNull]
     public readonly IEnumerable<Product> Modules;
 
     [NotNull]
-    public readonly string Name;
+    public string Name { get; }
 
     [NotNull]
-    public readonly Product Product;
+    public Product Product { get; }
 
     [NotNull]
-    public readonly string RootFolderPath;
+    public string RootFolderPath { get; }
 
     [NotNull]
-    public readonly string SqlServerIdentity;
+    public string SqlServerIdentity { get; }
 
     [NotNull]
-    public readonly string WebRootPath;
+    public string WebRootPath { get; }
 
     [NotNull]
-    public readonly string WebServerIdentity;
+    public string WebServerIdentity { get; }
 
-    public readonly bool InstallRadControls;
-    public readonly bool InstallDictionaries;
+    public bool InstallRadControls { get; }
+    public bool InstallDictionaries { get; }
 
     #endregion
 

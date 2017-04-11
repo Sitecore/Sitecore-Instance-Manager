@@ -13,10 +13,10 @@
     #region Fields
 
     [NotNull]
-    public readonly XmlDocumentEx Document;
+    public XmlDocumentEx Document { get; }
 
     [NotNull]
-    public readonly XmlElement Element;
+    public XmlElement Element { get; }
 
     #endregion
 

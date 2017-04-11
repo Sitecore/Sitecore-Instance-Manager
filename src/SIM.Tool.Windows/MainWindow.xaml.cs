@@ -26,7 +26,7 @@
     [NotNull]
     public static MainWindow Instance;
 
-    private readonly Timer timer;
+    private Timer timer { get; }
     private IMainWindowButton doubleClickHandler;
 
     #endregion

@@ -13,7 +13,7 @@
     #region Fields
 
     [NotNull]
-    public readonly string Cookies;
+    public string Cookies { get; }
 
     [NotNull]
     public readonly UriBasedCollection<string> FileNames;
@@ -22,7 +22,7 @@
     public readonly ReadOnlyCollection<Uri> Links;
 
     [NotNull]
-    public readonly string LocalRepository;
+    public string LocalRepository { get; }
 
     #endregion
 

@@ -10,7 +10,7 @@
   {
     #region Fields
 
-    private readonly Thread bw;
+    private Thread bw { get; }
     private bool isClosing = false;
 
     #endregion

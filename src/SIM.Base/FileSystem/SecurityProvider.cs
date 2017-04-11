@@ -43,7 +43,7 @@ namespace SIM.FileSystem
     protected readonly IdentityReference LocalSystem = new SecurityIdentifier("S-1-5-18").Translate(typeof(NTAccount));
     protected readonly IdentityReference NetworkService = new SecurityIdentifier("S-1-5-20").Translate(typeof(NTAccount));
 
-    protected readonly FileSystem fileSystem;
+    protected FileSystem fileSystem { get; }
 
     #endregion
 

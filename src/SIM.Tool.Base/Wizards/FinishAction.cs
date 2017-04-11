@@ -10,9 +10,9 @@
   {
     #region Fields
 
-    public readonly MethodInfo Method;
+    public MethodInfo Method { get; }
 
-    public readonly string Text;
+    public string Text { get; }
 
     #endregion
 

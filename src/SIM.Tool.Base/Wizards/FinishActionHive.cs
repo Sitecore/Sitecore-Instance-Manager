@@ -11,7 +11,7 @@
   {
     #region Fields
 
-    protected readonly Type WizardArgumentsType;
+    protected Type WizardArgumentsType { get; }
 
     #endregion
 

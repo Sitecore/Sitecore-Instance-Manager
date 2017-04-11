@@ -7,7 +7,7 @@ namespace SIM.FileSystem
   {
     #region Fields
 
-    private readonly FileSystem fileSystem;
+    private FileSystem fileSystem { get; }
 
     #endregion
 

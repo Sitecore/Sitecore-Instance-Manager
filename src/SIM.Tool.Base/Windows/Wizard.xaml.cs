@@ -30,13 +30,13 @@
     #region Fields
 
     public WizardArgs ProcessorArgs;
-    private readonly ProcessorArgs args;
+    private ProcessorArgs args { get; }
 
-    private readonly Brush progressBar1Foreground;
+    private Brush progressBar1Foreground { get; }
 
     private readonly object[] wizardParams;
 
-    private readonly WizardPipeline wizardPipeline;
+    private WizardPipeline wizardPipeline { get; }
 
     private double maximum = double.NaN;
 

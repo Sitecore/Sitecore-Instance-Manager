@@ -16,7 +16,7 @@
     #region Fields
 
     private const string PackageName = "Support Toolbox.zip";
-    private readonly bool bypassSecurity;
+    private bool bypassSecurity { get; }
 
     #endregion
 

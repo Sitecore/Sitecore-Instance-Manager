@@ -15,7 +15,7 @@
   {
     #region Fields
 
-    private readonly string folder;
+    private string folder { get; }
 
     #endregion
 

@@ -10,19 +10,19 @@ namespace SIM.FileSystem
     public static readonly FileSystem Local = new FileSystem();
 
     [NotNull]
-    public readonly DirectoryProvider Directory;
+    public DirectoryProvider Directory { get; }
 
     [NotNull]
-    public readonly FileProvider File;
+    public FileProvider File { get; }
 
     [NotNull]
-    public readonly PathProvider Path;
+    public PathProvider Path { get; }
 
     [NotNull]
-    public readonly SecurityProvider Security;
+    public SecurityProvider Security { get; }
 
     [NotNull]
-    public readonly ZipProvider Zip;
+    public ZipProvider Zip { get; }
 
     #endregion
 

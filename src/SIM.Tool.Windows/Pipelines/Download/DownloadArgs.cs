@@ -9,10 +9,10 @@
   {
     #region Fields
 
-    public readonly string Cookies;
+    public string Cookies { get; }
     public readonly UriBasedCollection<string> FileNames = new UriBasedCollection<string>();
     public readonly ReadOnlyCollection<Uri> Links;
-    public readonly string LocalRepository;
+    public string LocalRepository { get; }
     public readonly UriBasedCollection<long> Sizes;
 
     #endregion

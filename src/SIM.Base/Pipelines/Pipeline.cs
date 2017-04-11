@@ -19,21 +19,21 @@
     #region Fields
 
     [CanBeNull]
-    private readonly IPipelineController controller;
+    private IPipelineController controller { get; }
 
-    private readonly bool isAsync;
-
-    [NotNull]
-    private readonly PipelineDefinition pipelineDefinition;
+    private bool isAsync { get; }
 
     [NotNull]
-    private readonly ProcessorArgs processorArgs;
+    private PipelineDefinition pipelineDefinition { get; }
+
+    [NotNull]
+    private ProcessorArgs processorArgs { get; }
 
     [NotNull]
     private readonly List<Step> steps;
 
     [NotNull]
-    private readonly string title;
+    private string title { get; }
 
     [CanBeNull]
     private Thread thread;
@@ -281,9 +281,9 @@
     {
       #region Fields
 
-      public readonly IPipelineController PipelineController;
+      public IPipelineController PipelineController { get; }
 
-      public readonly ProcessorArgs ProcessorArgs;
+      public ProcessorArgs ProcessorArgs { get; }
 
       public readonly List<Step> Steps;
 

@@ -363,9 +363,9 @@
       #region Fields
 
       [NotNull]
-      public readonly string Path;
+      public string Path { get; }
 
-      public readonly bool Recursive;
+      public bool Recursive { get; }
 
       #endregion
 

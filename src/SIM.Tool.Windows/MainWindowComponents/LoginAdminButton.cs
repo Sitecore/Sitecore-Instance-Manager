@@ -14,8 +14,8 @@
   {
     #region Fields
 
-    protected readonly string Browser;
-    protected readonly string VirtualPath;
+    protected string Browser { get; }
+    protected string VirtualPath { get; }
     protected readonly string[] Params;
 
     #endregion

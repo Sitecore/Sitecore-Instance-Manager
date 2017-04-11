@@ -9,21 +9,21 @@
   {
     #region Fields
 
-    public readonly bool BackupClient;
+    public bool BackupClient { get; }
 
-    public readonly bool BackupDatabases;
+    public bool BackupDatabases { get; }
 
-    public readonly bool BackupFiles;
-    public readonly bool BackupMongoDatabases;
+    public bool BackupFiles { get; }
+    public bool BackupMongoDatabases { get; }
 
-    public readonly string BackupName;
+    public string BackupName { get; }
 
     [NotNull]
-    public readonly string Folder;
+    public string Folder { get; }
 
-    public readonly Instance Instance;
+    public Instance Instance { get; }
     public string WebRootPath;
-    private readonly string _instanceName;
+    private string _instanceName { get; }
 
     #endregion
 

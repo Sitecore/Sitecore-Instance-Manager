@@ -16,7 +16,7 @@
   {
     #region Fields
 
-    private readonly XmlElementEx connectionStringsElement;
+    private XmlElementEx connectionStringsElement { get; }
 
     #endregion
 

@@ -14,10 +14,10 @@
     #region Fields
 
     [CanBeNull]
-    protected readonly string Browser;
+    protected string Browser { get; }
 
     [NotNull]
-    protected readonly string VirtualPath;
+    protected string VirtualPath { get; }
 
     [NotNull]
     private readonly string[] Params;

@@ -10,10 +10,10 @@
     #region Instance fields
 
     [CanBeNull]
-    private readonly FileSystemWatcher appConfigWatcher;
+    private FileSystemWatcher appConfigWatcher { get; }
 
     [CanBeNull]
-    private readonly FileSystemWatcher webConfigWatcher;
+    private FileSystemWatcher webConfigWatcher { get; }
 
     private string licencePath;
 

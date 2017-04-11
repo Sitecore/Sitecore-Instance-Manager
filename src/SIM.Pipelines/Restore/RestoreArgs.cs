@@ -13,12 +13,12 @@
   {
     #region Fields
 
-    public readonly InstanceBackup Backup;
+    public InstanceBackup Backup { get; }
 
-    public readonly Instance Instance;
+    public Instance Instance { get; }
     public string DataFolder;
     public string WebRootPath;
-    private readonly string instanceName;
+    private string instanceName { get; }
 
     #endregion
 

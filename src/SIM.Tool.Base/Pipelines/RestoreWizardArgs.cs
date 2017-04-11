@@ -10,8 +10,8 @@
   {
     #region Fields
 
-    public readonly Instance Instance;
-    private readonly string instanceName;
+    public Instance Instance { get; }
+    private string instanceName { get; }
 
     #endregion
 

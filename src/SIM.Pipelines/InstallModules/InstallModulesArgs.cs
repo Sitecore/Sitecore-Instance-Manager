@@ -16,12 +16,12 @@
   {
     #region Fields
 
-    public readonly SqlConnectionStringBuilder ConnectionString;
-    public readonly Instance Instance;
+    public SqlConnectionStringBuilder ConnectionString { get; }
+    public Instance Instance { get; }
 
     public readonly IEnumerable<Product> Modules;
 
-    private readonly string instanceName;
+    private string instanceName { get; }
 
     #endregion
 

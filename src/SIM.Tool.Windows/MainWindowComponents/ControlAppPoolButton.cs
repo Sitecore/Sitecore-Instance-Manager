@@ -20,17 +20,17 @@ namespace SIM.Tool.Windows.MainWindowComponents
 
     #region Fields
 
-    protected readonly bool ChangeMode;
-    protected readonly bool KillMode;
-    protected readonly bool RecycleMode;
+    protected bool ChangeMode { get; }
+    protected bool KillMode { get; }
+    protected bool RecycleMode { get; }
 
-    protected readonly bool StartMode;
-    protected readonly bool StopMode;
+    protected bool StartMode { get; }
+    protected bool StopMode { get; }
 
     #endregion
 
-    // protected readonly bool FavoriteMode;
-    // protected readonly bool DisabledMode;
+    // protected bool FavoriteMode { get; }
+    // protected bool DisabledMode { get; }
     #region Constructors
 
     public ControlAppPoolButton(string param)

@@ -23,57 +23,57 @@
     public readonly IEnumerable<BindingInfo> Bindings;
 
     [NotNull]
-    public readonly SqlConnectionStringBuilder ConnectionString;
+    public SqlConnectionStringBuilder ConnectionString { get; }
 
     [NotNull]
-    public readonly string DataFolderPath;
+    public string DataFolderPath { get; }
 
     [NotNull]
-    public readonly string DatabasesFolderPath;
+    public string DatabasesFolderPath { get; }
 
-    public readonly bool ForceNetFramework4;
+    public bool ForceNetFramework4 { get; }
 
     [CanBeNull]
     public readonly ICollection<Database> InstanceDatabases;
 
-    public readonly bool Is32Bit;
+    public bool Is32Bit { get; }
 
-    public readonly bool IsClassic;
+    public bool IsClassic { get; }
 
     [NotNull]
-    public readonly string LicenseFilePath;
+    public string LicenseFilePath { get; }
 
     [NotNull]
     public readonly IEnumerable<Product> Modules;
 
     [NotNull]
-    public readonly string Name;
+    public string Name { get; }
 
     [NotNull]
-    public readonly Product Product;
+    public Product Product { get; }
 
-    public readonly string RootPath;
+    public string RootPath { get; }
 
     [NotNull]
     public readonly Action<bool?> StopInstance;
 
-    public readonly string TempFolder;
+    public string TempFolder { get; }
 
     [NotNull]
-    public readonly string WebRootPath;
+    public string WebRootPath { get; }
 
     [NotNull]
-    public readonly string WebServerIdentity;
+    public string WebServerIdentity { get; }
 
-    public readonly long WebsiteID;
+    public long WebsiteID { get; }
 
     [NotNull]
-    public readonly string instanceName;
+    public string instanceName { get; }
 
-    public readonly bool ServerSideRedirect;
+    public bool ServerSideRedirect { get; }
 
-    public readonly bool IncreaseExecutionTimeout;
-    public readonly string SqlPrefix;
+    public bool IncreaseExecutionTimeout { get; }
+    public string SqlPrefix { get; }
 
     #endregion
 

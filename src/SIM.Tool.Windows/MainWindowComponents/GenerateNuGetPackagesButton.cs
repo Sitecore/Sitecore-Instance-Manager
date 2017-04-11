@@ -13,7 +13,7 @@
   [UsedImplicitly]
   public class GenerateNuGetPackagesButton : IMainWindowButton
   {
-    private readonly bool InstanceMode;
+    private bool InstanceMode { get; }
 
     public GenerateNuGetPackagesButton()
     {

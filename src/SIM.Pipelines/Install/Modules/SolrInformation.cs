@@ -12,7 +12,7 @@ namespace SIM.Pipelines.Install.Modules
   /// </summary>
   public class SolrInformation
   {
-    private readonly XmlDocumentEx _solrInfoResponse;
+    private XmlDocumentEx _solrInfoResponse { get; }
 
     #region Properties
 
@@ -122,8 +122,8 @@ namespace SIM.Pipelines.Install.Modules
 
     public class InvalidException : ApplicationException
     {
-      private readonly string _message;
-      private readonly SolrInformation _solrInformation;
+      private string _message { get; }
+      private SolrInformation _solrInformation { get; }
 
 
       public InvalidException(string message, SolrInformation solrInformation)

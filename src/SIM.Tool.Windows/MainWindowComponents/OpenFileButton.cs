@@ -14,7 +14,7 @@ namespace SIM.Tool.Windows.MainWindowComponents
   {
     #region Fields
 
-    protected readonly string FilePath;
+    protected string FilePath { get; }
 
     #endregion
 

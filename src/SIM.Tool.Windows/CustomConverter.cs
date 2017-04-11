@@ -14,7 +14,7 @@ namespace SIM.Tool.Windows
     #region Fields
 
     [NotNull]
-    private readonly IMainWindowButton button;
+    private IMainWindowButton button { get; }
 
     #endregion
 

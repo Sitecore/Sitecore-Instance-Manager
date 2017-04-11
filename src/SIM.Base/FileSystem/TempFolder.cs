@@ -6,8 +6,8 @@ namespace SIM.FileSystem
   {
     #region Fields
 
-    public readonly string Path;
-    private readonly FileSystem fileSystem;
+    public string Path { get; }
+    private FileSystem fileSystem { get; }
 
     #endregion
 

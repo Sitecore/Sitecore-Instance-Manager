@@ -18,7 +18,7 @@
   {
     #region Fields
 
-    public readonly long ID;
+    public long ID { get; }
 
     #endregion
 

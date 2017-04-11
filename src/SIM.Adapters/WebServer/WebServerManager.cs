@@ -164,7 +164,6 @@
     {
       #region Fields
 
-      public string DebugLocation;
       private readonly ServerManager serverManager = new ServerManager();
 
       #endregion

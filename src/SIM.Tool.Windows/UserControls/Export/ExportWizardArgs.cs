@@ -10,9 +10,9 @@
   {
     #region Fields
 
-    public readonly Instance Instance;
+    public Instance Instance { get; }
     public bool WipeSqlServerCredentials;
-    private readonly string _instanceName;
+    private string _instanceName { get; }
 
     #endregion
 

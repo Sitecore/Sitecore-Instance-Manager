@@ -217,7 +217,7 @@
   {
     #region Fields
 
-    private readonly string fileName;
+    private string fileName { get; }
 
     #endregion
 
@@ -249,9 +249,9 @@
   {
     #region Fields
 
-    private readonly string dataFolderPath;
+    private string dataFolderPath { get; }
     private readonly Database[] getAttachedDatabases;
-    private readonly string webRootPath;
+    private string webRootPath { get; }
 
     #endregion
 

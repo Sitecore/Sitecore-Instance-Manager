@@ -11,7 +11,7 @@
   {
     #region Fields
 
-    private readonly string name;
+    private string name { get; }
 
     private readonly Product[] products;
 

@@ -15,7 +15,7 @@
   {
     #region Fields
 
-    public readonly Instance Instance;
+    public Instance Instance { get; }
 
     public readonly List<Product> Modules = new List<Product>();
 

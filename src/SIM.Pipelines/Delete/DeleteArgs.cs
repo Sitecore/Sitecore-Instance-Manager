@@ -20,16 +20,16 @@
     #region Fields
 
     [CanBeNull]
-    public readonly SqlConnectionStringBuilder ConnectionString;
+    public SqlConnectionStringBuilder ConnectionString { get; }
 
-    public readonly Instance Instance;
+    public Instance Instance { get; }
 
     public readonly IEnumerable<Database> InstanceDatabases;
 
-    public readonly long InstanceID;
+    public long InstanceID { get; }
 
     public readonly ICollection<MongoDbDatabase> MongoDatabases;
-    private readonly string instanceName;
+    private string instanceName { get; }
 
     #endregion
 

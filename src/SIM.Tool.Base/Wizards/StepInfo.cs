@@ -10,11 +10,11 @@
   {
     #region Fields
 
-    public readonly Type Control;
+    public Type Control { get; }
 
-    public readonly string Param;
+    public string Param { get; }
 
-    public readonly string Title;
+    public string Title { get; }
 
     #endregion
 

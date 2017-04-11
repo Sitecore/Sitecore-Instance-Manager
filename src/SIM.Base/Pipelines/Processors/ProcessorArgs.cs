@@ -12,7 +12,7 @@
   {
     #region Fields
 
-    private readonly Dictionary<string, object> arguments = new Dictionary<string, object>();
+    private readonly Dictionary<string, object> arguments = new Dictionary<string, object>();   
 
     #endregion
 

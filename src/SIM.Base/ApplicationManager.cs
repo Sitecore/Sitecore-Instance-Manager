@@ -35,48 +35,48 @@ namespace SIM
     #region Fields
 
     [NotNull]
-    public static readonly string AppLabel;
+    public static string AppLabel { get; }
 
     [NotNull]
-    public static readonly string AppRevision;
+    public static string AppRevision { get; }
 
     [NotNull]
-    public static readonly string AppShortVersion;
+    public static string AppShortVersion { get; }
 
     [NotNull]
-    public static readonly string AppVersion;
+    public static string AppVersion { get; }
 
     [NotNull]
-    public static readonly string CachesFolder;
+    public static string CachesFolder { get; }
 
     [NotNull]
-    public static readonly string ConfigurationPackagesFolder;
+    public static string ConfigurationPackagesFolder { get; }
 
     [NotNull]
-    public static readonly string DataFolder;
+    public static string DataFolder { get; }
 
     [NotNull]
-    public static readonly string FilePackagesFolder;
+    public static string FilePackagesFolder { get; }
 
-    public static readonly bool IsDebugging;
+    public static bool IsDebugging { get; }
 
-    public static readonly bool IsQA;
+    public static bool IsQA { get; }
 
-    public static readonly string ProcessName;
+    public static string ProcessName { get; }
 
     [NotNull]
-    public static readonly string LogsFolder;
+    public static string LogsFolder { get; }
     
     [NotNull]
-    public static readonly string ProfilesFolder;
+    public static string ProfilesFolder { get; }
 
     [NotNull]
-    public static readonly string TempFolder;
+    public static string TempFolder { get; }
 
     [NotNull]
-    public static readonly string UserManifestsFolder;
+    public static string UserManifestsFolder { get; }
 
-    public static readonly string AppsFolder;
+    public static string AppsFolder { get; }
 
     #endregion
 

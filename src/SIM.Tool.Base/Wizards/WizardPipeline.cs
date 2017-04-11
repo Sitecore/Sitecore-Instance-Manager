@@ -10,22 +10,22 @@
   {
     #region Fields
 
-    public readonly Type Args;
-    public readonly string CancelButtonText;
+    public Type Args { get; }
+    public string CancelButtonText { get; }
 
     public readonly FinishActionHive[] FinishActionHives;
 
     public readonly FinishAction[] FinishActions;
 
-    public readonly string FinishText;
+    public string FinishText { get; }
 
-    public readonly string StartButtonText;
+    public string StartButtonText { get; }
 
     public readonly StepInfo[] StepInfos;
 
-    public readonly string Title;
+    public string Title { get; }
 
-    private readonly string name;
+    private string name { get; }
 
     #endregion
 

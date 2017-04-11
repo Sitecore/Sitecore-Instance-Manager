@@ -15,7 +15,7 @@
     #region Fields
 
     [CanBeNull]
-    public readonly string ArgsName;
+    public string ArgsName { get; }
 
     [NotNull]
     public readonly List<Processor> Processors;

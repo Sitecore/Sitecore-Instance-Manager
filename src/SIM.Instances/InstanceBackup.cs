@@ -14,19 +14,19 @@
   {
     #region Fields
 
-    public readonly bool BackupDataFiles;
+    public bool BackupDataFiles { get; }
 
-    public readonly bool BackupDatabases;
+    public bool BackupDatabases { get; }
 
-    public readonly bool BackupMongoDatabases;
+    public bool BackupMongoDatabases { get; }
 
-    public readonly bool BackupWebsiteFiles;
+    public bool BackupWebsiteFiles { get; }
 
-    public readonly bool BackupWebsiteFilesNoClient;
+    public bool BackupWebsiteFilesNoClient { get; }
 
-    public readonly string Date;
+    public string Date { get; }
 
-    public readonly string FolderPath;
+    public string FolderPath { get; }
 
     #endregion
 

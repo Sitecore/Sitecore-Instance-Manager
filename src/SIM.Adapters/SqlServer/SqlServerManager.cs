@@ -27,7 +27,7 @@
     #region Fields
 
     public static readonly SqlServerManager Instance = new SqlServerManager();
-    public static readonly int SqlServerConnectionTimeout;
+    public static int SqlServerConnectionTimeout { get; }
 
     #endregion
 

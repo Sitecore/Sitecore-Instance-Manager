@@ -14,7 +14,7 @@
     #region Fields
 
     [CanBeNull]
-    private readonly string logFileType;
+    private string logFileType { get; }
 
     #endregion
 

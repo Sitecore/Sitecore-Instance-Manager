@@ -16,7 +16,7 @@
     #region Fields
 
     [NotNull]
-    private readonly XmlElementEx element;
+    private XmlElementEx element { get; }
 
     #endregion
 

@@ -12,54 +12,38 @@
   {
     #region Fields
 
-    public readonly bool ExcludeDiagnosticsFolderContents;
-    public readonly bool ExcludeLicenseFile;
-    public readonly bool ExcludeLogsFolderContents;
-    public readonly bool ExcludePackagesFolderContents;
-    public readonly bool ExcludeUploadFolderContents;
-    public readonly bool IncludeMediaCacheFolderContents;
-    public readonly bool IncludeTempFolderContents;
-    public readonly Instance Instance;
+    public bool ExcludeDiagnosticsFolderContents { get; }
+    public bool ExcludeLicenseFile { get; }
+    public bool ExcludeLogsFolderContents { get; }
+    public bool ExcludePackagesFolderContents { get; }
+    public bool ExcludeUploadFolderContents { get; }
+    public bool IncludeMediaCacheFolderContents { get; }
+    public bool IncludeTempFolderContents { get; }
+    public Instance Instance { get; }
     public readonly ICollection<string> SelectedDatabases;
-    public bool IncludeMongoDatabases;
-    public string WebRootPath;
-    public bool WipeSqlServerCredentials;
-    private readonly string _exportFilePath;
-    private readonly string _instanceName;
+    public bool IncludeMongoDatabases { get; }
+    public string WebRootPath { get; }
+    public bool WipeSqlServerCredentials { get; }
+    public string ExportFile { get; }
+
     private string folder;
 
     #endregion
 
-    #region Properties
-
-    public string ExportFile
-    {
-      get
-      {
-        return this._exportFilePath;
-      }
-    }
-
-    public string InstanceName
-    {
-      get
-      {
-        return this._instanceName;
-      }
-    }
+    #region Properties               
 
     #endregion
 
     #region Constructors
 
-    public ExportArgs(Instance instance, bool wipeSqlServerCredentials, bool includeMongoDatabases, bool includeTempFolderContents, bool includeMediaCacheFolderContents, bool excludeUploadFolderContents, bool excludeLicenseFile, bool excludeDiagnosticsFolderContents, bool excludeLogsFolderContents, bool excludePackagesFolderContents, string exportFilePath = null, IEnumerable<string> selectedDatabases = null)
+    public ExportArgs(Instance instance, bool wipeSqlServerCredentials, bool includeMongoDatabases, bool includeTempFolderContents, bool includeMediaCacheFolderContents, bool excludeUploadFolderContents, bool excludeLicenseFile, bool excludeDiagnosticsFolderContents, bool excludeLogsFolderContents, bool excludePackagesFolderContents, string exportFile = null, IEnumerable<string> selectedDatabases = null)
     {
       Assert.ArgumentNotNull(instance, nameof(instance));
 
       this.Instance = instance;
+      InstanceName = instance.Name;
       this.WebRootPath = instance.WebRootPath;
-      this._instanceName = this.Instance.Name;
-      this._exportFilePath = exportFilePath;
+      this.ExportFile = exportFile;
       this.SelectedDatabases = selectedDatabases.With(x => x.Select(y => y.ToLower()).ToArray());
       this.WipeSqlServerCredentials = wipeSqlServerCredentials;
       this.IncludeMongoDatabases = includeMongoDatabases;
@@ -71,6 +55,8 @@
       this.ExcludeLogsFolderContents = excludeLogsFolderContents;
       this.ExcludePackagesFolderContents = excludePackagesFolderContents;
     }
+
+    public string InstanceName { get; }
 
     #endregion
 
