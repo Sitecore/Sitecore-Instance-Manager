@@ -91,14 +91,6 @@
 
     #region Public properties
 
-    public bool Exists
-    {
-      get
-      {
-        return FileSystem.FileSystem.Local.File.Exists(FilePath);
-      }
-    }
-
     #endregion
 
     #region Public methods

@@ -16,7 +16,7 @@ namespace SIM.FileSystem
   {
     #region Fields
 
-    private static Type SecurityIdentifier { get; } = typeof(SecurityIdentifier);
+    private static Type SecurityIdentifier { get; } = typeof(SecurityIdentifier);     
 
     #endregion
 

@@ -85,20 +85,6 @@
       }
     }
 
-    [NotNull]
-    public virtual SqlConnectionStringBuilder ChangeDatabaseName([NotNull] SqlConnectionStringBuilder connectionString, [NotNull] string databaseName)
-    {
-      Assert.ArgumentNotNull(connectionString, nameof(connectionString));
-      Assert.ArgumentNotNull(databaseName, nameof(databaseName));
-
-      connectionString = new SqlConnectionStringBuilder(connectionString.ConnectionString)
-      {
-        InitialCatalog = databaseName
-      };
-
-      return connectionString;
-    }
-
     public virtual void CloseConnectionsToDatabase(string dbName, SqlConnection sqlConnection)
     {
       Log.Info($"Closing connection to the '{dbName}' database");
@@ -252,17 +238,6 @@
 
         throw;
       }
-    }
-
-    [NotNull]
-    public virtual IEnumerable<string> GetDatabaseFolders([NotNull] IEnumerable<Database> databases)
-    {
-      Assert.ArgumentNotNull(databases, nameof(databases));
-
-      // ReSharper disable AssignNullToNotNullAttribute
-      return databases.Where(d => !string.IsNullOrEmpty(d.FileName) && FileSystem.FileSystem.Local.File.Exists(d.FileName)).Select(d => Path.GetDirectoryName(d.FileName)).Distinct();
-
-      // ReSharper restore AssignNullToNotNullAttribute
     }
 
     [NotNull]
@@ -437,27 +412,6 @@
       {
         Log.Error(ex, "GetSqlServerAccountName");
         throw new InvalidOperationException("Cannot retrieve SQL Server Account Name");
-      }
-    }
-
-    public virtual bool IsConnectionStringValid([NotNull] SqlConnectionStringBuilder connectionString)
-    {
-      Assert.ArgumentNotNull(connectionString, nameof(connectionString));
-
-      try
-      {
-        var resultConnectionString = GetManagementConnectionString(connectionString, 1);
-        using (OpenConnection(resultConnectionString))
-        {
-        }
-
-        return true;
-      }
-      catch (Exception ex)
-      {
-        Log.Warn(ex, $"An error occurred during checking connection string {connectionString.ToString()}");
-
-        return false;
       }
     }
 

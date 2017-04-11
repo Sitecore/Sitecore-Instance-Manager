@@ -27,13 +27,7 @@
 
     public static LookupFolder[] _CustomManifestsLocations = null;
 
-    #endregion
-
-    #region Public properties
-
-    public static bool UpdateNeeded { get; private set; }
-
-    #endregion
+    #endregion                     
 
     #region Public methods
 
@@ -290,39 +284,6 @@
       }
     }
 
-    private static List<string> GetFileNamePatterns(IEnumerable<string> fileNamesRaw)
-    {
-      using (new ProfileSection("Get manifest lookup folders"))
-      {
-        ProfileSection.Argument("fileNamesRaw", fileNamesRaw);
-
-        var fileNamePatterns = new List<string>();
-        foreach (string filename in fileNamesRaw)
-        {
-          if (string.IsNullOrEmpty(filename) || fileNamePatterns.Contains(filename))
-          {
-            continue;
-          }
-
-          fileNamePatterns.Add(filename);
-
-          // if it is CMS
-          if (filename.StartsWith("sitecore 6") || filename.StartsWith("sitecore 7"))
-          {
-            continue;
-          }
-
-          var cut = filename.TrimStart("sitecore ").Trim();
-          if (!string.IsNullOrEmpty(cut) && !fileNamePatterns.Contains(cut))
-          {
-            fileNamePatterns.Add(cut);
-          }
-        }
-
-        return fileNamePatterns;
-      }
-    }
-
     private static LookupFolder[] GetManifestLookupFolders(string packageFile)
     {
       using (new ProfileSection("Get manifest lookup folders"))
@@ -341,17 +302,6 @@
     {
       var str = list.Join(", ", "'", "'");
       Log.Warn(ex, $"Failed merging '{(object)path}' with successfully merged {(object)str}. {(object)ex.Message}");
-    }
-
-    private static string TrimRevision(string fileName)
-    {
-      var revIndex = fileName.IndexOf(" rev.", StringComparison.Ordinal);
-      if (revIndex >= 0)
-      {
-        return fileName.Substring(0, revIndex);
-      }
-
-      return fileName;
     }
 
     #endregion

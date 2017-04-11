@@ -1,7 +1,6 @@
 ﻿namespace SIM.Products
 {
   using System;
-  using System.Collections.Generic;
   using System.Diagnostics;
   using System.IO;
   using System.Linq;
@@ -93,26 +92,6 @@
       return Path.Combine(webRootPath, "bin\\Sitecore.Kernel.dll");
     }
 
-    [CanBeNull]
-    public static string LocateAnalytics([NotNull] Product product)
-    {
-      Assert.ArgumentNotNull(product, nameof(product));
-
-      Assert.IsTrue(product.Name.EqualsIgnoreCase("sitecore cms"), "Analytics can be located only for the sitecore product");
-
-      var rev = product.Revision;
-      var odms = product.Version.StartsWith("6.5") ? "dms" : "oms";
-      IEnumerable<Product> products = ProductManager.GetProducts(odms, null, rev);
-      if (products != null)
-      {
-        Product analytics = products.FirstOrDefault();
-        Assert.IsNotNull(analytics, "Analytics package not found");
-        return analytics.PackagePath;
-      }
-
-      return null;
-    }
-
     #endregion
 
     #region Methods
@@ -181,8 +160,6 @@
       #region Fields
 
       public static readonly AdvancedProperty<string> CoreInstallInstanceNamePattern = AdvancedSettings.Create("Core/Product/InstanceNamePattern", "{ShortName}{ShortVersion}{UpdateOrRevision}");
-      
-      public static readonly AdvancedProperty<string> CoreProductRootFolderNamePattern = AdvancedSettings.Create("App/Product/RootFolderNamePattern", "{ShortName}{ShortVersion}{UpdateOrRevision}");
       
       public static readonly AdvancedProperty<bool> CoreProductHostNameEndsWithLocal = AdvancedSettings.Create("App/Product/HostName/EndsWithLocal", true);
 

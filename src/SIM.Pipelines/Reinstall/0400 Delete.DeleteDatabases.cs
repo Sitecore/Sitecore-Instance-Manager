@@ -28,7 +28,7 @@
       return ((ReinstallArgs)args)._InstanceDatabases.Count;
     }
 
-    protected override void Process([NotNull] ReinstallArgs args)
+    protected override void Process(ReinstallArgs args)
     {
       Assert.ArgumentNotNull(args, nameof(args));
 

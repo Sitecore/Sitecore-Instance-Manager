@@ -93,15 +93,7 @@
       {
         return _Configuration ?? (_Configuration = new InstanceConfiguration(this));
       }
-    }
-
-    public virtual string CurrentLogFilePath
-    {
-      get
-      {
-        return GetCurrentLogFilePath();
-      }
-    }
+    }          
 
     public virtual string DataFolderPath
     {
@@ -293,27 +285,11 @@
       }
     }
 
-    public virtual bool SupportsCaching
-    {
-      get
-      {
-        return false;
-      }
-    }
-
     public virtual string TempFolderPath
     {
       get
       {
         return GetTempFolderPath();
-      }
-    }
-
-    public virtual IEnumerable<string> VisualStudioSolutionFiles
-    {
-      get
-      {
-        return GetVisualStudioSolutionFiles();
       }
     }
 
@@ -425,11 +401,6 @@
       return Path.Combine(backups, name);
     }
 
-    public virtual Instance GetCachedInstance()
-    {
-      return new PartiallyCachedInstance(this);
-    }
-
     [NotNull]
     public virtual XmlDocument GetShowconfig(bool normalize = false)
     {
@@ -470,22 +441,6 @@
     #endregion
 
     #region Non-public Methods
-
-    #region Public methods
-
-    public virtual string GetCurrentLogFilePath()
-    {
-      using (new ProfileSection("Get current log file path", this))
-      {
-        var logs = LogsFolderPath;
-        var files = FileSystem.FileSystem.Local.Directory.GetFiles(logs, "log*.txt").OrderBy(FileSystem.FileSystem.Local.File.GetCreationTimeUtc);
-        var lastOrDefault = files.LastOrDefault();
-
-        return ProfileSection.Result(lastOrDefault);
-      }
-    }
-
-    #endregion
 
     #region Protected methods
 

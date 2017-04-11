@@ -96,14 +96,6 @@
       OnProductManagerInitialized();
     }
 
-    public static void Initialize(List<string> zipFiles)
-    {
-      Assert.ArgumentNotNull(zipFiles, nameof(zipFiles));
-
-      Refresh(zipFiles);
-      OnProductManagerInitialized();
-    }
-
     #endregion
 
     #region Methods

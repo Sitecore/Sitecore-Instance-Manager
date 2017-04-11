@@ -65,20 +65,9 @@
 
     #region Methods
 
-    [NotNull]
-    public SqlConnection OpenConnection()
-    {
-      return SqlServerManager.Instance.OpenConnection(ConnectionString);
-    }
-
     #endregion
 
     #region Public methods
-
-    public void Detach()
-    {
-      SqlServerManager.Instance.DetachDatabase(RealName, ConnectionString);
-    }
 
     #endregion
   }

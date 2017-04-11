@@ -110,12 +110,6 @@
 
     #region Public methods
 
-    public static ConnectionStringCollection GetConnectionStrings(string webRootPath)
-    {
-      XmlElementEx connectionStringsNode = GetConnectionStringsElement(XmlDocumentEx.LoadFile(Path.Combine(webRootPath, "web.config")));
-      return GetConnectionStringCollection(connectionStringsNode);
-    }
-
     #endregion
   }
 }

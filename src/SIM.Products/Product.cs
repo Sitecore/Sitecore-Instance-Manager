@@ -133,16 +133,7 @@
 
     #endregion
 
-    #region Public properties
-
-    [NotNull]
-    public string DefaultFolderName
-    {
-      get
-      {
-        return FormatString(ProductHelper.Settings.CoreProductRootFolderNamePattern.Value);
-      }
-    }
+    #region Public properties      
 
     [NotNull]
     public string DefaultInstanceName
@@ -304,6 +295,8 @@
       }
     }
 
+    //maybe used implicitly
+    [UsedImplicitly]
     public Dictionary<bool, string> Readme
     {
       get

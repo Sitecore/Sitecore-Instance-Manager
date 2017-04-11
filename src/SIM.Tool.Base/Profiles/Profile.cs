@@ -15,22 +15,6 @@
     #region Public properties
 
     [NotNull]
-    public virtual string AdvancedSettings
-    {
-      get
-      {
-        return GetString("AdvancedSettings") ?? string.Empty;
-      }
-
-      set
-      {
-        Assert.ArgumentNotNull(value, nameof(value));
-
-        SetValue("AdvancedSettings", value);
-      }
-    }
-
-    [NotNull]
     public virtual string ConnectionString
     {
       get
@@ -101,18 +85,6 @@
     public void Save()
     {
       throw new NotImplementedException("Not required here");
-    }
-
-    protected void ValidateInstancesFolder()
-    {
-      Assert.IsNotNullOrEmpty(InstancesFolder, "The InstancesFolder is null or empty");
-      FileSystem.FileSystem.Local.Directory.AssertExists(InstancesFolder, $"The InstancesFolder does not exist ({InstancesFolder})");
-    }
-
-    protected void ValidateLicense()
-    {
-      Assert.IsNotNullOrEmpty(License, "The license file isn't set");
-      FileSystem.FileSystem.Local.File.AssertExists(License, "The license file doesn't exist");
     }
 
     #endregion

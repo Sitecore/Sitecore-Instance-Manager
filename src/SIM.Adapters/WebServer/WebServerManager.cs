@@ -34,22 +34,7 @@
           DeleteWebsite(context, site);
         }
       }
-    }
-
-    public static void DeleteWebsite([NotNull] string name)
-    {
-      Assert.ArgumentNotNull(name, nameof(name));
-
-      Log.Info($"Deleting website {name}");
-      using (WebServerContext context = CreateContext("WebServerManager.DeleteWebsite('{0}')".FormatWith(name)))
-      {
-        Site site = context.Sites[name];
-        if (site != null)
-        {
-          DeleteWebsite(context, site);
-        }
-      }
-    }
+    }                              
 
     [NotNull]
     public static string GetWebRootPath([NotNull] Site site)
@@ -109,14 +94,7 @@
       }
 
       return true;
-    }
-
-    public static bool IsApplicationPoolRunning([NotNull] ApplicationPool appPool)
-    {
-      Assert.ArgumentNotNull(appPool, nameof(appPool));
-
-      return appPool.WorkerProcesses.Count > 0 && appPool.WorkerProcesses.Any(wp => wp != null && wp.State == WorkerProcessState.Running);
-    }
+    }               
 
     public static bool WebsiteExists([NotNull] string name)
     {

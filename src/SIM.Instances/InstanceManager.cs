@@ -180,16 +180,6 @@
 
     #region Methods
 
-    [NotNull]
-    private Instance GetInstance([NotNull] Site site)
-    {
-      Assert.ArgumentNotNull(site, nameof(site));
-
-      var id = (Int32)site.Id;
-      Log.Debug($"InstanceManager:GetInstance(Site: {site.Id})");
-      return new Instance(id);
-    }
-
     private IEnumerable<Site> GetOperableSites([NotNull] WebServerManager.WebServerContext context, [CanBeNull] string defaultRootFolder = null)
     {
       Assert.IsNotNull(context, "Context cannot be null");

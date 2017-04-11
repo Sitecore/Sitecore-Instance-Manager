@@ -203,17 +203,7 @@
       get
       {
         return Name.ToLowerInvariant().EndsWith("_disabled");
-      }
-
-      set
-      {
-        var name = Name.TrimEnd("_disabled");
-        using (WebServerManager.WebServerContext context = WebServerManager.CreateContext("Website({0}).Name".FormatWith(ID)))
-        {
-          context.Sites[name].Name = name + "_disabled";
-          context.CommitChanges();
-        }
-      }
+      }    
     }
 
     #endregion
