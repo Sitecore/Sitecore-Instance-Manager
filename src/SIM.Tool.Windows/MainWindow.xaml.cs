@@ -48,8 +48,8 @@
         Title = string.Format(Title, ApplicationManager.AppShortVersion, ApplicationManager.AppVersion, ApplicationManager.AppLabel);
 
         Timer =
-          new System.Threading.Timer(
-            obj => Dispatcher.Invoke(new Action(() => Search(null, null)), DispatcherPriority.Render));
+          new Timer(
+            obj => Dispatcher.Invoke(() => Search(null, null), DispatcherPriority.Render));
       }
     }
 
@@ -70,66 +70,6 @@
     #endregion
 
     #region Private methods
-
-    private void AppPoolRecycleClick(object sender, RoutedEventArgs e)
-    {
-      try
-      {
-        if (CheckSqlServer())
-        {
-          MainWindowHelper.AppPoolRecycle();
-        }
-      }
-      catch (Exception ex)
-      {
-        HandleError(ex);
-      }
-    }
-
-    private void AppPoolStartClick(object sender, RoutedEventArgs e)
-    {
-      try
-      {
-        if (CheckSqlServer())
-        {
-          MainWindowHelper.AppPoolStart();
-        }
-      }
-      catch (Exception ex)
-      {
-        HandleError(ex);
-      }
-    }
-
-    private void AppPoolStopClick(object sender, RoutedEventArgs e)
-    {
-      try
-      {
-        if (CheckSqlServer())
-        {
-          MainWindowHelper.AppPoolStop();
-        }
-      }
-      catch (Exception ex)
-      {
-        HandleError(ex);
-      }
-    }
-
-    private void ChangeAppPoolMode(object sender, RoutedEventArgs e)
-    {
-      try
-      {
-        if (CheckSqlServer())
-        {
-          MainWindowHelper.ChangeAppPoolMode((System.Windows.Controls.MenuItem)sender);
-        }
-      }
-      catch (Exception ex)
-      {
-        HandleError(ex);
-      }
-    }
 
     private bool CheckSqlServer()
     {

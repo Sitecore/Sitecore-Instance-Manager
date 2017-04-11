@@ -36,7 +36,7 @@
         finally
         {
           _IsClosing = true;
-          Dispatcher.Invoke(new Action(Close));
+          Dispatcher.Invoke(Close);
         }
       };
       Bw = new Thread(th);

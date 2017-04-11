@@ -60,7 +60,7 @@
 
     private void Grant([CanBeNull] object sender, [CanBeNull] RoutedEventArgs e)
     {
-      WindowHelper.LongRunningTask(() => Dispatcher.Invoke(new Action(Grant)), "Applying security changes", Window.GetWindow(this));
+      WindowHelper.LongRunningTask(() => Dispatcher.Invoke(Grant), "Applying security changes", Window.GetWindow(this));
     }
 
     private void Grant()

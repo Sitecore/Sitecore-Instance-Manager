@@ -180,21 +180,21 @@
             }
             catch (Exception ex)
             {
-              Dispatcher.Invoke(new Action(() => WindowHelper.HandleError(
+              Dispatcher.Invoke(() => WindowHelper.HandleError(
                 "The '{0}' database doesn't exist or isn't attached to the '{1}' SQL Server instance.".FormatWith(name, 
                   connectionString
                     .DataSource), 
-                false, ex, this)));
+                false, ex, this));
               
             }
           }
           else
           {
-            Dispatcher.Invoke(new Action(() => WindowHelper.HandleError(
+            Dispatcher.Invoke(() => WindowHelper.HandleError(
               "The '{0}' database doesn't exist or isn't attached to the '{1}' SQL Server instance".FormatWith(name, 
                 connectionString
                   .DataSource), 
-              false)));
+              false));
           }
         }
       }
@@ -219,21 +219,21 @@
           }
           catch (Exception ex)
           {
-            Dispatcher.Invoke(new Action(() => WindowHelper.HandleError(
+            Dispatcher.Invoke(() => WindowHelper.HandleError(
               "The '{0}' database doesn't exist or isn't attached to the '{1}' SQL Server instance.".FormatWith(dbName, 
                 connectionString
                   .DataSource), 
-              false, ex, this)));
+              false, ex, this));
             
           }
         }
         else
         {
-          Dispatcher.Invoke(new Action(() => WindowHelper.HandleError(
+          Dispatcher.Invoke(() => WindowHelper.HandleError(
             "The '{0}' database doesn't exist or isn't attached to the '{1}' SQL Server instance".FormatWith(dbName, 
               connectionString
                 .DataSource), 
-            false)));
+            false));
         }
       }
     }

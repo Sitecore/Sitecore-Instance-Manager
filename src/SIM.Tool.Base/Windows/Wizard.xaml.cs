@@ -241,7 +241,7 @@
       Assert.ArgumentNotNull(message, nameof(message));
       Assert.ArgumentNotNull(options, nameof(options));
 
-      return (string)Dispatcher.Invoke(new Func<string>(() => WindowHelper.AskForSelection("Select an option", "Select an option", message, options, this, defaultValue, allowMultipleSelection)));
+      return (string)Dispatcher.Invoke(() => WindowHelper.AskForSelection("Select an option", "Select an option", message, options, this, defaultValue, allowMultipleSelection));
     }
 
     public void SetProgress(long progress)

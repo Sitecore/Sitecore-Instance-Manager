@@ -59,7 +59,7 @@
         }
         else
         {
-          owner.Dispatcher.Invoke(new Action(() => { res = TaskDialog.Show(config); }));
+          owner.Dispatcher.Invoke(() => { res = TaskDialog.Show(config); });
         }
 
         if (res == null)
@@ -94,7 +94,7 @@
       }
       else
       {
-        owner.Dispatcher.Invoke(new Action(() => { result = ShowDialog(dialog, owner); }));
+        owner.Dispatcher.Invoke(() => { result = ShowDialog(dialog, owner); });
       }
 
       return result as string;

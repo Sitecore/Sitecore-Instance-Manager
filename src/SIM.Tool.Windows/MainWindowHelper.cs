@@ -768,24 +768,6 @@
 
     #region Public methods
 
-    public static void ChangeAppPoolMode(System.Windows.Controls.MenuItem menuItem)
-    {
-      var selectedInstance = SelectedInstance;
-      WindowHelper.LongRunningTask(() => MainWindow.Instance.Dispatcher.Invoke(
-        new Action(delegate
-        {
-          var header = menuItem.Header.ToString();
-          selectedInstance.SetAppPoolMode(header.Contains("4.0"), header.Contains("32bit"));
-          OnInstanceSelected();
-        })), "Changing application pool", MainWindow.Instance, null, "The IIS metabase is being updated");
-    }
-
-    public static void CloseMainWindow()
-    {
-      MainWindow.Instance.Dispatcher.InvokeShutdown();
-      MainWindow.Instance.Close();
-    }
-
     public static int GetListItemID(long value)
     {
       var itemCollection = MainWindow.Instance.InstanceList.Items;
@@ -816,14 +798,14 @@
     {
       var window = MainWindow.Instance;
       T result = null;
-      window.Dispatcher.Invoke(new Action(() => { result = func(window); }));
+      window.Dispatcher.Invoke(() => { result = func(window); });
       return result;
     }
 
     public static void Invoke(Action<MainWindow> func)
     {
       var window = MainWindow.Instance;
-      window.Dispatcher.Invoke(new Action(() => func(window)));
+      window.Dispatcher.Invoke(() => func(window));
     }
 
     public static void MakeInstanceSelected(int id)
