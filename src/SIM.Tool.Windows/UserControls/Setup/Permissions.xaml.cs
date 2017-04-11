@@ -27,7 +27,7 @@
 
     public Permissions()
     {
-      this.InitializeComponent();
+      InitializeComponent();
     }
 
     #endregion
@@ -38,7 +38,7 @@
     {
       get
       {
-        var sqlServerAccountName = SqlServerManager.Instance.GetSqlServerAccountName(new SqlConnectionStringBuilder(this._ConnectionString));
+        var sqlServerAccountName = SqlServerManager.Instance.GetSqlServerAccountName(new SqlConnectionStringBuilder(_ConnectionString));
 
         if (sqlServerAccountName == null)
         {
@@ -60,23 +60,23 @@
 
     private void Grant([CanBeNull] object sender, [CanBeNull] RoutedEventArgs e)
     {
-      WindowHelper.LongRunningTask(() => this.Dispatcher.Invoke(new Action(this.Grant)), "Applying security changes", Window.GetWindow(this));
+      WindowHelper.LongRunningTask(() => Dispatcher.Invoke(new Action(Grant)), "Applying security changes", Window.GetWindow(this));
     }
 
     private void Grant()
     {
       using (new ProfileSection("Grant access", this))
       {
-        var path = this.InstancesRootFolder.Text;
+        var path = InstancesRootFolder.Text;
 
-        if (this.Accounts == null)
+        if (Accounts == null)
         {
           return;
         }
 
-        foreach (var account in this.Accounts)
+        foreach (var account in Accounts)
         {
-          if (!this.ValidateAccount(account))
+          if (!ValidateAccount(account))
           {
             return;
           }
@@ -119,8 +119,8 @@
     void IWizardStep.InitializeStep(WizardArgs wizardArgs)
     {
       var args = (SetupWizardArgs)wizardArgs;
-      this.InstancesRootFolder.Text = args.InstancesRootFolderPath;
-      this._ConnectionString = args.ConnectionString;
+      InstancesRootFolder.Text = args.InstancesRootFolderPath;
+      _ConnectionString = args.ConnectionString;
     }
 
     bool IFlowControl.OnMovingBack(WizardArgs wizardArgs)
@@ -132,7 +132,7 @@
     {
       var args = (SetupWizardArgs)wizardArgs;
 
-      if (this.Accounts == null)
+      if (Accounts == null)
       {
         return false;
       }
@@ -140,9 +140,9 @@
       try
       {
         const string Message = "You probably don't have necessary permissions set. Please try to click 'Grant' button before you proceed.\r\n\r\nNote, the SQL Server account that you selected previously must have necessary permissions to create a SQL database in the instances root folder you specified earlier - please ensure that it is correct. In addition, the SQL Server service must use NETWORK SERVICE identity so that SIM can assign necessary permissions for it.";
-        foreach (var account in this.Accounts)
+        foreach (var account in Accounts)
         {
-          if (!this.ValidateAccount(account))
+          if (!ValidateAccount(account))
           {
             return false;
           }

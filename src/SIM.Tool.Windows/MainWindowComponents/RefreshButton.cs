@@ -37,7 +37,7 @@
 
     public RefreshButton()
     {
-      this.Mode = RefreshMode.Undefined;
+      Mode = RefreshMode.Undefined;
     }
 
     public RefreshButton([NotNull] string param)
@@ -47,16 +47,16 @@
       switch (param.ToLower())
       {
         case "all":
-          this.Mode = RefreshMode.Everything;
+          Mode = RefreshMode.Everything;
           return;
         case "sites":
-          this.Mode = RefreshMode.Instances;
+          Mode = RefreshMode.Instances;
           return;
         case "installer":
-          this.Mode = RefreshMode.Installer;
+          Mode = RefreshMode.Installer;
           return;
         case "caches":
-          this.Mode = RefreshMode.Caches;
+          Mode = RefreshMode.Caches;
           return;
         default:
           throw new NotSupportedException("The {0} type is not supported".FormatWith(param));
@@ -81,7 +81,7 @@
         ProfileSection.Argument("mainWindow", mainWindow);
         ProfileSection.Argument("instance", instance);
 
-        var refreshMode = this.GetMode(mainWindow);
+        var refreshMode = GetMode(mainWindow);
         switch (refreshMode)
         {
           case RefreshMode.Instances:
@@ -108,9 +108,9 @@
     {
       Assert.ArgumentNotNull(mainWindow, nameof(mainWindow));
 
-      if (this.Mode != RefreshMode.Undefined)
+      if (Mode != RefreshMode.Undefined)
       {
-        return this.Mode;
+        return Mode;
       }
 
       var config = new TaskDialogOptions

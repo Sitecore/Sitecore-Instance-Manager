@@ -37,18 +37,18 @@
 
     public DeleteArgs([NotNull] Instance instance, [NotNull] SqlConnectionStringBuilder connectionString)
     {
-      this.Instance = instance;
+      Instance = instance;
       Assert.ArgumentNotNull(instance, nameof(instance));
 
-      this.ConnectionString = connectionString.IsNotNull("ConnectionString");
-      this.InstanceID = instance.ID;
-      this._InstanceDatabases = instance.AttachedDatabases;
-      this._MongoDatabases = instance.MongoDatabases;
-      this.InstanceDataFolderPath = instance.DataFolderPath;
-      this.InstanceBackupsFolder = instance.BackupsFolder;
-      this.InstanceStop = () => instance.Stop(true);
-      this.InstanceHostNames = instance.HostNames;
-      this.instanceName = instance.Name;
+      ConnectionString = connectionString.IsNotNull("ConnectionString");
+      InstanceID = instance.ID;
+      _InstanceDatabases = instance.AttachedDatabases;
+      _MongoDatabases = instance.MongoDatabases;
+      InstanceDataFolderPath = instance.DataFolderPath;
+      InstanceBackupsFolder = instance.BackupsFolder;
+      InstanceStop = () => instance.Stop(true);
+      InstanceHostNames = instance.HostNames;
+      instanceName = instance.Name;
     }
 
     #endregion
@@ -74,7 +74,7 @@
     {
       get
       {
-        return this.instanceName;
+        return instanceName;
       }
     }
 

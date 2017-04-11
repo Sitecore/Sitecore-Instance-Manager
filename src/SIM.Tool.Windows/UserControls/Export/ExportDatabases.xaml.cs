@@ -12,7 +12,7 @@
 
     public ExportDatabases()
     {
-      this.InitializeComponent();
+      InitializeComponent();
     }
 
     #endregion
@@ -22,12 +22,12 @@
     void IWizardStep.InitializeStep(WizardArgs wizardArgs)
     {
       var attachedDatabases = ((ExportWizardArgs)wizardArgs).Instance.AttachedDatabases.ToArray();
-      this.Databases.DataContext = attachedDatabases.Select(database => new ExportDatabase(database.Name, true)).ToList();
+      Databases.DataContext = attachedDatabases.Select(database => new ExportDatabase(database.Name, true)).ToList();
     }
 
     private void NoneHyperlinkClick(object sender, RoutedEventArgs e)
     {
-      foreach (ExportDatabase item in this.Databases.Items)
+      foreach (ExportDatabase item in Databases.Items)
       {
         item.IsChecked = false;
       }
@@ -36,15 +36,15 @@
     bool IWizardStep.SaveChanges(WizardArgs wizardArgs)
     {
       var args = (ExportWizardArgs)wizardArgs;
-      args.SelectedDatabases = ((List<ExportDatabase>)this.Databases.DataContext).Where(database => database.IsChecked).Select(database => database.DatabaseName);
-      if (this.WipeSqlServerCredentials.IsChecked != null)
+      args.SelectedDatabases = ((List<ExportDatabase>)Databases.DataContext).Where(database => database.IsChecked).Select(database => database.DatabaseName);
+      if (WipeSqlServerCredentials.IsChecked != null)
       {
-        args._WipeSqlServerCredentials = (bool)this.WipeSqlServerCredentials.IsChecked;
+        args._WipeSqlServerCredentials = (bool)WipeSqlServerCredentials.IsChecked;
       }
 
-      if (this.IncludeMongoDatabases.IsChecked != null)
+      if (IncludeMongoDatabases.IsChecked != null)
       {
-        args.IncludeMongoDatabases = (bool)this.IncludeMongoDatabases.IsChecked;
+        args.IncludeMongoDatabases = (bool)IncludeMongoDatabases.IsChecked;
       }
 
       return true;
@@ -52,7 +52,7 @@
 
     private void SelectAllHyperlinkClick(object sender, RoutedEventArgs e)
     {
-      foreach (ExportDatabase item in this.Databases.Items)
+      foreach (ExportDatabase item in Databases.Items)
       {
         item.IsChecked = true;
       }
@@ -80,8 +80,8 @@
 
       public ExportDatabase(string databaseName, bool isChecked)
       {
-        this.DatabaseName = databaseName;
-        this.IsChecked = isChecked;
+        DatabaseName = databaseName;
+        IsChecked = isChecked;
       }
 
       #endregion
@@ -94,13 +94,13 @@
       {
         get
         {
-          return this._IsChecked;
+          return _IsChecked;
         }
 
         set
         {
-          this._IsChecked = value;
-          this.IsCheckedPropertyChaged("IsChecked");
+          _IsChecked = value;
+          IsCheckedPropertyChaged("IsChecked");
         }
       }
 
@@ -110,7 +110,7 @@
 
       private void IsCheckedPropertyChaged(string propertyName)
       {
-        var handler = this.PropertyChanged;
+        var handler = PropertyChanged;
         if (handler != null)
         {
           handler(this, new PropertyChangedEventArgs(propertyName));

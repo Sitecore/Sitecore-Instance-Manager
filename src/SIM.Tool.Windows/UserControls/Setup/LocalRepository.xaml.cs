@@ -15,7 +15,7 @@
 
     public LocalRepository()
     {
-      this.InitializeComponent();
+      InitializeComponent();
     }
 
     #endregion
@@ -51,12 +51,12 @@
 
     private void PickLicenseFileClick([CanBeNull] object sender, [CanBeNull] RoutedEventArgs e)
     {
-      WindowHelper.PickFile("Choose the Sitecore license file", this.LicenseFile, this.PickLicenseFile, "*.xml|*.xml");
+      WindowHelper.PickFile("Choose the Sitecore license file", LicenseFile, PickLicenseFile, "*.xml|*.xml");
     }
 
     private void PickLocalRepositoryFolderClick([CanBeNull] object sender, [CanBeNull] RoutedEventArgs e)
     {
-      WindowHelper.PickFolder("Choose the Local Repository folder", this.LocalRepositoryFolder, this.PickLocalRepositoryFolder);
+      WindowHelper.PickFolder("Choose the Local Repository folder", LocalRepositoryFolder, PickLocalRepositoryFolder);
     }
 
     private void ShowMoreInfo([CanBeNull] object sender, [CanBeNull] RoutedEventArgs e)
@@ -83,15 +83,15 @@
     void IWizardStep.InitializeStep(WizardArgs wizardArgs)
     {
       var args = (SetupWizardArgs)wizardArgs;
-      this.LicenseFile.Text = args.LicenseFilePath;
-      this.LocalRepositoryFolder.Text = args.LocalRepositoryFolderPath.EmptyToNull() ?? GetRepositoryPath();
+      LicenseFile.Text = args.LicenseFilePath;
+      LocalRepositoryFolder.Text = args.LocalRepositoryFolderPath.EmptyToNull() ?? GetRepositoryPath();
     }
 
     bool IWizardStep.SaveChanges(WizardArgs wizardArgs)
     {
       var args = (SetupWizardArgs)wizardArgs;
-      args.LicenseFilePath = this.LicenseFile.Text;
-      args.LocalRepositoryFolderPath = this.LocalRepositoryFolder.Text;
+      args.LicenseFilePath = LicenseFile.Text;
+      args.LocalRepositoryFolderPath = LocalRepositoryFolder.Text;
       return true;
     }
 

@@ -34,15 +34,15 @@
       var dataFolder = Path.Combine(args.Folder, "data");
 
 
-      this.BackupFolder(args, webRootPath, webRootName);
+      BackupFolder(args, webRootPath, webRootName);
 
       // 0
-      this.IncrementProgress();
+      IncrementProgress();
 
-      this.BackupFolder(args, instance.DataFolderPath, "Data");
+      BackupFolder(args, instance.DataFolderPath, "Data");
 
       // 1
-      this.IncrementProgress();
+      IncrementProgress();
 
       if (args.WipeSqlServerCredentials)
       {
@@ -50,67 +50,67 @@
       }
 
       // 2
-      this.IncrementProgress();
+      IncrementProgress();
 
       if (!args.IncludeTempFolderContents)
       {
-        this.WipeTempFolderContents(websiteFolder);
+        WipeTempFolderContents(websiteFolder);
       }
 
       // 3
-      this.IncrementProgress();
+      IncrementProgress();
 
       if (!args.IncludeMediaCacheFolderContents)
       {
-        this.WipeMediaCacheFolderContents(websiteFolder);
+        WipeMediaCacheFolderContents(websiteFolder);
       }
 
       // 4
-      this.IncrementProgress();
+      IncrementProgress();
 
       if (args.ExcludeUploadFolderContents)
       {
-        this.WipeUploadFolderContents(websiteFolder);
+        WipeUploadFolderContents(websiteFolder);
       }
 
       // 5
-      this.IncrementProgress();
+      IncrementProgress();
 
       if (true)
       {
-        this.WipeViewStateFolderContents(dataFolder);
+        WipeViewStateFolderContents(dataFolder);
       }
 
       // 6
-      this.IncrementProgress();
+      IncrementProgress();
 
       if (args.ExcludeDiagnosticsFolderContents)
       {
-        this.WipDiagnosticsFolderContents(dataFolder);
+        WipDiagnosticsFolderContents(dataFolder);
       }
 
       // 7
-      this.IncrementProgress();
+      IncrementProgress();
 
       if (args.ExcludeLogsFolderContents)
       {
-        this.WipeLogsFolderContents(dataFolder);
+        WipeLogsFolderContents(dataFolder);
       }
 
       // 8
-      this.IncrementProgress();
+      IncrementProgress();
 
       if (args.ExcludePackagesFolderContents)
       {
-        this.WipePackagesFolderContents(dataFolder);
+        WipePackagesFolderContents(dataFolder);
       }
 
       // 9
-      this.IncrementProgress();
+      IncrementProgress();
 
       if (args.ExcludeLicenseFile)
       {
-        this.WipeLicenseFile(dataFolder);
+        WipeLicenseFile(dataFolder);
       }
     }
 

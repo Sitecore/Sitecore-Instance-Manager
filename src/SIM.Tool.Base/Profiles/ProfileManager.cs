@@ -107,7 +107,7 @@
 
     public static SqlConnectionStringBuilder GetConnectionString()
     {
-      var profileConnectionString = ProfileManager.Profile.ConnectionString;
+      var profileConnectionString = Profile.ConnectionString;
       Assert.IsNotNull(profileConnectionString, "Connection String Not Set");
       var connectionString = new SqlConnectionStringBuilder(profileConnectionString);
       return connectionString;

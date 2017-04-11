@@ -29,12 +29,12 @@
     {
       get
       {
-        return this._Arguments[key];
+        return _Arguments[key];
       }
 
       set
       {
-        this._Arguments[key] = value;
+        _Arguments[key] = value;
       }
     }
 
@@ -48,9 +48,9 @@
 
     public void FireOnCompleted()
     {
-      if (this.OnCompleted != null)
+      if (OnCompleted != null)
       {
-        this.OnCompleted();
+        OnCompleted();
       }
     }
 

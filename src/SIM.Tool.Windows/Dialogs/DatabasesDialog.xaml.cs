@@ -30,7 +30,7 @@
 
     public DatabasesDialog()
     {
-      this.InitializeComponent();
+      InitializeComponent();
     }
 
     #endregion
@@ -79,13 +79,13 @@
         }
 
         SqlServerManager.Instance.AttachDatabase(name, path, connectionString, false);
-        this.Refresh();
+        Refresh();
       }
     }
 
     private void CancelChanges([CanBeNull] object sender, [CanBeNull] RoutedEventArgs e)
     {
-      this.Close();
+      Close();
     }
 
     private void DatabasesMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
@@ -95,7 +95,7 @@
     private void Delete(object sender, RoutedEventArgs routedEventArgs)
     {
       var connectionString = ProfileManager.GetConnectionString();
-      var names = this.Databases.SelectedItems.Cast<string>().ToArray();
+      var names = Databases.SelectedItems.Cast<string>().ToArray();
 
       var result = names.Take(6).Aggregate((curr, name) => curr + "\n  • " + name) + (names.Length > 6 ? "\n    ..." : string.Empty);
 
@@ -122,17 +122,17 @@
           catch (Exception ex)
           {
             WindowHelper.HandleError("Deleting the '{0}' database  caused an exception".FormatWith(name), false, ex, 
-              this.GetType());
+              GetType());
           }
         }
       }
 
-      this.Refresh();
+      Refresh();
     }
 
     private void Detach(object sender, RoutedEventArgs e)
     {
-      var names = this.Databases.SelectedItems;
+      var names = Databases.SelectedItems;
       Func<IList, string> getNamesAsString = (IList x) =>
       {
         var result = string.Empty;
@@ -158,8 +158,8 @@
         return;
       }
 
-      WindowHelper.LongRunningTask(() => Detach(names), "Deataching databases", Window.GetWindow(this));
-      this.Refresh();
+      WindowHelper.LongRunningTask(() => Detach(names), "Deataching databases", GetWindow(this));
+      Refresh();
     }
 
     private void Detach(IList names)
@@ -180,7 +180,7 @@
             }
             catch (Exception ex)
             {
-              this.Dispatcher.Invoke(new Action(() => WindowHelper.HandleError(
+              Dispatcher.Invoke(new Action(() => WindowHelper.HandleError(
                 "The '{0}' database doesn't exist or isn't attached to the '{1}' SQL Server instance.".FormatWith(name, 
                   connectionString
                     .DataSource), 
@@ -190,7 +190,7 @@
           }
           else
           {
-            this.Dispatcher.Invoke(new Action(() => WindowHelper.HandleError(
+            Dispatcher.Invoke(new Action(() => WindowHelper.HandleError(
               "The '{0}' database doesn't exist or isn't attached to the '{1}' SQL Server instance".FormatWith(name, 
                 connectionString
                   .DataSource), 
@@ -199,7 +199,7 @@
         }
       }
 
-      this.Refresh();
+      Refresh();
     }
 
     private void Detach(string dbName)
@@ -219,7 +219,7 @@
           }
           catch (Exception ex)
           {
-            this.Dispatcher.Invoke(new Action(() => WindowHelper.HandleError(
+            Dispatcher.Invoke(new Action(() => WindowHelper.HandleError(
               "The '{0}' database doesn't exist or isn't attached to the '{1}' SQL Server instance.".FormatWith(dbName, 
                 connectionString
                   .DataSource), 
@@ -229,7 +229,7 @@
         }
         else
         {
-          this.Dispatcher.Invoke(new Action(() => WindowHelper.HandleError(
+          Dispatcher.Invoke(new Action(() => WindowHelper.HandleError(
             "The '{0}' database doesn't exist or isn't attached to the '{1}' SQL Server instance".FormatWith(dbName, 
               connectionString
                 .DataSource), 
@@ -242,16 +242,16 @@
     {
       var connectionString = ProfileManager.GetConnectionString();
 
-      var textBox = this.SearchBox;
+      var textBox = SearchBox;
       var arr = textBox.Text.IsNullOrEmpty() ? SqlServerManager.Instance.GetDatabasesNames(connectionString) : SqlServerManager.Instance.GetDatabasesNames(connectionString, textBox.Text.Replace(" ", string.Empty).Replace(@"'", string.Empty));
 
-      this.Databases.DataContext = arr;
+      Databases.DataContext = arr;
     }
 
     private void Rename(object sender, RoutedEventArgs e)
     {
       var connectionString = ProfileManager.GetConnectionString();
-      var name = this.Databases.SelectedItem as string;
+      var name = Databases.SelectedItem as string;
       if (!string.IsNullOrEmpty(name))
       {
         if (!SqlServerManager.Instance.DatabaseExists(name, connectionString))
@@ -281,19 +281,19 @@
           WindowHelper.HandleError("Renaming the '{0}' database caused an exception".FormatWith(name), false, ex, this);
         }
 
-        this.Refresh();
+        Refresh();
       }
     }
 
     private void SaveChanges([CanBeNull] object sender, [CanBeNull] RoutedEventArgs e)
     {
-      this.SaveSettings();
+      SaveSettings();
     }
 
     private void SaveSettings()
     {
-      this.DialogResult = true;
-      this.Close();
+      DialogResult = true;
+      Close();
     }
 
     private void WindowKeyUp([NotNull] object sender, [NotNull] KeyEventArgs e)
@@ -310,19 +310,19 @@
 
       if (e.Key == Key.Escape)
       {
-        this.Close();
+        Close();
         return;
       }
 
       if (e.Key == Key.F2 && sender is ListBox)
       {
-        this.Rename(sender, e);
+        Rename(sender, e);
         return;
       }
 
       if (e.Key == Key.Delete && sender is ListBox)
       {
-        this.Delete(sender, e);
+        Delete(sender, e);
         return;
       }
 
@@ -331,12 +331,12 @@
 
     private void WindowLoaded(object sender, EventArgs eventArgs)
     {
-      this.Refresh();
+      Refresh();
     }
 
     private void SearchBoxTextChanged(object sender, TextChangedEventArgs e)
     {
-      this.Refresh();
+      Refresh();
     }
 
     #endregion
@@ -346,8 +346,8 @@
     private void Backup(object sender, RoutedEventArgs e)
     {
       var connectionString = ProfileManager.GetConnectionString();
-      var databaseName = this.Databases.SelectedItems[0].ToString();
-      if (this.Databases.SelectedItems.Count == 1)
+      var databaseName = Databases.SelectedItems[0].ToString();
+      if (Databases.SelectedItems.Count == 1)
       {
         var dialog = new SaveFileDialog
         {
@@ -366,7 +366,7 @@
         var path = dialog.FileName;
 
         var backupPath = Path.Combine(System.IO.Path.GetDirectoryName(path), Path.GetFileNameWithoutExtension(path) + ".bak");
-        WindowHelper.LongRunningTask(() => this.Backup(databaseName, connectionString, backupPath), "Back up database", this, "The backup is being created", null, true);
+        WindowHelper.LongRunningTask(() => Backup(databaseName, connectionString, backupPath), "Back up database", this, "The backup is being created", null, true);
       }
     }
 
@@ -377,9 +377,9 @@
 
     private void DatabasesMouseDoubleClick(object sender, MouseButtonEventArgs e)
     {
-      if (this.Databases.SelectedItems.Count == 1)
+      if (Databases.SelectedItems.Count == 1)
       {
-        WindowHelper.ShowDialog(new DatabaseQueryExecutionDialog("USE [" + this.Databases.SelectedItem.ToString() + "]"), this);
+        WindowHelper.ShowDialog(new DatabaseQueryExecutionDialog("USE [" + Databases.SelectedItem.ToString() + "]"), this);
       }
     }
 
@@ -391,9 +391,9 @@
       // Multiselect = false,
       // DefaultExt = ".zip"
       // };
-      if (this.Databases.SelectedItems.Count == 1)
+      if (Databases.SelectedItems.Count == 1)
       {
-        var originalFolder = Path.GetDirectoryName(SqlServerManager.Instance.GetDatabaseFileName(this.Databases.SelectedItem.ToString(), ProfileManager.GetConnectionString()));
+        var originalFolder = Path.GetDirectoryName(SqlServerManager.Instance.GetDatabaseFileName(Databases.SelectedItem.ToString(), ProfileManager.GetConnectionString()));
         var fileDialog = new System.Windows.Forms.FolderBrowserDialog()
         {
           // Title = "Select folder for moving database"
@@ -405,17 +405,17 @@
 
         if (folderForRelocation != originalFolder && !folderForRelocation.IsNullOrEmpty())
         {
-          var dbFileName = Path.GetFileName(SqlServerManager.Instance.GetDatabaseFileName(this.Databases.SelectedItem.ToString(), ProfileManager.GetConnectionString()));
-          var dbName = this.Databases.SelectedItem.ToString();
+          var dbFileName = Path.GetFileName(SqlServerManager.Instance.GetDatabaseFileName(Databases.SelectedItem.ToString(), ProfileManager.GetConnectionString()));
+          var dbName = Databases.SelectedItem.ToString();
           var connString = ProfileManager.GetConnectionString();
-          WindowHelper.LongRunningTask(() => this.MoveDatabase(folderForRelocation, originalFolder, dbName, dbFileName, connString), "Move database", this, "The database is being moved", null, true);
+          WindowHelper.LongRunningTask(() => MoveDatabase(folderForRelocation, originalFolder, dbName, dbFileName, connString), "Move database", this, "The database is being moved", null, true);
         }
         else
         {
           WindowHelper.ShowMessage("Choose another folder.");
         }
       }
-      else if (this.Databases.SelectedItems.Count > 1)
+      else if (Databases.SelectedItems.Count > 1)
       {
         WindowHelper.ShowMessage("Please select only one database.");
       }
@@ -424,7 +424,7 @@
         WindowHelper.ShowMessage("Please select database.");
       }
 
-      this.Refresh();
+      Refresh();
     }
 
     private void MoveDatabase(string folderForRelocation, string originalFolder, string databaseName, string databaseFileName, SqlConnectionStringBuilder connString)
@@ -444,10 +444,10 @@
       {
         WindowHelper.ShowDialog(new DatabasesOperationsDialog(_LastPathToRestore), this);
       }
-      else if (this.Databases.SelectedItem != null)
+      else if (Databases.SelectedItem != null)
       {
         WindowHelper.ShowDialog(new DatabasesOperationsDialog(Path.GetDirectoryName(SqlServerManager.Instance.GetDatabaseFileName(
-          this.Databases.SelectedItems[0].ToString(), ProfileManager.GetConnectionString()))
+          Databases.SelectedItems[0].ToString(), ProfileManager.GetConnectionString()))
           ), this);
       }
       else
@@ -458,14 +458,14 @@
 
     private void ShowQueryExecutionDialog(object sender, RoutedEventArgs e)
     {
-      WindowHelper.ShowDialog(new DatabaseQueryExecutionDialog("USE [" + this.Databases.SelectedItem.ToString() + "]"), this);
+      WindowHelper.ShowDialog(new DatabaseQueryExecutionDialog("USE [" + Databases.SelectedItem.ToString() + "]"), this);
     }
 
     private void ShowSqlShell(object sender, RoutedEventArgs e)
     {
-      if (this.Databases.SelectedItems.Count == 1)
+      if (Databases.SelectedItems.Count == 1)
       {
-        WindowHelper.ShowDialog(new DatabaseQueryExecutionDialog("USE [" + this.Databases.SelectedItem.ToString() + "]"), this);
+        WindowHelper.ShowDialog(new DatabaseQueryExecutionDialog("USE [" + Databases.SelectedItem.ToString() + "]"), this);
       }
       else
       {

@@ -18,12 +18,12 @@
     {
       get
       {
-        return this._TestContextInstance;
+        return _TestContextInstance;
       }
 
       set
       {
-        this._TestContextInstance = value;
+        _TestContextInstance = value;
       }
     }
 

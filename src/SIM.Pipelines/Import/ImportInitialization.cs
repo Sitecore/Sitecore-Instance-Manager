@@ -15,7 +15,7 @@
       // Assert.IsTrue(FileSystem.Instance.ZipContainsFile(args.PathToExportedInstance, ImportArgs.appPoolSettingsFileName), "Not valid package for import.");
       // Assert.IsTrue(FileSystem.Instance.ZipContainsFile(args.PathToExportedInstance, ImportArgs.websiteSettingsFileName), "Not valid package for import.");
       // args.temporaryPathToUnpack = Path.GetTempPath();
-      this.GetSettingsFromIisFiles(args);
+      GetSettingsFromIisFiles(args);
 
       // CreateDirectoriesTree(args);
     }

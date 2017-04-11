@@ -13,7 +13,7 @@
     {
       Assert.ArgumentNotNull(paramString, nameof(paramString));
 
-      this._Array = paramString.Split(":|;".ToCharArray());
+      _Array = paramString.Split(":|;".ToCharArray());
     }
 
     [NotNull]
@@ -21,9 +21,9 @@
     {
       get
       {
-        if (this._Array.Length > number)
+        if (_Array.Length > number)
         {
-          return this._Array[number] ?? string.Empty;
+          return _Array[number] ?? string.Empty;
         }
 
         return string.Empty;
@@ -41,9 +41,9 @@
     [NotNull]
     public string[] Skip(int count)
     {
-      if (this._Array.Length > count)
+      if (_Array.Length > count)
       {
-        return this._Array.Skip(count).Where(x => !string.IsNullOrWhiteSpace(x)).ToArray();
+        return _Array.Skip(count).Where(x => !string.IsNullOrWhiteSpace(x)).ToArray();
       }
 
       return new string[0];

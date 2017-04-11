@@ -25,8 +25,8 @@
 
     public DownloadWizardArgs(string username, string password)
     {
-      this.UserName = username;
-      this.Password = password;
+      UserName = username;
+      Password = password;
     }
 
     #endregion
@@ -43,7 +43,7 @@
     {
       get
       {
-        return this._Products;
+        return _Products;
       }
     }
 
@@ -57,7 +57,7 @@
 
     public override ProcessorArgs ToProcessorArgs()
     {
-      return new DownloadArgs(this.Cookies, this.Links, ProfileManager.Profile.LocalRepository, this.Sizes);
+      return new DownloadArgs(Cookies, Links, ProfileManager.Profile.LocalRepository, Sizes);
     }
 
     #endregion

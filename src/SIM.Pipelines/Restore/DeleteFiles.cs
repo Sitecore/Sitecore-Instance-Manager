@@ -24,7 +24,7 @@
       if (args.Backup.BackupDataFiles)
       {
         FileSystem.FileSystem.Local.Directory.DeleteIfExists(args._DataFolder);
-        this.Controller.IncrementProgress();
+        Controller.IncrementProgress();
       }
 
       if (args.Backup.BackupWebsiteFiles)

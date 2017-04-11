@@ -35,12 +35,12 @@
         }
         finally
         {
-          this._IsClosing = true;
-          this.Dispatcher.Invoke(new Action(this.Close));
+          _IsClosing = true;
+          Dispatcher.Invoke(new Action(Close));
         }
       };
-      this.Bw = new Thread(th);
-      this.InitializeComponent();
+      Bw = new Thread(th);
+      InitializeComponent();
     }
 
     #endregion
@@ -68,30 +68,30 @@
 
     private void Start(object sender, EventArgs e)
     {
-      this.Bw.Start();
+      Bw.Start();
     }
 
     private void Terminate(object sender, CancelEventArgs cancelEventArgs)
     {
-      if (this._IsClosing)
+      if (_IsClosing)
       {
         return;
       }
 
-      this.Bw.Interrupt();
-      this._IsClosing = true;
+      Bw.Interrupt();
+      _IsClosing = true;
       cancelEventArgs.Cancel = true;
     }
 
     private void Terminate(object sender, EventArgs cancelEventArgs)
     {
-      if (this._IsClosing)
+      if (_IsClosing)
       {
         return;
       }
 
-      this._IsClosing = true;
-      this.Bw.Interrupt();
+      _IsClosing = true;
+      Bw.Interrupt();
     }
 
     #endregion

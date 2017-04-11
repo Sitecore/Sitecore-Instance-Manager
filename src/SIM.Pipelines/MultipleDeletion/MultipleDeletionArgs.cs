@@ -18,7 +18,7 @@
 
     public MultipleDeletionArgs(List<string> instances)
     {
-      this._Instances = instances;
+      _Instances = instances;
     }
 
     #endregion
@@ -29,7 +29,7 @@
     {
       get
       {
-        return this._Instances;
+        return _Instances;
       }
     }
 

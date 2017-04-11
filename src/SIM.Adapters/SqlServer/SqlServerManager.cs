@@ -52,7 +52,7 @@
 
       Log.Info($"Attaching the '{name}' database with '{path}' filename");
 
-      var sqlServerAccountName = this.GetSqlServerAccountName(connectionString);
+      var sqlServerAccountName = GetSqlServerAccountName(connectionString);
       FileSystem.FileSystem.Local.Security.EnsurePermissions(Path.GetDirectoryName(path), sqlServerAccountName);
       FileSystem.FileSystem.Local.Security.EnsurePermissions(path, sqlServerAccountName);
       var ldf = Path.ChangeExtension(path, ".ldf");
@@ -61,10 +61,10 @@
         FileSystem.FileSystem.Local.Security.EnsurePermissions(ldf, sqlServerAccountName);
       }
 
-      using (SqlConnection sqlConnection = this.OpenConnection(connectionString))
+      using (SqlConnection sqlConnection = OpenConnection(connectionString))
       {
         var command = $"create database [{name}] on (filename = N'{path}'){(attachLog && FileSystem.FileSystem.Local.File.Exists(ldf) ? ", (filename = N'" + ldf + "')" : string.Empty)} for attach";
-        this.Execute(sqlConnection, command);
+        Execute(sqlConnection, command);
       }
     }
 
@@ -72,7 +72,7 @@
     {
       Log.Info($"Backuping the '{databaseName}' database");
 
-      using (SqlConnection sqlConnection = this.OpenConnection(connectionString))
+      using (SqlConnection sqlConnection = OpenConnection(connectionString))
       {
         var command = string.Format(@"
             BACKUP DATABASE [{0}]
@@ -81,7 +81,7 @@
         {
           databaseName, pathToBackup
         });
-        this.Execute(sqlConnection, command);
+        Execute(sqlConnection, command);
       }
     }
 
@@ -103,7 +103,7 @@
     {
       Log.Info($"Closing connection to the '{dbName}' database");
       var command = $"ALTER DATABASE [{dbName}] SET SINGLE_USER WITH ROLLBACK IMMEDIATE";
-      this.Execute(sqlConnection, command);
+      Execute(sqlConnection, command);
     }
 
     public virtual bool DatabaseExists([NotNull] string name, [NotNull] SqlConnection sqlConnection)
@@ -131,7 +131,7 @@
       Assert.ArgumentNotNull(databaseName, nameof(databaseName));
       Assert.ArgumentNotNull(connectionString, nameof(connectionString));
 
-      using (SqlConnection connection = this.OpenConnection(connectionString))
+      using (SqlConnection connection = OpenConnection(connectionString))
       {
         return DatabaseExists(databaseName, connection);
       }
@@ -142,7 +142,7 @@
       Assert.ArgumentNotNull(databaseName, nameof(databaseName));
       Assert.ArgumentNotNull(connectionString, nameof(connectionString));
 
-      using (SqlConnection connection = this.OpenConnection(connectionString))
+      using (SqlConnection connection = OpenConnection(connectionString))
       {
         DeleteDatabase(databaseName, connection);
       }
@@ -151,11 +151,11 @@
     public virtual void DetachDatabase(string realName, SqlConnectionStringBuilder connectionString)
     {
       Log.Info($"Detaching the '{realName}' database");
-      using (SqlConnection sqlConnection = this.OpenConnection(connectionString))
+      using (SqlConnection sqlConnection = OpenConnection(connectionString))
       {
-        this.CloseConnectionsToDatabase(realName, sqlConnection);
+        CloseConnectionsToDatabase(realName, sqlConnection);
         var command = $"EXEC master.dbo.sp_detach_db @dbname = N'{realName}', @skipchecks = 'false'";
-        this.Execute(sqlConnection, command);
+        Execute(sqlConnection, command);
       }
     }
 
@@ -165,9 +165,9 @@
       Assert.ArgumentNotNull(connectionString, nameof(connectionString));
       Assert.ArgumentNotNull(action, nameof(action));
       rootPath = rootPath.TrimEnd('\\') + '\\';
-      foreach (var name in this.GetDatabasesNames(connectionString))
+      foreach (var name in GetDatabasesNames(connectionString))
       {
-        var file = this.GetDatabaseFileName(name, connectionString);
+        var file = GetDatabaseFileName(name, connectionString);
         if (string.IsNullOrEmpty(file) || !FileSystem.FileSystem.Local.File.Exists(file))
         {
           continue;
@@ -210,7 +210,7 @@
 
       using (var connection = OpenConnection(connectionString, false))
       {
-        this.Execute(connection, command);
+        Execute(connection, command);
       }
     }
 
@@ -238,7 +238,7 @@
 
       try
       {
-        using (SqlConnection connection = this.OpenConnection(connectionString))
+        using (SqlConnection connection = OpenConnection(connectionString))
         {
           return GetDatabaseFileName(databaseName, connection);
         }
@@ -272,7 +272,7 @@
 
       var res = string.Empty;
 
-      using (SqlConnection conn = this.OpenConnection(connectionString))
+      using (SqlConnection conn = OpenConnection(connectionString))
       {
         SqlCommand command = new SqlCommand(@"dbcc checkprimaryfile (N'" + pathToMdf + @"' , 2)", conn);
         SqlDataReader reader = command.ExecuteReader();
@@ -295,7 +295,7 @@
 
       BackupInfo res = new BackupInfo(string.Empty, string.Empty, string.Empty, string.Empty, string.Empty);
 
-      using (SqlConnection conn = this.OpenConnection(connectionString))
+      using (SqlConnection conn = OpenConnection(connectionString))
       {
         SqlCommand command = new SqlCommand("RESTORE FILELISTONLY FROM DISK='" + pathToBak + "'", conn);
 
@@ -339,7 +339,7 @@
 
       List<string> res = new List<string>();
 
-      using (SqlConnection conn = this.OpenConnection(connectionString))
+      using (SqlConnection conn = OpenConnection(connectionString))
       {
         SqlCommand command = new SqlCommand("USE master; SELECT [Name] FROM sys.databases", conn);
         SqlDataReader reader = command.ExecuteReader();
@@ -365,7 +365,7 @@
 
       List<string> res = new List<string>();
 
-      using (SqlConnection conn = this.OpenConnection(connectionString))
+      using (SqlConnection conn = OpenConnection(connectionString))
       {
         SqlCommand command = new SqlCommand(@"USE master; SELECT [Name] FROM sys.databases WHERE [Name] LIKE '%" + searchPattern + @"%'", conn);
         SqlDataReader reader = command.ExecuteReader();
@@ -391,7 +391,7 @@
 
       DataTable dataTable;
 
-      using (SqlConnection conn = this.OpenConnection(connectionString))
+      using (SqlConnection conn = OpenConnection(connectionString))
       {
         SqlCommand command = new SqlCommand(sqlQuery, conn);
         SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(command);
@@ -407,7 +407,7 @@
     {
       try
       {
-        using (var connection = this.OpenConnection(connectionString))
+        using (var connection = OpenConnection(connectionString))
         {
           var command = new SqlCommand
           {
@@ -446,8 +446,8 @@
 
       try
       {
-        var resultConnectionString = this.GetManagementConnectionString(connectionString, 1);
-        using (this.OpenConnection(resultConnectionString))
+        var resultConnectionString = GetManagementConnectionString(connectionString, 1);
+        using (OpenConnection(resultConnectionString))
         {
         }
 
@@ -484,7 +484,7 @@
     {
       Assert.ArgumentNotNull(connectionString, nameof(connectionString));
 
-      SqlConnectionStringBuilder managementConnectionString = isManagement ? this.GetManagementConnectionString(connectionString) : connectionString;
+      SqlConnectionStringBuilder managementConnectionString = isManagement ? GetManagementConnectionString(connectionString) : connectionString;
       SqlConnection connection = new SqlConnection(managementConnectionString.ConnectionString);
       connection.Open();
       return connection;
@@ -498,16 +498,16 @@
       Assert.ArgumentNotNull(backupFileName, nameof(backupFileName));
       Assert.IsTrue(FileSystem.FileSystem.Local.File.Exists(backupFileName), "Backup file is missing");
 
-      using (SqlConnection connection = this.OpenConnection(connectionString))
+      using (SqlConnection connection = OpenConnection(connectionString))
       {
         Assert.ArgumentNotNull(databaseName, nameof(databaseName));
         Assert.ArgumentNotNull(backupFileName, nameof(backupFileName));
 
-        this.CloseConnectionsToDatabase(databaseName, connection);
+        CloseConnectionsToDatabase(databaseName, connection);
 
         Log.Info($"Restoring database: {databaseName}");
         var restoreCommand = "RESTORE DATABASE [" + databaseName + "] FROM  DISK = N'" + backupFileName + "' WITH REPLACE, RECOVERY --force restore over specified database";
-        this.Execute(connection, restoreCommand);
+        Execute(connection, restoreCommand);
       }
     }
 
@@ -519,7 +519,7 @@
       Assert.ArgumentNotNull(backupFileName, nameof(backupFileName));
       Assert.IsTrue(FileSystem.FileSystem.Local.File.Exists(backupFileName), "Backup file is missing");
 
-      using (SqlConnection connection = this.OpenConnection(connectionString))
+      using (SqlConnection connection = OpenConnection(connectionString))
       {
         Assert.ArgumentNotNull(databaseName, nameof(databaseName));
         Assert.ArgumentNotNull(backupFileName, nameof(backupFileName));
@@ -554,7 +554,7 @@
           {
             databaseName /*backupInfo.dbOriginalName*/, backupFileName, pathTo, mdfName, ldfName
           });
-        this.Execute(connection, command, 60 * 60 * 2); // 2 hours
+        Execute(connection, command, 60 * 60 * 2); // 2 hours
       }
     }
 
@@ -566,7 +566,7 @@
       Assert.ArgumentNotNull(backupFileName, nameof(backupFileName));
       Assert.IsTrue(FileSystem.FileSystem.Local.File.Exists(backupFileName), "Backup file is missing");
 
-      using (SqlConnection connection = this.OpenConnection(connectionString))
+      using (SqlConnection connection = OpenConnection(connectionString))
       {
         Assert.ArgumentNotNull(databaseName, nameof(databaseName));
         Assert.ArgumentNotNull(backupFileName, nameof(backupFileName));
@@ -601,7 +601,7 @@
           {
             databaseName, backupFileName, pathTo, mdfName, ldfName, databaseFileName
           });
-        this.Execute(connection, command);
+        Execute(connection, command);
       }
     }
 
@@ -646,8 +646,8 @@
 
       try
       {
-        var resultConnectionString = this.GetManagementConnectionString(connectionString, 1);
-        using (this.OpenConnection(resultConnectionString, false))
+        var resultConnectionString = GetManagementConnectionString(connectionString, 1);
+        using (OpenConnection(resultConnectionString, false))
         {
         }
       }
@@ -676,11 +676,11 @@
 
       public BackupInfo(string logicalNameOfMdf, string physicalNameOfMdf, string logicalNameOfLdf, string physicalNameOfLdf, string databaseOriginalName)
       {
-        this._LogicalNameMdf = logicalNameOfMdf;
-        this._PhysicalNameMdf = physicalNameOfMdf;
-        this._LogicalNameLdf = logicalNameOfLdf;
-        this._PhysicalNameLdf = physicalNameOfLdf;
-        this._DbOriginalName = databaseOriginalName;
+        _LogicalNameMdf = logicalNameOfMdf;
+        _PhysicalNameMdf = physicalNameOfMdf;
+        _LogicalNameLdf = logicalNameOfLdf;
+        _PhysicalNameLdf = physicalNameOfLdf;
+        _DbOriginalName = databaseOriginalName;
       }
 
       #endregion
@@ -690,14 +690,14 @@
 
       public string GetDatabaseName()
       {
-        if (!this._LogicalNameMdf.IsNullOrEmpty())
+        if (!_LogicalNameMdf.IsNullOrEmpty())
         {
-          return this._LogicalNameMdf.Replace(".Data", string.Empty);
+          return _LogicalNameMdf.Replace(".Data", string.Empty);
         }
 
-        if (!this._LogicalNameLdf.IsNullOrEmpty())
+        if (!_LogicalNameLdf.IsNullOrEmpty())
         {
-          return this._LogicalNameLdf.Replace(".Log", string.Empty);
+          return _LogicalNameLdf.Replace(".Log", string.Empty);
         }
 
         return string.Empty;
@@ -741,14 +741,14 @@
 
       try
       {
-        this.CloseConnectionsToDatabase(databaseName, connection);
-        this.Execute(connection, DropDatabase.FormatWith(databaseName));
+        CloseConnectionsToDatabase(databaseName, connection);
+        Execute(connection, DropDatabase.FormatWith(databaseName));
       }
       catch (Exception ex)
       {
         Log.Warn(ex, string.Format("An error occurred during database '{0}' deleting attempt. Retrying..."));
         var command = "EXEC msdb.dbo.sp_delete_database_backuphistory @database_name = N'{0}'";
-        this.Execute(connection, command.FormatWith(databaseName));
+        Execute(connection, command.FormatWith(databaseName));
       }
     }
 

@@ -20,8 +20,8 @@
 
     public FinishAction(string text, MethodInfo method)
     {
-      this.Text = text;
-      this.Method = method;
+      Text = text;
+      Method = method;
     }
 
     #endregion

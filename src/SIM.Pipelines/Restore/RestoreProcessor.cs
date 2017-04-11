@@ -18,14 +18,14 @@
     {
       Assert.ArgumentNotNull(args, nameof(args));
 
-      return this.EvaluateStepsCount((RestoreArgs)args);
+      return EvaluateStepsCount((RestoreArgs)args);
     }
 
     public override bool IsRequireProcessing(ProcessorArgs args)
     {
       Assert.ArgumentNotNull(args, nameof(args));
 
-      return this.IsRequireProcessing((RestoreArgs)args);
+      return IsRequireProcessing((RestoreArgs)args);
     }
 
     #endregion
@@ -50,7 +50,7 @@
     {
       Assert.ArgumentNotNull(args, nameof(args));
 
-      this.Process((RestoreArgs)args);
+      Process((RestoreArgs)args);
     }
 
     protected abstract void Process([NotNull] RestoreArgs args);

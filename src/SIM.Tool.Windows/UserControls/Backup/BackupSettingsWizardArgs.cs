@@ -23,9 +23,9 @@
 
     public BackupSettingsWizardArgs(Instance instance)
     {
-      this.Instance = instance;
-      this._instanceName = instance.Name;
-      this.BackupName = string.Format("{0:yyyy-MM-dd} at {0:hh-mm-ss}", DateTime.Now);
+      Instance = instance;
+      _instanceName = instance.Name;
+      BackupName = string.Format("{0:yyyy-MM-dd} at {0:hh-mm-ss}", DateTime.Now);
     }
 
     #endregion
@@ -38,7 +38,7 @@
     {
       get
       {
-        return this._instanceName;
+        return _instanceName;
       }
     }
 
@@ -48,7 +48,7 @@
 
     public override ProcessorArgs ToProcessorArgs()
     {
-      var backupArgs = new BackupArgs(this.Instance, FileSystem.FileSystem.Local.Path.EscapePath(this.BackupName.Trim(), "."), this._Files, this._Databases, this._ExcludeClient, this._MongoDatabases);
+      var backupArgs = new BackupArgs(Instance, FileSystem.FileSystem.Local.Path.EscapePath(BackupName.Trim(), "."), _Files, _Databases, _ExcludeClient, _MongoDatabases);
 
       return backupArgs;
     }

@@ -16,7 +16,7 @@
 
     public InstancesRoot()
     {
-      this.InitializeComponent();
+      InitializeComponent();
     }
 
     #endregion
@@ -65,7 +65,7 @@
     void IWizardStep.InitializeStep(WizardArgs wizardArgs)
     {
       var args = (SetupWizardArgs)wizardArgs;
-      this.MainRootFolder.Text = args.InstancesRootFolderPath.EmptyToNull() ?? "C:\\inetpub\\wwwroot";
+      MainRootFolder.Text = args.InstancesRootFolderPath.EmptyToNull() ?? "C:\\inetpub\\wwwroot";
     }
 
     bool IFlowControl.OnMovingBack(WizardArgs wizardArgs)
@@ -76,18 +76,18 @@
     bool IFlowControl.OnMovingNext(WizardArgs wizardArgs)
     {
       var args = (SetupWizardArgs)wizardArgs;
-      return this.OnMovingNext(args);
+      return OnMovingNext(args);
     }
 
     private void PickInstancesFolder([CanBeNull] object sender, [CanBeNull] RoutedEventArgs e)
     {
-      WindowHelper.PickFolder("Choose the Instances Root folder", this.MainRootFolder, this.PickInstancesFolderButton);
+      WindowHelper.PickFolder("Choose the Instances Root folder", MainRootFolder, PickInstancesFolderButton);
     }
 
     bool IWizardStep.SaveChanges(WizardArgs wizardArgs)
     {
       var args = (SetupWizardArgs)wizardArgs;
-      args.InstancesRootFolderPath = this.MainRootFolder.Text.Trim();
+      args.InstancesRootFolderPath = MainRootFolder.Text.Trim();
       return true;
     }
 

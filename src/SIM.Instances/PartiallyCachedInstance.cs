@@ -35,16 +35,16 @@
 
     public PartiallyCachedInstance(int id) : base(id)
     {
-      var path = this.WebRootPath;
+      var path = WebRootPath;
       if (!File.Exists(path))
       {
         return;
       }
 
       var webConfig = new FileSystemWatcher(path, "web.config");
-      this.WebConfigWatcher = webConfig;
+      WebConfigWatcher = webConfig;
       webConfig.IncludeSubdirectories = false;
-      webConfig.Changed += this.ClearCache;
+      webConfig.Changed += ClearCache;
       webConfig.EnableRaisingEvents = true;
       var appConfigPath = Path.Combine(path, "App_Config");
       if (!Directory.Exists(appConfigPath))
@@ -53,9 +53,9 @@
       }
 
       var appConfig = new FileSystemWatcher(appConfigPath, "*.config");
-      this.AppConfigWatcher = appConfig;
+      AppConfigWatcher = appConfig;
       appConfig.IncludeSubdirectories = true;
-      appConfig.Changed += this.ClearCache;
+      appConfig.Changed += ClearCache;
       appConfig.EnableRaisingEvents = true;
     }
 
@@ -71,7 +71,7 @@
     {
       get
       {
-        return this._LicencePath ?? (this._LicencePath = base.LicencePath);
+        return _LicencePath ?? (_LicencePath = base.LicencePath);
       }
     }
 
@@ -79,7 +79,7 @@
     {
       get
       {
-        return this._Name ?? (this._Name = base.Name);
+        return _Name ?? (_Name = base.Name);
       }
     }
 
@@ -87,7 +87,7 @@
     {
       get
       {
-        return this._ProductFullName ?? (this._ProductFullName = base.ProductFullName);
+        return _ProductFullName ?? (_ProductFullName = base.ProductFullName);
       }
     }
 
@@ -95,7 +95,7 @@
     {
       get
       {
-        return this._WebRootPath ?? (this._WebRootPath = base.WebRootPath);
+        return _WebRootPath ?? (_WebRootPath = base.WebRootPath);
       }
     }
 
@@ -107,7 +107,7 @@
     {
       get
       {
-        return this._ModulesNamesCache ?? (this._ModulesNamesCache = base.ModulesNames);
+        return _ModulesNamesCache ?? (_ModulesNamesCache = base.ModulesNames);
       }
     }
 
@@ -115,7 +115,7 @@
     {
       get
       {
-        return this._BindingsNames ?? (this._BindingsNames = base.BindingsNames);
+        return _BindingsNames ?? (_BindingsNames = base.BindingsNames);
       }
     }
 
@@ -125,20 +125,20 @@
 
     public void Dispose()
     {
-      if (this.AppConfigWatcher != null)
+      if (AppConfigWatcher != null)
       {
-        this.AppConfigWatcher.EnableRaisingEvents = false;
+        AppConfigWatcher.EnableRaisingEvents = false;
       }
 
-      if (this.WebConfigWatcher != null)
+      if (WebConfigWatcher != null)
       {
-        this.WebConfigWatcher.EnableRaisingEvents = false;
+        WebConfigWatcher.EnableRaisingEvents = false;
       }
     }
 
     public override XmlDocument GetWebResultConfig(bool normalize = false)
     {
-      return this._WebConfigResultCache ?? (this._WebConfigResultCache = base.GetWebResultConfig(normalize));
+      return _WebConfigResultCache ?? (_WebConfigResultCache = base.GetWebResultConfig(normalize));
     }
 
     #endregion
@@ -147,8 +147,8 @@
 
     private void ClearCache([CanBeNull] object sender, [CanBeNull] FileSystemEventArgs fileSystemEventArgs)
     {
-      this._WebConfigResultCache = null;
-      this._ModulesNamesCache = null;
+      _WebConfigResultCache = null;
+      _ModulesNamesCache = null;
     }
 
     #endregion

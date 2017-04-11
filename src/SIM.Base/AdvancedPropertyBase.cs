@@ -6,8 +6,8 @@ namespace SIM
 
     protected AdvancedPropertyBase(string xPathKey, IAdvancedSettingsStorage settingsStorage)
     {
-      this.XPathKey = xPathKey;
-      this.SettingsStorage = settingsStorage;
+      XPathKey = xPathKey;
+      SettingsStorage = settingsStorage;
     }
 
     #endregion
@@ -20,7 +20,7 @@ namespace SIM
     {
       get
       {
-        return this.XPathKey;
+        return XPathKey;
       }
     }
 
@@ -50,12 +50,12 @@ namespace SIM
 
     protected virtual string ReadSetting()
     {
-      return this.SettingsStorage.ReadSetting(this.XPathKey, null);
+      return SettingsStorage.ReadSetting(XPathKey, null);
     }
 
     protected virtual void WriteSetting(string newValue)
     {
-      this.SettingsStorage.WriteSetting(this.XPathKey, newValue);
+      SettingsStorage.WriteSetting(XPathKey, newValue);
     }
 
     #endregion

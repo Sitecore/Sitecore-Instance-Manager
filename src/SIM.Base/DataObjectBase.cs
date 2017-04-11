@@ -22,9 +22,9 @@
     {
       Assert.ArgumentNotNull(name, nameof(name));
 
-      if (this.PropertyChanged != null)
+      if (PropertyChanged != null)
       {
-        this.PropertyChanged(this, new PropertyChangedEventArgs(name));
+        PropertyChanged(this, new PropertyChangedEventArgs(name));
       }
     }
 

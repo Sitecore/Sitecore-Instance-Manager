@@ -24,21 +24,21 @@ namespace SIM.Tool.Windows.Dialogs
 
     public RestoreDatabaseDialog()
     {
-      this.InitializeComponent();
+      InitializeComponent();
     }
 
     public RestoreDatabaseDialog(string initialDirectory)
     {
-      this.InitializeComponent();
-      this._InitialPath = initialDirectory;
+      InitializeComponent();
+      _InitialPath = initialDirectory;
     }
 
     public RestoreDatabaseDialog(string name, string pathFrom, string pathTo)
     {
-      this.InitializeComponent();
-      this.dbName.Text = name;
-      this.dbPathFrom.Text = pathFrom;
-      this.dbPathTo.Text = pathTo;
+      InitializeComponent();
+      dbName.Text = name;
+      dbPathFrom.Text = pathFrom;
+      dbPathTo.Text = pathTo;
     }
 
     #endregion
@@ -51,11 +51,11 @@ namespace SIM.Tool.Windows.Dialogs
       {
         if (dbFileName.IsNullOrEmpty())
         {
-          SqlServerManager.Instance.RestoreDatabase(databaseName, connectionString, pathFrom, pathTo, this._BakInfo);
+          SqlServerManager.Instance.RestoreDatabase(databaseName, connectionString, pathFrom, pathTo, _BakInfo);
         }
         else
         {
-          SqlServerManager.Instance.RestoreDatabase(databaseName, dbFileName, connectionString, pathFrom, pathTo, this._BakInfo);
+          SqlServerManager.Instance.RestoreDatabase(databaseName, dbFileName, connectionString, pathFrom, pathTo, _BakInfo);
         }
       }
       catch (Exception exception)
@@ -67,17 +67,17 @@ namespace SIM.Tool.Windows.Dialogs
     private void BtnOkClick(object sender, RoutedEventArgs e)
     {
       var connectionString = ProfileManager.GetConnectionString();
-      var databaseName = this.dbName.Text;
-      var dbFileName = this.fileName.Text;
-      var pathFrom = this.dbPathFrom.Text;
-      var pathTo = this.dbPathTo.Text;
+      var databaseName = dbName.Text;
+      var dbFileName = fileName.Text;
+      var pathFrom = dbPathFrom.Text;
+      var pathTo = dbPathTo.Text;
 
 
-      if (!this.dbName.Text.IsNullOrEmpty() && !this.dbPathFrom.Text.IsNullOrEmpty() && !this.dbPathTo.Text.IsNullOrEmpty())
+      if (!dbName.Text.IsNullOrEmpty() && !dbPathFrom.Text.IsNullOrEmpty() && !dbPathTo.Text.IsNullOrEmpty())
       {
         try
         {
-          WindowHelper.LongRunningTask(() => this.RestoreDatabase(dbFileName, databaseName, pathFrom, pathTo, connectionString), "Restore database", this, "The database is being restored", null, true);
+          WindowHelper.LongRunningTask(() => RestoreDatabase(dbFileName, databaseName, pathFrom, pathTo, connectionString), "Restore database", this, "The database is being restored", null, true);
         }
         catch (SqlException exception)
         {
@@ -85,7 +85,7 @@ namespace SIM.Tool.Windows.Dialogs
         }
 
         DatabasesDialog._LastPathToRestore = pathFrom;
-        this.Close();
+        Close();
       }
       else
       {
@@ -100,7 +100,7 @@ namespace SIM.Tool.Windows.Dialogs
         AddExtension = true, 
         CheckPathExists = true, 
         Filter = "Backup (*.bak) | *.bak; | All Files (*.*) | *.*", 
-        InitialDirectory = this._InitialPath, 
+        InitialDirectory = _InitialPath, 
         Title = "Specify backup file"
       };
       bool? showDialog = dialog.ShowDialog();
@@ -109,13 +109,13 @@ namespace SIM.Tool.Windows.Dialogs
         return;
       }
 
-      this.dbPathFrom.Text = dialog.FileName;
+      dbPathFrom.Text = dialog.FileName;
       try
       {
-        this._BakInfo = SqlServerManager.Instance.GetDatabasesNameFromBackup(ProfileManager.GetConnectionString(), dialog.FileName);
-        this.dbPathTo.Text = System.IO.Path.GetDirectoryName(this._BakInfo._PhysicalNameMdf);
-        this.dbName.Text = this._BakInfo._DbOriginalName;
-        this.fileName.Text = this._BakInfo.GetDatabaseName() + ".mdf";
+        _BakInfo = SqlServerManager.Instance.GetDatabasesNameFromBackup(ProfileManager.GetConnectionString(), dialog.FileName);
+        dbPathTo.Text = System.IO.Path.GetDirectoryName(_BakInfo._PhysicalNameMdf);
+        dbName.Text = _BakInfo._DbOriginalName;
+        fileName.Text = _BakInfo.GetDatabaseName() + ".mdf";
       }
       catch (Exception ex)
       {
@@ -126,7 +126,7 @@ namespace SIM.Tool.Windows.Dialogs
 
     private void SelectPathToClick(object sender, RoutedEventArgs e)
     {
-      WindowHelper.PickFolder("Choose folder for restoring", this.dbPathTo, this.selectPathTo, this._InitialPath);
+      WindowHelper.PickFolder("Choose folder for restoring", dbPathTo, selectPathTo, _InitialPath);
     }
 
     #endregion

@@ -16,7 +16,7 @@
       var connectionStringsDocument = new XmlDocumentEx();
       connectionStringsDocument.Load(pathToConnectionStringsConfig);
       var connectionsStringsElement = new XmlElementEx(connectionStringsDocument.DocumentElement, connectionStringsDocument);
-      ConnectionStringCollection connStringCollection = this.GetConnectionStringCollection(connectionsStringsElement);
+      ConnectionStringCollection connStringCollection = GetConnectionStringCollection(connectionsStringsElement);
 
       foreach (var conn in connStringCollection)
       {

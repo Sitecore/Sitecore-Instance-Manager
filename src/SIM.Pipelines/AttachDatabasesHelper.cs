@@ -91,7 +91,7 @@ namespace SIM.Pipelines
     {
       if (connectionString.IsMongoConnectionString)
       {
-        connectionString.Value = AttachDatabasesHelper.GetMongoConnectionString(connectionString.Name, sqlPrefix);
+        connectionString.Value = GetMongoConnectionString(connectionString.Name, sqlPrefix);
         connectionString.SaveChanges();
         return;
       }
@@ -100,7 +100,7 @@ namespace SIM.Pipelines
       {
         try
         {
-          AttachDatabasesHelper.AttachDatabase(name, sqlPrefix, attachSql, databasesFolderPath, connectionString, defaultConnectionString, controller);
+          AttachDatabase(name, sqlPrefix, attachSql, databasesFolderPath, connectionString, defaultConnectionString, controller);
         }
         catch (Exception ex)
         {
@@ -275,7 +275,7 @@ namespace SIM.Pipelines
       var connectionStrings = instance.Configuration.ConnectionStrings.Where(x => x.IsSqlConnectionString).ToArray();
       Assert.IsTrue(connectionStrings.Length >= 2, "2 or more sql connection strings are required");
 
-      return AttachDatabasesHelper.GetSqlPrefix(connectionStrings[0].Value, connectionStrings[1].Value);
+      return GetSqlPrefix(connectionStrings[0].Value, connectionStrings[1].Value);
     }
 
     public static void ExtractReportingDatabase(Instance instance, FileInfo destination)

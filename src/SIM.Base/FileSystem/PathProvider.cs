@@ -15,7 +15,7 @@ namespace SIM.FileSystem
 
     public PathProvider(FileSystem fileSystem)
     {
-      this.FileSystem = fileSystem;
+      FileSystem = fileSystem;
     }
 
     #endregion

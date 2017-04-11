@@ -34,14 +34,14 @@
     public WizardPipeline(string name, string title, StepInfo[] stepInfos, Type args, string startButtonText, string cancelButtonText, string finishText, FinishAction[] finishActions, FinishActionHive[] finishActionHives)
     {
       this.name = name;
-      this.Title = title;
-      this.FinishText = finishText;
-      this.StartButtonText = startButtonText;
-      this.CancelButtonText = cancelButtonText;
-      this.Args = args;
-      this._StepInfos = stepInfos;
-      this._FinishActions = finishActions;
-      this._FinishActionHives = finishActionHives;
+      Title = title;
+      FinishText = finishText;
+      StartButtonText = startButtonText;
+      CancelButtonText = cancelButtonText;
+      Args = args;
+      _StepInfos = stepInfos;
+      _FinishActions = finishActions;
+      _FinishActionHives = finishActionHives;
     }
 
     #endregion
@@ -52,7 +52,7 @@
     {
       get
       {
-        return this.name;
+        return name;
       }
     }
 

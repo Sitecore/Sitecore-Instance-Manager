@@ -37,13 +37,13 @@
 
       foreach (var database in attachedDatabases.Where(database => selectedDatabases.Contains(database.Name.ToLower())))
       {
-        if (this._Done.Contains(database.Name))
+        if (_Done.Contains(database.Name))
         {
           continue;
         }
 
-        this.Backup(database, exportDatabasesFolder);
-        this._Done.Add(database.Name);
+        Backup(database, exportDatabasesFolder);
+        _Done.Add(database.Name);
       }
     }
 
@@ -61,7 +61,7 @@
       var databaseName = database.RealName;
       var fileName = Path.Combine(folder, database.BackupFilename);
       SqlServerManager.Instance.BackupDatabase(connectionString, databaseName, fileName);
-      this.IncrementProgress();
+      IncrementProgress();
     }
 
     #endregion

@@ -214,7 +214,7 @@
 
     public static Product FindProduct(ProductType type, string product, string version, string revision)
     {
-      var products = type == ProductType.Standalone ? ProductManager.StandaloneProducts : ProductManager.Modules;
+      var products = type == ProductType.Standalone ? StandaloneProducts : Modules;
       if (!string.IsNullOrEmpty(product))
       {
         products = products.Where(x => x.Name.Equals(product, StringComparison.OrdinalIgnoreCase));

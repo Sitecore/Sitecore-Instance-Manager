@@ -170,7 +170,7 @@
     {
       try
       {
-        using (var response = WebRequestHelper.RequestAndGetResponse(link, null, null, cookies))
+        using (var response = RequestAndGetResponse(link, null, null, cookies))
         {
           return GetFileName(response);
         }
@@ -216,7 +216,7 @@
       using (var response = wc.GetResponse())
       {
         var cookies = response.Headers[HttpResponseHeader.SetCookie];
-        return WebRequestHelper.GetCookie(cookies, "ASP.NET_SessionId");
+        return GetCookie(cookies, "ASP.NET_SessionId");
       }
     }
 

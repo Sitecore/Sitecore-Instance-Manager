@@ -19,7 +19,7 @@
 
     public FinishActionHive(Type type)
     {
-      this.WizardArgumentsType = type;
+      WizardArgumentsType = type;
     }
 
     #endregion

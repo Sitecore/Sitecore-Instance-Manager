@@ -38,7 +38,7 @@
             continue;
           }
 
-          foreach (FinishAction action in WizardPipelineManager.GetFinishActions(finish, this.WizardArgumentsType))
+          foreach (FinishAction action in WizardPipelineManager.GetFinishActions(finish, WizardArgumentsType))
           {
             yield return new FinishAction(action.Text, action.Method);
           }

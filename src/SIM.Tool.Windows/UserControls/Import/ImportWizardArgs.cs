@@ -30,16 +30,16 @@
 
     public ImportWizardArgs(string pathToExportedInstance)
     {
-      this._PathToExportedInstance = pathToExportedInstance;
-      this._ConnectionString = ProfileManager.GetConnectionString();
-      this._TemporaryPathToUnpack = FileSystem.FileSystem.Local.Directory.RegisterTempFolder(FileSystem.FileSystem.Local.Directory.Ensure(Path.GetTempFileName() + "dir"));
-      var websiteSettingsFilePath = FileSystem.FileSystem.Local.Zip.ZipUnpackFile(pathToExportedInstance, this._TemporaryPathToUnpack, ImportArgs.WebsiteSettingsFileName);
+      _PathToExportedInstance = pathToExportedInstance;
+      _ConnectionString = ProfileManager.GetConnectionString();
+      _TemporaryPathToUnpack = FileSystem.FileSystem.Local.Directory.RegisterTempFolder(FileSystem.FileSystem.Local.Directory.Ensure(Path.GetTempFileName() + "dir"));
+      var websiteSettingsFilePath = FileSystem.FileSystem.Local.Zip.ZipUnpackFile(pathToExportedInstance, _TemporaryPathToUnpack, ImportArgs.WebsiteSettingsFileName);
       XmlDocumentEx websiteSettings = new XmlDocumentEx();
       websiteSettings.Load(websiteSettingsFilePath);
-      this._SiteName = websiteSettings.GetElementAttributeValue("/appcmd/SITE/site", "name");
-      this._VirtualDirectoryPhysicalPath = websiteSettings.GetElementAttributeValue("/appcmd/SITE/site/application/virtualDirectory", "physicalPath");
-      this._RootPath = FileSystem.FileSystem.Local.Directory.GetParent(this._VirtualDirectoryPhysicalPath).FullName;
-      this._Bindings = this.GetBindings(websiteSettingsFilePath);
+      _SiteName = websiteSettings.GetElementAttributeValue("/appcmd/SITE/site", "name");
+      _VirtualDirectoryPhysicalPath = websiteSettings.GetElementAttributeValue("/appcmd/SITE/site/application/virtualDirectory", "physicalPath");
+      _RootPath = FileSystem.FileSystem.Local.Directory.GetParent(_VirtualDirectoryPhysicalPath).FullName;
+      _Bindings = GetBindings(websiteSettingsFilePath);
     }
 
     #endregion
@@ -52,7 +52,7 @@
     {
       Dictionary<string, int> bindingsForArgs = new Dictionary<string, int>();
 
-      foreach (var binding in this._Bindings)
+      foreach (var binding in _Bindings)
       {
         if (binding.IsChecked)
         {
@@ -60,7 +60,7 @@
         }
       }
 
-      return new ImportArgs(this._PathToExportedInstance, this._SiteName, this._TemporaryPathToUnpack, this._RootPath, this._ConnectionString, this._UpdateLicense, this._PathToLicenseFile, bindingsForArgs);
+      return new ImportArgs(_PathToExportedInstance, _SiteName, _TemporaryPathToUnpack, _RootPath, _ConnectionString, _UpdateLicense, _PathToLicenseFile, bindingsForArgs);
     }
 
     #endregion
@@ -102,14 +102,14 @@
 
     public BindingsItem(bool IsChecked, string hostname, int Port)
     {
-      this._IsChecked = IsChecked;
-      this.HostName = hostname;
+      _IsChecked = IsChecked;
+      HostName = hostname;
       this.Port = Port;
     }
 
     public BindingsItem(string hostname, int Port)
     {
-      this.HostName = hostname;
+      HostName = hostname;
       this.Port = Port;
     }
 
@@ -121,12 +121,12 @@
     {
       get
       {
-        return this._IsChecked;
+        return _IsChecked;
       }
 
       set
       {
-        this._IsChecked = value;
+        _IsChecked = value;
       }
     }
 

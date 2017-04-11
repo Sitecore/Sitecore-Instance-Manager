@@ -35,8 +35,8 @@
     {
       Assert.ArgumentNotNull(username, nameof(username));
       Assert.ArgumentNotNull(password, nameof(password));
-      this.UserName = username;
-      this.Password = password;
+      UserName = username;
+      Password = password;
     }
 
     #endregion
@@ -54,7 +54,7 @@
     {
       get
       {
-        return this._Products;
+        return _Products;
       }
     }
 
@@ -77,7 +77,7 @@
     [NotNull]
     public override ProcessorArgs ToProcessorArgs()
     {
-      return new Download8Args(this.Cookies, this.Links, ProfileManager.Profile.LocalRepository);
+      return new Download8Args(Cookies, Links, ProfileManager.Profile.LocalRepository);
     }
 
     #endregion

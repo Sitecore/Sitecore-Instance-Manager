@@ -10,7 +10,7 @@
     {
       return new[]
       {
-        (Processor)ReflectionUtil.CreateObject(this.Type)
+        (Processor)ReflectionUtil.CreateObject(Type)
       };
     }
 

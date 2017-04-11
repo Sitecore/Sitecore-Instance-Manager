@@ -40,7 +40,7 @@
       try
       {
         // 200ms should be more than enough to respond with empty page
-        InstanceHelper.StartInstance(instance, 200, reason);
+        StartInstance(instance, 200, reason);
         return true;
       }
       catch (WebException)

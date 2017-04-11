@@ -25,15 +25,15 @@
 
     public ProductInCheckbox(Product value)
     {
-      this.Value = value;
-      this._Products = null;
+      Value = value;
+      _Products = null;
     }
 
     public ProductInCheckbox(string name, Product[] products)
     {
       this.name = name;
-      this._Products = products;
-      this.Value = products.First();
+      _Products = products;
+      Value = products.First();
     }
 
     #endregion
@@ -44,13 +44,13 @@
     {
       get
       {
-        return this._IsChecked;
+        return _IsChecked;
       }
 
       set
       {
-        this._IsChecked = value;
-        this.NotifyPropertyChanged("IsChecked");
+        _IsChecked = value;
+        NotifyPropertyChanged("IsChecked");
       }
     }
 
@@ -58,7 +58,7 @@
     {
       get
       {
-        return this.name ?? this.Value.Label ?? this.Value.Name;
+        return name ?? Value.Label ?? Value.Name;
       }
     }
 
@@ -66,7 +66,7 @@
     {
       get
       {
-        return this._Products;
+        return _Products;
       }
     }
 
@@ -74,14 +74,14 @@
     {
       get
       {
-        return this._Value;
+        return _Value;
       }
 
       set
       {
-        this._Value = value;
-        this.NotifyPropertyChanged("Value");
-        this.NotifyPropertyChanged("ValueIndex");
+        _Value = value;
+        NotifyPropertyChanged("Value");
+        NotifyPropertyChanged("ValueIndex");
       }
     }
 
@@ -90,9 +90,9 @@
       get
       {
         var i = 0;
-        foreach (var product in this.Scope)
+        foreach (var product in Scope)
         {
-          if (product == this.Value)
+          if (product == Value)
           {
             return i;
           }
@@ -105,8 +105,8 @@
 
       set
       {
-        this._Value = this.Scope[value];
-        this.NotifyPropertyChanged("ValueIndex");
+        _Value = Scope[value];
+        NotifyPropertyChanged("ValueIndex");
       }
     }
 
@@ -116,7 +116,7 @@
 
     public override string ToString()
     {
-      return this.Value.Name;
+      return Value.Name;
     }
 
     #endregion

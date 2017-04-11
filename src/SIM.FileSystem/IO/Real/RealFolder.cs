@@ -47,7 +47,7 @@
 
     public override bool Equals(object obj)
     {
-      return this.Equals((RealFolder)obj);
+      return Equals((RealFolder)obj);
     }             
   }
 }

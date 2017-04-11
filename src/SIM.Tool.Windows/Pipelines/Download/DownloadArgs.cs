@@ -21,10 +21,10 @@
 
     public DownloadArgs(string cookies, ReadOnlyCollection<Uri> links, string localRepository, UriBasedCollection<long> sizes)
     {
-      this.LocalRepository = localRepository;
-      this._Sizes = sizes;
-      this._Links = links;
-      this.Cookies = cookies;
+      LocalRepository = localRepository;
+      _Sizes = sizes;
+      _Links = links;
+      Cookies = cookies;
     }
 
     #endregion
@@ -43,9 +43,9 @@
 
       set
       {
-        if (!this.ContainsKey(index))
+        if (!ContainsKey(index))
         {
-          this.Add(index, value);
+          Add(index, value);
         }
         else
         {

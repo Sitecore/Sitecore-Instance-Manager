@@ -21,7 +21,7 @@ namespace SIM.FileSystem
     {
       Assert.ArgumentNotNull(fileSystem, nameof(fileSystem));
 
-      this.FileSystem = fileSystem;
+      FileSystem = fileSystem;
     }
 
     #endregion
@@ -36,7 +36,7 @@ namespace SIM.FileSystem
       }
       catch (PathTooLongException)
       {
-        path = this.FileSystem.Path.ToUncPath(path);
+        path = FileSystem.Path.ToUncPath(path);
 
         base.AppendAllLines(path, lines);
       }
@@ -50,7 +50,7 @@ namespace SIM.FileSystem
       }
       catch (PathTooLongException)
       {
-        path = this.FileSystem.Path.ToUncPath(path);
+        path = FileSystem.Path.ToUncPath(path);
 
         base.AppendAllText(path, text);
       }
@@ -64,7 +64,7 @@ namespace SIM.FileSystem
       }
       catch (PathTooLongException)
       {
-        path = this.FileSystem.Path.ToUncPath(path);
+        path = FileSystem.Path.ToUncPath(path);
 
         base.AssertExists(path, message, isError);
       }
@@ -78,8 +78,8 @@ namespace SIM.FileSystem
       }
       catch (PathTooLongException)
       {
-        path = this.FileSystem.Path.ToUncPath(path);
-        destFileName = this.FileSystem.Path.ToUncPath(destFileName);
+        path = FileSystem.Path.ToUncPath(path);
+        destFileName = FileSystem.Path.ToUncPath(destFileName);
 
         base.Copy(path, destFileName);
       }
@@ -93,8 +93,8 @@ namespace SIM.FileSystem
       }
       catch (PathTooLongException)
       {
-        path1 = this.FileSystem.Path.ToUncPath(path1);
-        path2 = this.FileSystem.Path.ToUncPath(path2);
+        path1 = FileSystem.Path.ToUncPath(path1);
+        path2 = FileSystem.Path.ToUncPath(path2);
 
         base.Copy(path1, path2, overwrite);
       }
@@ -108,8 +108,8 @@ namespace SIM.FileSystem
       }
       catch (PathTooLongException)
       {
-        source = this.FileSystem.Path.ToUncPath(source);
-        target = this.FileSystem.Path.ToUncPath(target);
+        source = FileSystem.Path.ToUncPath(source);
+        target = FileSystem.Path.ToUncPath(target);
 
         base.Copy(source, target, sync, timeout);
       }
@@ -123,7 +123,7 @@ namespace SIM.FileSystem
       }
       catch (PathTooLongException)
       {
-        path = this.FileSystem.Path.ToUncPath(path);
+        path = FileSystem.Path.ToUncPath(path);
 
         base.Delete(path);
       }
@@ -137,7 +137,7 @@ namespace SIM.FileSystem
       }
       catch (PathTooLongException)
       {
-        path = this.FileSystem.Path.ToUncPath(path);
+        path = FileSystem.Path.ToUncPath(path);
 
         base.DeleteIfExists(path, ignore);
       }
@@ -151,7 +151,7 @@ namespace SIM.FileSystem
       }
       catch (PathTooLongException)
       {
-        path = this.FileSystem.Path.ToUncPath(path);
+        path = FileSystem.Path.ToUncPath(path);
 
         return base.Exists(path);
       }
@@ -165,7 +165,7 @@ namespace SIM.FileSystem
       }
       catch (PathTooLongException)
       {
-        path = this.FileSystem.Path.ToUncPath(path);
+        path = FileSystem.Path.ToUncPath(path);
 
         return base.GetCreationTimeUtc(path);
       }
@@ -179,7 +179,7 @@ namespace SIM.FileSystem
       }
       catch (PathTooLongException)
       {
-        path = this.FileSystem.Path.ToUncPath(path);
+        path = FileSystem.Path.ToUncPath(path);
 
         return base.GetFileLength(path);
       }
@@ -193,7 +193,7 @@ namespace SIM.FileSystem
       }
       catch (PathTooLongException)
       {
-        path = this.FileSystem.Path.ToUncPath(path);
+        path = FileSystem.Path.ToUncPath(path);
 
         return base.GetLastWriteTimeUtc(path);
       }
@@ -207,7 +207,7 @@ namespace SIM.FileSystem
       }
       catch (PathTooLongException)
       {
-        path = this.FileSystem.Path.ToUncPath(path);
+        path = FileSystem.Path.ToUncPath(path);
 
         return base.GetNeighbourFiles(path, filter);
       }
@@ -221,8 +221,8 @@ namespace SIM.FileSystem
       }
       catch (PathTooLongException)
       {
-        path = this.FileSystem.Path.ToUncPath(path);
-        destFileName = this.FileSystem.Path.ToUncPath(destFileName);
+        path = FileSystem.Path.ToUncPath(path);
+        destFileName = FileSystem.Path.ToUncPath(destFileName);
 
         base.Move(path, destFileName, replace);
       }
@@ -236,7 +236,7 @@ namespace SIM.FileSystem
       }
       catch (PathTooLongException)
       {
-        path = this.FileSystem.Path.ToUncPath(path);
+        path = FileSystem.Path.ToUncPath(path);
 
         return base.OpenRead(path);
       }
@@ -250,7 +250,7 @@ namespace SIM.FileSystem
       }
       catch (PathTooLongException)
       {
-        path = this.FileSystem.Path.ToUncPath(path);
+        path = FileSystem.Path.ToUncPath(path);
 
         return base.ReadAllLines(path);
       }
@@ -264,7 +264,7 @@ namespace SIM.FileSystem
       }
       catch (PathTooLongException)
       {
-        path = this.FileSystem.Path.ToUncPath(path);
+        path = FileSystem.Path.ToUncPath(path);
 
         return base.ReadAllText(path);
       }
@@ -278,7 +278,7 @@ namespace SIM.FileSystem
       }
       catch (PathTooLongException)
       {
-        path = this.FileSystem.Path.ToUncPath(path);
+        path = FileSystem.Path.ToUncPath(path);
 
         base.WriteAllText(path, text);
       }

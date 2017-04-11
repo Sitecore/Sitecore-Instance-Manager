@@ -36,7 +36,7 @@
 
     public override bool Equals(object obj)
     {
-      return this.Equals((MockFolder)obj);
+      return Equals((MockFolder)obj);
     }
   }
 }

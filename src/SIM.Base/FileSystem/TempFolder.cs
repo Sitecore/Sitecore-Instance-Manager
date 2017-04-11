@@ -15,14 +15,14 @@ namespace SIM.FileSystem
 
     public TempFolder(FileSystem fileSystem, string path = null)
     {
-      this.FileSystem = fileSystem;
+      FileSystem = fileSystem;
       if (path != null)
       {
-        this.Path = fileSystem.Directory.Ensure(System.IO.Path.Combine(System.IO.Path.GetPathRoot(path), Guid.NewGuid().ToString()));
+        Path = fileSystem.Directory.Ensure(System.IO.Path.Combine(System.IO.Path.GetPathRoot(path), Guid.NewGuid().ToString()));
       }
       else
       {
-        this.Path = fileSystem.Directory.Ensure(System.IO.Path.Combine(System.IO.Path.GetTempPath(), System.IO.Path.GetRandomFileName()));
+        Path = fileSystem.Directory.Ensure(System.IO.Path.Combine(System.IO.Path.GetTempPath(), System.IO.Path.GetRandomFileName()));
       }
     }
 
@@ -32,12 +32,12 @@ namespace SIM.FileSystem
 
     public void Dispose()
     {
-      this.FileSystem.Directory.DeleteIfExists(this.Path);
+      FileSystem.Directory.DeleteIfExists(Path);
     }
 
     public override string ToString()
     {
-      return this.Path;
+      return Path;
     }
 
     #endregion

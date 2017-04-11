@@ -27,8 +27,8 @@
       Assert.ArgumentNotNull(element, nameof(element));
       Assert.ArgumentNotNull(document, nameof(document));
 
-      this.Document = document;
-      this.Element = element;
+      Document = document;
+      Element = element;
     }
 
     #endregion
@@ -40,7 +40,7 @@
     {
       get
       {
-        return this.Element.Attributes;
+        return Element.Attributes;
       }
     }
 
@@ -49,7 +49,7 @@
     {
       get
       {
-        return this.Element.Name;
+        return Element.Name;
       }
     }
 
@@ -61,7 +61,7 @@
     {
       Assert.ArgumentNotNull(element, nameof(element));
 
-      this.Element.AppendChild(element);
+      Element.AppendChild(element);
     }
 
     [NotNull]
@@ -69,7 +69,7 @@
     {
       Assert.ArgumentNotNull(name, nameof(name));
 
-      XmlAttribute attribute = this.Document.CreateAttribute(name);
+      XmlAttribute attribute = Document.CreateAttribute(name);
       if (value != null)
       {
         attribute.Value = value;
@@ -83,12 +83,12 @@
     {
       Assert.ArgumentNotNull(elementName, nameof(elementName));
 
-      return this.Document.CreateElement(string.Empty, elementName, string.Empty);
+      return Document.CreateElement(string.Empty, elementName, string.Empty);
     }
 
     public void Save()
     {
-      this.Document.Save();
+      Document.Save();
     }
 
     #endregion

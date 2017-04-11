@@ -48,7 +48,7 @@
 
       if (args.Backup.BackupDataFiles)
       {
-        this.IncrementProgress();
+        IncrementProgress();
         FileSystem.FileSystem.Local.Zip.UnpackZip(args.Backup.DataFilePath, args._DataFolder, null, B);
       }
     }

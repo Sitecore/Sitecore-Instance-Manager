@@ -81,30 +81,30 @@
 
     public ReinstallArgs(Instance instance, SqlConnectionStringBuilder connectionString, string license, string webServerIdentity, bool serverSideRedirect)
     {
-      this.ConnectionString = connectionString;
-      this.Name = instance.Name;
-      this._Bindings = instance.Bindings;
-      this.Product = instance.Product;
-      this.WebRootPath = instance.WebRootPath;
-      this.RootPath = instance.RootPath;
-      this.DataFolderPath = instance.DataFolderPath;
-      this.DatabasesFolderPath = Path.Combine(this.RootPath, "Databases");
-      this.WebServerIdentity = webServerIdentity;
-      this.LicenseFilePath = license;
-      this._Modules = new Product[0];
-      this.IsClassic = instance.IsClassic;
-      this.Is32Bit = instance.Is32Bit;
-      this.ForceNetFramework4 = instance.IsNetFramework4;
-      this.ServerSideRedirect = serverSideRedirect;
-      this.TempFolder = Path.Combine(this.RootPath, "Temp");
-      this._InstanceDatabases = instance.AttachedDatabases;
-      this.instanceName = instance.Name;
-      this._StopInstance = instance.Stop;
-      this.WebsiteID = instance.ID;
-      this.SqlPrefix = AttachDatabasesHelper.GetSqlPrefix(instance);
+      ConnectionString = connectionString;
+      Name = instance.Name;
+      _Bindings = instance.Bindings;
+      Product = instance.Product;
+      WebRootPath = instance.WebRootPath;
+      RootPath = instance.RootPath;
+      DataFolderPath = instance.DataFolderPath;
+      DatabasesFolderPath = Path.Combine(RootPath, "Databases");
+      WebServerIdentity = webServerIdentity;
+      LicenseFilePath = license;
+      _Modules = new Product[0];
+      IsClassic = instance.IsClassic;
+      Is32Bit = instance.Is32Bit;
+      ForceNetFramework4 = instance.IsNetFramework4;
+      ServerSideRedirect = serverSideRedirect;
+      TempFolder = Path.Combine(RootPath, "Temp");
+      _InstanceDatabases = instance.AttachedDatabases;
+      instanceName = instance.Name;
+      _StopInstance = instance.Stop;
+      WebsiteID = instance.ID;
+      SqlPrefix = AttachDatabasesHelper.GetSqlPrefix(instance);
 
       var executionTimeout = UpdateWebConfigHelper.GetHttpRuntime(instance.GetWebResultConfig()).GetAttribute("executionTimeout");
-      this.IncreaseExecutionTimeout = string.IsNullOrEmpty(executionTimeout) || executionTimeout != "600";
+      IncreaseExecutionTimeout = string.IsNullOrEmpty(executionTimeout) || executionTimeout != "600";
     }
 
     #region Properties
@@ -116,7 +116,7 @@
     {
       get
       {
-        return this.Product.PackagePath;
+        return Product.PackagePath;
       }
     }
 
@@ -129,7 +129,7 @@
     {
       get
       {
-        return this.instanceName;
+        return instanceName;
       }
     }
 

@@ -28,7 +28,7 @@
     public override long EvaluateStepsCount(ProcessorArgs args)
     {
       var download = (Download8Args)args;
-      var count = download._FileNames.Count(x => this.RequireDownloading(x.Value, download.LocalRepository));
+      var count = download._FileNames.Count(x => RequireDownloading(x.Value, download.LocalRepository));
       return count * Scale;
     }
 
@@ -45,7 +45,7 @@
       var links = download._Links;
 
       var cancellation = new CancellationTokenSource();
-      var urls = links.Where(link => this.RequireDownloading(fileNames[link], localRepository)).ToArray();
+      var urls = links.Where(link => RequireDownloading(fileNames[link], localRepository)).ToArray();
       var n = urls.Length;
       for (int index = 0; index < n; index++)
       {
@@ -59,9 +59,9 @@
           Assert.IsTrue(!FileSystem.FileSystem.Local.File.Exists(destFileName), "The {0} file already exists".FormatWith(destFileName));
           Log.Info($"Downloading {destFileName}");
 
-          if (this.TryCopyFromExternalRepository(fileName, destFileName))
+          if (TryCopyFromExternalRepository(fileName, destFileName))
           {
-            this.Controller.SetProgress(index * Scale + Scale);
+            Controller.SetProgress(index * Scale + Scale);
             return;
           }
 
@@ -78,7 +78,7 @@
           var done = false;
           Exception exception = null;
           var context = new DownloadContext(downloadOptions);
-          context.OnProgressChanged += (x, y, z) => this.Controller.SetProgress(index * Scale + z);
+          context.OnProgressChanged += (x, y, z) => Controller.SetProgress(index * Scale + z);
           context.OnDownloadCompleted += () => done = true;
           context.OnErrorOccurred += ex => exception = ex;
           ApplicationManager.AttemptToClose += (x, y) => cancellation.Cancel(true);

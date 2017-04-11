@@ -16,12 +16,12 @@
 
     public ClearEventQueueButton()
     {
-      this._Databases = new string[0];
+      _Databases = new string[0];
     }
 
     public ClearEventQueueButton(string databases)
     {
-      this._Databases = databases.Split(",;|".ToCharArray());
+      _Databases = databases.Split(",;|".ToCharArray());
     }
 
     public bool IsEnabled([NotNull] Window mainWindow, [CanBeNull] Instance instance)
@@ -43,7 +43,7 @@
           continue;
         }
 
-        if (this._Databases.Length != 0 && this._Databases.All(x => !x.Equals(database.Name, StringComparison.OrdinalIgnoreCase)))
+        if (_Databases.Length != 0 && _Databases.All(x => !x.Equals(database.Name, StringComparison.OrdinalIgnoreCase)))
         {
           continue;
         }

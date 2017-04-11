@@ -76,7 +76,7 @@
 
   private void Finish(string message)
   {
-    Log.Info(@""[SIM] " + AgentFiles.InstallPackageFileName + @": "" + message, this);
+    Log.Info(@""[SIM] " + InstallPackageFileName + @": "" + message, this);
     this.UpdateStatus(message);
     this.Response.Write(message);
   }
@@ -239,12 +239,12 @@ private string path;
     Assert.IsNotNullOrEmpty(tempFolderPath, ""Settings.TempFolderPath"");  
     var installedTemp = this.Server.MapPath(Path.Combine(tempFolderPath, ""sim.status""));
     File.WriteAllText(installedTemp, message);
-    Log.Info(@""[SIM] " + AgentFiles.InstallPackageFileName + @": "" + message, this);
+    Log.Info(@""[SIM] " + InstallPackageFileName + @": "" + message, this);
   }
 
   private void Finish(string message)
   {
-    Log.Info(@""[SIM] " + AgentFiles.InstallPackageFileName + @": "" + message, this);
+    Log.Info(@""[SIM] " + InstallPackageFileName + @": "" + message, this);
     var tempFolderPath = Settings.TempFolderPath;
     Assert.IsNotNullOrEmpty(tempFolderPath, ""Settings.TempFolderPath"");  
     var installedTemp = this.Server.MapPath(Path.Combine(tempFolderPath, ""sim.status""));

@@ -31,12 +31,12 @@
 
     public PublishButton()
     {
-      this._Mode = null;
+      _Mode = null;
     }
 
     public PublishButton(string mode)
     {
-      this._Mode = mode;
+      _Mode = mode;
     }
 
     #endregion
@@ -67,14 +67,14 @@
         ProfileSection.Argument("mainWindow", mainWindow);
         ProfileSection.Argument("instance", instance);
 
-        var modeText = this.GetMode(mainWindow);
+        var modeText = GetMode(mainWindow);
 
         if (modeText == null || modeText == CancelOption)
         {
           return;
         }
 
-        var mode = this.ParseMode(modeText);
+        var mode = ParseMode(modeText);
         MainWindowHelper.Publish(instance, mainWindow, mode);
       }
     }
@@ -85,7 +85,7 @@
 
     private string GetMode(Window mainWindow)
     {
-      if (string.IsNullOrEmpty(this._Mode))
+      if (string.IsNullOrEmpty(_Mode))
       {
         var options = new[]
         {
@@ -98,7 +98,7 @@
         return WindowHelper.AskForSelection("Publish", "Publish", "Choose publish mode", options, mainWindow, IncrementalOption);
       }
 
-      return this._Mode;
+      return _Mode;
     }
 
     private PublishMode ParseMode(string result)

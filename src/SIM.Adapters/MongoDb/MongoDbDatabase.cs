@@ -18,8 +18,8 @@
 
     public MongoDbDatabase(string name, string connectionString)
     {
-      this.Name = name;
-      this.ConnectionString = connectionString;
+      Name = name;
+      ConnectionString = connectionString;
     }
 
     #endregion
@@ -31,7 +31,7 @@
     {
       get
       {
-        return this.ConnectionString.Substring(this.ConnectionString.LastIndexOf('/') + 1);
+        return ConnectionString.Substring(ConnectionString.LastIndexOf('/') + 1);
       }
     }              
 

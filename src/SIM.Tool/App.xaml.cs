@@ -72,7 +72,7 @@ namespace SIM.Tool
     {
       base.OnStartup(e);
 
-      if (!App.EnsureSingleProcess(e.Args))
+      if (!EnsureSingleProcess(e.Args))
       {
         Environment.Exit(0);
 
@@ -144,7 +144,7 @@ namespace SIM.Tool
         }
       }
 
-      if (!App.CheckPermissions())
+      if (!CheckPermissions())
       {
         Environment.Exit(0);
 
@@ -155,7 +155,7 @@ namespace SIM.Tool
 
       CoreApp.LogMainInfo();
 
-      if (!App.CheckIis())
+      if (!CheckIis())
       {
         WindowHelper.ShowMessage("Cannot connect to IIS. Make sure it is installed and running.", MessageBoxButton.OK, MessageBoxImage.Exclamation);
 
@@ -165,7 +165,7 @@ namespace SIM.Tool
       }
 
       // Initializing pipelines from Pipelines.config and WizardPipelines.config files
-      if (!App.InitializePipelines())
+      if (!InitializePipelines())
       {
         Environment.Exit(0);
 
@@ -174,7 +174,7 @@ namespace SIM.Tool
 
       // Application is closing when it doesn't have any window instance therefore it's 
       // required to create MainWindow before creating the initial configuration dialog
-      var main = App.CreateMainWindow();
+      var main = CreateMainWindow();
       if (main == null)
       {
         Environment.Exit(0);
@@ -183,7 +183,7 @@ namespace SIM.Tool
       }
 
       // Initialize Profile Manager
-      if (!App.InitializeProfileManager(main))
+      if (!InitializeProfileManager(main))
       {
         Log.Info("Application closes due to invalid configuration");
 
@@ -214,7 +214,7 @@ namespace SIM.Tool
       // Clean up garbage
       CoreApp.DeleteTempFolders();
 
-      App.LoadIocResourcesForSolr();
+      LoadIocResourcesForSolr();
       Analytics.Start();
 
 

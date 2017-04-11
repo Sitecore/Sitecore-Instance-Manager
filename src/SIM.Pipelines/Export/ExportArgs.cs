@@ -40,20 +40,20 @@
     {
       Assert.ArgumentNotNull(instance, nameof(instance));
 
-      this.Instance = instance;
+      Instance = instance;
       InstanceName = instance.Name;
-      this.WebRootPath = instance.WebRootPath;
-      this.ExportFile = exportFile;
-      this._SelectedDatabases = selectedDatabases.With(x => x.Select(y => y.ToLower()).ToArray());
-      this.WipeSqlServerCredentials = wipeSqlServerCredentials;
-      this.IncludeMongoDatabases = includeMongoDatabases;
-      this.IncludeTempFolderContents = includeTempFolderContents;
-      this.IncludeMediaCacheFolderContents = includeMediaCacheFolderContents;
-      this.ExcludeUploadFolderContents = excludeUploadFolderContents;
-      this.ExcludeLicenseFile = excludeLicenseFile;
-      this.ExcludeDiagnosticsFolderContents = excludeDiagnosticsFolderContents;
-      this.ExcludeLogsFolderContents = excludeLogsFolderContents;
-      this.ExcludePackagesFolderContents = excludePackagesFolderContents;
+      WebRootPath = instance.WebRootPath;
+      ExportFile = exportFile;
+      _SelectedDatabases = selectedDatabases.With(x => x.Select(y => y.ToLower()).ToArray());
+      WipeSqlServerCredentials = wipeSqlServerCredentials;
+      IncludeMongoDatabases = includeMongoDatabases;
+      IncludeTempFolderContents = includeTempFolderContents;
+      IncludeMediaCacheFolderContents = includeMediaCacheFolderContents;
+      ExcludeUploadFolderContents = excludeUploadFolderContents;
+      ExcludeLicenseFile = excludeLicenseFile;
+      ExcludeDiagnosticsFolderContents = excludeDiagnosticsFolderContents;
+      ExcludeLogsFolderContents = excludeLogsFolderContents;
+      ExcludePackagesFolderContents = excludePackagesFolderContents;
     }
 
     public string InstanceName { get; }
@@ -66,7 +66,7 @@
     {
       get
       {
-        return this._Folder ?? (this._Folder = FileSystem.FileSystem.Local.Directory.RegisterTempFolder(this.GetTempFolder()));
+        return _Folder ?? (_Folder = FileSystem.FileSystem.Local.Directory.RegisterTempFolder(GetTempFolder()));
       }
     }
 
@@ -76,7 +76,7 @@
 
     public override void Dispose()
     {
-      FileSystem.FileSystem.Local.Directory.DeleteIfExists(this.Folder);
+      FileSystem.FileSystem.Local.Directory.DeleteIfExists(Folder);
     }
 
     #endregion
@@ -85,7 +85,7 @@
 
     private string GetTempFolder()
     {
-      return FileSystem.FileSystem.Local.Directory.GetTempFolder(Settings.CoreExportTempFolderLocation.Value.EmptyToNull() ?? this.WebRootPath).Path;
+      return FileSystem.FileSystem.Local.Directory.GetTempFolder(Settings.CoreExportTempFolderLocation.Value.EmptyToNull() ?? WebRootPath).Path;
     }
 
     #endregion

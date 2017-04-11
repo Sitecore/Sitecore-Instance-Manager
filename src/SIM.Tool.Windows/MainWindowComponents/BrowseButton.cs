@@ -28,17 +28,17 @@
 
     public BrowseButton()
     {
-      this.VirtualPath = string.Empty;
-      this.Browser = null;
-      this._Params = new string[0];
+      VirtualPath = string.Empty;
+      Browser = null;
+      _Params = new string[0];
     }
 
     public BrowseButton([CanBeNull] string param)
     {
       var arr = (param + ":").Split(':');
-      this.VirtualPath = arr[0];
-      this.Browser = arr[1];
-      this._Params = arr.Skip(2).ToArray();
+      VirtualPath = arr[0];
+      Browser = arr[1];
+      _Params = arr.Skip(2).ToArray();
     }
 
     #endregion
@@ -61,7 +61,7 @@
           return;
         }
 
-        InstanceHelperEx.BrowseInstance(instance, mainWindow, this.VirtualPath, true, this.Browser, this._Params);
+        InstanceHelperEx.BrowseInstance(instance, mainWindow, VirtualPath, true, Browser, _Params);
       }
     }
 

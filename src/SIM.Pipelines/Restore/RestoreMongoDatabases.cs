@@ -45,15 +45,15 @@ namespace SIM.Pipelines.Restore
         instance.Stop();
         foreach (var database in databases)
         {
-          if (this._Done.Contains(database))
+          if (_Done.Contains(database))
           {
             continue;
           }
 
           MongoHelper.Restore(database);
-          this.IncrementProgress();
+          IncrementProgress();
 
-          this._Done.Add(database);
+          _Done.Add(database);
         }
       }
       finally
@@ -69,7 +69,7 @@ namespace SIM.Pipelines.Restore
       }
 
 
-      this.IncrementProgress();
+      IncrementProgress();
     }
 
     #endregion

@@ -17,7 +17,7 @@ namespace SIM.Pipelines.InstallModules
     {
       Assert.ArgumentNotNull(args, nameof(args));
 
-      if (this.ProcessorDefinition.Param == "nowait")
+      if (ProcessorDefinition.Param == "nowait")
       {
         try
         {

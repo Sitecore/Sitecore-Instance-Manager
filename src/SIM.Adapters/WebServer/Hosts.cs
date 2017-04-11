@@ -132,12 +132,12 @@
 
       public CommentHostRecord(string line)
       {
-        this.Line = line;
+        Line = line;
       }
 
       public override string ToString()
       {
-        return this.Line;
+        return Line;
       }
     }
 
@@ -171,9 +171,9 @@
 
       public IpHostRecord(string ip, string host = null)
       {
-        this.IP = ip;
-        this.Host = host ?? string.Empty;
-        this.ID = NextId++.ToString();
+        IP = ip;
+        Host = host ?? string.Empty;
+        ID = NextId++.ToString();
       }
 
       #endregion
@@ -192,7 +192,7 @@
 
       public override string ToString()
       {
-        return this.IP + '\t' + this.Host;
+        return IP + '\t' + Host;
       }
 
       #endregion

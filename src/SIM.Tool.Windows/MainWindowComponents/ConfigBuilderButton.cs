@@ -26,17 +26,17 @@
 
     public ConfigBuilderButton()
     {
-      this.Normalize = false;
-      this.WebConfigResult = false;
-      this.Showconfig = false;
+      Normalize = false;
+      WebConfigResult = false;
+      Showconfig = false;
     }
 
     public ConfigBuilderButton(string param)
     {
-      this.Normalize = param.ContainsIgnoreCase("/normalize");
-      this.Showconfig = param.ContainsIgnoreCase("/showconfig");
-      this.WebConfigResult = param.ContainsIgnoreCase("/webconfigresult");
-      Assert.IsTrue(!(this.Showconfig && this.WebConfigResult), "/showconfig and /webconfigresult params must not be used together");
+      Normalize = param.ContainsIgnoreCase("/normalize");
+      Showconfig = param.ContainsIgnoreCase("/showconfig");
+      WebConfigResult = param.ContainsIgnoreCase("/webconfigresult");
+      Assert.IsTrue(!(Showconfig && WebConfigResult), "/showconfig and /webconfigresult params must not be used together");
     }
 
     #endregion
@@ -71,7 +71,7 @@
     {
       Analytics.TrackEvent("RunConfigBuilder");
 
-      if (!this.Showconfig && !this.WebConfigResult)
+      if (!Showconfig && !WebConfigResult)
       {
         var param = instance != null ? Path.Combine(instance.WebRootPath, "web.config") : null;
         RunApp(mainWindow, param);
@@ -88,11 +88,11 @@
       }
 
       string path;
-      if (this.Showconfig)
+      if (Showconfig)
       {
         path = Path.Combine(folder, "showconfig.xml");
       }
-      else if (this.WebConfigResult)
+      else if (WebConfigResult)
       {
         path = Path.Combine(folder, "web.config.result.xml");
       }
@@ -101,18 +101,18 @@
         throw new NotSupportedException("This is not supported");
       }
 
-      if (this.Normalize)
+      if (Normalize)
       {
         path = Path.Combine(Path.GetDirectoryName(path), "norm." + Path.GetFileName(path));
       }
 
-      if (this.Showconfig)
+      if (Showconfig)
       {
-        instance.GetShowconfig(this.Normalize).Save(path);
+        instance.GetShowconfig(Normalize).Save(path);
       }
-      else if (this.WebConfigResult)
+      else if (WebConfigResult)
       {
-        instance.GetWebResultConfig(this.Normalize).Save(path);
+        instance.GetWebResultConfig(Normalize).Save(path);
       }
       else
       {

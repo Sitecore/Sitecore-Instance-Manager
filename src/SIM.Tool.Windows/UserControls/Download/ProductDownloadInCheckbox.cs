@@ -35,19 +35,19 @@
     {
       Assert.ArgumentNotNull(release, nameof(release));
 
-      this.name = "Sitecore CMS";
-      this.version = release.Version.MajorMinor;
-      this.revision = release.Version.Revision.ToString();
-      this.label = release.Label;
+      name = "Sitecore CMS";
+      version = release.Version.MajorMinor;
+      revision = release.Version.Revision.ToString();
+      label = release.Label;
       var distribution = release.DefaultDistribution;
       Assert.IsNotNull(distribution, nameof(distribution));
 
-      this._Value = new ReadOnlyCollection<Uri>(distribution.Downloads.Where(x => x.StartsWith("http")).Select(x => new Uri(x)).ToArray());
-      this.isEnabled = !ProductManager.Products.Any(this.CheckProduct);
-      if (!this.isEnabled && this.name.EqualsIgnoreCase("Sitecore CMS") && !ProductManager.Products.Any(this.CheckAnalyticsProduct) && this._Value.Count > 1)
+      _Value = new ReadOnlyCollection<Uri>(distribution.Downloads.Where(x => x.StartsWith("http")).Select(x => new Uri(x)).ToArray());
+      isEnabled = !ProductManager.Products.Any(CheckProduct);
+      if (!isEnabled && name.EqualsIgnoreCase("Sitecore CMS") && !ProductManager.Products.Any(CheckAnalyticsProduct) && _Value.Count > 1)
       {
-        this.isEnabled = true;
-        this.NameOverride = "Sitecore Analytics";
+        isEnabled = true;
+        NameOverride = "Sitecore Analytics";
       }
     }
 
@@ -57,7 +57,7 @@
 
     public override string ToString()
     {
-      return $"{this.NameOverride ?? this.Name} {this.Version} rev. {this.Revision}{(string.IsNullOrEmpty(this.Label) ? string.Empty : " (" + this.Label + ")")}{(this.IsEnabled ? string.Empty : " - you already have it")}";
+      return $"{NameOverride ?? Name} {Version} rev. {Revision}{(string.IsNullOrEmpty(Label) ? string.Empty : " (" + Label + ")")}{(IsEnabled ? string.Empty : " - you already have it")}";
     }
 
     #endregion
@@ -67,14 +67,14 @@
     private bool CheckAnalyticsProduct(Products.Product product)
     {
       return product.Name.Equals("Sitecore Analytics")
-             && product.Revision == this.revision;
+             && product.Revision == revision;
     }
 
     private bool CheckProduct(Products.Product product)
     {
-      return (product.Name.EqualsIgnoreCase(this.name) || product.OriginalName.EqualsIgnoreCase(this.name))
-             && product.Version == this.version
-             && product.Revision == this.revision;
+      return (product.Name.EqualsIgnoreCase(name) || product.OriginalName.EqualsIgnoreCase(name))
+             && product.Version == version
+             && product.Revision == revision;
     }
 
     #endregion
@@ -87,13 +87,13 @@
     {
       get
       {
-        return this._IsChecked;
+        return _IsChecked;
       }
 
       set
       {
-        this._IsChecked = value;
-        this.NotifyPropertyChanged("IsChecked");
+        _IsChecked = value;
+        NotifyPropertyChanged("IsChecked");
       }
     }
 
@@ -101,7 +101,7 @@
     {
       get
       {
-        return this.isEnabled;
+        return isEnabled;
       }
     }
 
@@ -109,7 +109,7 @@
     {
       get
       {
-        return this.name;
+        return name;
       }
     }
 
@@ -117,13 +117,13 @@
     {
       get
       {
-        return this._Value;
+        return _Value;
       }
 
       set
       {
-        this._Value = value;
-        this.NotifyPropertyChanged("Value");
+        _Value = value;
+        NotifyPropertyChanged("Value");
       }
     }
 
@@ -135,7 +135,7 @@
     {
       get
       {
-        return this.label;
+        return label;
       }
     }
 
@@ -143,7 +143,7 @@
     {
       get
       {
-        return this.revision;
+        return revision;
       }
     }
 
@@ -151,7 +151,7 @@
     {
       get
       {
-        return this.version;
+        return version;
       }
     }
 

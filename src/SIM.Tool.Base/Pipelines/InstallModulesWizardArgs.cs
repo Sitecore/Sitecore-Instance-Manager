@@ -31,10 +31,10 @@
 
     public InstallModulesWizardArgs(Instance instance)
     {
-      this.Instance = instance;
+      Instance = instance;
       if (instance != null)
       {
-        this.WebRootPath = instance.WebRootPath;
+        WebRootPath = instance.WebRootPath;
       }
     }
 
@@ -49,7 +49,7 @@
     {
       get
       {
-        return this.Instance != null ? this.Instance.Name : string.Empty;
+        return Instance != null ? Instance.Name : string.Empty;
       }
     }
 
@@ -58,7 +58,7 @@
     {
       get
       {
-        return this.Instance != null ? this.Instance.Product : null;
+        return Instance != null ? Instance.Product : null;
       }
 
       set
@@ -74,14 +74,14 @@
     public override ProcessorArgs ToProcessorArgs()
     {
       var connectionString = ProfileManager.GetConnectionString();
-      var products = this._Modules;
-      var product = this.ExtraPackage;
+      var products = _Modules;
+      var product = ExtraPackage;
       if (product != null)
       {
         products.Add(product);
       }
 
-      return new InstallModulesArgs(this.Instance, products, connectionString);
+      return new InstallModulesArgs(Instance, products, connectionString);
     }
 
     #endregion
@@ -92,12 +92,12 @@
     {
       get
       {
-        return this._WebRootPath ?? this.Instance.WebRootPath;
+        return _WebRootPath ?? Instance.WebRootPath;
       }
 
       set
       {
-        this._WebRootPath = value;
+        _WebRootPath = value;
       }
     }
 

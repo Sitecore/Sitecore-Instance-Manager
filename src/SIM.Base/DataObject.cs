@@ -29,7 +29,7 @@
 
       foreach (XmlElement element in nodes.OfType<XmlElement>())
       {
-        this._Values.Add(element.Name, element.InnerXml);
+        _Values.Add(element.Name, element.InnerXml);
       }
     }
 
@@ -39,17 +39,17 @@
 
       XmlDocument document = root.OwnerDocument;
       Assert.IsNotNull(document, "Root element must have a document");
-      foreach (string key in this._Values.Keys)
+      foreach (string key in _Values.Keys)
       {
         XmlElement element = document.CreateElement(key);
-        element.InnerXml = this._Values[key].ToString();
+        element.InnerXml = _Values[key].ToString();
         root.AppendChild(element);
       }
     }
 
     public virtual void Validate()
     {
-      Type type = this.GetType();
+      Type type = GetType();
       const string ValidatePrefix = "Validate";
       IEnumerable<MethodInfo> methods = type.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic).Where(pr => pr.Name.StartsWith(ValidatePrefix) && pr.Name.Length != ValidatePrefix.Length);
       foreach (MethodInfo method in methods)
@@ -67,7 +67,7 @@
     {
       Assert.ArgumentNotNull(name, nameof(name));
 
-      return this.GetValue(name) as string;
+      return GetValue(name) as string;
     }
 
     [CanBeNull]
@@ -75,22 +75,22 @@
     {
       Assert.ArgumentNotNull(name, nameof(name));
 
-      return this._Values.ContainsKey(name) ? this._Values[name] : null;
+      return _Values.ContainsKey(name) ? _Values[name] : null;
     }
 
     protected virtual void SetValue([NotNull] string name, [CanBeNull] object value)
     {
       Assert.ArgumentNotNull(name, nameof(name));
 
-      this._Values[name] = value;
-      this.NotifyPropertyChanged(name);
+      _Values[name] = value;
+      NotifyPropertyChanged(name);
     }
 
     protected void SetValue([NotNull] string name, [CanBeNull] string value)
     {
       Assert.ArgumentNotNull(name, nameof(name));
 
-      this.SetValue(name, value as object);
+      SetValue(name, value as object);
     }
 
     #endregion

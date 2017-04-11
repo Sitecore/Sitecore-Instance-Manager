@@ -17,7 +17,7 @@
     {
       Assert.ArgumentNotNull(mainWindow, nameof(mainWindow));
 
-      this.OnClick(mainWindow);
+      OnClick(mainWindow);
     }
 
     protected abstract void OnClick([NotNull] Window mainWindow);

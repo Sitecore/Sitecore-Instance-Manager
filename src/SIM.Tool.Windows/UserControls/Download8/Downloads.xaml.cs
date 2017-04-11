@@ -28,7 +28,7 @@
 
     public Downloads()
     {
-      this.InitializeComponent();
+      InitializeComponent();
     }
 
     #endregion
@@ -74,7 +74,7 @@
         WindowHelper.HandleError("You didn't select any download, please select one to go further", false);
       }
 
-      WindowHelper.LongRunningTask(() => this.PrepareData(args), "Sitecore Versions Downloader", Window.GetWindow(this), "Preparing for downloading");
+      WindowHelper.LongRunningTask(() => PrepareData(args), "Sitecore Versions Downloader", Window.GetWindow(this), "Preparing for downloading");
 
       return canMoveNext;
     }
@@ -92,7 +92,7 @@
     {
       try
       {
-        var links = this.GetLinks(args);
+        var links = GetLinks(args);
         args.Links = links;
       }
       catch (Exception ex)
@@ -112,7 +112,7 @@
     public bool SaveChanges(WizardArgs wizardArgs)
     {
       var args = (DownloadWizardArgs)wizardArgs;
-      var selected = this._CheckBoxItems.Where(mm => mm.IsChecked);
+      var selected = _CheckBoxItems.Where(mm => mm.IsChecked);
       args.Products.AddRange(selected);
 
       return true;
@@ -131,20 +131,20 @@
     public void InitializeStep(WizardArgs wizardArgs)
     {
       var args = (DownloadWizardArgs)wizardArgs;
-      this._CheckBoxItems.Clear();
-      this.Append(args.Releases);
+      _CheckBoxItems.Clear();
+      Append(args.Releases);
 
       foreach (var product in args.Products)
       {
         var selectedPRoduct = product;
-        ProductDownload8InCheckbox checkBoxItem = this._CheckBoxItems.SingleOrDefault(cbi => cbi.Value.Equals(selectedPRoduct));
+        ProductDownload8InCheckbox checkBoxItem = _CheckBoxItems.SingleOrDefault(cbi => cbi.Value.Equals(selectedPRoduct));
         if (checkBoxItem != null)
         {
           checkBoxItem.IsChecked = true;
         }
       }
 
-      this.filePackages.DataContext = this._CheckBoxItems;
+      filePackages.DataContext = _CheckBoxItems;
     }
 
     #endregion
@@ -155,12 +155,12 @@
     {
       Assert.ArgumentNotNull(records, nameof(records));
 
-      this._CheckBoxItems.AddRange(records.Select(r => new ProductDownload8InCheckbox(r)).ToList());
+      _CheckBoxItems.AddRange(records.Select(r => new ProductDownload8InCheckbox(r)).ToList());
     }
 
     private void ModuleSelected([CanBeNull] object sender, [CanBeNull] SelectionChangedEventArgs e)
     {
-      this.filePackages.SelectedIndex = -1;
+      filePackages.SelectedIndex = -1;
     }
 
     private void UserControlLoaded(object sender, RoutedEventArgs e)

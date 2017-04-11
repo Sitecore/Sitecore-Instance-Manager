@@ -38,11 +38,11 @@ namespace SIM.FileSystem
       Path = new PathProvider(this);
       Security = new UncSecurityProvider(this);
        */
-      this.Directory = new DirectoryProvider(this);
-      this.File = new FileProvider(this);
-      this.Zip = new ZipProvider(this);
-      this.Path = new PathProvider(this);
-      this.Security = new SecurityProvider(this);
+      Directory = new DirectoryProvider(this);
+      File = new FileProvider(this);
+      Zip = new ZipProvider(this);
+      Path = new PathProvider(this);
+      Security = new SecurityProvider(this);
     }
 
     #endregion

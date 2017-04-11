@@ -18,7 +18,7 @@
       var instance = InstanceManager.Default.GetInstance(args.InstanceName);
       Assert.IsNotNull(instance, nameof(instance));
 
-      if (this.ProcessorDefinition.Param == "nowait")
+      if (ProcessorDefinition.Param == "nowait")
       {
         try
         {

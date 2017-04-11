@@ -24,7 +24,7 @@
 
     protected Processor()
     {
-      this.State = ProcessorState.Waiting;
+      State = ProcessorState.Waiting;
     }
 
     #endregion
@@ -41,7 +41,7 @@
     {
       get
       {
-        object value = this.GetValue("State");
+        object value = GetValue("State");
         Assert.IsNotNull(value, nameof(value));
 
         return (ProcessorState)value;
@@ -49,7 +49,7 @@
 
       private set
       {
-        this.SetValue("State", value);
+        SetValue("State", value);
       }
     }
 
@@ -58,7 +58,7 @@
     {
       get
       {
-        return this.ProcessorDefinition.Title;
+        return ProcessorDefinition.Title;
       }
     }
 
@@ -74,12 +74,12 @@
       {
         try
         {
-          if (this.ProcessorDefinition.ProcessAlways)
+          if (ProcessorDefinition.ProcessAlways)
           {
-            this.State = ProcessorState.Waiting;
+            State = ProcessorState.Waiting;
           }
 
-          return this.State == ProcessorState.Done;
+          return State == ProcessorState.Done;
         }
         catch (Exception ex)
         {
@@ -109,24 +109,24 @@
     {
       Assert.ArgumentNotNull(args, nameof(args));
 
-      var controller = this.Controller;
-      if (!this.IsDone)
+      var controller = Controller;
+      if (!IsDone)
       {
         try
         {
-          this.State = ProcessorState.Running;
+          State = ProcessorState.Running;
           if (controller != null)
           {
-            controller.ProcessorStarted(this.Title);
+            controller.ProcessorStarted(Title);
           }
 
-          this.Process(args);
+          Process(args);
           if (controller != null)
           {
-            controller.ProcessorDone(this.Title);
+            controller.ProcessorDone(Title);
           }
 
-          this.State = ProcessorState.Done;
+          State = ProcessorState.Done;
           return true;
         }
         catch (ThreadAbortException)
@@ -135,14 +135,14 @@
         }
         catch (Exception ex)
         {
-          this.State = ProcessorState.Error;
-          this.Error = ex;
+          State = ProcessorState.Error;
+          Error = ex;
           if (controller != null)
           {
             controller.ProcessorCrashed(ex.Message);
           }
 
-          Log.Error(ex, $"Processor of type '{this.ProcessorDefinition.Type.FullName}' failed. {ex.Message}");
+          Log.Error(ex, $"Processor of type '{ProcessorDefinition.Type.FullName}' failed. {ex.Message}");
           return false;
         }
       }
@@ -159,18 +159,18 @@
 
     public void Skip()
     {
-      var controller = this.Controller;
+      var controller = Controller;
       if (controller != null)
       {
-        controller.ProcessorSkipped(this.ProcessorDefinition.Title);
+        controller.ProcessorSkipped(ProcessorDefinition.Title);
       }
 
-      this.State = ProcessorState.Inaccessible;
+      State = ProcessorState.Inaccessible;
     }
 
     public override string ToString()
     {
-      return this.ProcessorDefinition.With(x => x.ToString()) ?? "(empty processor)";
+      return ProcessorDefinition.With(x => x.ToString()) ?? "(empty processor)";
     }
 
     #endregion
@@ -179,7 +179,7 @@
 
     protected void IncrementProgress()
     {
-      var controller = this.Controller;
+      var controller = Controller;
       if (controller != null)
       {
         controller.IncrementProgress();

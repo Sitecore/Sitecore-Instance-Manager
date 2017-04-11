@@ -24,9 +24,9 @@
 
     public LoginAdminButton()
     {
-      this.VirtualPath = string.Empty;
-      this.Browser = string.Empty;
-      this._Params = new string[0];
+      VirtualPath = string.Empty;
+      Browser = string.Empty;
+      _Params = new string[0];
     }
 
     public LoginAdminButton([NotNull] string param)
@@ -34,9 +34,9 @@
       Assert.ArgumentNotNull(param, nameof(param));
 
       var par = Parameters.Parse(param);
-      this.VirtualPath = par[0];
-      this.Browser = par[1];
-      this._Params = par.Skip(2);
+      VirtualPath = par[0];
+      Browser = par[1];
+      _Params = par.Skip(2);
     }
 
     #endregion
@@ -77,7 +77,7 @@
 
       Analytics.TrackEvent("LogInAdmin");
 
-      InstanceHelperEx.OpenInBrowserAsAdmin(instance, mainWindow, this.VirtualPath, this.Browser, this._Params);
+      InstanceHelperEx.OpenInBrowserAsAdmin(instance, mainWindow, VirtualPath, Browser, _Params);
     }
 
     #endregion

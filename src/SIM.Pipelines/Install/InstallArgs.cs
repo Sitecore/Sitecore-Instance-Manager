@@ -84,7 +84,7 @@
       Assert.ArgumentNotNull(license, nameof(license));
       Assert.ArgumentNotNull(modules, nameof(modules));
 
-      this._Modules = modules;
+      _Modules = modules;
     }
 
     public InstallArgs([NotNull] string name, [NotNull] string[] hosts, string instanceSqlPrefix, bool instanceAttachSql, [NotNull] Product product, [NotNull] string webRootPath, [NotNull] string dataFolderPath, [NotNull] string databasesFolderPath, [NotNull] SqlConnectionStringBuilder connectionString, [NotNull] string sqlServerIdentity, [NotNull] string webServerIdentity, [NotNull] FileInfo license, bool forceNetFramework4, bool is32Bit, bool isClassic, bool installRadControls, bool installDictionaries, bool serverSideRedirect, bool increaseExecutionTimeout, bool preheat, [NotNull] string rootPath, [NotNull] IEnumerable<Product> modules)
@@ -102,28 +102,28 @@
       Assert.ArgumentNotNull(rootPath, nameof(rootPath));
       Assert.ArgumentNotNull(modules, nameof(modules));
 
-      this.Name = name;
-      this._Modules = modules;
-      this._HostNames = hosts;
-      this.InstanceSqlPrefix = instanceSqlPrefix;
+      Name = name;
+      _Modules = modules;
+      _HostNames = hosts;
+      InstanceSqlPrefix = instanceSqlPrefix;
       InstanceAttachSql = instanceAttachSql;
-      this.Product = product;
-      this.ConnectionString = connectionString;
-      this.DataFolderPath = dataFolderPath;
-      this.DatabasesFolderPath = databasesFolderPath;
-      this.WebRootPath = webRootPath;
-      this.LicenseFilePath = license.FullName;
-      this.SqlServerIdentity = sqlServerIdentity;
-      this.WebServerIdentity = webServerIdentity;
-      this.ForceNetFramework4 = forceNetFramework4;
-      this.Is32Bit = is32Bit;
-      this.IsClassic = isClassic;
-      this.PreHeat = preheat;
-      this.RootFolderPath = rootPath;
-      this.InstallRadControls = installRadControls;
-      this.InstallDictionaries = installDictionaries;
-      this.ServerSideRedirect = serverSideRedirect;
-      this.IncreaseExecutionTimeout = increaseExecutionTimeout;
+      Product = product;
+      ConnectionString = connectionString;
+      DataFolderPath = dataFolderPath;
+      DatabasesFolderPath = databasesFolderPath;
+      WebRootPath = webRootPath;
+      LicenseFilePath = license.FullName;
+      SqlServerIdentity = sqlServerIdentity;
+      WebServerIdentity = webServerIdentity;
+      ForceNetFramework4 = forceNetFramework4;
+      Is32Bit = is32Bit;
+      IsClassic = isClassic;
+      PreHeat = preheat;
+      RootFolderPath = rootPath;
+      InstallRadControls = installRadControls;
+      InstallDictionaries = installDictionaries;
+      ServerSideRedirect = serverSideRedirect;
+      IncreaseExecutionTimeout = increaseExecutionTimeout;
     }
 
     #endregion
@@ -138,7 +138,7 @@
     {
       get
       {
-        return this.Name;
+        return Name;
       }
     }
 
@@ -147,7 +147,7 @@
     {
       get
       {
-        return this.Product.PackagePath;
+        return Product.PackagePath;
       }
     }
 

@@ -33,7 +33,7 @@
 
     public Downloads()
     {
-      this.InitializeComponent();
+      InitializeComponent();
     }
 
     #endregion
@@ -80,7 +80,7 @@
       }
       
       Exception ex = null;
-      WindowHelper.LongRunningTask(() => { ex = this.PrepareData(args); }, "Sitecore Versions Downloader", Window.GetWindow(this), "Preparing for downloading");
+      WindowHelper.LongRunningTask(() => { ex = PrepareData(args); }, "Sitecore Versions Downloader", Window.GetWindow(this), "Preparing for downloading");
       if (ex != null)
       {
         WindowHelper.ShowMessage("Failed to prepare the data. " + ex + "\r\nMessage: " + ex.Message + "\r\nStackTrace:\r\n" + ex.StackTrace);
@@ -130,7 +130,7 @@
         var tasks = urls
           .Skip(i)
           .Take(Math.Min(parallelDownloadsNumber, remains))
-          .Select(url => Task.Factory.StartNew(() => this.CheckFileSize(sizes, url, cookies)))
+          .Select(url => Task.Factory.StartNew(() => CheckFileSize(sizes, url, cookies)))
           .ToArray();
 
         Task.WaitAll(tasks, remains * 60000);
@@ -143,9 +143,9 @@
     {
       try
       {
-        var links = this.GetLinks(args);
+        var links = GetLinks(args);
         args.Links = links;
-        var sizes = this.GetSizes(links, args.Cookies);
+        var sizes = GetSizes(links, args.Cookies);
         Assert.IsTrue(sizes.Count == args.Links.Count, "The length of the sizes array differs from links count");
         Assert.IsTrue(sizes.All(s => s.Value > 0), "Some SDN packages are said to have 0 length");
         args.Sizes = sizes;
@@ -176,7 +176,7 @@
     public bool SaveChanges(WizardArgs wizardArgs)
     {
       var args = (DownloadWizardArgs)wizardArgs;
-      var selected = this._CheckBoxItems.Where(mm => mm.IsChecked);
+      var selected = _CheckBoxItems.Where(mm => mm.IsChecked);
       args.Products.AddRange(selected);
 
       return true;
@@ -195,20 +195,20 @@
     public void InitializeStep(WizardArgs wizardArgs)
     {
       var args = (DownloadWizardArgs)wizardArgs;
-      this._CheckBoxItems.Clear();
-      this.Append(args.Releases);
+      _CheckBoxItems.Clear();
+      Append(args.Releases);
 
       foreach (var product in args.Products)
       {
         var selectedPRoduct = product;
-        ProductDownloadInCheckbox checkBoxItem = this._CheckBoxItems.SingleOrDefault(cbi => cbi.Value.Equals(selectedPRoduct));
+        ProductDownloadInCheckbox checkBoxItem = _CheckBoxItems.SingleOrDefault(cbi => cbi.Value.Equals(selectedPRoduct));
         if (checkBoxItem != null)
         {
           checkBoxItem.IsChecked = true;
         }
       }
 
-      this.filePackages.DataContext = this._CheckBoxItems;
+      filePackages.DataContext = _CheckBoxItems;
     }
 
     #endregion
@@ -217,12 +217,12 @@
 
     private void Append(IEnumerable<IRelease> records)
     {
-      this._CheckBoxItems.AddRange(records.Select(r => new ProductDownloadInCheckbox(r)).ToList());
+      _CheckBoxItems.AddRange(records.Select(r => new ProductDownloadInCheckbox(r)).ToList());
     }
 
     private void ModuleSelected([CanBeNull] object sender, [CanBeNull] SelectionChangedEventArgs e)
     {
-      this.filePackages.SelectedIndex = -1;
+      filePackages.SelectedIndex = -1;
     }
 
     private void UserControlLoaded(object sender, RoutedEventArgs e)

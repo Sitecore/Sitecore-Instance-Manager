@@ -103,8 +103,8 @@
     {
       // var websiteName = args.Instance.Name;
       // var appPoolName = WebServerManager.CreateContext(string.Empty).Sites[websiteName].ApplicationDefaults.ApplicationPoolName;        
-      this.ChangeAppPoolSettingsIfNeeded(args._TemporaryPathToUnpack.PathCombine(ImportArgs.AppPoolSettingsFileName), args);
-      this.ChangeWebsiteSettingsIfNeeded(args._TemporaryPathToUnpack.PathCombine(ImportArgs.WebsiteSettingsFileName), args);
+      ChangeAppPoolSettingsIfNeeded(args._TemporaryPathToUnpack.PathCombine(ImportArgs.AppPoolSettingsFileName), args);
+      ChangeWebsiteSettingsIfNeeded(args._TemporaryPathToUnpack.PathCombine(ImportArgs.WebsiteSettingsFileName), args);
       var importAppPoolSettingsCommand = $@"%windir%\system32\inetsrv\appcmd add apppool /in < {args._TemporaryPathToUnpack.PathCombine(ImportArgs.AppPoolSettingsFileName) + ".fixed.xml"}";
       var importWebsiteSettingsCommand = $@"%windir%\system32\inetsrv\appcmd add site /in < {args._TemporaryPathToUnpack.PathCombine(ImportArgs.WebsiteSettingsFileName) + ".fixed.xml"}";
 
@@ -138,7 +138,7 @@
       // need to change AppName
       XmlDocumentEx appPoolSettings = new XmlDocumentEx();
       appPoolSettings.Load(path);
-      args._AppPoolName = this.CreateNewAppPoolName(args._AppPoolName);
+      args._AppPoolName = CreateNewAppPoolName(args._AppPoolName);
       appPoolSettings.SetElementAttributeValue("/appcmd/APPPOOL", "APPPOOL.NAME", args._AppPoolName);
       appPoolSettings.SetElementAttributeValue("appcmd/APPPOOL/add", "name", args._AppPoolName);
 
@@ -153,14 +153,14 @@
     {
       XmlDocumentEx websiteSettings = new XmlDocumentEx();
       websiteSettings.Load(path);
-      args._SiteName = this.CreateNewSiteName(InstanceManager.Default.Instances, args._SiteName);
+      args._SiteName = CreateNewSiteName(InstanceManager.Default.Instances, args._SiteName);
       websiteSettings.SetElementAttributeValue("/appcmd/SITE", "SITE.NAME", args._SiteName);
       websiteSettings.SetElementAttributeValue("/appcmd/SITE/site", "name", args._SiteName);
 
       websiteSettings.SetElementAttributeValue("/appcmd/SITE", "bindings", "http/*:80:" + args._SiteName);
 
       // need to change site ID
-      args._SiteID = this.CreateNewID(args._SiteID);
+      args._SiteID = CreateNewID(args._SiteID);
       websiteSettings.SetElementAttributeValue("/appcmd/SITE", "SITE.ID", args._SiteID.ToString());
       websiteSettings.SetElementAttributeValue("/appcmd/SITE/site", "id", args._SiteID.ToString());
 

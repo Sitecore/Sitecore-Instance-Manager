@@ -35,10 +35,10 @@
         ip = "*";
       }
 
-      this.Protocol = protocol;
-      this.Host = host;
-      this.Port = port;
-      this.IP = ip;
+      Protocol = protocol;
+      Host = host;
+      Port = port;
+      IP = ip;
     }
 
     public BindingInfo([NotNull] Binding binding)

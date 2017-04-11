@@ -40,20 +40,20 @@ namespace SIM.Tool.Windows.MainWindowComponents
       switch (param.ToLowerInvariant())
       {
         case "start":
-          this.StartMode = true;
+          StartMode = true;
           return;
         case "stop":
-          this.StopMode = true;
+          StopMode = true;
           return;
         case "recycle":
-          this.RecycleMode = true;
+          RecycleMode = true;
           return;
         case "kill":
-          this.KillMode = true;
+          KillMode = true;
           return;
         case "mode":
         case "change":
-          this.ChangeMode = true;
+          ChangeMode = true;
           return;
 
           // case "favorite":
@@ -101,33 +101,33 @@ namespace SIM.Tool.Windows.MainWindowComponents
     {
       if (instance != null)
       {
-        if (this.StopMode)
+        if (StopMode)
         {
           instance.Stop();
           return;
         }
 
-        if (this.StartMode)
+        if (StartMode)
         {
           instance.Start();
           return;
         }
 
-        if (this.RecycleMode)
+        if (RecycleMode)
         {
           instance.Recycle();
           return;
         }
 
-        if (this.KillMode)
+        if (KillMode)
         {
           MainWindowHelper.KillProcess(instance);
           return;
         }
 
-        if (this.ChangeMode)
+        if (ChangeMode)
         {
-          this.DoChangeMode(mainWindow, instance);
+          DoChangeMode(mainWindow, instance);
           return;
         }
 
@@ -157,10 +157,10 @@ namespace SIM.Tool.Windows.MainWindowComponents
       var message = "Change {0} instance's Application Pool mode".FormatWith(instance.Name);
       var options = new[]
       {
-        this.GetLabel(instance, 2, false), 
-        this.GetLabel(instance, 2, true), 
-        this.GetLabel(instance, 4, false), 
-        this.GetLabel(instance, 4, true)
+        GetLabel(instance, 2, false), 
+        GetLabel(instance, 2, true), 
+        GetLabel(instance, 4, false), 
+        GetLabel(instance, 4, true)
       };
 
       var result = WindowHelper.AskForSelection(title, header, message, options, mainWindow);

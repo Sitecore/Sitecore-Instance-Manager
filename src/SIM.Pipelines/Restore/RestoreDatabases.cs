@@ -29,7 +29,7 @@
     {
       Assert.ArgumentNotNull(args, nameof(args));
 
-      return this.GetDatabases(args).Count();
+      return GetDatabases(args).Count();
     }
 
     protected override bool IsRequireProcessing(RestoreArgs args)
@@ -43,7 +43,7 @@
     {
       Assert.ArgumentNotNull(args, nameof(args));
 
-      IEnumerable<Database> databases = this.GetDatabases(args);
+      IEnumerable<Database> databases = GetDatabases(args);
 
       var instance = args.Instance;
       var isStarted = instance.ApplicationPoolState == ObjectState.Started;
@@ -53,16 +53,16 @@
         foreach (Database database in databases)
         {
           var value = database.Name;
-          if (this._Done.Contains(value))
+          if (_Done.Contains(value))
           {
             continue;
           }
 
           var bak = Path.Combine(args.Backup.DatabasesFolderPath, database.BackupFilename);
           database.Restore(bak);
-          this.IncrementProgress();
+          IncrementProgress();
 
-          this._Done.Add(value);
+          _Done.Add(value);
         }
       }
       finally
@@ -73,7 +73,7 @@
         }
       }
 
-      this.IncrementProgress();
+      IncrementProgress();
     }
 
     #endregion

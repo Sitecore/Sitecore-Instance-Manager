@@ -19,14 +19,14 @@
     {
       get
       {
-        return this.GetString("AdvancedSettings") ?? string.Empty;
+        return GetString("AdvancedSettings") ?? string.Empty;
       }
 
       set
       {
         Assert.ArgumentNotNull(value, nameof(value));
 
-        this.SetValue("AdvancedSettings", value);
+        SetValue("AdvancedSettings", value);
       }
     }
 
@@ -35,14 +35,14 @@
     {
       get
       {
-        return this.GetString("ConnectionString") ?? string.Empty;
+        return GetString("ConnectionString") ?? string.Empty;
       }
 
       set
       {
         Assert.ArgumentNotNull(value, nameof(value));
 
-        this.SetValue("ConnectionString", value);
+        SetValue("ConnectionString", value);
       }
     }
 
@@ -51,14 +51,14 @@
     {
       get
       {
-        return this.GetString("InstancesFolder") ?? string.Empty;
+        return GetString("InstancesFolder") ?? string.Empty;
       }
 
       set
       {
         Assert.ArgumentNotNull(value, nameof(value));
 
-        this.SetValue("InstancesFolder", value);
+        SetValue("InstancesFolder", value);
       }
     }
 
@@ -67,14 +67,14 @@
     {
       get
       {
-        return this.GetString("License") ?? string.Empty;
+        return GetString("License") ?? string.Empty;
       }
 
       set
       {
         Assert.ArgumentNotNull(value, nameof(value));
 
-        this.SetValue("License", value);
+        SetValue("License", value);
       }
     }
 
@@ -83,14 +83,14 @@
     {
       get
       {
-        return this.GetString("LocalRepository") ?? string.Empty;
+        return GetString("LocalRepository") ?? string.Empty;
       }
 
       set
       {
         Assert.ArgumentNotNull(value, nameof(value));
 
-        this.SetValue("LocalRepository", value);
+        SetValue("LocalRepository", value);
       }
     }
 
@@ -105,14 +105,14 @@
 
     protected void ValidateInstancesFolder()
     {
-      Assert.IsNotNullOrEmpty(this.InstancesFolder, "The InstancesFolder is null or empty");
-      FileSystem.FileSystem.Local.Directory.AssertExists(this.InstancesFolder, $"The InstancesFolder does not exist ({this.InstancesFolder})");
+      Assert.IsNotNullOrEmpty(InstancesFolder, "The InstancesFolder is null or empty");
+      FileSystem.FileSystem.Local.Directory.AssertExists(InstancesFolder, $"The InstancesFolder does not exist ({InstancesFolder})");
     }
 
     protected void ValidateLicense()
     {
-      Assert.IsNotNullOrEmpty(this.License, "The license file isn't set");
-      FileSystem.FileSystem.Local.File.AssertExists(this.License, "The license file doesn't exist");
+      Assert.IsNotNullOrEmpty(License, "The license file isn't set");
+      FileSystem.FileSystem.Local.File.AssertExists(License, "The license file doesn't exist");
     }
 
     #endregion
@@ -127,10 +127,10 @@
     {
       return new Profile
       {
-        ConnectionString = this.ConnectionString, 
-        InstancesFolder = this.InstancesFolder, 
-        License = this.License, 
-        LocalRepository = this.LocalRepository
+        ConnectionString = ConnectionString, 
+        InstancesFolder = InstancesFolder, 
+        License = License, 
+        LocalRepository = LocalRepository
       };
     }
 

@@ -81,7 +81,7 @@
 
     public ReorderPackages()
     {
-      this.InitializeComponent();
+      InitializeComponent();
     }
 
     #endregion
@@ -115,13 +115,13 @@
 
     public void InitializeStep(WizardArgs wizardArgs)
     {
-      this.WizardArgs = wizardArgs;
+      WizardArgs = wizardArgs;
       var args = (InstallModulesWizardArgs)wizardArgs;
-      this._ActualProducts.Clear();
-      args._Modules.ForEach(module => this._ActualProducts.Add(module));
+      _ActualProducts.Clear();
+      args._Modules.ForEach(module => _ActualProducts.Add(module));
 
-      this.modulesList.ItemsSource = this._ActualProducts;
-      this.selectedProductLabel.DataContext = args.Product;
+      modulesList.ItemsSource = _ActualProducts;
+      selectedProductLabel.DataContext = args.Product;
     }
 
     #endregion
@@ -130,7 +130,7 @@
 
     private void ModuleSelected([CanBeNull] object sender, [CanBeNull] SelectionChangedEventArgs e)
     {
-      this.modulesList.SelectedIndex = -1;
+      modulesList.SelectedIndex = -1;
     }
 
     #endregion
@@ -144,21 +144,21 @@
 
       Assert.IsNotNull(droppedData, "[ReorderProducts] Drag-n-drop: droppedData is null");
       Assert.IsNotNull(target, "[ReorderProducts] Drag-n-drop: target is null");
-      var removeIndex = this._ActualProducts.IndexOf(droppedData);
-      var insertIndex = this._ActualProducts.IndexOf(target);
+      var removeIndex = _ActualProducts.IndexOf(droppedData);
+      var insertIndex = _ActualProducts.IndexOf(target);
 
       if (removeIndex < insertIndex)
       {
-        this._ActualProducts.Insert(insertIndex + 1, droppedData);
-        this._ActualProducts.RemoveAt(removeIndex);
+        _ActualProducts.Insert(insertIndex + 1, droppedData);
+        _ActualProducts.RemoveAt(removeIndex);
       }
       else
       {
         var removeIndexNext = removeIndex + 1;
-        if (this.modulesList.Items.Count + 1 > removeIndexNext)
+        if (modulesList.Items.Count + 1 > removeIndexNext)
         {
-          this._ActualProducts.Insert(insertIndex, droppedData);
-          this._ActualProducts.RemoveAt(removeIndexNext);
+          _ActualProducts.Insert(insertIndex, droppedData);
+          _ActualProducts.RemoveAt(removeIndexNext);
         }
       }
     }
@@ -214,9 +214,9 @@
           }
 
           Product product = Product.GetFilePackageProduct(path);
-          if (!this._ActualProducts.Any(p => p.Name.Equals(product.Name, StringComparison.OrdinalIgnoreCase)))
+          if (!_ActualProducts.Any(p => p.Name.Equals(product.Name, StringComparison.OrdinalIgnoreCase)))
           {
-            this._ActualProducts.Add(product);
+            _ActualProducts.Add(product);
           }
         }
       }
@@ -238,7 +238,7 @@
       var args = (InstallModulesWizardArgs)wizardArgs;
       Product product = args.Product;
       Assert.IsNotNull(product, nameof(product));
-      IEnumerable<Product> selected = this._ActualProducts;
+      IEnumerable<Product> selected = _ActualProducts;
       args._Modules.Clear();
       args._Modules.AddRange(selected);
 

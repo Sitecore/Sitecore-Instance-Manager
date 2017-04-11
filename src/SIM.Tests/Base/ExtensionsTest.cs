@@ -24,13 +24,13 @@
       expected = new string[0];
       includeBounds = false;
       actual = message.Extract(startChar, endChar, includeBounds).ToArray();
-      this.AreEqual(expected, actual);
+      AreEqual(expected, actual);
 
       message = "some text test ololo";
       expected = new string[0];
       includeBounds = true;
       actual = message.Extract(startChar, endChar, includeBounds).ToArray();
-      this.AreEqual(expected, actual);
+      AreEqual(expected, actual);
 
       message = "some text {test} ololo";
       expected = new[]
@@ -39,7 +39,7 @@
       };
       includeBounds = false;
       actual = message.Extract(startChar, endChar, includeBounds).ToArray();
-      this.AreEqual(expected, actual);
+      AreEqual(expected, actual);
 
       message = "some text {test} ololo";
       expected = new[]
@@ -48,7 +48,7 @@
       };
       includeBounds = true;
       actual = message.Extract(startChar, endChar, includeBounds).ToArray();
-      this.AreEqual(expected, actual);
+      AreEqual(expected, actual);
 
       message = "some text {test} ololo {test2}";
       expected = new[]
@@ -57,7 +57,7 @@
       };
       includeBounds = false;
       actual = message.Extract(startChar, endChar, includeBounds).ToArray();
-      this.AreEqual(expected, actual);
+      AreEqual(expected, actual);
 
       message = "some text {test} ololo {test2}";
       expected = new[]
@@ -66,7 +66,7 @@
       };
       includeBounds = true;
       actual = message.Extract(startChar, endChar, includeBounds).ToArray();
-      this.AreEqual(expected, actual);
+      AreEqual(expected, actual);
 
       try
       {

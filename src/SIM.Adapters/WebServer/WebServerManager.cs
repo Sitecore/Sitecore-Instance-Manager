@@ -183,7 +183,7 @@
       {
         get
         {
-          return this.ServerManager.ApplicationPools;
+          return ServerManager.ApplicationPools;
         }
       }
 
@@ -192,7 +192,7 @@
       {
         get
         {
-          return this.ServerManager.Sites;
+          return ServerManager.Sites;
         }
       }
 
@@ -202,7 +202,7 @@
 
       public void CommitChanges()
       {
-        this.ServerManager.CommitChanges();
+        ServerManager.CommitChanges();
       }
 
       #endregion
@@ -213,7 +213,7 @@
 
       public override void Dispose()
       {
-        this.ServerManager.Dispose();
+        ServerManager.Dispose();
         base.Dispose();
       }
 

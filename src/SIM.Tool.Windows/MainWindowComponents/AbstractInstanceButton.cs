@@ -14,7 +14,7 @@ namespace SIM.Tool.Windows.MainWindowComponents
 
     public void OnClick([CanBeNull] Window mainWindow, Instance instance)
     {
-      this.OnClick(instance);
+      OnClick(instance);
     }
 
     protected abstract void OnClick([NotNull] Instance mainWindow);

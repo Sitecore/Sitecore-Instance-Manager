@@ -24,12 +24,12 @@
 
     public OpenToolboxButton()
     {
-      this.BypassSecurity = false;
+      BypassSecurity = false;
     }
 
     public OpenToolboxButton(string param)
     {
-      this.BypassSecurity = param == "bypass";
+      BypassSecurity = param == "bypass";
     }
 
     #endregion
@@ -73,7 +73,7 @@
         return;
       }
 
-      if (this.BypassSecurity)
+      if (BypassSecurity)
       {
         InstanceHelperEx.OpenInBrowserAsAdmin(instance, mainWindow, @"/sitecore/admin");
       }

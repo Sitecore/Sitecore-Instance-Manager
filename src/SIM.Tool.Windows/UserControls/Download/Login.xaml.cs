@@ -19,8 +19,8 @@
 
     public Login(string param)
     {
-      this.InitializeComponent();
-      this.TextBlock.Text = param;
+      InitializeComponent();
+      TextBlock.Text = param;
     }
 
     #endregion
@@ -68,7 +68,7 @@
     bool IFlowControl.OnMovingNext(WizardArgs wizardArgs)
     {
       var args = (DownloadWizardArgs)wizardArgs;
-      if (!string.IsNullOrEmpty(args.Cookies) && this.UserName.Text.EqualsIgnoreCase(args.UserName) && this.Passowrd.Password.EqualsIgnoreCase(args.Password) && args.Releases.Length > 0)
+      if (!string.IsNullOrEmpty(args.Cookies) && UserName.Text.EqualsIgnoreCase(args.UserName) && Passowrd.Password.EqualsIgnoreCase(args.Password) && args.Releases.Length > 0)
       {
         return true;
       }
@@ -121,15 +121,15 @@
     void IWizardStep.InitializeStep(WizardArgs wizardArgs)
     {
       var args = (DownloadWizardArgs)wizardArgs;
-      this.UserName.Text = args.UserName;
-      this.Passowrd.Password = args.Password;
+      UserName.Text = args.UserName;
+      Passowrd.Password = args.Password;
     }
 
     bool IWizardStep.SaveChanges(WizardArgs wizardArgs)
     {
-      var username = this.UserName.Text.Trim();
+      var username = UserName.Text.Trim();
 
-      var password = this.Passowrd.Password;
+      var password = Passowrd.Password;
 
       var args = (DownloadWizardArgs)wizardArgs;
       args.UserName = username;

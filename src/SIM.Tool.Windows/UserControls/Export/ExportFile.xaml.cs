@@ -14,7 +14,7 @@
 
     public ExportFile()
     {
-      this.InitializeComponent();
+      InitializeComponent();
     }
 
     #endregion
@@ -23,15 +23,15 @@
 
     void IWizardStep.InitializeStep(WizardArgs wizardArgs)
     {
-      this.ExportedFile.Text = ((ExportWizardArgs)wizardArgs).ExportFilePath;
+      ExportedFile.Text = ((ExportWizardArgs)wizardArgs).ExportFilePath;
     }
 
     private bool IsPathValid()
     {
-      var filePath = this.ExportedFile.Text;
+      var filePath = ExportedFile.Text;
       try
       {
-        this.ExportedFile.Text = Path.GetFullPath(filePath);
+        ExportedFile.Text = Path.GetFullPath(filePath);
         return Path.IsPathRooted(filePath);
       }
       catch (Exception ex)
@@ -51,25 +51,25 @@
       var result = dialog.ShowDialog();
       if (result == true)
       {
-        this.ExportedFile.Text = dialog.FileName;
+        ExportedFile.Text = dialog.FileName;
       }
     }
 
     bool IWizardStep.SaveChanges(WizardArgs wizardArgs)
     {
       var args = (ExportWizardArgs)wizardArgs;
-      args.ExportFilePath = this.ExportedFile.Text;
-      args.IncludeTempFolderContents = !(this.ExcludeTempFolderContents.IsChecked ?? true);
-      args.IncludeMediaCacheFolderContents = !(this.ExcludeMediaCacheFolderContents.IsChecked ?? true);
-      args.ExcludeLicenseFile = this.ExcludeLicenseFile.IsChecked ?? false;
-      args.ExcludeDiagnosticsFolderContents = this.ExcludeDiagnosticsFolderContents.IsChecked ?? false;
-      args.ExcludeLogsFolderContents = this.ExcludeLogsFolderContents.IsChecked ?? false;
-      args.ExcludePackagesFolderContents = this.ExcludePackagesFolderContents.IsChecked ?? false;
-      args.ExcludeUploadFolderContents = this.ExcludeUploadFolderContents.IsChecked ?? false;
+      args.ExportFilePath = ExportedFile.Text;
+      args.IncludeTempFolderContents = !(ExcludeTempFolderContents.IsChecked ?? true);
+      args.IncludeMediaCacheFolderContents = !(ExcludeMediaCacheFolderContents.IsChecked ?? true);
+      args.ExcludeLicenseFile = ExcludeLicenseFile.IsChecked ?? false;
+      args.ExcludeDiagnosticsFolderContents = ExcludeDiagnosticsFolderContents.IsChecked ?? false;
+      args.ExcludeLogsFolderContents = ExcludeLogsFolderContents.IsChecked ?? false;
+      args.ExcludePackagesFolderContents = ExcludePackagesFolderContents.IsChecked ?? false;
+      args.ExcludeUploadFolderContents = ExcludeUploadFolderContents.IsChecked ?? false;
 
-      if (this.IsPathValid())
+      if (IsPathValid())
       {
-        var path = Path.GetDirectoryName(this.ExportedFile.Text);
+        var path = Path.GetDirectoryName(ExportedFile.Text);
 
         if (!string.IsNullOrEmpty(path))
         {

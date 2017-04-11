@@ -14,18 +14,18 @@
 
     public AboutDialog()
     {
-      this.InitializeComponent();
-      this.VersionNumber.Text = ApplicationManager.AppVersion;
-      this.RevisionNumber.Text = ApplicationManager.AppRevision;
+      InitializeComponent();
+      VersionNumber.Text = ApplicationManager.AppVersion;
+      RevisionNumber.Text = ApplicationManager.AppRevision;
 
       var label = ApplicationManager.AppLabel;
       if (!string.IsNullOrEmpty(label))
       {
-        this.UpdateNumber.Text = label;
+        UpdateNumber.Text = label;
       }
       else
       {
-        this.Update.Visibility = Visibility.Hidden;
+        Update.Visibility = Visibility.Hidden;
       }
     }
 
@@ -35,7 +35,7 @@
 
     private void OnOkButtonClick(object sender, RoutedEventArgs e)
     {
-      this.Close();
+      Close();
     }
 
     private void RequestNavigate(object sender, RequestNavigateEventArgs e)
@@ -60,7 +60,7 @@
       }
 
       e.Handled = true;
-      this.Close();
+      Close();
     }
 
     #endregion

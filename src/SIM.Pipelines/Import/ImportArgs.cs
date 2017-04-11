@@ -47,30 +47,30 @@
     public ImportArgs([NotNull] string pathToExportedInstance, [NotNull] SqlConnectionStringBuilder connectionString)
     {
       Assert.ArgumentNotNull(pathToExportedInstance, nameof(pathToExportedInstance));
-      this.PathToExportedInstance = pathToExportedInstance;
-      this._ConnectionString = connectionString;
+      PathToExportedInstance = pathToExportedInstance;
+      _ConnectionString = connectionString;
     }
 
     public ImportArgs([NotNull] string pathToExportedInstance, [NotNull] string siteName, [NotNull] SqlConnectionStringBuilder connectionString)
     {
       Assert.ArgumentNotNull(pathToExportedInstance, nameof(pathToExportedInstance));
-      this.PathToExportedInstance = pathToExportedInstance;
-      this._SiteName = siteName;
-      this._ConnectionString = connectionString;
+      PathToExportedInstance = pathToExportedInstance;
+      _SiteName = siteName;
+      _ConnectionString = connectionString;
     }
 
     public ImportArgs([NotNull] string pathToExportedInstance, [NotNull] string siteName, [NotNull] string temporaryPathToUnpack, [NotNull] string rootPath, [NotNull] SqlConnectionStringBuilder connectionString, bool updateLicense, [CanBeNull] string pathToLicenseFile, [NotNull] Dictionary<string, int> bindings)
     {
       Assert.ArgumentNotNull(pathToExportedInstance, nameof(pathToExportedInstance));
-      this.PathToExportedInstance = pathToExportedInstance;
-      this._SiteName = siteName;
-      this._TemporaryPathToUnpack = temporaryPathToUnpack;
-      this._RootPath = rootPath;
-      this._VirtualDirectoryPhysicalPath = this._RootPath.PathCombine("Website");
-      this._ConnectionString = connectionString;
-      this._UpdateLicense = updateLicense;
-      this._PathToLicenseFile = pathToLicenseFile;
-      this._Bindings = bindings;
+      PathToExportedInstance = pathToExportedInstance;
+      _SiteName = siteName;
+      _TemporaryPathToUnpack = temporaryPathToUnpack;
+      _RootPath = rootPath;
+      _VirtualDirectoryPhysicalPath = _RootPath.PathCombine("Website");
+      _ConnectionString = connectionString;
+      _UpdateLicense = updateLicense;
+      _PathToLicenseFile = pathToLicenseFile;
+      _Bindings = bindings;
     }
 
     #endregion

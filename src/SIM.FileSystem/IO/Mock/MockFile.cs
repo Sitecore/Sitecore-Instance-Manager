@@ -44,12 +44,12 @@
 
     public bool Equals(IFile other)
     {
-      return this.FullName.Equals(other?.FullName, StringComparison.OrdinalIgnoreCase);
+      return FullName.Equals(other?.FullName, StringComparison.OrdinalIgnoreCase);
     }
 
     public override bool Equals(object obj)
     {
-      return this.Equals((IFile)obj);
+      return Equals((IFile)obj);
     }               
   }
 }

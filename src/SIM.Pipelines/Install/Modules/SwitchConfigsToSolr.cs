@@ -117,7 +117,7 @@ namespace SIM.Pipelines.Install.Modules
     private void RenameCoreInConfigFile(IList<string> solrFiles)
     {
       string oldCore = @"<param desc=""core"">$(id)</param>";
-      string newCore = $@"<param desc=""core"">{this.Instance.Name}_$(id)</param>";
+      string newCore = $@"<param desc=""core"">{Instance.Name}_$(id)</param>";
       foreach (var file in solrFiles)
       {
         string oldContents = FileReadAllText(file);

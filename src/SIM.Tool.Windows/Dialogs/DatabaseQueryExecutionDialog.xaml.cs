@@ -20,13 +20,13 @@ namespace SIM.Tool.Windows.Dialogs
 
     public DatabaseQueryExecutionDialog()
     {
-      this.InitializeComponent();
+      InitializeComponent();
     }
 
     public DatabaseQueryExecutionDialog(string defaultQueryValue)
     {
-      this.InitializeComponent();
-      this.databaseQueryInput.Text = defaultQueryValue;
+      InitializeComponent();
+      databaseQueryInput.Text = defaultQueryValue;
     }
 
     #endregion
@@ -37,8 +37,8 @@ namespace SIM.Tool.Windows.Dialogs
     {
       try
       {
-        this._QueryResults = SqlServerManager.Instance.GetResultOfQueryExecution(ProfileManager.GetConnectionString(), this.databaseQueryInput.Text);
-        this.dataGrid1.ItemsSource = this._QueryResults.DefaultView;
+        _QueryResults = SqlServerManager.Instance.GetResultOfQueryExecution(ProfileManager.GetConnectionString(), databaseQueryInput.Text);
+        dataGrid1.ItemsSource = _QueryResults.DefaultView;
       }
       catch (Exception ex)
       {
@@ -52,8 +52,8 @@ namespace SIM.Tool.Windows.Dialogs
       {
         try
         {
-          this._QueryResults = SqlServerManager.Instance.GetResultOfQueryExecution(ProfileManager.GetConnectionString(), this.databaseQueryInput.Text);
-          this.dataGrid1.ItemsSource = this._QueryResults.DefaultView;
+          _QueryResults = SqlServerManager.Instance.GetResultOfQueryExecution(ProfileManager.GetConnectionString(), databaseQueryInput.Text);
+          dataGrid1.ItemsSource = _QueryResults.DefaultView;
         }
         catch (Exception ex)
         {

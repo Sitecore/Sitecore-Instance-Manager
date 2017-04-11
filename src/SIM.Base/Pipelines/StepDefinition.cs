@@ -24,8 +24,8 @@
     {
       Assert.ArgumentNotNull(processorDefinitions, nameof(processorDefinitions));
 
-      this.ArgsName = argsName;
-      this._ProcessorDefinitions = processorDefinitions;
+      ArgsName = argsName;
+      _ProcessorDefinitions = processorDefinitions;
     }
 
     #endregion

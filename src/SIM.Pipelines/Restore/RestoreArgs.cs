@@ -35,11 +35,11 @@
       // backup = bs.OrderBy(b => b.Date).FirstOrDefault();
       // Assert.IsNotNull(backup, "There isn't any available backup", false);
       // }
-      this.Backup = backup;
-      this.Instance = instance;
-      this._WebRootPath = instance.WebRootPath;
-      this._DataFolder = instance.DataFolderPath;
-      this.instanceName = instance.Name;
+      Backup = backup;
+      Instance = instance;
+      _WebRootPath = instance.WebRootPath;
+      _DataFolder = instance.DataFolderPath;
+      instanceName = instance.Name;
     }
 
     #endregion
@@ -50,7 +50,7 @@
     {
       get
       {
-        return this.instanceName;
+        return instanceName;
       }
     }
 

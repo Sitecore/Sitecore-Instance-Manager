@@ -40,15 +40,15 @@ namespace SIM.Pipelines.Export
 
       foreach (var database in mongoDatabases)
       {
-        if (this._Done.Contains(database.Name))
+        if (_Done.Contains(database.Name))
         {
           continue;
         }
 
         MongoHelper.Backup(database, exportDatabasesFolder);
-        this.IncrementProgress();
+        IncrementProgress();
 
-        this._Done.Add(database.Name);
+        _Done.Add(database.Name);
       }
     }
 

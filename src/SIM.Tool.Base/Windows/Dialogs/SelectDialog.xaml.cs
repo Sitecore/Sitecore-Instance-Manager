@@ -18,7 +18,7 @@
 
     public SelectDialog()
     {
-      this.InitializeComponent();
+      InitializeComponent();
     }
 
     #endregion
@@ -27,8 +27,8 @@
 
     private void CancelClick([CanBeNull] object sender, [CanBeNull] RoutedEventArgs e)
     {
-      this.DataContext = null;
-      this.DialogResult = false;
+      DataContext = null;
+      DialogResult = false;
     }
 
     private void ListMouseDoubleClick([NotNull] object sender, [NotNull] MouseButtonEventArgs e)
@@ -36,14 +36,14 @@
       Assert.ArgumentNotNull(sender, nameof(sender));
       Assert.ArgumentNotNull(e, nameof(e));
 
-      this.OkClick(sender, e);
+      OkClick(sender, e);
     }
 
     private void OkClick([CanBeNull] object sender, [CanBeNull] RoutedEventArgs e)
     {
-      var s = this.AllowMultiSelect ? this.ListBox1.SelectedItems.Cast<string>().Aggregate(string.Empty, (current, selectedItem) => current + (selectedItem + ',')) : (string)this.ListBox1.SelectedItem;
-      this.DataContext = s.Trim(',');
-      this.DialogResult = true;
+      var s = AllowMultiSelect ? ListBox1.SelectedItems.Cast<string>().Aggregate(string.Empty, (current, selectedItem) => current + (selectedItem + ',')) : (string)ListBox1.SelectedItem;
+      DataContext = s.Trim(',');
+      DialogResult = true;
     }
 
     private void WindowKeyUp([NotNull] object sender, [NotNull] KeyEventArgs e)
@@ -59,11 +59,11 @@
         }
 
         e.Handled = true;
-        this.CancelClick(sender, e);
+        CancelClick(sender, e);
       }
       else if (e.Key == Key.Enter)
       {
-        this.OkClick(null, null);
+        OkClick(null, null);
       }
     }
 
@@ -75,12 +75,12 @@
     {
       get
       {
-        return this.ListBox1.SelectionMode == SelectionMode.Multiple;
+        return ListBox1.SelectionMode == SelectionMode.Multiple;
       }
 
       set
       {
-        this.ListBox1.SelectionMode = value ? SelectionMode.Multiple : SelectionMode.Single;
+        ListBox1.SelectionMode = value ? SelectionMode.Multiple : SelectionMode.Single;
       }
     }
 
@@ -92,19 +92,19 @@
 
     private void WindowContentRendered(object sender, EventArgs e)
     {
-      FocusManager.SetFocusedElement(this.ListBox1, this.ListBox1);
-      if (this.AllowMultiSelect)
+      FocusManager.SetFocusedElement(ListBox1, ListBox1);
+      if (AllowMultiSelect)
       {
-        this.ListBox1.SelectedItems.Add(this.DefaultValue);
+        ListBox1.SelectedItems.Add(DefaultValue);
       }
       else
       {
-        this.ListBox1.SelectedItem = this.DefaultValue;
+        ListBox1.SelectedItem = DefaultValue;
       }
 
-      var t = this.Title;
-      this.Title = "Select an option";
-      this.Label.Text = t;
+      var t = Title;
+      Title = "Select an option";
+      Label.Text = t;
     }
 
     #endregion

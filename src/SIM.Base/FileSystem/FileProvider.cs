@@ -22,7 +22,7 @@ namespace SIM.FileSystem
 
     public FileProvider(FileSystem fileSystem)
     {
-      this.FileSystem = fileSystem;
+      FileSystem = fileSystem;
     }
 
     #endregion
@@ -59,7 +59,7 @@ namespace SIM.FileSystem
 
     public virtual void Copy(string path, string destFileName)
     {
-      this.Copy(path, destFileName, true);
+      Copy(path, destFileName, true);
     }
 
     public virtual void Copy(string source, string target, bool sync = false, int timeout = 1000)
@@ -80,7 +80,7 @@ namespace SIM.FileSystem
           Thread.Sleep(sleep);
         }
 
-        this.AssertExists(target, "The attempt to copy the '{0}' file to '{1}' location was performed, but even after {3}ms timeout the target file didn't appear".FormatWith(source, target, timeout));
+        AssertExists(target, "The attempt to copy the '{0}' file to '{1}' location was performed, but even after {3}ms timeout the target file didn't appear".FormatWith(source, target, timeout));
       }
     }
 
@@ -95,7 +95,7 @@ namespace SIM.FileSystem
       {
         if (ignore == null)
         {
-          this.Delete(path);
+          Delete(path);
         }
         else
         {
@@ -105,13 +105,13 @@ namespace SIM.FileSystem
             var directoryName = new DirectoryInfo(directory).Name;
             if (!directoryName.EqualsIgnoreCase(ignore))
             {
-              this.Delete(directory);
+              Delete(directory);
             }
           }
 
           foreach (var file in Directory.GetFiles(path))
           {
-            this.Delete(file);
+            Delete(file);
           }
         }
       }
@@ -129,7 +129,7 @@ namespace SIM.FileSystem
 
     public virtual long GetFileLength(string destFileName)
     {
-      this.AssertExists(destFileName);
+      AssertExists(destFileName);
       return new FileInfo(destFileName).Length;
     }
 
@@ -145,11 +145,11 @@ namespace SIM.FileSystem
 
     public virtual void Move(string path, string destFileName, bool replace = false)
     {
-      if (replace && this.Exists(destFileName))
+      if (replace && Exists(destFileName))
       {
         var deletePath = destFileName + ".delete";
-        this.Move(destFileName, deletePath);
-        this.Delete(path);
+        Move(destFileName, deletePath);
+        Delete(path);
       }
 
       File.Move(path, destFileName);

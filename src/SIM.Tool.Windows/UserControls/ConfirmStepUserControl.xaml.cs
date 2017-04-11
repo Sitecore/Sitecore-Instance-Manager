@@ -9,8 +9,8 @@
 
     public ConfirmStepUserControl(string param)
     {
-      this.InitializeComponent();
-      this.TextBlock.Text = param;
+      InitializeComponent();
+      TextBlock.Text = param;
     }
 
     #endregion

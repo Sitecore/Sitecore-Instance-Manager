@@ -375,8 +375,8 @@
       {
         Assert.ArgumentNotNull(path, nameof(path));
 
-        this.Path = path;
-        this.Recursive = recursive;
+        Path = path;
+        Recursive = recursive;
       }
 
       #endregion
@@ -385,7 +385,7 @@
 
       public override string ToString()
       {
-        return "Path: {0}, Recursive: {1}".FormatWith(this.Path, this.Recursive);
+        return "Path: {0}, Recursive: {1}".FormatWith(Path, Recursive);
       }
 
       #endregion

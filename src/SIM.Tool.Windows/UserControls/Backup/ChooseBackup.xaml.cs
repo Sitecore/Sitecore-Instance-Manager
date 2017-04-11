@@ -21,7 +21,7 @@
 
     public ChooseBackup()
     {
-      this.InitializeComponent();
+      InitializeComponent();
     }
 
     #endregion
@@ -31,18 +31,18 @@
     void IWizardStep.InitializeStep(WizardArgs wizardArgs)
     {
       var args = (RestoreWizardArgs)wizardArgs;
-      this._CheckBoxItems.Clear();
+      _CheckBoxItems.Clear();
 
-      this._CheckBoxItems.AddRange(args.Instance.Backups);
+      _CheckBoxItems.AddRange(args.Instance.Backups);
 
 
-      this.backups.DataContext = this._CheckBoxItems;
+      backups.DataContext = _CheckBoxItems;
     }
 
     bool IWizardStep.SaveChanges(WizardArgs wizardArgs)
     {
       var args = (RestoreWizardArgs)wizardArgs;
-      args.Backup = this.backups.SelectedItem as InstanceBackup;
+      args.Backup = backups.SelectedItem as InstanceBackup;
 
       return true;
     }

@@ -26,7 +26,7 @@
     {
       Assert.ArgumentNotNull(target, nameof(target));
 
-      this._Target = target;
+      _Target = target;
     }
 
     #endregion
@@ -51,7 +51,7 @@
       Products.Product val = value as Products.Product;
       Assert.IsNotNull(val, "The value must be a Product variable");
 
-      return this._Target(val);
+      return _Target(val);
     }
 
     [CanBeNull]

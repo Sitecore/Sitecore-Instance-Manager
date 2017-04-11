@@ -39,11 +39,11 @@
       var sqlPrefix = args.InstanceSqlPrefix;
       Assert.IsNotNull(sqlPrefix, nameof(sqlPrefix));
 
-      var controller = this.Controller;
+      var controller = Controller;
 
       foreach (ConnectionString connectionString in instance.Configuration.ConnectionStrings)
       {
-        if (this._Done.Contains(connectionString.Name))
+        if (_Done.Contains(connectionString.Name))
         {
           continue;
         }
@@ -55,7 +55,7 @@
           controller.IncrementProgress(AttachDatabasesHelper.StepsCount / args.ConnectionString.Count);
         }
 
-        this._Done.Add(connectionString.Name);
+        _Done.Add(connectionString.Name);
       }
     }
 

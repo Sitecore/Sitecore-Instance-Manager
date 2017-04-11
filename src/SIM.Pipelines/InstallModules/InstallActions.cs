@@ -23,7 +23,7 @@
 
     protected override bool IsRequireProcessing(InstallModulesArgs args)
     {
-      return !this.ProcessorDefinition.Param.EqualsIgnoreCase("archive") || (args._Modules != null && args._Modules.Any(m => m != null && m.IsArchive));
+      return !ProcessorDefinition.Param.EqualsIgnoreCase("archive") || (args._Modules != null && args._Modules.Any(m => m != null && m.IsArchive));
     }
 
     protected override void Process(InstallModulesArgs args)
@@ -32,8 +32,8 @@
 
       Instance instance = args.Instance;
       IEnumerable<Product> modules = args._Modules;
-      var param = this.ProcessorDefinition.Param;
-      ConfigurationActions.ExecuteActions(instance, modules.ToArray(), this._Done, param, args.ConnectionString, this.Controller);
+      var param = ProcessorDefinition.Param;
+      ConfigurationActions.ExecuteActions(instance, modules.ToArray(), _Done, param, args.ConnectionString, Controller);
     }
 
     #endregion

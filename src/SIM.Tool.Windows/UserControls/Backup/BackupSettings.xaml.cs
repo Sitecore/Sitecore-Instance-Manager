@@ -18,7 +18,7 @@
 
     public BackupSettings()
     {
-      this.InitializeComponent();
+      InitializeComponent();
     }
 
     #endregion
@@ -49,7 +49,7 @@
 
     void IWizardStep.InitializeStep(WizardArgs wizardArgs)
     {
-      this.BackupName.Text = ((BackupSettingsWizardArgs)wizardArgs).BackupName;
+      BackupName.Text = ((BackupSettingsWizardArgs)wizardArgs).BackupName;
     }
 
     private void OnChanged(object sender, RoutedEventArgs e)
@@ -59,21 +59,21 @@
       switch (name)
       {
         case "Databases":
-          this._Databases = true;
+          _Databases = true;
           break;
 
         case "MongoDatabases":
-          this._MongoDatabases = true;
+          _MongoDatabases = true;
           break;
 
         case "Files":
-          this._Files = true;
+          _Files = true;
           break;
 
         case "ExcludeClient":
-          this._ExcludeClient = true;
-          this._Files = true;
-          this.Files.IsChecked = true;
+          _ExcludeClient = true;
+          _Files = true;
+          Files.IsChecked = true;
           break;
       }
     }
@@ -85,21 +85,21 @@
       switch (name)
       {
         case "Databases":
-          this._Databases = false;
+          _Databases = false;
           break;
 
         case "MongoDatabases":
-          this._MongoDatabases = false;
+          _MongoDatabases = false;
           break;
 
         case "Files":
-          this._Files = false;
-          this._ExcludeClient = false;
-          this.ExcludeClient.IsChecked = false;
+          _Files = false;
+          _ExcludeClient = false;
+          ExcludeClient.IsChecked = false;
           break;
 
         case "ExcludeClient":
-          this._ExcludeClient = false;
+          _ExcludeClient = false;
           break;
       }
     }
@@ -108,15 +108,15 @@
     {
       var args = (BackupSettingsWizardArgs)wizardArgs;
 
-      if (!string.IsNullOrEmpty(this.BackupName.Text))
+      if (!string.IsNullOrEmpty(BackupName.Text))
       {
-        args.BackupName = this.BackupName.Text;
+        args.BackupName = BackupName.Text;
       }
 
-      args._Files = this._Files;
-      args._Databases = this._Databases;
-      args._MongoDatabases = this._MongoDatabases;
-      args._ExcludeClient = !this._ExcludeClient;
+      args._Files = _Files;
+      args._Databases = _Databases;
+      args._MongoDatabases = _MongoDatabases;
+      args._ExcludeClient = !_ExcludeClient;
 
       return true;
     }

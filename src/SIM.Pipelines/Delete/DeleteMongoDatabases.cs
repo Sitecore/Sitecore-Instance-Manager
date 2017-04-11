@@ -21,7 +21,7 @@ namespace SIM.Pipelines.Delete
 
       var detectedDatabases = args._MongoDatabases;
 
-      DeleteDatabasesHelper.Process(detectedDatabases, this._Done);
+      DeleteDatabasesHelper.Process(detectedDatabases, _Done);
     }
 
     #endregion

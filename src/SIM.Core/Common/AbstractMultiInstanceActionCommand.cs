@@ -22,7 +22,7 @@ namespace SIM.Core.Common
     {
       var instances = AbstractMultiInstanceActionCommand.GetInstances(Name);
 
-      this.DoExecute(instances, result);
+      DoExecute(instances, result);
     }
 
     protected abstract void DoExecute(IReadOnlyList<Instance> instances, CommandResult<T> result);
@@ -43,7 +43,7 @@ namespace SIM.Core.Common
       var name = Name;
       var instance = GetInstances(name);
 
-      this.DoExecute(instance, result);
+      DoExecute(instance, result);
     }
 
     [NotNull]

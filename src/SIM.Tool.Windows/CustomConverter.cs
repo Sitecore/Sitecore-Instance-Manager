@@ -24,7 +24,7 @@ namespace SIM.Tool.Windows
     {
       Assert.ArgumentNotNull(mainWindowButton, nameof(mainWindowButton));
 
-      this.Button = mainWindowButton;
+      Button = mainWindowButton;
     }
 
     #endregion
@@ -36,8 +36,8 @@ namespace SIM.Tool.Windows
     {
       using (new ProfileSection("Checking if button is enabled", this))
       {
-        ProfileSection.Argument("this.button", this.Button.GetType().FullName);
-        return this.Button.IsEnabled(MainWindow._Instance, value as Instance);
+        ProfileSection.Argument("this.button", Button.GetType().FullName);
+        return Button.IsEnabled(MainWindow._Instance, value as Instance);
       }
     }
 

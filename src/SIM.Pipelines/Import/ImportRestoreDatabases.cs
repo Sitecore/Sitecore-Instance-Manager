@@ -117,7 +117,7 @@
         }
         else if (i == dbNames.Count - 1)
         {
-          if (this.CheckDatabases(dbNames, connectionString, ref postfix))
+          if (CheckDatabases(dbNames, connectionString, ref postfix))
           {
             return;
           }
@@ -143,7 +143,7 @@
     {
       // SqlServerManager.Instance.BackupInfo b = new SqlServerManager.Instance.BackupInfo();
       // SqlServerManager.Instance.GetDatabasesNameFromBackup(
-      this.RestoreDatabases(args); // DEBUG
+      RestoreDatabases(args); // DEBUG
     }
 
     #endregion
@@ -172,14 +172,14 @@
         }
       }
 
-      List<string> backupsPaths = this.ExtractDatabases(args);
+      List<string> backupsPaths = ExtractDatabases(args);
       if (backupsPaths.Count == 0)
       {
         return;
       }
 
       var backupInfo = new SqlServerManager.BackupInfo();
-      this.GetPostfixForDatabases(backupsPaths, args._ConnectionString, ref args._DatabaseNameAppend);
+      GetPostfixForDatabases(backupsPaths, args._ConnectionString, ref args._DatabaseNameAppend);
 
       foreach (string backup in backupsPaths)
       {
@@ -187,7 +187,7 @@
         var dbName = backupInfo._DbOriginalName;
 
         // dbName = GetDatabaseName(dbName, args.connectionString, ref args.databaseNameAppend);
-        dbName = this.GetDatabaseName(dbName, ref args._DatabaseNameAppend);
+        dbName = GetDatabaseName(dbName, ref args._DatabaseNameAppend);
 
         // dbName = dbName + GetDBNameAppend(dbName, args.connectionString, 0);
         SqlServerManager.Instance.RestoreDatabase(dbName, 

@@ -32,10 +32,10 @@
       Assert.ArgumentNotNull(instance, nameof(instance));
       Assert.ArgumentNotNull(modules, nameof(modules));
 
-      this._Modules = modules;
-      this.ConnectionString = connectionString;
-      this.Instance = instance;
-      this.instanceName = instance.Name;
+      _Modules = modules;
+      ConnectionString = connectionString;
+      Instance = instance;
+      instanceName = instance.Name;
     }
 
     #endregion
@@ -46,7 +46,7 @@
     {
       get
       {
-        return this.instanceName;
+        return instanceName;
       }
     }
 

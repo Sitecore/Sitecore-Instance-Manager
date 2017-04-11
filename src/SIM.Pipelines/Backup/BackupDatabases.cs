@@ -38,8 +38,8 @@
 
       foreach (Database database in instance.AttachedDatabases)
       {
-        this.Backup(database, backupDatabasesFolder);
-        this.IncrementProgress();
+        Backup(database, backupDatabasesFolder);
+        IncrementProgress();
       }
     }
 

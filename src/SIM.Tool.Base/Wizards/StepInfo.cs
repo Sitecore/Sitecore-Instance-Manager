@@ -22,9 +22,9 @@
 
     public StepInfo(string title, Type control, string param = null)
     {
-      this.Title = title;
-      this.Control = control;
-      this.Param = param ?? string.Empty;
+      Title = title;
+      Control = control;
+      Param = param ?? string.Empty;
     }
 
     #endregion

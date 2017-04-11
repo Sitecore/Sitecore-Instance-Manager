@@ -25,10 +25,10 @@
       FileSystem.FileSystem.Local.Directory.Ensure(tempRootFolder);
 
       var websitePath = Path.Combine(tempRootFolder, "Website");
-      this.Grant(websitePath);
+      Grant(websitePath);
 
       var dataPath = Path.Combine(tempRootFolder, "Data");
-      this.Grant(dataPath);
+      Grant(dataPath);
     }
 
     #endregion

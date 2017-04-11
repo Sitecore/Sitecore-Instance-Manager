@@ -49,9 +49,9 @@ namespace SIM.Tool.Windows.UserControls.Install
 
     public InstanceDetails()
     {
-      this.InitializeComponent();
+      InitializeComponent();
 
-      this.NetFramework.ItemsSource = this._AllFrameworkVersions;
+      NetFramework.ItemsSource = _AllFrameworkVersions;
     }
 
     #endregion
@@ -77,7 +77,7 @@ namespace SIM.Tool.Windows.UserControls.Install
 
     public bool OnMovingNext(WizardArgs wizardArgs)
     {
-      var productRevision = this.ProductRevision;
+      var productRevision = ProductRevision;
       Assert.IsNotNull(productRevision, nameof(productRevision));
 
       Product product = productRevision.SelectedValue as Product;
@@ -128,7 +128,7 @@ namespace SIM.Tool.Windows.UserControls.Install
     [NotNull]
     private AppPoolInfo GetAppPoolInfo()
     {
-      var netFramework = this.NetFramework;
+      var netFramework = NetFramework;
       Assert.IsNotNull(netFramework, nameof(netFramework));
 
       var framework = netFramework.SelectedValue.ToString();
@@ -136,7 +136,7 @@ namespace SIM.Tool.Windows.UserControls.Install
       Assert.IsTrue(frameworkArr.Length > 0, "impossible");
 
       var force32Bit = frameworkArr.Length == 2;
-      var mode = this.Mode;
+      var mode = Mode;
       Assert.IsNotNull(mode, nameof(mode));
 
       var modeItem = (ListBoxItem) mode.SelectedValue;
@@ -161,7 +161,7 @@ namespace SIM.Tool.Windows.UserControls.Install
     [NotNull]
     private string GetValidRootName()
     {
-      var rootName = this.RootName;
+      var rootName = RootName;
       Assert.IsNotNull(rootName, nameof(rootName));
 
       var root = rootName.Text.EmptyToNull();
@@ -172,7 +172,7 @@ namespace SIM.Tool.Windows.UserControls.Install
     [CanBeNull]
     private string GetValidRootPath(string root)
     {
-      var location = this.locationFolder.Text.EmptyToNull();
+      var location = locationFolder.Text.EmptyToNull();
       Assert.IsNotNull(location, @"The location folder isn't set");
 
       var rootPath = Path.Combine(location, root);
@@ -203,7 +203,7 @@ namespace SIM.Tool.Windows.UserControls.Install
     [CanBeNull]
     private string GetValidWebsiteName()
     {
-      var instanceName = this.InstanceName;
+      var instanceName = InstanceName;
       Assert.IsNotNull(instanceName, nameof(instanceName));
 
       var name = instanceName.Text.EmptyToNull();
@@ -218,7 +218,7 @@ namespace SIM.Tool.Windows.UserControls.Install
           var path = WebServerManager.GetWebRootPath(site);
           if (FileSystem.FileSystem.Local.Directory.Exists(path))
           {
-            this.Alert("The website with the same name already exists, please choose another instance name.");
+            Alert("The website with the same name already exists, please choose another instance name.");
             return null;
           }
 
@@ -255,7 +255,7 @@ namespace SIM.Tool.Windows.UserControls.Install
     [NotNull]
     private string[] GetValidHostNames()
     {
-      var hostName = this.HostNames;
+      var hostName = HostNames;
       Assert.IsNotNull(hostName, "HostNames is null");
 
       var hostNamesString = hostName.Text.EmptyToNull();
@@ -294,8 +294,8 @@ namespace SIM.Tool.Windows.UserControls.Install
     {
       using (new ProfileSection("Initializing InstanceDetails", this))
       {
-        this.DataContext = new Model();
-        this._StandaloneProducts = ProductManager.StandaloneProducts;
+        DataContext = new Model();
+        _StandaloneProducts = ProductManager.StandaloneProducts;
       }
     }
 
@@ -303,11 +303,11 @@ namespace SIM.Tool.Windows.UserControls.Install
     {
       using (new ProfileSection("Instance name text changed", this))
       {
-        var name = this.InstanceName.Text;
+        var name = InstanceName.Text;
 
-        this.RootName.Text = name;
-        this.sqlPrefix.Text = name;
-        this.HostNames.Text = GenerateHostName(name);
+        RootName.Text = name;
+        sqlPrefix.Text = name;
+        HostNames.Text = GenerateHostName(name);
       }
     }
 
@@ -330,12 +330,12 @@ namespace SIM.Tool.Windows.UserControls.Install
 
     private void PickLocationFolder([CanBeNull] object sender, [CanBeNull] RoutedEventArgs e)
     {
-      WindowHelper.PickFolder("Choose location folder", this.locationFolder, null);
+      WindowHelper.PickFolder("Choose location folder", locationFolder, null);
     }
 
     private void ProductNameChanged([CanBeNull] object sender, [CanBeNull] SelectionChangedEventArgs e)
     {
-      var productName = this.ProductName;
+      var productName = ProductName;
       Assert.IsNotNull(productName, nameof(productName));
 
       var grouping = productName.SelectedValue as IGrouping<string, Product>;
@@ -344,27 +344,27 @@ namespace SIM.Tool.Windows.UserControls.Install
         return;
       }
 
-      var productVersion = this.ProductVersion;
+      var productVersion = ProductVersion;
       Assert.IsNotNull(productVersion, nameof(productVersion));
 
       productVersion.DataContext = grouping.Where(x => x != null).GroupBy(p => p.ShortVersion).Where(x => x != null).OrderBy(p => p.Key);
-      this.SelectFirst(productVersion);
+      SelectFirst(productVersion);
     }
 
     private void ProductRevisionChanged([CanBeNull] object sender, [CanBeNull] SelectionChangedEventArgs e)
     {
       using (new ProfileSection("Product revision changed", this))
       {
-        var product = this.ProductRevision.SelectedValue as Product;
+        var product = ProductRevision.SelectedValue as Product;
         if (product == null)
         {
           return;
         }
 
         var name = product.DefaultInstanceName;
-        this.InstanceName.Text = name;
+        InstanceName.Text = name;
 
-        var frameworkVersions = new ObservableCollection<string>(this._AllFrameworkVersions);
+        var frameworkVersions = new ObservableCollection<string>(_AllFrameworkVersions);
 
         var m = product.Manifest;
         if (m != null)
@@ -399,7 +399,7 @@ namespace SIM.Tool.Windows.UserControls.Install
           }
         }
 
-        var netFramework = this.NetFramework;
+        var netFramework = NetFramework;
         Assert.IsNotNull(netFramework, nameof(netFramework));
 
         netFramework.ItemsSource = frameworkVersions;
@@ -409,7 +409,7 @@ namespace SIM.Tool.Windows.UserControls.Install
 
     private void ProductVersionChanged([CanBeNull] object sender, [CanBeNull] SelectionChangedEventArgs e)
     {
-      var productVersion = this.ProductVersion;
+      var productVersion = ProductVersion;
       Assert.IsNotNull(productVersion, nameof(productVersion));
 
       var grouping = productVersion.SelectedValue as IGrouping<string, Product>;
@@ -418,8 +418,8 @@ namespace SIM.Tool.Windows.UserControls.Install
         return;
       }
 
-      this.ProductRevision.DataContext = grouping.OrderBy(p => p.Revision);
-      this.SelectLast(this.ProductRevision);
+      ProductRevision.DataContext = grouping.OrderBy(p => p.Revision);
+      SelectLast(ProductRevision);
     }
 
     private void Select([NotNull] Selector element, [NotNull] string value)
@@ -467,7 +467,7 @@ namespace SIM.Tool.Windows.UserControls.Install
 
       if (string.IsNullOrEmpty(value))
       {
-        this.SelectLast(element);
+        SelectLast(element);
         return;
       }
 
@@ -547,7 +547,7 @@ namespace SIM.Tool.Windows.UserControls.Install
 
       if (string.IsNullOrEmpty(value))
       {
-        this.SelectLast(element);
+        SelectLast(element);
         return;
       }
 
@@ -576,7 +576,7 @@ namespace SIM.Tool.Windows.UserControls.Install
     {
       using (new ProfileSection("Window loaded", this))
       {
-        var args = this._InstallParameters;
+        var args = _InstallParameters;
         Assert.IsNotNull(args, nameof(args));
 
         var product = args.Product;
@@ -585,11 +585,11 @@ namespace SIM.Tool.Windows.UserControls.Install
           return;
         }
 
-        this.SelectProductByValue(this.ProductName, WindowsSettings.AppInstallationDefaultProduct.Value);
-        this.SelectProductByValue(this.ProductVersion, WindowsSettings.AppInstallationDefaultProductVersion.Value);
-        this.SelectByValue(this.ProductRevision, WindowsSettings.AppInstallationDefaultProductRevision.Value);
+        SelectProductByValue(ProductName, WindowsSettings.AppInstallationDefaultProduct.Value);
+        SelectProductByValue(ProductVersion, WindowsSettings.AppInstallationDefaultProductVersion.Value);
+        SelectByValue(ProductRevision, WindowsSettings.AppInstallationDefaultProductRevision.Value);
 
-        var netFramework = this.NetFramework;
+        var netFramework = NetFramework;
         Assert.IsNotNull(netFramework, nameof(netFramework));
 
         if (string.IsNullOrEmpty(WindowsSettings.AppInstallationDefaultFramework.Value))
@@ -598,10 +598,10 @@ namespace SIM.Tool.Windows.UserControls.Install
         }
         else
         {
-          this.SelectByValue(netFramework, WindowsSettings.AppInstallationDefaultFramework.Value);
+          SelectByValue(netFramework, WindowsSettings.AppInstallationDefaultFramework.Value);
         }
 
-        var mode = this.Mode;
+        var mode = Mode;
         Assert.IsNotNull(mode, nameof(mode));
 
         if (string.IsNullOrEmpty(WindowsSettings.AppInstallationDefaultPoolMode.Value))
@@ -610,7 +610,7 @@ namespace SIM.Tool.Windows.UserControls.Install
         }
         else
         {
-          this.SelectByValue(mode, WindowsSettings.AppInstallationDefaultPoolMode.Value);
+          SelectByValue(mode, WindowsSettings.AppInstallationDefaultPoolMode.Value);
         }
       }
     }
@@ -642,13 +642,13 @@ namespace SIM.Tool.Windows.UserControls.Install
       {
         get
         {
-          return this._Name;
+          return _Name;
         }
 
         set
         {
           Assert.IsNotNull(value.EmptyToNull(), "Name must not be empty");
-          this._Name = value;
+          _Name = value;
         }
       }
 
@@ -664,50 +664,50 @@ namespace SIM.Tool.Windows.UserControls.Install
 
     void IWizardStep.InitializeStep(WizardArgs wizardArgs)
     {
-      this.Init();
+      Init();
 
-      this.locationFolder.Text = ProfileManager.Profile.InstancesFolder;
-      this.ProductName.DataContext = this._StandaloneProducts.GroupBy(p => p.Name);
+      locationFolder.Text = ProfileManager.Profile.InstancesFolder;
+      ProductName.DataContext = _StandaloneProducts.GroupBy(p => p.Name);
 
       var args = (InstallWizardArgs)wizardArgs;
-      this._InstallParameters = args;
+      _InstallParameters = args;
 
       Product product = args.Product;
       if (product != null)
       {
-        this.Select(this.ProductName, product.Name);
-        this.Select(this.ProductVersion, product.ShortVersion);
-        this.Select(this.ProductRevision, product.Revision);
+        Select(ProductName, product.Name);
+        Select(ProductVersion, product.ShortVersion);
+        Select(ProductRevision, product.Revision);
       }
       else
       {
-        this.SelectFirst(this.ProductName);
+        SelectFirst(ProductName);
       }
 
       AppPoolInfo info = args.InstanceAppPoolInfo;
       if (info != null)
       {
         var frameworkValue = info.FrameworkVersion + " " + (info.Enable32BitAppOnWin64 ? "32bit" : string.Empty);
-        this.SelectByValue(this.NetFramework, frameworkValue);
-        this.SelectByValue(this.Mode, info.ManagedPipelineMode ? "Integrated" : "Classic");
+        SelectByValue(NetFramework, frameworkValue);
+        SelectByValue(Mode, info.ManagedPipelineMode ? "Integrated" : "Classic");
       }
 
       var name = args.InstanceName;
       if (!string.IsNullOrEmpty(name))
       {
-        this.InstanceName.Text = name;
+        InstanceName.Text = name;
       }
 
       var rootName = args.InstanceRootName;
       if (!string.IsNullOrEmpty(rootName))
       {
-        this.RootName.Text = rootName;
+        RootName.Text = rootName;
       }
 
       var hostNames = args.InstanceHostNames;
       if (hostNames != null && hostNames.Any())
       {
-        this.HostNames.Text = hostNames.Join("\r\n");
+        HostNames.Text = hostNames.Join("\r\n");
       }
 
       if (rootName == null)
@@ -715,7 +715,7 @@ namespace SIM.Tool.Windows.UserControls.Install
       var location = args.InstanceRootPath.TrimEnd(rootName).Trim('/', '\\');
       if (!string.IsNullOrEmpty(location))
       {
-        this.locationFolder.Text = location;
+        locationFolder.Text = location;
       }
     }
 

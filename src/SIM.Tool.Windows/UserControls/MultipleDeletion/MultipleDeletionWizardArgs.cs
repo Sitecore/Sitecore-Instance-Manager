@@ -18,7 +18,7 @@
 
     public override ProcessorArgs ToProcessorArgs()
     {
-      return new MultipleDeletionArgs(this._SelectedInstances)
+      return new MultipleDeletionArgs(_SelectedInstances)
       {
         _ConnectionString = ProfileManager.GetConnectionString()
       };

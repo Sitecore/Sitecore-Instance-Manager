@@ -74,7 +74,7 @@
     {
       get
       {
-        XmlDocument document = this.Manifest;
+        XmlDocument document = Manifest;
         if (document == null)
         {
           return false;
@@ -98,7 +98,7 @@
     {
       get
       {
-        return this._SortOrder ?? (int)(this._SortOrder = int.Parse(this.Manifest.With(m => m.SelectSingleElement(ManifestPrefix + "*/sortOrder")).With(m => m.InnerText.EmptyToNull()) ?? "0"));
+        return _SortOrder ?? (int)(_SortOrder = int.Parse(Manifest.With(m => m.SelectSingleElement(ManifestPrefix + "*/sortOrder")).With(m => m.InnerText.EmptyToNull()) ?? "0"));
       }
     }
 
@@ -140,7 +140,7 @@
     {
       get
       {
-        return this.FormatString(ProductHelper.Settings.CoreProductRootFolderNamePattern.Value);
+        return FormatString(ProductHelper.Settings.CoreProductRootFolderNamePattern.Value);
       }
     }
 
@@ -149,7 +149,7 @@
     {
       get
       {
-        return this.FormatString(ProductHelper.Settings.CoreInstallInstanceNamePattern.Value);
+        return FormatString(ProductHelper.Settings.CoreInstallInstanceNamePattern.Value);
       }
     }
 
@@ -157,10 +157,10 @@
     {
       get
       {
-        return (bool)(this._IsArchive ??
+        return (bool)(_IsArchive ??
                       (
-                        this._IsArchive =
-                          !string.IsNullOrEmpty(this.PackagePath) && (this.Manifest.With(x => x.SelectSingleElement(ManifestPrefix + "archive")) != null || !this.IsPackage && !this.IsStandalone)
+                        _IsArchive =
+                          !string.IsNullOrEmpty(PackagePath) && (Manifest.With(x => x.SelectSingleElement(ManifestPrefix + "archive")) != null || !IsPackage && !IsStandalone)
                         ));
       }
     }
@@ -169,7 +169,7 @@
     {
       get
       {
-        return (bool)(this._IsPackage ?? (this._IsPackage = GetIsPackage(this.PackagePath, this.Manifest)));
+        return (bool)(_IsPackage ?? (_IsPackage = GetIsPackage(PackagePath, Manifest)));
       }
     }
 
@@ -177,12 +177,12 @@
     {
       get
       {
-        return (bool)(this._IsStandalone ?? (this._IsStandalone = this.Manifest.With(m => m.SelectSingleElement(ManifestPrefix + "standalone")) != null));
+        return (bool)(_IsStandalone ?? (_IsStandalone = Manifest.With(m => m.SelectSingleElement(ManifestPrefix + "standalone")) != null));
       }
 
       set
       {
-        this._IsStandalone = value;
+        _IsStandalone = value;
       }
     }
 
@@ -191,7 +191,7 @@
     {
       get
       {
-        return this.Manifest.With(m => m.SelectSingleElement(ManifestPrefix + "*/label").With(x => x.InnerText)) ?? this.Release.With(x => x.Label);
+        return Manifest.With(m => m.SelectSingleElement(ManifestPrefix + "*/label").With(x => x.InnerText)) ?? Release.With(x => x.Label);
       }
     }
 
@@ -200,19 +200,19 @@
     {
       get
       {
-        var release = this._Release;
+        var release = _Release;
         if (release != null)
         {
           return release;
         }
 
-        if (this._UnknownRelease || this.Name != "Sitecore CMS")
+        if (_UnknownRelease || Name != "Sitecore CMS")
         {
           return null;
         }
 
 
-        var ver = this.Version;
+        var ver = Version;
         switch (ver)
         {
           case "6.6.0":
@@ -226,16 +226,16 @@
         release = Service.GetVersions("Sitecore CMS")?
           .FirstOrDefault(z => z.MajorMinor == ver)?
           .Releases?
-          .TryGetValue(this.Revision);
+          .TryGetValue(Revision);
 
         if (release == null)
         {
-          this._UnknownRelease = true;
+          _UnknownRelease = true;
 
           return null;
         }
 
-        this._Release = release;
+        _Release = release;
 
         return release;
       }
@@ -246,9 +246,9 @@
     {
       get
       {
-        if (this._Manifest == null)
+        if (_Manifest == null)
         {
-          var packageFile = this.PackagePath;
+          var packageFile = PackagePath;
           if (string.IsNullOrEmpty(packageFile))
           {
             return EmptyManifest;
@@ -259,17 +259,17 @@
           var text = CacheManager.GetEntry(CacheName, packageFile);
           if (text != null)
           {
-            this._Manifest = XmlDocumentEx.LoadXml(text);
-            return this._Manifest;
+            _Manifest = XmlDocumentEx.LoadXml(text);
+            return _Manifest;
           }
 
-          this._Manifest = ManifestHelper.Compute(packageFile, this.OriginalName);
+          _Manifest = ManifestHelper.Compute(packageFile, OriginalName);
 
           // put to cache
-          CacheManager.SetEntry(CacheName, packageFile, this._Manifest.OuterXml);
+          CacheManager.SetEntry(CacheName, packageFile, _Manifest.OuterXml);
         }
 
-        return this._Manifest;
+        return _Manifest;
       }
     }
 
@@ -278,12 +278,12 @@
     {
       get
       {
-        return this._Name ?? (this._Name = this.Manifest.With(m => m.SelectSingleElement(ManifestPrefix + "*/name")).With(x => x.InnerText.EmptyToNull()) ?? this.NormalizeName(this.OriginalName));
+        return _Name ?? (_Name = Manifest.With(m => m.SelectSingleElement(ManifestPrefix + "*/name")).With(x => x.InnerText.EmptyToNull()) ?? NormalizeName(OriginalName));
       }
 
       set
       {
-        this._Name = this.NormalizeName(value);
+        _Name = NormalizeName(value);
       }
     }
 
@@ -294,13 +294,13 @@
     {
       get
       {
-        return this._PackagePath;
+        return _PackagePath;
       }
 
       set
       {
-        this._PackagePath = value;
-        this._IsPackage = GetIsPackage(value, this.Manifest);
+        _PackagePath = value;
+        _IsPackage = GetIsPackage(value, Manifest);
       }
     }
 
@@ -308,12 +308,12 @@
     {
       get
       {
-        if (this._Readme == null)
+        if (_Readme == null)
         {
-          return this._Readme = this.GetReadme();
+          return _Readme = GetReadme();
         }
 
-        return this._Readme;
+        return _Readme;
       }
     }
 
@@ -326,13 +326,13 @@
     {
       get
       {
-        var label = this.Label;
+        var label = Label;
         if (!string.IsNullOrEmpty(label))
         {
-          return this.Revision + " - " + label;
+          return Revision + " - " + label;
         }
 
-        return this.Revision;
+        return Revision;
       }
     }
 
@@ -340,7 +340,7 @@
     {
       get
       {
-        return this._SearchToken ?? (this._SearchToken = this.ShortName + this._ShortVersion + this.ToString());
+        return _SearchToken ?? (_SearchToken = ShortName + _ShortVersion + ToString());
       }
     }
 
@@ -349,9 +349,9 @@
     {
       get
       {
-        return this._ShortName ??
-               (this._ShortName = this.Manifest.With(m => m.SelectSingleElement(ManifestPrefix + "*/shortName")).With(m => m.InnerText.EmptyToNull()) ??
-                                 this.Name.Split(' ')
+        return _ShortName ??
+               (_ShortName = Manifest.With(m => m.SelectSingleElement(ManifestPrefix + "*/shortName")).With(m => m.InnerText.EmptyToNull()) ??
+                                 Name.Split(' ')
                                    .Aggregate(string.Empty, 
                                      (current, word) =>
                                        current +
@@ -361,7 +361,7 @@
 
       set
       {
-        this._ShortName = value;
+        _ShortName = value;
       }
     }
 
@@ -370,7 +370,7 @@
     {
       get
       {
-        return this._ShortVersion ?? (this._ShortVersion = this.Version.Replace(".", string.Empty));
+        return _ShortVersion ?? (_ShortVersion = Version.Replace(".", string.Empty));
       }
     }
 
@@ -383,8 +383,8 @@
       get
       {
         const string Pattern = "{0} rev. {1}";
-        var longVersion = this.Version.Length == "7.0".Length ? this.Version + ".0" : this.Version;
-        return Pattern.FormatWith(longVersion, this.Revision).TrimEnd(" rev. ");
+        var longVersion = Version.Length == "7.0".Length ? Version + ".0" : Version;
+        return Pattern.FormatWith(longVersion, Revision).TrimEnd(" rev. ");
       }
     }
 
@@ -393,8 +393,8 @@
     {
       get
       {
-        var label = this.Label;
-        var revision = "rev" + this.Revision;
+        var label = Label;
+        var revision = "rev" + Revision;
         if (string.IsNullOrEmpty(label))
         {
           return revision;
@@ -469,7 +469,7 @@
       get
       {
         const string Pattern = "{0} {1} rev. {2}";
-        return Pattern.FormatWith(this.Name, this.Version, this.Revision).TrimEnd(" rev. ").TrimEnd(' ');
+        return Pattern.FormatWith(Name, Version, Revision).TrimEnd(" rev. ").TrimEnd(' ');
       }
     }
 
@@ -525,12 +525,12 @@
       Assert.ArgumentNotNull(instanceProduct, nameof(instanceProduct));
 
       // !ProductHelper.Settings.InstallModulesCheckRequirements.Value&& 
-      if (!this.Name.EqualsIgnoreCase("Sitecore Analytics"))
+      if (!Name.EqualsIgnoreCase("Sitecore Analytics"))
       {
         return true;
       }
 
-      foreach (XmlElement product in this.Manifest.SelectElements(ManifestPrefix + "*/requirements/product"))
+      foreach (XmlElement product in Manifest.SelectElements(ManifestPrefix + "*/requirements/product"))
       {
         IEnumerable<XmlElement> rules = product.ChildNodes.OfType<XmlElement>().ToArray();
         foreach (IGrouping<string, XmlElement> group in rules.GroupBy(ch => ch.Name.ToLower()))
@@ -539,14 +539,14 @@
           switch (key)
           {
             case "version":
-              if (rules.Where(r => r.Name.ToLower() == key).All(s => !this.VersionMatch(instanceProduct, s.GetAttribute("value"), s)))
+              if (rules.Where(r => r.Name.ToLower() == key).All(s => !VersionMatch(instanceProduct, s.GetAttribute("value"), s)))
               {
                 return false;
               }
 
               break;
             case "revision":
-              if (rules.Where(r => r.Name.ToLower() == key).All(s => !this.RevisionMatch(instanceProduct, s.GetAttribute("value"))))
+              if (rules.Where(r => r.Name.ToLower() == key).All(s => !RevisionMatch(instanceProduct, s.GetAttribute("value"))))
               {
                 return false;
               }
@@ -561,7 +561,7 @@
 
     public override string ToString()
     {
-      return this.DisplayName;
+      return DisplayName;
     }
 
     #endregion
@@ -570,7 +570,7 @@
 
     private Dictionary<bool, string> GetReadme()
     {
-      var readmeNode = this.Manifest.GetElementsByTagName("readme")[0];
+      var readmeNode = Manifest.GetElementsByTagName("readme")[0];
       if (readmeNode != null && !string.IsNullOrEmpty(readmeNode.InnerText))
       {
         return new Dictionary<bool, string>
@@ -581,13 +581,13 @@
         };
       }
 
-      var tempExtractFolderPath = Path.Combine(Directory.GetParent(this.PackagePath).FullName, "TempExtract");
+      var tempExtractFolderPath = Path.Combine(Directory.GetParent(PackagePath).FullName, "TempExtract");
       if (!Directory.Exists(tempExtractFolderPath))
       {
         Directory.CreateDirectory(tempExtractFolderPath);
       }
 
-      using (var zip = ZipFile.Read(this.PackagePath))
+      using (var zip = ZipFile.Read(PackagePath))
       {
         ZipEntry readmeEntry;
 
@@ -685,8 +685,8 @@
     {
       Assert.ArgumentNotNull(pattern, nameof(pattern));
 
-      return pattern.Replace("{ShortName}", this.ShortName).Replace("{Name}", this.Name).Replace("{ShortVersion}", this.ShortVersion).Replace("{Version}", this.Version).Replace("{Revision}", this.Revision)
-        .Replace("{UpdateOrRevision}", this.UpdateOrRevision);
+      return pattern.Replace("{ShortName}", ShortName).Replace("{Name}", Name).Replace("{ShortVersion}", ShortVersion).Replace("{Version}", Version).Replace("{Revision}", Revision)
+        .Replace("{UpdateOrRevision}", UpdateOrRevision);
     }
 
     private bool RevisionMatch([NotNull] Product instanceProduct, [NotNull] string revision)
@@ -696,7 +696,7 @@
 
       if (string.IsNullOrEmpty(revision))
       {
-        revision = this.Revision;
+        revision = Revision;
       }
 
       var instanceRevision = instanceProduct.Revision;
@@ -716,7 +716,7 @@
 
       if (string.IsNullOrEmpty(version))
       {
-        version = this.Version;
+        version = Version;
       }
 
       var instanceVersion = instanceProduct.Version;
@@ -728,7 +728,7 @@
           return true;
         }
 
-        if (rules.Any(s => this.RevisionMatch(instanceProduct, s.GetAttribute("value"))))
+        if (rules.Any(s => RevisionMatch(instanceProduct, s.GetAttribute("value"))))
         {
           return true;
         }
@@ -827,7 +827,7 @@
 
     void IXmlSerializable.WriteXml(XmlWriter writer)
     {
-      foreach (var property in this.GetType().GetProperties())
+      foreach (var property in GetType().GetProperties())
       {
         object value = property.GetValue(this, new object[0]);
         var xml = value as XmlDocument;
@@ -848,7 +848,7 @@
     /// </summary>
     public void ResetManifest()
     {
-      this._Manifest = null;
+      _Manifest = null;
     }
   }
 }

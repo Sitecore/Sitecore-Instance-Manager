@@ -23,13 +23,13 @@
         var destFileName = Path.Combine(localRepository, fileName);
         Assert.IsTrue(!FileSystem.FileSystem.Local.File.Exists(destFileName), "The {0} file already exists".FormatWith(destFileName));
 
-        if (this.TryCopyFromExternalRepository(fileName, destFileName))
+        if (TryCopyFromExternalRepository(fileName, destFileName))
         {
-          this.Controller.IncrementProgress(fileSize);
+          Controller.IncrementProgress(fileSize);
           return;
         }
 
-        WebRequestHelper.DownloadFile(url, destFileName, response, token, count => this.Controller.IncrementProgress(count));
+        WebRequestHelper.DownloadFile(url, destFileName, response, token, count => Controller.IncrementProgress(count));
       }
     }
 
@@ -57,7 +57,7 @@
       var parallelDownloadsNumber = WindowsSettings.AppDownloaderParallelThreads.Value;
 
       var cancellation = new CancellationTokenSource();
-      var urls = links.Where(link => link != null && this.RequireDownloading(fileNames[link], fileSizes[link], localRepository)).ToArray();
+      var urls = links.Where(link => link != null && RequireDownloading(fileNames[link], fileSizes[link], localRepository)).ToArray();
       for (int i = 0; i < urls.Length; i += parallelDownloadsNumber)
       {
         var remains = urls.Length - i;
@@ -65,7 +65,7 @@
           .Skip(i)
           .Take(Math.Min(parallelDownloadsNumber, remains))
           .Where(url => url != null)
-          .Select(url => Task.Factory.StartNew(() => this.DownloadFile(url, fileNames[url], fileSizes[url], localRepository, cookies, cancellation.Token), cancellation.Token))
+          .Select(url => Task.Factory.StartNew(() => DownloadFile(url, fileNames[url], fileSizes[url], localRepository, cookies, cancellation.Token), cancellation.Token))
           .ToArray();
 
         try

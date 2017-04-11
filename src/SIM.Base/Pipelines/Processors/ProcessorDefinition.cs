@@ -40,7 +40,7 @@
 
     public override string ToString()
     {
-      return this.Title.Replace("{param}", this.Param);
+      return Title.Replace("{param}", Param);
     }
 
     #endregion

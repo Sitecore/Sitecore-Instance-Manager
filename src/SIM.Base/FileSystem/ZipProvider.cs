@@ -32,7 +32,7 @@ namespace SIM.FileSystem
 
     public ZipProvider(FileSystem fileSystem)
     {
-      this.FileSystem = fileSystem;
+      FileSystem = fileSystem;
     }
 
     #endregion
@@ -158,7 +158,7 @@ namespace SIM.FileSystem
           {
             var q = Math.Max(zip.Entries.Count / stepsCount, 1);
 
-            this.FileSystem.Directory.Ensure(path);
+            FileSystem.Directory.Ensure(path);
             var i = 0;
             ICollection<ZipEntry> entries = entriesPattern != null ? zip.SelectEntries(entriesPattern) : zip.Entries;
             foreach (ZipEntry entry in entries)
@@ -252,7 +252,7 @@ namespace SIM.FileSystem
         {
           var q = Math.Max(zip.Entries.Count / stepsCount, 1);
 
-          this.FileSystem.Directory.Ensure(path);
+          FileSystem.Directory.Ensure(path);
           var i = 0;
           var entries = entriesPattern != null ? zip.SelectEntries(entriesPattern) : zip.Entries;
 

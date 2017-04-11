@@ -44,7 +44,7 @@
     {
       get
       {
-        return InstanceManager.Default.GetInstance(this.InstanceName);
+        return InstanceManager.Default.GetInstance(InstanceName);
       }
     }
 
@@ -76,15 +76,15 @@
 
     public override ProcessorArgs ToProcessorArgs()
     {
-      var skipRadControls = this.SkipRadControls;
-      var skipDictionaries = this.SkipDictionaries;
-      var serverSideRedirect = this.ServerSideRedirect;
-      var increaseExecutionTimeout = this.IncreaseExecutionTimeout;
+      var skipRadControls = SkipRadControls;
+      var skipDictionaries = SkipDictionaries;
+      var serverSideRedirect = ServerSideRedirect;
+      var increaseExecutionTimeout = IncreaseExecutionTimeout;
       var installRadControls = !((bool)skipRadControls);
       var installDictionaries = !((bool)skipDictionaries);
-      var preheat = this.PreHeat;
+      var preheat = PreHeat;
 
-      return new InstallArgs(this.InstanceName, this.InstanceHostNames, this.InstanceSqlPrefix, this.InstanceAttachSql, this.InstanceProduct, this.InstanceRootPath, this.InstanceConnectionString, SqlServerManager.Instance.GetSqlServerAccountName(this.InstanceConnectionString), Settings.CoreInstallWebServerIdentity.Value, this.LicenseFileInfo, this.InstanceAppPoolInfo.FrameworkVersion == "v4.0", this.InstanceAppPoolInfo.Enable32BitAppOnWin64, !this.InstanceAppPoolInfo.ManagedPipelineMode, installRadControls, installDictionaries, (bool)serverSideRedirect, (bool)increaseExecutionTimeout, (bool)preheat, this._Modules);
+      return new InstallArgs(InstanceName, InstanceHostNames, InstanceSqlPrefix, InstanceAttachSql, InstanceProduct, InstanceRootPath, InstanceConnectionString, SqlServerManager.Instance.GetSqlServerAccountName(InstanceConnectionString), Settings.CoreInstallWebServerIdentity.Value, LicenseFileInfo, InstanceAppPoolInfo.FrameworkVersion == "v4.0", InstanceAppPoolInfo.Enable32BitAppOnWin64, !InstanceAppPoolInfo.ManagedPipelineMode, installRadControls, installDictionaries, (bool)serverSideRedirect, (bool)increaseExecutionTimeout, (bool)preheat, _Modules);
     }
 
     public static bool? LastTimeOption(string option)

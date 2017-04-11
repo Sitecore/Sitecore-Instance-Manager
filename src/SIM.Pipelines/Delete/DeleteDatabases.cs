@@ -28,9 +28,9 @@
       var rootPath = args.RootPath.ToLower();
       var connectionString = args.ConnectionString;
       var instanceName = args.InstanceName;
-      IPipelineController controller = this.Controller;
+      IPipelineController controller = Controller;
 
-      DeleteDatabasesHelper.Process(detectedDatabases, rootPath, connectionString, instanceName, controller, this._Done);
+      DeleteDatabasesHelper.Process(detectedDatabases, rootPath, connectionString, instanceName, controller, _Done);
     }
 
     #endregion

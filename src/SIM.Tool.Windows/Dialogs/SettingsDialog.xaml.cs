@@ -19,14 +19,14 @@
 
     public SettingsDialog()
     {
-      this.InitializeComponent();
-      this.Profile = (Profile)ProfileManager.Profile.Clone();
+      InitializeComponent();
+      Profile = (Profile)ProfileManager.Profile.Clone();
       if (!ProfileManager.FileExists)
       {
-        this.Header.Text = "Initial Configuration";
-        this.HeaderDetails.Text = "We are very sorry, but you have to perform this boring initial configuration in order to use this tool out of the box";
-        this.CancelButton.Visibility = Visibility.Collapsed;
-        this.Profile.InstancesFolder = "C:\\inetpub\\wwwroot";
+        Header.Text = "Initial Configuration";
+        HeaderDetails.Text = "We are very sorry, but you have to perform this boring initial configuration in order to use this tool out of the box";
+        CancelButton.Visibility = Visibility.Collapsed;
+        Profile.InstancesFolder = "C:\\inetpub\\wwwroot";
       }
     }
 
@@ -39,14 +39,14 @@
     {
       get
       {
-        return (Profile)this.DataContext;
+        return (Profile)DataContext;
       }
 
       set
       {
         Assert.ArgumentNotNull(value, nameof(value));
 
-        this.DataContext = value;
+        DataContext = value;
       }
     }
 
@@ -56,7 +56,7 @@
 
     private void CancelChanges([CanBeNull] object sender, [CanBeNull] RoutedEventArgs e)
     {
-      this.Close();
+      Close();
     }
 
     private void PickConnectionString([NotNull] object sender, [NotNull] RoutedEventArgs e)
@@ -64,8 +64,8 @@
       Assert.ArgumentNotNull(sender, nameof(sender));
       Assert.ArgumentNotNull(e, nameof(e));
 
-      WindowHelper.ShowDialog<ConnectionStringDialog>(this.ConnectionString.Text, this);
-      BindingExpression binding = this.ConnectionString.GetBindingExpression(TextBox.TextProperty);
+      WindowHelper.ShowDialog<ConnectionStringDialog>(ConnectionString.Text, this);
+      BindingExpression binding = ConnectionString.GetBindingExpression(TextBox.TextProperty);
       Assert.IsNotNull(binding, nameof(binding));
       binding.UpdateSource();
     }
@@ -75,7 +75,7 @@
       Assert.ArgumentNotNull(sender, nameof(sender));
       Assert.ArgumentNotNull(e, nameof(e));
 
-      WindowHelper.PickFolder("Choose folder with Sitecore zip installation packages", this.localRepository, this.DoneButton);
+      WindowHelper.PickFolder("Choose folder with Sitecore zip installation packages", localRepository, DoneButton);
     }
 
     private void PickInstancesFolder([NotNull] object sender, [NotNull] RoutedEventArgs e)
@@ -83,7 +83,7 @@
       Assert.ArgumentNotNull(sender, nameof(sender));
       Assert.ArgumentNotNull(e, nameof(e));
 
-      WindowHelper.PickFolder("Choose folder where Sitecore instances must be installed", this.MainRootFolder, this.DoneButton);
+      WindowHelper.PickFolder("Choose folder where Sitecore instances must be installed", MainRootFolder, DoneButton);
     }
 
     private void PickLicenseFile([NotNull] object sender, [NotNull] RoutedEventArgs e)
@@ -91,43 +91,43 @@
       Assert.ArgumentNotNull(sender, nameof(sender));
       Assert.ArgumentNotNull(e, nameof(e));
 
-      WindowHelper.PickFile("Choose license file", this.LicenseFile, this.DoneButton, "XML Files|*.xml");
+      WindowHelper.PickFile("Choose license file", LicenseFile, DoneButton, "XML Files|*.xml");
     }
 
     private void SaveChanges([CanBeNull] object sender, [CanBeNull] RoutedEventArgs e)
     {
-      this.SaveSettings();
+      SaveSettings();
     }
 
     private void SaveSettings()
     {
-      ProfileManager.SaveChanges(this.Profile);
-      this.DialogResult = true;
-      this.Close();
+      ProfileManager.SaveChanges(Profile);
+      DialogResult = true;
+      Close();
     }
 
     private void ShowAdvanced([CanBeNull] object sender, [CanBeNull] RoutedEventArgs e)
     {
-      WindowHelper.ShowDialog<AdvancedSettingsDialog>(this.Profile, this);
+      WindowHelper.ShowDialog<AdvancedSettingsDialog>(Profile, this);
     }
 
     private void TextboxKeyUp(object sender, KeyEventArgs e)
     {
       if (e.Key == Key.Enter)
       {
-        var t = this.MainRootFolder.Text;
+        var t = MainRootFolder.Text;
         if (!string.IsNullOrEmpty(t) && FileSystem.FileSystem.Local.Directory.Exists(t))
         {
           BindingExpression binding = ((TextBox)sender).GetBindingExpression(TextBox.TextProperty);
           Assert.IsNotNull(binding, nameof(binding));
           binding.UpdateSource();
-          this.SaveSettings();
+          SaveSettings();
 
           return;
         }
       }
 
-      this.WindowKeyUp(sender, e);
+      WindowKeyUp(sender, e);
     }
 
     private void WindowKeyUp([NotNull] object sender, [NotNull] KeyEventArgs e)
@@ -143,7 +143,7 @@
         }
 
         e.Handled = true;
-        this.Close();
+        Close();
       }
     }
 

@@ -79,8 +79,8 @@
           MainWindow._Instance.Width = d;
         }
 
-        MainWindowHelper.RefreshInstances();
-        MainWindowHelper.RefreshInstaller();
+        RefreshInstances();
+        RefreshInstaller();
       }
     }
 
@@ -243,8 +243,8 @@
       using (new ProfileSection("Refresh everything"))
       {
         CacheManager.ClearAll();
-        MainWindowHelper.RefreshInstaller();
-        MainWindowHelper.RefreshInstances();
+        RefreshInstaller();
+        RefreshInstances();
       }
     }
 
@@ -342,7 +342,7 @@
         }
 
         var name = instance.Name;
-        WizardPipelineManager.Start("reinstall", owner, args, null, ignore => MainWindowHelper.MakeInstanceSelected(name));
+        WizardPipelineManager.Start("reinstall", owner, args, null, ignore => MakeInstanceSelected(name));
       }
     }
 
@@ -405,7 +405,7 @@
           if (mainWindowButton != null && mainWindowButton.IsEnabled(MainWindow._Instance, SelectedInstance))
           {
             mainWindowButton.OnClick(MainWindow._Instance, SelectedInstance);
-            MainWindowHelper.RefreshInstances();
+            RefreshInstances();
           }
         }
         catch (Exception ex)
@@ -522,7 +522,7 @@
               if (menuHandler.IsEnabled(MainWindow._Instance, SelectedInstance))
               {
                 menuHandler.OnClick(MainWindow._Instance, SelectedInstance);
-                MainWindowHelper.RefreshInstances();
+                RefreshInstances();
               }
             }
             catch (Exception ex)
@@ -620,7 +620,7 @@
               if (mainWindowButton.IsEnabled(MainWindow._Instance, SelectedInstance))
               {
                 mainWindowButton.OnClick(MainWindow._Instance, SelectedInstance);
-                MainWindowHelper.RefreshInstances();
+                RefreshInstances();
               }
             }
             catch (Exception ex)
@@ -1015,7 +1015,7 @@
     private static void RefreshInstallerTask()
     {
       var message = InitializeInstallerUnsafe(MainWindow._Instance);
-      MainWindowHelper.Invoke((mainWindow) => MainWindowHelper.UpdateInstallButtons(message, mainWindow));
+      Invoke((mainWindow) => UpdateInstallButtons(message, mainWindow));
       if (message != null)
       {
         WindowHelper.HandleError("Cannot find any installation package. " + message, false, null);

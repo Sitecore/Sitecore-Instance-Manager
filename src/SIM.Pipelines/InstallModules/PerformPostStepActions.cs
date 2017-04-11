@@ -32,14 +32,14 @@ namespace SIM.Pipelines.InstallModules
 
       foreach (var module in args._Modules.Where(m => m.IsPackage))
       {
-        if (this._Done.Contains(module))
+        if (_Done.Contains(module))
         {
           continue;
         }
 
         AgentHelper.PerformPostStepAction(args.Instance, module);
 
-        this._Done.Add(module);
+        _Done.Add(module);
       }
     }
 

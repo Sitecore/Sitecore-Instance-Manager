@@ -26,8 +26,8 @@
     {
       Assert.ArgumentNotNull(filePath, nameof(filePath));
 
-      this.FilePath = filePath;
-      this.Load(filePath);
+      FilePath = filePath;
+      Load(filePath);
     }
 
     #endregion
@@ -76,15 +76,15 @@
     {
       Assert.ArgumentNotNull(filename, nameof(filename));
 
-      this.FilePath = filename;
+      FilePath = filename;
       base.Load(filename);
     }
 
     public void Save()
     {
-      Assert.IsNotNull(this.FilePath.EmptyToNull(), "FilePath is empty");
+      Assert.IsNotNull(FilePath.EmptyToNull(), "FilePath is empty");
 
-      this.Save(this.FilePath);
+      Save(FilePath);
     }
 
     #endregion
@@ -95,7 +95,7 @@
     {
       get
       {
-        return FileSystem.FileSystem.Local.File.Exists(this.FilePath);
+        return FileSystem.FileSystem.Local.File.Exists(FilePath);
       }
     }
 
@@ -141,7 +141,7 @@
 
     public static string Normalize(string xml)
     {
-      var doc = XmlDocumentEx.LoadXml(xml);
+      var doc = LoadXml(xml);
       var stringWriter = new StringWriter(new StringBuilder());
       var xmlTextWriter = new XmlTextWriter(stringWriter)
       {
@@ -155,7 +155,7 @@
     public string GetElementAttributeValue(string xpath, string attributeName)
     {
       // Assert.IsTrue(xpath[0] == '/', "The xpath expression must be rooted");
-      XmlElement element = this.SelectSingleElement(this.FixNotRootedXpathExpression(xpath));
+      XmlElement element = this.SelectSingleElement(FixNotRootedXpathExpression(xpath));
       if (element != null && element.Attributes[attributeName] != null)
       {
         return element.Attributes[attributeName].Value;
@@ -167,7 +167,7 @@
     public XmlDocumentEx Merge(XmlDocument target)
     {
       Assert.ArgumentNotNull(target, nameof(target));
-      var root = this.DocumentElement.IsNotNull("The DocumentElement is missing");
+      var root = DocumentElement.IsNotNull("The DocumentElement is missing");
       var importedRoot = target.DocumentElement.IsNotNull("The DocumentElement of imported xml is missing");
       Merge(root, importedRoot);
 
@@ -177,7 +177,7 @@
     public void SetElementAttributeValue(string xpath, string attributeName, string value)
     {
       // Assert.IsTrue(xpath[0] == '/', "The xpath expression must be rooted");
-      XmlElement element = this.SelectSingleElement(this.FixNotRootedXpathExpression(xpath));
+      XmlElement element = this.SelectSingleElement(FixNotRootedXpathExpression(xpath));
       if (element != null && element.Attributes[attributeName] != null)
       {
         element.Attributes[attributeName].Value = value;
@@ -187,7 +187,7 @@
     public void SetElementValue(string xpath, string value)
     {
       // Assert.IsTrue(xpath[0] == '/', "The xpath expression must be rooted");
-      XmlElement element = this.SelectSingleElement(this.FixNotRootedXpathExpression(xpath));
+      XmlElement element = this.SelectSingleElement(FixNotRootedXpathExpression(xpath));
 
       if (element != null)
       {
@@ -199,16 +199,16 @@
 
       var segments = xpath.Split('/').Where(w => !string.IsNullOrEmpty(w)).ToArray();
 
-      var path = this.Prefix.TrimEnd("/");
-      element = this.DocumentElement;
+      var path = Prefix.TrimEnd("/");
+      element = DocumentElement;
       for (int i = 1; i < segments.Length; ++i)
       {
         var segment = segments[i];
         path += "/" + segment;
-        var newElement = this.SelectSingleElement(this.Prefix + path);
+        var newElement = this.SelectSingleElement(Prefix + path);
         if (newElement == null)
         {
-          newElement = this.CreateElement(segment);
+          newElement = CreateElement(segment);
           element.AppendChild(newElement);
         }
 
@@ -298,7 +298,7 @@
       xml.Formatting = Formatting.Indented;
       xml.Indentation = 2;
       xml.IndentChar = ' ';
-      this.Save(xml);
+      Save(xml);
 
       return sw.ToString();
     }

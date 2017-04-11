@@ -33,8 +33,8 @@
 
     public ModulesDetails()
     {
-      this.InitializeComponent();
-      this.sitecoreModules.ItemsSource = this._ProductFamilies;
+      InitializeComponent();
+      sitecoreModules.ItemsSource = _ProductFamilies;
     }
 
     #endregion
@@ -43,20 +43,20 @@
 
     private void ModuleSelected([CanBeNull] object sender, [CanBeNull] SelectionChangedEventArgs e)
     {
-      this.sitecoreModules.SelectedIndex = -1;
+      sitecoreModules.SelectedIndex = -1;
     }
 
     #region Search Implementation
 
     private void DoSearch(string filter)
     {
-      this._ProductFamilies = new ObservableCollection<ProductInCheckbox>(this._UnfilteredProductFamilies.Where(product => product.Name.ContainsIgnoreCase(filter) || product.Value.SearchToken.ContainsIgnoreCase(filter)));
-      this.sitecoreModules.ItemsSource = this._ProductFamilies;
+      _ProductFamilies = new ObservableCollection<ProductInCheckbox>(_UnfilteredProductFamilies.Where(product => product.Name.ContainsIgnoreCase(filter) || product.Value.SearchToken.ContainsIgnoreCase(filter)));
+      sitecoreModules.ItemsSource = _ProductFamilies;
     }
 
     private void Search(object sender, RoutedEventArgs e)
     {
-      this.DoSearch(this.SearchTextBox.Text);
+      DoSearch(SearchTextBox.Text);
     }
 
     private void SearchTextBoxKeyPressed(object sender, KeyEventArgs e)
@@ -75,10 +75,10 @@
 
         if (key == Key.Escape)
         {
-          this.SearchTextBox.Text = string.Empty;
+          SearchTextBox.Text = string.Empty;
         }
 
-        this.DoSearch(this.SearchTextBox.Text);
+        DoSearch(SearchTextBox.Text);
       }
       catch (Exception ex)
       {
@@ -107,8 +107,8 @@
       IEnumerable<string> moduleNames = modules.GroupBy(module => module.Name).Select(moduleGroup => moduleGroup.Key);
       ProductInCheckbox[] productCheckboxes = moduleNames.Select(moduleName => new ProductInCheckbox(moduleName, modules.Where(module => module.Name.EqualsIgnoreCase(moduleName)).OrderByDescending(m => m.VersionAndRevision).ToArray())).ToArray();
 
-      this._ProductFamilies = new ObservableCollection<ProductInCheckbox>(productCheckboxes);
-      this._UnfilteredProductFamilies = new ObservableCollection<ProductInCheckbox>(productCheckboxes);
+      _ProductFamilies = new ObservableCollection<ProductInCheckbox>(productCheckboxes);
+      _UnfilteredProductFamilies = new ObservableCollection<ProductInCheckbox>(productCheckboxes);
 
       foreach (var module in args._Modules)
       {
@@ -121,8 +121,8 @@
         }
       }
 
-      this.DoSearch(this.SearchTextBox.Text = string.Empty);
-      this.sitecoreModules.ItemsSource = this._ProductFamilies;
+      DoSearch(SearchTextBox.Text = string.Empty);
+      sitecoreModules.ItemsSource = _ProductFamilies;
     }
 
     bool IWizardStep.SaveChanges(WizardArgs wizardArgs)
@@ -130,7 +130,7 @@
       var args = (InstallModulesWizardArgs)wizardArgs;
       Product product = args.Product;
       Assert.IsNotNull(product, nameof(product));
-      Product[] selectedModules = this._UnfilteredProductFamilies.Where(mm => mm.IsChecked).Select(mm => mm.Value).ToArray();
+      Product[] selectedModules = _UnfilteredProductFamilies.Where(mm => mm.IsChecked).Select(mm => mm.Value).ToArray();
       args._Modules.AddRange(selectedModules.Where(module => !args._Modules.Any(p => p.Name.Equals(module.Name, StringComparison.OrdinalIgnoreCase))));
 
       return true;
@@ -192,20 +192,20 @@
           return;
         }
 
-        var family = this.GetProductFamily(addedProduct.OriginalName);
+        var family = GetProductFamily(addedProduct.OriginalName);
 
         if (family == null)
         {
           FileSystem.FileSystem.Local.File.Copy(path, Path.Combine(ProfileManager.Profile.LocalRepository, fileName));
 
           Product.TryParse(Path.Combine(ProfileManager.Profile.LocalRepository, fileName), out addedProduct);
-          products = this._ProductFamilies.ToList();
+          products = _ProductFamilies.ToList();
           products.Add(family = new ProductInCheckbox(addedProduct.Name, new[]
           {
             addedProduct
           }));
 
-          this._IsProductFamiliesChanged = true;
+          _IsProductFamiliesChanged = true;
         }
         else
         {
@@ -217,10 +217,10 @@
             FileSystem.FileSystem.Local.File.Copy(path, Path.Combine(location, fileName));
             Product.TryParse(Path.Combine(location, fileName), out addedProduct);
 
-            products = this._ProductFamilies.Where(item => !item.Name.Equals(family.Name, StringComparison.InvariantCultureIgnoreCase)).ToList();
-            products.Insert(this._ProductFamilies.IndexOf(family), family = new ProductInCheckbox(family.Name, family.Scope.Add(addedProduct).ToArray()));
+            products = _ProductFamilies.Where(item => !item.Name.Equals(family.Name, StringComparison.InvariantCultureIgnoreCase)).ToList();
+            products.Insert(_ProductFamilies.IndexOf(family), family = new ProductInCheckbox(family.Name, family.Scope.Add(addedProduct).ToArray()));
 
-            this._IsProductFamiliesChanged = true;
+            _IsProductFamiliesChanged = true;
           }
           else
           {
@@ -232,11 +232,11 @@
         }
 
         ProductManager.Initialize(ProfileManager.Profile.LocalRepository);
-        this.SelectAddedPackage(family, addedProduct);
+        SelectAddedPackage(family, addedProduct);
 
-        if (this._IsProductFamiliesChanged)
+        if (_IsProductFamiliesChanged)
         {
-          this.RefreshDataSource(products);
+          RefreshDataSource(products);
         }
       }
     }
@@ -252,16 +252,16 @@
 
     private ProductInCheckbox GetProductFamily(string originalName)
     {
-      return this._ProductFamilies.FirstOrDefault(productInCheckbox => productInCheckbox.Scope.FirstOrDefault().IsNotNull().OriginalName.Equals(originalName, StringComparison.InvariantCultureIgnoreCase));
+      return _ProductFamilies.FirstOrDefault(productInCheckbox => productInCheckbox.Scope.FirstOrDefault().IsNotNull().OriginalName.Equals(originalName, StringComparison.InvariantCultureIgnoreCase));
     }
 
     private void RefreshDataSource(List<ProductInCheckbox> products)
     {
-      this._ProductFamilies = new ObservableCollection<ProductInCheckbox>(products);
-      this._UnfilteredProductFamilies = new ObservableCollection<ProductInCheckbox>(products);
-      this.sitecoreModules.ItemsSource = this._ProductFamilies;
+      _ProductFamilies = new ObservableCollection<ProductInCheckbox>(products);
+      _UnfilteredProductFamilies = new ObservableCollection<ProductInCheckbox>(products);
+      sitecoreModules.ItemsSource = _ProductFamilies;
 
-      this._IsProductFamiliesChanged = false;
+      _IsProductFamiliesChanged = false;
     }
 
     private void SelectAddedPackage(ProductInCheckbox family, Product product)

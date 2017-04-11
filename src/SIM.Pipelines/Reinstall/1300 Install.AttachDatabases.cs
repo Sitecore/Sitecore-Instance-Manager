@@ -37,13 +37,13 @@
 
       var instanceName = args.instanceName;
       var instance = InstanceManager.Default.GetInstance(instanceName);
-      var controller = this.Controller;
+      var controller = Controller;
 
       var sqlPrefix = args.SqlPrefix;
 
       foreach (ConnectionString connectionString in instance.Configuration.ConnectionStrings)
       {
-        if (this._Done.Contains(connectionString.Name))
+        if (_Done.Contains(connectionString.Name))
         {
           continue;
         }
@@ -55,7 +55,7 @@
           controller.IncrementProgress(AttachDatabasesHelper.StepsCount / args.ConnectionString.Count);
         }
         
-        this._Done.Add(connectionString.Name);
+        _Done.Add(connectionString.Name);
       }
     }
 

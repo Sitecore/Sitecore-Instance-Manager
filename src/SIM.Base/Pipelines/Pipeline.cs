@@ -47,14 +47,14 @@
       Assert.ArgumentNotNull(pipelineDefinition, nameof(pipelineDefinition));
       Assert.ArgumentNotNull(args, nameof(args));
 
-      this.Controller = controller;
-      this.PipelineDefinition = pipelineDefinition;
-      this.Title = pipelineDefinition.Title;
-      this._Steps = Step.CreateSteps(this.PipelineDefinition.Steps, args, controller);
-      this.IsAsync = isAsync;
+      Controller = controller;
+      PipelineDefinition = pipelineDefinition;
+      Title = pipelineDefinition.Title;
+      _Steps = Step.CreateSteps(PipelineDefinition.Steps, args, controller);
+      IsAsync = isAsync;
 
       // Storing args for restarting pipeline
-      this.ProcessorArgs = args;
+      ProcessorArgs = args;
     }
 
     #endregion
@@ -88,9 +88,9 @@
 
     public void Abort()
     {
-      if (this._Thread != null && this._Thread.IsAlive)
+      if (_Thread != null && _Thread.IsAlive)
       {
-        this._Thread.Abort();
+        _Thread.Abort();
       }
     }
 
@@ -98,7 +98,7 @@
     {
       using (new ProfileSection("Restart pipeline"))
       {
-        this.Start();
+        Start();
       }
     }
 
@@ -110,28 +110,28 @@
 
     public void Dispose()
     {
-      this.ProcessorArgs.Dispose();
+      ProcessorArgs.Dispose();
     }
 
     public void Start()
     {
       using (new ProfileSection("Start pipeline", this))
       {
-        if (this.Controller != null)
+        if (Controller != null)
         {
-          this.Controller.Start(ReplaceVariables(this.Title, this.ProcessorArgs), this._Steps);
+          Controller.Start(ReplaceVariables(Title, ProcessorArgs), _Steps);
         }
 
-        Assert.IsTrue(this._Thread == null || !this._Thread.IsAlive, "The previous thread didn't complete its job");
+        Assert.IsTrue(_Thread == null || !_Thread.IsAlive, "The previous thread didn't complete its job");
 
-        var pipelineStartInfo = new PipelineStartInfo(this.ProcessorArgs, this._Steps, this.Controller);
-        if (this.IsAsync)
+        var pipelineStartInfo = new PipelineStartInfo(ProcessorArgs, _Steps, Controller);
+        if (IsAsync)
         {
-          this._Thread = new Thread(Execute);
-          this._Thread.SetApartmentState(ApartmentState.STA);
+          _Thread = new Thread(Execute);
+          _Thread.SetApartmentState(ApartmentState.STA);
 
           // Calls the Execute method in thread  
-          this._Thread.Start(pipelineStartInfo);
+          _Thread.Start(pipelineStartInfo);
           return;
         }
 
@@ -147,7 +147,7 @@
     {
       Assert.ArgumentNotNull(obj, nameof(obj));
 
-      Pipeline.Execute((PipelineStartInfo)obj);
+      Execute((PipelineStartInfo)obj);
     }
 
     private static void Execute([NotNull] PipelineStartInfo info)
@@ -296,9 +296,9 @@
         Assert.ArgumentNotNull(processorArgs, nameof(processorArgs));
         Assert.ArgumentNotNull(steps, nameof(steps));
 
-        this.ProcessorArgs = processorArgs;
-        this.PipelineController = pipelineController;
-        this._Steps = steps;
+        ProcessorArgs = processorArgs;
+        PipelineController = pipelineController;
+        _Steps = steps;
       }
 
       #endregion

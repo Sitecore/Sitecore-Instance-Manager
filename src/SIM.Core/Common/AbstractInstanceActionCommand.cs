@@ -20,7 +20,7 @@ namespace SIM.Core.Common
     {
       var instance = AbstractInstanceActionCommand.GetInstance(Name);
                                    
-      this.DoExecute(instance, result);
+      DoExecute(instance, result);
     }
 
     protected abstract void DoExecute(Instance instance, CommandResult<T> result);
@@ -41,7 +41,7 @@ namespace SIM.Core.Common
       var name = Name;
       var instance = GetInstance(name);
 
-      this.DoExecute(instance, result);
+      DoExecute(instance, result);
     }
 
     [NotNull]

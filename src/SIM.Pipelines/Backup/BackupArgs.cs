@@ -32,17 +32,17 @@
     public BackupArgs([NotNull] Instance instance, string backupName = null, bool backupFiles = false, bool backupDatabases = false, bool backupClient = false, bool backupMongoDatabases = false)
     {
       Assert.ArgumentNotNull(instance, nameof(instance));
-      this.BackupFiles = backupFiles;
-      this.BackupClient = backupClient;
-      this.BackupMongoDatabases = backupMongoDatabases;
-      this.BackupDatabases = backupDatabases;
-      this.Instance = instance;
-      this._WebRootPath = instance.WebRootPath;
-      this.BackupName = backupName;
-      this.Folder = this.BackupName != null
-        ? FileSystem.FileSystem.Local.Directory.Ensure(instance.GetBackupFolder(this.BackupName))
+      BackupFiles = backupFiles;
+      BackupClient = backupClient;
+      BackupMongoDatabases = backupMongoDatabases;
+      BackupDatabases = backupDatabases;
+      Instance = instance;
+      _WebRootPath = instance.WebRootPath;
+      BackupName = backupName;
+      Folder = BackupName != null
+        ? FileSystem.FileSystem.Local.Directory.Ensure(instance.GetBackupFolder(BackupName))
         : string.Empty;
-      this._instanceName = this.Instance.Name;
+      _instanceName = Instance.Name;
     }
 
     #endregion
@@ -53,7 +53,7 @@
     {
       get
       {
-        return this._instanceName;
+        return _instanceName;
       }
     }
 

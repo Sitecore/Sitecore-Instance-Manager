@@ -32,7 +32,7 @@
     {
       Assert.ArgumentNotNull(xmlElement, nameof(xmlElement));
 
-      this.Element = xmlElement;
+      Element = xmlElement;
     }
 
     #endregion
@@ -44,7 +44,7 @@
     {
       get
       {
-        return "Sitecore." + this.Name + ".mdf";
+        return "Sitecore." + Name + ".mdf";
       }
     }
 
@@ -52,7 +52,7 @@
     {
       get
       {
-        if (SqlServerManager.Instance.IsMongoConnectionString(this.Value))
+        if (SqlServerManager.Instance.IsMongoConnectionString(Value))
         {
           return true;
         }
@@ -65,7 +65,7 @@
     {
       get
       {
-        if (SqlServerManager.Instance.IsSqlConnectionString(this.Value))
+        if (SqlServerManager.Instance.IsSqlConnectionString(Value))
         {
           return true;
         }
@@ -79,13 +79,13 @@
     {
       get
       {
-        XmlAttribute attribute = this.Element.Attributes["name"];
+        XmlAttribute attribute = Element.Attributes["name"];
         if (attribute != null)
         {
-          return attribute.Value ?? this.Element.Name;
+          return attribute.Value ?? Element.Name;
         }
 
-        return this.Element.Name;
+        return Element.Name;
       }
     }
 
@@ -94,18 +94,18 @@
     {
       get
       {
-        return new SqlConnectionStringBuilder(this.Value).InitialCatalog;
+        return new SqlConnectionStringBuilder(Value).InitialCatalog;
       }
 
       set
       {
         Assert.ArgumentNotNull(value, nameof(value));
 
-        SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder(this.Value)
+        SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder(Value)
         {
           InitialCatalog = value
         };
-        this.Value = builder.ToString();
+        Value = builder.ToString();
       }
     }
 
@@ -114,7 +114,7 @@
     {
       get
       {
-        XmlAttribute attribute = this.Element.Attributes["connectionString"];
+        XmlAttribute attribute = Element.Attributes["connectionString"];
         return attribute == null ? null : attribute.Value;
       }
 
@@ -122,7 +122,7 @@
       {
         Assert.ArgumentNotNull(value, nameof(value));
 
-        XmlAttribute attribute = this.Element.Attributes["connectionString"] ?? this.Element.CreateAttribute("connectionString");
+        XmlAttribute attribute = Element.Attributes["connectionString"] ?? Element.CreateAttribute("connectionString");
         attribute.Value = value;
       }
     }
@@ -133,9 +133,9 @@
 
     public void Delete()
     {
-      var xmlElement = this.Element.Element;
+      var xmlElement = Element.Element;
       xmlElement.ParentNode.RemoveChild(xmlElement);
-      this.SaveChanges();
+      SaveChanges();
     }
 
     [NotNull]
@@ -144,12 +144,12 @@
       Assert.ArgumentNotNull(instanceName, nameof(instanceName));
       Assert.ArgumentNotNull(sqlPrefix, nameof(sqlPrefix));
 
-      return SqlServerManager.Instance.GenerateDatabaseRealName(instanceName, sqlPrefix, this.Name, this.GetProductName(instanceName));
+      return SqlServerManager.Instance.GenerateDatabaseRealName(instanceName, sqlPrefix, Name, GetProductName(instanceName));
     }
 
     public void SaveChanges()
     {
-      this.Element.Save();
+      Element.Save();
     }
 
     #endregion
@@ -161,7 +161,7 @@
     {
       Assert.ArgumentNotNull(instanceName, nameof(instanceName));
 
-      var value = new SqlConnectionStringBuilder(this.Value).InitialCatalog;
+      var value = new SqlConnectionStringBuilder(Value).InitialCatalog;
       string[] arr = value.Split('_');
       return arr.Length == 2 ? arr[0].TrimStart(instanceName) : string.Empty;
     }

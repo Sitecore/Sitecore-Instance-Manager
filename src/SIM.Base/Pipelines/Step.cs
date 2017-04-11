@@ -28,8 +28,8 @@
     {
       Assert.ArgumentNotNull(processors, nameof(processors));
 
-      this._Processors = processors;
-      this.ArgsName = argsName;
+      _Processors = processors;
+      ArgsName = argsName;
     }
 
     #endregion
