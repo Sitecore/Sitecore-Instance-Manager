@@ -47,12 +47,12 @@
     {
       MainWindowHelper.RefreshInstances();
       var instance = InstanceManager.Default.GetInstance(args.InstanceName);
-      new PublishButton().OnClick(MainWindow._Instance, instance);
+      new PublishButton().OnClick(MainWindow.Instance, instance);
     }
 
     public static void PublishSite(InstallModulesWizardArgs args)
     {
-      new PublishButton().OnClick(MainWindow._Instance, args.Instance);
+      new PublishButton().OnClick(MainWindow.Instance, args.Instance);
     }
 
     public bool IsEnabled(Window mainWindow, Instance instance)

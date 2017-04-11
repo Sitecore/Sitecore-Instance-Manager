@@ -145,7 +145,7 @@ namespace SIM.Tool.Windows.UserControls.Install
       var isClassic = ((string) modeItem.Content).EqualsIgnoreCase("Classic");
       var appPoolInfo = new AppPoolInfo
                         {
-                          FrameworkVersion = Extensions.EmptyToNull(frameworkArr[0]) ?? "v2.0",
+                          FrameworkVersion = frameworkArr[0].EmptyToNull() ?? "v2.0",
                           Enable32BitAppOnWin64 = force32Bit,
                           ManagedPipelineMode = !isClassic
                         };
@@ -214,7 +214,7 @@ namespace SIM.Tool.Windows.UserControls.Install
       {
         using (var context = WebServerManager.CreateContext("InstanceDetails.OnMovingNext('{0}')".FormatWith(name)))
         {
-          var site = context.Sites.Single(s => s != null && Extensions.EqualsIgnoreCase(s.Name, name));
+          var site = context.Sites.Single(s => s != null && s.Name.EqualsIgnoreCase(name));
           var path = WebServerManager.GetWebRootPath(site);
           if (FileSystem.FileSystem.Local.Directory.Exists(path))
           {
@@ -707,7 +707,7 @@ namespace SIM.Tool.Windows.UserControls.Install
       var hostNames = args.InstanceHostNames;
       if (hostNames != null && hostNames.Any())
       {
-        HostNames.Text = hostNames.Join("\r\n");
+        HostNames.Text = string.Join("\r\n", hostNames);
       }
 
       if (rootName == null)

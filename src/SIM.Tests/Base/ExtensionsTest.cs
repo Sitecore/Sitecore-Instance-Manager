@@ -108,7 +108,7 @@
       };
       string actual;
       {
-        actual = arr.Join(", ");
+        actual = string.Join(", ", arr);
         Assert.AreEqual("1, 2, 3", actual);
       }
       {

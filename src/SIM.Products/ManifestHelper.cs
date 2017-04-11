@@ -176,7 +176,7 @@
                     }
                     else if (findings.Length > 1)
                     {
-                      var findingsText = findings.Join(Environment.NewLine);
+                      var findingsText = string.Join(Environment.NewLine, findings);
                       var message = "There are several {0} files in the {1} folder: {2}".FormatWith(fileName, lookupFolder, findingsText);
                       Log.Warn(message);
 

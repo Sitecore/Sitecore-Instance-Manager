@@ -51,7 +51,7 @@
       var instance = args.Instance;
       Assert.IsNotNull(instance, nameof(instance));
 
-      InstanceHelperEx.OpenInBrowserAsAdmin(instance, MainWindow._Instance);
+      InstanceHelperEx.OpenInBrowserAsAdmin(instance, MainWindow.Instance);
     }
 
     [UsedImplicitly]
@@ -62,7 +62,7 @@
       var instance = args.Instance;
       Assert.IsNotNull(instance, nameof(instance));
 
-      InstanceHelperEx.OpenInBrowserAsAdmin(instance, MainWindow._Instance);
+      InstanceHelperEx.OpenInBrowserAsAdmin(instance, MainWindow.Instance);
     }
 
     public bool IsEnabled([CanBeNull] Window mainWindow, Instance instance)

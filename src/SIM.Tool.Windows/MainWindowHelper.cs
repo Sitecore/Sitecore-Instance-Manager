@@ -75,8 +75,8 @@
         if (WindowsSettings.AppUiMainWindowWidth.Value > 0)
         {
           double d = WindowsSettings.AppUiMainWindowWidth.Value;
-          MainWindow._Instance.MaxWidth = Screen.PrimaryScreen.Bounds.Width;
-          MainWindow._Instance.Width = d;
+          MainWindow.Instance.MaxWidth = Screen.PrimaryScreen.Bounds.Width;
+          MainWindow.Instance.Width = d;
         }
 
         RefreshInstances();
@@ -90,7 +90,7 @@
       {
         ProfileSection.Argument("appDocument", appDocument);
 
-        MainWindow window = MainWindow._Instance;
+        MainWindow window = MainWindow.Instance;
         var menuItems = appDocument.SelectElements("/app/mainWindow/contextMenu/*");
 
         foreach (var item in menuItems)
@@ -141,7 +141,7 @@
     {
       using (new ProfileSection("Initialize main window ribbon"))
       {
-        MainWindow window = MainWindow._Instance;
+        MainWindow window = MainWindow.Instance;
         using (new ProfileSection("Loading tabs from App.xml"))
         {
           var tabs = appDocument.SelectElements("/app/mainWindow/ribbon/tab");
@@ -213,11 +213,6 @@
       MakeInstanceSelected(id);
     }
 
-    public static void OpenManifestsFolder()
-    {
-      OpenFolder("Manifests");
-    }
-
     public static void OpenProgramLogs()
     {
       CoreApp.OpenFolder(ApplicationManager.LogsFolder);
@@ -252,7 +247,7 @@
     {
       using (new ProfileSection("Refresh installer"))
       {
-        var mainWindow = MainWindow._Instance;
+        var mainWindow = MainWindow.Instance;
         DisableInstallButtons(mainWindow);
         DisableRefreshButton(mainWindow);
         WindowHelper.LongRunningTask(RefreshInstallerTask, "Initialization", mainWindow, "Scanning local repository to find supported product packages", "The supported product packages are *.zip files they could be Sitecore packages, standalone packages or regular archive files. For supported files it computes manifests with information how the files should be treated.\n\nThe very first time the operation may take quite a long time, or if you clicked Refresh -> Everything", true);
@@ -264,7 +259,7 @@
     {
       using (new ProfileSection("Refresh instances"))
       {
-        var mainWindow = MainWindow._Instance;
+        var mainWindow = MainWindow.Instance;
         var tabIndex = mainWindow.MainRibbon.SelectedTabIndex;
         var instance = SelectedInstance;
         var name = instance != null ? instance.Name : null;
@@ -402,9 +397,9 @@
       {
         try
         {
-          if (mainWindowButton != null && mainWindowButton.IsEnabled(MainWindow._Instance, SelectedInstance))
+          if (mainWindowButton != null && mainWindowButton.IsEnabled(MainWindow.Instance, SelectedInstance))
           {
-            mainWindowButton.OnClick(MainWindow._Instance, SelectedInstance);
+            mainWindowButton.OnClick(MainWindow.Instance, SelectedInstance);
             RefreshInstances();
           }
         }
@@ -439,7 +434,7 @@
       }
 
       // create Ribbon Button
-      var splitButton = ribbonGroup.Items.OfType<SplitButton>().SingleOrDefault(x => Extensions.EqualsIgnoreCase(x.Header.ToString().Trim(), header.Trim()));
+      var splitButton = ribbonGroup.Items.OfType<SplitButton>().SingleOrDefault(x => x.Header.ToString().Trim().EqualsIgnoreCase(header.Trim()));
       if (splitButton == null)
       {
         var imageSource = getImage(button.GetNonEmptyAttribute("largeImage"));
@@ -519,9 +514,9 @@
           {
             try
             {
-              if (menuHandler.IsEnabled(MainWindow._Instance, SelectedInstance))
+              if (menuHandler.IsEnabled(MainWindow.Instance, SelectedInstance))
               {
-                menuHandler.OnClick(MainWindow._Instance, SelectedInstance);
+                menuHandler.OnClick(MainWindow.Instance, SelectedInstance);
                 RefreshInstances();
               }
             }
@@ -617,9 +612,9 @@
           {
             try
             {
-              if (mainWindowButton.IsEnabled(MainWindow._Instance, SelectedInstance))
+              if (mainWindowButton.IsEnabled(MainWindow.Instance, SelectedInstance))
               {
-                mainWindowButton.OnClick(MainWindow._Instance, SelectedInstance);
+                mainWindowButton.OnClick(MainWindow.Instance, SelectedInstance);
                 RefreshInstances();
               }
             }
@@ -763,7 +758,7 @@
     {
       get
       {
-        return MainWindow._Instance.InstanceList.SelectedValue as Instance;
+        return MainWindow.Instance.InstanceList.SelectedValue as Instance;
       }
     }
 
@@ -776,24 +771,24 @@
     public static void ChangeAppPoolMode(System.Windows.Controls.MenuItem menuItem)
     {
       var selectedInstance = SelectedInstance;
-      WindowHelper.LongRunningTask(() => MainWindow._Instance.Dispatcher.Invoke(
+      WindowHelper.LongRunningTask(() => MainWindow.Instance.Dispatcher.Invoke(
         new Action(delegate
         {
           var header = menuItem.Header.ToString();
           selectedInstance.SetAppPoolMode(header.Contains("4.0"), header.Contains("32bit"));
           OnInstanceSelected();
-        })), "Changing application pool", MainWindow._Instance, null, "The IIS metabase is being updated");
+        })), "Changing application pool", MainWindow.Instance, null, "The IIS metabase is being updated");
     }
 
     public static void CloseMainWindow()
     {
-      MainWindow._Instance.Dispatcher.InvokeShutdown();
-      MainWindow._Instance.Close();
+      MainWindow.Instance.Dispatcher.InvokeShutdown();
+      MainWindow.Instance.Close();
     }
 
     public static int GetListItemID(long value)
     {
-      var itemCollection = MainWindow._Instance.InstanceList.Items;
+      var itemCollection = MainWindow.Instance.InstanceList.Items;
 
       for (int i = 0; i < itemCollection.Count; ++i)
       {
@@ -819,7 +814,7 @@
 
     public static T Invoke<T>(Func<MainWindow, T> func) where T : class
     {
-      var window = MainWindow._Instance;
+      var window = MainWindow.Instance;
       T result = null;
       window.Dispatcher.Invoke(new Action(() => { result = func(window); }));
       return result;
@@ -827,13 +822,13 @@
 
     public static void Invoke(Action<MainWindow> func)
     {
-      var window = MainWindow._Instance;
+      var window = MainWindow.Instance;
       window.Dispatcher.Invoke(new Action(() => func(window)));
     }
 
     public static void MakeInstanceSelected(int id)
     {
-      var count = MainWindow._Instance.InstanceList.Items.Count;
+      var count = MainWindow.Instance.InstanceList.Items.Count;
       if (count == 0)
       {
         return;
@@ -851,17 +846,17 @@
         return;
       }
 
-      MainWindow._Instance.InstanceList.SelectedItem = MainWindow._Instance.InstanceList.Items[id];
-      FocusManager.SetFocusedElement(MainWindow._Instance.InstanceList, MainWindow._Instance.InstanceList);
+      MainWindow.Instance.InstanceList.SelectedItem = MainWindow.Instance.InstanceList.Items[id];
+      FocusManager.SetFocusedElement(MainWindow.Instance.InstanceList, MainWindow.Instance.InstanceList);
     }
 
     public static void OnInstanceSelected()
     {
       using (new ProfileSection("Main window instance selected handler"))
       {
-        if (SelectedInstance != null && MainWindow._Instance.HomeTab.IsSelected)
+        if (SelectedInstance != null && MainWindow.Instance.HomeTab.IsSelected)
         {
-          MainWindow._Instance.OpenTab.IsSelected = true;
+          MainWindow.Instance.OpenTab.IsSelected = true;
         }
       }
     }
@@ -922,8 +917,8 @@
         }
 
         source = source.OrderBy(instance => instance.Name);
-        MainWindow._Instance.InstanceList.DataContext = source;
-        MainWindow._Instance.SearchTextBox.Focus();
+        MainWindow.Instance.InstanceList.DataContext = source;
+        MainWindow.Instance.SearchTextBox.Focus();
       }
     }
 
@@ -980,7 +975,7 @@
 
     private static int GetListItemID(string value)
     {
-      var itemCollection = MainWindow._Instance.InstanceList.Items;
+      var itemCollection = MainWindow.Instance.InstanceList.Items;
       for (int i = 0; i < itemCollection.Count; ++i)
       {
         if (((Instance)itemCollection[i]).Name == value)
@@ -1014,7 +1009,7 @@
 
     private static void RefreshInstallerTask()
     {
-      var message = InitializeInstallerUnsafe(MainWindow._Instance);
+      var message = InitializeInstallerUnsafe(MainWindow.Instance);
       Invoke((mainWindow) => UpdateInstallButtons(message, mainWindow));
       if (message != null)
       {

@@ -69,8 +69,7 @@
     <Compile Include="DataObjectBase.cs" />
     <Compile Include="EventHelper.cs" />
     <Compile Include="Extensions\Extensions.cs" />
-    <Compile Include="Extensions\DirectoryInfo\DirectoryInfoExtensions.cs" />
-    <Compile Include="Extensions\FileInfo\FileInfoExtensions.cs" />
+    <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="FileSystem\FileProvider.cs" />
     <Compile Include="FileSystem\DirectoryProvider.cs" />
     <Compile Include="FileSystem\FileSystem.cs" />
@@ -83,7 +82,7 @@
     <Compile Include="FileSystem\UncZipProvider.cs" />
     <Compile Include="IAdvancedSettingsStorage.cs" />
     <Compile Include="IProfile.cs" />
-    <Compile Include="Null.cs" />
+    <Compile Include="Safe.cs" />
     <Compile Include="Parameters.cs" />
     <Compile Include="Pipelines\Pipeline.cs" />
     <Compile Include="Pipelines\PipelineController.cs" />
@@ -123,7 +122,10 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Extensions\DirectoryInfo\" />
+    <Folder Include="Extensions\FileInfo\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

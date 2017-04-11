@@ -49,11 +49,11 @@
       {
         data = new ListCommandResult(instances.Select(x => new InstanceInfo(x.ID, x.Name, x.State.ToString(), x.WebRootPath)
         {
-          DataFolder = Null.Safe(() => new DirectoryInfo(x.DataFolderPath)),
-          RootFolder = Null.Safe(() => new DirectoryInfo(x.RootPath)),
-          ProductName = Null.Safe(() => x.ProductFullName),
-          Databases = Null.Safe(() => x.AttachedDatabases.ToDictionary(z => z.Name, z => z.RealName)),
-          ProcessIds = Null.Safe(() => x.ProcessIds)
+          DataFolder = SIM.Safe.Call(() => new DirectoryInfo(x.DataFolderPath)),
+          RootFolder = SIM.Safe.Call(() => new DirectoryInfo(x.RootPath)),
+          ProductName = SIM.Safe.Call(() => x.ProductFullName),
+          Databases = SIM.Safe.Call(() => x.AttachedDatabases.ToDictionary(z => z.Name, z => z.RealName)),
+          ProcessIds = SIM.Safe.Call(() => x.ProcessIds)
         }));
       }
       else

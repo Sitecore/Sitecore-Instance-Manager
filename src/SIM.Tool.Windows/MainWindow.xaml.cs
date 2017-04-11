@@ -24,7 +24,7 @@
     #region Fields
 
     [NotNull]
-    public static MainWindow _Instance;
+    public static MainWindow Instance { get; private set; }
 
     private Timer Timer { get; }
     private IMainWindowButton _DoubleClickHandler;
@@ -39,7 +39,7 @@
 
       using (new ProfileSection("Main window ctor"))
       {
-        _Instance = this;
+        Instance = this;
         if (WindowsSettings.AppUiMainWindowWidth.Value <= 0)
         {
           MaxWidth = MinWidth;

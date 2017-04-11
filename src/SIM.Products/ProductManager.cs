@@ -66,28 +66,6 @@
       return Product.Parse(productName);
     }
 
-    [CanBeNull]
-    public static IEnumerable<Product> GetProducts([CanBeNull] string productName, [CanBeNull] string version, [CanBeNull] string revision)
-    {
-      IEnumerable<Product> products = Products;
-      if (!string.IsNullOrEmpty(productName))
-      {
-        products = products.Where(p => p.Name.EqualsIgnoreCase(productName));
-      }
-
-      if (!string.IsNullOrEmpty(version))
-      {
-        products = products.Where(p => p.Version == version);
-      }
-
-      if (!string.IsNullOrEmpty(revision))
-      {
-        products = products.Where(p => p.Revision == revision);
-      }
-
-      return products;
-    }
-
     public static void Initialize([NotNull] string localRepository)
     {
       Assert.ArgumentNotNull(localRepository, nameof(localRepository));

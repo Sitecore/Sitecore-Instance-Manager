@@ -3,6 +3,7 @@
   using CommandLine;
   using CommandLine.Text;
   using JetBrains.Annotations;
+  using SIM.Client.Groups;
 
   public class MainCommandGroup : MainCommandGroupBase
   {

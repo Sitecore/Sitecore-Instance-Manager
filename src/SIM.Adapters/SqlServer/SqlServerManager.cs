@@ -231,7 +231,7 @@
       }
       catch (SqlException ex)
       {
-        if (Extensions.ContainsIgnoreCase(ex.Message, "Unable to open the physical file"))
+        if (ex.Message.ContainsIgnoreCase("Unable to open the physical file"))
         {
           return null;
         }
@@ -721,7 +721,7 @@
             sqlDataAdapter.Fill(dataSet);
             try
             {
-              return Extensions.EmptyToNull(dataSet.Tables[1].Rows[0]["filename"].ToString());
+              return dataSet.Tables[1].Rows[0]["filename"].ToString().EmptyToNull();
             }
             catch (Exception ex)
             {

@@ -37,7 +37,7 @@ namespace SIM.Tool.Windows
       using (new ProfileSection("Checking if button is enabled", this))
       {
         ProfileSection.Argument("this.button", Button.GetType().FullName);
-        return Button.IsEnabled(MainWindow._Instance, value as Instance);
+        return Button.IsEnabled(MainWindow.Instance, value as Instance);
       }
     }
 

@@ -69,7 +69,7 @@
       bool result;
       using (WebServerContext context = CreateContext("WebServerManager.HostBindingExists('{0}')".FormatWith(host)))
       {
-        result = context.Sites.Any(site => site.Bindings.Any(binding => Extensions.EqualsIgnoreCase(binding.Host, host)));
+        result = context.Sites.Any(site => site.Bindings.Any(binding => binding.Host.EqualsIgnoreCase(host)));
       }
 
       return result;
@@ -82,7 +82,7 @@
 
       using (WebServerContext context = CreateContext("WebServerManager.AddHostBinding('{0}','{1}')".FormatWith(siteName, binding.Host)))
       {
-        Site siteInfo = context.Sites.FirstOrDefault(site => Extensions.EqualsIgnoreCase(site.Name, siteName));
+        Site siteInfo = context.Sites.FirstOrDefault(site => site.Name.EqualsIgnoreCase(siteName));
         if (HostBindingExists(binding.Host) || siteInfo == null)
         {
           return false;
@@ -103,7 +103,7 @@
       bool v;
       using (WebServerContext context = CreateContext("WebServerManager.WebsiteExists('{0}')".FormatWith(name)))
       {
-        v = context.Sites.Any(s => Extensions.EqualsIgnoreCase(s.Name, name));
+        v = context.Sites.Any(s => s.Name.EqualsIgnoreCase(name));
       }
 
       return v;
@@ -124,7 +124,7 @@
         ApplicationPool appplicationPool = context.ApplicationPools[applicationPoolName];
 
         // Application is used only in the current website or isn't used at all
-        if (appplicationPool != null && context.Sites.Count(s => Extensions.EqualsIgnoreCase(s.ApplicationDefaults.ApplicationPoolName, applicationPoolName)) <= 1)
+        if (appplicationPool != null && context.Sites.Count(s => s.ApplicationDefaults.ApplicationPoolName.EqualsIgnoreCase(applicationPoolName)) <= 1)
         {
           context.ApplicationPools.Remove(appplicationPool);
         }

@@ -363,7 +363,7 @@
       Assert.ArgumentNotNull(context, nameof(context));
 
       var site = GetSite(context);
-      var application = site.Applications.FirstOrDefault(ap => Extensions.EqualsIgnoreCase(ap.Path, "/"));
+      var application = site.Applications.FirstOrDefault(ap => ap.Path.EqualsIgnoreCase("/"));
       Assert.IsNotNull(application, "Cannot find root application for {0} site".FormatWith(site.Name));
       var poolname = application.ApplicationPoolName;
       ApplicationPool pool = context.ApplicationPools[poolname];

@@ -63,7 +63,7 @@
       {
         var a = actual[i];
         var e = expected[i];
-        Microsoft.VisualStudio.TestTools.UnitTesting.Assert.AreEqual(a, e, Extensions.FormatWith("Array[{0}]", i));
+        Microsoft.VisualStudio.TestTools.UnitTesting.Assert.AreEqual(a, e, $"Array[{i}]");
       }
     }
 

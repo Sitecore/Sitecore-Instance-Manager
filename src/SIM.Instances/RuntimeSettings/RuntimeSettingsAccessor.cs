@@ -70,20 +70,7 @@
       {
         throw new InvalidOperationException($"Failed to get mongo databases of {Instance.WebRootPath}", ex);
       }
-    }
-
-    public virtual XmlElement GetScVariableElement([NotNull] string elementName)
-    {
-      try
-      {
-        var webConfigResult = GetWebConfigResult();
-        return WebConfig.GetScVariableElement(webConfigResult, elementName);
-      }
-      catch (Exception ex)
-      {
-        throw new InvalidOperationException(string.Format("Failed to get {1} sc variable of {0}", Instance.WebRootPath, elementName), ex);
-      }
-    }
+    }                
 
     public virtual string GetScVariableValue([NotNull] string variableName)
     {

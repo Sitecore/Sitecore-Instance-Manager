@@ -1,25 +1,13 @@
-namespace SIM.Client.Commands
+namespace SIM.Client.Groups
 {
   using System.Linq;
   using CommandLine;
-  using Sitecore.Diagnostics.Base;
   using JetBrains.Annotations;
+  using Sitecore.Diagnostics.Base;
   using SIM.Core.Common;
 
   public abstract class MainCommandGroupBase
-  {
-    [NotNull]
-    public ICommand SelectedCommand
-    {
-      get
-      {
-        var command = FindCommand(this);
-        Assert.IsNotNull(command, "There is no selected command");
-
-        return command;
-      }
-    }
-
+  {        
     [CanBeNull]
     private ICommand FindCommand([NotNull] object commandContainer)
     {
