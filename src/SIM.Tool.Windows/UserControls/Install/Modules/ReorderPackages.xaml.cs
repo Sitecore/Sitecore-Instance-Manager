@@ -73,7 +73,7 @@
   {
     #region Fields
 
-    private readonly ObservableCollection<Product> actualProducts = new ObservableCollection<Product>();
+    private readonly ObservableCollection<Product> _ActualProducts = new ObservableCollection<Product>();
 
     #endregion
 
@@ -117,10 +117,10 @@
     {
       this.WizardArgs = wizardArgs;
       var args = (InstallModulesWizardArgs)wizardArgs;
-      this.actualProducts.Clear();
-      args.Modules.ForEach(module => this.actualProducts.Add(module));
+      this._ActualProducts.Clear();
+      args._Modules.ForEach(module => this._ActualProducts.Add(module));
 
-      this.modulesList.ItemsSource = this.actualProducts;
+      this.modulesList.ItemsSource = this._ActualProducts;
       this.selectedProductLabel.DataContext = args.Product;
     }
 
@@ -144,21 +144,21 @@
 
       Assert.IsNotNull(droppedData, "[ReorderProducts] Drag-n-drop: droppedData is null");
       Assert.IsNotNull(target, "[ReorderProducts] Drag-n-drop: target is null");
-      var removeIndex = this.actualProducts.IndexOf(droppedData);
-      var insertIndex = this.actualProducts.IndexOf(target);
+      var removeIndex = this._ActualProducts.IndexOf(droppedData);
+      var insertIndex = this._ActualProducts.IndexOf(target);
 
       if (removeIndex < insertIndex)
       {
-        this.actualProducts.Insert(insertIndex + 1, droppedData);
-        this.actualProducts.RemoveAt(removeIndex);
+        this._ActualProducts.Insert(insertIndex + 1, droppedData);
+        this._ActualProducts.RemoveAt(removeIndex);
       }
       else
       {
         var removeIndexNext = removeIndex + 1;
         if (this.modulesList.Items.Count + 1 > removeIndexNext)
         {
-          this.actualProducts.Insert(insertIndex, droppedData);
-          this.actualProducts.RemoveAt(removeIndexNext);
+          this._ActualProducts.Insert(insertIndex, droppedData);
+          this._ActualProducts.RemoveAt(removeIndexNext);
         }
       }
     }
@@ -214,9 +214,9 @@
           }
 
           Product product = Product.GetFilePackageProduct(path);
-          if (!this.actualProducts.Any(p => p.Name.Equals(product.Name, StringComparison.OrdinalIgnoreCase)))
+          if (!this._ActualProducts.Any(p => p.Name.Equals(product.Name, StringComparison.OrdinalIgnoreCase)))
           {
-            this.actualProducts.Add(product);
+            this._ActualProducts.Add(product);
           }
         }
       }
@@ -238,11 +238,11 @@
       var args = (InstallModulesWizardArgs)wizardArgs;
       Product product = args.Product;
       Assert.IsNotNull(product, nameof(product));
-      IEnumerable<Product> selected = this.actualProducts;
-      args.Modules.Clear();
-      args.Modules.AddRange(selected);
+      IEnumerable<Product> selected = this._ActualProducts;
+      args._Modules.Clear();
+      args._Modules.AddRange(selected);
 
-      if (!(args is InstallWizardArgs) && !args.Modules.Any())
+      if (!(args is InstallWizardArgs) && !args._Modules.Any())
       {
         WindowHelper.HandleError("You haven't chosen any module to install", false);
         return false;

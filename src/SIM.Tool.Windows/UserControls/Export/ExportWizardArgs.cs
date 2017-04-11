@@ -11,7 +11,7 @@
     #region Fields
 
     public Instance Instance { get; }
-    public bool WipeSqlServerCredentials;
+    public bool _WipeSqlServerCredentials;
     private string _instanceName { get; }
 
     #endregion
@@ -55,7 +55,7 @@
 
     public override ProcessorArgs ToProcessorArgs()
     {
-      return new ExportArgs(this.Instance, this.WipeSqlServerCredentials, this.IncludeMongoDatabases, this.IncludeTempFolderContents, this.IncludeMediaCacheFolderContents, this.ExcludeUploadFolderContents, this.ExcludeLicenseFile, this.ExcludeDiagnosticsFolderContents, this.ExcludeLogsFolderContents, this.ExcludePackagesFolderContents, this.ExportFilePath, this.SelectedDatabases);
+      return new ExportArgs(this.Instance, this._WipeSqlServerCredentials, this.IncludeMongoDatabases, this.IncludeTempFolderContents, this.IncludeMediaCacheFolderContents, this.ExcludeUploadFolderContents, this.ExcludeLicenseFile, this.ExcludeDiagnosticsFolderContents, this.ExcludeLogsFolderContents, this.ExcludePackagesFolderContents, this.ExportFilePath, this.SelectedDatabases);
     }
 
     #endregion

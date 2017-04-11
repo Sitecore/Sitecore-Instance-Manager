@@ -38,7 +38,7 @@
     {
       Assert.ArgumentNotNull(args, nameof(args));
 
-      var webRootPath = args.WebRootPath;
+      var webRootPath = args._WebRootPath;
       if (args.Backup.BackupWebsiteFiles)
       {
         FileSystem.FileSystem.Local.Zip.UnpackZip(
@@ -49,7 +49,7 @@
       if (args.Backup.BackupDataFiles)
       {
         this.IncrementProgress();
-        FileSystem.FileSystem.Local.Zip.UnpackZip(args.Backup.DataFilePath, args.DataFolder, null, B);
+        FileSystem.FileSystem.Local.Zip.UnpackZip(args.Backup.DataFilePath, args._DataFolder, null, B);
       }
     }
 

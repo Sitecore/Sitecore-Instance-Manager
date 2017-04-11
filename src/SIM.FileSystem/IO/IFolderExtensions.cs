@@ -3,7 +3,7 @@
   using JetBrains.Annotations;
   using Sitecore.Diagnostics.Base;
 
-  public static class IFolderExtensions
+  public static class FolderExtensions
   {
     [NotNull]
     public static IFile GetChildFile([NotNull] this IFolder folder, [NotNull] string fileName)

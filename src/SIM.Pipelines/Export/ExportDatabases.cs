@@ -12,7 +12,7 @@
   {
     #region Fields
 
-    private readonly List<string> done = new List<string>();
+    private readonly List<string> _Done = new List<string>();
 
     #endregion
 
@@ -31,19 +31,19 @@
     {
       Assert.ArgumentNotNull(args, nameof(args));
 
-      var selectedDatabases = args.SelectedDatabases;
+      var selectedDatabases = args._SelectedDatabases;
       var attachedDatabases = args.Instance.AttachedDatabases;
       var exportDatabasesFolder = FileSystem.FileSystem.Local.Directory.Ensure(Path.Combine(args.Folder, "Databases"));
 
       foreach (var database in attachedDatabases.Where(database => selectedDatabases.Contains(database.Name.ToLower())))
       {
-        if (this.done.Contains(database.Name))
+        if (this._Done.Contains(database.Name))
         {
           continue;
         }
 
         this.Backup(database, exportDatabasesFolder);
-        this.done.Add(database.Name);
+        this._Done.Add(database.Name);
       }
     }
 

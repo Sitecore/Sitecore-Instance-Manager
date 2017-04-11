@@ -9,7 +9,7 @@ namespace SIM.Pipelines
     /// </summary>
     public class ConditionEvaluator
     {
-        private readonly Dictionary<string, string> _variables;
+        private readonly Dictionary<string, string> _Variables;
 
         public ConditionEvaluator(Dictionary<string, string> variables = null)
         {
@@ -17,7 +17,7 @@ namespace SIM.Pipelines
             {
                 variables = new Dictionary<string, string>();
             }
-            _variables = variables;
+            _Variables = variables;
         }
 
         public bool ConditionIsTrueOrMissing(XmlElement element)
@@ -34,7 +34,7 @@ namespace SIM.Pipelines
             string arg1Value = arg1.Value;
             string arg2Value = arg2.Value;
 
-            foreach (KeyValuePair<string, string> valuePair in _variables)
+            foreach (KeyValuePair<string, string> valuePair in _Variables)
             {
                 if (arg1Value == valuePair.Key)
                 {

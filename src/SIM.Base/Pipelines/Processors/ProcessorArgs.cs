@@ -12,7 +12,7 @@
   {
     #region Fields
 
-    private readonly Dictionary<string, object> arguments = new Dictionary<string, object>();   
+    private readonly Dictionary<string, object> _Arguments = new Dictionary<string, object>();   
 
     #endregion
 
@@ -29,12 +29,12 @@
     {
       get
       {
-        return this.arguments[key];
+        return this._Arguments[key];
       }
 
       set
       {
-        this.arguments[key] = value;
+        this._Arguments[key] = value;
       }
     }
 

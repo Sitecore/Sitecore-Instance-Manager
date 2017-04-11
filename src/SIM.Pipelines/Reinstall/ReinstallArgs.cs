@@ -20,7 +20,7 @@
     #region Fields
 
     [NotNull]
-    public readonly IEnumerable<BindingInfo> Bindings;
+    public readonly IEnumerable<BindingInfo> _Bindings;
 
     [NotNull]
     public SqlConnectionStringBuilder ConnectionString { get; }
@@ -34,7 +34,7 @@
     public bool ForceNetFramework4 { get; }
 
     [CanBeNull]
-    public readonly ICollection<Database> InstanceDatabases;
+    public readonly ICollection<Database> _InstanceDatabases;
 
     public bool Is32Bit { get; }
 
@@ -44,7 +44,7 @@
     public string LicenseFilePath { get; }
 
     [NotNull]
-    public readonly IEnumerable<Product> Modules;
+    public readonly IEnumerable<Product> _Modules;
 
     [NotNull]
     public string Name { get; }
@@ -55,7 +55,7 @@
     public string RootPath { get; }
 
     [NotNull]
-    public readonly Action<bool?> StopInstance;
+    public readonly Action<bool?> _StopInstance;
 
     public string TempFolder { get; }
 
@@ -83,7 +83,7 @@
     {
       this.ConnectionString = connectionString;
       this.Name = instance.Name;
-      this.Bindings = instance.Bindings;
+      this._Bindings = instance.Bindings;
       this.Product = instance.Product;
       this.WebRootPath = instance.WebRootPath;
       this.RootPath = instance.RootPath;
@@ -91,15 +91,15 @@
       this.DatabasesFolderPath = Path.Combine(this.RootPath, "Databases");
       this.WebServerIdentity = webServerIdentity;
       this.LicenseFilePath = license;
-      this.Modules = new Product[0];
+      this._Modules = new Product[0];
       this.IsClassic = instance.IsClassic;
       this.Is32Bit = instance.Is32Bit;
       this.ForceNetFramework4 = instance.IsNetFramework4;
       this.ServerSideRedirect = serverSideRedirect;
       this.TempFolder = Path.Combine(this.RootPath, "Temp");
-      this.InstanceDatabases = instance.AttachedDatabases;
+      this._InstanceDatabases = instance.AttachedDatabases;
       this.instanceName = instance.Name;
-      this.StopInstance = instance.Stop;
+      this._StopInstance = instance.Stop;
       this.WebsiteID = instance.ID;
       this.SqlPrefix = AttachDatabasesHelper.GetSqlPrefix(instance);
 

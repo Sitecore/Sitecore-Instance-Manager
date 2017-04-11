@@ -26,7 +26,7 @@
     public override IEnumerable<FinishAction> GetFinishActions(WizardArgs wizardArgs)
     {
       InstallModulesWizardArgs installModulesWizardArgs = (InstallModulesWizardArgs)wizardArgs;
-      List<Product> modules = installModulesWizardArgs.Modules;
+      List<Product> modules = installModulesWizardArgs._Modules;
       foreach (var module in modules)
       {
         XmlDocument manifest = module.Manifest;

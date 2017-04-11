@@ -28,7 +28,7 @@ namespace SIM.Tool.Windows.Dialogs
 
     #region Private methods
 
-    private void btnOk_Click(object sender, RoutedEventArgs e)
+    private void BtnOkClick(object sender, RoutedEventArgs e)
     {
       // OpenFileDialog
     }

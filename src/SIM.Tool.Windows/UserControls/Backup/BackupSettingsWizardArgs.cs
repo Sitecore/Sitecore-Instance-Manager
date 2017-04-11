@@ -11,10 +11,10 @@
     #region Fields
 
     public Instance Instance { get; }
-    public bool Databases;
-    public bool ExcludeClient;
-    public bool Files;
-    public bool MongoDatabases;
+    public bool _Databases;
+    public bool _ExcludeClient;
+    public bool _Files;
+    public bool _MongoDatabases;
     private string _instanceName { get; }
 
     #endregion
@@ -48,7 +48,7 @@
 
     public override ProcessorArgs ToProcessorArgs()
     {
-      var backupArgs = new BackupArgs(this.Instance, FileSystem.FileSystem.Local.Path.EscapePath(this.BackupName.Trim(), "."), this.Files, this.Databases, this.ExcludeClient, this.MongoDatabases);
+      var backupArgs = new BackupArgs(this.Instance, FileSystem.FileSystem.Local.Path.EscapePath(this.BackupName.Trim(), "."), this._Files, this._Databases, this._ExcludeClient, this._MongoDatabases);
 
       return backupArgs;
     }

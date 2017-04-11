@@ -177,15 +177,15 @@ namespace SIM.Tool.Windows.MainWindowComponents
       instance.SetAppPoolMode(result.Contains("4.0"), result.Contains(Label32Bit));
     }
 
-    private string GetLabel(Instance instance, int version, bool is32bit)
+    private string GetLabel(Instance instance, int version, bool is32Bit)
     {
       var label = version + ".0 ";
-      if (is32bit)
+      if (is32Bit)
       {
         label += " " + Label32Bit;
       }
 
-      if (instance.Is32Bit == is32bit && instance.IsNetFramework4 == (version == 4))
+      if (instance.Is32Bit == is32Bit && instance.IsNetFramework4 == (version == 4))
       {
         return label + " " + LabelCurrent;
       }

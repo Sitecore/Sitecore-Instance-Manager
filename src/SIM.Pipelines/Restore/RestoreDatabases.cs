@@ -17,7 +17,7 @@
   {
     #region Fields
 
-    protected readonly List<string> done = new List<string>();
+    protected readonly List<string> _Done = new List<string>();
 
     #endregion
 
@@ -53,7 +53,7 @@
         foreach (Database database in databases)
         {
           var value = database.Name;
-          if (this.done.Contains(value))
+          if (this._Done.Contains(value))
           {
             continue;
           }
@@ -62,7 +62,7 @@
           database.Restore(bak);
           this.IncrementProgress();
 
-          this.done.Add(value);
+          this._Done.Add(value);
         }
       }
       finally

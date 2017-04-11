@@ -39,7 +39,7 @@
       args.SelectedDatabases = ((List<ExportDatabase>)this.Databases.DataContext).Where(database => database.IsChecked).Select(database => database.DatabaseName);
       if (this.WipeSqlServerCredentials.IsChecked != null)
       {
-        args.WipeSqlServerCredentials = (bool)this.WipeSqlServerCredentials.IsChecked;
+        args._WipeSqlServerCredentials = (bool)this.WipeSqlServerCredentials.IsChecked;
       }
 
       if (this.IncludeMongoDatabases.IsChecked != null)
@@ -72,7 +72,7 @@
 
       #region Fields
 
-      private bool _isChecked;
+      private bool _IsChecked;
 
       #endregion
 
@@ -94,12 +94,12 @@
       {
         get
         {
-          return this._isChecked;
+          return this._IsChecked;
         }
 
         set
         {
-          this._isChecked = value;
+          this._IsChecked = value;
           this.IsCheckedPropertyChaged("IsChecked");
         }
       }

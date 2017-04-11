@@ -155,7 +155,7 @@ namespace SIM.Tool
 
       CoreApp.LogMainInfo();
 
-      if (!App.CheckIIS())
+      if (!App.CheckIis())
       {
         WindowHelper.ShowMessage("Cannot connect to IIS. Make sure it is installed and running.", MessageBoxButton.OK, MessageBoxImage.Exclamation);
 
@@ -281,7 +281,7 @@ namespace SIM.Tool
       return processes.Count(x => x.SessionId == currentSessionId && !x.HasExited && x.PrivateMemorySize64 > 5000000) <= count;
     }
 
-    private static bool CheckIIS()
+    private static bool CheckIis()
     {
       try
       {

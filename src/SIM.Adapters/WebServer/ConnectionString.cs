@@ -16,7 +16,7 @@
     #region Fields
 
     [NotNull]
-    private XmlElementEx element { get; }
+    private XmlElementEx Element { get; }
 
     #endregion
 
@@ -32,7 +32,7 @@
     {
       Assert.ArgumentNotNull(xmlElement, nameof(xmlElement));
 
-      this.element = xmlElement;
+      this.Element = xmlElement;
     }
 
     #endregion
@@ -79,13 +79,13 @@
     {
       get
       {
-        XmlAttribute attribute = this.element.Attributes["name"];
+        XmlAttribute attribute = this.Element.Attributes["name"];
         if (attribute != null)
         {
-          return attribute.Value ?? this.element.Name;
+          return attribute.Value ?? this.Element.Name;
         }
 
-        return this.element.Name;
+        return this.Element.Name;
       }
     }
 
@@ -114,7 +114,7 @@
     {
       get
       {
-        XmlAttribute attribute = this.element.Attributes["connectionString"];
+        XmlAttribute attribute = this.Element.Attributes["connectionString"];
         return attribute == null ? null : attribute.Value;
       }
 
@@ -122,7 +122,7 @@
       {
         Assert.ArgumentNotNull(value, nameof(value));
 
-        XmlAttribute attribute = this.element.Attributes["connectionString"] ?? this.element.CreateAttribute("connectionString");
+        XmlAttribute attribute = this.Element.Attributes["connectionString"] ?? this.Element.CreateAttribute("connectionString");
         attribute.Value = value;
       }
     }
@@ -133,7 +133,7 @@
 
     public void Delete()
     {
-      var xmlElement = this.element.Element;
+      var xmlElement = this.Element.Element;
       xmlElement.ParentNode.RemoveChild(xmlElement);
       this.SaveChanges();
     }
@@ -149,7 +149,7 @@
 
     public void SaveChanges()
     {
-      this.element.Save();
+      this.Element.Save();
     }
 
     #endregion

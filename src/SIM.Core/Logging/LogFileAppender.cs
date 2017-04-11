@@ -11,7 +11,7 @@
   {
     #region Fields
 
-    protected string expandedFilePath;
+    protected string _ExpandedFilePath;
 
     #endregion
 
@@ -27,16 +27,16 @@
 
       set
       {
-        if (expandedFilePath == null)
+        if (_ExpandedFilePath == null)
         {
-          expandedFilePath = value
+          _ExpandedFilePath = value
             .Replace("$(logFolder)", ApplicationManager.LogsFolder)
             .Replace("$(currentFolder)", Environment.CurrentDirectory)
             .PipeTo(t => string.Format(t ?? "", DateTime.Now))            
             .PipeTo(Environment.ExpandEnvironmentVariables);
         }
 
-        base.File = expandedFilePath;
+        base.File = _ExpandedFilePath;
       }
     }
 

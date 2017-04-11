@@ -14,7 +14,7 @@ namespace SIM.FileSystem
   {
     #region Fields
 
-    private FileSystem fileSystem { get; }
+    private FileSystem FileSystem { get; }
 
     #endregion
 
@@ -22,7 +22,7 @@ namespace SIM.FileSystem
 
     public FileProvider(FileSystem fileSystem)
     {
-      this.fileSystem = fileSystem;
+      this.FileSystem = fileSystem;
     }
 
     #endregion

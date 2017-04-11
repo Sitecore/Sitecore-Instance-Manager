@@ -19,7 +19,7 @@
     public SqlConnectionStringBuilder ConnectionString { get; }
     public Instance Instance { get; }
 
-    public readonly IEnumerable<Product> Modules;
+    public readonly IEnumerable<Product> _Modules;
 
     private string instanceName { get; }
 
@@ -32,7 +32,7 @@
       Assert.ArgumentNotNull(instance, nameof(instance));
       Assert.ArgumentNotNull(modules, nameof(modules));
 
-      this.Modules = modules;
+      this._Modules = modules;
       this.ConnectionString = connectionString;
       this.Instance = instance;
       this.instanceName = instance.Name;

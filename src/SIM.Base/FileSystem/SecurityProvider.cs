@@ -41,7 +41,7 @@ namespace SIM.FileSystem
     protected IdentityReference LocalSystem { get; } = new SecurityIdentifier("S-1-5-18").Translate(typeof(NTAccount));
     protected IdentityReference NetworkService { get; } = new SecurityIdentifier("S-1-5-20").Translate(typeof(NTAccount));
 
-    protected FileSystem fileSystem { get; }
+    protected FileSystem FileSystem { get; }
 
     #endregion
 
@@ -49,7 +49,7 @@ namespace SIM.FileSystem
 
     public SecurityProvider(FileSystem fileSystem)
     {
-      this.fileSystem = fileSystem;
+      this.FileSystem = fileSystem;
     }
 
     #endregion
@@ -64,13 +64,13 @@ namespace SIM.FileSystem
       var identityReference = this.GetIdentityReference(identity);
       Assert.IsNotNull(identityReference, "Cannot find {0} identity reference".FormatWith(identity));
 
-      if (this.fileSystem.Directory.Exists(path))
+      if (this.FileSystem.Directory.Exists(path))
       {
         this.EnsureDirectoryPermissions(path, identityReference);
         return;
       }
 
-      if (this.fileSystem.File.Exists(path))
+      if (this.FileSystem.File.Exists(path))
       {
         this.EnsureFilePermissions(path, identityReference);
         return;
@@ -137,12 +137,12 @@ namespace SIM.FileSystem
       Assert.ArgumentNotNullOrEmpty(identity, nameof(identity));
       Assert.ArgumentNotNull(permissions, nameof(permissions));
 
-      if (this.fileSystem.Directory.Exists(path))
+      if (this.FileSystem.Directory.Exists(path))
       {
         return this.HasDirectoryPermissions(path, this.GetIdentityReference(identity), permissions);
       }
 
-      if (this.fileSystem.File.Exists(path))
+      if (this.FileSystem.File.Exists(path))
       {
         return this.HasFilePermissions(path, this.GetIdentityReference(identity), permissions);
       }

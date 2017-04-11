@@ -14,7 +14,7 @@
     #region Fields
 
     [CanBeNull]
-    private string logFileType { get; }
+    private string LogFileType { get; }
 
     #endregion
 
@@ -28,7 +28,7 @@
     {
       Assert.ArgumentNotNull(param, nameof(param));
 
-      this.logFileType = param;
+      this.LogFileType = param;
     }
 
     #endregion
@@ -50,7 +50,7 @@
 
       if (instance != null)
       {
-        InstanceHelperEx.OpenCurrentLogFile(instance, mainWindow, this.logFileType);
+        InstanceHelperEx.OpenCurrentLogFile(instance, mainWindow, this.LogFileType);
       }
     }
 

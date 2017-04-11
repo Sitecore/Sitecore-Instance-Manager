@@ -16,7 +16,7 @@
   {
     #region Fields
 
-    public readonly List<Processor> NestedProcessors = new List<Processor>();
+    public readonly List<Processor> _NestedProcessors = new List<Processor>();
 
     #endregion
 

@@ -17,14 +17,14 @@ namespace SIM.FileSystem
   {
     #region Constants
 
-    private const long KB = 1024;
-    private const long MB = 1024 * KB;
+    private const long Kb = 1024;
+    private const long Mb = 1024 * Kb;
 
     #endregion
 
     #region Fields
 
-    private FileSystem fileSystem { get; }
+    private FileSystem FileSystem { get; }
 
     #endregion
 
@@ -32,7 +32,7 @@ namespace SIM.FileSystem
 
     public ZipProvider(FileSystem fileSystem)
     {
-      this.fileSystem = fileSystem;
+      this.FileSystem = fileSystem;
     }
 
     #endregion
@@ -158,7 +158,7 @@ namespace SIM.FileSystem
           {
             var q = Math.Max(zip.Entries.Count / stepsCount, 1);
 
-            this.fileSystem.Directory.Ensure(path);
+            this.FileSystem.Directory.Ensure(path);
             var i = 0;
             ICollection<ZipEntry> entries = entriesPattern != null ? zip.SelectEntries(entriesPattern) : zip.Entries;
             foreach (ZipEntry entry in entries)
@@ -252,7 +252,7 @@ namespace SIM.FileSystem
         {
           var q = Math.Max(zip.Entries.Count / stepsCount, 1);
 
-          this.fileSystem.Directory.Ensure(path);
+          this.FileSystem.Directory.Ensure(path);
           var i = 0;
           var entries = entriesPattern != null ? zip.SelectEntries(entriesPattern) : zip.Entries;
 

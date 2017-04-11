@@ -11,7 +11,7 @@
 			<ListBox Name="ListBox1" Grid.Row="1" ItemsSource="{Binding}" SelectedValue="{Binding DefaultValue}" MouseDoubleClick="ListMouseDoubleClick" />
 
 			<StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right">
-				<Button Name="OKButton" Content="OK" Click="OKClick" Width="80" Margin="4" IsDefault="True" />
+				<Button Name="OKButton" Content="OK" Click="OkClick" Width="80" Margin="4" IsDefault="True" />
 				<Button Name="CancelButton" Content="Cancel" Click="CancelClick" Margin="4" Width="80" IsCancel="True" />
 			</StackPanel>
 		</Grid>

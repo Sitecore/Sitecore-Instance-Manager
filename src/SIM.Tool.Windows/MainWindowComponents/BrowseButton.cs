@@ -20,7 +20,7 @@
     protected string VirtualPath { get; }
 
     [NotNull]
-    private readonly string[] Params;
+    private readonly string[] _Params;
 
     #endregion
 
@@ -30,7 +30,7 @@
     {
       this.VirtualPath = string.Empty;
       this.Browser = null;
-      this.Params = new string[0];
+      this._Params = new string[0];
     }
 
     public BrowseButton([CanBeNull] string param)
@@ -38,7 +38,7 @@
       var arr = (param + ":").Split(':');
       this.VirtualPath = arr[0];
       this.Browser = arr[1];
-      this.Params = arr.Skip(2).ToArray();
+      this._Params = arr.Skip(2).ToArray();
     }
 
     #endregion
@@ -61,7 +61,7 @@
           return;
         }
 
-        InstanceHelperEx.BrowseInstance(instance, mainWindow, this.VirtualPath, true, this.Browser, this.Params);
+        InstanceHelperEx.BrowseInstance(instance, mainWindow, this.VirtualPath, true, this.Browser, this._Params);
       }
     }
 

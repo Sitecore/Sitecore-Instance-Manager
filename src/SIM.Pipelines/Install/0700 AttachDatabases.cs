@@ -15,7 +15,7 @@
   {
     #region Fields
 
-    private readonly List<string> done = new List<string>();
+    private readonly List<string> _Done = new List<string>();
     
     #endregion
 
@@ -43,7 +43,7 @@
 
       foreach (ConnectionString connectionString in instance.Configuration.ConnectionStrings)
       {
-        if (this.done.Contains(connectionString.Name))
+        if (this._Done.Contains(connectionString.Name))
         {
           continue;
         }
@@ -55,7 +55,7 @@
           controller.IncrementProgress(AttachDatabasesHelper.StepsCount / args.ConnectionString.Count);
         }
 
-        this.done.Add(connectionString.Name);
+        this._Done.Add(connectionString.Name);
       }
     }
 

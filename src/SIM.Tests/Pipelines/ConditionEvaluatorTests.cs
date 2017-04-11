@@ -9,7 +9,7 @@ namespace SIM.Tests.Pipelines
     public class ConditionEvaluatorTests
     {
         [TestMethod]
-        public void ConditionEvaluator_NoCondition_ReturnsTrue()
+        public void ConditionEvaluatorNoConditionReturnsTrue()
         {
             var evaluator = new ConditionEvaluator();
             var element = GetXmlElement("<action />");
@@ -18,7 +18,7 @@ namespace SIM.Tests.Pipelines
         }
 
         [TestMethod]
-        public void ConditionEvaluator_EqualsWithSame_ReturnsTrue()
+        public void ConditionEvaluatorEqualsWithSameReturnsTrue()
         {
             var evaluator = new ConditionEvaluator();
             var element = GetXmlElement("<action condition='equals' conditionArg1='a' conditionArg2='a' />");
@@ -27,7 +27,7 @@ namespace SIM.Tests.Pipelines
 
 
         [TestMethod]
-        public void ConditionEvaluator_EqualsWithDifferent_False()
+        public void ConditionEvaluatorEqualsWithDifferentFalse()
         {
             var evaluator = new ConditionEvaluator();
             var element = GetXmlElement("<action condition='equals' conditionArg1='a' conditionArg2='b' />");
@@ -35,7 +35,7 @@ namespace SIM.Tests.Pipelines
         }
 
         [TestMethod]
-        public void ConditionEvaluator_EqualsWithMixedCaseAndMatchingElements_True()
+        public void ConditionEvaluatorEqualsWithMixedCaseAndMatchingElementsTrue()
         {
             var evaluator = new ConditionEvaluator();
             var element = GetXmlElement("<action condition='Equals' conditionArg1='a' conditionArg2='a' />");
@@ -43,7 +43,7 @@ namespace SIM.Tests.Pipelines
         }
 
         [TestMethod]
-        public void ConditionEvaluator_NotEqualsWithDifferent_True()
+        public void ConditionEvaluatorNotEqualsWithDifferentTrue()
         {
             var evaluator = new ConditionEvaluator();
             var element = GetXmlElement("<action condition='not equals' conditionArg1='a' conditionArg2='b' />");
@@ -52,7 +52,7 @@ namespace SIM.Tests.Pipelines
 
 
         [TestMethod]
-        public void ConditionEvaluator_NotEqualsWithSame_False()
+        public void ConditionEvaluatorNotEqualsWithSameFalse()
         {
             var evaluator = new ConditionEvaluator();
             var element = GetXmlElement("<action condition='not equals' conditionArg1='a' conditionArg2='a' />");
@@ -60,7 +60,7 @@ namespace SIM.Tests.Pipelines
         }
 
         [TestMethod]
-        public void ConditionEvaluator_VariableInFirstElementMatches_True()
+        public void ConditionEvaluatorVariableInFirstElementMatchesTrue()
         {
             var variables = new Dictionary<string, string> {{"{variable}", "a"}};
             var evaluator = new ConditionEvaluator(variables);
@@ -69,7 +69,7 @@ namespace SIM.Tests.Pipelines
         }
 
         [TestMethod]
-        public void ConditionEvaluator_VariableInSecondMatchesElement_True()
+        public void ConditionEvaluatorVariableInSecondMatchesElementTrue()
         {
             var variables = new Dictionary<string, string> { { "{variable}", "a" } };
             var evaluator = new ConditionEvaluator(variables);
@@ -78,7 +78,7 @@ namespace SIM.Tests.Pipelines
         }
 
         [TestMethod]
-        public void ConditionEvaluator_VariableInFirstElementDoesNotMatch_False()
+        public void ConditionEvaluatorVariableInFirstElementDoesNotMatchFalse()
         {
             var variables = new Dictionary<string, string> { { "{variable}", "a" } };
             var evaluator = new ConditionEvaluator(variables);
@@ -87,7 +87,7 @@ namespace SIM.Tests.Pipelines
         }
 
         [TestMethod]
-        public void ConditionEvaluator_VariableInSecondMatchesDoesNotMatch_False()
+        public void ConditionEvaluatorVariableInSecondMatchesDoesNotMatchFalse()
         {
             var variables = new Dictionary<string, string> { { "{variable}", "a" } };
             var evaluator = new ConditionEvaluator(variables);
@@ -97,7 +97,7 @@ namespace SIM.Tests.Pipelines
 
 
         [TestMethod]
-        public void ConditionEvaluator_VariableInBothElementsMatch_True()
+        public void ConditionEvaluatorVariableInBothElementsMatchTrue()
         {
             var variables = new Dictionary<string, string> { { "{variable1}", "a" } , {"{variable2}", "a" } };
             var evaluator = new ConditionEvaluator(variables);
@@ -107,7 +107,7 @@ namespace SIM.Tests.Pipelines
 
 
         [TestMethod]
-        public void ConditionEvaluator_VariableInBothElementsMatch_False()
+        public void ConditionEvaluatorVariableInBothElementsMatchFalse()
         {
             var variables = new Dictionary<string, string> { { "{variable1}", "a" }, { "{variable2}", "b" } };
             var evaluator = new ConditionEvaluator(variables);

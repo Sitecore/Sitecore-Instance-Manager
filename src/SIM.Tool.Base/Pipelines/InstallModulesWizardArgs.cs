@@ -17,9 +17,9 @@
 
     public Instance Instance { get; }
 
-    public readonly List<Product> Modules = new List<Product>();
+    public readonly List<Product> _Modules = new List<Product>();
 
-    private string webRootPath;
+    private string _WebRootPath;
 
     #endregion
 
@@ -74,7 +74,7 @@
     public override ProcessorArgs ToProcessorArgs()
     {
       var connectionString = ProfileManager.GetConnectionString();
-      var products = this.Modules;
+      var products = this._Modules;
       var product = this.ExtraPackage;
       if (product != null)
       {
@@ -92,12 +92,12 @@
     {
       get
       {
-        return this.webRootPath ?? this.Instance.WebRootPath;
+        return this._WebRootPath ?? this.Instance.WebRootPath;
       }
 
       set
       {
-        this.webRootPath = value;
+        this._WebRootPath = value;
       }
     }
 

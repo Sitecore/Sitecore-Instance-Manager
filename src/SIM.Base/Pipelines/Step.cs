@@ -18,7 +18,7 @@
     public string ArgsName { get; }
 
     [NotNull]
-    public readonly List<Processor> Processors;
+    public readonly List<Processor> _Processors;
 
     #endregion
 
@@ -28,7 +28,7 @@
     {
       Assert.ArgumentNotNull(processors, nameof(processors));
 
-      this.Processors = processors;
+      this._Processors = processors;
       this.ArgsName = argsName;
     }
 
@@ -58,7 +58,7 @@
       foreach (StepDefinition stepDefinition in steps)
       {
         var argsName = stepDefinition.ArgsName.EmptyToNull();
-        Step step = new Step(ProcessorManager.CreateProcessors(stepDefinition.ProcessorDefinitions, args, controller), argsName);
+        Step step = new Step(ProcessorManager.CreateProcessors(stepDefinition._ProcessorDefinitions, args, controller), argsName);
         Assert.IsNotNull(step, "Can't instantiate step");
         yield return step;
       }

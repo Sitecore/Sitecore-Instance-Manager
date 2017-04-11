@@ -12,7 +12,7 @@ namespace SIM.Pipelines.Restore
   {
     #region Fields
 
-    protected readonly List<string> done = new List<string>();
+    protected readonly List<string> _Done = new List<string>();
 
     #endregion
 
@@ -45,7 +45,7 @@ namespace SIM.Pipelines.Restore
         instance.Stop();
         foreach (var database in databases)
         {
-          if (this.done.Contains(database))
+          if (this._Done.Contains(database))
           {
             continue;
           }
@@ -53,7 +53,7 @@ namespace SIM.Pipelines.Restore
           MongoHelper.Restore(database);
           this.IncrementProgress();
 
-          this.done.Add(database);
+          this._Done.Add(database);
         }
       }
       finally

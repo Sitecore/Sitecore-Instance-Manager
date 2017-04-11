@@ -29,18 +29,18 @@
   {
     #region Fields
 
-    public WizardArgs ProcessorArgs;
-    private ProcessorArgs args { get; }
+    public WizardArgs _WizardArgs;
+    private ProcessorArgs Args { get; }
 
-    private Brush progressBar1Foreground { get; }
+    private Brush ProgressBar1Foreground { get; }
 
-    private readonly object[] wizardParams;
+    private readonly object[] _WizardParams;
 
-    private WizardPipeline wizardPipeline { get; }
+    private WizardPipeline WizardPipeline { get; }
 
-    private double maximum = double.NaN;
+    private double _Maximum = double.NaN;
 
-    private ProcessorArgs processorArgs;
+    private ProcessorArgs _ProcessorArgs;
 
     #endregion
 
@@ -54,11 +54,11 @@
         ProfileSection.Argument("args", args);
         ProfileSection.Argument("parameters", parameters);
 
-        this.wizardPipeline = wizardPipeline;
-        this.args = args;
+        this.WizardPipeline = wizardPipeline;
+        this.Args = args;
         this.InitializeComponent();
-        this.progressBar1Foreground = this.progressBar1.Foreground;
-        this.wizardParams = parameters;
+        this.ProgressBar1Foreground = this.progressBar1.Foreground;
+        this._WizardParams = parameters;
         if (!WinAppSettings.AppSysIsSingleThreaded.Value)
         {
           this.CancelButton.IsCancel = false;
@@ -135,7 +135,7 @@
     {
       get
       {
-        return this.wizardPipeline.StepInfos.Length;
+        return this.WizardPipeline._StepInfos.Length;
       }
     }
 
@@ -299,7 +299,7 @@
       List<Processor> p = new List<Processor>();
       foreach (Step step in steps)
       {
-        List<Processor> pp = step.Processors;
+        List<Processor> pp = step._Processors;
         p.AddRange(pp);
       }
 
@@ -397,7 +397,7 @@
       var param = stepInfo.Param;
       var wizardStep = (UserControl)(!string.IsNullOrEmpty(param) ? ReflectionUtil.CreateObject(ctrl, param) : ReflectionUtil.CreateObject(ctrl));
 
-      this.ProcessorArgs = wArgs;
+      this._WizardArgs = wArgs;
 
       this.TabControl.Items.Insert(this.TabControl.Items.Count - 2, new TabItem
       {
@@ -432,7 +432,7 @@
             case ProcessorState.Inaccessible:
             {
               var messageLabel = $@"{processor.Title} action failed with message: ";
-              const string skipped = "Action was skipped because other one had problem - please find it, fix the problem and run the process again";
+              const string Skipped = "Action was skipped because other one had problem - please find it, fix the problem and run the process again";
                 string message;
               Exception exception = processor.Error;
               if (exception != null)
@@ -449,7 +449,7 @@
               }
               else
               {
-                message = skipped;
+                message = Skipped;
               }
 
               WindowHelper.HandleError(message, true, null);
@@ -471,17 +471,17 @@
 
         if (allDone)
         {
-          this.AddFinishActions(this.wizardPipeline.FinishActions);
+          this.AddFinishActions(this.WizardPipeline._FinishActions);
 
-          if (this.wizardPipeline.FinishActionHives != null)
+          if (this.WizardPipeline._FinishActionHives != null)
           {
-            foreach (FinishActionHive hive in this.wizardPipeline.FinishActionHives.NotNull())
+            foreach (FinishActionHive hive in this.WizardPipeline._FinishActionHives.NotNull())
             {
-              this.AddFinishActions(hive.GetFinishActions(this.ProcessorArgs));
+              this.AddFinishActions(hive.GetFinishActions(this._WizardArgs));
             }
           }
 
-          this.FinishTextBlock.Text = this.wizardPipeline.FinishText;
+          this.FinishTextBlock.Text = this.WizardPipeline.FinishText;
           this.TaskbarItemInfo.ProgressState = TaskbarItemProgressState.None;
           this.Progress = 0;
           this.NextButton.Visibility = Visibility.Hidden;
@@ -508,7 +508,7 @@
       foreach (Processor q in value)
       {
         output.Add(q);
-        this.GetList(q.NestedProcessors, output);
+        this.GetList(q._NestedProcessors, output);
       }
     }
 
@@ -522,7 +522,7 @@
       WizardArgs wArgs = null;
       if (argsType != null)
       {
-        wArgs = (WizardArgs)ReflectionUtil.CreateObject(argsType, this.wizardParams ?? new object[0]);
+        wArgs = (WizardArgs)ReflectionUtil.CreateObject(argsType, this._WizardParams ?? new object[0]);
         wArgs.WizardWindow = this;
       }
 
@@ -576,7 +576,7 @@
           return;
         }
 
-        var wizardArgs = this.ProcessorArgs;
+        var wizardArgs = this._WizardArgs;
         using (new ProfileSection("Initialize step (inner)", this))
         {
           ProfileSection.Argument("step", step);
@@ -599,7 +599,7 @@
 
         using (new ProfileSection("Set header", this))
         {
-          StepInfo[] stepInfos = this.wizardPipeline.StepInfos;
+          StepInfo[] stepInfos = this.WizardPipeline._StepInfos;
           if (stepInfos.Length > n)
           {
             var title = stepInfos[n].Title;
@@ -619,14 +619,14 @@
         // the last step before Progress Step           
         if (this.PageNumber == this.StepsCount - 1)
         {
-          this.NextButton.Content = this.wizardPipeline.StartButtonText;
+          this.NextButton.Content = this.WizardPipeline.StartButtonText;
           return;
         }
 
         // the Progress Step    
         if (this.PageNumber == this.StepsCount)
         {
-          PipelineManager.StartPipeline(this.wizardPipeline.Name, this.processorArgs, this);
+          PipelineManager.StartPipeline(this.WizardPipeline.Name, this._ProcessorArgs, this);
           this.backButton.Visibility = Visibility.Hidden;
           this.CancelButton.Content = "Cancel";
           this.NextButton.IsEnabled = false;
@@ -667,7 +667,7 @@
             // the last step before Progress Step
           else if (this.PageNumber == this.StepsCount - 1)
           {
-            this.NextButton.Content = this.wizardPipeline.StartButtonText;
+            this.NextButton.Content = this.WizardPipeline.StartButtonText;
           }
         }
         catch (Exception ex)
@@ -693,7 +693,7 @@
           {
             try
             {
-              this.processorArgs = this.ProcessorArgs != null ? this.ProcessorArgs.ToProcessorArgs() ?? this.args : this.args;
+              this._ProcessorArgs = this._WizardArgs != null ? this._WizardArgs.ToProcessorArgs() ?? this.Args : this.Args;
             }
             catch (Exception ex)
             {
@@ -764,12 +764,12 @@
           }
 
           bool onMove = true;
-          bool saveChanges = step.SaveChanges(this.ProcessorArgs);
+          bool saveChanges = step.SaveChanges(this._WizardArgs);
 
           var flowControl = step as IFlowControl;
           if (flowControl != null)
           {
-            onMove = next ? flowControl.OnMovingNext(this.ProcessorArgs) : flowControl.OnMovingBack(this.ProcessorArgs);
+            onMove = next ? flowControl.OnMovingNext(this._WizardArgs) : flowControl.OnMovingBack(this._WizardArgs);
           }
 
           if (!saveChanges || !onMove)
@@ -794,7 +794,7 @@
       {
         ProfileSection.Argument("name", name);
 
-        AbstractArgs abstractArgs = this.ProcessorArgs as AbstractArgs ?? this.args;
+        AbstractArgs abstractArgs = this._WizardArgs as AbstractArgs ?? this.Args;
         var result = abstractArgs != null ? Pipeline.ReplaceVariables(name, abstractArgs) : name;
 
         return ProfileSection.Result(result);
@@ -813,8 +813,8 @@
         try
         {
           this.Progress = 0;
-          this.Maximum = this.maximum;
-          this.progressBar1.Foreground = this.progressBar1Foreground;
+          this.Maximum = this._Maximum;
+          this.progressBar1.Foreground = this.ProgressBar1Foreground;
           this.TaskbarItemInfo.ProgressValue = 0;
           this.TaskbarItemInfo.ProgressState = TaskbarItemProgressState.Normal;
           this.NextButton.IsEnabled = false;
@@ -830,9 +830,9 @@
 
     private void SetMaximum(double value)
     {
-      if (double.IsNaN(this.maximum))
+      if (double.IsNaN(this._Maximum))
       {
-        this.maximum = value;
+        this._Maximum = value;
       }
 
       this.progressBar1.Maximum = value;
@@ -872,10 +872,10 @@
     {
       try
       {
-        Type argsType = this.wizardPipeline.Args;
+        Type argsType = this.WizardPipeline.Args;
         var wArgs = this.GetWizardArgs(argsType);
 
-        StepInfo[] sis = this.wizardPipeline.StepInfos;
+        StepInfo[] sis = this.WizardPipeline._StepInfos;
         foreach (StepInfo stepInfo in sis)
         {
           this.AddStepToWizard(stepInfo, wArgs);
@@ -884,7 +884,7 @@
         this.PageNumber = 0;
 
         this.InitializeStep();
-        var title = this.ReplaceVariables(this.wizardPipeline.Title);
+        var title = this.ReplaceVariables(this.WizardPipeline.Title);
         this.Title = title;
         this.Header.Text = title;
       }
@@ -928,7 +928,7 @@
             {
               action.Method.Invoke(null, new object[]
               {
-                this.ProcessorArgs
+                this._WizardArgs
               });
             }
             catch (Exception ex)

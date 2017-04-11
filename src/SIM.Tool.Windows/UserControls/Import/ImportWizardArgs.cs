@@ -14,15 +14,15 @@
   {
     #region Fields
 
-    public List<BindingsItem> bindings = new List<BindingsItem>();
-    public string pathToExportedInstance = string.Empty;
-    public string pathToLicenseFile = string.Empty;
-    public string rootPath = string.Empty;
-    public string siteName = string.Empty;
-    public bool updateLicense = false;
-    public string virtualDirectoryPhysicalPath = string.Empty;
-    private SqlConnectionStringBuilder connectionString = null;
-    private string temporaryPathToUnpack = string.Empty;
+    public List<BindingsItem> _Bindings = new List<BindingsItem>();
+    public string _PathToExportedInstance = string.Empty;
+    public string _PathToLicenseFile = string.Empty;
+    public string _RootPath = string.Empty;
+    public string _SiteName = string.Empty;
+    public bool _UpdateLicense = false;
+    public string _VirtualDirectoryPhysicalPath = string.Empty;
+    private SqlConnectionStringBuilder _ConnectionString = null;
+    private string _TemporaryPathToUnpack = string.Empty;
 
     #endregion
 
@@ -30,16 +30,16 @@
 
     public ImportWizardArgs(string pathToExportedInstance)
     {
-      this.pathToExportedInstance = pathToExportedInstance;
-      this.connectionString = ProfileManager.GetConnectionString();
-      this.temporaryPathToUnpack = FileSystem.FileSystem.Local.Directory.RegisterTempFolder(FileSystem.FileSystem.Local.Directory.Ensure(Path.GetTempFileName() + "dir"));
-      var websiteSettingsFilePath = FileSystem.FileSystem.Local.Zip.ZipUnpackFile(pathToExportedInstance, this.temporaryPathToUnpack, ImportArgs.websiteSettingsFileName);
+      this._PathToExportedInstance = pathToExportedInstance;
+      this._ConnectionString = ProfileManager.GetConnectionString();
+      this._TemporaryPathToUnpack = FileSystem.FileSystem.Local.Directory.RegisterTempFolder(FileSystem.FileSystem.Local.Directory.Ensure(Path.GetTempFileName() + "dir"));
+      var websiteSettingsFilePath = FileSystem.FileSystem.Local.Zip.ZipUnpackFile(pathToExportedInstance, this._TemporaryPathToUnpack, ImportArgs.WebsiteSettingsFileName);
       XmlDocumentEx websiteSettings = new XmlDocumentEx();
       websiteSettings.Load(websiteSettingsFilePath);
-      this.siteName = websiteSettings.GetElementAttributeValue("/appcmd/SITE/site", "name");
-      this.virtualDirectoryPhysicalPath = websiteSettings.GetElementAttributeValue("/appcmd/SITE/site/application/virtualDirectory", "physicalPath");
-      this.rootPath = FileSystem.FileSystem.Local.Directory.GetParent(this.virtualDirectoryPhysicalPath).FullName;
-      this.bindings = this.GetBindings(websiteSettingsFilePath);
+      this._SiteName = websiteSettings.GetElementAttributeValue("/appcmd/SITE/site", "name");
+      this._VirtualDirectoryPhysicalPath = websiteSettings.GetElementAttributeValue("/appcmd/SITE/site/application/virtualDirectory", "physicalPath");
+      this._RootPath = FileSystem.FileSystem.Local.Directory.GetParent(this._VirtualDirectoryPhysicalPath).FullName;
+      this._Bindings = this.GetBindings(websiteSettingsFilePath);
     }
 
     #endregion
@@ -52,15 +52,15 @@
     {
       Dictionary<string, int> bindingsForArgs = new Dictionary<string, int>();
 
-      foreach (var binding in this.bindings)
+      foreach (var binding in this._Bindings)
       {
         if (binding.IsChecked)
         {
-          bindingsForArgs.Add(binding.hostName, binding.port);
+          bindingsForArgs.Add(binding.HostName, binding.Port);
         }
       }
 
-      return new ImportArgs(this.pathToExportedInstance, this.siteName, this.temporaryPathToUnpack, this.rootPath, this.connectionString, this.updateLicense, this.pathToLicenseFile, bindingsForArgs);
+      return new ImportArgs(this._PathToExportedInstance, this._SiteName, this._TemporaryPathToUnpack, this._RootPath, this._ConnectionString, this._UpdateLicense, this._PathToLicenseFile, bindingsForArgs);
     }
 
     #endregion
@@ -94,23 +94,23 @@
   {
     #region Fields
 
-    private bool isChecked = true;
+    private bool _IsChecked = true;
 
     #endregion
 
     #region Constructors
 
-    public BindingsItem(bool IsChecked, string Hostname, int Port)
+    public BindingsItem(bool IsChecked, string hostname, int Port)
     {
-      this.isChecked = IsChecked;
-      this.hostName = Hostname;
-      this.port = Port;
+      this._IsChecked = IsChecked;
+      this.HostName = hostname;
+      this.Port = Port;
     }
 
-    public BindingsItem(string Hostname, int Port)
+    public BindingsItem(string hostname, int Port)
     {
-      this.hostName = Hostname;
-      this.port = Port;
+      this.HostName = hostname;
+      this.Port = Port;
     }
 
     #endregion
@@ -121,17 +121,17 @@
     {
       get
       {
-        return this.isChecked;
+        return this._IsChecked;
       }
 
       set
       {
-        this.isChecked = value;
+        this._IsChecked = value;
       }
     }
 
-    public string hostName { get; set; }
-    public int port { get; set; }
+    public string HostName { get; set; }
+    public int Port { get; set; }
 
     #endregion
 

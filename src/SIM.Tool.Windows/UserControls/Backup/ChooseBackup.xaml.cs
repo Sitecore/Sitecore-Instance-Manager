@@ -13,7 +13,7 @@
   {
     #region Fields
 
-    private readonly List<InstanceBackup> checkBoxItems = new List<InstanceBackup>();
+    private readonly List<InstanceBackup> _CheckBoxItems = new List<InstanceBackup>();
 
     #endregion
 
@@ -31,12 +31,12 @@
     void IWizardStep.InitializeStep(WizardArgs wizardArgs)
     {
       var args = (RestoreWizardArgs)wizardArgs;
-      this.checkBoxItems.Clear();
+      this._CheckBoxItems.Clear();
 
-      this.checkBoxItems.AddRange(args.Instance.Backups);
+      this._CheckBoxItems.AddRange(args.Instance.Backups);
 
 
-      this.backups.DataContext = this.checkBoxItems;
+      this.backups.DataContext = this._CheckBoxItems;
     }
 
     bool IWizardStep.SaveChanges(WizardArgs wizardArgs)

@@ -21,8 +21,8 @@
   {
     #region Fields
 
-    public static string lastPathToAttach = string.Empty;
-    public static string lastPathToRestore = string.Empty;
+    public static string _LastPathToAttach = string.Empty;
+    public static string _LastPathToRestore = string.Empty;
 
     #endregion
 
@@ -56,7 +56,7 @@
       }
 
       var path = dialog.FileName;
-      lastPathToAttach = path;
+      _LastPathToAttach = path;
 
       var dbName = SqlServerManager.Instance.GetDatabaseNameFromFile(ProfileManager.GetConnectionString(), path);
 
@@ -88,7 +88,7 @@
       this.Close();
     }
 
-    private void Databases_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+    private void DatabasesMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
     {
     }
 
@@ -133,7 +133,7 @@
     private void Detach(object sender, RoutedEventArgs e)
     {
       var names = this.Databases.SelectedItems;
-      Func<IList, string> GetNamesAsString = (IList x) =>
+      Func<IList, string> getNamesAsString = (IList x) =>
       {
         var result = string.Empty;
         var i = 0;
@@ -153,7 +153,7 @@
       };
 
       if (
-        WindowHelper.ShowMessage("Are you sure that want to detach the following databases? {0}".FormatWith(GetNamesAsString(names)), MessageBoxButton.OKCancel, MessageBoxImage.Question) != MessageBoxResult.OK)
+        WindowHelper.ShowMessage("Are you sure that want to detach the following databases? {0}".FormatWith(getNamesAsString(names)), MessageBoxButton.OKCancel, MessageBoxImage.Question) != MessageBoxResult.OK)
       {
         return;
       }
@@ -242,7 +242,7 @@
     {
       var connectionString = ProfileManager.GetConnectionString();
 
-      var textBox = this.searchBox;
+      var textBox = this.SearchBox;
       var arr = textBox.Text.IsNullOrEmpty() ? SqlServerManager.Instance.GetDatabasesNames(connectionString) : SqlServerManager.Instance.GetDatabasesNames(connectionString, textBox.Text.Replace(" ", string.Empty).Replace(@"'", string.Empty));
 
       this.Databases.DataContext = arr;
@@ -334,7 +334,7 @@
       this.Refresh();
     }
 
-    private void searchBox_TextChanged(object sender, TextChangedEventArgs e)
+    private void SearchBoxTextChanged(object sender, TextChangedEventArgs e)
     {
       this.Refresh();
     }
@@ -375,7 +375,7 @@
       SqlServerManager.Instance.BackupDatabase(connectionString, databaseName, backupPath);
     }
 
-    private void Databases_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+    private void DatabasesMouseDoubleClick(object sender, MouseButtonEventArgs e)
     {
       if (this.Databases.SelectedItems.Count == 1)
       {
@@ -440,9 +440,9 @@
       {
         WindowHelper.ShowDialog(new DatabasesOperationsDialog(Clipboard.GetText()), this);
       }
-      else if (FileSystem.FileSystem.Local.Directory.Exists(lastPathToRestore))
+      else if (FileSystem.FileSystem.Local.Directory.Exists(_LastPathToRestore))
       {
-        WindowHelper.ShowDialog(new DatabasesOperationsDialog(lastPathToRestore), this);
+        WindowHelper.ShowDialog(new DatabasesOperationsDialog(_LastPathToRestore), this);
       }
       else if (this.Databases.SelectedItem != null)
       {
@@ -461,7 +461,7 @@
       WindowHelper.ShowDialog(new DatabaseQueryExecutionDialog("USE [" + this.Databases.SelectedItem.ToString() + "]"), this);
     }
 
-    private void ShowSQLShell(object sender, RoutedEventArgs e)
+    private void ShowSqlShell(object sender, RoutedEventArgs e)
     {
       if (this.Databases.SelectedItems.Count == 1)
       {

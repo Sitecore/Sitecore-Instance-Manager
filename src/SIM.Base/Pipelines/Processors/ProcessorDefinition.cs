@@ -13,7 +13,7 @@
     #region Fields
 
     [NotNull]
-    public readonly List<ProcessorDefinition> NestedProcessorDefinitions = new List<ProcessorDefinition>();
+    public readonly List<ProcessorDefinition> _NestedProcessorDefinitions = new List<ProcessorDefinition>();
 
     #endregion
 

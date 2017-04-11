@@ -10,24 +10,24 @@
     #region Instance fields
 
     [CanBeNull]
-    private FileSystemWatcher appConfigWatcher { get; }
+    private FileSystemWatcher AppConfigWatcher { get; }
 
     [CanBeNull]
-    private FileSystemWatcher webConfigWatcher { get; }
+    private FileSystemWatcher WebConfigWatcher { get; }
 
-    private string licencePath;
-
-    [CanBeNull]
-    private string modulesNamesCache;
-
-    private string name;
-    private string productFullName;
+    private string _LicencePath;
 
     [CanBeNull]
-    private XmlDocument webConfigResultCache;
+    private string _ModulesNamesCache;
 
-    private string webRootPath;
-    private string bindingsNames;
+    private string _Name;
+    private string _ProductFullName;
+
+    [CanBeNull]
+    private XmlDocument _WebConfigResultCache;
+
+    private string _WebRootPath;
+    private string _BindingsNames;
 
     #endregion
 
@@ -42,7 +42,7 @@
       }
 
       var webConfig = new FileSystemWatcher(path, "web.config");
-      this.webConfigWatcher = webConfig;
+      this.WebConfigWatcher = webConfig;
       webConfig.IncludeSubdirectories = false;
       webConfig.Changed += this.ClearCache;
       webConfig.EnableRaisingEvents = true;
@@ -53,7 +53,7 @@
       }
 
       var appConfig = new FileSystemWatcher(appConfigPath, "*.config");
-      this.appConfigWatcher = appConfig;
+      this.AppConfigWatcher = appConfig;
       appConfig.IncludeSubdirectories = true;
       appConfig.Changed += this.ClearCache;
       appConfig.EnableRaisingEvents = true;
@@ -71,7 +71,7 @@
     {
       get
       {
-        return this.licencePath ?? (this.licencePath = base.LicencePath);
+        return this._LicencePath ?? (this._LicencePath = base.LicencePath);
       }
     }
 
@@ -79,7 +79,7 @@
     {
       get
       {
-        return this.name ?? (this.name = base.Name);
+        return this._Name ?? (this._Name = base.Name);
       }
     }
 
@@ -87,7 +87,7 @@
     {
       get
       {
-        return this.productFullName ?? (this.productFullName = base.ProductFullName);
+        return this._ProductFullName ?? (this._ProductFullName = base.ProductFullName);
       }
     }
 
@@ -95,7 +95,7 @@
     {
       get
       {
-        return this.webRootPath ?? (this.webRootPath = base.WebRootPath);
+        return this._WebRootPath ?? (this._WebRootPath = base.WebRootPath);
       }
     }
 
@@ -107,7 +107,7 @@
     {
       get
       {
-        return this.modulesNamesCache ?? (this.modulesNamesCache = base.ModulesNames);
+        return this._ModulesNamesCache ?? (this._ModulesNamesCache = base.ModulesNames);
       }
     }
 
@@ -115,7 +115,7 @@
     {
       get
       {
-        return this.bindingsNames ?? (this.bindingsNames = base.BindingsNames);
+        return this._BindingsNames ?? (this._BindingsNames = base.BindingsNames);
       }
     }
 
@@ -125,20 +125,20 @@
 
     public void Dispose()
     {
-      if (this.appConfigWatcher != null)
+      if (this.AppConfigWatcher != null)
       {
-        this.appConfigWatcher.EnableRaisingEvents = false;
+        this.AppConfigWatcher.EnableRaisingEvents = false;
       }
 
-      if (this.webConfigWatcher != null)
+      if (this.WebConfigWatcher != null)
       {
-        this.webConfigWatcher.EnableRaisingEvents = false;
+        this.WebConfigWatcher.EnableRaisingEvents = false;
       }
     }
 
     public override XmlDocument GetWebResultConfig(bool normalize = false)
     {
-      return this.webConfigResultCache ?? (this.webConfigResultCache = base.GetWebResultConfig(normalize));
+      return this._WebConfigResultCache ?? (this._WebConfigResultCache = base.GetWebResultConfig(normalize));
     }
 
     #endregion
@@ -147,8 +147,8 @@
 
     private void ClearCache([CanBeNull] object sender, [CanBeNull] FileSystemEventArgs fileSystemEventArgs)
     {
-      this.webConfigResultCache = null;
-      this.modulesNamesCache = null;
+      this._WebConfigResultCache = null;
+      this._ModulesNamesCache = null;
     }
 
     #endregion

@@ -79,7 +79,7 @@
         Log.Info($"Version: {ApplicationManager.AppVersion}");
         Log.Info($"Revision: {ApplicationManager.AppRevision}");
         Log.Info($"Label: {ApplicationManager.AppLabel}");
-        Log.Info($"IsQA: {ApplicationManager.IsQA}");
+        Log.Info($"IsQA: {ApplicationManager.IsQa}");
         Log.Info($"Executable: {nativeArgs.FirstOrDefault() ?? ApplicationManager.ProcessName}");
         Log.Info($"Arguments: {argsToLog}");
         Log.Info($"Directory: {Environment.CurrentDirectory}");

@@ -10,8 +10,8 @@ namespace SIM.Pipelines.Import
 
     protected override void Process(ImportArgs args)
     {
-      var folder = FileSystem.FileSystem.Local.Directory.Ensure(args.temporaryPathToUnpack.PathCombine("MongoDatabases"));
-      FileSystem.FileSystem.Local.Zip.ZipUnpackFolder(args.PathToExportedInstance, args.temporaryPathToUnpack, "MongoDatabases");
+      var folder = FileSystem.FileSystem.Local.Directory.Ensure(args._TemporaryPathToUnpack.PathCombine("MongoDatabases"));
+      FileSystem.FileSystem.Local.Zip.ZipUnpackFolder(args.PathToExportedInstance, args._TemporaryPathToUnpack, "MongoDatabases");
       foreach (var directoryPath in FileSystem.FileSystem.Local.Directory.GetDirectories(folder))
       {
         MongoHelper.Restore(directoryPath);

@@ -7,7 +7,7 @@ namespace SIM.FileSystem
     #region Fields
 
     public string Path { get; }
-    private FileSystem fileSystem { get; }
+    private FileSystem FileSystem { get; }
 
     #endregion
 
@@ -15,7 +15,7 @@ namespace SIM.FileSystem
 
     public TempFolder(FileSystem fileSystem, string path = null)
     {
-      this.fileSystem = fileSystem;
+      this.FileSystem = fileSystem;
       if (path != null)
       {
         this.Path = fileSystem.Directory.Ensure(System.IO.Path.Combine(System.IO.Path.GetPathRoot(path), Guid.NewGuid().ToString()));
@@ -32,7 +32,7 @@ namespace SIM.FileSystem
 
     public void Dispose()
     {
-      this.fileSystem.Directory.DeleteIfExists(this.Path);
+      this.FileSystem.Directory.DeleteIfExists(this.Path);
     }
 
     public override string ToString()

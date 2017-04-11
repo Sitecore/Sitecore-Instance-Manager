@@ -63,9 +63,9 @@ namespace SIM.Pipelines.Install.Modules
     public IList<string> GetIncludeDirFiles()
     {
       string path = Instance.WebRootPath.EnsureEnd(@"\") + @"App_Config\Include";
-      const string filter = "*";
-      const SearchOption allDirectories = SearchOption.AllDirectories;
-      return GetFiles(path, filter, allDirectories);
+      const string Filter = "*";
+      const SearchOption AllDirectories = SearchOption.AllDirectories;
+      return GetFiles(path, Filter, AllDirectories);
     }
 
     private void EnableNonIocSolrFiles()

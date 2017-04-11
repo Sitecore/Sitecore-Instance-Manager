@@ -25,7 +25,7 @@
       new LookupFolder("Manifests", true), new LookupFolder(ApplicationManager.UserManifestsFolder, true)
     };
 
-    public static LookupFolder[] CustomManifestsLocations = null;
+    public static LookupFolder[] _CustomManifestsLocations = null;
 
     #endregion
 
@@ -331,7 +331,7 @@
 
         var packageFolder = new FileInfo(packageFile).Directory.IsNotNull("This is impossible").FullName;
         Assert.IsNotNull(packageFolder.EmptyToNull(), "folder");
-        var manifestLookupFolders = (CustomManifestsLocations ?? DefaultManifestsLocations).Add(new LookupFolder(packageFolder, false));
+        var manifestLookupFolders = (_CustomManifestsLocations ?? DefaultManifestsLocations).Add(new LookupFolder(packageFolder, false));
 
         return ProfileSection.Result(manifestLookupFolders.ToArray());
       }

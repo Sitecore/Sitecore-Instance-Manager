@@ -32,7 +32,7 @@ namespace SIM.Tool.Windows.UserControls.Install
     #region Fields
 
     [NotNull]
-    private readonly ICollection<string> allFrameworkVersions = Environment.Is64BitOperatingSystem ? new[]
+    private readonly ICollection<string> _AllFrameworkVersions = Environment.Is64BitOperatingSystem ? new[]
     {
       "v2.0", "v2.0 32bit", "v4.0", "v4.0 32bit"
     } : new[]
@@ -40,8 +40,8 @@ namespace SIM.Tool.Windows.UserControls.Install
       "v2.0", "v4.0"
     };
 
-    private InstallWizardArgs installParameters = null;
-    private IEnumerable<Product> standaloneProducts;
+    private InstallWizardArgs _InstallParameters = null;
+    private IEnumerable<Product> _StandaloneProducts;
 
     #endregion
 
@@ -51,7 +51,7 @@ namespace SIM.Tool.Windows.UserControls.Install
     {
       this.InitializeComponent();
 
-      this.NetFramework.ItemsSource = this.allFrameworkVersions;
+      this.NetFramework.ItemsSource = this._AllFrameworkVersions;
     }
 
     #endregion
@@ -295,7 +295,7 @@ namespace SIM.Tool.Windows.UserControls.Install
       using (new ProfileSection("Initializing InstanceDetails", this))
       {
         this.DataContext = new Model();
-        this.standaloneProducts = ProductManager.StandaloneProducts;
+        this._StandaloneProducts = ProductManager.StandaloneProducts;
       }
     }
 
@@ -364,7 +364,7 @@ namespace SIM.Tool.Windows.UserControls.Install
         var name = product.DefaultInstanceName;
         this.InstanceName.Text = name;
 
-        var frameworkVersions = new ObservableCollection<string>(this.allFrameworkVersions);
+        var frameworkVersions = new ObservableCollection<string>(this._AllFrameworkVersions);
 
         var m = product.Manifest;
         if (m != null)
@@ -576,7 +576,7 @@ namespace SIM.Tool.Windows.UserControls.Install
     {
       using (new ProfileSection("Window loaded", this))
       {
-        var args = this.installParameters;
+        var args = this._InstallParameters;
         Assert.IsNotNull(args, nameof(args));
 
         var product = args.Product;
@@ -627,10 +627,10 @@ namespace SIM.Tool.Windows.UserControls.Install
 
       [CanBeNull]
       [UsedImplicitly]
-      public readonly Product[] Products = ProductManager.StandaloneProducts.ToArray();
+      public readonly Product[] _Products = ProductManager.StandaloneProducts.ToArray();
 
       [NotNull]
-      private string name;
+      private string _Name;
 
       #endregion
 
@@ -642,13 +642,13 @@ namespace SIM.Tool.Windows.UserControls.Install
       {
         get
         {
-          return this.name;
+          return this._Name;
         }
 
         set
         {
           Assert.IsNotNull(value.EmptyToNull(), "Name must not be empty");
-          this.name = value;
+          this._Name = value;
         }
       }
 
@@ -667,10 +667,10 @@ namespace SIM.Tool.Windows.UserControls.Install
       this.Init();
 
       this.locationFolder.Text = ProfileManager.Profile.InstancesFolder;
-      this.ProductName.DataContext = this.standaloneProducts.GroupBy(p => p.Name);
+      this.ProductName.DataContext = this._StandaloneProducts.GroupBy(p => p.Name);
 
       var args = (InstallWizardArgs)wizardArgs;
-      this.installParameters = args;
+      this._InstallParameters = args;
 
       Product product = args.Product;
       if (product != null)

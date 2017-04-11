@@ -16,7 +16,7 @@
 
     protected string Browser { get; }
     protected string VirtualPath { get; }
-    protected readonly string[] Params;
+    protected readonly string[] _Params;
 
     #endregion
 
@@ -26,7 +26,7 @@
     {
       this.VirtualPath = string.Empty;
       this.Browser = string.Empty;
-      this.Params = new string[0];
+      this._Params = new string[0];
     }
 
     public LoginAdminButton([NotNull] string param)
@@ -36,7 +36,7 @@
       var par = Parameters.Parse(param);
       this.VirtualPath = par[0];
       this.Browser = par[1];
-      this.Params = par.Skip(2);
+      this._Params = par.Skip(2);
     }
 
     #endregion
@@ -51,7 +51,7 @@
       var instance = args.Instance;
       Assert.IsNotNull(instance, nameof(instance));
 
-      InstanceHelperEx.OpenInBrowserAsAdmin(instance, MainWindow.Instance);
+      InstanceHelperEx.OpenInBrowserAsAdmin(instance, MainWindow._Instance);
     }
 
     [UsedImplicitly]
@@ -62,7 +62,7 @@
       var instance = args.Instance;
       Assert.IsNotNull(instance, nameof(instance));
 
-      InstanceHelperEx.OpenInBrowserAsAdmin(instance, MainWindow.Instance);
+      InstanceHelperEx.OpenInBrowserAsAdmin(instance, MainWindow._Instance);
     }
 
     public bool IsEnabled([CanBeNull] Window mainWindow, Instance instance)
@@ -77,7 +77,7 @@
 
       Analytics.TrackEvent("LogInAdmin");
 
-      InstanceHelperEx.OpenInBrowserAsAdmin(instance, mainWindow, this.VirtualPath, this.Browser, this.Params);
+      InstanceHelperEx.OpenInBrowserAsAdmin(instance, mainWindow, this.VirtualPath, this.Browser, this._Params);
     }
 
     #endregion

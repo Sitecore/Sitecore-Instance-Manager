@@ -307,13 +307,13 @@
           var physName = (string)reader["PhysicalName"];
           if (physName.ToLower().Contains(".mdf"))
           {
-            res.logicalNameMdf = logicName;
-            res.physicalNameMdf = physName;
+            res._LogicalNameMdf = logicName;
+            res._PhysicalNameMdf = physName;
           }
           else
           {
-            res.logicalNameLdf = logicName;
-            res.physicalNameLdf = physName;
+            res._LogicalNameLdf = logicName;
+            res._PhysicalNameLdf = physName;
           }
         }
 
@@ -326,7 +326,7 @@
           dbName = (string)reader["DatabaseName"];
         }
 
-        res.dbOriginalName = dbName;
+        res._DbOriginalName = dbName;
       }
 
       return res;
@@ -526,22 +526,22 @@
 
         var mdfName = string.Empty;
         var ldfName = string.Empty;
-        if (backupInfo.logicalNameMdf.IsNullOrEmpty())
+        if (backupInfo._LogicalNameMdf.IsNullOrEmpty())
         {
           mdfName = databaseName + ".Data";
         }
         else
         {
-          mdfName = backupInfo.logicalNameMdf;
+          mdfName = backupInfo._LogicalNameMdf;
         }
 
-        if (backupInfo.logicalNameLdf.IsNullOrEmpty())
+        if (backupInfo._LogicalNameLdf.IsNullOrEmpty())
         {
           ldfName = databaseName + ".Log";
         }
         else
         {
-          ldfName = backupInfo.logicalNameLdf;
+          ldfName = backupInfo._LogicalNameLdf;
         }
 
         Log.Info($"Restoring database: {databaseName}");
@@ -573,22 +573,22 @@
 
         var mdfName = string.Empty;
         var ldfName = string.Empty;
-        if (backupInfo.logicalNameMdf.IsNullOrEmpty())
+        if (backupInfo._LogicalNameMdf.IsNullOrEmpty())
         {
           mdfName = databaseName + ".Data";
         }
         else
         {
-          mdfName = backupInfo.logicalNameMdf;
+          mdfName = backupInfo._LogicalNameMdf;
         }
 
-        if (backupInfo.logicalNameLdf.IsNullOrEmpty())
+        if (backupInfo._LogicalNameLdf.IsNullOrEmpty())
         {
           ldfName = databaseName + ".Log";
         }
         else
         {
-          ldfName = backupInfo.logicalNameLdf;
+          ldfName = backupInfo._LogicalNameLdf;
         }
 
         Log.Info($"Restoring database: {databaseName}");
@@ -623,8 +623,8 @@
           };
 
           command.ExecuteNonQuery();
-          const string dropDatabase = "DROP DATABASE TestDatabase";
-          command = new SqlCommand(dropDatabase, connection);
+          const string DropDatabase = "DROP DATABASE TestDatabase";
+          command = new SqlCommand(DropDatabase, connection);
 
 
           command.ExecuteNonQuery();
@@ -663,11 +663,11 @@
     {
       #region Fields
 
-      public string dbOriginalName;
-      public string logicalNameLdf;
-      public string logicalNameMdf;
-      public string physicalNameLdf;
-      public string physicalNameMdf;
+      public string _DbOriginalName;
+      public string _LogicalNameLdf;
+      public string _LogicalNameMdf;
+      public string _PhysicalNameLdf;
+      public string _PhysicalNameMdf;
 
       #endregion
 
@@ -676,11 +676,11 @@
 
       public BackupInfo(string logicalNameOfMdf, string physicalNameOfMdf, string logicalNameOfLdf, string physicalNameOfLdf, string databaseOriginalName)
       {
-        this.logicalNameMdf = logicalNameOfMdf;
-        this.physicalNameMdf = physicalNameOfMdf;
-        this.logicalNameLdf = logicalNameOfLdf;
-        this.physicalNameLdf = physicalNameOfLdf;
-        this.dbOriginalName = databaseOriginalName;
+        this._LogicalNameMdf = logicalNameOfMdf;
+        this._PhysicalNameMdf = physicalNameOfMdf;
+        this._LogicalNameLdf = logicalNameOfLdf;
+        this._PhysicalNameLdf = physicalNameOfLdf;
+        this._DbOriginalName = databaseOriginalName;
       }
 
       #endregion
@@ -690,14 +690,14 @@
 
       public string GetDatabaseName()
       {
-        if (!this.logicalNameMdf.IsNullOrEmpty())
+        if (!this._LogicalNameMdf.IsNullOrEmpty())
         {
-          return this.logicalNameMdf.Replace(".Data", string.Empty);
+          return this._LogicalNameMdf.Replace(".Data", string.Empty);
         }
 
-        if (!this.logicalNameLdf.IsNullOrEmpty())
+        if (!this._LogicalNameLdf.IsNullOrEmpty())
         {
-          return this.logicalNameLdf.Replace(".Log", string.Empty);
+          return this._LogicalNameLdf.Replace(".Log", string.Empty);
         }
 
         return string.Empty;
@@ -737,12 +737,12 @@
 
       Log.Info($"Deleting database: '{databaseName}'");
 
-      const string dropDatabase = "DROP DATABASE [{0}]";
+      const string DropDatabase = "DROP DATABASE [{0}]";
 
       try
       {
         this.CloseConnectionsToDatabase(databaseName, connection);
-        this.Execute(connection, dropDatabase.FormatWith(databaseName));
+        this.Execute(connection, DropDatabase.FormatWith(databaseName));
       }
       catch (Exception ex)
       {

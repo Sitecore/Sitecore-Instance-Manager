@@ -26,8 +26,8 @@
 
     private static string GetMarketplaceCookie(string username, string password)
     {
-      const string baseUri = "https://dev.sitecore.net";
-      var request = FormHelper.CreatePostRequest(new Uri(baseUri + @"/api/authorization"));
+      const string BaseUri = "https://dev.sitecore.net";
+      var request = FormHelper.CreatePostRequest(new Uri(BaseUri + @"/api/authorization"));
       request.ContentType = @"application/json;charset=UTF-8";
       var cookies = new CookieContainer();
       request.CookieContainer = cookies;
@@ -56,7 +56,7 @@
                 throw new InvalidOperationException("The username or password or both are incorrect, or an unexpected error happen");
               }
 
-              return marketplaceCookie + "; " + GetSessionCookie(baseUri);
+              return marketplaceCookie + "; " + GetSessionCookie(BaseUri);
             }
           }
         }

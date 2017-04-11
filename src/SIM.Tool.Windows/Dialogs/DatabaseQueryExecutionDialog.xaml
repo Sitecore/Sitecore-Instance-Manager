@@ -25,14 +25,14 @@
         </StackPanel>
         <Grid Background="#FFA0A0A0" Grid.Row="1" Height="1px" Margin="0" />
         <Grid Background="White" Grid.Row="2" Height="30px" Margin="0" />
-          <TextBox BorderBrush="#FF828790" Grid.Row="3" HorizontalAlignment="Stretch" Margin="12" Name="databaseQueryInput"  VerticalAlignment="Stretch" AcceptsReturn="True" AcceptsTab="True" KeyUp="databaseQueryInput_KeyUp" />
+          <TextBox BorderBrush="#FF828790" Grid.Row="3" HorizontalAlignment="Stretch" Margin="12" Name="databaseQueryInput"  VerticalAlignment="Stretch" AcceptsReturn="True" AcceptsTab="True" KeyUp="DatabaseQueryInputKeyUp" />
         <DataGrid AutoGenerateColumns="True" Grid.Row="4" HorizontalAlignment="Stretch" Margin="12" Name="dataGrid1" VerticalAlignment="Stretch" CanUserAddRows="True" CanUserDeleteRows="True" RowBackground="White" AlternatingRowBackground="{x:Null}" Foreground="Black" Background="White" />
     <Grid Background="#FFA0A0A0" DockPanel.Dock="Top" Grid.Row="6" Margin="0" />
         <Grid Background="White" DockPanel.Dock="Top" Grid.Row="7" Margin="0" />
         <Grid Grid.Row="8">
             <Grid Margin="23,11,21,12">
                 <StackPanel HorizontalAlignment="Left" Orientation="Horizontal" Width="249" Margin="-11,0,0,0">
-                    <Button  Content="Execute" Margin="0, 0, 20, 0" Width="68" Name="ExecuteQuery" Click="ExecuteQuery_Click" />
+                    <Button  Content="Execute" Margin="0, 0, 20, 0" Width="68" Name="ExecuteQuery" Click="ExecuteQueryClick" />
                 </StackPanel>
                 <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
                     <Button  Content="Close" HorizontalAlignment="Left" IsCancel="True" IsDefault="False" IsEnabled="True" Margin="24,0,0,0" Name="CancelButton" VerticalAlignment="Stretch" Width="72" />

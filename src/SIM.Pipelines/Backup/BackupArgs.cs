@@ -22,7 +22,7 @@
     public string Folder { get; }
 
     public Instance Instance { get; }
-    public string WebRootPath;
+    public string _WebRootPath;
     private string _instanceName { get; }
 
     #endregion
@@ -37,7 +37,7 @@
       this.BackupMongoDatabases = backupMongoDatabases;
       this.BackupDatabases = backupDatabases;
       this.Instance = instance;
-      this.WebRootPath = instance.WebRootPath;
+      this._WebRootPath = instance.WebRootPath;
       this.BackupName = backupName;
       this.Folder = this.BackupName != null
         ? FileSystem.FileSystem.Local.Directory.Ensure(instance.GetBackupFolder(this.BackupName))

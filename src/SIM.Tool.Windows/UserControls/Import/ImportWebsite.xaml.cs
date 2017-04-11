@@ -11,7 +11,7 @@
   {
     #region Fields
 
-    private string rootFolderToInstall = string.Empty;
+    private string _RootFolderToInstall = string.Empty;
 
     #endregion
 
@@ -29,8 +29,8 @@
     void IWizardStep.InitializeStep(WizardArgs wizardArgs)
     {
       ImportWizardArgs args = (ImportWizardArgs)wizardArgs;
-      this.websiteName.Text = args.siteName;
-      this.rootFolderPath.Text = args.rootPath;
+      this.websiteName.Text = args._SiteName;
+      this.rootFolderPath.Text = args._RootPath;
     }
 
     private void PickRootFolderClick([CanBeNull] object sender, [CanBeNull] RoutedEventArgs e)
@@ -61,10 +61,10 @@
       }
 
 
-      args.siteName = this.websiteName.Text;
-      args.rootPath = this.rootFolderPath.Text;
-      args.updateLicense = this.updateLicense.IsChecked == true ? true : false;
-      args.pathToLicenseFile = ProfileManager.Profile.License;
+      args._SiteName = this.websiteName.Text;
+      args._RootPath = this.rootFolderPath.Text;
+      args._UpdateLicense = this.updateLicense.IsChecked == true ? true : false;
+      args._PathToLicenseFile = ProfileManager.Profile.License;
       return true;
     }
 

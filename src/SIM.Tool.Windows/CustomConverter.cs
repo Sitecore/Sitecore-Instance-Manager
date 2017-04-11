@@ -14,7 +14,7 @@ namespace SIM.Tool.Windows
     #region Fields
 
     [NotNull]
-    private IMainWindowButton button { get; }
+    private IMainWindowButton Button { get; }
 
     #endregion
 
@@ -24,7 +24,7 @@ namespace SIM.Tool.Windows
     {
       Assert.ArgumentNotNull(mainWindowButton, nameof(mainWindowButton));
 
-      this.button = mainWindowButton;
+      this.Button = mainWindowButton;
     }
 
     #endregion
@@ -36,8 +36,8 @@ namespace SIM.Tool.Windows
     {
       using (new ProfileSection("Checking if button is enabled", this))
       {
-        ProfileSection.Argument("this.button", this.button.GetType().FullName);
-        return this.button.IsEnabled(MainWindow.Instance, value as Instance);
+        ProfileSection.Argument("this.button", this.Button.GetType().FullName);
+        return this.Button.IsEnabled(MainWindow._Instance, value as Instance);
       }
     }
 

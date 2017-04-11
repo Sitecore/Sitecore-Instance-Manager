@@ -41,7 +41,7 @@
 
     public static XmlDocumentEx EmptyManifest { get; } = XmlDocumentEx.LoadXml("<manifest version=\"1.4\" />");
 
-    public static string ProductFileNamePattern { get; } = ProductHelper.Settings.CoreProductNamePattern.Value.EmptyToNull() ?? ProductNamePattern + @"[\s]?[\-_]?[\s]?" + ProductVersionPattern + @"[\s\-]*(rev\.|build)[\s]*" + ProductRevisionPattern + @"(.zip)?$";
+    public static string ProductFileNamePattern { get; } = ProductHelper.Settings._CoreProductNamePattern.Value.EmptyToNull() ?? ProductNamePattern + @"[\s]?[\-_]?[\s]?" + ProductVersionPattern + @"[\s\-]*(rev\.|build)[\s]*" + ProductRevisionPattern + @"(.zip)?$";
 
     public static Regex ProductRegex { get; } = new Regex(ProductFileNamePattern, RegexOptions.IgnoreCase);
 
@@ -56,15 +56,15 @@
       Revision = string.Empty
     };
 
-    private bool? isPackage;
-    private bool? isStandalone;
-    private XmlDocument manifest;
-    private string name;
-    private string packagePath;
-    private Dictionary<bool, string> readme;
-    private string shortName;
-    private string shortVersion;
-    private int? sortOrder;
+    private bool? _IsPackage;
+    private bool? _IsStandalone;
+    private XmlDocument _Manifest;
+    private string _Name;
+    private string _PackagePath;
+    private Dictionary<bool, string> _Readme;
+    private string _ShortName;
+    private string _ShortVersion;
+    private int? _SortOrder;
 
     #endregion
 
@@ -98,7 +98,7 @@
     {
       get
       {
-        return this.sortOrder ?? (int)(this.sortOrder = int.Parse(this.Manifest.With(m => m.SelectSingleElement(ManifestPrefix + "*/sortOrder")).With(m => m.InnerText.EmptyToNull()) ?? "0"));
+        return this._SortOrder ?? (int)(this._SortOrder = int.Parse(this.Manifest.With(m => m.SelectSingleElement(ManifestPrefix + "*/sortOrder")).With(m => m.InnerText.EmptyToNull()) ?? "0"));
       }
     }
 
@@ -122,14 +122,14 @@
     public static XmlDocumentEx PackageManifest { get; } = XmlDocumentEx.LoadXml(@"<manifest version=""1.4"">
   <package />
 </manifest>");
-    private bool? isArchive;
-    private string searchToken;
+    private bool? _IsArchive;
+    private string _SearchToken;
     public static IServiceClient Service { get; } = new ServiceClient();
 
     [CanBeNull]
     private IRelease _Release;
 
-    private bool unknownRelease;
+    private bool _UnknownRelease;
 
     #endregion
 
@@ -157,9 +157,9 @@
     {
       get
       {
-        return (bool)(this.isArchive ??
+        return (bool)(this._IsArchive ??
                       (
-                        this.isArchive =
+                        this._IsArchive =
                           !string.IsNullOrEmpty(this.PackagePath) && (this.Manifest.With(x => x.SelectSingleElement(ManifestPrefix + "archive")) != null || !this.IsPackage && !this.IsStandalone)
                         ));
       }
@@ -169,7 +169,7 @@
     {
       get
       {
-        return (bool)(this.isPackage ?? (this.isPackage = GetIsPackage(this.PackagePath, this.Manifest)));
+        return (bool)(this._IsPackage ?? (this._IsPackage = GetIsPackage(this.PackagePath, this.Manifest)));
       }
     }
 
@@ -177,12 +177,12 @@
     {
       get
       {
-        return (bool)(this.isStandalone ?? (this.isStandalone = this.Manifest.With(m => m.SelectSingleElement(ManifestPrefix + "standalone")) != null));
+        return (bool)(this._IsStandalone ?? (this._IsStandalone = this.Manifest.With(m => m.SelectSingleElement(ManifestPrefix + "standalone")) != null));
       }
 
       set
       {
-        this.isStandalone = value;
+        this._IsStandalone = value;
       }
     }
 
@@ -206,7 +206,7 @@
           return release;
         }
 
-        if (this.unknownRelease || this.Name != "Sitecore CMS")
+        if (this._UnknownRelease || this.Name != "Sitecore CMS")
         {
           return null;
         }
@@ -230,7 +230,7 @@
 
         if (release == null)
         {
-          this.unknownRelease = true;
+          this._UnknownRelease = true;
 
           return null;
         }
@@ -246,7 +246,7 @@
     {
       get
       {
-        if (this.manifest == null)
+        if (this._Manifest == null)
         {
           var packageFile = this.PackagePath;
           if (string.IsNullOrEmpty(packageFile))
@@ -255,21 +255,21 @@
           }
 
           // get from cache
-          const string cacheName = "manifest";
-          var text = CacheManager.GetEntry(cacheName, packageFile);
+          const string CacheName = "manifest";
+          var text = CacheManager.GetEntry(CacheName, packageFile);
           if (text != null)
           {
-            this.manifest = XmlDocumentEx.LoadXml(text);
-            return this.manifest;
+            this._Manifest = XmlDocumentEx.LoadXml(text);
+            return this._Manifest;
           }
 
-          this.manifest = ManifestHelper.Compute(packageFile, this.OriginalName);
+          this._Manifest = ManifestHelper.Compute(packageFile, this.OriginalName);
 
           // put to cache
-          CacheManager.SetEntry(cacheName, packageFile, this.manifest.OuterXml);
+          CacheManager.SetEntry(CacheName, packageFile, this._Manifest.OuterXml);
         }
 
-        return this.manifest;
+        return this._Manifest;
       }
     }
 
@@ -278,12 +278,12 @@
     {
       get
       {
-        return this.name ?? (this.name = this.Manifest.With(m => m.SelectSingleElement(ManifestPrefix + "*/name")).With(x => x.InnerText.EmptyToNull()) ?? this.NormalizeName(this.OriginalName));
+        return this._Name ?? (this._Name = this.Manifest.With(m => m.SelectSingleElement(ManifestPrefix + "*/name")).With(x => x.InnerText.EmptyToNull()) ?? this.NormalizeName(this.OriginalName));
       }
 
       set
       {
-        this.name = this.NormalizeName(value);
+        this._Name = this.NormalizeName(value);
       }
     }
 
@@ -294,13 +294,13 @@
     {
       get
       {
-        return this.packagePath;
+        return this._PackagePath;
       }
 
       set
       {
-        this.packagePath = value;
-        this.isPackage = GetIsPackage(value, this.Manifest);
+        this._PackagePath = value;
+        this._IsPackage = GetIsPackage(value, this.Manifest);
       }
     }
 
@@ -308,12 +308,12 @@
     {
       get
       {
-        if (this.readme == null)
+        if (this._Readme == null)
         {
-          return this.readme = this.GetReadme();
+          return this._Readme = this.GetReadme();
         }
 
-        return this.readme;
+        return this._Readme;
       }
     }
 
@@ -340,7 +340,7 @@
     {
       get
       {
-        return this.searchToken ?? (this.searchToken = this.ShortName + this.shortVersion + this.ToString());
+        return this._SearchToken ?? (this._SearchToken = this.ShortName + this._ShortVersion + this.ToString());
       }
     }
 
@@ -349,8 +349,8 @@
     {
       get
       {
-        return this.shortName ??
-               (this.shortName = this.Manifest.With(m => m.SelectSingleElement(ManifestPrefix + "*/shortName")).With(m => m.InnerText.EmptyToNull()) ??
+        return this._ShortName ??
+               (this._ShortName = this.Manifest.With(m => m.SelectSingleElement(ManifestPrefix + "*/shortName")).With(m => m.InnerText.EmptyToNull()) ??
                                  this.Name.Split(' ')
                                    .Aggregate(string.Empty, 
                                      (current, word) =>
@@ -361,7 +361,7 @@
 
       set
       {
-        this.shortName = value;
+        this._ShortName = value;
       }
     }
 
@@ -370,7 +370,7 @@
     {
       get
       {
-        return this.shortVersion ?? (this.shortVersion = this.Version.Replace(".", string.Empty));
+        return this._ShortVersion ?? (this._ShortVersion = this.Version.Replace(".", string.Empty));
       }
     }
 
@@ -762,7 +762,7 @@
         return false;
       }
 
-      const string cacheName = "IsPackage";
+      const string CacheName = "IsPackage";
       var path = packagePath.ToLowerInvariant();
       using (new ProfileSection("Is it package or not"))
       {
@@ -772,7 +772,7 @@
         try
         {
           // cache            
-          var entry = CacheManager.GetEntry(cacheName, path);
+          var entry = CacheManager.GetEntry(CacheName, path);
           if (entry != null)
           {
             var result = entry.EqualsIgnoreCase("true");
@@ -786,7 +786,7 @@
                 x.SelectSingleElement(ManifestPrefix + "standalone") ?? x.SelectSingleElement(ManifestPrefix + "archive")) !=
             null)
           {
-            CacheManager.SetEntry(cacheName, path, "false");
+            CacheManager.SetEntry(CacheName, path, "false");
             return ProfileSection.Result(false);
           }
 
@@ -796,19 +796,19 @@
                 x.SelectSingleElement(ManifestPrefix + "package")) !=
             null)
           {
-            CacheManager.SetEntry(cacheName, path, "true");
+            CacheManager.SetEntry(CacheName, path, "true");
 
             return ProfileSection.Result(true);
           }
 
-          CacheManager.SetEntry(cacheName, path, "false");
+          CacheManager.SetEntry(CacheName, path, "false");
 
           return ProfileSection.Result(false);
         }
         catch (Exception e)
         {
           Log.Warn(string.Format("Detecting if the '{0}' file is a Sitecore Package failed with exception.", path, e));
-          CacheManager.SetEntry(cacheName, path, "false");
+          CacheManager.SetEntry(CacheName, path, "false");
 
           return ProfileSection.Result(false);
         }
@@ -848,7 +848,7 @@
     /// </summary>
     public void ResetManifest()
     {
-      this.manifest = null;
+      this._Manifest = null;
     }
   }
 }

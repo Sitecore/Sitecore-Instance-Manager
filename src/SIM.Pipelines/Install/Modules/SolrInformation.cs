@@ -123,16 +123,16 @@ namespace SIM.Pipelines.Install.Modules
     public class InvalidException : ApplicationException
     {
       private string _message { get; }
-      private SolrInformation _solrInformation { get; }
+      private SolrInformation SolrInformation { get; }
 
 
       public InvalidException(string message, SolrInformation solrInformation)
       {
         _message = message;
-        _solrInformation = solrInformation;
+        SolrInformation = solrInformation;
       }
 
-      public override string Message => $"Invalid response from /solr/admin/info/system.\n\nDetails: {_message}\n\nSolr API Response:\n{_solrInformation.SolrInfoResponse.OuterXml}";
+      public override string Message => $"Invalid response from /solr/admin/info/system.\n\nDetails: {_message}\n\nSolr API Response:\n{SolrInformation.SolrInfoResponse.OuterXml}";
 
     }
 

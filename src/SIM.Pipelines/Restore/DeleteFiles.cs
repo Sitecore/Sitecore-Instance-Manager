@@ -20,10 +20,10 @@
 
     protected override void Process(RestoreArgs args)
     {
-      var webRootPath = args.WebRootPath;
+      var webRootPath = args._WebRootPath;
       if (args.Backup.BackupDataFiles)
       {
-        FileSystem.FileSystem.Local.Directory.DeleteIfExists(args.DataFolder);
+        FileSystem.FileSystem.Local.Directory.DeleteIfExists(args._DataFolder);
         this.Controller.IncrementProgress();
       }
 

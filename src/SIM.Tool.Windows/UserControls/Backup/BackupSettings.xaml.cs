@@ -7,10 +7,10 @@
   {
     #region Fields
 
-    private bool _databases;
-    private bool _excludeClient;
-    private bool _files;
-    private bool _mongoDatabases;
+    private bool _Databases;
+    private bool _ExcludeClient;
+    private bool _Files;
+    private bool _MongoDatabases;
 
     #endregion
 
@@ -34,7 +34,7 @@
     {
       var args = (BackupSettingsWizardArgs)wizardArgs;
 
-      if (args.Databases || args.MongoDatabases || args.Files)
+      if (args._Databases || args._MongoDatabases || args._Files)
       {
         return true;
       }
@@ -59,20 +59,20 @@
       switch (name)
       {
         case "Databases":
-          this._databases = true;
+          this._Databases = true;
           break;
 
         case "MongoDatabases":
-          this._mongoDatabases = true;
+          this._MongoDatabases = true;
           break;
 
         case "Files":
-          this._files = true;
+          this._Files = true;
           break;
 
         case "ExcludeClient":
-          this._excludeClient = true;
-          this._files = true;
+          this._ExcludeClient = true;
+          this._Files = true;
           this.Files.IsChecked = true;
           break;
       }
@@ -85,21 +85,21 @@
       switch (name)
       {
         case "Databases":
-          this._databases = false;
+          this._Databases = false;
           break;
 
         case "MongoDatabases":
-          this._mongoDatabases = false;
+          this._MongoDatabases = false;
           break;
 
         case "Files":
-          this._files = false;
-          this._excludeClient = false;
+          this._Files = false;
+          this._ExcludeClient = false;
           this.ExcludeClient.IsChecked = false;
           break;
 
         case "ExcludeClient":
-          this._excludeClient = false;
+          this._ExcludeClient = false;
           break;
       }
     }
@@ -113,10 +113,10 @@
         args.BackupName = this.BackupName.Text;
       }
 
-      args.Files = this._files;
-      args.Databases = this._databases;
-      args.MongoDatabases = this._mongoDatabases;
-      args.ExcludeClient = !this._excludeClient;
+      args._Files = this._Files;
+      args._Databases = this._Databases;
+      args._MongoDatabases = this._MongoDatabases;
+      args._ExcludeClient = !this._ExcludeClient;
 
       return true;
     }

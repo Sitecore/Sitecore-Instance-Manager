@@ -16,7 +16,7 @@
   {
     #region Fields
 
-    private XmlElementEx connectionStringsElement { get; }
+    private XmlElementEx ConnectionStringsElement { get; }
 
     #endregion
 
@@ -26,7 +26,7 @@
     {
       Assert.ArgumentNotNull(connectionStringsElement, nameof(connectionStringsElement));
 
-      this.connectionStringsElement = connectionStringsElement;
+      this.ConnectionStringsElement = connectionStringsElement;
     }
 
     #endregion
@@ -37,17 +37,17 @@
     {
       Assert.ArgumentNotNull(role, nameof(role));
       Assert.ArgumentNotNull(connectionString, nameof(connectionString));
-      XmlElement addElement = this.connectionStringsElement.Element.SelectSingleElement("add[@name='" + role + "']");
+      XmlElement addElement = this.ConnectionStringsElement.Element.SelectSingleElement("add[@name='" + role + "']");
       bool exists = addElement != null;
 
       if (!exists)
       {
-        addElement = this.connectionStringsElement.CreateElement("add");
-        XmlAttribute attr1 = this.connectionStringsElement.CreateAttribute("name", role);
+        addElement = this.ConnectionStringsElement.CreateElement("add");
+        XmlAttribute attr1 = this.ConnectionStringsElement.CreateAttribute("name", role);
         addElement.Attributes.Append(attr1);
-        XmlAttribute attr2 = this.connectionStringsElement.CreateAttribute("connectionString", connectionString.ConnectionString);
+        XmlAttribute attr2 = this.ConnectionStringsElement.CreateAttribute("connectionString", connectionString.ConnectionString);
         addElement.Attributes.Append(attr2);
-        this.connectionStringsElement.AppendChild(addElement);
+        this.ConnectionStringsElement.AppendChild(addElement);
       }
       else
       {
@@ -59,7 +59,7 @@
 
     public void Save()
     {
-      this.connectionStringsElement.Save();
+      this.ConnectionStringsElement.Save();
     }
 
     [CanBeNull]

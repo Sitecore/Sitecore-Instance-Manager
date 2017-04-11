@@ -20,7 +20,7 @@
 
       try
       {
-        args.StopInstance(true);
+        args._StopInstance(true);
       }
       catch (Exception ex)
       {

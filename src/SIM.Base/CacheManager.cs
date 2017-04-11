@@ -23,8 +23,8 @@
     };
 
     private static object GetCacheLock { get; } = new object();
-    private static readonly Dictionary<string, object> caches = new Dictionary<string, object>();
-    private static object getEntryLock { get; } = new object();
+    private static readonly Dictionary<string, object> Caches = new Dictionary<string, object>();
+    private static object GetEntryLock { get; } = new object();
     private static bool isReady;
 
     #endregion
@@ -33,9 +33,9 @@
 
     public static void ClearAll()
     {
-      lock (caches)
+      lock (Caches)
       {
-        caches.Clear();
+        Caches.Clear();
         foreach (var path in GetCacheFiles())
         {
           FileSystem.FileSystem.Local.File.Delete(path);
@@ -48,7 +48,7 @@
       key = key.ToLowerInvariant();
       if (!isReady)
       {
-        lock (getEntryLock)
+        lock (GetEntryLock)
         {
           if (!isReady)
           {
@@ -96,20 +96,20 @@
 
     private static Cache GetCache(string cacheName)
     {
-      if (!caches.ContainsKey(cacheName))
+      if (!Caches.ContainsKey(cacheName))
       {
         lock (GetCacheLock)
         {
-          if (!caches.ContainsKey(cacheName))
+          if (!Caches.ContainsKey(cacheName))
           {
             var cache = new Cache();
-            caches.Add(cacheName, cache);
+            Caches.Add(cacheName, cache);
             return cache;
           }
         }
       }
 
-      return (Cache)caches[cacheName];
+      return (Cache)Caches[cacheName];
     }
 
     private static string[] GetCacheFiles()
@@ -153,8 +153,8 @@
       {
         var fileName = Path.GetFileNameWithoutExtension(path).Split('.');
         var name = fileName[0];
-        Assert.IsTrue(!caches.ContainsKey(name), "The {0} cache is already created".FormatWith(fileName));
-        caches.Add(name, LoadCache(path));
+        Assert.IsTrue(!Caches.ContainsKey(name), "The {0} cache is already created".FormatWith(fileName));
+        Caches.Add(name, LoadCache(path));
       }
 
       isReady = true;

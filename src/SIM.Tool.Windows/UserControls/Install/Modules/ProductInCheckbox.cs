@@ -13,11 +13,11 @@
 
     private string name { get; }
 
-    private readonly Product[] products;
+    private readonly Product[] _Products;
 
-    private bool isChecked;
+    private bool _IsChecked;
 
-    private Product value;
+    private Product _Value;
 
     #endregion
 
@@ -26,13 +26,13 @@
     public ProductInCheckbox(Product value)
     {
       this.Value = value;
-      this.products = null;
+      this._Products = null;
     }
 
     public ProductInCheckbox(string name, Product[] products)
     {
       this.name = name;
-      this.products = products;
+      this._Products = products;
       this.Value = products.First();
     }
 
@@ -44,12 +44,12 @@
     {
       get
       {
-        return this.isChecked;
+        return this._IsChecked;
       }
 
       set
       {
-        this.isChecked = value;
+        this._IsChecked = value;
         this.NotifyPropertyChanged("IsChecked");
       }
     }
@@ -66,7 +66,7 @@
     {
       get
       {
-        return this.products;
+        return this._Products;
       }
     }
 
@@ -74,12 +74,12 @@
     {
       get
       {
-        return this.value;
+        return this._Value;
       }
 
       set
       {
-        this.value = value;
+        this._Value = value;
         this.NotifyPropertyChanged("Value");
         this.NotifyPropertyChanged("ValueIndex");
       }
@@ -105,7 +105,7 @@
 
       set
       {
-        this.value = this.Scope[value];
+        this._Value = this.Scope[value];
         this.NotifyPropertyChanged("ValueIndex");
       }
     }

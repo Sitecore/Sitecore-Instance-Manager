@@ -19,24 +19,24 @@
     #region Fields
 
     [CanBeNull]
-    private IPipelineController controller { get; }
+    private IPipelineController Controller { get; }
 
-    private bool isAsync { get; }
-
-    [NotNull]
-    private PipelineDefinition pipelineDefinition { get; }
+    private bool IsAsync { get; }
 
     [NotNull]
-    private ProcessorArgs processorArgs { get; }
+    private PipelineDefinition PipelineDefinition { get; }
 
     [NotNull]
-    private readonly List<Step> steps;
+    private ProcessorArgs ProcessorArgs { get; }
 
     [NotNull]
-    private string title { get; }
+    private readonly List<Step> _Steps;
+
+    [NotNull]
+    private string Title { get; }
 
     [CanBeNull]
-    private Thread thread;
+    private Thread _Thread;
 
     #endregion
 
@@ -47,14 +47,14 @@
       Assert.ArgumentNotNull(pipelineDefinition, nameof(pipelineDefinition));
       Assert.ArgumentNotNull(args, nameof(args));
 
-      this.controller = controller;
-      this.pipelineDefinition = pipelineDefinition;
-      this.title = pipelineDefinition.Title;
-      this.steps = Step.CreateSteps(this.pipelineDefinition.Steps, args, controller);
-      this.isAsync = isAsync;
+      this.Controller = controller;
+      this.PipelineDefinition = pipelineDefinition;
+      this.Title = pipelineDefinition.Title;
+      this._Steps = Step.CreateSteps(this.PipelineDefinition.Steps, args, controller);
+      this.IsAsync = isAsync;
 
       // Storing args for restarting pipeline
-      this.processorArgs = args;
+      this.ProcessorArgs = args;
     }
 
     #endregion
@@ -88,9 +88,9 @@
 
     public void Abort()
     {
-      if (this.thread != null && this.thread.IsAlive)
+      if (this._Thread != null && this._Thread.IsAlive)
       {
-        this.thread.Abort();
+        this._Thread.Abort();
       }
     }
 
@@ -110,28 +110,28 @@
 
     public void Dispose()
     {
-      this.processorArgs.Dispose();
+      this.ProcessorArgs.Dispose();
     }
 
     public void Start()
     {
       using (new ProfileSection("Start pipeline", this))
       {
-        if (this.controller != null)
+        if (this.Controller != null)
         {
-          this.controller.Start(ReplaceVariables(this.title, this.processorArgs), this.steps);
+          this.Controller.Start(ReplaceVariables(this.Title, this.ProcessorArgs), this._Steps);
         }
 
-        Assert.IsTrue(this.thread == null || !this.thread.IsAlive, "The previous thread didn't complete its job");
+        Assert.IsTrue(this._Thread == null || !this._Thread.IsAlive, "The previous thread didn't complete its job");
 
-        var pipelineStartInfo = new PipelineStartInfo(this.processorArgs, this.steps, this.controller);
-        if (this.isAsync)
+        var pipelineStartInfo = new PipelineStartInfo(this.ProcessorArgs, this._Steps, this.Controller);
+        if (this.IsAsync)
         {
-          this.thread = new Thread(Execute);
-          this.thread.SetApartmentState(ApartmentState.STA);
+          this._Thread = new Thread(Execute);
+          this._Thread.SetApartmentState(ApartmentState.STA);
 
           // Calls the Execute method in thread  
-          this.thread.Start(pipelineStartInfo);
+          this._Thread.Start(pipelineStartInfo);
           return;
         }
 
@@ -160,10 +160,10 @@
         {
           if (info.PipelineController != null)
           {
-            info.PipelineController.Maximum = ProcessorManager.GetProcessorsCount(info.ProcessorArgs, info.Steps);
+            info.PipelineController.Maximum = ProcessorManager.GetProcessorsCount(info.ProcessorArgs, info._Steps);
           }
 
-          bool result = ExecuteSteps(info.ProcessorArgs, info.Steps, info.PipelineController);
+          bool result = ExecuteSteps(info.ProcessorArgs, info._Steps, info.PipelineController);
 
           if (info.PipelineController != null)
           {
@@ -216,7 +216,7 @@
           }
 
           // Process nested steps
-          result &= ExecuteProcessors(args, processor.NestedProcessors, controller, processorResult);
+          result &= ExecuteProcessors(args, processor._NestedProcessors, controller, processorResult);
         }
 
         return ProfileSection.Result(result);
@@ -244,15 +244,15 @@
           if (argsName != null)
           {
             Type type = args.GetType();
-            const BindingFlags flags = BindingFlags.Instance | BindingFlags.NonPublic;
-            FieldInfo field = type.GetField(argsName) ?? type.GetField(argsName, flags);
+            const BindingFlags Flags = BindingFlags.Instance | BindingFlags.NonPublic;
+            FieldInfo field = type.GetField(argsName) ?? type.GetField(argsName, Flags);
             if (field != null)
             {
               innerArgs = (ProcessorArgs)field.GetValue(args);
             }
             else
             {
-              PropertyInfo property = type.GetProperty(argsName) ?? type.GetProperty(argsName, flags);
+              PropertyInfo property = type.GetProperty(argsName) ?? type.GetProperty(argsName, Flags);
               if (property != null)
               {
                 innerArgs = (ProcessorArgs)property.GetValue(args, new object[0]);
@@ -262,7 +262,7 @@
             Assert.IsNotNull(innerArgs, "Inner args are null, " + argsName);
           }
 
-          startThisAndNestedProcessors = ExecuteProcessors(innerArgs ?? args, step.Processors, controller, 
+          startThisAndNestedProcessors = ExecuteProcessors(innerArgs ?? args, step._Processors, controller, 
             startThisAndNestedProcessors);
         }
 
@@ -285,7 +285,7 @@
 
       public ProcessorArgs ProcessorArgs { get; }
 
-      public readonly List<Step> Steps;
+      public readonly List<Step> _Steps;
 
       #endregion
 
@@ -298,7 +298,7 @@
 
         this.ProcessorArgs = processorArgs;
         this.PipelineController = pipelineController;
-        this.Steps = steps;
+        this._Steps = steps;
       }
 
       #endregion

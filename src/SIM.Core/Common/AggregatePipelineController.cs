@@ -8,7 +8,7 @@ namespace SIM.Core.Common
   public class AggregatePipelineController : IPipelineController
   {
     [NotNull]
-    private readonly List<string> Messages = new List<string>();
+    private readonly List<string> _Messages = new List<string>();
 
     [CanBeNull]
     public string Message { get; private set; }
@@ -51,7 +51,7 @@ namespace SIM.Core.Common
 
     public void ProcessorCrashed([CanBeNull] string error)
     {
-      Messages.Add(error);
+      _Messages.Add(error);
     }
 
     public void ProcessorDone([CanBeNull] string title)
@@ -60,7 +60,7 @@ namespace SIM.Core.Common
 
     public void ProcessorSkipped(string processorName)
     {
-      Messages.Add("Skipped: " + processorName);
+      _Messages.Add("Skipped: " + processorName);
     }
 
     public void ProcessorStarted(string title)
@@ -87,7 +87,7 @@ namespace SIM.Core.Common
     [NotNull]
     public IEnumerable<string> GetMessages()
     {
-      return Messages.ToArray();
+      return _Messages.ToArray();
     }
   }
 }

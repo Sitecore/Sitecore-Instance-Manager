@@ -250,7 +250,7 @@
     #region Fields
 
     private string dataFolderPath { get; }
-    private readonly Database[] getAttachedDatabases;
+    private readonly Database[] _GetAttachedDatabases;
     private string webRootPath { get; }
 
     #endregion
@@ -262,7 +262,7 @@
     {
       this.webRootPath = webRootPath;
       this.dataFolderPath = dataFolderPath;
-      this.getAttachedDatabases = databases;
+      this._GetAttachedDatabases = databases;
     }
 
     public FakeInstance(DirectoryInfo webroot, DirectoryInfo dataFolder, Database[] databases)
@@ -288,7 +288,7 @@
 
     protected override ICollection<Database> GetAttachedDatabases()
     {
-      return this.getAttachedDatabases;
+      return this._GetAttachedDatabases;
     }
 
     protected override string GetDataFolderPath()

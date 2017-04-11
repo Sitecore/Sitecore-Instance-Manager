@@ -8,7 +8,7 @@
   {
     #region Fields
 
-    private TestContext testContextInstance;
+    private TestContext _TestContextInstance;
 
     #endregion
 
@@ -18,12 +18,12 @@
     {
       get
       {
-        return this.testContextInstance;
+        return this._TestContextInstance;
       }
 
       set
       {
-        this.testContextInstance = value;
+        this._TestContextInstance = value;
       }
     }
 

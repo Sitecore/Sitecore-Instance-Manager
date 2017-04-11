@@ -3,7 +3,7 @@ namespace SIM.IO
   using System.IO;
   using JetBrains.Annotations;
 
-  public static class IFileExtensions
+  public static class FileExtensions
   {                      
     [NotNull]
     public static Stream OpenRead(this IFile file)

@@ -29,7 +29,7 @@
 
     #region Fields
 
-    private RefreshMode mode { get; }
+    private RefreshMode Mode { get; }
 
     #endregion
 
@@ -37,7 +37,7 @@
 
     public RefreshButton()
     {
-      this.mode = RefreshMode.Undefined;
+      this.Mode = RefreshMode.Undefined;
     }
 
     public RefreshButton([NotNull] string param)
@@ -47,16 +47,16 @@
       switch (param.ToLower())
       {
         case "all":
-          this.mode = RefreshMode.Everything;
+          this.Mode = RefreshMode.Everything;
           return;
         case "sites":
-          this.mode = RefreshMode.Instances;
+          this.Mode = RefreshMode.Instances;
           return;
         case "installer":
-          this.mode = RefreshMode.Installer;
+          this.Mode = RefreshMode.Installer;
           return;
         case "caches":
-          this.mode = RefreshMode.Caches;
+          this.Mode = RefreshMode.Caches;
           return;
         default:
           throw new NotSupportedException("The {0} type is not supported".FormatWith(param));
@@ -108,9 +108,9 @@
     {
       Assert.ArgumentNotNull(mainWindow, nameof(mainWindow));
 
-      if (this.mode != RefreshMode.Undefined)
+      if (this.Mode != RefreshMode.Undefined)
       {
-        return this.mode;
+        return this.Mode;
       }
 
       var config = new TaskDialogOptions

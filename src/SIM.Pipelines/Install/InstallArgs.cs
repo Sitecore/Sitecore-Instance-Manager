@@ -29,7 +29,7 @@
     public bool ForceNetFramework4 { get; }
 
     [NotNull]
-    public readonly string[] HostNames;
+    public readonly string[] _HostNames;
 
     public string InstanceSqlPrefix { get; }
     public bool InstanceAttachSql { get; }
@@ -44,7 +44,7 @@
     public string LicenseFilePath { get; }
 
     [NotNull]
-    public readonly IEnumerable<Product> Modules;
+    public readonly IEnumerable<Product> _Modules;
 
     [NotNull]
     public string Name { get; }
@@ -84,7 +84,7 @@
       Assert.ArgumentNotNull(license, nameof(license));
       Assert.ArgumentNotNull(modules, nameof(modules));
 
-      this.Modules = modules;
+      this._Modules = modules;
     }
 
     public InstallArgs([NotNull] string name, [NotNull] string[] hosts, string instanceSqlPrefix, bool instanceAttachSql, [NotNull] Product product, [NotNull] string webRootPath, [NotNull] string dataFolderPath, [NotNull] string databasesFolderPath, [NotNull] SqlConnectionStringBuilder connectionString, [NotNull] string sqlServerIdentity, [NotNull] string webServerIdentity, [NotNull] FileInfo license, bool forceNetFramework4, bool is32Bit, bool isClassic, bool installRadControls, bool installDictionaries, bool serverSideRedirect, bool increaseExecutionTimeout, bool preheat, [NotNull] string rootPath, [NotNull] IEnumerable<Product> modules)
@@ -103,8 +103,8 @@
       Assert.ArgumentNotNull(modules, nameof(modules));
 
       this.Name = name;
-      this.Modules = modules;
-      this.HostNames = hosts;
+      this._Modules = modules;
+      this._HostNames = hosts;
       this.InstanceSqlPrefix = instanceSqlPrefix;
       InstanceAttachSql = instanceAttachSql;
       this.Product = product;

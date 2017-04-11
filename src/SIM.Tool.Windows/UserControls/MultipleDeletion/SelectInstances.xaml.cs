@@ -10,7 +10,7 @@
   {
     #region Fields
 
-    private readonly List<string> _selectedInstances = new List<string>();
+    private readonly List<string> _SelectedInstances = new List<string>();
 
     #endregion
 
@@ -32,7 +32,7 @@
 
     public bool OnMovingNext(WizardArgs wizardArgs)
     {
-      if (this._selectedInstances.Count != 0)
+      if (this._SelectedInstances.Count != 0)
       {
         return true;
       }
@@ -45,9 +45,9 @@
     {
       var args = (MultipleDeletionWizardArgs)wizardArgs;
 
-      if (this._selectedInstances.Count != 0)
+      if (this._SelectedInstances.Count != 0)
       {
-        args.SelectedInstances = this._selectedInstances;
+        args._SelectedInstances = this._SelectedInstances;
       }
 
       return true;
@@ -67,7 +67,7 @@
       var instanceName = ((System.Windows.Controls.CheckBox)sender).Content.ToString();
       if (!string.IsNullOrEmpty(instanceName))
       {
-        this._selectedInstances.Add(instanceName);
+        this._SelectedInstances.Add(instanceName);
       }
     }
 
@@ -76,7 +76,7 @@
       var instanceName = ((System.Windows.Controls.CheckBox)sender).Content.ToString();
       if (!string.IsNullOrEmpty(instanceName))
       {
-        this._selectedInstances.Remove(instanceName);
+        this._SelectedInstances.Remove(instanceName);
       }
     }
 

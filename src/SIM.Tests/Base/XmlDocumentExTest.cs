@@ -9,7 +9,7 @@
   {
     #region Fields
 
-    private int iteration;
+    private int _Iteration;
 
     #endregion
 
@@ -35,7 +35,7 @@
       // {
       // }
       // }
-      this.iteration = 0;
+      this._Iteration = 0;
       {
         str1 = "<d><n1>n1</n1></d>";
         str2 = "<d><n2>n2</n2></d>";
@@ -138,11 +138,11 @@
 
     private void MergeTest(string str1, string str2, string expected)
     {
-      this.iteration++;
+      this._Iteration++;
       XmlDocumentEx doc1 = XmlDocumentEx.LoadXml(str1);
       XmlDocumentEx doc2 = XmlDocumentEx.LoadXml(str2);
       var actual = doc1.Merge(doc2);
-      Assert.AreEqual(this.iteration + Environment.NewLine + expected + Environment.NewLine, this.iteration + Environment.NewLine + actual.OuterXml + Environment.NewLine);
+      Assert.AreEqual(this._Iteration + Environment.NewLine + expected + Environment.NewLine, this._Iteration + Environment.NewLine + actual.OuterXml + Environment.NewLine);
     }
 
     private void SetElementValueTest(string str, string path, string value, string expected)

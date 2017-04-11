@@ -115,7 +115,7 @@
           WindowHelper.ShowDialog(wizard, owner);
           if (action != null)
           {
-            var wizardArgs = wizard.ProcessorArgs;
+            var wizardArgs = wizard._WizardArgs;
 
             action(wizardArgs);
           }
@@ -127,7 +127,7 @@
             flag = true;
             wizard.Closed += (o, e) =>
             {
-              var wizardArgs = wizard.ProcessorArgs;            
+              var wizardArgs = wizard._WizardArgs;            
 
               action(wizardArgs);
               flag = false;

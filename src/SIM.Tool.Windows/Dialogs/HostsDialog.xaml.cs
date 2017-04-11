@@ -15,7 +15,7 @@
   {
     #region Fields
 
-    private IList<Hosts.IpHostRecord> records;
+    private IList<Hosts.IpHostRecord> _Records;
 
     #endregion
 
@@ -42,7 +42,7 @@
 
     private void SaveSettings()
     {
-      Hosts.Save(this.records);
+      Hosts.Save(this._Records);
       this.DialogResult = true;
       this.Close();
     }
@@ -71,9 +71,9 @@
     private void Add(object sender, RoutedEventArgs e)
     {
       var newRecord = new Hosts.IpHostRecord("127.0.0.1");
-      this.records.Add(newRecord);
+      this._Records.Add(newRecord);
       this.HostsList.DataContext = null;
-      this.HostsList.DataContext = this.records;
+      this.HostsList.DataContext = this._Records;
       this.HostsList.ScrollIntoView(newRecord);
     }
 
@@ -81,18 +81,18 @@
     {
       var button = (Button)sender;
       var id = button.Tag;
-      var record = this.records.OfType<Hosts.IpHostRecord>().Single(r => r.ID.Equals(id));
-      this.records.Remove(record);
+      var record = this._Records.OfType<Hosts.IpHostRecord>().Single(r => r.ID.Equals(id));
+      this._Records.Remove(record);
       this.HostsList.DataContext = null;
-      this.HostsList.DataContext = this.records;
+      this.HostsList.DataContext = this._Records;
     }
 
     private void WindowLoaded(object sender, RoutedEventArgs e)
     {
       try
       {
-        this.records = Hosts.GetRecords().OfType<Hosts.IpHostRecord>().ToList();
-        this.HostsList.DataContext = this.records;
+        this._Records = Hosts.GetRecords().OfType<Hosts.IpHostRecord>().ToList();
+        this.HostsList.DataContext = this._Records;
       }
       catch (Exception ex)
       {

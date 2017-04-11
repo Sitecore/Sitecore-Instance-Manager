@@ -15,7 +15,7 @@ namespace SIM.FileSystem
   {
     #region Fields
 
-    private FileSystem fileSystem { get; }
+    private FileSystem FileSystem { get; }
 
     #endregion
 
@@ -23,7 +23,7 @@ namespace SIM.FileSystem
 
     public DirectoryProvider(FileSystem fileSystem)
     {
-      this.fileSystem = fileSystem;
+      this.FileSystem = fileSystem;
     }
 
     #endregion
@@ -60,10 +60,10 @@ namespace SIM.FileSystem
       }
 
       // Get the files in the directory and copy them to the new location.
-      foreach (var file in this.fileSystem.Directory.GetFiles(path))
+      foreach (var file in this.FileSystem.Directory.GetFiles(path))
       {
         var temppath = Path.Combine(newPath, Path.GetFileName(file));
-        this.fileSystem.File.Copy(file, temppath);
+        this.FileSystem.File.Copy(file, temppath);
       }
 
       // If copying subdirectories, copy them and their contents to new location. 
@@ -125,7 +125,7 @@ namespace SIM.FileSystem
     {
       foreach (var file in this.GetFiles(path))
       {
-        this.fileSystem.File.Delete(file);
+        this.FileSystem.File.Delete(file);
       }
 
       foreach (var directory in this.GetDirectories(path))
@@ -342,7 +342,7 @@ namespace SIM.FileSystem
 
     public TempFolder GetTempFolder(string path = null)
     {
-      return new TempFolder(this.fileSystem, path);
+      return new TempFolder(this.FileSystem, path);
     }
 
     public string GetVirtualPath(string databaseFilePath)

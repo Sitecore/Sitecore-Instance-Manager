@@ -151,8 +151,8 @@
     [TestMethod]
     public void TrimStartTest()
     {
-      const string source = "hellodearhellodeahelou";
-      Assert.AreEqual("deahelou", source.TrimStart("hello", "dear"));
+      const string Source = "hellodearhellodeahelou";
+      Assert.AreEqual("deahelou", Source.TrimStart("hello", "dear"));
     }
 
     #endregion

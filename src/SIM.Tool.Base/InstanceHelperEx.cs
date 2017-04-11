@@ -217,26 +217,26 @@ namespace SIM.Tool.Base
         // if error happened
         if (ex != null)
         {
-          const string cancel = "Cancel";
-          const string openLog = "Open SIM log file";
-          const string openSitecoreLog = "Open Sitecore log file";
-          const string openAnyway = "Open in browser";
+          const string Cancel = "Cancel";
+          const string OpenLog = "Open SIM log file";
+          const string OpenSitecoreLog = "Open Sitecore log file";
+          const string OpenAnyway = "Open in browser";
           var message = "The instance returned an error. \n\n" + ex.Message;
           Log.Error(ex, message);
           var result = WindowHelper.AskForSelection("Running instance failed", null, message, 
             new[]
             {
-              cancel, openLog, openSitecoreLog, openAnyway
+              Cancel, OpenLog, OpenSitecoreLog, OpenAnyway
             }, mainWindow);
           switch (result)
           {
-            case openLog:
+            case OpenLog:
               CoreApp.OpenFile(ApplicationManager.LogsFolder);
               return false;
-            case openSitecoreLog:
+            case OpenSitecoreLog:
               OpenCurrentLogFile(instance, mainWindow);
               return false;
-            case openAnyway:
+            case OpenAnyway:
               return true;
             default:
               return false;
@@ -259,21 +259,21 @@ namespace SIM.Tool.Base
       var state = instance.ApplicationPoolState;
       if (state == ObjectState.Stopped || state == ObjectState.Stopping)
       {
-        const string cancel = "Cancel";
-        const string start = "Start";
-        const string skip = "Skip, open anyway";
+        const string Cancel = "Cancel";
+        const string Start = "Start";
+        const string Skip = "Skip, open anyway";
 
         var result = WindowHelper.AskForSelection("Instance is stopped", null, "The selected Sitecore instance is stopped. Would you like to start it first?", new[]
         {
-          cancel, start, skip
-        }, mainWindow, start);
+          Cancel, Start, Skip
+        }, mainWindow, Start);
 
-        if (result == null || result == cancel)
+        if (result == null || result == Cancel)
         {
           return false;
         }
 
-        if (result == start)
+        if (result == Start)
         {
           instance.Start();
         }

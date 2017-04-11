@@ -16,7 +16,7 @@ namespace SIM.Pipelines.Install.Modules
   {
     #region Fields
 
-    private readonly List<Product> done = new List<Product>();
+    private readonly List<Product> _Done = new List<Product>();
 
     #endregion
 
@@ -28,16 +28,16 @@ namespace SIM.Pipelines.Install.Modules
 
       Assert.IsNotNull(args.Instance, "Instance");
 
-      foreach (var module in args.Modules.Where(m => m.IsPackage))
+      foreach (var module in args._Modules.Where(m => m.IsPackage))
       {
-        if (this.done.Contains(module))
+        if (this._Done.Contains(module))
         {
           continue;
         }
 
         AgentHelper.InstallPackage(args.Instance, module);
 
-        this.done.Add(module);
+        this._Done.Add(module);
       }
     }
 

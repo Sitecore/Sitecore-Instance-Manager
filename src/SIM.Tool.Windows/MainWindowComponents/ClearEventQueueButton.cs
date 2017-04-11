@@ -12,16 +12,16 @@
   public class ClearEventQueueButton : IMainWindowButton
   {
     [NotNull]
-    private readonly string[] Databases;
+    private readonly string[] _Databases;
 
     public ClearEventQueueButton()
     {
-      this.Databases = new string[0];
+      this._Databases = new string[0];
     }
 
     public ClearEventQueueButton(string databases)
     {
-      this.Databases = databases.Split(",;|".ToCharArray());
+      this._Databases = databases.Split(",;|".ToCharArray());
     }
 
     public bool IsEnabled([NotNull] Window mainWindow, [CanBeNull] Instance instance)
@@ -43,7 +43,7 @@
           continue;
         }
 
-        if (this.Databases.Length != 0 && this.Databases.All(x => !x.Equals(database.Name, StringComparison.OrdinalIgnoreCase)))
+        if (this._Databases.Length != 0 && this._Databases.All(x => !x.Equals(database.Name, StringComparison.OrdinalIgnoreCase)))
         {
           continue;
         }

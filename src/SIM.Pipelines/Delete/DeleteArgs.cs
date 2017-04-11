@@ -24,11 +24,11 @@
 
     public Instance Instance { get; }
 
-    public readonly IEnumerable<Database> InstanceDatabases;
+    public readonly IEnumerable<Database> _InstanceDatabases;
 
     public long InstanceID { get; }
 
-    public readonly ICollection<MongoDbDatabase> MongoDatabases;
+    public readonly ICollection<MongoDbDatabase> _MongoDatabases;
     private string instanceName { get; }
 
     #endregion
@@ -42,8 +42,8 @@
 
       this.ConnectionString = connectionString.IsNotNull("ConnectionString");
       this.InstanceID = instance.ID;
-      this.InstanceDatabases = instance.AttachedDatabases;
-      this.MongoDatabases = instance.MongoDatabases;
+      this._InstanceDatabases = instance.AttachedDatabases;
+      this._MongoDatabases = instance.MongoDatabases;
       this.InstanceDataFolderPath = instance.DataFolderPath;
       this.InstanceBackupsFolder = instance.BackupsFolder;
       this.InstanceStop = () => instance.Stop(true);

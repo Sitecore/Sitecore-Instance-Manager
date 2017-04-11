@@ -28,7 +28,7 @@ namespace SIM.FileSystem
       }
       catch (PathTooLongException)
       {
-        path = this.fileSystem.Path.ToUncPath(path);
+        path = this.FileSystem.Path.ToUncPath(path);
 
         base.EnsurePermissions(path, identity);
       }
@@ -42,7 +42,7 @@ namespace SIM.FileSystem
       }
       catch (PathTooLongException)
       {
-        path = this.fileSystem.Path.ToUncPath(path);
+        path = this.FileSystem.Path.ToUncPath(path);
 
         return base.HasPermissions(path, identity, permissions);
       }
@@ -60,7 +60,7 @@ namespace SIM.FileSystem
       }
       catch (PathTooLongException)
       {
-        path = this.fileSystem.Path.ToUncPath(path);
+        path = this.FileSystem.Path.ToUncPath(path);
 
         base.EnsureDirectoryPermissions(path, identity);
       }
@@ -74,7 +74,7 @@ namespace SIM.FileSystem
       }
       catch (PathTooLongException)
       {
-        path = this.fileSystem.Path.ToUncPath(path);
+        path = this.FileSystem.Path.ToUncPath(path);
 
         base.EnsureFilePermissions(path, identity);
       }
@@ -88,7 +88,7 @@ namespace SIM.FileSystem
       }
       catch (PathTooLongException)
       {
-        path = this.fileSystem.Path.ToUncPath(path);
+        path = this.FileSystem.Path.ToUncPath(path);
 
         return base.HasDirectoryPermissions(path, identity, permissions);
       }
@@ -102,7 +102,7 @@ namespace SIM.FileSystem
       }
       catch (PathTooLongException)
       {
-        path = this.fileSystem.Path.ToUncPath(path);
+        path = this.FileSystem.Path.ToUncPath(path);
 
         return base.HasFilePermissions(path, identity, permissions);
       }

@@ -10,8 +10,8 @@
   {
     #region Fields
 
-    private Thread bw { get; }
-    private bool isClosing = false;
+    private Thread Bw { get; }
+    private bool _IsClosing = false;
 
     #endregion
 
@@ -35,11 +35,11 @@
         }
         finally
         {
-          this.isClosing = true;
+          this._IsClosing = true;
           this.Dispatcher.Invoke(new Action(this.Close));
         }
       };
-      this.bw = new Thread(th);
+      this.Bw = new Thread(th);
       this.InitializeComponent();
     }
 
@@ -68,30 +68,30 @@
 
     private void Start(object sender, EventArgs e)
     {
-      this.bw.Start();
+      this.Bw.Start();
     }
 
     private void Terminate(object sender, CancelEventArgs cancelEventArgs)
     {
-      if (this.isClosing)
+      if (this._IsClosing)
       {
         return;
       }
 
-      this.bw.Interrupt();
-      this.isClosing = true;
+      this.Bw.Interrupt();
+      this._IsClosing = true;
       cancelEventArgs.Cancel = true;
     }
 
     private void Terminate(object sender, EventArgs cancelEventArgs)
     {
-      if (this.isClosing)
+      if (this._IsClosing)
       {
         return;
       }
 
-      this.isClosing = true;
-      this.bw.Interrupt();
+      this._IsClosing = true;
+      this.Bw.Interrupt();
     }
 
     #endregion

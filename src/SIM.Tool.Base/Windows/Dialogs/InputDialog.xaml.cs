@@ -22,7 +22,7 @@
 
     #region Methods
 
-    private void OKClick([CanBeNull] object sender, [CanBeNull] RoutedEventArgs e)
+    private void OkClick([CanBeNull] object sender, [CanBeNull] RoutedEventArgs e)
     {
       this.DataContext = this.value.Text;
       this.DialogResult = true;
@@ -38,11 +38,11 @@
       FocusManager.SetFocusedElement(this.value, this.value);
     }
 
-    private void value_KeyUp(object sender, KeyEventArgs e)
+    private void ValueKeyUp(object sender, KeyEventArgs e)
     {
       if (e.Key == Key.Enter)
       {
-        this.OKClick(null, null);
+        this.OkClick(null, null);
       }
     }
 

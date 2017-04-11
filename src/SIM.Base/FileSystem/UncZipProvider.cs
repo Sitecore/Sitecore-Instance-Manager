@@ -11,7 +11,7 @@ namespace SIM.FileSystem
     #region Fields
 
     [NotNull]
-    private FileSystem fileSystem { get; }
+    private FileSystem FileSystem { get; }
 
     #endregion
 
@@ -21,7 +21,7 @@ namespace SIM.FileSystem
     {
       Assert.ArgumentNotNull(fileSystem, nameof(fileSystem));
 
-      this.fileSystem = fileSystem;
+      this.FileSystem = fileSystem;
     }
 
     #endregion
@@ -44,7 +44,7 @@ namespace SIM.FileSystem
         using (var temp = FileSystem.Local.Directory.GetTempFolder(path))
         {
           var shortPath = Path.Combine(temp.Path, Path.GetFileName(path));
-          this.fileSystem.File.Copy(path, shortPath);
+          this.FileSystem.File.Copy(path, shortPath);
 
           base.CheckZip(shortPath);
         }
@@ -69,12 +69,12 @@ namespace SIM.FileSystem
           using (var tempZip = FileSystem.Local.Directory.GetTempFolder(zipFileName))
           {
             var shortPath = Path.Combine(tempPath.Path, Path.GetFileName(path));
-            this.fileSystem.Directory.Copy(path, shortPath, true);
+            this.FileSystem.Directory.Copy(path, shortPath, true);
 
             var shortZipPath = Path.Combine(tempZip.Path, Path.GetFileName(zipFileName));
             base.CreateZip(shortPath, shortZipPath, ignore);
 
-            this.fileSystem.File.Copy(shortZipPath, zipFileName);
+            this.FileSystem.File.Copy(shortZipPath, zipFileName);
           }
         }
       }
@@ -96,7 +96,7 @@ namespace SIM.FileSystem
         using (var temp = FileSystem.Local.Directory.GetTempFolder(path))
         {
           var shortPath = Path.Combine(temp.Path, Path.GetFileName(path));
-          this.fileSystem.File.Copy(path, shortPath);
+          this.FileSystem.File.Copy(path, shortPath);
 
           return base.GetFirstRootFolder(shortPath);
         }
@@ -123,10 +123,10 @@ namespace SIM.FileSystem
             var shortPath = Path.Combine(tempPath.Path, Path.GetFileName(path));
 
             var shortPkgPath = Path.Combine(tempPkg.Path, Path.GetFileName(packagePath));
-            this.fileSystem.File.Copy(packagePath, shortPkgPath);
+            this.FileSystem.File.Copy(packagePath, shortPkgPath);
 
             base.UnpackZip(shortPkgPath, shortPath, entriesPattern, stepsCount, incrementProgress, skipErrors);
-            this.fileSystem.Directory.Copy(shortPath, path, true);
+            this.FileSystem.Directory.Copy(shortPath, path, true);
           }
         }
       }
@@ -165,7 +165,7 @@ namespace SIM.FileSystem
         using (var temp = FileSystem.Local.Directory.GetTempFolder(path))
         {
           var shortPath = Path.Combine(temp.Path, Path.GetFileName(path));
-          this.fileSystem.File.Copy(path, shortPath);
+          this.FileSystem.File.Copy(path, shortPath);
           return base.ZipContainsFile(shortPath, innerFileName);
         }
       }
@@ -187,7 +187,7 @@ namespace SIM.FileSystem
         using (var temp = FileSystem.Local.Directory.GetTempFolder(path))
         {
           var shortPath = Path.Combine(temp.Path, Path.GetFileName(path));
-          this.fileSystem.File.Copy(path, shortPath);
+          this.FileSystem.File.Copy(path, shortPath);
 
           return base.ZipContainsSingleFile(path, innerFileName);
         }
@@ -214,11 +214,11 @@ namespace SIM.FileSystem
             var shortPath = Path.Combine(tempPath.Path, Path.GetFileName(pathToUnpack));
 
             var shortPkgPath = Path.Combine(tempPkg.Path, Path.GetFileName(pathToZip));
-            this.fileSystem.File.Copy(pathToZip, shortPkgPath);
+            this.FileSystem.File.Copy(pathToZip, shortPkgPath);
 
             var result = base.ZipUnpackFile(shortPkgPath, shortPath, fileName);
             var destFileName = Path.Combine(pathToUnpack, fileName);
-            this.fileSystem.File.Move(result, destFileName);
+            this.FileSystem.File.Move(result, destFileName);
 
             return destFileName;
           }
@@ -246,11 +246,11 @@ namespace SIM.FileSystem
             var shortPath = Path.Combine(tempPath.Path, Path.GetFileName(pathToUnpack));
 
             var shortPkgPath = Path.Combine(tempPkg.Path, Path.GetFileName(pathToZip));
-            this.fileSystem.File.Copy(pathToZip, shortPkgPath);
+            this.FileSystem.File.Copy(pathToZip, shortPkgPath);
 
             var result = base.ZipUnpackFolder(shortPkgPath, shortPath, folderName);
             var destFileName = Path.Combine(pathToUnpack, folderName);
-            this.fileSystem.Directory.Move(result, destFileName);
+            this.FileSystem.Directory.Move(result, destFileName);
 
             return destFileName;
           }

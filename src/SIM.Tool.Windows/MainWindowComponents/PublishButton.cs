@@ -23,7 +23,7 @@
 
     #region Fields
 
-    protected string Mode;
+    protected string _Mode;
 
     #endregion
 
@@ -31,12 +31,12 @@
 
     public PublishButton()
     {
-      this.Mode = null;
+      this._Mode = null;
     }
 
     public PublishButton(string mode)
     {
-      this.Mode = mode;
+      this._Mode = mode;
     }
 
     #endregion
@@ -47,12 +47,12 @@
     {
       MainWindowHelper.RefreshInstances();
       var instance = InstanceManager.Default.GetInstance(args.InstanceName);
-      new PublishButton().OnClick(MainWindow.Instance, instance);
+      new PublishButton().OnClick(MainWindow._Instance, instance);
     }
 
     public static void PublishSite(InstallModulesWizardArgs args)
     {
-      new PublishButton().OnClick(MainWindow.Instance, args.Instance);
+      new PublishButton().OnClick(MainWindow._Instance, args.Instance);
     }
 
     public bool IsEnabled(Window mainWindow, Instance instance)
@@ -85,7 +85,7 @@
 
     private string GetMode(Window mainWindow)
     {
-      if (string.IsNullOrEmpty(this.Mode))
+      if (string.IsNullOrEmpty(this._Mode))
       {
         var options = new[]
         {
@@ -98,7 +98,7 @@
         return WindowHelper.AskForSelection("Publish", "Publish", "Choose publish mode", options, mainWindow, IncrementalOption);
       }
 
-      return this.Mode;
+      return this._Mode;
     }
 
     private PublishMode ParseMode(string result)

@@ -20,7 +20,7 @@
   {
     #region Fields
 
-    private readonly List<ProductDownload8InCheckbox> checkBoxItems = new List<ProductDownload8InCheckbox>();
+    private readonly List<ProductDownload8InCheckbox> _CheckBoxItems = new List<ProductDownload8InCheckbox>();
 
     #endregion
 
@@ -112,7 +112,7 @@
     public bool SaveChanges(WizardArgs wizardArgs)
     {
       var args = (DownloadWizardArgs)wizardArgs;
-      var selected = this.checkBoxItems.Where(mm => mm.IsChecked);
+      var selected = this._CheckBoxItems.Where(mm => mm.IsChecked);
       args.Products.AddRange(selected);
 
       return true;
@@ -131,20 +131,20 @@
     public void InitializeStep(WizardArgs wizardArgs)
     {
       var args = (DownloadWizardArgs)wizardArgs;
-      this.checkBoxItems.Clear();
+      this._CheckBoxItems.Clear();
       this.Append(args.Releases);
 
       foreach (var product in args.Products)
       {
         var selectedPRoduct = product;
-        ProductDownload8InCheckbox checkBoxItem = this.checkBoxItems.SingleOrDefault(cbi => cbi.Value.Equals(selectedPRoduct));
+        ProductDownload8InCheckbox checkBoxItem = this._CheckBoxItems.SingleOrDefault(cbi => cbi.Value.Equals(selectedPRoduct));
         if (checkBoxItem != null)
         {
           checkBoxItem.IsChecked = true;
         }
       }
 
-      this.filePackages.DataContext = this.checkBoxItems;
+      this.filePackages.DataContext = this._CheckBoxItems;
     }
 
     #endregion
@@ -155,7 +155,7 @@
     {
       Assert.ArgumentNotNull(records, nameof(records));
 
-      this.checkBoxItems.AddRange(records.Select(r => new ProductDownload8InCheckbox(r)).ToList());
+      this._CheckBoxItems.AddRange(records.Select(r => new ProductDownload8InCheckbox(r)).ToList());
     }
 
     private void ModuleSelected([CanBeNull] object sender, [CanBeNull] SelectionChangedEventArgs e)

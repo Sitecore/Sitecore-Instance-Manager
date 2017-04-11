@@ -9,7 +9,7 @@ namespace SIM
   {
     public static string String { get; } = null;
     public static DirectoryInfo DirectoryInfo { get; } = null;
-    public static Dictionary<string,string> StringDictionary = null;
+    public static Dictionary<string,string> _StringDictionary = null;
 
     public static T Safe<T>(Func<T> func) where T: class 
     {

@@ -10,9 +10,9 @@
     {
       var download = (DownloadArgs)args;
 
-      foreach (var link in download.Links)
+      foreach (var link in download._Links)
       {
-        download.FileNames[link] = WebRequestHelper.GetFileName(link, download.Cookies);
+        download._FileNames[link] = WebRequestHelper.GetFileName(link, download.Cookies);
       }
     }
 

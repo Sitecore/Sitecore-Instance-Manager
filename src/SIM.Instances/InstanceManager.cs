@@ -18,9 +18,9 @@
   {
     #region Fields
 
-    private IEnumerable<Instance> cachedInstances;
-    private IEnumerable<Instance> instances;
-    private string instancesFolder;
+    private IEnumerable<Instance> _CachedInstances;
+    private IEnumerable<Instance> _Instances;
+    private string _InstancesFolder;
 
     #endregion
 
@@ -39,12 +39,12 @@
     {
       get
       {
-        return instances;
+        return _Instances;
       }
 
       private set
       {
-        instances = value;
+        _Instances = value;
         OnInstancesListUpdated();
       }
     }
@@ -55,9 +55,9 @@
       get
       {
         // I believe that this check is redundant because the this list is filled before Instances list is actually filled.
-        if (cachedInstances != null)
+        if (_CachedInstances != null)
         {
-          return cachedInstances;
+          return _CachedInstances;
         }
 
         if (Instances == null)
@@ -65,15 +65,15 @@
           return null;
         }
 
-        cachedInstances = Instances.Select(x => new PartiallyCachedInstance((int)x.ID)).ToArray();
-        return cachedInstances;
+        _CachedInstances = Instances.Select(x => new PartiallyCachedInstance((int)x.ID)).ToArray();
+        return _CachedInstances;
       }
 
       private set
       {
-        if (cachedInstances != null)
+        if (_CachedInstances != null)
         {
-          foreach (var cachedInstance in cachedInstances.OfType<IDisposable>())
+          foreach (var cachedInstance in _CachedInstances.OfType<IDisposable>())
           {
             if (cachedInstance != null)
             {
@@ -82,7 +82,7 @@
           }
         }
 
-        cachedInstances = value;
+        _CachedInstances = value;
       }
     }
 
@@ -202,8 +202,8 @@
         IEnumerable<Site> sites = context.Sites;
         if (defaultRootFolder != null)
         {
-          instancesFolder = defaultRootFolder.ToLower();
-          sites = sites.Where(s => WebServerManager.GetWebRootPath(s).ToLower().Contains(instancesFolder));
+          _InstancesFolder = defaultRootFolder.ToLower();
+          sites = sites.Where(s => WebServerManager.GetWebRootPath(s).ToLower().Contains(_InstancesFolder));
         }
 
         return ProfileSection.Result(sites);

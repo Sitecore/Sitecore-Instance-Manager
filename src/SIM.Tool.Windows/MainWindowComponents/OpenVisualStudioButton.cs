@@ -38,12 +38,12 @@
         return;
       }
 
-      const string noThanks = "No, thanks";
-      const string yesAspNetMvc = "Yes, create new";
+      const string NoThanks = "No, thanks";
+      const string YesAspNetMvc = "Yes, create new";
       
-      var options = new[] { noThanks, yesAspNetMvc };
+      var options = new[] { NoThanks, YesAspNetMvc };
       var result = WindowHelper.AskForSelection("Choose Visual Studio Project Type", null, "There isn't any Visual Studio project in the instance's folder. \n\nWould you like us to create a new one?", options, mainWindow);
-      if (result == null || result == noThanks)
+      if (result == null || result == NoThanks)
       {
         return;
       }

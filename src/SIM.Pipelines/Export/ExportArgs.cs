@@ -20,13 +20,13 @@
     public bool IncludeMediaCacheFolderContents { get; }
     public bool IncludeTempFolderContents { get; }
     public Instance Instance { get; }
-    public readonly ICollection<string> SelectedDatabases;
+    public readonly ICollection<string> _SelectedDatabases;
     public bool IncludeMongoDatabases { get; }
     public string WebRootPath { get; }
     public bool WipeSqlServerCredentials { get; }
     public string ExportFile { get; }
 
-    private string folder;
+    private string _Folder;
 
     #endregion
 
@@ -44,7 +44,7 @@
       InstanceName = instance.Name;
       this.WebRootPath = instance.WebRootPath;
       this.ExportFile = exportFile;
-      this.SelectedDatabases = selectedDatabases.With(x => x.Select(y => y.ToLower()).ToArray());
+      this._SelectedDatabases = selectedDatabases.With(x => x.Select(y => y.ToLower()).ToArray());
       this.WipeSqlServerCredentials = wipeSqlServerCredentials;
       this.IncludeMongoDatabases = includeMongoDatabases;
       this.IncludeTempFolderContents = includeTempFolderContents;
@@ -66,7 +66,7 @@
     {
       get
       {
-        return this.folder ?? (this.folder = FileSystem.FileSystem.Local.Directory.RegisterTempFolder(this.GetTempFolder()));
+        return this._Folder ?? (this._Folder = FileSystem.FileSystem.Local.Directory.RegisterTempFolder(this.GetTempFolder()));
       }
     }
 

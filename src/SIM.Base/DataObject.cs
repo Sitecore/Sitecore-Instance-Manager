@@ -17,7 +17,7 @@
   {
     #region Fields
 
-    private readonly Dictionary<string, object> values = new Dictionary<string, object>();
+    private readonly Dictionary<string, object> _Values = new Dictionary<string, object>();
 
     #endregion
 
@@ -29,7 +29,7 @@
 
       foreach (XmlElement element in nodes.OfType<XmlElement>())
       {
-        this.values.Add(element.Name, element.InnerXml);
+        this._Values.Add(element.Name, element.InnerXml);
       }
     }
 
@@ -39,10 +39,10 @@
 
       XmlDocument document = root.OwnerDocument;
       Assert.IsNotNull(document, "Root element must have a document");
-      foreach (string key in this.values.Keys)
+      foreach (string key in this._Values.Keys)
       {
         XmlElement element = document.CreateElement(key);
-        element.InnerXml = this.values[key].ToString();
+        element.InnerXml = this._Values[key].ToString();
         root.AppendChild(element);
       }
     }
@@ -50,8 +50,8 @@
     public virtual void Validate()
     {
       Type type = this.GetType();
-      const string validatePrefix = "Validate";
-      IEnumerable<MethodInfo> methods = type.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic).Where(pr => pr.Name.StartsWith(validatePrefix) && pr.Name.Length != validatePrefix.Length);
+      const string ValidatePrefix = "Validate";
+      IEnumerable<MethodInfo> methods = type.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic).Where(pr => pr.Name.StartsWith(ValidatePrefix) && pr.Name.Length != ValidatePrefix.Length);
       foreach (MethodInfo method in methods)
       {
         method.Invoke(this, new object[0]);
@@ -75,14 +75,14 @@
     {
       Assert.ArgumentNotNull(name, nameof(name));
 
-      return this.values.ContainsKey(name) ? this.values[name] : null;
+      return this._Values.ContainsKey(name) ? this._Values[name] : null;
     }
 
     protected virtual void SetValue([NotNull] string name, [CanBeNull] object value)
     {
       Assert.ArgumentNotNull(name, nameof(name));
 
-      this.values[name] = value;
+      this._Values[name] = value;
       this.NotifyPropertyChanged(name);
     }
 

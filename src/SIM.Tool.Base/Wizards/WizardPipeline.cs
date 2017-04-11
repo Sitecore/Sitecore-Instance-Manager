@@ -13,15 +13,15 @@
     public Type Args { get; }
     public string CancelButtonText { get; }
 
-    public readonly FinishActionHive[] FinishActionHives;
+    public readonly FinishActionHive[] _FinishActionHives;
 
-    public readonly FinishAction[] FinishActions;
+    public readonly FinishAction[] _FinishActions;
 
     public string FinishText { get; }
 
     public string StartButtonText { get; }
 
-    public readonly StepInfo[] StepInfos;
+    public readonly StepInfo[] _StepInfos;
 
     public string Title { get; }
 
@@ -39,9 +39,9 @@
       this.StartButtonText = startButtonText;
       this.CancelButtonText = cancelButtonText;
       this.Args = args;
-      this.StepInfos = stepInfos;
-      this.FinishActions = finishActions;
-      this.FinishActionHives = finishActionHives;
+      this._StepInfos = stepInfos;
+      this._FinishActions = finishActions;
+      this._FinishActionHives = finishActionHives;
     }
 
     #endregion

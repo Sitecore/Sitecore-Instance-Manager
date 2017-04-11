@@ -24,10 +24,10 @@
     #region Fields
 
     [NotNull]
-    public static MainWindow Instance;
+    public static MainWindow _Instance;
 
-    private Timer timer { get; }
-    private IMainWindowButton doubleClickHandler;
+    private Timer Timer { get; }
+    private IMainWindowButton _DoubleClickHandler;
 
     #endregion
 
@@ -39,7 +39,7 @@
 
       using (new ProfileSection("Main window ctor"))
       {
-        Instance = this;
+        _Instance = this;
         if (WindowsSettings.AppUiMainWindowWidth.Value <= 0)
         {
           this.MaxWidth = this.MinWidth;
@@ -47,7 +47,7 @@
 
         this.Title = string.Format(this.Title, ApplicationManager.AppShortVersion, ApplicationManager.AppVersion, ApplicationManager.AppLabel);
 
-        this.timer =
+        this.Timer =
           new System.Threading.Timer(
             obj => this.Dispatcher.Invoke(new Action(() => this.Search(null, null)), DispatcherPriority.Render));
       }
@@ -63,7 +63,7 @@
     {
       get
       {
-        return this.doubleClickHandler ?? (this.doubleClickHandler = (IMainWindowButton)WindowsSettings.AppUiMainWindowDoubleClick.Value.With(x => Plugin.CreateInstance(x)));
+        return this._DoubleClickHandler ?? (this._DoubleClickHandler = (IMainWindowButton)WindowsSettings.AppUiMainWindowDoubleClick.Value.With(x => Plugin.CreateInstance(x)));
       }
     }
 
@@ -369,7 +369,7 @@
           {
             if (WindowsSettings.AppInstanceSearchEnabled.Value)
             {
-              this.timer.Change(TimeSpan.FromMilliseconds(WindowsSettings.AppInstanceSearchTimeout.Value), TimeSpan.FromMilliseconds(-1));
+              this.Timer.Change(TimeSpan.FromMilliseconds(WindowsSettings.AppInstanceSearchTimeout.Value), TimeSpan.FromMilliseconds(-1));
             }
 
             e.Handled = false;

@@ -15,12 +15,12 @@
     private bool isEnabled { get; }
     private string label { get; }
     private string name { get; }
-    private string nameOverride { get; }
+    private string NameOverride { get; }
     private string revision { get; }
     private string version { get; }
-    private bool isChecked;
+    private bool _IsChecked;
 
-    private Uri value;
+    private Uri _Value;
 
     #endregion
 
@@ -37,7 +37,7 @@
       var distribution = release.DefaultDistribution;
       Assert.IsNotNull(distribution, nameof(distribution));
 
-      this.value = new Uri(distribution.Downloads.First(x => x.StartsWith("http")));
+      this._Value = new Uri(distribution.Downloads.First(x => x.StartsWith("http")));
       this.isEnabled = !ProductManager.Products.Any(this.CheckProduct);
     }
 
@@ -47,7 +47,7 @@
 
     public override string ToString()
     {
-      return $"{this.nameOverride ?? this.Name} {this.Version} rev. {this.Revision}{(string.IsNullOrEmpty(this.Label) ? string.Empty : " (" + this.Label + ")")}{(this.IsEnabled ? string.Empty : " - you already have it")}";
+      return $"{this.NameOverride ?? this.Name} {this.Version} rev. {this.Revision}{(string.IsNullOrEmpty(this.Label) ? string.Empty : " (" + this.Label + ")")}{(this.IsEnabled ? string.Empty : " - you already have it")}";
     }
 
     #endregion
@@ -90,12 +90,12 @@
     {
       get
       {
-        return this.isChecked;
+        return this._IsChecked;
       }
 
       set
       {
-        this.isChecked = value;
+        this._IsChecked = value;
         this.NotifyPropertyChanged("IsChecked");
       }
     }
@@ -120,12 +120,12 @@
     {
       get
       {
-        return this.value;
+        return this._Value;
       }
 
       set
       {
-        this.value = value;
+        this._Value = value;
         this.NotifyPropertyChanged("Value");
       }
     }

@@ -23,7 +23,7 @@
       Assert.ArgumentNotNull(args, nameof(args));
 
       var name = args.Name;
-      var bindings = args.Bindings;
+      var bindings = args._Bindings;
       var webRootPath = args.WebRootPath;
       bool enable32BitAppOnWin64 = args.Is32Bit;
       bool forceNetFramework4 = args.ForceNetFramework4;

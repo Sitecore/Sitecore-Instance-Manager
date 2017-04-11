@@ -16,10 +16,10 @@
     public string Cookies { get; }
 
     [NotNull]
-    public readonly UriBasedCollection<string> FileNames;
+    public readonly UriBasedCollection<string> _FileNames;
 
     [NotNull]
-    public readonly ReadOnlyCollection<Uri> Links;
+    public readonly ReadOnlyCollection<Uri> _Links;
 
     [NotNull]
     public string LocalRepository { get; }
@@ -34,9 +34,9 @@
       Assert.ArgumentNotNull(links, nameof(links));
       Assert.ArgumentNotNull(localRepository, nameof(localRepository));
       this.LocalRepository = localRepository;
-      this.Links = links;
+      this._Links = links;
       this.Cookies = cookies;
-      this.FileNames = new UriBasedCollection<string>(links.ToDictionary(x => x, x => WebRequestHelper.GetFileName(x, cookies)));
+      this._FileNames = new UriBasedCollection<string>(links.ToDictionary(x => x, x => WebRequestHelper.GetFileName(x, cookies)));
     }
 
     #endregion

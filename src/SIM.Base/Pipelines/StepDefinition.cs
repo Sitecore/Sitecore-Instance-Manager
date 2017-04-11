@@ -14,7 +14,7 @@
     #region Fields
 
     [NotNull]
-    public readonly List<ProcessorDefinition> ProcessorDefinitions;
+    public readonly List<ProcessorDefinition> _ProcessorDefinitions;
 
     #endregion
 
@@ -25,7 +25,7 @@
       Assert.ArgumentNotNull(processorDefinitions, nameof(processorDefinitions));
 
       this.ArgsName = argsName;
-      this.ProcessorDefinitions = processorDefinitions;
+      this._ProcessorDefinitions = processorDefinitions;
     }
 
     #endregion

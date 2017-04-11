@@ -35,7 +35,7 @@
 
     public override long EvaluateStepsCount(ProcessorArgs args)
     {
-      return ((DownloadArgs)args).Sizes.Sum(size => size.Value);
+      return ((DownloadArgs)args)._Sizes.Sum(size => size.Value);
     }
 
     #endregion
@@ -47,11 +47,11 @@
       var download = (DownloadArgs)args;
       var cookies = download.Cookies;
       var localRepository = download.LocalRepository;
-      var fileNames = download.FileNames;
+      var fileNames = download._FileNames;
       Assert.IsNotNull(fileNames, nameof(fileNames));
       
-      var links = download.Links;
-      var fileSizes = download.Sizes;
+      var links = download._Links;
+      var fileSizes = download._Sizes;
       Assert.IsNotNull(fileSizes, nameof(fileSizes));
 
       var parallelDownloadsNumber = WindowsSettings.AppDownloaderParallelThreads.Value;
@@ -138,7 +138,7 @@
                 ProfileSection.Argument("fileName", fileName);
                 ProfileSection.Argument("externalRepositoryFilePath", externalRepositoryFilePath);
 
-                WindowHelper.CopyFileUI(externalRepositoryFilePath, destFileName, Microsoft.VisualBasic.FileIO.UIOption.AllDialogs, Microsoft.VisualBasic.FileIO.UICancelOption.ThrowException);
+                WindowHelper.CopyFileUi(externalRepositoryFilePath, destFileName, Microsoft.VisualBasic.FileIO.UIOption.AllDialogs, Microsoft.VisualBasic.FileIO.UICancelOption.ThrowException);
               }
 
               Log.Info($"Copying the {fileName} file has completed");

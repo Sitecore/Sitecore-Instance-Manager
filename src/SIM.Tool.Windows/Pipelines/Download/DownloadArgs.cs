@@ -10,10 +10,10 @@
     #region Fields
 
     public string Cookies { get; }
-    public readonly UriBasedCollection<string> FileNames = new UriBasedCollection<string>();
-    public readonly ReadOnlyCollection<Uri> Links;
+    public readonly UriBasedCollection<string> _FileNames = new UriBasedCollection<string>();
+    public readonly ReadOnlyCollection<Uri> _Links;
     public string LocalRepository { get; }
-    public readonly UriBasedCollection<long> Sizes;
+    public readonly UriBasedCollection<long> _Sizes;
 
     #endregion
 
@@ -22,8 +22,8 @@
     public DownloadArgs(string cookies, ReadOnlyCollection<Uri> links, string localRepository, UriBasedCollection<long> sizes)
     {
       this.LocalRepository = localRepository;
-      this.Sizes = sizes;
-      this.Links = links;
+      this._Sizes = sizes;
+      this._Links = links;
       this.Cookies = cookies;
     }
 

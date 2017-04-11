@@ -184,15 +184,15 @@
           }
         });
 
-        const string inerrupt = "&Cancel";
-        const string skip = "&Skip";
+        const string Inerrupt = "&Cancel";
+        const string Skip = "&Skip";
 
         var options = allowSkip ? new[]
         {
-          inerrupt, skip
+          Inerrupt, Skip
         } : new[]
         {
-          inerrupt
+          Inerrupt
         };
 
         // const string hide = "&Hide";
@@ -489,9 +489,9 @@
       return ShowDialog(dialog, window) as string;
     }
 
-    public static void CopyFileUI(string sourceFileName, string destFileName, UIOption? showUI = null, UICancelOption? onUserCancel = null)
+    public static void CopyFileUi(string sourceFileName, string destFileName, UIOption? showUi = null, UICancelOption? onUserCancel = null)
     {
-      Microsoft.VisualBasic.FileIO.FileSystem.CopyFile(sourceFileName, destFileName, showUI ?? UIOption.AllDialogs, onUserCancel ?? UICancelOption.ThrowException);
+      Microsoft.VisualBasic.FileIO.FileSystem.CopyFile(sourceFileName, destFileName, showUi ?? UIOption.AllDialogs, onUserCancel ?? UICancelOption.ThrowException);
     }
    
     public static ImageSource GetImage(string imageName, string assemblyName)

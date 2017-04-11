@@ -20,25 +20,13 @@
 
   [Serializable]
   public class Instance : Website, IXmlSerializable
-  {
-    #region Static constants, fields, properties and methods
-    
-    #region Public methods
-
-    public static void DoSmth()
-    {
-    }
-
-    #endregion
-
-    #endregion
-
+  {                                                              
     #region Instance fields
 
-    protected RuntimeSettingsAccessor runtimeSettingsAccessor;
-    private InstanceConfiguration configuration;
+    protected RuntimeSettingsAccessor _RuntimeSettingsAccessor;
+    private InstanceConfiguration _Configuration;
 
-    private Product product;
+    private Product _Product;
 
     #endregion
 
@@ -63,8 +51,8 @@
     {
       get
       {
-        return this.runtimeSettingsAccessor ??
-               (this.runtimeSettingsAccessor = RuntimeSettingsManager.GetRealtimeSettingsAccessor(this));
+        return this._RuntimeSettingsAccessor ??
+               (this._RuntimeSettingsAccessor = RuntimeSettingsManager.GetRealtimeSettingsAccessor(this));
       }
     }
 
@@ -103,7 +91,7 @@
     {
       get
       {
-        return this.configuration ?? (this.configuration = new InstanceConfiguration(this));
+        return this._Configuration ?? (this._Configuration = new InstanceConfiguration(this));
       }
     }
 
@@ -234,7 +222,7 @@
     {
       get
       {
-        return this.product ?? (this.product = ProductManager.GetProduct(this.ProductFullName));
+        return this._Product ?? (this._Product = ProductManager.GetProduct(this.ProductFullName));
       }
     }
 

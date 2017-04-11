@@ -15,7 +15,7 @@
   {
     #region Fields
 
-    private string folder { get; }
+    private string Folder { get; }
 
     #endregion
 
@@ -25,7 +25,7 @@
     {
       Assert.IsNotNullOrEmpty(folder, nameof(folder));
 
-      this.folder = folder;
+      this.Folder = folder;
     }
 
     #endregion
@@ -34,7 +34,7 @@
 
     public bool IsEnabled(Window mainWindow, Instance instance)
     {
-      return instance != null || !this.RequiresInstance(this.folder);
+      return instance != null || !this.RequiresInstance(this.Folder);
     }
 
     public void OnClick(Window mainWindow, Instance instance)
@@ -62,7 +62,7 @@
 
     private string ExpandPath(Instance instance)
     {
-      var path = this.folder;
+      var path = this.Folder;
       if (!string.IsNullOrEmpty(path) && !this.RequiresInstance(path))
       {
         return Environment.ExpandEnvironmentVariables(path);

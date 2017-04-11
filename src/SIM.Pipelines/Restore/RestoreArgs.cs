@@ -16,8 +16,8 @@
     public InstanceBackup Backup { get; }
 
     public Instance Instance { get; }
-    public string DataFolder;
-    public string WebRootPath;
+    public string _DataFolder;
+    public string _WebRootPath;
     private string instanceName { get; }
 
     #endregion
@@ -37,8 +37,8 @@
       // }
       this.Backup = backup;
       this.Instance = instance;
-      this.WebRootPath = instance.WebRootPath;
-      this.DataFolder = instance.DataFolderPath;
+      this._WebRootPath = instance.WebRootPath;
+      this._DataFolder = instance.DataFolderPath;
       this.instanceName = instance.Name;
     }
 

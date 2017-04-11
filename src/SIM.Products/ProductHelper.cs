@@ -27,10 +27,10 @@
       if (jetstreamAssemblies.Any())
       {
         var solutionInfo = Path.Combine(webRootPath, "Properties\\SolutionInfo.cs");
-        const string name = "Sitecore Jetstream";
+        const string Name = "Sitecore Jetstream";
         if (!FileSystem.FileSystem.Local.File.Exists(solutionInfo))
         {
-          return name;
+          return Name;
         }
 
         /*
@@ -38,24 +38,24 @@
           [assembly: AssemblyFileVersion("13.02.14")]
          */
         var text = FileSystem.FileSystem.Local.File.ReadAllText(solutionInfo);
-        const string versionPrefix = @"AssemblyVersion(""";
-        const string revisionPrefix = @"AssemblyFileVersion(""";
-        var versionPos = text.IndexOf(versionPrefix);
+        const string VersionPrefix = @"AssemblyVersion(""";
+        const string RevisionPrefix = @"AssemblyFileVersion(""";
+        var versionPos = text.IndexOf(VersionPrefix);
         if (versionPos < 0)
         {
-          return name;
+          return Name;
         }
 
-        var version = text.Substring(versionPos + versionPrefix.Length, 5);
-        var revisionPos = text.IndexOf(revisionPrefix);
+        var version = text.Substring(versionPos + VersionPrefix.Length, 5);
+        var revisionPos = text.IndexOf(RevisionPrefix);
         if (revisionPos < 0)
         {
-          return "{0} {1}".FormatWith(name, version);
+          return "{0} {1}".FormatWith(Name, version);
         }
 
-        var revision = text.Substring(revisionPos + revisionPrefix.Length, 8)
+        var revision = text.Substring(revisionPos + RevisionPrefix.Length, 8)
           .Replace(".", string.Empty);
-        return "{0} {1} rev. {2}".FormatWith(name, version, revision);
+        return "{0} {1} rev. {2}".FormatWith(Name, version, revision);
       }
 
       var assemblyPath = Path.Combine(webRootPath, "bin\\Sitecore.Nicam.dll");
@@ -188,7 +188,7 @@
 
       public static readonly AdvancedProperty<bool> CoreProductReverseHostName = AdvancedSettings.Create("App/Product/HostName/Reverse", true);
 
-      public static AdvancedProperty<string> CoreProductNamePattern = AdvancedSettings.Create("Core/Product/NamePattern", string.Empty);
+      public static AdvancedProperty<string> _CoreProductNamePattern = AdvancedSettings.Create("Core/Product/NamePattern", string.Empty);
 
       #endregion
 

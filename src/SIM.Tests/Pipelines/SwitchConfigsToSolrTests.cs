@@ -24,9 +24,9 @@ namespace SIM.Tests.Pipelines
 
     #region Fields
 
-    private SwitchConfigsToSolr _sut;
-    private Instance _instance;
-    private Product _product;
+    private SwitchConfigsToSolr _Sut;
+    private Instance _Instance;
+    private Product _Product;
 
     #endregion
 
@@ -35,24 +35,24 @@ namespace SIM.Tests.Pipelines
     [TestInitialize]
     public void Setup()
     {
-      _instance = Substitute.For<Instance>();
-      _instance.Name.Returns(InstanceName);
-      _instance.WebRootPath.Returns(SomeWebRootPath);
+      _Instance = Substitute.For<Instance>();
+      _Instance.Name.Returns(InstanceName);
+      _Instance.WebRootPath.Returns(SomeWebRootPath);
 
-      _product = Substitute.For<Product>();
+      _Product = Substitute.For<Product>();
 
-      _sut = Substitute.For<SwitchConfigsToSolr>();
+      _Sut = Substitute.For<SwitchConfigsToSolr>();
     }
 
     private void Act()
     {
-      _sut.Execute(_instance, _product);
+      _Sut.Execute(_Instance, _Product);
     }
 
     private void ArrangeConfigFiles(IEnumerable<string> enumerable)
     {
        
-      _sut.GetFiles(null, null, SearchOption.AllDirectories).ReturnsForAnyArgs(enumerable.ToArray());
+      _Sut.GetFiles(null, null, SearchOption.AllDirectories).ReturnsForAnyArgs(enumerable.ToArray());
     }
 
    
@@ -70,31 +70,31 @@ namespace SIM.Tests.Pipelines
 
       Act();
 
-      _sut.Received().GetFiles(expectedPath, expectedFilter, expectedOption);
+      _Sut.Received().GetFiles(expectedPath, expectedFilter, expectedOption);
     }
 
     [TestMethod]
-    public void ShouldEnableSolrConfigFilesEndingWith_example()
+    public void ShouldEnableSolrConfigFilesEndingWithExample()
     {
       string[] returnThis = {SomeWebRootPath + @"\App_Config\Some.Solr.File.config.example"};
       ArrangeConfigFiles(returnThis);
 
       Act();
 
-      _sut.Received().RenameFile(
+      _Sut.Received().RenameFile(
         SomeWebRootPath + @"\App_Config\Some.Solr.File.config.example", 
         SomeWebRootPath + @"\App_Config\Some.Solr.File.config");
     }
 
     [TestMethod]
-    public void ShouldNotEnableSolrConfigFilesContaining_IOC()
+    public void ShouldNotEnableSolrConfigFilesContainingIoc()
     {
       string[] returnThis = {SomeWebRootPath + @"\App_Config\Some.Solr.File.IOC.config.example"};
       ArrangeConfigFiles(returnThis);
 
       Act();
 
-      _sut.DidNotReceive().RenameFile(
+      _Sut.DidNotReceive().RenameFile(
         SomeWebRootPath + @"\App_Config\Some.Solr.File.IOC.config.example",
         SomeWebRootPath + @"\App_Config\Some.Solr.File.IOC.config");
     }
@@ -108,20 +108,20 @@ namespace SIM.Tests.Pipelines
 
       Act();
 
-      _sut.Received().RenameFile(
+      _Sut.Received().RenameFile(
         SomeWebRootPath + @"\App_Config\Some.Solr.File.example.config.example", 
         SomeWebRootPath + @"\App_Config\Some.Solr.File.example.config");
     }
 
     [TestMethod]
-    public void ShouldEnableSolrConfigFilesEndingWith_disabled()
+    public void ShouldEnableSolrConfigFilesEndingWithDisabled()
     {
       string[] returnThis = {SomeWebRootPath + @"\App_Config\Some.Solr.File.config.disabled"};
       ArrangeConfigFiles(returnThis);
 
       Act();
 
-      _sut.Received().RenameFile(
+      _Sut.Received().RenameFile(
         SomeWebRootPath + @"\App_Config\Some.Solr.File.config.disabled", 
         SomeWebRootPath + @"\App_Config\Some.Solr.File.config");
     }
@@ -138,7 +138,7 @@ namespace SIM.Tests.Pipelines
 
       Act();
 
-      _sut.DidNotReceiveWithAnyArgs().RenameFile("", "");
+      _Sut.DidNotReceiveWithAnyArgs().RenameFile("", "");
     }
 
 
@@ -153,7 +153,7 @@ namespace SIM.Tests.Pipelines
 
       Act();
 
-      _sut.Received().RenameFile(
+      _Sut.Received().RenameFile(
         SomeWebRootPath + @"\App_Config\Some.Lucene.File.config",
         SomeWebRootPath + @"\App_Config\Some.Lucene.File.config.disabled");
     }
@@ -172,7 +172,7 @@ namespace SIM.Tests.Pipelines
 
       Act();
 
-      _sut.Received().RenameFile(
+      _Sut.Received().RenameFile(
         SomeWebRootPath + @"\App_Config\Sitecore.Social.Lucene.Index.Analytics.Facebook.config",
         SomeWebRootPath + @"\App_Config\Sitecore.Social.Lucene.Index.Analytics.Facebook.config.disabled");
     }
@@ -187,7 +187,7 @@ namespace SIM.Tests.Pipelines
 
       Act();
 
-      _sut.DidNotReceive().RenameFile(
+      _Sut.DidNotReceive().RenameFile(
         SomeWebRootPath + @"\App_Config\Some.Lucene.File.config",
         SomeWebRootPath + @"\App_Config\Some.Lucene.File.config.disabled");
     }
@@ -200,12 +200,12 @@ namespace SIM.Tests.Pipelines
       };
       ArrangeConfigFiles(returnThis);
       
-      _sut.FileReadAllText(SomeWebRootPath + @"\App_Config\Some.Solr.File.config").Returns(@"<root><param desc=""core"">$(id)</param>/root>");
+      _Sut.FileReadAllText(SomeWebRootPath + @"\App_Config\Some.Solr.File.config").Returns(@"<root><param desc=""core"">$(id)</param>/root>");
 
 
       Act();
 
-      _sut.Received().FileWriteAllText(SomeWebRootPath + @"\App_Config\Some.Solr.File.config", @"<root><param desc=""core"">INSTANCE_$(id)</param>/root>");
+      _Sut.Received().FileWriteAllText(SomeWebRootPath + @"\App_Config\Some.Solr.File.config", @"<root><param desc=""core"">INSTANCE_$(id)</param>/root>");
     }
 
   #endregion

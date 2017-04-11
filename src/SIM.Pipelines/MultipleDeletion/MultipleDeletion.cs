@@ -21,7 +21,7 @@
 
     protected override void Process(MultipleDeletionArgs args)
     {
-      foreach (var deleteArgs in args.Instances.Select(InstanceManager.Default.GetInstance).NotNull().Select(instance => new DeleteArgs(instance, args.ConnectionString)))
+      foreach (var deleteArgs in args.Instances.Select(InstanceManager.Default.GetInstance).NotNull().Select(instance => new DeleteArgs(instance, args._ConnectionString)))
       {
         PipelineManager.StartPipeline("delete", deleteArgs, null, false);
         this.IncrementProgress();

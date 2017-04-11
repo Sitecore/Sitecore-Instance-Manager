@@ -7,13 +7,13 @@
   public class Parameters
   {
     [NotNull]
-    private readonly string[] array;
+    private readonly string[] _Array;
 
     private Parameters([NotNull] string paramString)
     {
       Assert.ArgumentNotNull(paramString, nameof(paramString));
 
-      this.array = paramString.Split(":|;".ToCharArray());
+      this._Array = paramString.Split(":|;".ToCharArray());
     }
 
     [NotNull]
@@ -21,9 +21,9 @@
     {
       get
       {
-        if (this.array.Length > number)
+        if (this._Array.Length > number)
         {
-          return this.array[number] ?? string.Empty;
+          return this._Array[number] ?? string.Empty;
         }
 
         return string.Empty;
@@ -41,9 +41,9 @@
     [NotNull]
     public string[] Skip(int count)
     {
-      if (this.array.Length > count)
+      if (this._Array.Length > count)
       {
-        return this.array.Skip(count).Where(x => !string.IsNullOrWhiteSpace(x)).ToArray();
+        return this._Array.Skip(count).Where(x => !string.IsNullOrWhiteSpace(x)).ToArray();
       }
 
       return new string[0];

@@ -19,7 +19,7 @@
   {
     #region Fields
 
-    private string _connectionString;
+    private string _ConnectionString;
 
     #endregion
 
@@ -38,7 +38,7 @@
     {
       get
       {
-        var sqlServerAccountName = SqlServerManager.Instance.GetSqlServerAccountName(new SqlConnectionStringBuilder(this._connectionString));
+        var sqlServerAccountName = SqlServerManager.Instance.GetSqlServerAccountName(new SqlConnectionStringBuilder(this._ConnectionString));
 
         if (sqlServerAccountName == null)
         {
@@ -120,7 +120,7 @@
     {
       var args = (SetupWizardArgs)wizardArgs;
       this.InstancesRootFolder.Text = args.InstancesRootFolderPath;
-      this._connectionString = args.ConnectionString;
+      this._ConnectionString = args.ConnectionString;
     }
 
     bool IFlowControl.OnMovingBack(WizardArgs wizardArgs)
@@ -139,7 +139,7 @@
 
       try
       {
-        const string message = "You probably don't have necessary permissions set. Please try to click 'Grant' button before you proceed.\r\n\r\nNote, the SQL Server account that you selected previously must have necessary permissions to create a SQL database in the instances root folder you specified earlier - please ensure that it is correct. In addition, the SQL Server service must use NETWORK SERVICE identity so that SIM can assign necessary permissions for it.";
+        const string Message = "You probably don't have necessary permissions set. Please try to click 'Grant' button before you proceed.\r\n\r\nNote, the SQL Server account that you selected previously must have necessary permissions to create a SQL database in the instances root folder you specified earlier - please ensure that it is correct. In addition, the SQL Server service must use NETWORK SERVICE identity so that SIM can assign necessary permissions for it.";
         foreach (var account in this.Accounts)
         {
           if (!this.ValidateAccount(account))
@@ -149,14 +149,14 @@
 
           if (!FileSystem.FileSystem.Local.Security.HasPermissions(args.InstancesRootFolderPath, account, FileSystemRights.FullControl))
           {
-            WindowHelper.ShowMessage(message, MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
+            WindowHelper.ShowMessage(Message, MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
             return false;
           }
         }
 
         if (!SqlServerManager.Instance.TestSqlServer(args.InstancesRootFolderPath, args.ConnectionString))
         {
-          WindowHelper.ShowMessage(message, MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
+          WindowHelper.ShowMessage(Message, MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
           return false;
         }
 

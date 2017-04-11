@@ -60,7 +60,7 @@ namespace SIM
 
     public static bool IsDebugging { get; }
 
-    public static bool IsQA { get; }
+    public static bool IsQa { get; }
 
     public static string ProcessName { get; }
 
@@ -87,9 +87,9 @@ namespace SIM
       var processName = Process.GetCurrentProcess().ProcessName + ".exe";
       ProcessName = processName;
       IsDebugging = processName.ContainsIgnoreCase(".vshost.");
-      IsQA = processName.ContainsIgnoreCase(".QA.");
+      IsQa = processName.ContainsIgnoreCase(".QA.");
 
-      DataFolder = InitializeFolder(Environment.ExpandEnvironmentVariables(AppDataRoot + (IsQA ? "-QA" : "")));
+      DataFolder = InitializeFolder(Environment.ExpandEnvironmentVariables(AppDataRoot + (IsQa ? "-QA" : "")));
       CachesFolder = InitializeDataFolder("Caches");
       FilePackagesFolder = InitializeDataFolder("Custom Packages");
       ConfigurationPackagesFolder = InitializeDataFolder("Custom Configurations");

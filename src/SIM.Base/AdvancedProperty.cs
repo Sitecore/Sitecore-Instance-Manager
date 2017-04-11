@@ -8,7 +8,7 @@
   {
     #region Fields
 
-    protected string userValue;
+    protected string _UserValue;
 
     #endregion
 
@@ -19,7 +19,7 @@
     {
       this.DefaultValue = defaultValue;
       this.RawValueParser = rawValueParser;
-      this.userValue = this.ReadSetting();
+      this._UserValue = this.ReadSetting();
     }
 
     #endregion
@@ -55,13 +55,13 @@
     {
       get
       {
-        return this.userValue;
+        return this._UserValue;
       }
 
       set
       {
         this.WriteSetting(value);
-        this.userValue = value.IsNullOrEmpty() ? null : value;
+        this._UserValue = value.IsNullOrEmpty() ? null : value;
       }
     }
 

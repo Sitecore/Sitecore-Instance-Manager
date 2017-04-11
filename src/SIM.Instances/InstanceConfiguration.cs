@@ -17,7 +17,7 @@
     #region Fields
 
     [NotNull]
-    private Instance instance { get; }
+    private Instance Instance { get; }
 
     #endregion
 
@@ -27,7 +27,7 @@
     {
       Assert.ArgumentNotNull(instance, nameof(instance));
 
-      this.instance = instance;
+      this.Instance = instance;
     }
 
     #endregion
@@ -100,7 +100,7 @@
     [NotNull]
     private XmlElementEx GetConnectionStringsElement()
     {
-      XmlDocumentEx webConfig = this.instance.GetWebConfig();
+      XmlDocumentEx webConfig = this.Instance.GetWebConfig();
       Assert.IsNotNull(webConfig, nameof(webConfig));
 
       return GetConnectionStringsElement(webConfig);

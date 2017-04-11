@@ -36,10 +36,10 @@
       Assert.ArgumentNotNull(sender, nameof(sender));
       Assert.ArgumentNotNull(e, nameof(e));
 
-      this.OKClick(sender, e);
+      this.OkClick(sender, e);
     }
 
-    private void OKClick([CanBeNull] object sender, [CanBeNull] RoutedEventArgs e)
+    private void OkClick([CanBeNull] object sender, [CanBeNull] RoutedEventArgs e)
     {
       var s = this.AllowMultiSelect ? this.ListBox1.SelectedItems.Cast<string>().Aggregate(string.Empty, (current, selectedItem) => current + (selectedItem + ',')) : (string)this.ListBox1.SelectedItem;
       this.DataContext = s.Trim(',');
@@ -63,7 +63,7 @@
       }
       else if (e.Key == Key.Enter)
       {
-        this.OKClick(null, null);
+        this.OkClick(null, null);
       }
     }
 

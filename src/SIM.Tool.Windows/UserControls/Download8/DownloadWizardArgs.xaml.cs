@@ -20,7 +20,7 @@
     #region Fields
 
     [NotNull]
-    private readonly List<ProductDownload8InCheckbox> products = new List<ProductDownload8InCheckbox>();
+    private readonly List<ProductDownload8InCheckbox> _Products = new List<ProductDownload8InCheckbox>();
 
     #endregion
 
@@ -54,7 +54,7 @@
     {
       get
       {
-        return this.products;
+        return this._Products;
       }
     }
 
