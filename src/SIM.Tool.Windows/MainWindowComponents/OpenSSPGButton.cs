@@ -7,7 +7,7 @@ namespace SIM.Tool.Windows.MainWindowComponents
   using SIM.Core;
 
   [UsedImplicitly]
-  public class OpenSspgButton : IMainWindowButton
+  public class OpenSSPGButton : IMainWindowButton
   {
     #region Public methods
 
