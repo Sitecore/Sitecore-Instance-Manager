@@ -4,6 +4,7 @@
 
   using System.Data.SqlClient;
   using System.Xml;
+  using SIM.Adapters.MongoDb;
   using SIM.Adapters.SqlServer;
   using Sitecore.Diagnostics.Base;
   using JetBrains.Annotations;
@@ -52,7 +53,7 @@
     {
       get
       {
-        if (SqlServerManager.Instance.IsMongoConnectionString(this.Value))
+        if (MongoDbManager.Instance.IsMongoConnectionString(this.Value))
         {
           return true;
         }

@@ -2,6 +2,7 @@
 {
   using System.Collections.Generic;
   using System.Data.SqlClient;
+  using SIM.Adapters.MongoDb;
   using SIM.Pipelines.Processors;
   using Sitecore.Diagnostics.Base;
   using JetBrains.Annotations;
@@ -39,6 +40,7 @@
     #region Properties
 
     public string PathToExportedInstance { get; set; }
+    public List<MongoDbDatabaseImport> ExtractedMongoDatabases { get; set; }
 
     #endregion
 

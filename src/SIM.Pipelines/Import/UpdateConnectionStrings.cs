@@ -3,6 +3,7 @@
   using System.Data.SqlClient;
   using System.Linq;
   using System.Xml;
+  using MongoDB.Driver;
   using SIM.Adapters.WebServer;
   using SIM.Extensions;
 
@@ -40,6 +41,20 @@
           }
 
           conn.Value = builder.ToString();
+        }
+        else if (conn.IsMongoConnectionString)
+        {
+          var builder = new MongoUrlBuilder(conn.Value);
+
+          foreach (var database in args.ExtractedMongoDatabases)
+          {
+            if (database.OriginalName == builder.DatabaseName)
+            {
+              builder.DatabaseName = database.FinalName;
+              conn.Value = builder.ToString();
+              break;
+            }
+          }
         }
       }
 

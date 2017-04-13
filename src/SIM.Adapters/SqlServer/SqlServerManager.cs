@@ -415,11 +415,6 @@
       }
     }
 
-    public virtual bool IsMongoConnectionString(string connectionString)
-    {
-      return connectionString.StartsWith(@"mongodb://");
-    }
-
     public virtual bool IsSqlConnectionString([CanBeNull] string connectionString)
     {
       try
