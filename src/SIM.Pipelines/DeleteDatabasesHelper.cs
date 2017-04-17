@@ -78,7 +78,7 @@ namespace SIM.Pipelines
       foreach (var database in mongoDatabases)
       {
         var cstr = database.ConnectionString;
-        if (!SqlServerManager.Instance.IsMongoConnectionString(cstr))
+        if (!MongoDbManager.Instance.IsMongoConnectionString(cstr))
         {
           continue;
         }
