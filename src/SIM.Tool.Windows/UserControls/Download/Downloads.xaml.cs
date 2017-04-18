@@ -83,7 +83,7 @@
       WindowHelper.LongRunningTask(() => { ex = PrepareData(args); }, "Sitecore Versions Downloader", Window.GetWindow(this), "Preparing for downloading");
       if (ex != null)
       {
-        WindowHelper.ShowMessage("Failed to prepare the data. " + ex + "\r\nMessage: " + ex.Message + "\r\nStackTrace:\r\n" + ex.StackTrace);
+        WindowHelper.ShowMessage($"Failed to prepare the data. {ex}\r\nMessage: {ex.Message}\r\nStackTrace:\r\n{ex.StackTrace}");
         
         return false;
       }

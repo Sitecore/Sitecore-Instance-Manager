@@ -70,7 +70,7 @@
         var rootDrive = FileSystem.FileSystem.Local.Directory.GetDirectoryRoot(root.FullName);
         var drive = Environment.GetLogicalDrives().First(d => !d.EqualsIgnoreCase(rootDrive));
         var instance = new FakeInstance(GetRelativeFolder(root, "Website"), new DirectoryInfo(drive + "data"), GetDatabases(name, GetRelativeFolder(root, "Databases")));
-        RootPathTest("#5 data on another drive (root/website, " + drive + "data, root/databases)", root, instance);
+        RootPathTest($"#5 data on another drive (root/website, {drive}data, root/databases)", root, instance);
       }
     }
 
@@ -94,7 +94,7 @@
         var rootDrive = FileSystem.FileSystem.Local.Directory.GetDirectoryRoot(root.FullName);
         var drive = Environment.GetLogicalDrives().First(d => !d.EqualsIgnoreCase(rootDrive));
         var instance = new FakeInstance(GetRelativeFolder(root, "Website"), GetRelativeFolder(root, "Data"), GetDatabases(name, new DirectoryInfo(drive + "databases")));
-        RootPathTest("#7 databases on another drive (root/website, root/data, " + drive + "databases)", root, instance);
+        RootPathTest($"#7 databases on another drive (root/website, root/data, {drive}databases)", root, instance);
       }
     }
 
@@ -107,7 +107,7 @@
         var rootDrive = FileSystem.FileSystem.Local.Directory.GetDirectoryRoot(root.FullName);
         var drive = Environment.GetLogicalDrives().First(d => !d.EqualsIgnoreCase(rootDrive));
         var instance = new FakeInstance(GetRelativeFolder(root, "Website"), GetRelativeFolder(root.Parent, "Data"), GetDatabases(name, new DirectoryInfo(drive + "databases")));
-        RootPathTest("#8 databases on another drive, data too far (root/website, root/data, " + drive + "databases)", root, instance);
+        RootPathTest($"#8 databases on another drive, data too far (root/website, root/data, {drive}databases)", root, instance);
       }
     }
 
@@ -120,7 +120,7 @@
         var rootDrive = FileSystem.FileSystem.Local.Directory.GetDirectoryRoot(root.FullName);
         var drive = Environment.GetLogicalDrives().First(d => !d.EqualsIgnoreCase(rootDrive));
         var instance = new FakeInstance(GetRelativeFolder(root, "Website"), GetRelativeFolder(root.Parent, "Data"), new Database[0]);
-        RootPathTest("#9 no databases, data too far (root/website, root/data, " + drive + "databases)", root, instance);
+        RootPathTest($"#9 no databases, data too far (root/website, root/data, {drive}databases)", root, instance);
       }
     }
 
@@ -134,7 +134,7 @@
         var drive = Environment.GetLogicalDrives().First(d => !d.EqualsIgnoreCase(rootDrive));
         var website = GetRelativeFolder(root, "Website");
         var instance = new FakeInstance(website, GetRelativeFolder(website, "Data"), new Database[0]);
-        RootPathTest("#9 no databases, data is inside (root/website, root/website/data, " + drive + "databases)", website, instance);
+        RootPathTest($"#9 no databases, data is inside (root/website, root/website/data, {drive}databases)", website, instance);
       }
     }
 

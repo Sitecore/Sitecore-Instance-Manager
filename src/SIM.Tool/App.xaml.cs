@@ -40,7 +40,7 @@ namespace SIM.Tool
   {
     #region Fields
 
-    private static string AppLogsMessage { get; } = "The application will be suspended, look at the " + ApplicationManager.LogsFolder + " log file to find out what has happened";
+    private static string AppLogsMessage { get; } = $"The application will be suspended, look at the {ApplicationManager.LogsFolder} log file to find out what has happened";
 
     #endregion
 
@@ -86,7 +86,7 @@ namespace SIM.Tool
         {
           var exists = false;
           var wc = new WebClient();
-          var url = "https://github.com/Sitecore/Sitecore-Instance-Manager/releases/tag/" + ver;
+          var url = $"https://github.com/Sitecore/Sitecore-Instance-Manager/releases/tag/{ver}";
           try
           {
             wc.DownloadString(url);
@@ -120,7 +120,7 @@ namespace SIM.Tool
         }
 
         var ext = ".deploy.txt";
-        foreach (var filePath in Directory.GetFiles(".", "*" + ext, SearchOption.AllDirectories))
+        foreach (var filePath in Directory.GetFiles(".", $"*{ext}", SearchOption.AllDirectories))
         {
           if (filePath == null)
           {
@@ -357,7 +357,7 @@ namespace SIM.Tool
       }
       catch (Exception ex)
       {
-        WindowHelper.HandleError("The main window thrown an exception during creation. " + AppLogsMessage, true, ex);
+        WindowHelper.HandleError($"The main window thrown an exception during creation. {AppLogsMessage}", true, ex);
         return null;
       }
     }
@@ -454,7 +454,7 @@ namespace SIM.Tool
         }
         catch (Exception ex)
         {
-          WindowHelper.HandleError("Profile manager failed during initialization. " + AppLogsMessage, true, ex);
+          WindowHelper.HandleError($"Profile manager failed during initialization. {AppLogsMessage}", true, ex);
         }
 
         return ProfileSection.Result(false);

@@ -42,7 +42,7 @@
     {
       foreach (string dbName in dbNames)
       {
-        if (SqlServerManager.Instance.DatabaseExists(dbName + "_" + postfix.ToString(), connectionString))
+        if (SqlServerManager.Instance.DatabaseExists($"{dbName}_{postfix}", connectionString))
         {
           return false;
         }
@@ -61,7 +61,7 @@
         {
           newName = oldName;
           postFix++;
-          newName += "_" + postFix.ToString();
+          newName += $"_{postFix}";
         }
         else
         {
@@ -81,7 +81,7 @@
     {
       if (postfix != -1)
       {
-        return oldName + "_" + postfix.ToString();
+        return $"{oldName}_{postfix}";
       }
       else
       {
@@ -111,7 +111,7 @@
         {
           postfix++;
         }
-        else if (SqlServerManager.Instance.DatabaseExists(dbNames[i] + "_" + postfix.ToString(), connectionString))
+        else if (SqlServerManager.Instance.DatabaseExists($"{dbNames[i]}_{postfix}", connectionString))
         {
           postfix++;
         }

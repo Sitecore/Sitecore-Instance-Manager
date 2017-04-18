@@ -83,13 +83,13 @@
         string[] paramArgs = param.Split('|');
         var xpath =
           paramArgs.Length == 2
-            ? Product.ManifestPrefix + paramArgs[0] + "/install/" + paramArgs[1] // is package
+            ? $"{Product.ManifestPrefix}{paramArgs[0]}/install/{paramArgs[1]}" // is package
             : Product.ManifestPrefix + param + "/install"; // is archive
 
         XmlElement element = manifest.SelectSingleNode(xpath) as XmlElement;
         if (element == null)
         {
-          Log.Warn(string.Format("Can't find rules root (the {0} element in the manifest of the {3} file){1}The manifest is: {1}{2}", xpath, Environment.NewLine, manifest.OuterXml, module.PackagePath));
+          Log.Warn($"Can't find rules root (the {xpath} element in the manifest of the {module.PackagePath} file){Environment.NewLine}The manifest is: {Environment.NewLine}{manifest.OuterXml}");
           done?.Add(module);
 
           continue;
@@ -433,7 +433,7 @@
 
         try
         {
-          var inPackageFilePath = location + "/" + (sourceFileName.EmptyToNull() ?? fileName);
+          var inPackageFilePath = $"{location}/{(sourceFileName.EmptyToNull() ?? fileName)}";
           FileSystem.FileSystem.Local.Zip.UnpackZip(packagePath, tmpPath, inPackageFilePath.Replace("\\", "/"));
 
           var source = Path.Combine(tmpPath, inPackageFilePath);
@@ -526,9 +526,8 @@
         while (true)
         {
           databasesFolder = controller.Ask(
-            "Can't find any local database of the " + instance +
-            " instance to detect the Databases folder. Please specify it manually:",
-            instance.RootPath.TrimEnd('\\') + "\\Databases");
+            $"Can\'t find any local database of the {instance} instance to detect the Databases folder. Please specify it manually:",
+            $"{instance.RootPath.TrimEnd('\\')}\\Databases");
           if (string.IsNullOrEmpty(databasesFolder))
           {
             if (controller.Confirm("You didn't input anything - would you like to terminate this installation?"))
@@ -541,7 +540,7 @@
 
           if (!FileSystem.FileSystem.Local.Directory.Exists(databasesFolder))
           {
-            if (controller.Confirm("The " + databasesFolder + " doesn't exist. Would you like to create the folder?"))
+            if (controller.Confirm($"The {databasesFolder} doesn\'t exist. Would you like to create the folder?"))
             {
               FileSystem.FileSystem.Local.Directory.CreateDirectory(databasesFolder);
               break;

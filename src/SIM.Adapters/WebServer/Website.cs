@@ -239,14 +239,14 @@
     public virtual string GetUrl([CanBeNull] string path = null)
     {
       var binding = Bindings.FirstOrDefault();
-      Assert.IsNotNull(binding, "Website " + ID + " has no url bindings");
+      Assert.IsNotNull(binding, $"Website {ID} has no url bindings");
       var url = binding.Protocol + "://";
       var host = binding.Host;
       url += host != "*" ? host : Environment.MachineName;
       var port = binding.Port;
       if (port != 80)
       {
-        url += ":" + port;
+        url += $":{port}";
       }
 
       if (!string.IsNullOrEmpty(path))
@@ -367,7 +367,7 @@
       Assert.IsNotNull(application, "Cannot find root application for {0} site".FormatWith(site.Name));
       var poolname = application.ApplicationPoolName;
       ApplicationPool pool = context.ApplicationPools[poolname];
-      Assert.IsNotNull(pool, "The " + poolname + "application pool doesn't exists");
+      Assert.IsNotNull(pool, $"The {poolname}application pool doesn\'t exists");
 
       return pool;
     }
@@ -378,7 +378,7 @@
       Assert.ArgumentNotNull(context, nameof(context));
 
       Site site = context.Sites.SingleOrDefault(s => s.Id == ID);
-      Assert.IsNotNull(site, "Website " + ID + " not found");
+      Assert.IsNotNull(site, $"Website {ID} not found");
       return site;
     }
 

@@ -222,7 +222,7 @@
     {
       WindowHelper.LongRunningTask(
         () => PublishAsync(instance), "Publish", 
-        owner, "Publish", "Publish 'en' language from 'master' to 'web' with mode " + mode);
+        owner, "Publish", $"Publish \'en\' language from \'master\' to \'web\' with mode {mode}");
     }
 
     public static void RefreshCaches()
@@ -357,7 +357,7 @@
       EnableRefreshButton(mainWindow);
       if (message != null)
       {
-        WindowHelper.HandleError("Refresh failed ... " + message, false);
+        WindowHelper.HandleError($"Refresh failed ... {message}", false);
       }
     }
 
@@ -522,7 +522,7 @@
             }
             catch (Exception ex)
             {
-              WindowHelper.HandleError("Error during handling menu button click: " + menuHandler.GetType().FullName, true, ex);
+              WindowHelper.HandleError($"Error during handling menu button click: {menuHandler.GetType().FullName}", true, ex);
             }
           };
 
@@ -530,7 +530,7 @@
         }
         catch (Exception ex)
         {
-          WindowHelper.HandleError("Error during initializing ribbon button: " + menuItem.OuterXml, true, ex);
+          WindowHelper.HandleError($"Error during initializing ribbon button: {menuItem.OuterXml}", true, ex);
         }
       }
 
@@ -677,7 +677,7 @@
         }
         catch (Exception ex)
         {
-          WindowHelper.HandleError("Plugin Button caused an exception: " + button.OuterXml, true, ex);
+          WindowHelper.HandleError($"Plugin Button caused an exception: {button.OuterXml}", true, ex);
         }
       }
     }
@@ -981,7 +981,7 @@
       }
       catch (Exception ex)
       {
-        WindowHelper.HandleError("An error occurred while publishing" + Environment.NewLine + ex.Message, true, ex);
+        WindowHelper.HandleError($"An error occurred while publishing{Environment.NewLine}{ex.Message}", true, ex);
       }
       finally
       {
@@ -995,7 +995,7 @@
       Invoke((mainWindow) => UpdateInstallButtons(message, mainWindow));
       if (message != null)
       {
-        WindowHelper.HandleError("Cannot find any installation package. " + message, false, null);
+        WindowHelper.HandleError($"Cannot find any installation package. {message}", false, null);
       }
     }
 

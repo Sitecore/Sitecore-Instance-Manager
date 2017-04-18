@@ -59,7 +59,7 @@
         }
       }
 
-      throw new Exception("IIS website " + site.Id + " seems to be corrupted or misconfigured");
+      throw new Exception($"IIS website {site.Id} seems to be corrupted or misconfigured");
     }
 
     public static bool HostBindingExists([NotNull] string host)
@@ -87,7 +87,7 @@
         {
           return false;
         }
-        var bindingInformation = binding.IP + ":" + binding.Port + ":" + binding.Host;
+        var bindingInformation = $"{binding.IP}:{binding.Port}:{binding.Host}";
         
         siteInfo.Bindings.Add(bindingInformation, binding.Protocol);
         context.CommitChanges();

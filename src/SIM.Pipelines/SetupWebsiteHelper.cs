@@ -109,7 +109,7 @@ namespace SIM.Pipelines
         Site site = null;
         foreach (BindingInfo binding in bindings)
         {
-          var bindingInformation = binding.IP + ":" + binding.Port + ":" + binding.Host;
+          var bindingInformation = $"{binding.IP}:{binding.Port}:{binding.Host}";
           if (site == null)
           {
             site = context.Sites.Add(name, binding.Protocol, bindingInformation, webRootPath);

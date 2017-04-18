@@ -123,7 +123,7 @@ namespace SIM.Pipelines.Import
     {
       if (postfix != DEFAULT_POSTFIX)
       {
-        return originalName + "_" + postfix;
+        return $"{originalName}_{postfix}";
       }
 
       return originalName;

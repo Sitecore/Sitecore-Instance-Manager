@@ -103,7 +103,7 @@
 
       if (Normalize)
       {
-        path = Path.Combine(Path.GetDirectoryName(path), "norm." + Path.GetFileName(path));
+        path = Path.Combine(Path.GetDirectoryName(path), $"norm.{Path.GetFileName(path)}");
       }
 
       if (Showconfig)

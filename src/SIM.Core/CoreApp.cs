@@ -143,7 +143,8 @@
         ProfileSection.Argument("app", app);
         ProfileSection.Argument("@params", @params);
 
-        var resultParams = string.Join(" ", @params.Select(x => x.Trim('\"')).Select(x => x.Contains(" ") || x.Contains("=") ? "\"" + x + "\"" : x));
+        var resultParams = string.Join(" ", @params.Select(x => x.Trim('\"')).Select(x => x.Contains(" ") || x.Contains("=") ? $"\"{x}\""
+          : x));
         Log.Debug($"resultParams: {resultParams}");
 
         var process = Process.Start(app, resultParams);

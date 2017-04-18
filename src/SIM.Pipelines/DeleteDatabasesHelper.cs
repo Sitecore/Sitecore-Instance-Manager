@@ -84,7 +84,7 @@ namespace SIM.Pipelines
         }
 
         var pos = cstr.IndexOf('/', @"mongodb://".Length + 1);
-        Assert.IsTrue(pos >= 0 && pos < cstr.Length - 1, "Mongo connection string is corrupted: " + cstr);
+        Assert.IsTrue(pos >= 0 && pos < cstr.Length - 1, $"Mongo connection string is corrupted: {cstr}");
 
         var dbName = cstr.Substring(pos + 1);
         var client = new MongoClient();

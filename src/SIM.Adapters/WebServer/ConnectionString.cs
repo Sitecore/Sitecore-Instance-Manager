@@ -41,13 +41,7 @@
     #region Properties
 
     [NotNull]
-    public string DefaultFileName
-    {
-      get
-      {
-        return "Sitecore." + this.Name + ".mdf";
-      }
-    }
+    public string DefaultFileName => $"Sitecore.{this.Name}.mdf";
 
     public bool IsMongoConnectionString
     {

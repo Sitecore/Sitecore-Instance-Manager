@@ -186,7 +186,13 @@
     private void Append(string folder, Product product)
     {
       var ver = product.Version;
-      IEnumerable<string> files = FileSystem.FileSystem.Local.Directory.GetFiles(folder, "*.zip", SearchOption.AllDirectories).Where(f => !f.ContainsIgnoreCase("- Sitecore") || (f.ContainsIgnoreCase("- Sitecore " + ver) || (f.ContainsIgnoreCase("- Sitecore " + ver.Substring(0, 3) + " ") || f.ContainsIgnoreCase("- Sitecore " + ver[0] + " "))));
+      IEnumerable<string> files = FileSystem.FileSystem.Local.Directory.GetFiles(folder, "*.zip", SearchOption.AllDirectories)
+        .Where(f => false 
+          || !f.ContainsIgnoreCase("- Sitecore") 
+          || f.ContainsIgnoreCase($"- Sitecore {ver}") 
+          || f.ContainsIgnoreCase($"- Sitecore {ver.Substring(0, 3)} ") 
+          || f.ContainsIgnoreCase($"- Sitecore {ver[0]} ")
+          );
 
       var productsToAdd = files.Select(f => new ProductInCheckbox(Product.GetFilePackageProduct(f))).ToList();
       foreach (var productInCheckbox in productsToAdd)

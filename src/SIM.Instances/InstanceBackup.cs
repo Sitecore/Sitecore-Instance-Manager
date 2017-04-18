@@ -176,7 +176,11 @@
       }
 
       var backupDbs = BackupDatabases || BackupMongoDatabases;
-      return DateString + ": " + (BackupWebsiteFiles ? (BackupWebsiteFilesNoClient ? "files (no client)" : "files") : string.Empty) + (BackupWebsiteFiles && backupDbs ? " and " : string.Empty) + (backupDbs ? "databases: " + dbs : string.Empty);
+      var files = BackupWebsiteFiles ? (BackupWebsiteFilesNoClient ? "files (no client)" : "files") : string.Empty;
+      var and = BackupWebsiteFiles && backupDbs ? " and " : string.Empty;
+      var databases = backupDbs ? $"databases: {dbs}" : string.Empty;
+      return
+        $"{DateString}: {files}{and}{databases}";
     }
 
     #endregion

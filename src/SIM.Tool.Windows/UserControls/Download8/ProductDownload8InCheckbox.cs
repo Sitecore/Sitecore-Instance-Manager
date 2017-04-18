@@ -47,7 +47,7 @@
 
     public override string ToString()
     {
-      return $"{NameOverride ?? Name} {Version} rev. {Revision}{(string.IsNullOrEmpty(Label) ? string.Empty : " (" + Label + ")")}{(IsEnabled ? string.Empty : " - you already have it")}";
+      return $"{NameOverride ?? Name} {Version} rev. {Revision}{(string.IsNullOrEmpty(Label) ? string.Empty : $" ({Label})")}{(IsEnabled ? string.Empty : " - you already have it")}";
     }
 
     #endregion

@@ -33,7 +33,7 @@
 
           if (args._DatabaseNameAppend != -1)
           {
-            builder.InitialCatalog = builder.InitialCatalog + "_" + args._DatabaseNameAppend.ToString();
+            builder.InitialCatalog = $"{builder.InitialCatalog}_{args._DatabaseNameAppend}";
           }
           else
           {

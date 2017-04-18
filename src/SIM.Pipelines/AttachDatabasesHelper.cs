@@ -140,7 +140,7 @@ namespace SIM.Pipelines
 
       if (!FileSystem.Local.File.Exists(databasePath))
       {
-        string[] files = FileSystem.Local.Directory.GetFiles(databasesFolderPath, "*" + databaseName + ".mdf");
+        string[] files = FileSystem.Local.Directory.GetFiles(databasesFolderPath, $"*{databaseName}.mdf");
         var file = files.SingleOrDefault();
         if (!String.IsNullOrEmpty(file) && FileSystem.Local.File.Exists(file))
         {
@@ -207,7 +207,7 @@ namespace SIM.Pipelines
       Assert.ArgumentNotNull(connectionStringName, nameof(connectionStringName));
       Assert.ArgumentNotNull(instanceName, nameof(instanceName));
 
-      var mongoDbName = instanceName + "_" + connectionStringName;
+      var mongoDbName = $"{instanceName}_{connectionStringName}";
       var invalidChars = new[]
       {
         '\0', ' ', '.', '$', '/', '\\'
@@ -217,7 +217,7 @@ namespace SIM.Pipelines
         mongoDbName = mongoDbName.Replace(@char, "_"); // #SIM-128 Fixed
       }
 
-      var value = Settings.AppMongoConnectionString.Value.TrimEnd('/') + @"/" + mongoDbName;
+      var value = $@"{Settings.AppMongoConnectionString.Value.TrimEnd('/')}/{mongoDbName}";
       return value;
     }
 
@@ -232,11 +232,12 @@ namespace SIM.Pipelines
       {
         if (!SqlServerManager.Instance.DatabaseExists(databaseName + '_' + i, defaultConnectionString))
         {
-          return databaseName + "_" + i;
+          return $"{databaseName}_{i}";
         }
       }
 
-      throw new InvalidOperationException("Something weird happen... Do you really have '{0}' file?".FormatWith(databaseName + "_" + K));
+      throw new InvalidOperationException(
+        $"Something weird happen... Do you really have \'{databaseName}_{K}\' file?");
     }
 
     [NotNull]

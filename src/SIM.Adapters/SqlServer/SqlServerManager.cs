@@ -63,7 +63,7 @@
 
       using (SqlConnection sqlConnection = OpenConnection(connectionString))
       {
-        var command = $"create database [{name}] on (filename = N'{path}'){(attachLog && FileSystem.FileSystem.Local.File.Exists(ldf) ? ", (filename = N'" + ldf + "')" : string.Empty)} for attach";
+        var command = $"create database [{name}] on (filename = N'{path}'){(attachLog && FileSystem.FileSystem.Local.File.Exists(ldf) ? $", (filename = N\'{ldf}\')" : string.Empty)} for attach";
         Execute(sqlConnection, command);
       }
     }
@@ -249,7 +249,7 @@
 
       using (SqlConnection conn = OpenConnection(connectionString))
       {
-        SqlCommand command = new SqlCommand(@"dbcc checkprimaryfile (N'" + pathToMdf + @"' , 2)", conn);
+        SqlCommand command = new SqlCommand($@"dbcc checkprimaryfile (N'{pathToMdf}' , 2)", conn);
         SqlDataReader reader = command.ExecuteReader();
         while (reader.Read())
         {
@@ -272,7 +272,7 @@
 
       using (SqlConnection conn = OpenConnection(connectionString))
       {
-        SqlCommand command = new SqlCommand("RESTORE FILELISTONLY FROM DISK='" + pathToBak + "'", conn);
+        SqlCommand command = new SqlCommand($"RESTORE FILELISTONLY FROM DISK=\'{pathToBak}\'", conn);
 
         // SqlCommand command = new SqlCommand("RESTORE HEADERONLY FROM DISK = N'" + pathToBak + "' WITH NOUNLOAD", conn);
         SqlDataReader reader = command.ExecuteReader();
@@ -293,7 +293,7 @@
         }
 
         reader.Close();
-        SqlCommand command2 = new SqlCommand("RESTORE HEADERONLY FROM DISK = N'" + pathToBak + "' WITH NOUNLOAD", conn);
+        SqlCommand command2 = new SqlCommand($"RESTORE HEADERONLY FROM DISK = N\'{pathToBak}\' WITH NOUNLOAD", conn);
         reader = command2.ExecuteReader();
         var dbName = string.Empty;
         while (reader.Read())
@@ -342,7 +342,7 @@
 
       using (SqlConnection conn = OpenConnection(connectionString))
       {
-        SqlCommand command = new SqlCommand(@"USE master; SELECT [Name] FROM sys.databases WHERE [Name] LIKE '%" + searchPattern + @"%'", conn);
+        SqlCommand command = new SqlCommand($@"USE master; SELECT [Name] FROM sys.databases WHERE [Name] LIKE '%{searchPattern}%'", conn);
         SqlDataReader reader = command.ExecuteReader();
         while (reader.Read())
         {
@@ -455,7 +455,7 @@
         CloseConnectionsToDatabase(databaseName, connection);
 
         Log.Info($"Restoring database: {databaseName}");
-        var restoreCommand = "RESTORE DATABASE [" + databaseName + "] FROM  DISK = N'" + backupFileName + "' WITH REPLACE, RECOVERY --force restore over specified database";
+        var restoreCommand = $"RESTORE DATABASE [{databaseName}] FROM  DISK = N\'{backupFileName}\' WITH REPLACE, RECOVERY --force restore over specified database";
         Execute(connection, restoreCommand);
       }
     }
@@ -556,8 +556,9 @@
 
     public virtual bool TestSqlServer(string rootPath, string connectionString)
     {
-      var createDatabase = string.Format("CREATE DATABASE TestDatabase ON PRIMARY (NAME = TestDatabase_Data, FILENAME = '{0}\\TestDatabase.mdf', SIZE = 20MB, MAXSIZE = 100MB, FILEGROWTH = 10%) " +
-                                         "LOG ON (NAME = TestDatabase_Log, FILENAME = '{0}\\TestDatabase.ldf', SIZE = 10MB, MAXSIZE = 50MB, FILEGROWTH = 10%)", rootPath);
+      var createDatabase =
+        $"CREATE DATABASE TestDatabase ON PRIMARY (NAME = TestDatabase_Data, FILENAME = '{rootPath}\\TestDatabase.mdf', SIZE = 20MB, MAXSIZE = 100MB, FILEGROWTH = 10%) " +
+        $"LOG ON (NAME = TestDatabase_Log, FILENAME = '{rootPath}\\TestDatabase.ldf', SIZE = 10MB, MAXSIZE = 50MB, FILEGROWTH = 10%)";
 
       try
       {
@@ -602,7 +603,7 @@
       }
       catch (Exception ex)
       {
-        throw new InvalidOperationException("The provided SQL Server connection string isn't valid. Reason:\n\n" + ex.Message);
+        throw new InvalidOperationException($"The provided SQL Server connection string isn\'t valid. Reason:\n\n{ex.Message}");
       }
     }
 

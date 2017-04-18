@@ -118,7 +118,7 @@
 
     private static void ExecuteCommand(string command)
     {
-      var procStartInfo = new ProcessStartInfo("cmd", "/c " + command)
+      var procStartInfo = new ProcessStartInfo("cmd", $"/c {command}")
       {
         UseShellExecute = false, 
         CreateNoWindow = true
@@ -157,7 +157,7 @@
       websiteSettings.SetElementAttributeValue("/appcmd/SITE", "SITE.NAME", args._SiteName);
       websiteSettings.SetElementAttributeValue("/appcmd/SITE/site", "name", args._SiteName);
 
-      websiteSettings.SetElementAttributeValue("/appcmd/SITE", "bindings", "http/*:80:" + args._SiteName);
+      websiteSettings.SetElementAttributeValue("/appcmd/SITE", "bindings", $"http/*:80:{args._SiteName}");
 
       // need to change site ID
       args._SiteID = CreateNewID(args._SiteID);
@@ -169,7 +169,7 @@
       websiteSettings.SetElementAttributeValue("/appcmd/SITE/site/applicationDefaults", "applicationPool", args._AppPoolName);
 
       // change root folder
-      websiteSettings.SetElementAttributeValue("/appcmd/SITE/site/application/virtualDirectory", "physicalPath", args._RootPath + "\\Website");
+      websiteSettings.SetElementAttributeValue("/appcmd/SITE/site/application/virtualDirectory", "physicalPath", $"{args._RootPath}\\Website");
 
       // TODO: need to change bindings in right way(maybe with the UI dialog)
       // websiteSettings.SetElementAttributeValue("/appcmd/SITE/site/bindings/binding[@bindingInformation='*:80:" + args.oldSiteName + "']", "bindingInformation", "*:80:" + args.siteName);

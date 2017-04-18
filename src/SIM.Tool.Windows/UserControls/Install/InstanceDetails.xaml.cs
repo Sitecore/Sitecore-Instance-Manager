@@ -224,7 +224,7 @@ namespace SIM.Tool.Windows.UserControls.Install
 
             if (
                 WindowHelper.ShowMessage(
-                    "A website with the name " + name + " already exists. Would you like to remove it?",
+                  $"A website with the name {name} already exists. Would you like to remove it?",
                     MessageBoxButton.OKCancel, MessageBoxImage.Asterisk) != MessageBoxResult.OK)
             {
                 return null;
@@ -685,7 +685,7 @@ namespace SIM.Tool.Windows.UserControls.Install
       AppPoolInfo info = args.InstanceAppPoolInfo;
       if (info != null)
       {
-        var frameworkValue = info.FrameworkVersion + " " + (info.Enable32BitAppOnWin64 ? "32bit" : string.Empty);
+        var frameworkValue = $"{info.FrameworkVersion} {(info.Enable32BitAppOnWin64 ? "32bit" : string.Empty)}";
         SelectByValue(NetFramework, frameworkValue);
         SelectByValue(Mode, info.ManagedPipelineMode ? "Integrated" : "Classic");
       }

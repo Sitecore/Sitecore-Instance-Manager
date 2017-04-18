@@ -41,7 +41,7 @@
 
     public static XmlDocumentEx EmptyManifest { get; } = XmlDocumentEx.LoadXml("<manifest version=\"1.4\" />");
 
-    public static string ProductFileNamePattern { get; } = ProductNamePattern + @"[\s]?[\-_]?[\s]?" + ProductVersionPattern + @"[\s\-]*(rev\.|build)[\s]*" + ProductRevisionPattern + @"(.zip)?$";
+    public static string ProductFileNamePattern { get; } = $@"{ProductNamePattern}[\s]?[\-_]?[\s]?{ProductVersionPattern}[\s\-]*(rev\.|build)[\s]*{ProductRevisionPattern}(.zip)?$";
 
     public static Regex ProductRegex { get; } = new Regex(ProductFileNamePattern, RegexOptions.IgnoreCase);
 
@@ -322,7 +322,7 @@
         var label = Label;
         if (!string.IsNullOrEmpty(label))
         {
-          return Revision + " - " + label;
+          return $"{Revision} - {label}";
         }
 
         return Revision;
@@ -387,7 +387,7 @@
       get
       {
         var label = Label;
-        var revision = "rev" + Revision;
+        var revision = $"rev{Revision}";
         if (string.IsNullOrEmpty(label))
         {
           return revision;
@@ -401,7 +401,7 @@
         var pos = label.Length - 1;
         if (!char.IsDigit(label[pos]))
         {
-          Log.Warn(string.Format("Strange label: " + label));
+          Log.Warn($"Strange label: {label}");
 
           return revision;
         }
@@ -415,15 +415,15 @@
         var num = int.Parse(label.Substring(pos));
         if (label.StartsWith("update-", StringComparison.OrdinalIgnoreCase))
         {
-          return "u" + num;
+          return $"u{num}";
         }
 
         if (label.StartsWith("service pack-", StringComparison.OrdinalIgnoreCase))
         {
-          return "sp" + num;
+          return $"sp{num}";
         }
 
-        Log.Warn(string.Format("Strange label: " + label));
+        Log.Warn($"Strange label: {label}");
 
         return revision;
       }
@@ -441,7 +441,7 @@
       {
         if (!string.IsNullOrEmpty(word))
         {
-          result += " " + char.ToUpperInvariant(word[0]) + (word.Length > 1 ? word.Substring(1) : string.Empty);
+          result += $" {char.ToUpperInvariant(word[0])}{(word.Length > 1 ? word.Substring(1) : string.Empty)}";
         }
       }
 
@@ -826,7 +826,7 @@
         var xml = value as XmlDocument;
         if (xml != null)
         {
-          writer.WriteNode(new XmlNodeReader(XmlDocumentEx.LoadXml("<Manifest>" + xml.OuterXml + "</Manifest>")), false);
+          writer.WriteNode(new XmlNodeReader(XmlDocumentEx.LoadXml($"<Manifest>{xml.OuterXml}</Manifest>")), false);
           continue;
         }
 

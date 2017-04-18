@@ -440,7 +440,8 @@
                 var exceptionMessage = exception.Message;
                 if (exceptionMessage.Contains("cannot be upgraded because it is read-only") || exceptionMessage.Contains(": 15105"))
                 {
-                  message = "It seems that the NETWORK SERVICE identity doesn't have full access rights to the folder you selected to install the instance to." + Environment.NewLine + Environment.NewLine + exceptionMessage;
+                  message =
+                    $"It seems that the NETWORK SERVICE identity doesn\'t have full access rights to the folder you selected to install the instance to.{Environment.NewLine}{Environment.NewLine}{exceptionMessage}";
                 }
                 else
                 {
@@ -672,7 +673,8 @@
         }
         catch (Exception ex)
         {
-          WindowHelper.HandleError("Something went wrong with Wizard logic. It is to be closed. " + Environment.NewLine + Environment.NewLine + ex.Message, true, ex);
+          WindowHelper.HandleError(
+            $"Something went wrong with Wizard logic. It is to be closed. {Environment.NewLine}{Environment.NewLine}{ex.Message}", true, ex);
           Close();
         }
       }
@@ -718,7 +720,8 @@
         }
         catch (Exception ex)
         {
-          WindowHelper.HandleError("Something went wrong with Wizard logic. It is to be closed. " + Environment.NewLine + Environment.NewLine + ex.Message, false, ex);
+          WindowHelper.HandleError(
+            $"Something went wrong with Wizard logic. It is to be closed. {Environment.NewLine}{Environment.NewLine}{ex.Message}", false, ex);
           Close();
         }
       }
@@ -822,7 +825,8 @@
         }
         catch (Exception ex)
         {
-          WindowHelper.HandleError("Something went wrong with Wizard logic. It is to be closed. " + Environment.NewLine + Environment.NewLine + ex.Message, false, ex);
+          WindowHelper.HandleError(
+            $"Something went wrong with Wizard logic. It is to be closed. {Environment.NewLine}{Environment.NewLine}{ex.Message}", false, ex);
           Close();
         }
       }

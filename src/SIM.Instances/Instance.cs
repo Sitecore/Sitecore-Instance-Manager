@@ -125,7 +125,7 @@
             return rootData;
           }
 
-          throw new InvalidOperationException("Cannot get indexes folder of " + WebRootPath);
+          throw new InvalidOperationException($"Cannot get indexes folder of {WebRootPath}");
         }
       }
     }
@@ -160,7 +160,7 @@
             return rootData;
           }
 
-          throw new InvalidOperationException("Cannot get license file of " + WebRootPath);
+          throw new InvalidOperationException($"Cannot get license file of {WebRootPath}");
         }
       }
     }
@@ -204,7 +204,7 @@
             return rootData;
           }
 
-          throw new InvalidOperationException("Cannot get packages folder of " + WebRootPath);
+          throw new InvalidOperationException($"Cannot get packages folder of {WebRootPath}");
         }
       }
     }
@@ -257,7 +257,7 @@
             return rootData;
           }
 
-          throw new InvalidOperationException("Cannot get serialization folder of " + WebRootPath);
+          throw new InvalidOperationException($"Cannot get serialization folder of {WebRootPath}");
         }
       }
     }
@@ -329,7 +329,7 @@
         var xml = value as XmlDocument;
         if (xml != null)
         {
-          writer.WriteNode(new XmlNodeReader(XmlDocumentEx.LoadXml("<Instance>" + xml.OuterXml + "</Instance>")), false);
+          writer.WriteNode(new XmlNodeReader(XmlDocumentEx.LoadXml($"<Instance>{xml.OuterXml}</Instance>")), false);
           continue;
         }
 
@@ -368,7 +368,8 @@
     {
       get
       {
-        return "Hosts: " + string.Join(", ", Bindings.Select(x => (x.Host.EmptyToNull() ?? x.IP) + (x.Port != 80 ? $":{x.Port}" : "")));
+        return
+          $"Hosts: {string.Join(", ", Bindings.Select(x => (x.Host.EmptyToNull() ?? x.IP) + (x.Port != 80 ? $":{x.Port}" : "")))}";
       }
     }
 
@@ -521,7 +522,7 @@
             return rootData;
           }
 
-          throw new InvalidOperationException("Cannot get data folder of " + WebRootPath);
+          throw new InvalidOperationException($"Cannot get data folder of {WebRootPath}");
         }
       }
     }
@@ -561,7 +562,7 @@
             return dataLogs;
           }
 
-          throw new InvalidOperationException("Cannot get logs folder of " + WebRootPath);
+          throw new InvalidOperationException($"Cannot get logs folder of {WebRootPath}");
         }
       }
     }
@@ -664,7 +665,7 @@
             return rootData;
           }
 
-          throw new InvalidOperationException("Cannot get root folder of " + WebRootPath);
+          throw new InvalidOperationException($"Cannot get root folder of {WebRootPath}");
         }
       }
     }
@@ -694,7 +695,7 @@
             return websiteTemp;
           }
 
-          throw new InvalidOperationException("Cannot get temp folder of " + WebRootPath);
+          throw new InvalidOperationException($"Cannot get temp folder of {WebRootPath}");
         }
       }
     }

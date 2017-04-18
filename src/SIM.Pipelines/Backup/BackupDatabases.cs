@@ -60,9 +60,10 @@
         var fileName = Path.Combine(folder, database.BackupFilename);
         Log.Info($"Backing up the '{databaseName}' database to the '{fileName}' file");
 
-        var command = "BACKUP DATABASE [" + databaseName + "] TO  DISK = N'" + fileName +
-                      "' WITH NOFORMAT, NOINIT,  NAME = N'" + databaseName +
-                      " initial backup', SKIP, NOREWIND, NOUNLOAD,  STATS = 10";
+        var command = $"BACKUP DATABASE [{databaseName}] TO  " +
+                      $"DISK = N\'{fileName}\' WITH NOFORMAT, NOINIT,  " +
+                      $"NAME = N\'{databaseName} initial backup\', SKIP, NOREWIND, NOUNLOAD,  STATS = 10";
+
         SqlServerManager.Instance.Execute(connection, command);
       }
     }
