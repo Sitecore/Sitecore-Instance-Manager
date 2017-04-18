@@ -159,13 +159,14 @@
     {
       #region Fields
 
-      public static readonly AdvancedProperty<string> CoreInstallInstanceNamePattern = AdvancedSettings.Create("Core/Product/InstanceNamePattern", "{ShortName}{ShortVersion}{UpdateOrRevision}");
+      public static readonly AdvancedProperty<string> CoreInstallInstanceNamePattern = AdvancedSettings.Create("Core/Install/Default/InstanceNamePattern", "{ShortName}{ShortVersion}{UpdateOrRevision}");
       
-      public static readonly AdvancedProperty<bool> CoreProductHostNameEndsWithLocal = AdvancedSettings.Create("App/Product/HostName/EndsWithLocal", true);
+      public static readonly AdvancedProperty<string> CoreProductHostNameSuffix = AdvancedSettings.Create("App/Install/Default/HostName/Suffix", ".local");
 
-      public static readonly AdvancedProperty<bool> CoreProductReverseHostName = AdvancedSettings.Create("App/Product/HostName/Reverse", true);
+      public static readonly bool CoreProductHostNameEndsWithLocal = !string.IsNullOrEmpty(CoreProductHostNameSuffix.Value);
 
       public static AdvancedProperty<string> _CoreProductNamePattern = AdvancedSettings.Create("Core/Product/NamePattern", string.Empty);
+      public static readonly AdvancedProperty<bool> CoreProductReverseHostName = AdvancedSettings.Create("App/Install/Default/HostName/Reverse", true);
 
       #endregion
 

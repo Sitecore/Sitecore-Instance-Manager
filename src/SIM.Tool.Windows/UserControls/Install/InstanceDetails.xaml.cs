@@ -320,11 +320,12 @@ namespace SIM.Tool.Windows.UserControls.Install
         // convert example.cm1 into cm1.example
         hostName = string.Join(".", hostName.Split(".".ToCharArray(), StringSplitOptions.RemoveEmptyEntries).Reverse());
       }
-      if (ProductHelper.Settings.CoreProductHostNameEndsWithLocal.Value && !hostName.EndsWith(".local", StringComparison.InvariantCultureIgnoreCase))
+      if (ProductHelper.Settings.CoreProductHostNameEndsWithLocal && !hostName.EndsWith(ProductHelper.Settings.CoreProductHostNameSuffix.Value, StringComparison.InvariantCultureIgnoreCase))
       {
         // convert to cm1.example.local
-        hostName = hostName + (ProductHelper.Settings.CoreProductHostNameEndsWithLocal.Value ? ".local" : "");
+        hostName = hostName + ProductHelper.Settings.CoreProductHostNameSuffix.Value;
       }
+
       return hostName;
     }
 
