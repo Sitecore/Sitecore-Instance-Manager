@@ -76,10 +76,6 @@
     <Compile Include="FileSystem\PathProvider.cs" />
     <Compile Include="FileSystem\SecurityProvider.cs" />
     <Compile Include="FileSystem\TempFolder.cs" />
-    <Compile Include="FileSystem\UncDirectoryProvider.cs" />
-    <Compile Include="FileSystem\UncFileProvider.cs" />
-    <Compile Include="FileSystem\UncSecurityProvider.cs" />
-    <Compile Include="FileSystem\UncZipProvider.cs" />
     <Compile Include="IAdvancedSettingsStorage.cs" />
     <Compile Include="IProfile.cs" />
     <Compile Include="Safe.cs" />
