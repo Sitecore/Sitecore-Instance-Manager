@@ -97,7 +97,7 @@ namespace SIM.Tool.Windows.UserControls.Install
 
       var sqlPrefix = GetValidSqlPrefix();
 
-      var attachSql = this.attachSql.IsChecked ?? true;
+      var attachSql = AttachSql.IsChecked ?? true;
 
       var connectionString = ProfileManager.GetConnectionString();
       SqlServerManager.Instance.ValidateConnectionString(connectionString);
@@ -243,10 +243,7 @@ namespace SIM.Tool.Windows.UserControls.Install
     [NotNull]
     private string GetValidSqlPrefix()
     {
-      var sqlPrefix = this.sqlPrefix;
-      Assert.IsNotNull(sqlPrefix, nameof(sqlPrefix));
-
-      var prefix = sqlPrefix.Text.EmptyToNull();
+      var prefix = SqlPrefix.Text.EmptyToNull();
       Assert.IsNotNull(prefix, @"Sql prefix isn't set");
 
       return prefix;
@@ -306,7 +303,7 @@ namespace SIM.Tool.Windows.UserControls.Install
         var name = InstanceName.Text;
 
         RootName.Text = name;
-        sqlPrefix.Text = name;
+        SqlPrefix.Text = name;
         HostNames.Text = GenerateHostName(name);
       }
     }
