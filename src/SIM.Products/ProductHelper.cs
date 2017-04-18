@@ -165,12 +165,9 @@
 
       public static readonly bool CoreProductHostNameEndsWithLocal = !string.IsNullOrEmpty(CoreProductHostNameSuffix.Value);
 
-      public static AdvancedProperty<string> _CoreProductNamePattern = AdvancedSettings.Create("Core/Product/NamePattern", string.Empty);
       public static readonly AdvancedProperty<bool> CoreProductReverseHostName = AdvancedSettings.Create("App/Install/Default/HostName/Reverse", true);
 
       #endregion
-
-      // public static AdvancedProperty { get; }<bool> InstallModulesCheckRequirements = AdvancedSettings.Create("Core/Install/CheckRequirements", false);
     }
 
     #endregion

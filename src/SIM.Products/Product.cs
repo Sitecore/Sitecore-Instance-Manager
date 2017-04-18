@@ -41,7 +41,7 @@
 
     public static XmlDocumentEx EmptyManifest { get; } = XmlDocumentEx.LoadXml("<manifest version=\"1.4\" />");
 
-    public static string ProductFileNamePattern { get; } = ProductHelper.Settings._CoreProductNamePattern.Value.EmptyToNull() ?? ProductNamePattern + @"[\s]?[\-_]?[\s]?" + ProductVersionPattern + @"[\s\-]*(rev\.|build)[\s]*" + ProductRevisionPattern + @"(.zip)?$";
+    public static string ProductFileNamePattern { get; } = ProductNamePattern + @"[\s]?[\-_]?[\s]?" + ProductVersionPattern + @"[\s\-]*(rev\.|build)[\s]*" + ProductRevisionPattern + @"(.zip)?$";
 
     public static Regex ProductRegex { get; } = new Regex(ProductFileNamePattern, RegexOptions.IgnoreCase);
 
