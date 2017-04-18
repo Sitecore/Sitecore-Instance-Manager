@@ -16,7 +16,7 @@ namespace SIM.FileSystem
   {
     #region Fields
 
-    private static Type SecurityIdentifier { get; } = typeof(SecurityIdentifier);     
+    private static Type SecurityIdentifier { get; } = typeof(SecurityIdentifier);
 
     #endregion
 
@@ -35,7 +35,7 @@ namespace SIM.FileSystem
   public class SecurityProvider
   {
     #region Fields
-                                          
+
     protected IdentityReference Everyone { get; } = new SecurityIdentifier("S-1-1-0").Translate(typeof(NTAccount));
     protected IdentityReference LocalService { get; } = new SecurityIdentifier("S-1-5-19").Translate(typeof(NTAccount));
     protected IdentityReference LocalSystem { get; } = new SecurityIdentifier("S-1-5-18").Translate(typeof(NTAccount));
@@ -60,6 +60,24 @@ namespace SIM.FileSystem
     {
       Assert.ArgumentNotNullOrEmpty(path, nameof(path));
       Assert.ArgumentNotNullOrEmpty(identity, nameof(identity));
+
+      if (identity.StartsWith("NT Service\\"))
+      {
+        // Create a new DirectoryInfo object.
+        var dir = new DirectoryInfo(path);
+
+        // Get a DirectorySecurity object that represents the 
+        // current security settings.
+        var sec = dir.GetAccessControl();
+
+        // Add the FileSystemAccessRule to the security settings. 
+        sec.AddAccessRule(new FileSystemAccessRule(identity, FileSystemRights.FullControl, AccessControlType.Allow));
+
+        // Set the new access settings.
+        dir.SetAccessControl(sec);
+
+        return;
+      }
 
       var identityReference = GetIdentityReference(identity);
       Assert.IsNotNull(identityReference, "Cannot find {0} identity reference".FormatWith(identity));
@@ -99,31 +117,7 @@ namespace SIM.FileSystem
       }
       else
       {
-        try
-        {
-          if (!name.Contains("\\"))
-          {
-            name = Environment.MachineName + "\\" + name.TrimStart("\\");
-          }
-          else if (name.StartsWith(".\\"))
-          {
-            name = Environment.MachineName + "\\" + name.TrimStart(".\\");
-          }
-
-          reference = new SecurityIdentifier(name).Translate(typeof(NTAccount));
-        }
-        catch (Exception ex)
-        {
-          Log.Warn(ex, $"An error occurred during paring {name} security identifier");
-          try
-          {
-            reference = new NTAccount(name);
-          }
-          catch (Exception ex1)
-          {
-            Log.Warn(ex, $"An error occurred during parsing {ex1} user account");
-          }
-        }
+        return null;
       }
 
       Assert.IsNotNull(reference, "The '" + name + "' isn't valid NTAccount");
@@ -137,14 +131,20 @@ namespace SIM.FileSystem
       Assert.ArgumentNotNullOrEmpty(identity, nameof(identity));
       Assert.ArgumentNotNull(permissions, nameof(permissions));
 
+      var identityReference = GetIdentityReference(identity);
+      if (identityReference == null)
+      {
+        throw new NotSupportedException(identity);
+      }
+
       if (FileSystem.Directory.Exists(path))
       {
-        return HasDirectoryPermissions(path, GetIdentityReference(identity), permissions);
+        return HasDirectoryPermissions(path, identityReference, permissions);
       }
 
       if (FileSystem.File.Exists(path))
       {
-        return HasFilePermissions(path, GetIdentityReference(identity), permissions);
+        return HasFilePermissions(path, identityReference, permissions);
       }
 
       throw new InvalidOperationException("File or directory not found: " + path);
@@ -165,18 +165,18 @@ namespace SIM.FileSystem
 
       if (!HasPermissions(rules, identity, FileSystemRights.FullControl))
       {
-        Log.Info(string.Format("Granting full access for '{0}' identity to the '{1}' folder", identity, path, 
+        Log.Info(string.Format("Granting full access for '{0}' identity to the '{1}' folder", identity, path,
           typeof(FileSystem)));
-        FileSystemAccessRule rule = new FileSystemAccessRule(identity, FileSystemRights.FullControl, 
+        FileSystemAccessRule rule = new FileSystemAccessRule(identity, FileSystemRights.FullControl,
           InheritanceFlags.ContainerInherit |
-          InheritanceFlags.ObjectInherit, PropagationFlags.None, 
+          InheritanceFlags.ObjectInherit, PropagationFlags.None,
           AccessControlType.Allow);
         dirSecurity.AddAccessRule(rule);
         dirInfo.SetAccessControl(dirSecurity);
 
         dirSecurity = dirInfo.GetAccessControl(AccessControlSections.All);
         rules = dirSecurity.GetAccessRules(true, true, typeof(NTAccount));
-        Assert.IsTrue(HasPermissions(rules, identity, FileSystemRights.FullControl), 
+        Assert.IsTrue(HasPermissions(rules, identity, FileSystemRights.FullControl),
           "The Full Control access to the '" + path + "' folder isn't permitted for " + identity.Value +
           ". Please fix it and then restart the process");
       }
@@ -193,7 +193,7 @@ namespace SIM.FileSystem
 
       if (!HasPermissions(rules, identity, FileSystemRights.FullControl))
       {
-        Log.Info(string.Format("Granting full access for '{0}' identity to the '{1}' file", identity, path, 
+        Log.Info(string.Format("Granting full access for '{0}' identity to the '{1}' file", identity, path,
           typeof(FileSystem)));
 
         var rule = new FileSystemAccessRule(identity, FileSystemRights.FullControl, AccessControlType.Allow);
@@ -202,14 +202,14 @@ namespace SIM.FileSystem
 
         dirSecurity = fileInfo.GetAccessControl(AccessControlSections.All);
         rules = dirSecurity.GetAccessRules(true, true, typeof(NTAccount));
-        Assert.IsTrue(HasPermissions(rules, identity, FileSystemRights.FullControl), 
+        Assert.IsTrue(HasPermissions(rules, identity, FileSystemRights.FullControl),
           "The Full Control access to the '" + path + "' file isn't permitted for " + identity.Value +
           ". Please fix it and then restart the process");
       }
     }
 
     [NotNull]
-    protected virtual IEnumerable<AuthorizationRule> GetRules([NotNull] AuthorizationRuleCollection rules, 
+    protected virtual IEnumerable<AuthorizationRule> GetRules([NotNull] AuthorizationRuleCollection rules,
       [NotNull] IdentityReference identity)
     {
       Assert.ArgumentNotNull(rules, nameof(rules));
