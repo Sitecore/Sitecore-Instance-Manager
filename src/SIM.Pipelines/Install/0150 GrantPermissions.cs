@@ -1,7 +1,4 @@
-﻿using System.Data.SqlClient;
-using SIM.Adapters.SqlServer;
-
-namespace SIM.Pipelines.Install
+﻿namespace SIM.Pipelines.Install
 {
   using System.IO;
   using Sitecore.Diagnostics.Base;
@@ -28,24 +25,20 @@ namespace SIM.Pipelines.Install
       FileSystem.FileSystem.Local.Directory.Ensure(tempRootFolder);
 
       var websitePath = Path.Combine(tempRootFolder, "Website");
-      var sqlIdentity = SqlServerManager.Instance.GetSqlServerAccountName(args.ConnectionString);
-      var iisIdentity = Settings.CoreInstallWebServerIdentity.Value;
-      Grant(websitePath, sqlIdentity);
-      Grant(websitePath, iisIdentity);
+      Grant(websitePath);
 
       var dataPath = Path.Combine(tempRootFolder, "Data");
-      Grant(dataPath, sqlIdentity);
-      Grant(dataPath, iisIdentity);
+      Grant(dataPath);
     }
 
     #endregion
 
     #region Private methods
 
-    private void Grant(string path, string identity)
+    private void Grant(string path)
     {
       FileSystem.FileSystem.Local.Directory.Ensure(path);
-      FileSystem.FileSystem.Local.Security.EnsurePermissions(path, identity);
+      FileSystem.FileSystem.Local.Security.EnsurePermissions(path, Settings.CoreInstallWebServerIdentity.Value);
     }
 
     #endregion

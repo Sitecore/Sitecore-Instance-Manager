@@ -1,6 +1,4 @@
-﻿using System.IO;
-
-namespace SIM.Tool.Windows.UserControls.Setup
+﻿namespace SIM.Tool.Windows.UserControls.Setup
 {
   using System;
   using System.Collections.Generic;
@@ -78,6 +76,11 @@ namespace SIM.Tool.Windows.UserControls.Setup
 
         foreach (var account in Accounts)
         {
+          if (!ValidateAccount(account))
+          {
+            return;
+          }
+
           if (!Grant(path, account))
           {
             return;
@@ -95,7 +98,7 @@ namespace SIM.Tool.Windows.UserControls.Setup
       if (!FileSystem.FileSystem.Local.Directory.Exists(path))
       {
         WindowHelper.ShowMessage(
-          "The \"{0}\" folder does not exist, please create it or return to preceding step to change it".FormatWith(path),
+          "The \"{0}\" folder does not exist, please create it or return to preceding step to change it".FormatWith(path), 
           MessageBoxButton.OK, MessageBoxImage.Asterisk);
         return false;
       }
@@ -139,16 +142,9 @@ namespace SIM.Tool.Windows.UserControls.Setup
         const string Message = "You probably don't have necessary permissions set. Please try to click 'Grant' button before you proceed.\r\n\r\nNote, the SQL Server account that you selected previously must have necessary permissions to create a SQL database in the instances root folder you specified earlier - please ensure that it is correct. In addition, the SQL Server service must use NETWORK SERVICE identity so that SIM can assign necessary permissions for it.";
         foreach (var account in Accounts)
         {
-          if (account.StartsWith("NT Service", StringComparison.OrdinalIgnoreCase))
+          if (!ValidateAccount(account))
           {
-            if (WindowHelper.ShowMessage(
-                  $"Cannot check if {account} has Full Access permissions for the {args.InstancesRootFolderPath} folder. Please check that manually and click YES.",
-                  MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) == MessageBoxResult.No)
-            {
-              return false;
-            }
-
-            continue;
+            return false;
           }
 
           if (!FileSystem.FileSystem.Local.Security.HasPermissions(args.InstancesRootFolderPath, account, FileSystemRights.FullControl))
@@ -169,10 +165,26 @@ namespace SIM.Tool.Windows.UserControls.Setup
       catch (Exception ex)
       {
         Log.Error(ex, "Cannot verify permissions");
-        WindowHelper.ShowMessage($"Cannot verify permissions\r\nException: {ex.GetType()}\r\nMessage: {ex.Message}\r\nStackTrace:\r\n{ex.StackTrace}");
+        return true;
+      }
+    }
 
+    private bool ValidateAccount(string account)
+    {
+      if (account.Equals(@"NT SERVICE\MSSQLSERVER", StringComparison.OrdinalIgnoreCase))
+      {
+        var result = WindowHelper.ShowMessage("The SQL Server is configured to use \"NT SERVICE\\MSSQLSERVER\" account which is not supported by current version of SIM. You need to change the SQL Server's user account and click Grant again. The instruction will be provided when you click OK.", MessageBoxButton.OKCancel, MessageBoxImage.Error);
+
+        if (result == MessageBoxResult.Cancel)
+        {
+          return false;
+        }
+
+        CoreApp.OpenInBrowser("https://github.com/Sitecore/Sitecore-Instance-Manager/wiki/Troubleshooting", true);
         return false;
       }
+
+      return true;
     }
 
     #endregion
