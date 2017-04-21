@@ -479,6 +479,10 @@
       <Project>{A124D359-B9BF-44F4-98CB-C40D3D490839}</Project>
       <Name>SIM.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SIM.FileSystem\SIM.FileSystem.csproj">
+      <Project>{02B6C2D7-3083-4DF3-B86D-B6D4728C4EF2}</Project>
+      <Name>SIM.FileSystem</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SIM.Instances\SIM.Instances.csproj">
       <Project>{cca7b157-a743-4a5a-a03b-b6b27cb2be1c}</Project>
       <Name>SIM.Instances</Name>

@@ -51,5 +51,13 @@
     {
       return Equals((IFile)obj);
     }               
+
+    public void TryDelete()
+    {
+      if (Exists)
+      {
+        MockFileSystem.Remove(FullName);
+      }
+    }
   }
 }

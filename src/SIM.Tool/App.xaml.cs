@@ -35,12 +35,16 @@ namespace SIM.Tool
   using SIM.Extensions;
   using SIM.Tool.Base.Wizards;
   using File = System.IO.File;
+  using SIM.IO.Real;
+  using NuGet;
 
   public partial class App
   {
     #region Fields
 
     private static string AppLogsMessage { get; } = $"The application will be suspended, look at the {ApplicationManager.LogsFolder} log file to find out what has happened";
+
+    private static IO.IFileSystem FileSystem { get; } = new RealFileSystem();
 
     #endregion
 
@@ -60,7 +64,7 @@ namespace SIM.Tool
     public static string GetRepositoryPath()
     {
       var path = Path.Combine(ApplicationManager.DataFolder, "Repository");
-      FileSystem.FileSystem.Local.Directory.Ensure(path);
+      SIM.FileSystem.FileSystem.Local.Directory.Ensure(path);
       return path;
     }
 
@@ -379,9 +383,9 @@ namespace SIM.Tool
         var root = instance.RootPath.EmptyToNull().With(x => Path.GetDirectoryName(x)) ?? "C:\\inetpub\\wwwroot";
         var rep = GetRepositoryPath();
         var lic = GetLicensePath();
-        if (!FileSystem.FileSystem.Local.File.Exists(lic))
+        if (!SIM.FileSystem.FileSystem.Local.File.Exists(lic))
         {
-          FileSystem.FileSystem.Local.File.Copy(instance.LicencePath, lic);
+          SIM.FileSystem.FileSystem.Local.File.Copy(instance.LicencePath, lic);
         }
 
         return new Base.Profiles.Profile
@@ -439,7 +443,7 @@ namespace SIM.Tool
 
         try
         {
-          ProfileManager.Initialize();
+          ProfileManager.Initialize(FileSystem);
           if (ProfileManager.IsValid)
           {
             return ProfileSection.Result(true);

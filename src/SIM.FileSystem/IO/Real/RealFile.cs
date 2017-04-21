@@ -33,5 +33,17 @@
     {
       return Equals((RealFile)obj);
     }                   
+
+    public void TryDelete()
+    {
+      try
+      {
+        File.Delete(FullName);
+      }
+      catch
+      {
+        // we don't care if we cannot delete the file whatever error happens
+      }
+    }
   }
 }

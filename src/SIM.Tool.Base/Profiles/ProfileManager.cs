@@ -7,6 +7,7 @@
   using Sitecore.Diagnostics.Base;
   using JetBrains.Annotations;
   using Sitecore.Diagnostics.Logging;
+  using SIM.IO;
 
   #region
 
@@ -56,24 +57,26 @@
 
     #region Public Methods
 
-    public static void Initialize()
+    public static void Initialize([NotNull] IFileSystem fileSystem)
     {
-      if (FileExists)
+      Assert.ArgumentNotNull(fileSystem, nameof(fileSystem));
+
+      var file = fileSystem.ParseFile(ProfileFilePath);
+      if (file.Exists)
       {
-        var profileFilePath = ProfileFilePath;
-        var profile = ReadProfile(profileFilePath);
+        var profile = ReadProfile(file);
 
         Assert.IsNotNull(profile, nameof(profile));
         Profile = profile;
       }
     }
 
-    public static Profile ReadProfile(string profileFilePath)
+    public static Profile ReadProfile(IFile profileFile)
     {
       try
       {
         var deserializer = new XmlSerializer(typeof(Profile));
-        using (TextReader textReader = new StreamReader(profileFilePath))
+        using (TextReader textReader = new StreamReader(profileFile.FullName))
         {
           return (Profile)deserializer.Deserialize(textReader);
         }
@@ -82,7 +85,7 @@
       {
         Log.Warn(ex, "An error occurred during reading profile");
 
-        FileSystem.FileSystem.Local.Directory.TryDelete(profileFilePath);
+        profileFile.TryDelete();
         return null;
       }
     }
