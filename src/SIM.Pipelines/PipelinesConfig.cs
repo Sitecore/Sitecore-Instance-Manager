@@ -16,6 +16,7 @@
         <processor type=""SIM.Pipelines.Install.AddServerTxt, SIM.Pipelines"" title=""Adding server.txt file"" />
       </processor>
       <processor type=""SIM.Pipelines.Install.UpdateHosts, SIM.Pipelines"" title=""Updating hosts file"" />
+      <processor type=""SIM.Pipelines.Install.InstallRoles, SIM.Pipelines"" title=""Installing configuration roles"" />
     </step>
     <step>
       <processor type=""SIM.Pipelines.Install.AttachDatabases, SIM.Pipelines"" title=""Attaching databases"" />

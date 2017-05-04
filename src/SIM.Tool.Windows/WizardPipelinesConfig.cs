@@ -278,6 +278,7 @@ By clicking 'Next' you accept the License Agreement."" />
       <steps>
         <step name=""Instance details"" type=""SIM.Tool.Windows.UserControls.Install.InstanceDetails, SIM.Tool.Windows"" />
         <step name=""Instance details"" type=""SIM.Tool.Windows.UserControls.Install.InstanceSettings, SIM.Tool.Windows"" />
+        <step name=""Instance details"" type=""SIM.Tool.Windows.UserControls.Install.InstanceRole, SIM.Tool.Windows"" />
         <step name=""Modules list"" type=""SIM.Tool.Windows.UserControls.Install.Modules.ModulesDetails, SIM.Tool.Windows"" />
         <step name=""Custom Packages""
               type=""SIM.Tool.Windows.UserControls.Install.Modules.FilePackages, SIM.Tool.Windows"" />

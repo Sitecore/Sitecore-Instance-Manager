@@ -1,0 +1,31 @@
+﻿<UserControl x:Class="SIM.Tool.Windows.UserControls.Install.InstanceRole" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d" d:DesignHeight="172" d:DesignWidth="443">
+	<StackPanel Orientation="Vertical">
+    <StackPanel Orientation="Vertical" Margin="0 0 0 4">
+      <CheckBox x:Name="InstallRoles">
+        <Bold>Install Sitecore Configuration Roles 1.2</Bold>
+      </CheckBox>
+      <StackPanel Margin="20 0 0 0">
+        <TextBlock HorizontalAlignment="Left" TextAlignment="Left">Install <Hyperlink>Sitecore Configuration Roles</Hyperlink> module to configure Sitecore for given role:</TextBlock>
+        <TextBlock HorizontalAlignment="Left" TextAlignment="Left">* it supports only 8.1 Update-3, 8.2 Update-2 and 8.2 Update-3</TextBlock>
+      </StackPanel>
+      <StackPanel x:Name="RoleName" Margin="20 0 0 0">
+        <RadioButton x:Name="Standalone" Margin="0 4 0 0" IsEnabled="{Binding ElementName=InstallRoles, Path=IsChecked}" GroupName="Role" IsChecked="True">
+          <Bold>Standalone</Bold>
+        </RadioButton>
+        <RadioButton x:Name="ContentManagement" Margin="0 4 0 0" IsEnabled="{Binding ElementName=InstallRoles, Path=IsChecked}" GroupName="Role">
+          <Bold>ContentManagement</Bold>
+        </RadioButton>
+        <RadioButton x:Name="ContentDelivery" Margin="0 4 0 0" IsEnabled="{Binding ElementName=InstallRoles, Path=IsChecked}" GroupName="Role">
+          <Bold>ContentDelivery</Bold>
+        </RadioButton>
+        <RadioButton x:Name="Processing" Margin="0 4 0 0" IsEnabled="{Binding ElementName=InstallRoles, Path=IsChecked}" GroupName="Role">
+          <Bold>Processing</Bold>
+        </RadioButton>
+        <RadioButton x:Name="Reporting" Margin="0 4 0 0" IsEnabled="{Binding ElementName=InstallRoles, Path=IsChecked}" GroupName="Role">
+          <Bold>Reporting</Bold>
+        </RadioButton>
+      </StackPanel>
+    </StackPanel>
+  </StackPanel>
+</UserControl>
