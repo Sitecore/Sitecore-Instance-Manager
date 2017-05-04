@@ -30,12 +30,12 @@
     {
       get
       {
-        return MockFileSystem.Contains(FullName);
+        return MockFileSystem.Files.ContainsKey(FullName);
       }
 
       set
       {
-        if (!MockFileSystem.Contains(FullName))
+        if (!MockFileSystem.Files.ContainsKey(FullName))
         {
           MockFileSystem.Add(FullName, this);
         }                
@@ -52,11 +52,11 @@
       return Equals((IFile)obj);
     }               
 
-    public void TryDelete()
+    public override void TryDelete()
     {
       if (Exists)
       {
-        MockFileSystem.Remove(FullName);
+        MockFileSystem.Files.Remove(FullName);
       }
     }
   }

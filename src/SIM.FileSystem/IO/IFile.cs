@@ -13,7 +13,5 @@
     IFolder Folder { get; }
 
     bool Exists { get; }
-
-    void TryDelete();
   }
 }

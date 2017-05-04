@@ -40,6 +40,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.IO.Compression.FileSystem" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -48,11 +49,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IO\FileSystemPath.cs" />
     <Compile Include="IO\IFile.cs" />
     <Compile Include="IO\IFileExtensions.cs" />
     <Compile Include="IO\IFileSystem.cs" />
     <Compile Include="IO\IFileSystemEntry.cs" />
     <Compile Include="IO\IFolder.cs" />
+    <Compile Include="IO\IZipFile.cs" />
     <Compile Include="IO\Mock\MockFileSystemEntry.cs" />
     <Compile Include="IO\OpenFileAccess.cs" />
     <Compile Include="IO\OpenFileMode.cs" />
@@ -65,6 +68,7 @@
     <Compile Include="IO\Mock\MockFile.cs" />
     <Compile Include="IO\Mock\MockFileSystem.cs" />
     <Compile Include="IO\Mock\MockFolder.cs" />
+    <Compile Include="IO\Real\RealZipFile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

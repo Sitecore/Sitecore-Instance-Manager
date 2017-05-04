@@ -11,5 +11,11 @@
     {
       return new RealFile(this, path);
     }
+
+    public IZipFile ParseZipFile(string path)
+    {
+      return new RealZipFile(this, path);
+      ;
+    }
   }
 }

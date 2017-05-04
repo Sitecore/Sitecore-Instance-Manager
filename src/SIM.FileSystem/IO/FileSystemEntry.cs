@@ -1,4 +1,6 @@
-﻿namespace SIM.IO
+﻿using System.IO;
+
+namespace SIM.IO
 {
   using JetBrains.Annotations;
   using Sitecore.Diagnostics.Base;
@@ -17,6 +19,10 @@
     public IFileSystem FileSystem { get; }
 
     public string FullName { get; }
+
+    public string Name => Path.GetFileName(FullName);
+
+    public abstract void TryDelete();
 
     public override int GetHashCode()
     {

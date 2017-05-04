@@ -34,7 +34,7 @@
       return Equals((RealFile)obj);
     }                   
 
-    public void TryDelete()
+    public override void TryDelete()
     {
       try
       {

@@ -1,4 +1,7 @@
-﻿namespace SIM.IO.Mock
+﻿using System.Collections.Generic;
+using System.Linq;
+
+namespace SIM.IO.Mock
 {
   using System;
   using JetBrains.Annotations;
@@ -11,9 +14,54 @@
     {
       Assert.ArgumentNotNull(fileSystem, nameof(fileSystem));
       Assert.ArgumentNotNullOrEmpty(fullPath, nameof(fullPath));
+
+      this.FileSystem = fileSystem;
+    }
+
+    [NotNull]
+    private new MockFileSystem FileSystem { get; }
+
+    public override void TryDelete()
+    {
+      FileSystem.Folders.Remove(FullName);
     }
 
     public bool Exists { get; private set; }
+    
+    public IReadOnlyList<IFileSystemEntry> GetChildren()
+    {
+      return GetFolders()
+        .Cast<IFileSystemEntry>()
+        .Concat(GetFiles())
+        .ToArray();
+    }
+
+    public IReadOnlyList<IFile> GetFiles()
+    {
+      var prefix = $"{FullName}\\";
+
+      return FileSystem.Files
+        .Where(x => x.Key.StartsWith(prefix, StringComparison.OrdinalIgnoreCase))
+        .Where(x => x.Key.IndexOf("\\", prefix.Length + 1) >= 0)
+        .Select(x => x.Value)
+        .ToArray();
+    }
+
+    public IReadOnlyList<IFolder> GetFolders()
+    {
+      var prefix = $"{FullName}\\";
+
+      return FileSystem.Folders
+        .Where(x => x.Key.StartsWith(prefix, StringComparison.OrdinalIgnoreCase))
+        .Where(x => x.Key.IndexOf("\\", prefix.Length + 1) >= 0)
+        .Select(x => x.Value)
+        .ToArray();
+    }
+
+    public void MoveTo(IFolder parent)
+    {
+      throw new NotImplementedException();
+    }
 
     public bool TryCreate()
     {
@@ -28,7 +76,7 @@
     {
       Exists = true;
     }
-              
+
     public bool Equals(IFolder other)
     {
       return FullName.Equals(other?.FullName, StringComparison.OrdinalIgnoreCase);

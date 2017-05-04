@@ -9,5 +9,10 @@
 
     [NotNull]
     string FullName { get; }
+
+    [NotNull]
+    string Name { get; }
+
+    void TryDelete();
   }
 }

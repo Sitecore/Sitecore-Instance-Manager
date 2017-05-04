@@ -5,12 +5,16 @@
   using System.IO;
   using Sitecore.Diagnostics.Base;
 
-  public class MockFileSystem : Dictionary<string, MockFileSystemEntry>, SIM.IO.IFileSystem
+  public class MockFileSystem : SIM.IO.IFileSystem
   {
+    internal Dictionary<string, MockFile> Files { get; } = new Dictionary<string, MockFile>();
+
+    internal Dictionary<string, MockFolder> Folders { get; } = new Dictionary<string, MockFolder>();
+
     public IFolder ParseFolder(string path)
     {
       Assert.ArgumentNotNullOrEmpty(path, nameof(path));
-                
+
       return new MockFolder(this, path);
     }
 
@@ -21,31 +25,42 @@
       return ParseFile(path, string.Empty);
     }
 
+    public IZipFile ParseZipFile(string path)
+    {
+      throw new NotImplementedException();
+    }
+
     public IFile ParseFile(string path, string contents)
     {
       Assert.ArgumentNotNullOrEmpty(path, nameof(path));
       Assert.ArgumentNotNullOrEmpty(contents, nameof(contents));
 
-      var file = new MockFile(this, path, contents) { Exists = true };  
-
-      return file;
-    }
-                
-    public T Add<T>(string path, T file) where T : MockFileSystemEntry
-    {
-      Assert.ArgumentNotNullOrEmpty(path, nameof(path));
-      Assert.ArgumentNotNull(file, nameof(file));
-
-      base.Add(Path.GetFullPath(path), file);
+      var file = new MockFile(this, path, contents) { Exists = true };
 
       return file;
     }
 
-    public bool Contains(string path)
+    public T Add<T>(string path, T entry) where T : MockFileSystemEntry
     {
       Assert.ArgumentNotNullOrEmpty(path, nameof(path));
+      Assert.ArgumentNotNull(entry, nameof(entry));
 
-      return ContainsKey(Path.GetFullPath(path));
+      var file = entry as MockFile;
+      var folder = entry as MockFolder;
+      if (file != null)
+      {
+        Files.Add(Path.GetFullPath(path), file);
+      }
+      else if (folder != null)
+      {
+        Folders.Add(Path.GetFullPath(path), folder);
+      }
+      else
+      {
+        throw new NotSupportedException($"{typeof(T).Name} is not supported");
+      }
+
+      return entry;
     }
   }
 }
