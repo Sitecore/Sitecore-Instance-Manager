@@ -1,5 +1,7 @@
-﻿using System.Linq;
+﻿using System.Diagnostics;
+using System.Linq;
 using System.Windows.Controls;
+using System.Windows.Navigation;
 using Sitecore.Diagnostics.Logging;
 
 namespace SIM.Tool.Windows.UserControls.Install
@@ -71,9 +73,10 @@ namespace SIM.Tool.Windows.UserControls.Install
       return true;
     }
 
-    private bool Throw(string message)
+    private void Hyperlink_OnRequestNavigate(object sender, RequestNavigateEventArgs e)
     {
-      throw new InvalidOperationException(message);
+      Process.Start(new ProcessStartInfo(e.Uri.AbsoluteUri));
+      e.Handled = true;
     }
   }
 }
