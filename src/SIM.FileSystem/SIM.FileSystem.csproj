@@ -56,7 +56,6 @@
     <Compile Include="IO\IFileSystemEntry.cs" />
     <Compile Include="IO\IFolder.cs" />
     <Compile Include="IO\IZipFile.cs" />
-    <Compile Include="IO\Mock\MockFileSystemEntry.cs" />
     <Compile Include="IO\OpenFileAccess.cs" />
     <Compile Include="IO\OpenFileMode.cs" />
     <Compile Include="IO\OpenFileShare.cs" />
@@ -65,9 +64,6 @@
     <Compile Include="IO\FileSystemEntry.cs" />
     <Compile Include="IO\Real\RealFolder.cs" />
     <Compile Include="IO\IFolderExtensions.cs" />
-    <Compile Include="IO\Mock\MockFile.cs" />
-    <Compile Include="IO\Mock\MockFileSystem.cs" />
-    <Compile Include="IO\Mock\MockFolder.cs" />
     <Compile Include="IO\Real\RealZipFile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
