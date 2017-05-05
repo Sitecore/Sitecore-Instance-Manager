@@ -313,28 +313,7 @@ namespace SIM.FileSystem
         throw new InvalidOperationException($"The \"{packagePath}\" package seems to be corrupted.");
       }
     }
-
-    public virtual bool ZipContainsFile(string packagePath, string innerFileName)
-    {
-      var fileInfo = new FileInfo(packagePath);
-      Assert.IsTrue(fileInfo.Exists, "The {0} file does not exist".FormatWith(packagePath));
-
-      if (fileInfo.Length <= 22)
-      {
-        return false;
-      }
-
-      using (ZipFile zip = new ZipFile(packagePath))
-      {
-        if (zip.Entries.Any(e => e.FileName.EqualsIgnoreCase(innerFileName)))
-        {
-          return true;
-        }
-      }
-
-      return false;
-    }
-
+    
     public virtual bool ZipContainsSingleFile(string packagePath, string innerFileName)
     {
       var fileInfo = new FileInfo(packagePath);

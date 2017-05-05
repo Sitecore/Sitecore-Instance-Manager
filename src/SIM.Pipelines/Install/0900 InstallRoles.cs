@@ -54,16 +54,18 @@ namespace SIM.Pipelines.Install
       {
         tempFolder.Create();
 
-        var tmp = FileSystem.ParseZipFile(Path.GetTempFileName());
-        new WebClient()
-          .DownloadFile(configsUrl, tmp.FullName);
-        try
+        using (var tmp = FileSystem.ParseZipFile(Path.GetTempFileName()))
         {
-          tmp.ExtractTo(tempFolder);
-        }
-        finally
-        {
-          tmp.TryDelete();
+          new WebClient().DownloadFile(configsUrl, tmp.FullName);
+
+          try
+          {
+            tmp.ExtractTo(tempFolder);
+          }
+          finally
+          {
+            tmp.TryDelete();
+          }
         }
 
         var includeFolder = websiteFolder.GetChildFolder("App_Config\\Include");

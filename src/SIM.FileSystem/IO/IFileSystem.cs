@@ -10,6 +10,7 @@
     [NotNull]
     IFile ParseFile([NotNull] string path);
 
+    [NotNull]
     IZipFile ParseZipFile(string path);
   }
 }

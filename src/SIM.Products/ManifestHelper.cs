@@ -9,6 +9,7 @@
   using JetBrains.Annotations;
   using Sitecore.Diagnostics.Logging;
   using SIM.Extensions;
+  using SIM.IO.Real;
 
   public static class ManifestHelper
   {
@@ -269,8 +270,9 @@
           return ProfileSection.Result(packageManifest);
         }
 
-        if (FileSystem.FileSystem.Local.Zip.ZipContainsFile(packageFile, "metadata/sc_name.txt") &&
-            FileSystem.FileSystem.Local.Zip.ZipContainsFile(packageFile, "installer/version"))
+        using(var zip = new RealFileSystem().ParseZipFile(packageFile))
+        if (zip.Entries.Contains("metadata/sc_name.txt") &&
+            zip.Entries.Contains("installer/version"))
         {
           Log.Info($"The '{packageFile}' file is considered as Sitecore Package, (type #2)");
           CacheManager.SetEntry("IsPackage", packageFile, "true");

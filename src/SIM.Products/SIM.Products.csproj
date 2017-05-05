@@ -89,6 +89,10 @@
       <Project>{CA9339A0-9A7D-4900-839E-F21B7269BDAA}</Project>
       <Name>SIM.Base</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SIM.FileSystem\SIM.FileSystem.csproj">
+      <Project>{02B6C2D7-3083-4DF3-B86D-B6D4728C4EF2}</Project>
+      <Name>SIM.FileSystem</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="Manifests\moved-to-tool.txt" />

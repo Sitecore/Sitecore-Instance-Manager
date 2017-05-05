@@ -10,6 +10,7 @@
   using Sitecore.Diagnostics.Base;
   using JetBrains.Annotations;
   using SIM.Extensions;
+  using SIM.IO.Real;
   using SIM.Tool.Base.Wizards;
 
   [UsedImplicitly]
@@ -42,29 +43,32 @@
         return;
       }
 
-      const string AppPoolFileName = "AppPoolSettings.xml";
-      var appPool = FileSystem.Local.Zip.ZipContainsFile(filePath, AppPoolFileName);
-      if (!appPool)
+      using (var zipFile = new RealFileSystem().ParseZipFile(filePath))
       {
-        WindowHelper.ShowMessage("Wrong package for import. The package does not contain the {0} file.".FormatWith(AppPoolFileName));
-        return;
-      }
+        const string AppPoolFileName = "AppPoolSettings.xml";
+        var appPool = zipFile.Entries.Contains(AppPoolFileName);
+        if (!appPool)
+        {
+          WindowHelper.ShowMessage("Wrong package for import. The package does not contain the {0} file.".FormatWith(AppPoolFileName));
+          return;
+        }
 
-      const string WebsiteSettingsFileName = "WebsiteSettings.xml";
-      var websiteSettings = FileSystem.Local.Zip.ZipContainsFile(filePath, WebsiteSettingsFileName);
-      if (!websiteSettings)
-      {
-        WindowHelper.ShowMessage("Wrong package for import. The package does not contain the {0} file.".FormatWith(WebsiteSettingsFileName));
+        const string WebsiteSettingsFileName = "WebsiteSettings.xml";
+        var websiteSettings = zipFile.Entries.Contains(WebsiteSettingsFileName);
+        if (!websiteSettings)
+        {
+          WindowHelper.ShowMessage("Wrong package for import. The package does not contain the {0} file.".FormatWith(WebsiteSettingsFileName));
 
-        return;
-      }
+          return;
+        }
 
-      const string WebConfigFileName = @"Website/Web.config";
-      if (!FileSystem.Local.Zip.ZipContainsFile(filePath, WebConfigFileName))
-      {
-        WindowHelper.ShowMessage("Wrong package for import. The package does not contain the {0} file.".FormatWith(WebConfigFileName));
+        const string WebConfigFileName = @"Website/Web.config";
+        if (!zipFile.Entries.Contains(WebConfigFileName))
+        {
+          WindowHelper.ShowMessage("Wrong package for import. The package does not contain the {0} file.".FormatWith(WebConfigFileName));
 
-        return;
+          return;
+        }
       }
 
       WizardPipelineManager.Start("import", mainWindow, null, null, ignore => MainWindowHelper.SoftlyRefreshInstances(), filePath);

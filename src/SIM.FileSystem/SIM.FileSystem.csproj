@@ -30,6 +30,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Ionic.Zip.Reduced, Version=1.9.1.8, Culture=neutral, PublicKeyToken=edbe51ad942a3f5c, processorArchitecture=MSIL">
+      <HintPath>..\packages\DotNetZip.Reduced.1.9.1.8\lib\net20\Ionic.Zip.Reduced.dll</HintPath>
+    </Reference>
     <Reference Include="JetBrains.Annotations, Version=10.2.1.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
       <HintPath>..\packages\JetBrains.Annotations.10.2.1\lib\net\JetBrains.Annotations.dll</HintPath>
       <Private>True</Private>
@@ -56,6 +59,8 @@
     <Compile Include="IO\IFileSystemExtensions.cs" />
     <Compile Include="IO\IFolder.cs" />
     <Compile Include="IO\IZipFile.cs" />
+    <Compile Include="IO\IZipFileEntries.cs" />
+    <Compile Include="IO\IZipFileEntry.cs" />
     <Compile Include="IO\OpenFileAccess.cs" />
     <Compile Include="IO\OpenFileMode.cs" />
     <Compile Include="IO\OpenFileShare.cs" />
@@ -65,11 +70,17 @@
     <Compile Include="IO\Real\RealFolder.cs" />
     <Compile Include="IO\IFolderExtensions.cs" />
     <Compile Include="IO\Real\RealZipFile.cs" />
+    <Compile Include="IO\Real\RealZipFileEntries.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\SIM.Base\SIM.Base.csproj">
+      <Project>{CA9339A0-9A7D-4900-839E-F21B7269BDAA}</Project>
+      <Name>SIM.Base</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
