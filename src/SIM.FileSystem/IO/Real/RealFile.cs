@@ -5,19 +5,35 @@
   using JetBrains.Annotations;
 
   public class RealFile : FileSystemEntry, IFile
-  {                              
+  {
+    [CanBeNull]
+    private IFolder _Parent;
+
     public RealFile([NotNull] RealFileSystem fileSystem, [NotNull] string path) : base(fileSystem, path)
     {
       FileInfo = new FileInfo(path);
-      Folder = fileSystem.ParseFolder(Path.GetDirectoryName(path));
     }
 
     [NotNull]   
     public FileInfo FileInfo { get; }
                 
-    public IFolder Folder { get; }
+    public override IFolder Parent => _Parent ?? (_Parent = FileSystem.ParseFolder(Path.GetDirectoryName(FileInfo.FullName)));
 
-    public bool Exists => FileInfo.Exists;
+    public override void Create()
+    {
+      FileInfo.OpenWrite().Close();
+    }
+
+    public override bool Exists => FileInfo.Exists;
+
+    public IFile MoveTo(IFolder parent)
+    {
+      var newFullName = Path.Combine(parent.FullName, Name);
+      File.Delete(newFullName);
+      File.Move(FullName, newFullName);
+
+      return FileSystem.ParseFile(newFullName);
+    }
 
     public Stream Open(OpenFileMode mode, OpenFileAccess access, OpenFileShare share)
     {

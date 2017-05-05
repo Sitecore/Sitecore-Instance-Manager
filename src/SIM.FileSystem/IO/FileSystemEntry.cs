@@ -24,6 +24,12 @@ namespace SIM.IO
 
     public abstract void TryDelete();
 
+    public abstract void Create();
+
+    public abstract bool Exists { get; }
+
+    public abstract IFolder Parent { get; }
+
     public override int GetHashCode()
     {
       return FullName.GetHashCode();

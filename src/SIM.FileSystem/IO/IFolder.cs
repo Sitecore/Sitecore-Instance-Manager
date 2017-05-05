@@ -6,10 +6,6 @@ namespace SIM.IO
 
   public interface IFolder : IFileSystemEntry, IEquatable<IFolder>
   {
-    void Create();
-
-    bool Exists { get; }
-
     IReadOnlyList<IFileSystemEntry> GetChildren();
 
     IReadOnlyList<IFile> GetFiles();

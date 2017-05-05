@@ -9,6 +9,9 @@ namespace SIM.IO.Real
 
   public class RealFolder : FileSystemEntry, IFolder
   {
+    [CanBeNull]
+    private IFolder _Parent;
+
     public RealFolder([NotNull] SIM.IO.IFileSystem fileSystem, [NotNull] string path) : base(fileSystem, path)
     {
       DirectoryInfo = new DirectoryInfo(FullName);
@@ -17,7 +20,9 @@ namespace SIM.IO.Real
     [NotNull]
     public DirectoryInfo DirectoryInfo { get; }
 
-    public bool Exists => DirectoryInfo.Exists;
+    public override bool Exists => DirectoryInfo.Exists;
+
+    public override IFolder Parent => _Parent ?? (_Parent = FileSystem.ParseFolder(DirectoryInfo.Parent));
 
     public IReadOnlyList<IFileSystemEntry> GetChildren()
     {
@@ -76,7 +81,7 @@ namespace SIM.IO.Real
       return FileSystem.ParseFolder(newFullName);
     }
 
-    public void Create()
+    public override void Create()
     {
       DirectoryInfo.Create();
     }

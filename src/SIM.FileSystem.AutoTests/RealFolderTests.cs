@@ -1,11 +1,8 @@
 ﻿namespace SIM.FileSystem.AutoTests
 {
   using System;
-  using System.Collections.Generic;
   using System.IO;
   using System.Linq;
-  using System.Text;
-  using System.Threading.Tasks;
   using SIM.IO;
   using SIM.IO.Real;
   using Xunit;
@@ -53,7 +50,7 @@
 
       // assert
       var after = dir.Exists;
-      Assert.Equal(true, before == after);
+      Assert.True(before == after);
     }
 
     [Fact]
@@ -70,7 +67,7 @@
 
       // assert
       var after = dir.Exists;
-      Assert.Equal(true, before == after);
+      Assert.True(before == after);
     }
 
     [Fact]
@@ -116,7 +113,7 @@
       var result = sutA.Equals(sutB);
 
       // assert
-      Assert.Equal(true, result);
+      Assert.True(result);
     }
 
     [Fact]
@@ -161,7 +158,7 @@
       var exists = sut.Exists;
 
       // assert
-      Assert.Equal(true, exists);
+      Assert.True(exists);
     }
 
     [Fact]
@@ -194,7 +191,7 @@
 
       // assert
       var exists = dir.Exists;
-      Assert.Equal(true, exists);
+      Assert.True(exists);
     }
 
     [Fact]
@@ -211,7 +208,7 @@
 
       // assert
       Assert.Equal(2, folders.Count);
-      Assert.Equal(true, 
+      Assert.True(
         (folder0.FullName == folders[0].FullName && folder1.FullName == folders[1].FullName) || 
         (folder0.FullName == folders[1].FullName && folder1.FullName == folders[0].FullName));
     }
@@ -230,7 +227,7 @@
 
       // assert
       Assert.Equal(2, files.Count);
-      Assert.Equal(true, 
+      Assert.True(
         (file0.FullName == files[0].FullName && file1.FullName == files[1].FullName) ||
         (file0.FullName == files[1].FullName && file1.FullName == files[0].FullName));
     }
@@ -253,12 +250,12 @@
 
       // assert
       Assert.Equal(2, folders.Length);
-      Assert.Equal(true, 
+      Assert.True(
         (folder0.FullName == folders[0].FullName && folder1.FullName == folders[1].FullName) ||
         (folder0.FullName == folders[1].FullName && folder1.FullName == folders[0].FullName));
 
       Assert.Equal(2, files.Length);
-      Assert.Equal(true, 
+      Assert.True(
         (file0.FullName == files[0].FullName && file1.FullName == files[1].FullName) ||
         (file0.FullName == files[1].FullName && file1.FullName == files[0].FullName));
     }
@@ -278,7 +275,7 @@
       var moved = sutA.MoveTo(sutB);
 
       // assert
-      Assert.Equal(true, moved.Exists);
+      Assert.True(moved.Exists);
       Assert.Equal(false, sutA.Exists);
     }
 
@@ -318,7 +315,7 @@
       sutA.MoveTo(sutB);
 
       // assert
-      Assert.Equal(true, File.Exists($"{dir.FullName}\\{outerB.Name}\\{outerA.Name}\\{innerA.Name}\\{fileA.Name}"));
+      Assert.True(File.Exists($"{dir.FullName}\\{outerB.Name}\\{outerA.Name}\\{innerA.Name}\\{fileA.Name}"));
     }
 
     [Fact]
@@ -327,11 +324,11 @@
       // arrange
       var dir = CreateUniqueDir();
       var outerA = CreateUniqueDir(dir);
-      var innerA = CreateUniqueDir(outerA);
-      var fileA = CreateUniqueFile(innerA);
+      var fileA = CreateUniqueFile(outerA);
 
       var outerB = CreateUniqueDir(dir);
-      outerB.CreateSubdirectory(outerA.Name);
+      var innerB = outerB.CreateSubdirectory(outerA.Name);
+      new FileInfo(Path.Combine(innerB.FullName, fileA.Name)).Create().Close();
 
       var sutA = FileSystem.ParseFolder(outerA);
       var sutB = FileSystem.ParseFolder(outerB);
@@ -340,7 +337,7 @@
       sutA.MoveTo(sutB);
       
       // assert
-      Assert.Equal(true, File.Exists($"{dir.FullName}\\{outerB.Name}\\{outerA.Name}\\{innerA.Name}\\{fileA.Name}"));
+      Assert.True(File.Exists($"{dir.FullName}\\{outerB.Name}\\{outerA.Name}\\{fileA.Name}"));
     }
   }
 }

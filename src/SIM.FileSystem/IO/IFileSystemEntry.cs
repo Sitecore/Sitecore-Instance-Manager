@@ -14,5 +14,12 @@
     string Name { get; }
 
     void TryDelete();
+
+    void Create();
+
+    bool Exists { get; }
+
+    [NotNull]
+    IFolder Parent { get; }
   }
 }

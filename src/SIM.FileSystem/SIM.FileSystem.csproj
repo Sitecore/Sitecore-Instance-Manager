@@ -54,6 +54,7 @@
     <Compile Include="IO\IFileExtensions.cs" />
     <Compile Include="IO\IFileSystem.cs" />
     <Compile Include="IO\IFileSystemEntry.cs" />
+    <Compile Include="IO\IFileSystemExtensions.cs" />
     <Compile Include="IO\IFolder.cs" />
     <Compile Include="IO\IZipFile.cs" />
     <Compile Include="IO\OpenFileAccess.cs" />
