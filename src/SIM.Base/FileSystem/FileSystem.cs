@@ -16,9 +16,6 @@ namespace SIM.FileSystem
     public FileProvider File { get; }
 
     [NotNull]
-    public PathProvider Path { get; }
-
-    [NotNull]
     public SecurityProvider Security { get; }
 
     [NotNull]
@@ -41,7 +38,6 @@ namespace SIM.FileSystem
       Directory = new DirectoryProvider(this);
       File = new FileProvider(this);
       Zip = new ZipProvider(this);
-      Path = new PathProvider(this);
       Security = new SecurityProvider(this);
     }
 

@@ -73,7 +73,7 @@
     <Compile Include="FileSystem\FileProvider.cs" />
     <Compile Include="FileSystem\DirectoryProvider.cs" />
     <Compile Include="FileSystem\FileSystem.cs" />
-    <Compile Include="FileSystem\PathProvider.cs" />
+    <Compile Include="FileSystem\PathUtils.cs" />
     <Compile Include="FileSystem\SecurityProvider.cs" />
     <Compile Include="FileSystem\TempFolder.cs" />
     <Compile Include="IAdvancedSettingsStorage.cs" />

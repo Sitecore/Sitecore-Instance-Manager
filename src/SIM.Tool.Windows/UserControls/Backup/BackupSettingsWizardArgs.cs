@@ -1,6 +1,7 @@
 ﻿namespace SIM.Tool.Windows.UserControls.Backup
 {
   using System;
+  using SIM.FileSystem;
   using SIM.Instances;
   using SIM.Pipelines.Backup;
   using SIM.Pipelines.Processors;
@@ -48,7 +49,7 @@
 
     public override ProcessorArgs ToProcessorArgs()
     {
-      var backupArgs = new BackupArgs(Instance, FileSystem.FileSystem.Local.Path.EscapePath(BackupName.Trim(), "."), _Files, _Databases, _ExcludeClient, _MongoDatabases);
+      var backupArgs = new BackupArgs(Instance, PathUtils.EscapePath(BackupName.Trim(), "."), _Files, _Databases, _ExcludeClient, _MongoDatabases);
 
       return backupArgs;
     }
