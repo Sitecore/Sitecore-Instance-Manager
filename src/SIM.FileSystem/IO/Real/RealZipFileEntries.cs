@@ -21,6 +21,9 @@
 
     public bool Contains(string entryPath)
     {
+      Assert.ArgumentNotNull(entryPath, nameof(entryPath));
+
+      entryPath = entryPath.Replace("/", "\\");
       var entries = ZipFile.Entries;
       Assert.IsNotNull(entries, nameof(entries));
 
