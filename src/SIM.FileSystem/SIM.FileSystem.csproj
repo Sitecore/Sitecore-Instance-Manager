@@ -49,7 +49,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IO\FileSystemPath.cs" />
     <Compile Include="IO\IFile.cs" />
     <Compile Include="IO\IFileExtensions.cs" />
     <Compile Include="IO\IFileSystem.cs" />
@@ -71,5 +70,6 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
