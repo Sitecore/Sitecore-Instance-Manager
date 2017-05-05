@@ -85,7 +85,6 @@ By clicking 'Accept' you accept the License Agreement."" />
     <setup title=""Initial Configuration Wizard"" startButton=""Next""
            finishText=""Congratulations! The installation was successfully completed and you can start using it out of the box. If you don't have any Sitecore zip files in the local repository then you may download them from SDN via Download Sitecores from SDN button on the Ribbon or do it manually""
            cancelButton=""Exit"">
-      <args type=""SIM.Tool.Windows.Pipelines.Setup.SetupWizardArgs, SIM.Tool.Windows"" />
       <steps>
         <step name=""Welcome message"" type=""SIM.Tool.Windows.UserControls.ConfirmStepUserControl, SIM.Tool.Windows""
               param=""PLEASE READ IT CAREFULLY! You can see this wizard because it is the first time Sitecore Instance Manager (SIM) was executed in this user account. You should accept license agreement and then set your preferences before you can use it, this wizard will help you.
@@ -153,7 +152,6 @@ By clicking 'Next' you accept the License Agreement."" />
     </setup>
 
     <download title=""Download Sitecore 6.x and 7.x Wizard"" startButton=""Next"" finishText=""Done"" cancelButton=""Exit"">
-      <args type=""SIM.Tool.Windows.UserControls.Download.DownloadWizardArgs, SIM.Tool.Windows"" />
       <steps>
         <step name=""Welcome message"" type=""SIM.Tool.Windows.UserControls.ConfirmStepUserControl, SIM.Tool.Windows""
               param=""This wizard helps you to download packages ('ZIP archive of the Sitecore CMS site root') of the Sitecore CMS versions that Sitecore Instance Manager will be able to install for you. It will require your credentials from SDN because all downloads are protected from being downloaded by anonymous users. 
@@ -222,7 +220,6 @@ By clicking 'Next' you accept the License Agreement."" />
     </download>
 
     <download8 title=""Download Sitecore 8.x Wizard"" startButton=""Next"" finishText=""Done"" cancelButton=""Exit"">
-      <args type=""SIM.Tool.Windows.UserControls.Download8.DownloadWizardArgs, SIM.Tool.Windows"" />
       <steps>
         <step name=""Welcome message"" type=""SIM.Tool.Windows.UserControls.ConfirmStepUserControl, SIM.Tool.Windows""
               param=""This wizard helps you to download packages ('ZIP archive of the Sitecore CMS site root') of the Sitecore CMS versions that Sitecore Instance Manager will be able to install for you. It will require your credentials from dev.sitecore.net because all downloads are protected from being downloaded by anonymous users. 
@@ -274,7 +271,6 @@ By clicking 'Next' you accept the License Agreement."" />
     </download8>
     <install title=""Installing new instance"" startButton=""Install""
              finishText=""The installation was successfully completed"">
-      <args type=""SIM.Tool.Base.Pipelines.InstallWizardArgs, SIM.Tool.Base"" />
       <steps>
         <step name=""Instance details"" type=""SIM.Tool.Windows.UserControls.Install.InstanceDetails, SIM.Tool.Windows"" />
         <step name=""Instance details"" type=""SIM.Tool.Windows.UserControls.Install.InstanceSettings, SIM.Tool.Windows"" />
@@ -324,7 +320,6 @@ But the confirmation will be required if the databases are attached to:
     </delete>
     <multipleDeletion title=""Multiple deletion"" startButton=""Delete""
                       finishText=""The deleting was successfully completed"">
-      <args type=""SIM.Tool.Windows.UserControls.MultipleDeletion.MultipleDeletionWizardArgs, SIM.Tool.Windows"" />
       <steps>
         <step name=""Information"" type=""SIM.Tool.Windows.UserControls.ConfirmStepUserControl, SIM.Tool.Windows""
               param=""These items will be deleted automatically for each of selected instances:               
@@ -348,7 +343,6 @@ But the confirmation will be required if the databases are attached to:
     </multipleDeletion>
     <backup title=""Backing up the {InstanceName} instance"" startButton=""Backup""
             finishText=""The backup was successfully created"">
-      <args type=""SIM.Tool.Windows.UserControls.Backup.BackupSettingsWizardArgs, SIM.Tool.Windows"" />
       <steps>
         <step name=""Information"" type=""SIM.Tool.Windows.UserControls.ConfirmStepUserControl, SIM.Tool.Windows""
               param=""A back up of the selected instance will be created. "" />
@@ -358,14 +352,12 @@ But the confirmation will be required if the databases are attached to:
     </backup>
     <restore title=""Restoring up the {InstanceName} instance"" startButton=""Restore""
              finishText=""The instance was successfully restored from the backup"">
-      <args type=""SIM.Tool.Base.Pipelines.RestoreWizardArgs, SIM.Tool.Base"" />
       <steps>
         <step name=""Choose backup"" type=""SIM.Tool.Windows.UserControls.Backup.ChooseBackup, SIM.Tool.Windows"" />
       </steps>
     </restore>
     <export title=""Exporting the {InstanceName} instance"" startButton=""Export""
             finishText=""The export was successfully performed"">
-      <args type=""SIM.Tool.Windows.UserControls.Export.ExportWizardArgs, SIM.Tool.Windows"" />
       <steps>
         <step name=""Information"" type=""SIM.Tool.Windows.UserControls.ConfirmStepUserControl, SIM.Tool.Windows""
               param=""An export of the selected instance will be performed:
@@ -385,7 +377,6 @@ But the confirmation will be required if the databases are attached to:
       </finish>
     </export>
     <import title=""Importing Sitecore instance"" startButton=""Import"" finishText=""The import was successfully performed"">
-      <args type=""SIM.Tool.Windows.UserControls.Import.ImportWizardArgs, SIM.Tool.Windows"" />
       <steps>
         <step name=""Information"" type=""SIM.Tool.Windows.UserControls.ConfirmStepUserControl, SIM.Tool.Windows""
               param=""An import of the Sitecore instance will be performed:
@@ -421,7 +412,6 @@ But the confirmation will be required if the databases are attached to:
     </reinstall>
     <installmodules title=""Installing modules to the {InstanceName} instance"" startButton=""Install""
                     finishText=""The modules installation was successfully completed"">
-      <args type=""SIM.Tool.Base.Pipelines.InstallModulesWizardArgs, SIM.Tool.Base"" />
       <steps>
         <step name=""Modules list"" type=""SIM.Tool.Windows.UserControls.Install.Modules.ModulesDetails, SIM.Tool.Windows"" />
         <step name=""Custom Packages""

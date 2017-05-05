@@ -28,7 +28,7 @@
         var args = new DeleteArgs(instance, connectionString);
         args.OnCompleted += () => mainWindow.Dispatcher.Invoke(() => OnPipelineCompleted(args.RootPath));
         var index = MainWindowHelper.GetListItemID(instance.ID);
-        WizardPipelineManager.Start("delete", mainWindow, args, null, (ignore) => OnWizardCompleted(index));
+        WizardPipelineManager.Start("delete", mainWindow, args, null, (ignore) => OnWizardCompleted(index), () => null); 
       }
     }
 

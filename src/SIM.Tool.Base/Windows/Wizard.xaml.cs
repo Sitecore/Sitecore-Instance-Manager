@@ -29,16 +29,16 @@
   {
     #region Fields
 
-    public WizardArgs _WizardArgs;
+    public WizardArgs WizardArgs { get; }
+
     private ProcessorArgs Args { get; }
 
     private Brush ProgressBar1Foreground { get; }
 
-    private readonly object[] _WizardParams;
-
     private WizardPipeline WizardPipeline { get; }
 
     private double _Maximum = double.NaN;
+    
 
     private ProcessorArgs _ProcessorArgs;
 
@@ -46,19 +46,18 @@
 
     #region Constructors
 
-    public Wizard(WizardPipeline wizardPipeline, ProcessorArgs args, object[] parameters = null)
+    public Wizard(WizardPipeline wizardPipeline, ProcessorArgs args, [NotNull] Func<WizardArgs> createWizardArgs)
     {
       using (new ProfileSection("Create wizard instance", this))
       {
         ProfileSection.Argument("wizardPipeline", wizardPipeline);
         ProfileSection.Argument("args", args);
-        ProfileSection.Argument("parameters", parameters);
-
+        
+        WizardArgs = createWizardArgs();
         WizardPipeline = wizardPipeline;
         Args = args;
         InitializeComponent();
         ProgressBar1Foreground = progressBar1.Foreground;
-        _WizardParams = parameters;
         if (!WinAppSettings.AppSysIsSingleThreaded.Value)
         {
           CancelButton.IsCancel = false;
@@ -382,7 +381,7 @@
       }
     }
 
-    private void AddStepToWizard(StepInfo stepInfo, WizardArgs wArgs)
+    private void AddStepToWizard(StepInfo stepInfo)
     {
       Type ctrl = stepInfo.Control;
       Assert.IsNotNull(ctrl, "The {0} step contains null as a control".FormatWith(stepInfo.Title));
@@ -396,9 +395,7 @@
 
       var param = stepInfo.Param;
       var wizardStep = (UserControl)(!string.IsNullOrEmpty(param) ? ReflectionUtil.CreateObject(ctrl, param) : ReflectionUtil.CreateObject(ctrl));
-
-      _WizardArgs = wArgs;
-
+      
       TabControl.Items.Insert(TabControl.Items.Count - 2, new TabItem
       {
         AllowDrop = false, 
@@ -478,7 +475,7 @@
           {
             foreach (FinishActionHive hive in WizardPipeline._FinishActionHives.NotNull())
             {
-              AddFinishActions(hive.GetFinishActions(_WizardArgs));
+              AddFinishActions(hive.GetFinishActions(WizardArgs));
             }
           }
 
@@ -516,18 +513,6 @@
     private double GetMaximum()
     {
       return progressBar1.Maximum;
-    }
-
-    private WizardArgs GetWizardArgs(Type argsType)
-    {
-      WizardArgs wArgs = null;
-      if (argsType != null)
-      {
-        wArgs = (WizardArgs)ReflectionUtil.CreateObject(argsType, _WizardParams ?? new object[0]);
-        wArgs.WizardWindow = this;
-      }
-
-      return wArgs;
     }
 
     private void IncrementProgressUnsafe(long value = 1)
@@ -577,7 +562,7 @@
           return;
         }
 
-        var wizardArgs = _WizardArgs;
+        var wizardArgs = WizardArgs;
         using (new ProfileSection("Initialize step (inner)", this))
         {
           ProfileSection.Argument("step", step);
@@ -695,7 +680,7 @@
           {
             try
             {
-              _ProcessorArgs = _WizardArgs != null ? _WizardArgs.ToProcessorArgs() ?? Args : Args;
+              _ProcessorArgs = WizardArgs != null ? WizardArgs.ToProcessorArgs() ?? Args : Args;
             }
             catch (Exception ex)
             {
@@ -767,12 +752,12 @@
           }
 
           bool onMove = true;
-          bool saveChanges = step.SaveChanges(_WizardArgs);
+          bool saveChanges = step.SaveChanges(WizardArgs);
 
           var flowControl = step as IFlowControl;
           if (flowControl != null)
           {
-            onMove = next ? flowControl.OnMovingNext(_WizardArgs) : flowControl.OnMovingBack(_WizardArgs);
+            onMove = next ? flowControl.OnMovingNext(WizardArgs) : flowControl.OnMovingBack(WizardArgs);
           }
 
           if (!saveChanges || !onMove)
@@ -797,7 +782,7 @@
       {
         ProfileSection.Argument("name", name);
 
-        AbstractArgs abstractArgs = _WizardArgs as AbstractArgs ?? Args;
+        var abstractArgs = WizardArgs as object ?? Args;
         var result = abstractArgs != null ? Pipeline.ReplaceVariables(name, abstractArgs) : name;
 
         return ProfileSection.Result(result);
@@ -876,13 +861,10 @@
     {
       try
       {
-        Type argsType = WizardPipeline.Args;
-        var wArgs = GetWizardArgs(argsType);
-
         StepInfo[] sis = WizardPipeline._StepInfos;
         foreach (StepInfo stepInfo in sis)
         {
-          AddStepToWizard(stepInfo, wArgs);
+          AddStepToWizard(stepInfo);
         }
 
         PageNumber = 0;
@@ -932,7 +914,7 @@
             {
               action.Method.Invoke(null, new object[]
               {
-                _WizardArgs
+                WizardArgs
               });
             }
             catch (Exception ex)
@@ -955,5 +937,10 @@
     }
 
     #endregion
+
+    public void Dispose()
+    {
+      WizardArgs?.Dispose();
+    }
   }
 }

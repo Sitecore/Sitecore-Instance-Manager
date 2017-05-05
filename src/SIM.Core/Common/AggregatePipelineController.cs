@@ -89,5 +89,9 @@ namespace SIM.Core.Common
     {
       return _Messages.ToArray();
     }
+
+    public virtual void Dispose()
+    {
+    }
   }
 }

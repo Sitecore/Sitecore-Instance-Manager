@@ -62,7 +62,7 @@
     #region Public Methods
 
     [NotNull]
-    public static string ReplaceVariables([NotNull] string message, [NotNull] AbstractArgs args)
+    public static string ReplaceVariables([NotNull] string message, [NotNull] object args)
     {
       Assert.ArgumentNotNull(message, nameof(message));
       Assert.ArgumentNotNull(args, nameof(args));

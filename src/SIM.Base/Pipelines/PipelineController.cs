@@ -2,12 +2,13 @@
 {
   #region
 
+  using System;
   using System.Collections.Generic;
   using JetBrains.Annotations;
 
   #endregion
 
-  public interface IPipelineController
+  public interface IPipelineController : IDisposable
   {
     #region Properties
 

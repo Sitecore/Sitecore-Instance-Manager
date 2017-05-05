@@ -6,7 +6,7 @@
 
   #endregion
 
-  public class ProcessorArgs : AbstractArgs
+  public class ProcessorArgs : IDisposable
   {             
     #region Events
 

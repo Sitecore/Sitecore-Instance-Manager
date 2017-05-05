@@ -8,6 +8,7 @@
   using SIM.Tool.Windows;
   using JetBrains.Annotations;
   using SIM.Tool.Base.Wizards;
+  using SIM.Tool.Windows.UserControls.MultipleDeletion;
 
   [UsedImplicitly]
   public class MultipleDeletionButton : IMainWindowButton
@@ -21,7 +22,7 @@
 
     public void OnClick(Window mainWindow, Instance instance)
     {
-      WizardPipelineManager.Start("multipleDeletion", mainWindow, new MultipleDeletionArgs(new List<string>()), null, ignore => OnWizardCompleted());
+      WizardPipelineManager.Start("multipleDeletion", mainWindow, new MultipleDeletionArgs(new List<string>()), null, ignore => OnWizardCompleted(), () => new MultipleDeletionWizardArgs());
     }
 
     #endregion

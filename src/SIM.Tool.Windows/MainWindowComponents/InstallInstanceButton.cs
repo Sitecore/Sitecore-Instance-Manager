@@ -60,7 +60,7 @@
           }
 
           Analytics.TrackEvent($"install-{product.Version}");
-        });
+        }, () => new InstallWizardArgs());
       }
     }
 

@@ -10,7 +10,6 @@
   {
     #region Fields
 
-    public Type Args { get; }
     public string CancelButtonText { get; }
 
     public readonly FinishActionHive[] _FinishActionHives;
@@ -38,7 +37,6 @@
       FinishText = finishText;
       StartButtonText = startButtonText;
       CancelButtonText = cancelButtonText;
-      Args = args;
       _StepInfos = stepInfos;
       _FinishActions = finishActions;
       _FinishActionHives = finishActionHives;

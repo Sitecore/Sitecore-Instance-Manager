@@ -58,7 +58,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AbstractArgs.cs" />
     <Compile Include="AdvancedProperty.cs" />
     <Compile Include="AdvancedPropertyBase.cs" />
     <Compile Include="AdvancedSettings.cs" />

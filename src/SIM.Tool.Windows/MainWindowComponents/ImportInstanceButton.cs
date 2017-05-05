@@ -12,6 +12,8 @@
   using SIM.Extensions;
   using SIM.IO.Real;
   using SIM.Tool.Base.Wizards;
+  using SIM.IO;
+  using SIM.Tool.Windows.UserControls.Import;
 
   [UsedImplicitly]
   public class ImportInstanceButton : IMainWindowButton
@@ -43,7 +45,9 @@
         return;
       }
 
-      using (var zipFile = new RealFileSystem().ParseZipFile(filePath))
+      var fileSystem = new RealFileSystem();
+      var file = fileSystem.ParseFile(filePath);
+      using (var zipFile = fileSystem.ParseZipFile(file.FullName))
       {
         const string AppPoolFileName = "AppPoolSettings.xml";
         var appPool = zipFile.Entries.Contains(AppPoolFileName);
@@ -71,7 +75,7 @@
         }
       }
 
-      WizardPipelineManager.Start("import", mainWindow, null, null, ignore => MainWindowHelper.SoftlyRefreshInstances(), filePath);
+      WizardPipelineManager.Start("import", mainWindow, null, null, ignore => MainWindowHelper.SoftlyRefreshInstances(), () => new ImportWizardArgs(file.FullName));
     }
 
     #endregion

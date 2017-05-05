@@ -7,6 +7,7 @@
   using SIM.Tool.Base.Plugins;
   using JetBrains.Annotations;
   using SIM.Tool.Base.Wizards;
+  using SIM.Tool.Windows.UserControls.Export;
 
   [UsedImplicitly]
   public class ExportInstanceButton : IMainWindowButton
@@ -25,7 +26,7 @@
       if (instance != null)
       {
         var id = MainWindowHelper.GetListItemID(instance.ID);
-        WizardPipelineManager.Start("export", mainWindow, new ExportArgs(instance, false, true, true, true, false, false, false, false, false), null, ignore => MainWindowHelper.MakeInstanceSelected(id), instance, string.Empty);
+        WizardPipelineManager.Start("export", mainWindow, new ExportArgs(instance, false, true, true, true, false, false, false, false, false), null, ignore => MainWindowHelper.MakeInstanceSelected(id), () => new ExportWizardArgs(instance, string.Empty));
       }
     }
 

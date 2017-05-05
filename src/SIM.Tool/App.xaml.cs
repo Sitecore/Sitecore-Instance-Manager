@@ -37,6 +37,7 @@ namespace SIM.Tool
   using File = System.IO.File;
   using SIM.IO.Real;
   using NuGet;
+  using SIM.Tool.Windows.Pipelines.Setup;
 
   public partial class App
   {
@@ -206,7 +207,7 @@ namespace SIM.Tool
       var agreementAcceptedFilePath = Path.Combine(ApplicationManager.TempFolder, "agreement-accepted.txt");
       if (!File.Exists(agreementAcceptedFilePath))
       {
-        WizardPipelineManager.Start("agreement", main, new ProcessorArgs(), false);
+        WizardPipelineManager.Start("agreement", main, new ProcessorArgs(), false, null, () => null);
         if (!File.Exists(agreementAcceptedFilePath))
         {
           Environment.Exit(0);
@@ -450,7 +451,7 @@ namespace SIM.Tool
           }
 
           // if current profile is not valid then we will show the legacy profile if it exists, or at least use invalid one
-          WizardPipelineManager.Start("setup", mainWindow, null, false, null, ProfileManager.Profile ?? DetectProfile());
+          WizardPipelineManager.Start("setup", mainWindow, null, false, null, () => new SetupWizardArgs(ProfileManager.Profile ?? DetectProfile()));
           if (ProfileManager.IsValid)
           {
             return ProfileSection.Result(true);

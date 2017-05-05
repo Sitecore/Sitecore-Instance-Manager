@@ -6,6 +6,7 @@
   using SIM.Pipelines.Restore;
   using SIM.Tool.Base.Plugins;
   using JetBrains.Annotations;
+  using SIM.Tool.Base.Pipelines;
   using SIM.Tool.Base.Wizards;
 
   [UsedImplicitly]
@@ -26,7 +27,7 @@
       {
         var args = new RestoreArgs(instance);
         var id = MainWindowHelper.GetListItemID(instance.ID);
-        WizardPipelineManager.Start("restore", mainWindow, args, null, ignore => MainWindowHelper.MakeInstanceSelected(id), instance);
+        WizardPipelineManager.Start("restore", mainWindow, args, null, ignore => MainWindowHelper.MakeInstanceSelected(id), () => new RestoreWizardArgs(instance));
       }
     }
 
