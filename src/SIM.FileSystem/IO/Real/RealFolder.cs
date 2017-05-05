@@ -43,11 +43,12 @@ namespace SIM.IO.Real
         .ToArray();
     }
 
-    public void MoveTo(IFolder parent)
+    public IFolder MoveTo(IFolder parent)
     {
       // http://stackoverflow.com/questions/2553008/directory-move-doesnt-work-file-already-exist
       var stack = new Stack<KeyValuePair<string, string>>();
-      stack.Push(new KeyValuePair<string, string>(FullName, Path.Combine(parent.FullName, Name)));
+      var newFullName = Path.Combine(parent.FullName, Name);
+      stack.Push(new KeyValuePair<string, string>(FullName, newFullName));
 
       while (stack.Count > 0)
       {
@@ -71,25 +72,8 @@ namespace SIM.IO.Real
       }
 
       TryDelete();
-    }
 
-    public bool TryCreate()
-    {
-      if (!DirectoryInfo.Exists)
-      {
-        return false;
-      }
-
-      try
-      {
-        DirectoryInfo.Create();
-
-        return true;
-      }
-      catch
-      {
-        return false;
-      }
+      return FileSystem.ParseFolder(newFullName);
     }
 
     public void Create()

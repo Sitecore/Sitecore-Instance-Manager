@@ -58,18 +58,9 @@ namespace SIM.IO.Mock
         .ToArray();
     }
 
-    public void MoveTo(IFolder parent)
+    public IFolder MoveTo(IFolder parent)
     {
       throw new NotImplementedException();
-    }
-
-    public bool TryCreate()
-    {
-      var existedBefore = Exists;
-
-      Exists = true;
-
-      return !existedBefore;
     }
 
     public void Create()

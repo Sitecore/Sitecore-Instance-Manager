@@ -6,8 +6,6 @@ namespace SIM.IO
 
   public interface IFolder : IFileSystemEntry, IEquatable<IFolder>
   {
-    bool TryCreate();
-
     void Create();
 
     bool Exists { get; }
@@ -18,6 +16,6 @@ namespace SIM.IO
 
     IReadOnlyList<IFolder> GetFolders();
 
-    void MoveTo(IFolder parent);
+    IFolder MoveTo(IFolder parent);
   }
 }

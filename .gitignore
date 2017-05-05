@@ -43,3 +43,5 @@ src/SIM.Tool/obj/
 src/TestResults/
 src/obj/
 src/packages/
+src/.vs/
+src/SIM.FileSystem.AutoTests/bin/
