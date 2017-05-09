@@ -80,7 +80,7 @@ namespace SIM.Pipelines.Install
           child.TryDelete();
         }
 
-        var appConfigDir = tempFolder.GetChildFolder("Sitecore-Configuration-Roles-configuration-8.2.2\\App_Config");
+        var appConfigDir = tempFolder.GetChildFolder($"Sitecore-Configuration-Roles-configuration-{version}\\App_Config");
         appConfigDir.MoveTo(websiteFolder);
       }
       finally
