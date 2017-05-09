@@ -26,7 +26,7 @@ namespace SIM.Pipelines.Install
         return;
       }
 
-      var websiteDir = FileSystem.ParseFolder(args.WebRootPath);      
+      var websiteDir = FileSystem.ParseFolder(args.WebRootPath);
       var product = args.Product;
       var version = $"{product.Version}.{product.Update}";
       Process(websiteDir, version, role);
@@ -49,25 +49,11 @@ namespace SIM.Pipelines.Install
     private void InstallIncludeFiles(string version, IFolder websiteFolder)
     {
       var configsUrl = $"https://github.com/Sitecore/Sitecore-Configuration-Roles/archive/configuration/{version}.zip";
-      var tempFolder = FileSystem.ParseFolder(Path.GetTempFileName() + ".dir");
-      try
+
+      using (var tmp = FileSystem.ParseTempFile())
       {
-        tempFolder.Create();
-
-        using (var tmp = FileSystem.ParseZipFile(Path.GetTempFileName()))
-        {
-          new WebClient().DownloadFile(configsUrl, tmp.FullName);
-
-          try
-          {
-            tmp.ExtractTo(tempFolder);
-          }
-          finally
-          {
-            tmp.TryDelete();
-          }
-        }
-
+        new WebClient().DownloadFile(configsUrl, tmp.FullName);
+        
         var includeFolder = websiteFolder.GetChildFolder("App_Config\\Include");
         foreach (var child in includeFolder.GetChildren())
         {
@@ -80,13 +66,16 @@ namespace SIM.Pipelines.Install
           child.TryDelete();
         }
 
-        var appConfigDir = tempFolder.GetChildFolder($"Sitecore-Configuration-Roles-configuration-{version}\\App_Config");
-        appConfigDir.MoveTo(websiteFolder);
+        using (var zip = new RealZipFile(tmp))
+        {
+          zip.ExtractTo(websiteFolder);
+        }
       }
-      finally
-      {
-        tempFolder.TryDelete();
-      }
+
+      var configRolesFolder = websiteFolder.GetChildFolder($"Sitecore-Configuration-Roles-configuration-{version}");
+      var appConfigDir = configRolesFolder.GetChildFolder("App_Config");
+      appConfigDir.MoveTo(websiteFolder);
+      configRolesFolder.TryDelete();
     }
 
     private static void InstallAssemblyTo(IFolder binFolder)
