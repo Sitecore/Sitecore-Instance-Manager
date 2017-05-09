@@ -11,6 +11,8 @@
 
     bool Exists { get; }
 
+    IFile CopyTo(IFolder parent);
+
     IFile MoveTo(IFolder parent);
   }
 }

@@ -211,6 +211,25 @@
       Assert.True(moved.Exists);
       Assert.True(!sutA.Exists);
     }
+
+    [Fact]
+    public void MoveTo_Contents()
+    {
+      // arrange
+      var contents = new Guid().ToString("N");
+      var dir = CreateUniqueDir();
+      var folderA = CreateUniqueDir(dir);
+      var folderB = CreateUniqueDir(dir);
+      var fileA = CreateUniqueFile(folderA, contents);
+
+      var sutA = FileSystem.ParseFile(fileA);
+      var dirB = FileSystem.ParseFolder(folderB);
+
+      // act
+      var moved = sutA.MoveTo(dirB);
+
+      // assert
+      Assert.Equal(contents, File.ReadAllText(moved.FullName));
     }
 
     [Fact]
@@ -248,10 +267,72 @@
       var sutB = FileSystem.ParseFolder(outerB);
 
       // act
-      sutA.MoveTo(sutB);
+      var result = sutA.MoveTo(sutB);
       
       // assert
-      Assert.True(File.Exists($"{dir.FullName}\\{outerB.Name}\\{folderA.Name}\\{fileA.Name}"));
+      Assert.True(File.Exists(result.FullName));
+    }
+
+    [Fact]
+    public void CopyTo_FullName()
+    {
+      // arrange
+      var dir = CreateUniqueDir();
+      var folderA = CreateUniqueDir(dir);
+      var fileA = FileSystem.ParseFile(CreateUniqueFile(folderA));
+
+      var outerB = CreateUniqueDir(dir);
+      var innerB = CreateUniqueDir(outerB);
+
+      // act
+      var result = fileA.CopyTo(FileSystem.ParseFolder(innerB));
+
+      // assert
+      Assert.Equal($"{dir.FullName}\\{outerB.Name}\\{innerB.Name}\\{fileA.Name}", result.FullName);
+    }
+
+    [Fact]
+    public void CopyTo_Exists()
+    {
+      // arrange
+      var dir = CreateUniqueDir();
+      var folderA = CreateUniqueDir(dir);
+      var fileA = CreateUniqueFile(folderA);
+
+      var outerB = CreateUniqueDir(dir);
+      var innerB = outerB.CreateSubdirectory(folderA.Name);
+      new FileInfo(Path.Combine(innerB.FullName, fileA.Name)).OpenWrite().Close();
+
+      var sutA = FileSystem.ParseFile(fileA);
+      var sutB = FileSystem.ParseFolder(outerB);
+
+      // act
+      var result = sutA.CopyTo(sutB);
+
+      // assert
+      Assert.True(result.Exists);
+      Assert.True(File.Exists(result.FullName));
+    }
+
+    [Fact]
+    public void CopyTo_Contents()
+    {
+      // arrange
+      var contents = new Guid().ToString("N");
+      var dir = CreateUniqueDir();
+      var folderA = CreateUniqueDir(dir);
+      var fileA = CreateUniqueFile(folderA, contents);
+
+      var outerB = CreateUniqueDir(dir);
+      File.WriteAllText(Path.Combine(outerB.FullName, fileA.Name), "");
+
+      var sutA = FileSystem.ParseFile(fileA);
+
+      // act
+      var result = sutA.CopyTo(FileSystem.ParseFolder(outerB));
+
+      // assert
+      Assert.Equal(contents, File.ReadAllText(result.FullName));
     }
   }
 }

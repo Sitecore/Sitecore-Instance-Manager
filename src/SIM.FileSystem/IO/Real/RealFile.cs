@@ -26,6 +26,16 @@
 
     public override bool Exists => FileInfo.Exists;
 
+    public IFile CopyTo(IFolder parent)
+    {
+      var newFullName = Path.Combine(parent.FullName, Name);
+      var newFile = FileSystem.ParseFile(newFullName);
+      newFile.Parent.Create();
+      File.Copy(FullName, newFullName, true);
+
+      return newFile;
+    }
+
     public IFile MoveTo(IFolder parent)
     {
       var newFullName = Path.Combine(parent.FullName, Name);
