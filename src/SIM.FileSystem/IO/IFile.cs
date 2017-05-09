@@ -9,8 +9,6 @@
     [NotNull]
     Stream Open(OpenFileMode mode, OpenFileAccess access, OpenFileShare share);
 
-    bool Exists { get; }
-
     IFile CopyTo(IFolder parent);
 
     IFile MoveTo(IFolder parent);

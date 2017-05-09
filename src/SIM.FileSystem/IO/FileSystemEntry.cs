@@ -34,5 +34,10 @@ namespace SIM.IO
     {
       return FullName.GetHashCode();
     }
+
+    public override string ToString()
+    {
+      return FullName;
+    }
   }
 }

@@ -47,7 +47,7 @@
 
       var fileSystem = new RealFileSystem();
       var file = fileSystem.ParseFile(filePath);
-      using (var zipFile = fileSystem.ParseZipFile(file.FullName))
+      using (var zipFile = new RealZipFile(fileSystem.ParseFile(file.FullName)))
       {
         const string AppPoolFileName = "AppPoolSettings.xml";
         var appPool = zipFile.Entries.Contains(AppPoolFileName);

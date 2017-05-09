@@ -1,5 +1,7 @@
 ﻿namespace SIM.IO.Real
 {
+  using System.IO;
+
   public class RealFileSystem : IFileSystem
   {                                   
     public IFolder ParseFolder(string path)
@@ -12,10 +14,9 @@
       return new RealFile(this, path);
     }
 
-    public IZipFile ParseZipFile(string path)
+    public ITempFile ParseTempFile()
     {
-      return new RealZipFile(this, path);
-      ;
+      return new RealTempFile(this);
     }
   }
 }

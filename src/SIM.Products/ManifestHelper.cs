@@ -270,7 +270,7 @@
           return ProfileSection.Result(packageManifest);
         }
 
-        using(var zip = new RealFileSystem().ParseZipFile(packageFile))
+        using(var zip = new RealZipFile(new RealFileSystem().ParseFile(packageFile)))
         if (zip.Entries.Contains("metadata/sc_name.txt") &&
             zip.Entries.Contains("installer/version"))
         {

@@ -58,6 +58,7 @@
     <Compile Include="IO\IFileSystemEntry.cs" />
     <Compile Include="IO\IFileSystemExtensions.cs" />
     <Compile Include="IO\IFolder.cs" />
+    <Compile Include="IO\ITempFile.cs" />
     <Compile Include="IO\IZipFile.cs" />
     <Compile Include="IO\IZipFileEntries.cs" />
     <Compile Include="IO\IZipFileEntry.cs" />
@@ -69,6 +70,7 @@
     <Compile Include="IO\FileSystemEntry.cs" />
     <Compile Include="IO\Real\RealFolder.cs" />
     <Compile Include="IO\IFolderExtensions.cs" />
+    <Compile Include="IO\Real\RealTempFile.cs" />
     <Compile Include="IO\Real\RealZipFile.cs" />
     <Compile Include="IO\Real\RealZipFileEntries.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

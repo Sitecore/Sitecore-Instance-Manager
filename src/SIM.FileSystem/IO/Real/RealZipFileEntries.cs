@@ -16,7 +16,7 @@
     {
       Assert.ArgumentNotNull(zipFile, nameof(zipFile));
 
-      ZipFile = new ZipFile(zipFile.FullName);
+      ZipFile = new ZipFile(zipFile.File.FullName);
     }
 
     public bool Contains(string entryPath)

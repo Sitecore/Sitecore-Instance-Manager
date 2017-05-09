@@ -4,17 +4,21 @@ namespace SIM.IO.Real
 {
   using JetBrains.Annotations;
 
-  public class RealZipFile : RealFile, IZipFile
+  public class RealZipFile : IZipFile
   {
+    [NotNull]
+    public IFile File { get; }
+
     private RealZipFileEntries _Entries;
 
-    public RealZipFile([NotNull] RealFileSystem fileSystem, [NotNull] string path) : base(fileSystem, path)
-    {      
+    public RealZipFile([NotNull] IFile file)
+    {
+      File = file;
     }
 
     public void ExtractTo(IFolder folder)
     {
-      ZipFile.ExtractToDirectory(FullName, folder.FullName);
+      ZipFile.ExtractToDirectory(File.FullName, folder.FullName);
     }
 
     public IZipFileEntries Entries => _Entries ?? (_Entries = new RealZipFileEntries(this));

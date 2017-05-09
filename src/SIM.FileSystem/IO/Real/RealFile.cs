@@ -9,7 +9,7 @@
     [CanBeNull]
     private IFolder _Parent;
 
-    public RealFile([NotNull] RealFileSystem fileSystem, [NotNull] string path) : base(fileSystem, path)
+    public RealFile([NotNull] IFileSystem fileSystem, [NotNull] string path) : base(fileSystem, path)
     {
       FileInfo = new FileInfo(path);
     }
