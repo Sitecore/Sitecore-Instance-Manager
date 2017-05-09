@@ -12,6 +12,8 @@ namespace SIM.IO
 
     IReadOnlyList<IFolder> GetFolders();
 
+    IFolder CopyTo(IFolder parent);
+
     IFolder MoveTo(IFolder parent);
   }
 }

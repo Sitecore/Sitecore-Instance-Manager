@@ -48,6 +48,37 @@ namespace SIM.IO.Real
         .ToArray();
     }
 
+    public IFolder CopyTo(IFolder parent)
+    {
+      // variation of MoveTo
+      var stack = new Stack<KeyValuePair<string, string>>();
+      var newFullName = Path.Combine(parent.FullName, Name);
+      stack.Push(new KeyValuePair<string, string>(FullName, newFullName));
+
+      while (stack.Count > 0)
+      {
+        var folders = stack.Pop();
+        Directory.CreateDirectory(folders.Value);
+        foreach (var file in Directory.GetFiles(folders.Key))
+        {
+          var targetFile = Path.Combine(folders.Value, Path.GetFileName(file));
+          if (File.Exists(targetFile))
+          {
+            File.Delete(targetFile);
+          }
+
+          File.Copy(file, targetFile);
+        }
+
+        foreach (var folder in Directory.GetDirectories(folders.Key))
+        {
+          stack.Push(new KeyValuePair<string, string>(folder, Path.Combine(folders.Value, Path.GetFileName(folder))));
+        }
+      }
+
+      return FileSystem.ParseFolder(newFullName);
+    }
+
     public IFolder MoveTo(IFolder parent)
     {
       // http://stackoverflow.com/questions/2553008/directory-move-doesnt-work-file-already-exist

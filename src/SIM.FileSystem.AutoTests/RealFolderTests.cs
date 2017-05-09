@@ -339,5 +339,61 @@
       // assert
       Assert.True(File.Exists($"{dir.FullName}\\{outerB.Name}\\{outerA.Name}\\{fileA.Name}"));
     }
+
+    [Fact]
+    public void CopyTo_FullName_Plain()
+    {
+      // arrange
+      var dir = CreateUniqueDir();
+
+      var a = FileSystem.ParseFolder(CreateUniqueDir(dir));
+      var b = FileSystem.ParseFolder(CreateUniqueDir(dir));
+
+      // act
+      var result = a.CopyTo(b);
+
+      // assert
+      Assert.Equal($"{dir.FullName}\\{b.Name}\\{a.Name}", result.FullName);
+    }
+
+    [Fact]
+    public void CopyTo_FullName_Deep()
+    {
+      // arrange
+      var dir = CreateUniqueDir();
+
+      var a = FileSystem.ParseFolder(CreateUniqueDir(dir));
+      var b = a.GetChildFolder(Guid.NewGuid().ToString("N"));
+      b.Create();
+
+      var c = FileSystem.ParseFolder(CreateUniqueDir(dir));
+
+      // act
+      var result = a.CopyTo(c);
+
+      // assert
+      var d = result.GetChildFolder(b.Name);
+      Assert.Equal($"{dir.FullName}\\{c.Name}\\{a.Name}\\{b.Name}", d.FullName);
+    }
+
+    [Fact]
+    public void CopyTo_Exists_Deep()
+    {
+      // arrange
+      var dir = CreateUniqueDir();
+
+      var a = FileSystem.ParseFolder(CreateUniqueDir(dir));
+      var b = a.GetChildFolder(Guid.NewGuid().ToString("N"));
+      b.Create();
+
+      var c = FileSystem.ParseFolder(CreateUniqueDir(dir));
+
+      // act
+      var result = a.CopyTo(c);
+
+      // assert
+      var d = result.GetChildFolder(b.Name);
+      Assert.True(d.Exists);
+    }
   }
 }
