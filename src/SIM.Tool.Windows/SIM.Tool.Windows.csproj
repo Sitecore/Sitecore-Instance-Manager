@@ -133,6 +133,7 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ButtonDefinition.cs" />
     <Compile Include="CustomConverter.cs" />
     <Compile Include="Dialogs\DatabaseQueryExecutionDialog.xaml.cs">
       <DependentUpon>DatabaseQueryExecutionDialog.xaml</DependentUpon>
@@ -146,6 +147,7 @@
     <Compile Include="Dialogs\RestoreDatabaseDialog.xaml.cs">
       <DependentUpon>RestoreDatabaseDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="GroupDefinition.cs" />
     <Compile Include="MainWindowComponents\AboutButton.cs" />
     <Compile Include="MainWindowComponents\AbstractInstanceButton.cs" />
     <Compile Include="MainWindowComponents\AbstractSimpleButton.cs" />
@@ -194,6 +196,7 @@
     <Compile Include="MainWindowComponents\RestoreInstanceButton.cs" />
     <Compile Include="MainWindowComponents\SettingsButton.cs" />
     <Compile Include="MainWindowComponents\UpdateLicenseButton.cs" />
+    <Compile Include="MainWindowData.cs" />
     <Compile Include="NuGetHelper.cs" />
     <Compile Include="Pipelines\Agreement\AcceptAgreement.cs" />
     <Compile Include="Pipelines\Download\DownloadArgs.cs" />
@@ -222,6 +225,7 @@
     </Compile>
     <Compile Include="PublishMode.cs" />
     <Compile Include="StateToVisibility.cs" />
+    <Compile Include="TabDefinition.cs" />
     <Compile Include="TreeViewItemExtensions.cs" />
     <Compile Include="UserControls\Backup\BackupSettings.xaml.cs">
       <DependentUpon>BackupSettings.xaml</DependentUpon>

@@ -350,7 +350,7 @@
       {
         var appDocument = XmlDocumentEx.LoadFileSafe("App.xml") ?? XmlDocumentEx.LoadFile(ApplicationManager.GetEmbeddedFile("SIM.Tool.Windows", "App.xml"));
         appDocument.Save("App.xml");
-        MainWindowHelper.InitializeRibbon(appDocument);
+        MainWindowHelper.InitializeRibbon(MainWindowData.Tabs);
         MainWindowHelper.InitializeContextMenu(appDocument);
       }
     }
