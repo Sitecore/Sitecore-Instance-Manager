@@ -1,11 +1,7 @@
 ﻿namespace SIM.FileSystem.AutoTests
 {
   using System;
-  using System.Collections.Generic;
   using System.IO;
-  using System.Linq;
-  using System.Text;
-  using System.Threading.Tasks;
   using SIM.IO;
   using SIM.IO.Real;
   using Xunit;
@@ -26,16 +22,16 @@
       return (dir ?? Root).CreateSubdirectory(Guid.NewGuid().ToString("N"));
     }
 
-    private FileInfo CreateUniqueFile(DirectoryInfo dir = null)
+    private FileInfo CreateUniqueFile(DirectoryInfo dir = null, string contents = null)
     {
-      return CreateFile(dir ?? Root, Guid.NewGuid().ToString("N"));
+      return CreateFile(dir ?? Root, Guid.NewGuid().ToString("N"), contents);
     }
 
-    private FileInfo CreateFile(DirectoryInfo dir, string fileName)
+    private FileInfo CreateFile(DirectoryInfo dir, string fileName, string contents = null)
     {
       dir.Create();
       var path = Path.Combine(dir.FullName, fileName);
-      File.WriteAllText(path, "");
+      File.WriteAllText(path, contents ?? "");
 
       return new FileInfo(path);
     }
@@ -44,7 +40,8 @@
     public void Ctor_NoStateChange_Exists()
     {
       // arrange
-      var file = CreateUniqueFile();
+      var contents = new Guid().ToString("N");
+      var file = CreateUniqueFile(null, contents);
       var before = file.Exists;
 
       // act
@@ -53,6 +50,7 @@
       // assert
       var after = file.Exists;
       Assert.True(before == after);
+      Assert.Equal(contents, File.ReadAllText(file.FullName));
     }
 
     [Fact]
@@ -132,7 +130,7 @@
       var result = sut1.Equals(sut2);
 
       // assert
-      Assert.Equal(false, result);
+      Assert.True(!result);
     }
 
     [Fact]
@@ -174,7 +172,7 @@
       var exists = sut.Exists;
 
       // assert
-      Assert.Equal(false, exists);
+      Assert.True(!exists);
     }
 
     [Fact]
@@ -211,7 +209,8 @@
 
       // assert
       Assert.True(moved.Exists);
-      Assert.Equal(false, sutA.Exists);
+      Assert.True(!sutA.Exists);
+    }
     }
 
     [Fact]

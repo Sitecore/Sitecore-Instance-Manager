@@ -130,7 +130,7 @@
       var result = sut1.Equals(sut2);
 
       // assert
-      Assert.Equal(false, result);
+      Assert.True(!result);
     }
 
     [Fact]
@@ -174,7 +174,7 @@
       var exists = sut.Exists;
 
       // assert
-      Assert.Equal(false, exists);
+      Assert.True(!exists);
     }
 
     [Fact]
@@ -276,7 +276,7 @@
 
       // assert
       Assert.True(moved.Exists);
-      Assert.Equal(false, sutA.Exists);
+      Assert.True(!sutA.Exists);
     }
 
     [Fact]
