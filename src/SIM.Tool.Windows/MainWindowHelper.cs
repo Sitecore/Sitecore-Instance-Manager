@@ -85,33 +85,25 @@
       }
     }
 
-    public static void InitializeContextMenu(XmlDocumentEx appDocument)
+    public static void InitializeContextMenu(ButtonDefinition[] menuItems)
     {
       using (new ProfileSection("Initialize context menu"))
       {
-        ProfileSection.Argument("appDocument", appDocument);
-
         MainWindow window = MainWindow.Instance;
-        var menuItems = appDocument.SelectElements("/app/mainWindow/contextMenu/*");
-
         foreach (var item in menuItems)
         {
           using (new ProfileSection("Fill in context menu"))
           {
             ProfileSection.Argument("item", item);
 
-            if (item.Name == "item")
-            {
-              InitializeContextMenuItem(item, window.ContextMenu.Items, window, uri => Plugin.GetImage(uri));
-            }
-            else if (item.Name == "separator")
+            var header = item.Label;
+            if (string.IsNullOrEmpty(header))
             {
               window.ContextMenu.Items.Add(new Separator());
+              continue;
             }
-            else if (item.Name == "plugins")
-            {
-              Log.Error("Plugins no longer supported");
-            }
+
+            InitializeContextMenuItem(item, window.ContextMenu.Items, window, uri => Plugin.GetImage(uri));            
           }
         }
       }
@@ -572,31 +564,27 @@
       }
     }
 
-    private static void InitializeContextMenuItem(XmlElement menuItemElement, ItemCollection itemCollection, MainWindow window, Func<string, ImageSource> getImage)
+    private static void InitializeContextMenuItem(ButtonDefinition menuItemElement, ItemCollection itemCollection, MainWindow window, Func<string, ImageSource> getImage)
     {
       try
       {
-        if (menuItemElement.Name.EqualsIgnoreCase("separator"))
+        var header = menuItemElement.Label;
+        if (string.IsNullOrEmpty(header))
         {
           itemCollection.Add(new Separator());
           return;
         }
-
-        if (!menuItemElement.Name.EqualsIgnoreCase("item"))
-        {
-          Assert.IsTrue(false, "The element is not supported: {0}".FormatWith(menuItemElement.OuterXml));
-        }
-
+        
         // create handler
-        var mainWindowButton = (IMainWindowButton)Plugin.CreateInstance(menuItemElement);
+        var mainWindowButton = menuItemElement.Handler;
 
         // create Context Menu Item
         var menuItem = new System.Windows.Controls.MenuItem
         {
-          Header = menuItemElement.GetNonEmptyAttribute("header"),
+          Header = header,
           Icon = new Image
           {
-            Source = getImage(menuItemElement.GetNonEmptyAttribute("image")),
+            Source = getImage(menuItemElement.Image),
             Width = 16,
             Height = 16
           },
@@ -625,7 +613,7 @@
           SetIsEnabledProperty(menuItem, mainWindowButton);
         }
 
-        foreach (var childElement in menuItemElement.ChildNodes.OfType<XmlElement>())
+        foreach (var childElement in menuItemElement.Buttons ?? new ButtonDefinition[0])
         {
           InitializeContextMenuItem(childElement, menuItem.Items, window, getImage);
         }

@@ -1,5 +1,8 @@
 namespace SIM.Tool.Windows
 {
+  using SIM.Tool.Base.Plugins;
+  using SIM.Tool.Windows.MainWindowComponents;
+
   public static class MainWindowData
   {
     private static TabDefinition HomeTab { get; } = new TabDefinition
@@ -850,6 +853,42 @@ namespace SIM.Tool.Windows
           }
         },
       }
+    };
+
+    internal static ButtonDefinition[] MenuItems { get; } = 
+    {
+      new ButtonDefinition { Label = "Browse Sitecore Website", Image = "/Images/$sm/earth2.png, SIM.Tool.Windows", Handler = new SIM.Tool.Windows.MainWindowComponents.BrowseButton() },
+      new ButtonDefinition { Label = "Browse Sitecore Client", Image = "/Images/$sm/Sitecore.png, SIM.Tool.Windows", Handler = new SIM.Tool.Windows.MainWindowComponents.BrowseButton("/sitecore") },
+      new ButtonDefinition { Label = "Log in admin", Image = "/Images/$sm/log_in.png, SIM.Tool.Windows", Handler = new SIM.Tool.Windows.MainWindowComponents.LoginAdminButton("/sitecore"), Buttons = new [] {
+        new ButtonDefinition { Label = "Google Chrome", Image = "/Images/$lg/chrome.png, SIM.Tool.Windows", Handler = new SIM.Tool.Windows.MainWindowComponents.LoginAdminButton("/sitecore:chrome") },
+        new ButtonDefinition { Label = "Mozilla Firefox", Image = "/Images/$lg/firefox.png, SIM.Tool.Windows", Handler = new SIM.Tool.Windows.MainWindowComponents.LoginAdminButton("/sitecore:firefox") },
+        new ButtonDefinition { Label = "Internet Explorer", Image = "/Images/$lg/ie.png, SIM.Tool.Windows", Handler = new SIM.Tool.Windows.MainWindowComponents.LoginAdminButton("/sitecore:iexplore") },
+        new ButtonDefinition { Label = "Apple Safari", Image = "/Images/$lg/safari.png, SIM.Tool.Windows", Handler = new SIM.Tool.Windows.MainWindowComponents.LoginAdminButton("/sitecore:safari") },
+        new ButtonDefinition(),
+        new ButtonDefinition { Label = "Sitecore Admin", Image = "/Images/$lg/toolbox.png, SIM.Tool.Windows", Handler = new SIM.Tool.Windows.MainWindowComponents.OpenToolboxButton("bypass") },
+        new ButtonDefinition(),
+        new ButtonDefinition { Label = "Copy URL", Image = "/Images/$lg/astrologer.png, SIM.Tool.Windows", Handler = new SIM.Tool.Windows.MainWindowComponents.LoginAdminButton("$(clipboard)") },
+      }}, 
+      new ButtonDefinition { Label = "Sitecore Admin", Image = "/Images/$lg/toolbox.png, SIM.Tool.Windows", Handler = new SIM.Tool.Windows.MainWindowComponents.OpenToolboxButton() },
+      new ButtonDefinition { Label = "Open Folder", Image = "/Images/$sm/folder_open.png, SIM.Tool.Windows", Handler = new SIM.Tool.Windows.MainWindowComponents.OpenFolderButton("$(website)") },
+      new ButtonDefinition { Label = "Open Visual Studio", Image = "/Images/$sm/vs.png, SIM.Tool.Windows", Handler = new SIM.Tool.Windows.MainWindowComponents.OpenVisualStudioButton() },
+      new ButtonDefinition(),
+      new ButtonDefinition { Label = "Analyze log files", Image = "/Images/$lg/zoom_vertical.png, SIM.Tool.Windows", Handler = new SIM.Tool.Windows.MainWindowComponents.OpenLogsButton() },
+      new ButtonDefinition { Label = "Open log file", Image = "/Images/$sm/console.png, SIM.Tool.Windows", Handler = new SIM.Tool.Windows.MainWindowComponents.OpenCurrentLogButton() },
+      new ButtonDefinition { Label = "Open web.config file", Image = "/Images/$sm/document_text.png, SIM.Tool.Windows", Handler = new SIM.Tool.Windows.MainWindowComponents.OpenWebConfigButton() },
+      new ButtonDefinition(),
+      new ButtonDefinition { Label = "Publish Site", Image = "/Images/$sm/publish.png, SIM.Tool.Windows", Handler = new SIM.Tool.Windows.MainWindowComponents.PublishButton() },
+      new ButtonDefinition(),
+      new ButtonDefinition { Label = "Backup", Image = "/Images/$sm/box_into.png, SIM.Tool.Windows", Handler = new SIM.Tool.Windows.MainWindowComponents.BackupInstanceButton() },
+      new ButtonDefinition { Label = "Restore", Image = "/Images/$sm/box_out.png, SIM.Tool.Windows", Handler = new SIM.Tool.Windows.MainWindowComponents.RestoreInstanceButton() },
+      new ButtonDefinition(),
+      new ButtonDefinition { Label = "Export", Image = "/Images/$sm/download.png, SIM.Tool.Windows", Handler = new SIM.Tool.Windows.MainWindowComponents.ExportInstanceButton() },
+      new ButtonDefinition(),
+      new ButtonDefinition { Label = "Install modules", Image = "/Images/$sm/install.png, SIM.Tool.Windows", Handler = new SIM.Tool.Windows.MainWindowComponents.InstallModulesButton() },
+      new ButtonDefinition(),
+      new ButtonDefinition { Label = "Reinstall instance", Image = "/Images/$sm/redo.png, SIM.Tool.Windows", Handler = new SIM.Tool.Windows.MainWindowComponents.ReinstallInstanceButton() },
+      new ButtonDefinition(),
+      new ButtonDefinition { Label = "Delete", Image = "/Images/$sm/uninstall.png, SIM.Tool.Windows", Handler = new SIM.Tool.Windows.MainWindowComponents.DeleteInstanceButton() },
     };
 
     public static TabDefinition[] Tabs { get; } = {

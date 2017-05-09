@@ -348,10 +348,8 @@
     {
       using (new ProfileSection("Initializing main window", this))
       {
-        var appDocument = XmlDocumentEx.LoadFileSafe("App.xml") ?? XmlDocumentEx.LoadFile(ApplicationManager.GetEmbeddedFile("SIM.Tool.Windows", "App.xml"));
-        appDocument.Save("App.xml");
         MainWindowHelper.InitializeRibbon(MainWindowData.Tabs);
-        MainWindowHelper.InitializeContextMenu(appDocument);
+        MainWindowHelper.InitializeContextMenu(MainWindowData.MenuItems);
       }
     }
 
