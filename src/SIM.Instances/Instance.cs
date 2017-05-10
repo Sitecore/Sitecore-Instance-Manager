@@ -358,8 +358,12 @@
     {
       get
       {
+        var omsVersions = new[] { "6.2", "6.3", "6.4" };
+        var dmsVersions = new[] { "6.5", "6.6", "7.0", "7.1", "7.2" };
+        var dmsName = omsVersions.Any(x => ProductFullName.Contains(x)) ? "OMS" : (dmsVersions.Any(x => ProductFullName.Contains(x)) ? "DMS" : "xDB");
+
         var modulesNames = Modules.Select(x => x.Name.TrimStart("Sitecore "));
-        return (string.Join(", ", modulesNames) + (File.Exists(Path.Combine(WebRootPath, "App_Config\\Include\\Sitecore.Analytics.config")) ? ", DMS" : string.Empty)).TrimStart(" ,".ToCharArray());
+        return (string.Join(", ", modulesNames) + (File.Exists(Path.Combine(WebRootPath, "App_Config\\Include\\Sitecore.Analytics.config")) ? $", {dmsName}" : string.Empty)).TrimStart(" ,".ToCharArray());
       }
     }
 
