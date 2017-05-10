@@ -340,9 +340,9 @@ namespace SIM.FileSystem
       return Path.GetPathRoot(path);
     }
 
-    public TempFolder GetTempFolder(string path = null)
+    public TempFolder GetTempFolder(string path = null, bool? rooted = null)
     {
-      return new TempFolder(FileSystem, path);
+      return new TempFolder(FileSystem, path, rooted);
     }
 
     public string GetVirtualPath(string databaseFilePath)

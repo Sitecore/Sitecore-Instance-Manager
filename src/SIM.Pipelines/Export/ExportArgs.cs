@@ -85,7 +85,20 @@
 
     private string GetTempFolder()
     {
-      return FileSystem.FileSystem.Local.Directory.GetTempFolder(Settings.CoreExportTempFolderLocation.Value.EmptyToNull() ?? WebRootPath).Path;
+      var tempLocation = Settings.CoreExportTempFolderLocation.Value;
+      var webRootPath = WebRootPath;
+
+      return GetTempFolder(tempLocation, webRootPath);
+    }
+
+    public static string GetTempFolder(string tempLocation, string webRootPath)
+    {
+      if (!string.IsNullOrEmpty(tempLocation))
+      {
+        return FileSystem.FileSystem.Local.Directory.GetTempFolder(tempLocation, false).Path;
+      }
+
+      return FileSystem.FileSystem.Local.Directory.GetTempFolder(webRootPath, true).Path;
     }
 
     #endregion

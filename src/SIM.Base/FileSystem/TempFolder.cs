@@ -13,12 +13,17 @@ namespace SIM.FileSystem
 
     #region Constructors
 
-    public TempFolder(FileSystem fileSystem, string path = null)
+    public TempFolder(FileSystem fileSystem, string path, bool? rooted)
     {
       FileSystem = fileSystem;
       if (path != null)
       {
+        if (rooted != false)
         Path = fileSystem.Directory.Ensure(System.IO.Path.Combine(System.IO.Path.GetPathRoot(path), Guid.NewGuid().ToString()));
+        else
+        {
+          Path = fileSystem.Directory.Ensure(System.IO.Path.Combine(path, Guid.NewGuid().ToString("N")));
+        }
       }
       else
       {
