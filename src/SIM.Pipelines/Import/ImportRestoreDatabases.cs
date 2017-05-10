@@ -153,7 +153,7 @@
     private List<string> ExtractDatabases(ImportArgs args)
     {
       List<string> result = new List<string>();
-      var folderWithExtractedBackups = FileSystem.FileSystem.Local.Zip.ZipUnpackFolder(args.PathToExportedInstance, args._RootPath.PathCombine("Databases"), "Databases");
+      var folderWithExtractedBackups = FileSystem.FileSystem.Local.Zip.ZipUnpackFolder(args.PathToExportedInstance, args._RootPath, "Databases");
       foreach (string file in FileSystem.FileSystem.Local.Directory.GetFiles(folderWithExtractedBackups, "*.bak"))
       {
         result.Add(file);

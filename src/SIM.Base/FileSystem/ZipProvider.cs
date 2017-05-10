@@ -360,7 +360,7 @@ namespace SIM.FileSystem
       using (ZipFile zip1 = ZipFile.Read(pathToZip))
       {
         var selection = from e in zip1.Entries
-          where (e.FileName).StartsWith(folderName + "/")
+          where (e.FileName).StartsWith(folderName + "/") || (e.FileName).StartsWith(folderName + "\\")          
           select e;
 
 
@@ -368,7 +368,14 @@ namespace SIM.FileSystem
 
         foreach (var e in selection)
         {
-          e.Extract(pathToUnpack, ExtractExistingFileAction.OverwriteSilently);
+          if (e.UncompressedSize > 0)
+          {
+            e.Extract(pathToUnpack, ExtractExistingFileAction.OverwriteSilently);
+          }
+          else
+          {
+            new DirectoryInfo(Path.Combine(pathToUnpack, e.FileName.Trim("\\/".ToCharArray()))).Create();
+          }
         }
       }
 
