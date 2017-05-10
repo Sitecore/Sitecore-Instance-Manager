@@ -387,7 +387,9 @@
     {
       get
       {
-        return new DirectoryInfo(PackagesFolderPath).GetFiles("*.zip");
+        var dir = new DirectoryInfo(PackagesFolderPath);
+        
+        return dir.Exists ? dir.GetFiles("*.zip") : new FileInfo[0];
       }
     }
 
