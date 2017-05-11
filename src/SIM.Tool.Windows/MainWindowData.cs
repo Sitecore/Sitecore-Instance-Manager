@@ -462,6 +462,12 @@ namespace SIM.Tool.Windows
                   Image = "/Images/$sm/folder_open.png, SIM.Tool.Windows",
                   Handler = new SIM.Tool.Windows.MainWindowComponents.OpenFolderButton("$(website)/App_Config/Include")
                 },
+                new ButtonDefinition
+                {
+                  Label = "zzz Folder",
+                  Image = "/Images/$sm/folder_open.png, SIM.Tool.Windows",
+                  Handler = new SIM.Tool.Windows.MainWindowComponents.OpenFolderButton("$(website)/App_Config/Include/zzz")
+                },
               }
             },
             new ButtonDefinition
