@@ -7,7 +7,7 @@
       </CheckBox>
       <StackPanel Margin="20 0 0 0">
         <TextBlock HorizontalAlignment="Left" TextAlignment="Left">Install <Hyperlink NavigateUri="https://github.com/sitecore/sitecore-configuration-roles" RequestNavigate="Hyperlink_OnRequestNavigate">Sitecore Configuration Roles</Hyperlink> module to configure Sitecore for given role:</TextBlock>
-        <TextBlock HorizontalAlignment="Left" TextAlignment="Left">* it supports only 8.1 Update-3, 8.2 Update-2 and 8.2 Update-3</TextBlock>
+        <TextBlock HorizontalAlignment="Left" TextAlignment="Left">* it supports only 8.1 Update-3 and all 8.2 releases</TextBlock>
       </StackPanel>
       <StackPanel x:Name="RoleName" Margin="20 0 0 0">
         <RadioButton x:Name="Standalone" Margin="0 4 0 0" IsEnabled="{Binding ElementName=InstallRoles, Path=IsChecked}" GroupName="Role" IsChecked="True">
