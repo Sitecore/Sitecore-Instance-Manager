@@ -33,7 +33,7 @@ namespace SIM.Tool.Windows.UserControls.Install
         var upd = args.Product.Update;
         var txt = $"{ver}.{upd}";
 
-        if (txt == "8.1.3" || txt == "8.2.2" || txt == "8.2.3")
+        if (txt == "8.1.3" || txt.StartsWith("8.2))
         {
           InstallRoles.IsEnabled = true;
           if (!string.IsNullOrEmpty(args.InstallRoles))
