@@ -45,3 +45,4 @@ src/obj/
 src/packages/
 src/.vs/
 src/SIM.FileSystem.AutoTests/bin/
+src/SIM.Client.UnitTests/bin/
