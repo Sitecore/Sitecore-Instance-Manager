@@ -3,20 +3,15 @@
   using System;
   using System.Collections;
   using System.Collections.Generic;
-  using System.IO;
   using System.Linq;
-  using System.Reflection;
   using System.Security.Principal;
   using CommandLine;
   using Newtonsoft.Json;
   using Sitecore.Diagnostics.Base;
   using JetBrains.Annotations;
-  using log4net.Config;
   using log4net.Core;
   using log4net.Layout;
   using log4net.Util;
-  using Sitecore.Diagnostics.Logging;
-  using SIM.Client.Commands;
   using SIM.Client.Serialization;
   using SIM.Core;
   using SIM.Core.Common;
@@ -28,41 +23,27 @@
     {
       Assert.ArgumentNotNull(args, nameof(args));
 
-      InitializeLogging();
-      
-      CoreApp.LogMainInfo();
-
-      Analytics.Start();
+      RunDiagnostics();
 
       var filteredArgs = args.ToList();
       var query = GetQueryAndFilterArgs(filteredArgs);
       var wait = GetWaitAndFilterArgs(filteredArgs);
 
-      if (!new WindowsPrincipal(WindowsIdentity.GetCurrent()).IsInRole(WindowsBuiltInRole.Administrator))
+      if (!EnsureAccessRights(wait))
       {
-        Console.WriteLine("Current user account is not Administrator. Please re-run using Administrator user account.");
-
-        if (wait)
-        {
-          Console.ReadKey();
-        }
-
         Environment.Exit(403);
         return;
       }
 
-      var parser = new Parser(with =>
+      var parseArguments = new ParseArgumentsCommand
       {
-        with.MutuallyExclusive = true;
-        with.HelpWriter = Console.Error;
-      });
+        Args = filteredArgs,
+        Autocomplete = true,
+        HelpWriter = Console.Error
+      };
 
-      Assert.IsNotNull(parser, nameof(parser));
-
-      var options = new MainCommandGroup();
-      EnsureAutoCompeteForCommands(options);
-      ICommand selectedCommand = null;
-      if (!parser.ParseArguments(filteredArgs.ToArray(), options, (verb, command) => selectedCommand = (ICommand)command))
+      var selectedCommand = parseArguments.Execute();
+      if (selectedCommand == null)
       {
         Console.WriteLine("Note, commands provide output when work is done i.e. without any progress indication.");
         Console.WriteLine("\r\n  --query\t   When specified, allows returning only part of any command's output");
@@ -75,17 +56,40 @@
         }
 
         Environment.Exit(Parser.DefaultExitCodeFail);
+        return;
       }
 
-      Assert.IsNotNull(selectedCommand, nameof(selectedCommand));
-
       var commandResult = selectedCommand.Execute();
+      Assert.IsNotNull(commandResult, nameof(commandResult));
+
+      if (!ProcessResult(commandResult, query))
+      {
+        return;
+      }
+
+      if (wait)
+      {
+        Console.ReadKey();
+      }
+    }
+
+    private static void RunDiagnostics()
+    {
+      InitializeLogging();
+
+      CoreApp.LogMainInfo();
+
+      Analytics.Start();
+    }
+
+    private static bool ProcessResult([NotNull] CommandResult commandResult, [CanBeNull] string query)
+    {
       Assert.IsNotNull(commandResult, nameof(commandResult));
 
       var result = QueryResult(commandResult, query);
       if (result == null)
       {
-        return;
+        return false;
       }
 
       var serializer = new JsonSerializer
@@ -99,10 +103,25 @@
       var writer = Console.Out;
       serializer.Serialize(writer, result);
 
+      return true;
+    }
+
+
+    private static bool EnsureAccessRights(bool wait)
+    {
+      if (new WindowsPrincipal(WindowsIdentity.GetCurrent()).IsInRole(WindowsBuiltInRole.Administrator))
+      {
+        return true;
+      }
+
+      Console.WriteLine("Current user account is not Administrator. Please re-run using Administrator user account.");
+
       if (wait)
       {
         Console.ReadKey();
       }
+
+      return false;
     }
 
     private static void InitializeLogging()
@@ -126,41 +145,6 @@
       };
 
       CoreApp.InitializeLogging(info, debug);
-    }
-
-    private static void EnsureAutoCompeteForCommands(MainCommandGroup options)
-    {
-      foreach (var propertyInfo in options.GetType().GetProperties())
-      {
-        if (typeof(ICommand).IsAssignableFrom(propertyInfo.PropertyType))
-        {
-          var verb = propertyInfo.GetCustomAttributes().OfType<VerbOptionAttribute>().FirstOrDefault();
-          if (verb == null)
-          {
-            continue;
-          }
-
-          var command = verb.LongName;
-          if (File.Exists(command))
-          {
-            continue;
-          }
-
-          CreateEmptyFileInCurrentDirectory(command);
-        }
-      }
-    }
-
-    private static void CreateEmptyFileInCurrentDirectory(string command)
-    {
-      try
-      {
-        File.Create(command).Close();
-      }
-      catch
-      {
-        Log.Warn($"Cannot create file: {command}");
-      }
     }
 
     [CanBeNull]
