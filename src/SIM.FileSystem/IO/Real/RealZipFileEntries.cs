@@ -5,8 +5,7 @@
   using Ionic.Zip;
   using JetBrains.Annotations;
   using Sitecore.Diagnostics.Base;
-  using SIM.Extensions;
-
+  
   public class RealZipFileEntries : IZipFileEntries, IDisposable
   {
     [NotNull]
@@ -27,7 +26,7 @@
       var entries = ZipFile.Entries;
       Assert.IsNotNull(entries, nameof(entries));
 
-      return entries.Any(e => e.FileName.EqualsIgnoreCase(entryPath));
+      return entries.Any(e => e.FileName.Equals(entryPath, StringComparison.OrdinalIgnoreCase));
     }
 
     public void Dispose()
