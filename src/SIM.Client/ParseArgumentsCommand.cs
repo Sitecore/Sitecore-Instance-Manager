@@ -14,7 +14,7 @@ namespace SIM.Client
   {
     public IReadOnlyList<string> Args { get; set; }
 
-    public bool? Autocomplete { get; set; }
+    public bool Autocomplete { get; set; }
 
     public TextWriter HelpWriter { get; set; }
     

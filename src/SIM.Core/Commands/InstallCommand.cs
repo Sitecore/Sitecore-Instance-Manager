@@ -29,12 +29,12 @@
     public virtual string SqlPrefix { get; [UsedImplicitly] set; }
 
     [CanBeNull]
-    public virtual bool? AttachDatabases { get; [UsedImplicitly] set; }
+    public virtual bool AttachDatabases { get; [UsedImplicitly] set; } = AttachDatabasesDefault;
 
     public const bool AttachDatabasesDefault = true;
 
     [CanBeNull]
-    public virtual bool? SkipUnnecessaryFiles { get; [UsedImplicitly] set; }
+    public virtual bool SkipUnnecessaryFiles { get; [UsedImplicitly] set; } = SkipUnnecessaryFilesDefault;
 
     public const bool SkipUnnecessaryFilesDefault = false;
 
@@ -50,8 +50,8 @@
       var product = Product;
       var version = Version;
       var revision = Revision;
-      var attachDatabases = AttachDatabases ?? AttachDatabasesDefault;
-      var skipUnnecessaryFiles = SkipUnnecessaryFiles ?? SkipUnnecessaryFilesDefault;
+      var attachDatabases = AttachDatabases;
+      var skipUnnecessaryFiles = SkipUnnecessaryFiles;
 
       var profile = Profile.Read(FileSystem);
       var repository = profile.LocalRepository;

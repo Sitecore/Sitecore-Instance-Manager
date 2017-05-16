@@ -18,6 +18,6 @@ namespace SIM.Client.Commands
     public override string Name { get; set; }
 
     [Option('f', "force")]
-    public override bool? Force { get; set; }
+    public override bool Force { get; set; }
   }
 }

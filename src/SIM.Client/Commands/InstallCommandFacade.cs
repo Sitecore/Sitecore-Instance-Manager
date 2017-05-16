@@ -30,9 +30,9 @@
     public override string Revision { get; set; }
 
     [Option('a', "attach", HelpText = "Attach SQL databases, or just update ConnectionStrings.config", Default = AttachDatabasesDefault)]
-    public override bool? AttachDatabases { get; set; }
+    public override bool AttachDatabases { get; set; }
 
     [Option('u', "skipUnnecessaryFiles", HelpText = "Skip unnecessary files to speed up installation", Default = AttachDatabasesDefault)]
-    public override bool? SkipUnnecessaryFiles { get; set; }
+    public override bool SkipUnnecessaryFiles { get; set; }
   }
 }

@@ -13,7 +13,7 @@ namespace SIM.Core.Commands
     {
     }
 
-    public virtual bool? Force { get; set; }
+    public virtual bool Force { get; set; }
 
     protected override void DoExecute(Instance instance, CommandResult<Exception> result)
     {
