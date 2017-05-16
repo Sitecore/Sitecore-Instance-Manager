@@ -5,6 +5,7 @@
   using SIM.Core.Commands;
   using SIM.IO.Real;
 
+  [Verb("sync", HelpText = "One-way sync files between source instance and targets.")]
   public class SyncCommandFacade : SyncCommand
   {
     [UsedImplicitly]

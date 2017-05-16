@@ -1,4 +1,3 @@
-
 namespace SIM.Client.Commands
 {
   using CommandLine;
@@ -6,6 +5,9 @@ namespace SIM.Client.Commands
   using SIM.Core.Commands;
   using SIM.IO.Real;
 
+  [CanBeNull]
+  [UsedImplicitly]
+  [Verb("delete", HelpText = "Delete Sitecore instance.")]
   public class DeleteCommandFacade : DeleteCommand
   {
     [UsedImplicitly]

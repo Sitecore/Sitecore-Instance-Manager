@@ -5,6 +5,7 @@
   using SIM.Core.Commands;
   using SIM.IO.Real;
 
+  [Verb("state", HelpText = "Show state of an instance.")]
   public class StateCommandFacade : StateCommand
   {
     [UsedImplicitly]

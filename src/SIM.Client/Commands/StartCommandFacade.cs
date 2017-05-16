@@ -5,6 +5,7 @@
   using SIM.Core.Commands;
   using SIM.IO.Real;
 
+  [Verb("start", HelpText = "Start stopped instance.")]
   public class StartCommandFacade : StartCommand
   {
     [UsedImplicitly]

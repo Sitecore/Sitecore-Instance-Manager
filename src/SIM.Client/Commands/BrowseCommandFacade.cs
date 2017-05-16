@@ -5,6 +5,7 @@ namespace SIM.Client.Commands
   using SIM.Core.Commands;
   using SIM.IO.Real;
 
+  [Verb("browse", HelpText = "Open an instance in default browser.")]
   public class BrowseCommandFacade : BrowseCommand
   {
     [UsedImplicitly]

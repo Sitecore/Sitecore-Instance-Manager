@@ -9,6 +9,7 @@ namespace SIM.Client.Commands
   using SIM.Core.Commands;
   using SIM.IO.Real;
 
+  [Verb("login", HelpText = "Log in user as admin to an instance.")]
   public class LoginCommandFacade : LoginCommand
   {
     [UsedImplicitly]

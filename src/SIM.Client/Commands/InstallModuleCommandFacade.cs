@@ -5,6 +5,9 @@
   using SIM.Core.Commands;
   using SIM.IO.Real;
 
+  [CanBeNull]
+  [UsedImplicitly]
+  [Verb("installmodule", HelpText = "Install Sitecore module.")]
   public class InstallModuleCommandFacade : InstallModuleCommand
   {
     [UsedImplicitly]

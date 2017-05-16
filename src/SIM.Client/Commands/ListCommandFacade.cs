@@ -7,6 +7,7 @@
   using SIM.Core.Common;
   using SIM.IO.Real;
 
+  [Verb("list", HelpText = "Show already installed instances.")]
   public class ListCommandFacade : ListCommand
   {
     [UsedImplicitly]

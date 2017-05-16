@@ -5,6 +5,7 @@
   using SIM.Core.Commands;
   using SIM.IO.Real;
 
+  [Verb("config", HelpText = "Show config of an instance.")]
   public class ConfigCommandFacade : ConfigCommand
   {
     [UsedImplicitly]

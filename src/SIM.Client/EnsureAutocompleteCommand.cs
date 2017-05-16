@@ -4,37 +4,27 @@
   using System.Linq;
   using System.Reflection;
   using CommandLine;
-  using Sitecore.Diagnostics.Base;
   using Sitecore.Diagnostics.Logging;
-  using SIM.Client.Commands;
-  using SIM.Core.Common;
 
   public class EnsureAutocompleteCommand
   {
-    public MainCommandGroup Options { get; set; }
-
     public void Execute()
     {
-      Assert.ArgumentNotNull(Options, nameof(Options));
-
-      foreach (var propertyInfo in Options.GetType().GetProperties())
+      foreach (var type in typeof(Program).Assembly.GetTypes())
       {
-        if (typeof(ICommand).IsAssignableFrom(propertyInfo.PropertyType))
+        var verb = type.GetCustomAttributes().OfType<VerbAttribute>().FirstOrDefault();
+        if (verb == null)
         {
-          var verb = propertyInfo.GetCustomAttributes().OfType<VerbOptionAttribute>().FirstOrDefault();
-          if (verb == null)
-          {
-            continue;
-          }
-
-          var command = verb.LongName;
-          if (File.Exists(command))
-          {
-            continue;
-          }
-
-          CreateEmptyFileInCurrentDirectory(command);
+          continue;
         }
+
+        var command = verb.Name;
+        if (File.Exists(command))
+        {
+          continue;
+        }
+
+        CreateEmptyFileInCurrentDirectory(command);
       }
     }
 

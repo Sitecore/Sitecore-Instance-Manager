@@ -27,8 +27,6 @@ namespace SIM.Client
       {
         Assert.ArgumentNotNull(with, nameof(with));
 
-        with.MutuallyExclusive = true;
-
         if (HelpWriter != null)
         {
           with.HelpWriter = HelpWriter;
@@ -36,27 +34,40 @@ namespace SIM.Client
       });
 
       Assert.IsNotNull(parser, nameof(parser));
-
-      var options = new MainCommandGroup();
+      
       if (Autocomplete == true)
       {
-        var ensureAutocomplete = new EnsureAutocompleteCommand
-        {
-          Options = options
-        };
+        var ensureAutocomplete = new EnsureAutocompleteCommand();
 
         ensureAutocomplete.Execute();
       }
+      
+      var result = Execute(parser);
 
       ICommand selectedCommand = null;
-      if (!parser.ParseArguments(Args.ToArray(), options, (verb, command) => selectedCommand = (ICommand)command))
-      {
-        return null;
-      }
-
-      Assert.IsNotNull(selectedCommand, nameof(selectedCommand));
+      result.WithParsed(x => selectedCommand = (ICommand)x);
 
       return selectedCommand;
+    }
+
+    private ParserResult<object> Execute(Parser parser)
+    {
+      var result = parser.ParseArguments<
+        BrowseCommandFacade,
+        ConfigCommandFacade,
+        DeleteCommandFacade,
+        InstallModuleCommandFacade,
+        InstallModuleCommandFacade,
+        ListCommandFacade,
+        LoginCommandFacade,
+        ProfileCommandFacade,
+        RepositoryCommandFacade,
+        StartCommandFacade,
+        StateCommandFacade,
+        StopCommandFacade,
+        SyncCommandFacade
+      >(Args);
+      return result;
     }
   }
 }

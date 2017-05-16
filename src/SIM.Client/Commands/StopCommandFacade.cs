@@ -5,6 +5,7 @@ namespace SIM.Client.Commands
   using SIM.Core.Commands;
   using SIM.IO.Real;
 
+  [Verb("stop", HelpText = "Stop an instance.")]
   public class StopCommandFacade : StopCommand
   {
     [UsedImplicitly]

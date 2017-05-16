@@ -5,6 +5,7 @@
   using SIM.Core.Commands;
   using SIM.IO.Real;
 
+  [Verb("install", HelpText = "Install Sitecore instance.")]
   public class InstallCommandFacade : InstallCommand
   {
     [UsedImplicitly]
@@ -28,10 +29,10 @@
     [Option('r', "revision")]
     public override string Revision { get; set; }
 
-    [Option('a', "attach", HelpText = "Attach SQL databases, or just update ConnectionStrings.config", DefaultValue = AttachDatabasesDefault)]
+    [Option('a', "attach", HelpText = "Attach SQL databases, or just update ConnectionStrings.config", Default = AttachDatabasesDefault)]
     public override bool? AttachDatabases { get; set; }
 
-    [Option('u', "skipUnnecessaryFiles", HelpText = "Skip unnecessary files to speed up installation", DefaultValue = AttachDatabasesDefault)]
+    [Option('u', "skipUnnecessaryFiles", HelpText = "Skip unnecessary files to speed up installation", Default = AttachDatabasesDefault)]
     public override bool? SkipUnnecessaryFiles { get; set; }
   }
 }

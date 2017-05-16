@@ -55,7 +55,7 @@
           Console.ReadKey();
         }
 
-        Environment.Exit(Parser.DefaultExitCodeFail);
+        Environment.Exit(666);
         return;
       }
 

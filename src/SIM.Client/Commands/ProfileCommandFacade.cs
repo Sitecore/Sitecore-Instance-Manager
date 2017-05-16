@@ -5,12 +5,13 @@
   using SIM.Core.Commands;
   using SIM.IO.Real;
 
+  [Verb("profile", HelpText = "Show profile.")]
   public class ProfileCommandFacade : ProfileCommand
   {
     [UsedImplicitly]
-    public ProfileCommandFacade() 
+    public ProfileCommandFacade()
       : base(new RealFileSystem())
-    {                                                             
+    {
     }
 
     [Option('c', "connectionString")]
