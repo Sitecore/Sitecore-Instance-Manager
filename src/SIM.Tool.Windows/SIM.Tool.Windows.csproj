@@ -89,8 +89,8 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Sitecore.Diagnostics.Logging, Version=2.0.0.30, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Sitecore.Diagnostics.Logging.2.0.0.30\lib\Sitecore.Diagnostics.Logging.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="Sitecore.Diagnostics.Net, Version=2.0.0.30, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Sitecore.Diagnostics.Net.2.0.0.30\lib\Sitecore.Diagnostics.Net.dll</HintPath>
