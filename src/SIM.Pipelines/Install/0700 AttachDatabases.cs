@@ -43,8 +43,15 @@
 
       foreach (ConnectionString connectionString in instance.Configuration.ConnectionStrings)
       {
-        if (_Done.Contains(connectionString.Name))
+        var connectionStringName = connectionString.Name;
+        if (_Done.Contains(connectionStringName))
         {
+          continue;
+        }
+        
+        if (connectionStringName.Contains("apikey"))
+        {
+          _Done.Add(connectionStringName);
           continue;
         }
 
@@ -55,7 +62,7 @@
           controller.IncrementProgress(AttachDatabasesHelper.StepsCount / args.ConnectionString.Count);
         }
 
-        _Done.Add(connectionString.Name);
+        _Done.Add(connectionStringName);
       }
     }
 
