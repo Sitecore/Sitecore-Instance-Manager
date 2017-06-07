@@ -11,13 +11,16 @@
     protected override void Process(ExportArgs args)
     {
       var websiteName = args.Instance.Name;
-      var appPoolName = new Website(args.Instance.ID).GetPool(new WebServerManager.WebServerContext(string.Empty)).Name;
+      using (var context = new WebServerManager.WebServerContext())
+      {
+        var appPoolName = new Website(args.Instance.ID).GetPool(context).Name;
 
-      var websiteSettingsCommand = string.Format(@"%windir%\system32\inetsrv\appcmd list site {0}{1}{0} /config /xml > {2}", '"', websiteName, Path.Combine(args.Folder, "WebsiteSettings.xml"));
-      var appPoolSettingsCommand = string.Format(@"%windir%\system32\inetsrv\appcmd list apppool {0}{1}{0} /config /xml > {2}", '"', appPoolName, Path.Combine(args.Folder, "AppPoolSettings.xml"));
+        var websiteSettingsCommand = string.Format(@"%windir%\system32\inetsrv\appcmd list site {0}{1}{0} /config /xml > {2}", '"', websiteName, Path.Combine(args.Folder, "WebsiteSettings.xml"));
+        var appPoolSettingsCommand = string.Format(@"%windir%\system32\inetsrv\appcmd list apppool {0}{1}{0} /config /xml > {2}", '"', appPoolName, Path.Combine(args.Folder, "AppPoolSettings.xml"));
 
-      ExecuteCommand(websiteSettingsCommand);
-      ExecuteCommand(appPoolSettingsCommand);
+        ExecuteCommand(websiteSettingsCommand);
+        ExecuteCommand(appPoolSettingsCommand);
+      }
     }
 
     #endregion
