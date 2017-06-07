@@ -37,7 +37,7 @@
 
     private void GetSettingsFromIisFiles(ImportArgs args)
     {
-      using (WebServerManager.WebServerContext context = WebServerManager.CreateContext("ImportSolution.Initialization"))
+      using (WebServerManager.WebServerContext context = WebServerManager.CreateContext())
       {
         var appPoolFilePath = FileSystem.FileSystem.Local.Zip.ZipUnpackFile(args.PathToExportedInstance, args._TemporaryPathToUnpack, ImportArgs.AppPoolSettingsFileName);
         var websiteSettingsFilePath = FileSystem.FileSystem.Local.Zip.ZipUnpackFile(args.PathToExportedInstance, args._TemporaryPathToUnpack, ImportArgs.WebsiteSettingsFileName);

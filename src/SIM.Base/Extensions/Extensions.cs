@@ -29,7 +29,7 @@
 
     public static string GetNonEmptyAttribute(this XmlElement element, string name)
     {
-      return element.GetAttribute(name).EmptyToNull().IsNotNull("{0} doesn't have the {1} attribute filled in".FormatWith(element.OuterXml, name));
+      return element.GetAttribute(name).EmptyToNull().IsNotNull($"{element.OuterXml} doesn't have the {name} attribute filled in");
     }
 
     [NotNull]

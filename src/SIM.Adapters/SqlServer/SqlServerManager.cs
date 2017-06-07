@@ -687,25 +687,25 @@
 
       Log.Info($"Deleting database: '{databaseName}'");
 
-      const string DropDatabase = "DROP DATABASE [{0}]";
+      string DropDatabase = $"DROP DATABASE [{databaseName}]";
 
       try
       {
         CloseConnectionsToDatabase(databaseName, connection);
-        Execute(connection, DropDatabase.FormatWith(databaseName));
+        Execute(connection, DropDatabase);
       }
       catch (Exception ex)
       {
-        Log.Warn(ex, string.Format("An error occurred during database '{0}' deleting attempt. Retrying..."));
-        var command = "EXEC msdb.dbo.sp_delete_database_backuphistory @database_name = N'{0}'";
-        Execute(connection, command.FormatWith(databaseName));
+        Log.Warn(ex, ($"An error occurred during database '{databaseName}' deleting attempt. Retrying..."));
+        var command = $"EXEC msdb.dbo.sp_delete_database_backuphistory @database_name = N'{databaseName}'";
+        Execute(connection, command);
       }
     }
 
     [CanBeNull]
     protected virtual string GetDatabaseFileName([NotNull] string databaseName, [NotNull] SqlConnection connection)
     {
-      var command = @"exec sp_helpdb [{0}]".FormatWith(databaseName);
+      var command = $@"exec sp_helpdb [{databaseName}]";
       if (DatabaseExists(databaseName, connection))
       {
         using (SqlCommand sqlCommand = new SqlCommand(command, connection))

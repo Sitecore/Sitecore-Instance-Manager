@@ -212,7 +212,7 @@ namespace SIM.Tool.Windows.UserControls.Install
       var websiteExists = WebServerManager.WebsiteExists(name);
       if (websiteExists)
       {
-        using (var context = WebServerManager.CreateContext("InstanceDetails.OnMovingNext('{0}')".FormatWith(name)))
+        using (var context = WebServerManager.CreateContext())
         {
           var site = context.Sites.Single(s => s != null && s.Name.EqualsIgnoreCase(name));
           var path = WebServerManager.GetWebRootPath(site);

@@ -68,7 +68,7 @@
       lock (cache)
       {
         cache[key] = value;
-        FileSystem.FileSystem.Local.File.AppendAllText(GetFilePath(cacheName), "{0}|{1}{2}".FormatWith(EncodeDecodeValue(key, true), EncodeDecodeValue(value, true), Environment.NewLine));
+        FileSystem.FileSystem.Local.File.AppendAllText(GetFilePath(cacheName), $"{EncodeDecodeValue(key, true)}|{EncodeDecodeValue(value, true)}{Environment.NewLine}");
       }
     }
 
@@ -153,7 +153,7 @@
       {
         var fileName = Path.GetFileNameWithoutExtension(path).Split('.');
         var name = fileName[0];
-        Assert.IsTrue(!Caches.ContainsKey(name), "The {0} cache is already created".FormatWith(fileName));
+        Assert.IsTrue(!Caches.ContainsKey(name), $"The {fileName} cache is already created");
         Caches.Add(name, LoadCache(path));
       }
 

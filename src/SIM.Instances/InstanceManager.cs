@@ -113,7 +113,7 @@
 
     public void Initialize([CanBeNull] string defaultRootFolder = null)
     {
-      using (WebServerManager.WebServerContext context = WebServerManager.CreateContext("Initialize instance manager"))
+      using (WebServerManager.WebServerContext context = WebServerManager.CreateContext())
       {
         ProfileSection.Argument("defaultRootFolder", defaultRootFolder);
 
@@ -133,7 +133,7 @@
           Initialize(defaultRootFolder);
         }
 
-        using (WebServerManager.WebServerContext context = WebServerManager.CreateContext("Initialize with soft list refresh"))
+        using (WebServerManager.WebServerContext context = WebServerManager.CreateContext())
         {
           IEnumerable<Site> sites = GetOperableSites(context, defaultRootFolder);
 

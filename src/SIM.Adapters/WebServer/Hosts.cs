@@ -16,11 +16,6 @@
 
   public static class Hosts
   {
-    #region Fields
-
-    private static string AppendPattern { get; } = Environment.NewLine + "127.0.0.1\t{0}";
-
-    #endregion
 
     #region Public Methods
 
@@ -38,7 +33,7 @@
         return;
       }
       
-      FileSystem.FileSystem.Local.File.AppendAllText(path, AppendPattern.FormatWith(hostName));
+      FileSystem.FileSystem.Local.File.AppendAllText(path, Environment.NewLine + $"127.0.0.1\t{hostName}");
     }
 
     private static bool Matches(string hostName, string line)

@@ -17,7 +17,7 @@
     public string CreateNewAppPoolName(string oldName)
     {
       List<string> poolsNames = new List<string>();
-      foreach (var appPool in WebServerManager.CreateContext(string.Empty).ApplicationPools)
+      foreach (var appPool in WebServerManager.CreateContext().ApplicationPools)
       {
         poolsNames.Add(appPool.Name);
       }
@@ -42,7 +42,7 @@
 
     public long? CreateNewID(long? oldID)
     {
-      using (WebServerManager.WebServerContext context = WebServerManager.CreateContext("InstanceMgr.Init"))
+      using (WebServerManager.WebServerContext context = WebServerManager.CreateContext())
       {
         var instances = context.Sites;
         return oldID == null || instances.Any(x => x.Id == oldID) ? instances.Max(x => x.Id) + 1 : oldID;

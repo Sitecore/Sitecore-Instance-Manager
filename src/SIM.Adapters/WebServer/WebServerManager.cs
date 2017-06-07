@@ -17,16 +17,16 @@
     #region Public Methods
 
     [NotNull]
-    public static WebServerContext CreateContext([CanBeNull] string debugLocation, object callingClass = null)
+    public static WebServerContext CreateContext()
     {
-      return new WebServerContext(debugLocation, callingClass);
+      return new WebServerContext();
     }
 
     public static void DeleteWebsite([NotNull] long id)
     {
       Log.Info($"Deleting website {id}");
 
-      using (WebServerContext context = CreateContext("WebServerManager.DeleteWebsite({0})".FormatWith(id)))
+      using (WebServerContext context = CreateContext())
       {
         Site site = context.Sites.SingleOrDefault(s => s.Id == id);
         if (site != null)
@@ -67,7 +67,7 @@
       Assert.ArgumentNotNull(host, nameof(host));
 
       bool result;
-      using (WebServerContext context = CreateContext("WebServerManager.HostBindingExists('{0}')".FormatWith(host)))
+      using (WebServerContext context = CreateContext())
       {
         result = context.Sites.Any(site => site.Bindings.Any(binding => binding.Host.EqualsIgnoreCase(host)));
       }
@@ -80,7 +80,7 @@
       Assert.ArgumentNotNull(siteName, nameof(siteName));
       Assert.ArgumentNotNull(binding, nameof(binding));
 
-      using (WebServerContext context = CreateContext("WebServerManager.AddHostBinding('{0}','{1}')".FormatWith(siteName, binding.Host)))
+      using (WebServerContext context = CreateContext())
       {
         Site siteInfo = context.Sites.FirstOrDefault(site => site.Name.EqualsIgnoreCase(siteName));
         if (HostBindingExists(binding.Host) || siteInfo == null)
@@ -101,7 +101,7 @@
       Assert.ArgumentNotNull(name, nameof(name));
 
       bool v;
-      using (WebServerContext context = CreateContext("WebServerManager.WebsiteExists('{0}')".FormatWith(name)))
+      using (WebServerContext context = CreateContext())
       {
         v = context.Sites.Any(s => s.Name.EqualsIgnoreCase(name));
       }
@@ -135,71 +135,28 @@
     }
 
     #endregion
-
-    #region Nested type: WebServerContext
-
-    public sealed class WebServerContext : ProfileSection
+    
+    public sealed class WebServerContext : IDisposable
     {
-      #region Fields
-
+      [NotNull]
       private ServerManager ServerManager { get; } = new ServerManager();
-
-      #endregion
-
-      #region Constructors
-
-      public WebServerContext(string debugLocation, object caller = null) : base("{0} (IIS)".FormatWith(debugLocation), caller)
-      {
-      }
-
-      #endregion
-
-      #region Properties
+      
+      [NotNull]
+      public ApplicationPoolCollection ApplicationPools => ServerManager.ApplicationPools.IsNotNull();
 
       [NotNull]
-      public ApplicationPoolCollection ApplicationPools
-      {
-        get
-        {
-          return ServerManager.ApplicationPools;
-        }
-      }
-
-      [NotNull]
-      public SiteCollection Sites
-      {
-        get
-        {
-          return ServerManager.Sites;
-        }
-      }
-
-      #endregion
-
-      #region Public Methods
-
+      public SiteCollection Sites => ServerManager.Sites.IsNotNull();
+      
       public void CommitChanges()
       {
         ServerManager.CommitChanges();
       }
-
-      #endregion
-
-      #region Implemented Interfaces
-
-      #region IDisposable
-
-      public override void Dispose()
+      
+      public void Dispose()
       {
         ServerManager.Dispose();
-        base.Dispose();
       }
-
-      #endregion
-
-      #endregion
+      
     }
-
-    #endregion
   }
 }

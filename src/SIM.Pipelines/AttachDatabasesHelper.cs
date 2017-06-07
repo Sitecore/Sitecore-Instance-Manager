@@ -173,14 +173,14 @@ namespace SIM.Pipelines
       }
 
       // todo: replce this with shiny message box
-      var delete = "Delete the '{0}' database".FormatWith(databaseName);
+      var delete = $"Delete the '{databaseName}' database";
       const string AnotherName = "Use another database name";
       const string Cancel = "Terminate current action";
       string[] options = new[]
       {
         delete, AnotherName, Cancel
       };
-      var m2 = "The database with '{0}' name already exists".FormatWith(databaseName);
+      var m2 = $"The database with '{databaseName}' name already exists";
       var result = controller.Select(m2, options);
       switch (result)
       {

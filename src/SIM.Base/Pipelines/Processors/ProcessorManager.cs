@@ -125,7 +125,7 @@
       try
       {
         Type type = Type.GetType(typeNameValue);
-        Assert.IsNotNull(type, "Can't find the '{0}' type".FormatWith(typeNameValue));
+        Assert.IsNotNull(type, $"Can't find the '{typeNameValue}' type");
 
         ProcessorDefinition definition;
         var name = processorElement.Name;

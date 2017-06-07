@@ -62,7 +62,7 @@ namespace SIM.FileSystem
       Assert.ArgumentNotNullOrEmpty(identity, nameof(identity));
 
       var identityReference = GetIdentityReference(identity);
-      Assert.IsNotNull(identityReference, "Cannot find {0} identity reference".FormatWith(identity));
+      Assert.IsNotNull(identityReference, $"Cannot find {identity} identity reference");
 
       if (FileSystem.Directory.Exists(path))
       {

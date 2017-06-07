@@ -80,7 +80,7 @@ namespace SIM.FileSystem
           Thread.Sleep(sleep);
         }
 
-        AssertExists(target, "The attempt to copy the '{0}' file to '{1}' location was performed, but even after {3}ms timeout the target file didn't appear".FormatWith(source, target, timeout));
+        AssertExists(target, $"The attempt to copy the '{source}' file to '{target}' location was performed, but even after {timeout}ms timeout the target file didn't appear");
       }
     }
 

@@ -288,7 +288,7 @@ namespace SIM.FileSystem
 
         var root1 = GetPathRoot(directory1);
         var root2 = GetPathRoot(directory2);
-        Assert.IsTrue(HaveSameRoot(root1, root2), "The '{0}' and '{1}' paths has different roots so unaplicable".FormatWith(directory1, directory2));
+        Assert.IsTrue(HaveSameRoot(root1, root2), $"The '{directory1}' and '{directory2}' paths has different roots so unaplicable");
 
         var arr1 = directory1.Split('\\');
         var arr2 = directory2.Split('\\');
@@ -426,8 +426,8 @@ namespace SIM.FileSystem
       Assert.ArgumentNotNullOrEmpty(folderName, nameof(folderName));
 
       DirectoryInfo[] websites = extracted.GetDirectories(folderName);
-      Assert.IsTrue(websites != null && websites.Length > 0, 
-        "Can't find extracted {0} folder here: {1}".FormatWith(folderName, extracted.FullName));
+      Assert.IsTrue(websites != null && websites.Length > 0,
+        $"Can't find extracted {folderName} folder here: {extracted.FullName}");
 
       return websites[0];
     }

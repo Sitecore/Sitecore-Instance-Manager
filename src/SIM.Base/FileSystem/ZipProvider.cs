@@ -317,7 +317,7 @@ namespace SIM.FileSystem
     public virtual bool ZipContainsSingleFile(string packagePath, string innerFileName)
     {
       var fileInfo = new FileInfo(packagePath);
-      Assert.IsTrue(fileInfo.Exists, "The {0} file does not exist".FormatWith(packagePath));
+      Assert.IsTrue(fileInfo.Exists, $"The {packagePath} file does not exist");
 
       if (fileInfo.Length <= 22)
       {
