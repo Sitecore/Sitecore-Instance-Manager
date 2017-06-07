@@ -9,6 +9,7 @@
   using SIM.Tool.Base.Plugins;
   using Sitecore.Diagnostics.Base;
   using JetBrains.Annotations;
+  using Sitecore.Diagnostics.Logging;
   using SIM.Extensions;
   using SIM.IO.Real;
   using SIM.Tool.Base.Wizards;
@@ -45,6 +46,7 @@
         return;
       }
 
+      Log.Info($"Importing solution from {filePath}");
       var fileSystem = new RealFileSystem();
       var file = fileSystem.ParseFile(filePath);
       using (var zipFile = new RealZipFile(fileSystem.ParseFile(file.FullName)))
