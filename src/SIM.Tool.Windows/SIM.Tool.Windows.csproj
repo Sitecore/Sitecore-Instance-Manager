@@ -76,10 +76,6 @@
       <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="NuGet.Core, Version=2.10.1.766, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\NuGet.Core.2.10.1\lib\net40-Client\NuGet.Core.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Sitecore.Diagnostics.Base, Version=2.0.0.30, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Sitecore.Diagnostics.Base.2.0.0.30\lib\Sitecore.Diagnostics.Base.dll</HintPath>
       <Private>True</Private>
@@ -98,10 +94,6 @@
     </Reference>
     <Reference Include="Sitecore.Diagnostics.Objects, Version=2.0.0.30, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Sitecore.Diagnostics.Objects.2.0.0.30\lib\Sitecore.Diagnostics.Objects.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Sitecore.NuGet.Core, Version=2.0.0.30, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Sitecore.NuGet.Core.2.0.0.30\lib\Sitecore.NuGet.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -197,7 +189,6 @@
     <Compile Include="MainWindowComponents\SettingsButton.cs" />
     <Compile Include="MainWindowComponents\UpdateLicenseButton.cs" />
     <Compile Include="MainWindowData.cs" />
-    <Compile Include="NuGetHelper.cs" />
     <Compile Include="Pipelines\Agreement\AcceptAgreement.cs" />
     <Compile Include="Pipelines\Download\DownloadArgs.cs" />
     <Compile Include="Pipelines\Download\DownloadProcessor.cs" />

@@ -26,7 +26,6 @@ namespace SIM.Tool
   using SIM.Tool.Windows;
   using Sitecore.Diagnostics.Base;
   using JetBrains.Annotations;
-  using log4net.Config;
   using log4net.Core;
   using log4net.Layout;
   using log4net.Util;
@@ -36,7 +35,6 @@ namespace SIM.Tool
   using SIM.Tool.Base.Wizards;
   using File = System.IO.File;
   using SIM.IO.Real;
-  using NuGet;
   using SIM.Tool.Windows.Pipelines.Setup;
 
   public partial class App
