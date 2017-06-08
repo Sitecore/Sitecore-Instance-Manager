@@ -45,7 +45,7 @@ namespace SIM.Core.Commands
       Ensure.IsNotNullOrEmpty(license, "Profile.License is not specified");
       Ensure.IsTrue(File.Exists(license), "Profile.License points to missing file");
 
-      var builder = profile.GetValidConnectionString();
+      var connectionString = profile.GetValidConnectionString();
 
       var instance = InstanceManager.Default.GetInstance(name);
       Ensure.IsNotNull(instance, "The {0} instance is not found", name);
@@ -57,9 +57,9 @@ namespace SIM.Core.Commands
 
       PipelineManager.Initialize(XmlDocumentEx.LoadXml(PipelinesConfig.Contents).DocumentElement);
       
-      var installArgs = new InstallModulesArgs(instance, new[] { distributive }, builder);
+      var args = new InstallModulesArgs(instance, new[] { distributive }, connectionString);
       var controller = new AggregatePipelineController();
-      PipelineManager.StartPipeline("install", installArgs, controller, false);
+      PipelineManager.StartPipeline("installmodules", args, controller, false);
 
       result.Success = !string.IsNullOrEmpty(controller.Message);
       result.Message = controller.Message;
