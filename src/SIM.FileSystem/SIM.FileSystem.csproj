@@ -33,13 +33,11 @@
     <Reference Include="Ionic.Zip.Reduced, Version=1.9.1.8, Culture=neutral, PublicKeyToken=edbe51ad942a3f5c, processorArchitecture=MSIL">
       <HintPath>..\packages\DotNetZip.Reduced.1.9.1.8\lib\net20\Ionic.Zip.Reduced.dll</HintPath>
     </Reference>
-    <Reference Include="JetBrains.Annotations, Version=10.2.1.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
-      <HintPath>..\packages\JetBrains.Annotations.10.2.1\lib\net\JetBrains.Annotations.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="JetBrains.Annotations, Version=10.4.0.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
+      <HintPath>..\packages\JetBrains.Annotations.10.4.0\lib\net\JetBrains.Annotations.dll</HintPath>
     </Reference>
-    <Reference Include="Sitecore.Diagnostics.Base, Version=2.0.0.30, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Sitecore.Diagnostics.Base.2.0.0.30\lib\Sitecore.Diagnostics.Base.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Sitecore.Diagnostics.Base, Version=2.0.0.180, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Sitecore.Diagnostics.Base.2.0.0.180\lib\Sitecore.Diagnostics.Base.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

@@ -38,22 +38,19 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="JetBrains.Annotations, Version=10.2.1.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
-      <HintPath>..\packages\JetBrains.Annotations.10.2.1\lib\net\JetBrains.Annotations.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="JetBrains.Annotations, Version=10.4.0.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
+      <HintPath>..\packages\JetBrains.Annotations.10.4.0\lib\net\JetBrains.Annotations.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="NSubstitute, Version=1.10.0.0, Culture=neutral, PublicKeyToken=92dd2e9066daa5ca, processorArchitecture=MSIL">
       <HintPath>..\packages\NSubstitute.1.10.0.0\lib\net40\NSubstitute.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Sitecore.Diagnostics.Base, Version=2.0.0.30, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Sitecore.Diagnostics.Base.2.0.0.30\lib\Sitecore.Diagnostics.Base.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Sitecore.Diagnostics.Base, Version=2.0.0.180, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Sitecore.Diagnostics.Base.2.0.0.180\lib\Sitecore.Diagnostics.Base.dll</HintPath>
     </Reference>
-    <Reference Include="Sitecore.Diagnostics.Logging, Version=2.0.0.30, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Sitecore.Diagnostics.Logging.2.0.0.30\lib\Sitecore.Diagnostics.Logging.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Sitecore.Diagnostics.Logging, Version=2.0.0.180, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Sitecore.Diagnostics.Logging.2.0.0.180\lib\Sitecore.Diagnostics.Logging.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">

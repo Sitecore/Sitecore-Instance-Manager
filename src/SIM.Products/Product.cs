@@ -482,7 +482,7 @@
         var release = version.Releases.TryGetValue(Revision);
         Assert.IsNotNull(release, $"Cannot find {productName} version {majorMinor} revision {Revision}");
 
-        return release.Update;
+        return release.Version.Update;
       }
     }
 
