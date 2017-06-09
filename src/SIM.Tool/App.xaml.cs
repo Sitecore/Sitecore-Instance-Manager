@@ -82,6 +82,14 @@ namespace SIM.Tool
         return;
       }
 
+      // invoke auto-updater if not developing or debugging
+      if (!ApplicationManager.IsDev && !ApplicationManager.IsDebugging)
+      {
+        var prefix = ApplicationManager.IsQa ? "qa/" : "";
+        var suffix = ApplicationManager.IsQa ? ".QA" : "";
+        CoreApp.RunApp("rundll32.exe", $"dfshim.dll,ShOpenVerbApplication http://dl.sitecore.net/updater/{prefix}sim/SIM.Tool{suffix}.application");
+      }
+
       if (CoreApp.HasBeenUpdated)
       {
         var ver = ApplicationManager.AppVersion;

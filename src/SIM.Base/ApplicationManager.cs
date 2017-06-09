@@ -62,6 +62,8 @@ namespace SIM
 
     public static bool IsQa { get; }
 
+    public static bool IsDev { get; }
+
     public static string ProcessName { get; }
 
     [NotNull]
@@ -88,6 +90,7 @@ namespace SIM
       ProcessName = processName;
       IsDebugging = processName.ContainsIgnoreCase(".vshost.");
       IsQa = processName.ContainsIgnoreCase(".QA.");
+      IsDev = processName.ContainsIgnoreCase(".DEV.");
 
       DataFolder = InitializeFolder(Environment.ExpandEnvironmentVariables(AppDataRoot + (IsQa ? "-QA" : "")));
       CachesFolder = InitializeDataFolder("Caches");
