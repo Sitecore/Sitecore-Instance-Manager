@@ -64,8 +64,7 @@ namespace SIM.Client
         RepositoryCommandFacade,
         StartCommandFacade,
         StateCommandFacade,
-        StopCommandFacade,
-        SyncCommandFacade
+        StopCommandFacade
       >(Args);
 
       return result;

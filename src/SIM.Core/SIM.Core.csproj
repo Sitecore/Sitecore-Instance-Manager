@@ -108,7 +108,6 @@
     <Compile Include="Commands\RepositoryCommandResult.cs" />
     <Compile Include="Commands\StateCommand.cs" />
     <Compile Include="Commands\StopCommand.cs" />
-    <Compile Include="Commands\SyncCommand.cs" />
     <Compile Include="Common\AbstractInstanceActionCommand.cs" />
     <Compile Include="Common\AbstractMultiInstanceActionCommand.cs" />
     <Compile Include="Common\AggregatePipelineController.cs" />

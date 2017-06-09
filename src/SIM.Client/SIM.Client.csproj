@@ -96,7 +96,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commands\BrowseCommandFacade.cs" />
-    <Compile Include="Commands\SyncCommandFacade.cs" />
     <Compile Include="Commands\ConfigCommandFacade.cs" />
     <Compile Include="Commands\DeleteCommandFacade.cs" />
     <Compile Include="Commands\InstallCommandFacade.cs" />
