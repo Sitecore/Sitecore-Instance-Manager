@@ -71,10 +71,7 @@
         return null;
       }
 
-      var method = type.GetMethod(methodName, BindingFlags.Static | BindingFlags.Public, null, args != null ? new[]
-      {
-        args
-      } : new Type[0], null);
+      var method = type.GetMethods().FirstOrDefault(x => x.IsStatic && x.Name == methodName);
       if (method == null)
       {
         Log.Error($"Finish action points to missing '{methodName}' method of the '{typeName}' type: {ch.OuterXml}");
