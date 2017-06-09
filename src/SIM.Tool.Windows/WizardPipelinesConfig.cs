@@ -197,16 +197,19 @@ By clicking 'Next' you accept the License Agreement."" />
     <install title=""Installing new instance"" startButton=""Install""
              finishText=""The installation was successfully completed"">
       <steps>
-        <step name=""Instance details"" type=""SIM.Tool.Windows.UserControls.Install.InstanceDetails, SIM.Tool.Windows"" />
-        <step name=""Instance details"" type=""SIM.Tool.Windows.UserControls.Install.InstanceSettings, SIM.Tool.Windows"" />
-        <step name=""Instance details"" type=""SIM.Tool.Windows.UserControls.Install.InstanceRole, SIM.Tool.Windows"" />
-        <step name=""Modules list"" type=""SIM.Tool.Windows.UserControls.Install.Modules.ModulesDetails, SIM.Tool.Windows"" />
-        <step name=""Custom Packages""
+        <step name=""STEP 1 of 7 - DETAILS"" 
+              type=""SIM.Tool.Windows.UserControls.Install.InstanceDetails, SIM.Tool.Windows"" />
+        <step name=""STEP 2 of 7 - TWEAKS"" 
+              type=""SIM.Tool.Windows.UserControls.Install.InstanceSettings, SIM.Tool.Windows"" />
+        <step name=""STEP 3 of 7 - CONFIGURATION ROLES"" 
+              type=""SIM.Tool.Windows.UserControls.Install.InstanceRole, SIM.Tool.Windows"" />
+        <step name=""STEP 4 of 7 - OFFICIAL SITECORE MODULES"" 
+              type=""SIM.Tool.Windows.UserControls.Install.Modules.ModulesDetails, SIM.Tool.Windows"" />
+        <step name=""STEP 5 of 7 - CUSTOM PACKAGES AND ZIP FILES""
               type=""SIM.Tool.Windows.UserControls.Install.Modules.FilePackages, SIM.Tool.Windows"" />
-        <step name=""Configuration Presets""
+        <step name=""STEP 6 of 7 - CONFIGURATION PRESETS""
               type=""SIM.Tool.Windows.UserControls.Install.Modules.ConfigurationPackages, SIM.Tool.Windows"" />
-        <step
-          name=""Please review the list of modules and re-arrange them using drag-n-drop in the order they should be installed:""
+        <step name=""STEP 7 of 7 - REVIEW, REARRANGE INSTALLATION ORDER OR ADD CUSTOM PACKAGE""
           type=""SIM.Tool.Windows.UserControls.Install.Modules.ReorderPackages, SIM.Tool.Windows"" />
       </steps>
       <finish>
@@ -338,13 +341,13 @@ But the confirmation will be required if the databases are attached to:
     <installmodules title=""Installing modules to the {InstanceName} instance"" startButton=""Install""
                     finishText=""The modules installation was successfully completed"">
       <steps>
-        <step name=""Modules list"" type=""SIM.Tool.Windows.UserControls.Install.Modules.ModulesDetails, SIM.Tool.Windows"" />
-        <step name=""Custom Packages""
+        <step name=""STEP 1 of 4 - OFFICIAL SITECORE MODULES"" 
+              type=""SIM.Tool.Windows.UserControls.Install.Modules.ModulesDetails, SIM.Tool.Windows"" />
+        <step name=""STEP 2 of 4 - CUSTOM PACKAGES AND ZIP FILES""
               type=""SIM.Tool.Windows.UserControls.Install.Modules.FilePackages, SIM.Tool.Windows"" />
-        <step name=""Configuration Presets""
+        <step name=""STEP 3 of 4 - CONFIGURATION PRESETS""
               type=""SIM.Tool.Windows.UserControls.Install.Modules.ConfigurationPackages, SIM.Tool.Windows"" />
-        <step
-          name=""Please review the list of modules and re-arrange them using drag-n-drop in the order they should be installed:""
+        <step name=""STEP 4 of 4 - REVIEW, REARRANGE INSTALLATION ORDER OR ADD CUSTOM PACKAGE""
           type=""SIM.Tool.Windows.UserControls.Install.Modules.ReorderPackages, SIM.Tool.Windows"" />
       </steps>
       <finish>
