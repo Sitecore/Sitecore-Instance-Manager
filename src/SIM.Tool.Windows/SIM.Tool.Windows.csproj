@@ -153,7 +153,6 @@
     <Compile Include="MainWindowComponents\DeleteInstanceButton.cs" />
     <Compile Include="MainWindowComponents\Download8Button.cs" />
     <Compile Include="MainWindowComponents\AbstractDownloadAndRunButton.cs" />
-    <Compile Include="MainWindowComponents\DownloadButton.cs" />
     <Compile Include="MainWindowComponents\ExportInstanceButton.cs" />
     <Compile Include="MainWindowComponents\GenerateNuGetPackagesButton.cs" />
     <Compile Include="MainWindowComponents\ImportInstanceButton.cs" />
@@ -183,9 +182,6 @@
     <Compile Include="MainWindowComponents\UpdateLicenseButton.cs" />
     <Compile Include="MainWindowData.cs" />
     <Compile Include="Pipelines\Agreement\AcceptAgreement.cs" />
-    <Compile Include="Pipelines\Download\DownloadArgs.cs" />
-    <Compile Include="Pipelines\Download\DownloadProcessor.cs" />
-    <Compile Include="Pipelines\Download\GetPackageFileNamesProcessor.cs" />
     <Compile Include="Pipelines\Download8\Download8Args.cs" />
     <Compile Include="Pipelines\Download8\DownloadProcessor.cs" />
     <Compile Include="Pipelines\FinishActions.cs" />
@@ -221,14 +217,6 @@
     <Compile Include="UserControls\ConfirmStepUserControl.xaml.cs">
       <DependentUpon>ConfirmStepUserControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\Download\Downloads.xaml.cs">
-      <DependentUpon>Downloads.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UserControls\Download\DownloadWizardArgs.xaml.cs" />
-    <Compile Include="UserControls\Download\Login.xaml.cs">
-      <DependentUpon>Login.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UserControls\Download\ProductDownloadInCheckbox.cs" />
     <Compile Include="UserControls\Download8\Downloads.xaml.cs">
       <DependentUpon>Downloads.xaml</DependentUpon>
     </Compile>
@@ -620,14 +608,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="UserControls\Export\ExportDatabases.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="UserControls\Download\Login.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="UserControls\Download\Downloads.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
