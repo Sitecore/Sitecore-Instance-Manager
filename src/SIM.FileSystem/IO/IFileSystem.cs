@@ -1,6 +1,5 @@
 ﻿namespace SIM.IO
 {
-  using System;
   using JetBrains.Annotations;
 
   public interface IFileSystem

@@ -1,7 +1,6 @@
 ﻿namespace SIM.Pipelines.Reinstall
 {
   using System.Collections.Generic;
-  using System.Linq;
   using SIM.Adapters.WebServer;
   using SIM.Instances;
   using SIM.Pipelines.Processors;

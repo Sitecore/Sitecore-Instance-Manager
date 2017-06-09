@@ -1,8 +1,5 @@
 namespace SIM.FileSystem.AutoTests
 {
-  using System;
-  using System.IO;
-  using SIM.IO;
   using SIM.IO.Real;
   using Xunit;
 

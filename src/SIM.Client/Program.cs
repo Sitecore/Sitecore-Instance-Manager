@@ -5,7 +5,6 @@
   using System.Collections.Generic;
   using System.Linq;
   using System.Security.Principal;
-  using CommandLine;
   using Newtonsoft.Json;
   using Sitecore.Diagnostics.Base;
   using JetBrains.Annotations;

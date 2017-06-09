@@ -3,7 +3,6 @@
   using System.Windows;
   using Microsoft.Win32;
   using SIM.Core.Common;
-  using SIM.FileSystem;
   using SIM.Instances;
   using SIM.Tool.Base;
   using SIM.Tool.Base.Plugins;
@@ -13,7 +12,6 @@
   using SIM.Extensions;
   using SIM.IO.Real;
   using SIM.Tool.Base.Wizards;
-  using SIM.IO;
   using SIM.Tool.Windows.UserControls.Import;
 
   [UsedImplicitly]

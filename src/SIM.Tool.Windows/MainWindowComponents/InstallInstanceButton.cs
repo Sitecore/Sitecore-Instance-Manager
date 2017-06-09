@@ -10,7 +10,6 @@
   using SIM.Tool.Base.Profiles;
   using Sitecore.Diagnostics.Base;
   using JetBrains.Annotations;
-  using SIM.Pipelines.Install;
   using SIM.Tool.Base.Pipelines;
   using SIM.Tool.Base.Wizards;
 

@@ -6,9 +6,6 @@
   using System.IO;
   using System.Linq;
   using log4net.Config;
-  using log4net.Core;
-  using log4net.Layout;
-  using log4net.Util;
   using JetBrains.Annotations;
   using Sitecore.Diagnostics.Logging;
   using SIM.Core.Logging;

@@ -1,7 +1,6 @@
 namespace SIM.Core.Common
 {
   using System.IO;
-  using System.IO.Abstractions;
   using System.Xml.Serialization;
   using JetBrains.Annotations;
   using Sitecore.Diagnostics.Base;

@@ -1,8 +1,5 @@
 namespace SIM.Tool.Windows
 {
-  using SIM.Tool.Base.Plugins;
-  using SIM.Tool.Windows.MainWindowComponents;
-
   public static class MainWindowData
   {
     private static TabDefinition HomeTab { get; } = new TabDefinition

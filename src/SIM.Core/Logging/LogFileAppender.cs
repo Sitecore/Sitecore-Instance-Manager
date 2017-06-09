@@ -1,7 +1,6 @@
 ﻿namespace SIM.Core.Logging
 {
   using System;
-  using System.IO;
   using log4net.Appender;
   using JetBrains.Annotations;
   using SIM.Extensions;

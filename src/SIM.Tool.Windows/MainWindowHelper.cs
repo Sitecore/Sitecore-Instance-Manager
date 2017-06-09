@@ -11,7 +11,6 @@
   using System.Windows.Forms;
   using System.Windows.Input;
   using System.Windows.Media;
-  using System.Xml;
   using Fluent;
   using SIM.Instances;
   using SIM.Pipelines.Agent;
@@ -27,7 +26,6 @@
   using SIM.Tool.Base.Wizards;
   using Core;
   using SIM.Extensions;
-  using SIM.Tool.Windows.MainWindowComponents;
 
   #region
 

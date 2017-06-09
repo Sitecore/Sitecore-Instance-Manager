@@ -1,12 +1,10 @@
 ﻿namespace SIM.Tool.Windows.MainWindowComponents
 {
   using System.Diagnostics;
-  using System.IO;
   using System.Windows;
   using JetBrains.Annotations;
   using SIM.Core;
   using SIM.Core.Common;
-  using SIM.Extensions;
   using SIM.Instances;
 
   [UsedImplicitly]

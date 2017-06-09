@@ -2,7 +2,6 @@ namespace SIM.Core.Commands
 {
   using System;
   using System.Data;
-  using System.IO.Abstractions;
   using Sitecore.Diagnostics.Base;
   using JetBrains.Annotations;
   using SIM.Core.Common;

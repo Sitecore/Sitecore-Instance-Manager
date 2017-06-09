@@ -1,9 +1,7 @@
 namespace SIM.Client
 {
-  using System;
   using System.Collections.Generic;
   using System.IO;
-  using System.Linq;
   using CommandLine;
   using JetBrains.Annotations;
   using Sitecore.Diagnostics.Base;

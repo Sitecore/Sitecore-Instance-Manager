@@ -5,7 +5,6 @@
   using System.Collections.ObjectModel;
   using System.Linq;
   using SIM.Pipelines.Processors;
-  using SIM.Products;
   using SIM.Tool.Base.Profiles;
   using SIM.Tool.Base.Wizards;
   using SIM.Tool.Windows.Pipelines.Download8;

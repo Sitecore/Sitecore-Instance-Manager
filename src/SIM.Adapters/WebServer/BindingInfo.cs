@@ -4,7 +4,6 @@
   using Microsoft.Web.Administration;
   using Sitecore.Diagnostics.Base;
   using JetBrains.Annotations;
-  using SIM.Extensions;
 
   public sealed class BindingInfo
   {

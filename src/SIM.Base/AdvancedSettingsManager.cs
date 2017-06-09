@@ -2,7 +2,6 @@
 {
   using System.Collections.Generic;
   using Sitecore.Diagnostics.Base;
-  using SIM.Extensions;
 
   public static class AdvancedSettingsManager
   {

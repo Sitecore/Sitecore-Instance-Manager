@@ -1,7 +1,6 @@
 namespace SIM.Core.Commands
 {
   using System;
-  using System.Linq;
   using JetBrains.Annotations;
   using Sitecore.Diagnostics.Base;
   using SIM.Core.Common;

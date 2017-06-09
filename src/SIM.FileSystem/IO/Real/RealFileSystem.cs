@@ -1,7 +1,5 @@
 ﻿namespace SIM.IO.Real
 {
-  using System.IO;
-
   public class RealFileSystem : IFileSystem
   {                                   
     public IFolder ParseFolder(string path)

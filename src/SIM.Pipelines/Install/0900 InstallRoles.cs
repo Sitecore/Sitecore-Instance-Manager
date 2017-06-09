@@ -1,10 +1,8 @@
-﻿using System.IO;
-using System.Net;
+﻿using System.Net;
 using JetBrains.Annotations;
 using Sitecore.Diagnostics.Base;
 using SIM.IO;
 using SIM.IO.Real;
-using SIM.Products;
 
 namespace SIM.Pipelines.Install
 {
