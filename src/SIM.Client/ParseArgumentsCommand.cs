@@ -56,7 +56,7 @@ namespace SIM.Client
         BrowseCommandFacade,
         ConfigCommandFacade,
         DeleteCommandFacade,
-        InstallModuleCommandFacade,
+        InstallCommandFacade,
         InstallModuleCommandFacade,
         ListCommandFacade,
         LoginCommandFacade,
@@ -67,6 +67,7 @@ namespace SIM.Client
         StopCommandFacade,
         SyncCommandFacade
       >(Args);
+
       return result;
     }
   }
