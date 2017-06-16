@@ -71,6 +71,7 @@
       try
       {
         message = "some text {test} ololo{";
+        // ReSharper disable once ReturnValueOfPureMethodIsNotUsed
         message.Extract(startChar, endChar, includeBounds).ToArray();
         Assert.Fail("the exception must have been thrown #1");
       }
@@ -81,6 +82,7 @@
       try
       {
         message = "some text {test} ololo}";
+        // ReSharper disable once ReturnValueOfPureMethodIsNotUsed
         message.Extract(startChar, endChar, includeBounds).ToArray();
         Assert.Fail("the exception must have been thrown #2");
       }
@@ -91,6 +93,7 @@
       try
       {
         message = "some text {test} ololo{}";
+        // ReSharper disable once ReturnValueOfPureMethodIsNotUsed
         message.Extract(startChar, endChar, includeBounds).ToArray();
         Assert.Fail("the exception must have been thrown #3");
       }
