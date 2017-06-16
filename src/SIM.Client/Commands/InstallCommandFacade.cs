@@ -20,6 +20,9 @@
     [Option('s', "sqlPrefix", HelpText = "Logical names prefix of SQL databases, by default equals to instance name")]
     public override string SqlPrefix { get; set; }
 
+    [Option('d', "distributionPackage", HelpText = "Path to the Sitecore standalone product's distribution package path")]
+    public override string DistributionPackagePath { get; set; }
+
     [Option('p', "product")]
     public override string Product { get; set; }
 

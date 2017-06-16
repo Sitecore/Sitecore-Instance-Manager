@@ -17,6 +17,9 @@
     public virtual string Name { get; [UsedImplicitly] set; }
 
     [CanBeNull]
+    public virtual string DistributionPackagePath { get; [UsedImplicitly] set; }
+
+    [CanBeNull]
     public virtual string Product { get; [UsedImplicitly] set; }
 
     [CanBeNull]
@@ -88,14 +91,27 @@
     [NotNull]
     private Product GetDistributive()
     {
-      var product = Product;
-      var version = Version;
-      var revision = Revision;
+      var packagePath = DistributionPackagePath;
+      if (!string.IsNullOrEmpty(packagePath))
+      {
+        Assert.ArgumentCondition(File.Exists(packagePath), nameof(DistributionPackagePath), "The file does not exist");
 
-      var distributive = ProductManager.FindProduct(ProductType.Standalone, product, version, revision);
-      Ensure.IsNotNull(distributive, "product is not found");
+        var distributive = Products.Product.Parse(packagePath);
+        Ensure.IsNotNull(distributive, "product is not found");
 
-      return distributive;
+        return distributive;
+      }
+      else
+      {
+        var product = Product;
+        var version = Version;
+        var revision = Revision;
+
+        var distributive = ProductManager.FindProduct(ProductType.Standalone, product, version, revision);
+        Ensure.IsNotNull(distributive, "product is not found");
+
+        return distributive;
+      }
     }
 
     public InstallCommand([NotNull] IFileSystem fileSystem) : base(fileSystem)
