@@ -46,10 +46,7 @@
       Assert.ArgumentNotNullOrEmpty(name, nameof(name));
 
       var hostNames = new[] {name};
-      var sqlPrefix = SqlPrefix ?? name;
-      var product = Product;
-      var version = Version;
-      var revision = Revision;
+      var sqlPrefix = SqlPrefix ?? name;    
       var attachDatabases = AttachDatabases;
       var skipUnnecessaryFiles = SkipUnnecessaryFiles;
 
@@ -72,9 +69,8 @@
       Ensure.IsTrue(!Directory.Exists(rootPath), "Folder already exists: {0}", rootPath);
 
       ProductManager.Initialize(repository);
-
-      var distributive = ProductManager.FindProduct(ProductType.Standalone, product, version, revision);
-      Ensure.IsNotNull(distributive, "product is not found");
+      
+      var distributive = GetDistributive();
 
       PipelineManager.Initialize(XmlDocumentEx.LoadXml(PipelinesConfig.Contents).DocumentElement);
 
@@ -87,6 +83,19 @@
       result.Success = !string.IsNullOrEmpty(controller.Message);
       result.Message = controller.Message;
       result.Data = controller.GetMessages().ToArray();
+    }
+
+    [NotNull]
+    private Product GetDistributive()
+    {
+      var product = Product;
+      var version = Version;
+      var revision = Revision;
+
+      var distributive = ProductManager.FindProduct(ProductType.Standalone, product, version, revision);
+      Ensure.IsNotNull(distributive, "product is not found");
+
+      return distributive;
     }
 
     public InstallCommand([NotNull] IFileSystem fileSystem) : base(fileSystem)

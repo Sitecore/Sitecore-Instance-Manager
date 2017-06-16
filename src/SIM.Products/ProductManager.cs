@@ -182,7 +182,7 @@
 
     #endregion
 
-    public static Product FindProduct(ProductType type, string product, string version, string revision)
+    public static Product FindProduct(ProductType type, [CanBeNull] string product, [CanBeNull] string version, [CanBeNull] string revision)
     {
       var products = type == ProductType.Standalone ? StandaloneProducts : Modules;
       if (!string.IsNullOrEmpty(product))
