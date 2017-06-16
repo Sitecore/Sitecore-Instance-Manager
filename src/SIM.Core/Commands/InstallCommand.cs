@@ -1,11 +1,13 @@
 ﻿namespace SIM.Core.Commands
 {
-  using System.IO;
+  using System;
   using System.Linq;
   using Sitecore.Diagnostics.Base;
   using JetBrains.Annotations;
+  using Sitecore.Diagnostics.Base.Exceptions;
   using SIM.Adapters.SqlServer;
   using SIM.Core.Common;
+  using SIM.Extensions;
   using SIM.IO;
   using SIM.Pipelines;
   using SIM.Pipelines.Install;
@@ -13,6 +15,9 @@
 
   public class InstallCommand : AbstractCommand<string[]>
   {
+    [CanBeNull]
+    private IProfile _Profile;
+
     [CanBeNull]
     public virtual string Name { get; [UsedImplicitly] set; }
 
@@ -29,6 +34,9 @@
     public virtual string Revision { get; [UsedImplicitly] set; }
 
     [CanBeNull]
+    public virtual string ConnectionString { get; [UsedImplicitly] set; }
+
+    [CanBeNull]
     public virtual string SqlPrefix { get; [UsedImplicitly] set; }
 
     [CanBeNull]
@@ -38,6 +46,8 @@
 
     [CanBeNull]
     public virtual bool SkipUnnecessaryFiles { get; [UsedImplicitly] set; } = SkipUnnecessaryFilesDefault;
+
+    protected IProfile Profile => _Profile ?? (_Profile = Common.Profile.Read(FileSystem));
 
     public const bool SkipUnnecessaryFilesDefault = false;
 
@@ -53,23 +63,21 @@
       var attachDatabases = AttachDatabases;
       var skipUnnecessaryFiles = SkipUnnecessaryFiles;
 
-      var profile = Profile.Read(FileSystem);
-      var repository = profile.LocalRepository;
+      var repository = Profile.LocalRepository;
       Ensure.IsNotNullOrEmpty(repository, "Profile.LocalRepository is not specified");
-      Ensure.IsTrue(Directory.Exists(repository), "Profile.LocalRepository points to missing folder");
+      Ensure.IsTrue(FileSystem.ParseFolder(repository).Exists, "Profile.LocalRepository points to missing folder");
 
-      var license = profile.License;
+      var license = Profile.License;
       Ensure.IsNotNullOrEmpty(license, "Profile.License is not specified");
-      Ensure.IsTrue(File.Exists(license), "Profile.License points to missing file");
+      Ensure.IsTrue(FileSystem.ParseFile(license).Exists, "Profile.License points to missing file");
 
-      var builder = profile.GetValidConnectionString();
+      var builder = Profile.GetValidConnectionString();
 
-      var instancesFolder = profile.InstancesFolder;
-      Ensure.IsNotNullOrEmpty(instancesFolder, "Profile.InstancesFolder is not specified");
-      Ensure.IsTrue(Directory.Exists(instancesFolder), "Profile.InstancesFolder points to missing folder");
+      var instancesFolder = FileSystem.ParseFolder(Profile.InstancesFolder.IsNotNullOrEmpty(nameof(Profile.InstancesFolder)));
+      Ensure.IsTrue(instancesFolder.Exists, $"{nameof(Profile.InstancesFolder)} points to missing folder");
 
-      var rootPath = Path.Combine(instancesFolder, name);
-      Ensure.IsTrue(!Directory.Exists(rootPath), "Folder already exists: {0}", rootPath);
+      var root = instancesFolder.GetChildFolder(name);
+      Ensure.IsTrue(!root.Exists, $"Folder already exists: {root.FullName}");
 
       ProductManager.Initialize(repository);
       
@@ -79,7 +87,7 @@
 
       var sqlServerAccountName = SqlServerManager.Instance.GetSqlServerAccountName(builder);
       var webServerIdentity = Settings.CoreInstallWebServerIdentity.Value;
-      var installArgs = new InstallArgs(name, hostNames, sqlPrefix, attachDatabases, distributive, rootPath, builder, sqlServerAccountName, webServerIdentity, new FileInfo(license), true, false, false, !skipUnnecessaryFiles, !skipUnnecessaryFiles, false, false, false, "", new Product[0]);
+      var installArgs = new InstallArgs(name, hostNames, sqlPrefix, attachDatabases, distributive, root, builder, sqlServerAccountName, webServerIdentity, FileSystem.ParseFile(license), true, false, false, !skipUnnecessaryFiles, !skipUnnecessaryFiles, false, false, false, "", new Product[0]);
       var controller = new AggregatePipelineController();
       PipelineManager.StartPipeline("install", installArgs, controller, false);
 
@@ -94,9 +102,10 @@
       var packagePath = DistributionPackagePath;
       if (!string.IsNullOrEmpty(packagePath))
       {
-        Assert.ArgumentCondition(File.Exists(packagePath), nameof(DistributionPackagePath), "The file does not exist");
+        var file = FileSystem.ParseFile(packagePath);
+        Assert.ArgumentCondition(file.Exists, nameof(DistributionPackagePath), "The file does not exist");
 
-        var distributive = Products.Product.Parse(packagePath);
+        var distributive = Products.Product.Parse(file.FullName);
         Ensure.IsNotNull(distributive, "product is not found");
 
         return distributive;

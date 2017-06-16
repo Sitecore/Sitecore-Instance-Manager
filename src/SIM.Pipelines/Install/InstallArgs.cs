@@ -8,6 +8,7 @@
   using SIM.Products;
   using Sitecore.Diagnostics.Base;
   using JetBrains.Annotations;
+  using SIM.IO;
 
   #region
 
@@ -71,13 +72,13 @@
 
     #region Constructors
 
-    public InstallArgs([NotNull] string name, [NotNull] string[] hosts, string instanceSqlPrefix, bool instanceAttachSql, [NotNull] Product product, [NotNull] string rootPath, [NotNull] SqlConnectionStringBuilder connectionString, [NotNull] string sqlServerIdentity, [NotNull] string webServerIdentity, [NotNull] FileInfo license, bool forceNetFramework4, bool is32Bit, bool isClassic, bool installRadControls, bool installDictionaries, bool serverSideRedirect, bool increaseExecutionTimeout, bool preheat, string installRoles, [NotNull] IEnumerable<Product> modules)
-      : this(name, hosts, instanceSqlPrefix, instanceAttachSql, product, Path.Combine(rootPath, "Website"), Path.Combine(rootPath, "Data"), Path.Combine(rootPath, "Databases"), connectionString, sqlServerIdentity, webServerIdentity, license, forceNetFramework4, is32Bit, isClassic, installRadControls, installDictionaries, serverSideRedirect, increaseExecutionTimeout, preheat, rootPath, installRoles, modules)
+    public InstallArgs([NotNull] string name, [NotNull] string[] hosts, string instanceSqlPrefix, bool instanceAttachSql, [NotNull] Product product, [NotNull] IFolder rootDir, [NotNull] SqlConnectionStringBuilder connectionString, [NotNull] string sqlServerIdentity, [NotNull] string webServerIdentity, [NotNull] IFile license, bool forceNetFramework4, bool is32Bit, bool isClassic, bool installRadControls, bool installDictionaries, bool serverSideRedirect, bool increaseExecutionTimeout, bool preheat, string installRoles, [NotNull] IEnumerable<Product> modules)
+      : this(name, hosts, instanceSqlPrefix, instanceAttachSql, product, rootDir.GetChildFolder("Website"), rootDir.GetChildFolder("Data"), rootDir.GetChildFolder("Databases"), connectionString, sqlServerIdentity, webServerIdentity, license, forceNetFramework4, is32Bit, isClassic, installRadControls, installDictionaries, serverSideRedirect, increaseExecutionTimeout, preheat, rootDir, installRoles, modules)
     {
       Assert.ArgumentNotNull(name, nameof(name));
       Assert.ArgumentNotNull(hosts, nameof(hosts));
       Assert.ArgumentNotNull(product, nameof(product));
-      Assert.ArgumentNotNull(rootPath, nameof(rootPath));
+      Assert.ArgumentNotNull(rootDir, nameof(rootDir));
       Assert.ArgumentNotNull(connectionString, nameof(connectionString));
       Assert.ArgumentNotNull(sqlServerIdentity, nameof(sqlServerIdentity));
       Assert.ArgumentNotNull(webServerIdentity, nameof(webServerIdentity));
@@ -87,19 +88,19 @@
       _Modules = modules;
     }
 
-    public InstallArgs([NotNull] string name, [NotNull] string[] hosts, string instanceSqlPrefix, bool instanceAttachSql, [NotNull] Product product, [NotNull] string webRootPath, [NotNull] string dataFolderPath, [NotNull] string databasesFolderPath, [NotNull] SqlConnectionStringBuilder connectionString, [NotNull] string sqlServerIdentity, [NotNull] string webServerIdentity, [NotNull] FileInfo license, bool forceNetFramework4, bool is32Bit, bool isClassic, bool installRadControls, bool installDictionaries, bool serverSideRedirect, bool increaseExecutionTimeout, bool preheat, [NotNull] string rootPath, string installRoles, [NotNull] IEnumerable<Product> modules)
+    public InstallArgs([NotNull] string name, [NotNull] string[] hosts, string instanceSqlPrefix, bool instanceAttachSql, [NotNull] Product product, [NotNull] IFolder webRootDir, [NotNull] IFolder dataDir, [NotNull] IFolder databasesDir, [NotNull] SqlConnectionStringBuilder connectionString, [NotNull] string sqlServerIdentity, [NotNull] string webServerIdentity, [NotNull] IFile license, bool forceNetFramework4, bool is32Bit, bool isClassic, bool installRadControls, bool installDictionaries, bool serverSideRedirect, bool increaseExecutionTimeout, bool preheat, [NotNull] IFolder rootDir, string installRoles, [NotNull] IEnumerable<Product> modules)
     {
       Assert.ArgumentNotNull(name, nameof(name));
       Assert.ArgumentNotNull(hosts, nameof(hosts));
       Assert.ArgumentNotNull(product, nameof(product));
-      Assert.ArgumentNotNull(webRootPath, nameof(webRootPath));
-      Assert.ArgumentNotNull(dataFolderPath, nameof(dataFolderPath));
-      Assert.ArgumentNotNull(databasesFolderPath, nameof(databasesFolderPath));
+      Assert.ArgumentNotNull(webRootDir, nameof(webRootDir));
+      Assert.ArgumentNotNull(dataDir, nameof(dataDir));
+      Assert.ArgumentNotNull(databasesDir, nameof(databasesDir));
       Assert.ArgumentNotNull(connectionString, nameof(connectionString));
       Assert.ArgumentNotNull(sqlServerIdentity, nameof(sqlServerIdentity));
       Assert.ArgumentNotNull(webServerIdentity, nameof(webServerIdentity));
       Assert.ArgumentNotNull(license, nameof(license));
-      Assert.ArgumentNotNull(rootPath, nameof(rootPath));
+      Assert.ArgumentNotNull(rootDir, nameof(rootDir));
       Assert.ArgumentNotNull(modules, nameof(modules));
 
       Name = name;
@@ -109,9 +110,9 @@
       InstanceAttachSql = instanceAttachSql;
       Product = product;
       ConnectionString = connectionString;
-      DataFolderPath = dataFolderPath;
-      DatabasesFolderPath = databasesFolderPath;
-      WebRootPath = webRootPath;
+      DataFolderPath = dataDir.FullName;
+      DatabasesFolderPath = databasesDir.FullName;
+      WebRootPath = webRootDir.FullName;
       LicenseFilePath = license.FullName;
       SqlServerIdentity = sqlServerIdentity;
       WebServerIdentity = webServerIdentity;
@@ -119,7 +120,7 @@
       Is32Bit = is32Bit;
       IsClassic = isClassic;
       PreHeat = preheat;
-      RootFolderPath = rootPath;
+      RootFolderPath = rootDir.FullName;
       InstallRadControls = installRadControls;
       InstallDictionaries = installDictionaries;
       ServerSideRedirect = serverSideRedirect;

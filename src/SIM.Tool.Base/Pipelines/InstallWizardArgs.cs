@@ -10,6 +10,8 @@
   using SIM.Products;
   using Sitecore.Diagnostics.Base;
   using JetBrains.Annotations;
+  using SIM.IO;
+  using SIM.IO.Real;
 
   #region
 
@@ -49,6 +51,8 @@
       }
     }
 
+    protected IFileSystem FileSystem { get; } = new RealFileSystem();
+
     public AppPoolInfo InstanceAppPoolInfo { get; set; }
 
     public SqlConnectionStringBuilder InstanceConnectionString { get; set; }
@@ -86,7 +90,7 @@
       var preheat = PreHeat;
       var installRoles = InstallRoles;
 
-      return new InstallArgs(InstanceName, InstanceHostNames, InstanceSqlPrefix, InstanceAttachSql, InstanceProduct, InstanceRootPath, InstanceConnectionString, SqlServerManager.Instance.GetSqlServerAccountName(InstanceConnectionString), Settings.CoreInstallWebServerIdentity.Value, LicenseFileInfo, InstanceAppPoolInfo.FrameworkVersion == "v4.0", InstanceAppPoolInfo.Enable32BitAppOnWin64, !InstanceAppPoolInfo.ManagedPipelineMode, installRadControls, installDictionaries, (bool)serverSideRedirect, (bool)increaseExecutionTimeout, (bool)preheat, installRoles, _Modules);
+      return new InstallArgs(InstanceName, InstanceHostNames, InstanceSqlPrefix, InstanceAttachSql, InstanceProduct, FileSystem.ParseFolder(InstanceRootPath), InstanceConnectionString, SqlServerManager.Instance.GetSqlServerAccountName(InstanceConnectionString), Settings.CoreInstallWebServerIdentity.Value, FileSystem.ParseFile(LicenseFileInfo), InstanceAppPoolInfo.FrameworkVersion == "v4.0", InstanceAppPoolInfo.Enable32BitAppOnWin64, !InstanceAppPoolInfo.ManagedPipelineMode, installRadControls, installDictionaries, (bool)serverSideRedirect, (bool)increaseExecutionTimeout, (bool)preheat, installRoles, _Modules);
     }
 
     public static string LastTimeOption(string option)
