@@ -3,27 +3,32 @@
 	<StackPanel Orientation="Vertical">
     <StackPanel Orientation="Vertical" Margin="0 0 0 4">
       <CheckBox x:Name="InstallRoles">
-        <Bold>Install Sitecore Configuration Roles 1.2</Bold>
+        <TextBlock><Bold>Install Sitecore Configuration Roles 1.2</Bold> - for Sitecore 8.2 and 8.1 Update-3</TextBlock>
       </CheckBox>
       <StackPanel Margin="20 0 0 0">
-        <TextBlock HorizontalAlignment="Left" TextAlignment="Left">Install <Hyperlink NavigateUri="https://github.com/sitecore/sitecore-configuration-roles" RequestNavigate="Hyperlink_OnRequestNavigate">Sitecore Configuration Roles</Hyperlink> module to configure Sitecore for given role:</TextBlock>
-        <TextBlock HorizontalAlignment="Left" TextAlignment="Left">* it supports only 8.1 Update-3 and all 8.2 releases</TextBlock>
+        <TextBlock HorizontalAlignment="Left" TextAlignment="Left">
+          It installs <Hyperlink NavigateUri="https://github.com/sitecore/sitecore-configuration-roles" RequestNavigate="Hyperlink_OnRequestNavigate">Sitecore Configuration Roles</Hyperlink> 
+          module and configures the instance <LineBreak/> 
+          to one of roles. Only 2 types of solutions are supported (D, M, P - 1 or more): <LineBreak/>
+          1. <Bold>D × Delivery</Bold> + <Bold>1 × Standalone</Bold>*, <LineBreak/>
+          2. <Bold>D × Delivery</Bold> + <Bold>M × Management</Bold>** + <Bold>P × Processing</Bold>** + <Bold>1 × Reporting</Bold>**
+        </TextBlock>
       </StackPanel>
       <StackPanel x:Name="RoleName" Margin="20 0 0 0">
         <RadioButton x:Name="Standalone" Margin="0 4 0 0" IsEnabled="{Binding ElementName=InstallRoles, Path=IsChecked}" GroupName="Role" IsChecked="True">
-          <Bold>Standalone</Bold>
-        </RadioButton>
-        <RadioButton x:Name="ContentManagement" Margin="0 4 0 0" IsEnabled="{Binding ElementName=InstallRoles, Path=IsChecked}" GroupName="Role">
-          <Bold>ContentManagement</Bold>
+          <TextBlock><Bold>Standalone</Bold>*</TextBlock>
         </RadioButton>
         <RadioButton x:Name="ContentDelivery" Margin="0 4 0 0" IsEnabled="{Binding ElementName=InstallRoles, Path=IsChecked}" GroupName="Role">
-          <Bold>ContentDelivery</Bold>
+          <TextBlock><Bold>ContentDelivery (CD)</Bold></TextBlock>
+        </RadioButton>
+        <RadioButton x:Name="ContentManagement" Margin="0 4 0 0" IsEnabled="{Binding ElementName=InstallRoles, Path=IsChecked}" GroupName="Role">
+          <TextBlock><Bold>ContentManagement (CM)</Bold>**</TextBlock>
         </RadioButton>
         <RadioButton x:Name="Processing" Margin="0 4 0 0" IsEnabled="{Binding ElementName=InstallRoles, Path=IsChecked}" GroupName="Role">
-          <Bold>Processing</Bold>
+          <TextBlock><Bold>Processing (PR)</Bold>**</TextBlock>
         </RadioButton>
         <RadioButton x:Name="Reporting" Margin="0 4 0 0" IsEnabled="{Binding ElementName=InstallRoles, Path=IsChecked}" GroupName="Role">
-          <Bold>Reporting</Bold>
+          <TextBlock><Bold>Reporting (RE)</Bold>**</TextBlock>
         </RadioButton>
       </StackPanel>
     </StackPanel>
