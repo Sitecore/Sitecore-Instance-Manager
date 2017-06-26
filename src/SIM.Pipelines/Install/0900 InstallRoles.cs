@@ -78,7 +78,7 @@ namespace SIM.Pipelines.Install
 
     private static void InstallAssemblyTo(IFolder binFolder)
     {
-      var assemblyUrl = "https://github.com/Sitecore/Sitecore-Configuration-Roles/releases/download/1.2/Sitecore.Configuration.Roles.dll";
+      var assemblyUrl = "https://github.com/Sitecore/Sitecore-Configuration-Roles/releases/download/1.3/Sitecore.Configuration.Roles.dll";
       var assemblyFile = binFolder.GetChildFile("Sitecore.Configuration.Roles.dll");
 
       new WebClient()
