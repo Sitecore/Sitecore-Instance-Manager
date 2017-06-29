@@ -94,6 +94,7 @@
   <ItemGroup>
     <Compile Include="Commands\BrowseCommand.cs" />
     <Compile Include="Commands\ConfigCommand.cs" />
+    <Compile Include="Commands\InstallRolesCommand.cs" />
     <Compile Include="Commands\LoginCommand.cs" />
     <Compile Include="Commands\RepositoryCommand.cs" />
     <Compile Include="Commands\RepositoryCommandResult.cs" />

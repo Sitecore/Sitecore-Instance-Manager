@@ -56,6 +56,7 @@ namespace SIM.Client
         DeleteCommandFacade,
         InstallCommandFacade,
         InstallModuleCommandFacade,
+        InstallRolesCommandFacade,
         ListCommandFacade,
         LoginCommandFacade,
         ProfileCommandFacade,

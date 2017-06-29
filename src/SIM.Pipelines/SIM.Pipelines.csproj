@@ -104,6 +104,7 @@
     <Compile Include="Install\0600 UpdateWebConfig.cs" />
     <Compile Include="Install\0650 AddServerTxt.cs" />
     <Compile Include="Install\0900 InstallRoles.cs" />
+    <Compile Include="Install\InstallRolesCommandHelper.cs" />
     <Compile Include="Install\Modules\CreateSolrCores.cs" />
     <Compile Include="Install\Modules\SolrInformation.cs" />
     <Compile Include="Install\Modules\SwitchConfigsToSolr.cs" />
