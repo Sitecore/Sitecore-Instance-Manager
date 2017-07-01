@@ -85,9 +85,20 @@ namespace SIM.Tool
       // invoke auto-updater if not developing or debugging
       if (!ApplicationManager.IsDev && !ApplicationManager.IsDebugging)
       {
-        var prefix = ApplicationManager.IsQa ? "qa/" : "";
-        var suffix = ApplicationManager.IsQa ? ".QA" : "";
-        CoreApp.RunApp("rundll32.exe", $"dfshim.dll,ShOpenVerbApplication http://dl.sitecore.net/updater/{prefix}sim/SIM.Tool{suffix}.application");
+        try
+        {
+          var prefix = ApplicationManager.IsQa ? "qa/" : "";
+          var suffix = ApplicationManager.IsQa ? ".QA" : "";
+          CoreApp.RunApp("rundll32.exe", $"dfshim.dll,ShOpenVerbApplication http://dl.sitecore.net/updater/{prefix}sim/SIM.Tool{suffix}.application");
+        }
+        catch (Exception ex)
+        {
+          Log.Error(ex, $"Error connecting to SIM auto-updater.");
+          WindowHelper.ShowMessage("Cannot connect to SIM auto-updater. Check the log for additional information.", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+
+          // Get out now, but maybe ok to continue without update?
+          return;
+        }
       }
 
       if (CoreApp.HasBeenUpdated)
