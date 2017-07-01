@@ -93,7 +93,7 @@ namespace SIM.Tool
         }
         catch (Exception ex)
         {
-          Log.Error(ex, $"Error connecting to SIM auto-updater.");
+          Log.Error(ex, "Error connecting to SIM auto-updater.");
           WindowHelper.ShowMessage("Cannot connect to SIM auto-updater. Check the log for additional information.", MessageBoxButton.OK, MessageBoxImage.Exclamation);
 
           // Get out now, but maybe ok to continue without update?
