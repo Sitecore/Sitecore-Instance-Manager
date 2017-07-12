@@ -362,8 +362,8 @@
         }
       }
 
-      window.Left = Screen.PrimaryScreen.WorkingArea.Width / 2.0 - window.Width / 2.0;
-      window.Top = Screen.PrimaryScreen.WorkingArea.Height / 2.0 - window.Height / 2.0;
+      window.Left = SystemParameters.WorkArea.Width / 2.0 - window.Width / 2.0;
+      window.Top = SystemParameters.WorkArea.Height / 2.0 - window.Height / 2.0;
       bool? result = null;
       try
       {
