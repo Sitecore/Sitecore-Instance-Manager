@@ -73,10 +73,14 @@ namespace SIM.Tool
 
     protected override void OnStartup([CanBeNull] StartupEventArgs e)
     {
+      InitializeLogging();
+
       base.OnStartup(e);
 
       if (!EnsureSingleProcess(e.Args))
       {
+        Log.Info("Shutting down as there is another process running");
+
         Environment.Exit(0);
 
         return;
@@ -87,6 +91,8 @@ namespace SIM.Tool
       {
         try
         {
+          Log.Info("Running update procedure");
+
           var prefix = ApplicationManager.IsQa ? "qa/" : "";
           var suffix = ApplicationManager.IsQa ? ".QA" : "";
           CoreApp.RunApp("rundll32.exe", $"dfshim.dll,ShOpenVerbApplication http://dl.sitecore.net/updater/{prefix}sim/SIM.Tool{suffix}.application");
@@ -94,10 +100,6 @@ namespace SIM.Tool
         catch (Exception ex)
         {
           Log.Error(ex, "Error connecting to SIM auto-updater.");
-          WindowHelper.ShowMessage("Cannot connect to SIM auto-updater. Check the log for additional information.", MessageBoxButton.OK, MessageBoxImage.Exclamation);
-
-          // Get out now, but maybe ok to continue without update?
-          return;
         }
       }
 
@@ -121,6 +123,8 @@ namespace SIM.Tool
 
           if (exists)
           {
+            Log.Info("Showing release notes");
+
             CoreApp.OpenInBrowser(url, true);
           }
         }
@@ -128,6 +132,8 @@ namespace SIM.Tool
       
       if (CoreApp.IsVeryFirstRun || CoreApp.HasBeenUpdated)
       {
+        Log.Info("Cleaning up caches after update");
+
         CacheManager.ClearAll();
         foreach (var dir in Directory.GetDirectories(ApplicationManager.TempFolder))
         {
@@ -137,9 +143,11 @@ namespace SIM.Tool
           }
           catch (Exception ex)
           {
-            throw new InvalidOperationException($"Failed to delete directory1: {dir}", ex);
+            WindowHelper.HandleError($"Failed to delete directory1: {dir}", isError: true, ex: ex);
           }
         }
+
+        Log.Info("Unpacking resources");
 
         var ext = ".deploy.txt";
         foreach (var filePath in Directory.GetFiles(".", $"*{ext}", SearchOption.AllDirectories))
@@ -166,14 +174,17 @@ namespace SIM.Tool
         }
       }
 
+      // write it here as all preceding logic is finished
+      CoreApp.WriteLastRunVersion();
+
       if (!CheckPermissions())
       {
+        Log.Info("Shutting down due to missing permissions (it is normally okay as it will be re-run with elevated permissions)");
+
         Environment.Exit(0);
 
         return;
       }
-
-      InitializeLogging();
 
       CoreApp.LogMainInfo();
 
@@ -238,9 +249,6 @@ namespace SIM.Tool
 
       LoadIocResourcesForSolr();
       Analytics.Start();
-
-
-      CoreApp.WriteLastRunVersion();
 
       // Show main window
       try
