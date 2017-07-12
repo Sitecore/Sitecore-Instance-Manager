@@ -13,6 +13,7 @@ namespace SIM.Tool
   using System.Reflection;
   using System.Security.Principal;
   using System.ServiceProcess;
+  using System.Threading;
   using System.Windows;
   using System.Xml;
   using SIM.Adapters.SqlServer;
@@ -76,6 +77,15 @@ namespace SIM.Tool
       InitializeLogging();
 
       base.OnStartup(e);
+
+      if (!CheckPermissions())
+      {
+        Log.Info("Shutting down due to missing permissions (it is normally okay as it will be re-run with elevated permissions)");
+
+        Environment.Exit(0);
+
+        return;
+      }
 
       if (!EnsureSingleProcess(e.Args))
       {
@@ -176,15 +186,6 @@ namespace SIM.Tool
 
       // write it here as all preceding logic is finished
       CoreApp.WriteLastRunVersion();
-
-      if (!CheckPermissions())
-      {
-        Log.Info("Shutting down due to missing permissions (it is normally okay as it will be re-run with elevated permissions)");
-
-        Environment.Exit(0);
-
-        return;
-      }
 
       CoreApp.LogMainInfo();
 
