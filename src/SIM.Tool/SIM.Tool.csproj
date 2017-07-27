@@ -380,6 +380,9 @@
     <Content Include="Manifests\Standalone\Sitecore 7.manifest.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Manifests\Standalone\Sitecore 9.manifest.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Manifests\Standalone\Sitecore 8.manifest.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

@@ -1,0 +1,10 @@
+<manifest version="1.4">
+  <standalone>
+    <limitations>
+      <framework>
+        <supportedVersion attr="1">v4.0</supportedVersion>
+        <supportedVersion attr="2">v4.0 32bit</supportedVersion>
+      </framework>
+    </limitations>
+  </standalone>
+</manifest>
