@@ -70,7 +70,7 @@
       <processor type=""SIM.Pipelines.Delete.StopInstance, SIM.Pipelines"" title=""Stopping application"" />
       <processor type=""SIM.Pipelines.Delete.DeleteDataFolder, SIM.Pipelines"" title=""Deleting data folder"" />
       <processor type=""SIM.Pipelines.Delete.DeleteDatabases, SIM.Pipelines"" title=""Deleting databases"" />
-      <processor type=""SIM.Pipelines.Delete.DeleteMongoDatabases, SIM.Pipelines"" title=""Deleting databases"" />
+      <processor type=""SIM.Pipelines.Delete.SafeDeleteMongoDatabases, SIM.Pipelines"" title=""Deleting databases"" />
       <processor type=""SIM.Pipelines.Delete.DeleteWebsiteFolder, SIM.Pipelines"" title=""Deleting website folder"" />
     </step>
     <step>
