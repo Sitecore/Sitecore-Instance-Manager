@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.4
+VisualStudioVersion = 15.0.26430.16
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SIM.Tool", "SIM.Tool\SIM.Tool.csproj", "{7479AF0F-C156-4844-AEC1-778FF1B854C8}"
 EndProject
@@ -40,6 +40,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SIM.FileSystem.AutoTests", "SIM.FileSystem.AutoTests\SIM.FileSystem.AutoTests.csproj", "{46623BF6-DF60-4A1A-AADF-C0BECE17FE74}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SIM.Client.UnitTests", "SIM.Client.UnitTests\SIM.Client.UnitTests.csproj", "{EB67B5A0-9283-48C6-AF44-E88DE2E2E5A7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SIM.Foundation.SqlAdapter", "SIM.Foundation.SqlAdapter\SIM.Foundation.SqlAdapter.csproj", "{3748B30C-ABF5-4DEE-9F22-74E4F69FFF78}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SIM.Foundation.SqlAdapter.IntegrationTests", "SIM.Foundation.SqlAdapter.IntegrationTests\SIM.Foundation.SqlAdapter.IntegrationTests.csproj", "{293D8E00-5C24-4E62-9BF7-4E0FB224D1BA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -207,6 +211,30 @@ Global
 		{EB67B5A0-9283-48C6-AF44-E88DE2E2E5A7}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{EB67B5A0-9283-48C6-AF44-E88DE2E2E5A7}.Release|x86.ActiveCfg = Release|Any CPU
 		{EB67B5A0-9283-48C6-AF44-E88DE2E2E5A7}.Release|x86.Build.0 = Release|Any CPU
+		{3748B30C-ABF5-4DEE-9F22-74E4F69FFF78}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3748B30C-ABF5-4DEE-9F22-74E4F69FFF78}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3748B30C-ABF5-4DEE-9F22-74E4F69FFF78}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{3748B30C-ABF5-4DEE-9F22-74E4F69FFF78}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{3748B30C-ABF5-4DEE-9F22-74E4F69FFF78}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{3748B30C-ABF5-4DEE-9F22-74E4F69FFF78}.Debug|x86.Build.0 = Debug|Any CPU
+		{3748B30C-ABF5-4DEE-9F22-74E4F69FFF78}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3748B30C-ABF5-4DEE-9F22-74E4F69FFF78}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3748B30C-ABF5-4DEE-9F22-74E4F69FFF78}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{3748B30C-ABF5-4DEE-9F22-74E4F69FFF78}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{3748B30C-ABF5-4DEE-9F22-74E4F69FFF78}.Release|x86.ActiveCfg = Release|Any CPU
+		{3748B30C-ABF5-4DEE-9F22-74E4F69FFF78}.Release|x86.Build.0 = Release|Any CPU
+		{293D8E00-5C24-4E62-9BF7-4E0FB224D1BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{293D8E00-5C24-4E62-9BF7-4E0FB224D1BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{293D8E00-5C24-4E62-9BF7-4E0FB224D1BA}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{293D8E00-5C24-4E62-9BF7-4E0FB224D1BA}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{293D8E00-5C24-4E62-9BF7-4E0FB224D1BA}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{293D8E00-5C24-4E62-9BF7-4E0FB224D1BA}.Debug|x86.Build.0 = Debug|Any CPU
+		{293D8E00-5C24-4E62-9BF7-4E0FB224D1BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{293D8E00-5C24-4E62-9BF7-4E0FB224D1BA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{293D8E00-5C24-4E62-9BF7-4E0FB224D1BA}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{293D8E00-5C24-4E62-9BF7-4E0FB224D1BA}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{293D8E00-5C24-4E62-9BF7-4E0FB224D1BA}.Release|x86.ActiveCfg = Release|Any CPU
+		{293D8E00-5C24-4E62-9BF7-4E0FB224D1BA}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -228,6 +256,8 @@ Global
 		{02B6C2D7-3083-4DF3-B86D-B6D4728C4EF2} = {9285A641-C759-471D-A4FE-9C92C529128C}
 		{46623BF6-DF60-4A1A-AADF-C0BECE17FE74} = {9285A641-C759-471D-A4FE-9C92C529128C}
 		{EB67B5A0-9283-48C6-AF44-E88DE2E2E5A7} = {78293D89-3FC2-403D-BF5F-1C4AF0DEF153}
+		{3748B30C-ABF5-4DEE-9F22-74E4F69FFF78} = {9285A641-C759-471D-A4FE-9C92C529128C}
+		{293D8E00-5C24-4E62-9BF7-4E0FB224D1BA} = {9285A641-C759-471D-A4FE-9C92C529128C}
 	EndGlobalSection
 	GlobalSection(SubversionScc) = preSolution
 		Svn-Managed = True

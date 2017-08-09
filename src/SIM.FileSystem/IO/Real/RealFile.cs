@@ -19,6 +19,8 @@
                 
     public override IFolder Parent => _Parent ?? (_Parent = FileSystem.ParseFolder(Path.GetDirectoryName(FileInfo.FullName)));
 
+    public string Extension => FileInfo.Extension;
+
     public override void Create()
     {
       FileInfo.OpenWrite().Close();

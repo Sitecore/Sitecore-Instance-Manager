@@ -51,6 +51,7 @@
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml" />
   </ItemGroup>
@@ -66,6 +67,7 @@
     <Compile Include="EventHelper.cs" />
     <Compile Include="Extensions\Extensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
+    <Compile Include="FileSystem\FilePath.cs" />
     <Compile Include="FileSystem\FileProvider.cs" />
     <Compile Include="FileSystem\DirectoryProvider.cs" />
     <Compile Include="FileSystem\FileSystem.cs" />
@@ -97,6 +99,8 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="ReflectionUtil.cs" />
+    <Compile Include="Services\ConnectionString.cs" />
+    <Compile Include="Services\SqlConnectionString.cs" />
     <Compile Include="WebRequestHelper.cs" />
     <Compile Include="XmlBasedAdvancedSettingsStorage.cs" />
     <Compile Include="AppConfigSectionHandler.cs" />
