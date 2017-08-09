@@ -1,4 +1,4 @@
-﻿namespace SIM.Base.Services
+﻿namespace SIM.Services
 {
   using JetBrains.Annotations;
 

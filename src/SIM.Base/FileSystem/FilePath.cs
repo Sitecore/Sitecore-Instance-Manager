@@ -1,7 +1,7 @@
-﻿namespace SIM.Base.FileSystem
+﻿namespace SIM.FileSystem
 {
-  using JetBrains.Annotations;
   using System.IO;
+  using JetBrains.Annotations;
 
   public sealed class FilePath
   {

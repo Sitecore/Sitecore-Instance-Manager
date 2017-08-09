@@ -5,8 +5,8 @@
   using System.Linq;
   using JetBrains.Annotations;
   using Microsoft.VisualStudio.TestTools.UnitTesting;
-  using SIM.Base.Services;
   using SIM.IO.Real;
+  using SIM.Services;
 
   [TestClass]
   public class SqlAdapter_Tests

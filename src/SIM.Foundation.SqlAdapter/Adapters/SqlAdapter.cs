@@ -6,9 +6,9 @@
   using JetBrains.Annotations;
   using Microsoft.SqlServer.Dac;
   using Sitecore.Diagnostics.Base;
-  using SIM.Base.Services;
-  using SIM.Base.FileSystem;
+  using SIM.FileSystem;
   using SIM.IO;
+  using SIM.Services;
 
   public sealed class SqlAdapter
   {                                                                                               
