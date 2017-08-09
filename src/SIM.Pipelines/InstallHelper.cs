@@ -91,15 +91,15 @@
                 continue;
               }
 
-              if (!fileName.EndsWith(".mdf", StringComparison.OrdinalIgnoreCase))
+              if (!fileName.EndsWith(".mdf", StringComparison.OrdinalIgnoreCase) && !fileName.EndsWith(".dacpac", StringComparison.OrdinalIgnoreCase))
               {
                 continue;
               }
 
               var text = fileName.Substring(databasesPrefixLength);
-              if (text.Contains("Sitecore.Analytics.mdf"))
+              if (text.Contains("Sitecore.Analytics."))
               {
-                text = text.Replace("Sitecore.Analytics.mdf", "Sitecore.Reporting.mdf");
+                text = text.Replace("Sitecore.Analytics.", "Sitecore.Reporting.");
               }
 
               var filePath = Path.Combine(databasesFolderPath, text);
@@ -127,15 +127,15 @@
                 continue;
               }
 
-              if (!fileName.EndsWith(".mdf", StringComparison.OrdinalIgnoreCase))
+              if (!fileName.EndsWith(".mdf", StringComparison.OrdinalIgnoreCase) && !fileName.EndsWith(".dacpac", StringComparison.OrdinalIgnoreCase))
               {
                 continue;
               }
 
               var text = fileName.Substring(databasesPrefix2Length);
-              if (text.Contains("Sitecore.Analytics.mdf"))
+              if (text.Contains("Sitecore.Analytics."))
               {
-                text = text.Replace("Sitecore.Analytics.mdf", "Sitecore.Reporting.mdf");
+                text = text.Replace("Sitecore.Analytics.", "Sitecore.Reporting.");
               }
 
               var filePath = Path.Combine(databasesFolderPath, text);
