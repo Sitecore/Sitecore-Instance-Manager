@@ -377,13 +377,7 @@
     <Content Include="Manifests\Standalone\Jetstream.manifest.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Manifests\Standalone\Sitecore 7.manifest.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Manifests\Standalone\Sitecore 9.manifest.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Manifests\Standalone\Sitecore 8.manifest.xml">
+    <Content Include="Manifests\Standalone\Sitecore 6.manifest.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Manifests\Standalone\Sitecore Foundry 4.0.0 rev. 121102_zip.manifest.xml">
