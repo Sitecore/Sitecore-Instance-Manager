@@ -37,7 +37,7 @@ namespace SIM.Pipelines
         return;
       }
 
-      var extension = new DirectoryInfo(databasesFolderPath).GetFiles(".mdf").Length > 0 ? ".mdf" : ".dacpac";
+      var extension = new DirectoryInfo(databasesFolderPath).GetFiles("*.mdf").Length > 0 ? ".mdf" : ".dacpac";
 
       var databaseName = connectionString.GenerateDatabaseName(name, sqlPrefix);
 
@@ -92,7 +92,13 @@ namespace SIM.Pipelines
         if (extension == ".dacpac")
         {
           new SqlAdapter(new SqlConnectionString(defaultConnectionString.ToString())).DeployDatabase(databaseName, new RealFileSystem().ParseFile(databasePath));
-          return;
+          var tmpPath = SqlServerManager.Instance.GetDatabaseFileName(databaseName, defaultConnectionString);
+          SqlServerManager.Instance.DetachDatabase(databaseName, defaultConnectionString);
+
+          extension = ".mdf";
+          databasePath = Path.Combine(Path.GetDirectoryName(databasePath), Settings.CoreInstallRenameSqlFiles.Value ? databaseName + extension : Path.GetFileNameWithoutExtension(databasePath) + extension);
+        
+          File.Move(tmpPath, databasePath);
         }
 
         SqlServerManager.Instance.AttachDatabase(databaseName, databasePath, defaultConnectionString);
