@@ -161,7 +161,7 @@
 
       public static readonly AdvancedProperty<string> CoreInstallInstanceNamePattern = AdvancedSettings.Create("Core/Install/Default/InstanceNamePattern", "{ShortName}{ShortVersion}{UpdateOrRevision}");
       
-      public static readonly AdvancedProperty<string> CoreProductHostNameSuffix = AdvancedSettings.Create("App/Install/Default/HostName/Suffix", ".local");
+      public static readonly AdvancedProperty<string> CoreProductHostNameSuffix = AdvancedSettings.Create("App/Install/Default/HostName/Suffix", ".siteco.re");
 
       public static readonly bool CoreProductHostNameEndsWithLocal = !string.IsNullOrEmpty(CoreProductHostNameSuffix.Value);
 
