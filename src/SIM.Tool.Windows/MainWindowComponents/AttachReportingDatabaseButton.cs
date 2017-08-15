@@ -24,7 +24,7 @@ namespace SIM.Tool.Windows.MainWindowComponents
 
     public bool IsEnabled(Window mainWindow, Instance instance)
     {
-      return instance != null && instance.Configuration.ConnectionStrings.All(x => x.Name != "reporting");
+      return instance != null;
     }
 
     public void OnClick(Window mainWindow, Instance instance)
