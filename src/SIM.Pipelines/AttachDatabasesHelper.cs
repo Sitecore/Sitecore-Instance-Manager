@@ -37,23 +37,58 @@ namespace SIM.Pipelines
         return;
       }
 
-      var extension = new DirectoryInfo(databasesFolderPath).GetFiles("*.mdf").Length > 0 ? ".mdf" : ".dacpac";
-
       var databaseName = connectionString.GenerateDatabaseName(name, sqlPrefix);
 
+      var databasePath = GetDatabasePath(databasesFolderPath, connectionString, databaseName, ".mdf");
+      if (!File.Exists(databasePath))
+      {
+        databasePath = GetDatabasePath(databasesFolderPath, connectionString, databaseName, ".dacpac");
+        if (!File.Exists(databasePath))
+        {
+          Log.Warn($"File cannot be found: {databasePath} (.dacpac or .mdf)");
+          return;
+        }
+      }
+
+      if (SqlServerManager.Instance.DatabaseExists(databaseName, defaultConnectionString))
+      {
+        databaseName = ResolveConflict(defaultConnectionString, connectionString, databasePath, databaseName, controller);
+      }
+
+      if (databaseName != null)
+      {
+        var extension = Path.GetExtension(databasePath);
+        if (extension == ".dacpac")
+        {
+          new SqlAdapter(new SqlConnectionString(defaultConnectionString.ToString())).DeployDatabase(databaseName, new RealFileSystem().ParseFile(databasePath));
+          var tmpPath = SqlServerManager.Instance.GetDatabaseFileName(databaseName, defaultConnectionString);
+          SqlServerManager.Instance.DetachDatabase(databaseName, defaultConnectionString);
+
+          extension = ".mdf";
+          databasePath = Path.Combine(Path.GetDirectoryName(databasePath), Settings.CoreInstallRenameSqlFiles.Value ? databaseName + extension : Path.GetFileNameWithoutExtension(databasePath) + extension);
+
+          File.Move(tmpPath, databasePath);
+        }
+
+        SqlServerManager.Instance.AttachDatabase(databaseName, databasePath, defaultConnectionString);
+      }
+    }
+
+    private static string GetDatabasePath(string databasesFolderPath, Adapters.WebServer.ConnectionString connectionString, string databaseName, string extension)
+    {
       var databasePath =
-        DatabaseFilenameHook(Path.Combine(databasesFolderPath, connectionString.DefaultFileName), 
-          connectionString.Name.Replace("yafnet", "forum"), databasesFolderPath);
+          DatabaseFilenameHook(Path.Combine(databasesFolderPath, connectionString.DefaultFileName),
+              connectionString.Name.Replace("yafnet", "forum"), databasesFolderPath);
 
       databasePath = Path.Combine(Path.GetDirectoryName(databasePath), Path.GetFileNameWithoutExtension(databasePath) + extension);
 
       if (!FileSystem.Local.File.Exists(databasePath))
       {
-        var file = Path.GetFileName(databasePath);
         if (connectionString.Name.EqualsIgnoreCase("reporting"))
         {
           databasePath = Path.Combine(Path.GetDirectoryName(databasePath), "Sitecore.Analytics" + extension);
-        } else if (connectionString.Name.EqualsIgnoreCase("exm.dispatch"))
+        }
+        else if (connectionString.Name.EqualsIgnoreCase("exm.dispatch"))
         {
           databasePath = Path.Combine(Path.GetDirectoryName(databasePath), "Sitecore.Exm" + extension);
         }
@@ -63,7 +98,10 @@ namespace SIM.Pipelines
         }
       }
 
-      FileSystem.Local.File.AssertExists(databasePath, databasePath + " file doesn't exist");
+      if (!File.Exists(databasePath))
+      {
+        return databasePath;
+      }
 
       if (Settings.CoreInstallRenameSqlFiles.Value)
       {
@@ -81,28 +119,7 @@ namespace SIM.Pipelines
         databasePath = newPath;
         FileSystem.Local.File.AssertExists(databasePath, databasePath + " file doesn't exist");
       }
-
-      if (SqlServerManager.Instance.DatabaseExists(databaseName, defaultConnectionString))
-      {
-        databaseName = ResolveConflict(defaultConnectionString, connectionString, databasePath, databaseName, controller);
-      }
-
-      if (databaseName != null)
-      {
-        if (extension == ".dacpac")
-        {
-          new SqlAdapter(new SqlConnectionString(defaultConnectionString.ToString())).DeployDatabase(databaseName, new RealFileSystem().ParseFile(databasePath));
-          var tmpPath = SqlServerManager.Instance.GetDatabaseFileName(databaseName, defaultConnectionString);
-          SqlServerManager.Instance.DetachDatabase(databaseName, defaultConnectionString);
-
-          extension = ".mdf";
-          databasePath = Path.Combine(Path.GetDirectoryName(databasePath), Settings.CoreInstallRenameSqlFiles.Value ? databaseName + extension : Path.GetFileNameWithoutExtension(databasePath) + extension);
-        
-          File.Move(tmpPath, databasePath);
-        }
-
-        SqlServerManager.Instance.AttachDatabase(databaseName, databasePath, defaultConnectionString);
-      }
+      return databasePath;
     }
 
     public static void AttachDatabase(Adapters.WebServer.ConnectionString connectionString, SqlConnectionStringBuilder defaultConnectionString, string name, string sqlPrefix, bool attachSql, string databasesFolderPath, string instanceName, IPipelineController controller)
@@ -116,19 +133,7 @@ namespace SIM.Pipelines
 
       if (connectionString.IsSqlConnectionString)
       {
-        try
-        {
-          AttachDatabase(name, sqlPrefix, attachSql, databasesFolderPath, connectionString, defaultConnectionString, controller);
-        }
-        catch (Exception ex)
-        {
-          if (connectionString.Name == "reporting.secondary")
-          {
-            throw;
-          }
-
-          Log.Warn(ex, "Attaching reporting.secondary database failed. Skipping...");
-        }
+        AttachDatabase(name, sqlPrefix, attachSql, databasesFolderPath, connectionString, defaultConnectionString, controller);
       }
     }
 
