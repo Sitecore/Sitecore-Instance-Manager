@@ -67,7 +67,7 @@ namespace SIM.Tool.Base
 
       var logFilePattern = logFilePrefix + "*.txt";
       var files = FileSystem.FileSystem.Local.Directory.GetFiles(logsFolderPath, logFilePattern) ?? new string[0];
-      var logFilePath = files.OrderByDescending(FileSystem.FileSystem.Local.File.GetCreationTimeUtc).FirstOrDefault();
+      var logFilePath = files.Where(x => Path.GetFileNameWithoutExtension(x).StartsWith(logFilePrefix + ".")).OrderByDescending(FileSystem.FileSystem.Local.File.GetCreationTimeUtc).FirstOrDefault();
       if (string.IsNullOrEmpty(logFilePath))
       {
         Action waitForLogs = delegate
@@ -126,7 +126,7 @@ namespace SIM.Tool.Base
           }
 
           var filePath = args.FullPath;
-          if (!filePath.Contains(logFilePrefix))
+          if (!Path.GetFileNameWithoutExtension(filePath).StartsWith(logFilePrefix + "."))
           {
             return;
           }
