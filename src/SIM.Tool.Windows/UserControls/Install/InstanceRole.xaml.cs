@@ -29,11 +29,15 @@ namespace SIM.Tool.Windows.UserControls.Install
       var args = (InstallWizardArgs)wizardArgs;
       try
       {
-        var ver = args.Product.Version;
-        var upd = args.Product.Update;
-        var txt = $"{ver}.{upd}";
+        var ver = args.Product.Version.Replace(".", "");
+        if (ver.Length <= 2)
+        {
+          ver += Safe.Call(() => $"{args.Product.Update}") ?? "0";
+        }
+       
+        var txt = int.Parse(ver);
 
-        if (txt == "8.1.3" || txt.StartsWith("8.2"))
+        if (txt >= 813)
         {
           InstallRoles.IsEnabled = true;
           if (!string.IsNullOrEmpty(args.InstallRoles))

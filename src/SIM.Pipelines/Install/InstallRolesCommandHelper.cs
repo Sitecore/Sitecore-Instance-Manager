@@ -1,23 +1,44 @@
 ﻿namespace SIM.Pipelines.Install
 {
   using System.Net;
+  using JetBrains.Annotations;
+  using Sitecore.Diagnostics.Base;
+  using SIM.Extensions;
   using SIM.IO;
   using SIM.IO.Real;
 
   public static class InstallRolesCommandHelper
   {
-    public static void Install(IFolder root, string version, string role)
+    public static void Install([NotNull] IFolder root, string version, string role)
     {
-      InstallAssemblyTo(root.GetChildFolder("bin"));
-      InstallIncludeFiles(version, root);
-      UpdateWebConfig(root, role);
-    }
+      var webConfigFile = root.GetChildFile("web.config");   
+      
+      var webConfig = new XmlDocumentEx(webConfigFile.FullName);
+      var configReader = webConfig.SelectSingleElement("/configuration/configSections/section[@name='sitecore']");
+      Assert.IsNotNull(configReader);
 
-    private static void UpdateWebConfig(IFolder websiteDir, string role)
-    {
-      var webConfigFile = websiteDir.GetChildFile("web.config");
-      webConfigFile.ReplaceLine("<section name=\"sitecore\" .+/>", "<section name=\"sitecore\" type=\"Sitecore.Configuration.Roles.RoleConfigReader, Sitecore.Configuration.Roles\" />");
-      webConfigFile.ReplaceLine("</appSettings>", $"  <add key=\"role:define\" value=\"{role}\" />\r\n  </appSettings>");
+      if (configReader.GetAttribute("type") == "Sitecore.Configuration.ConfigReader, Sitecore.Kernel")
+      {
+        InstallAssemblyTo(root.GetChildFolder("bin"));
+        InstallIncludeFiles(version, root);
+
+        webConfigFile.ReplaceLine("<section name=\"sitecore\" .+/>", "<section name=\"sitecore\" type=\"Sitecore.Configuration.Roles.RoleConfigReader, Sitecore.Configuration.Roles\" />");
+        webConfigFile.ReplaceLine("</appSettings>", $"  <add key=\"role:define\" value=\"{role}\" />\r\n  </appSettings>");
+      }
+      else
+      {
+        // modified image with config roles pre-installed so only specify role
+        var roleDefine = webConfig.SelectSingleElement("/configuration/appSettings/add[@key='role:define']");
+        if (roleDefine != null)
+        {
+          roleDefine.SetAttribute("value", role);
+          webConfig.Save();
+        }
+        else
+        {
+          webConfigFile.ReplaceLine("</appSettings>", $"  <add key=\"role:define\" value=\"{role}\" />\r\n  </appSettings>");
+        }
+      }
     }
 
     private static void InstallIncludeFiles(string version, IFolder websiteFolder)
