@@ -386,46 +386,16 @@
     {
       get
       {
-        var label = Label;
-        var revision = $"rev{Revision}";
-        if (string.IsNullOrEmpty(label))
+        try
         {
-          return revision;
+          return $"{Update}";
         }
-
-        if (label.EqualsIgnoreCase("initial release"))
+        catch (Exception ex)
         {
-          return "u0";
+          Log.Warn(ex, "Failed to retrieve Update, using Revision instead");
+
+          return $"r{Revision}";
         }
-
-        var pos = label.Length - 1;
-        if (!char.IsDigit(label[pos]))
-        {
-          Log.Warn($"Strange label: {label}");
-
-          return revision;
-        }
-
-        while (pos >= 0 && char.IsDigit(label[pos]))
-        {
-          pos--;
-        }
-        pos++;
-
-        var num = int.Parse(label.Substring(pos));
-        if (label.StartsWith("update-", StringComparison.OrdinalIgnoreCase))
-        {
-          return $"u{num}";
-        }
-
-        if (label.StartsWith("service pack-", StringComparison.OrdinalIgnoreCase))
-        {
-          return $"sp{num}";
-        }
-
-        Log.Warn($"Strange label: {label}");
-
-        return revision;
       }
     }
 
