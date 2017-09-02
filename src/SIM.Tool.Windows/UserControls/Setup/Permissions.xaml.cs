@@ -76,11 +76,6 @@
 
         foreach (var account in Accounts)
         {
-          if (!ValidateAccount(account))
-          {
-            return;
-          }
-
           if (!Grant(path, account))
           {
             return;
@@ -142,11 +137,6 @@
         const string Message = "You probably don't have necessary permissions set. Please try to click 'Grant' button before you proceed.\r\n\r\nNote, the SQL Server account that you selected previously must have necessary permissions to create a SQL database in the instances root folder you specified earlier - please ensure that it is correct. In addition, the SQL Server service must use NETWORK SERVICE identity so that SIM can assign necessary permissions for it.";
         foreach (var account in Accounts)
         {
-          if (!ValidateAccount(account))
-          {
-            return false;
-          }
-
           if (!FileSystem.FileSystem.Local.Security.HasPermissions(args.InstancesRootFolderPath, account, FileSystemRights.FullControl))
           {
             WindowHelper.ShowMessage(Message, MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
@@ -167,24 +157,6 @@
         Log.Error(ex, "Cannot verify permissions");
         return true;
       }
-    }
-
-    private bool ValidateAccount(string account)
-    {
-      if (account.Equals(@"NT SERVICE\MSSQLSERVER", StringComparison.OrdinalIgnoreCase))
-      {
-        var result = WindowHelper.ShowMessage("The SQL Server is configured to use \"NT SERVICE\\MSSQLSERVER\" account which is not supported by current version of SIM. You need to change the SQL Server's user account and click Grant again. The instruction will be provided when you click OK.", MessageBoxButton.OKCancel, MessageBoxImage.Error);
-
-        if (result == MessageBoxResult.Cancel)
-        {
-          return false;
-        }
-
-        CoreApp.OpenInBrowser("https://github.com/Sitecore/Sitecore-Instance-Manager/wiki/Troubleshooting", true);
-        return false;
-      }
-
-      return true;
     }
 
     #endregion

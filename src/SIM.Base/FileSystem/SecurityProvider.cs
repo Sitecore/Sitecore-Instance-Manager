@@ -169,7 +169,7 @@ namespace SIM.FileSystem
           typeof(FileSystem)));
         FileSystemAccessRule rule = new FileSystemAccessRule(identity, FileSystemRights.FullControl, 
           InheritanceFlags.ContainerInherit |
-          InheritanceFlags.ObjectInherit, PropagationFlags.InheritOnly, 
+          InheritanceFlags.ObjectInherit, PropagationFlags.None, 
           AccessControlType.Allow);
         dirSecurity.AddAccessRule(rule);
         dirInfo.SetAccessControl(dirSecurity);
