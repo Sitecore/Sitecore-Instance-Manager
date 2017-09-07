@@ -110,6 +110,12 @@ namespace SIM.Tool.Windows
                   Image = "/Images/$sm/vs.png, SIM.Tool.Windows",
                   Handler = new SIM.Tool.Windows.MainWindowComponents.CreateSupportPatchButton("%APPDATA%\\Sitecore\\PatchCreator", $"http://dl.sitecore.net/updater/pc/PatchCreator.application")
                 },
+                new ButtonDefinition
+                {
+                  Label = "Create Hotfix",
+                  Image = "/Images/$sm/vs.png, SIM.Tool.Windows",
+                  Handler = new SIM.Tool.Windows.MainWindowComponents.CreateSupportPatchButton("%APPDATA%\\Sitecore\\HotfixCreator", $"http://dl.sitecore.net/updater/hc/HotfixCreator.application")
+                },
                 new ButtonDefinition(),
                 new ButtonDefinition
                 {
@@ -606,6 +612,12 @@ namespace SIM.Tool.Windows
                   Label = "Create Support Patch",
                   Image = "/Images/$sm/console.png, SIM.Tool.Windows",
                   Handler = new SIM.Tool.Windows.MainWindowComponents.CreateSupportPatchButton("%APPDATA%\\Sitecore\\PatchCreator", $"http://dl.sitecore.net/updater/pc/PatchCreator.application")
+                },
+                new ButtonDefinition
+                {
+                  Label = "Create Hotfix",
+                  Image = "/Images/$sm/console.png, SIM.Tool.Windows",
+                  Handler = new SIM.Tool.Windows.MainWindowComponents.CreateSupportPatchButton("%APPDATA%\\Sitecore\\HotfixCreator", $"http://dl.sitecore.net/updater/hc/HotfixCreator.application")
                 },
               }
             },
