@@ -2,7 +2,7 @@
 {
   using System.Windows;
   using SIM.Instances;
-  using Sitecore.Diagnostics.Annotations;
+  using JetBrains.Annotations;
 
   public interface IMainWindowButton
   {

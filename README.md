@@ -1,8 +1,8 @@
 # Sitecore Instance Manager (SIM 1.4)
 
-**SIM 1.4 Update-1 is an open source tool** for managing the local park of Sitecore instances. You can install, locate, maintain, reinstal or delete Sitecore products. It has API and plugin engine so you can extend it for any your need. 
+**SIM 1.4 is an open source tool** for managing the local park of Sitecore instances. You can install, locate, maintain, reinstall or delete Sitecore products. It has API and plugin engine so you can extend it for any your need. 
 
-### [Download](http://dl.sitecore.net/updater/1.1/sim/SIM 1.4 rev. 150921.zip) SIM 1.4 Update-1
+### [Download SIM 1.4](http://dl.sitecore.net/updater/sim) as a ClickOnce app
 
 ### Resources
 
@@ -10,7 +10,6 @@
 2. [Documentation](https://github.com/Sitecore/Sitecore-Instance-Manager/wiki/Documentation)
 3. [Troubleshooting](https://github.com/Sitecore/Sitecore-Instance-Manager/wiki/Troubleshooting)
 4. [Developer Center](https://github.com/Sitecore/Sitecore-Instance-Manager/wiki/API)
-6. [SIM 2.0 planning](https://bitbucket.org/sitecore/sitecore-instance-manager)
 5. [Contact Us](https://github.com/Sitecore/Sitecore-Instance-Manager/wiki/Support)
 
 Note, we are in progress of migrating from bitbucket to github so don't be confused by some of the links pointing back to bitbucket.
@@ -32,7 +31,7 @@ Note, we are in progress of migrating from bitbucket to github so don't be confu
 
 * Open website 
 * Open Sitecore Client 
-* Open Sitecore Client ([bypassing security, logging in as admin](https://bitbucket.org/alienlab/sitecore-instance-manager/wiki/Manual-Features-LoginAdmin))
+* Open Sitecore Client ([bypassing security, logging in as admin](https://github.com/Sitecore/Sitecore-Instance-Manager/wiki/Log-in-admin))
 * Open [Support Toolbox](https://bitbucket.org/sitecoresupport/sitecore-support-toolbox)
 
 #### Open applications
@@ -52,29 +51,41 @@ Note, we are in progress of migrating from bitbucket to github so don't be confu
 * Change Framework version
 * Change Framework bitness
 
+#### Solr index creation
+
+* SIM now includes Solr support.
+  * For Sitecore 8.2, this is available as a Configuration Preset during the installation wizard. 
+  * For Sitecore 8.1, it is necessary to download the appropriate "Solr support package" from http://dev.sitecore.net/downloads, and to add it to SIM using the "Add Module" button on the "Modules list" screen during installation.
+* This supports Solr 4 and higher. 
+  * Note: For Solr 4.x, the default "collection1" is used as a template, and must be present. For Solr 5.x and higher, the configuration located
+   at `server\solr\configsets\data_driven_schema_configs` is used, as it has the language support required to index non-English text.
+* This module automates the following tasks:
+    * Activates all Solr config files, and deactivates matching Lucene config files (same name with "Lucene" replacing "Solr"), with the following exceptions:
+      * Sitecore 8.2 Solr + IOC files are not enabled.
+      * Lucene default configuration files `Sitecore.ContentSearch.Lucene.DefaultIndexConfiguration.config` and `Sitecore.ContentSearch.Lucene.DefaultIndexConfiguration.Xdb.config` are not disabled.
+      * The unmatched configuration file `Sitecore.Social.Lucene.Index.Analytics.Facebook.config` is disabled as required.
+    * Sets core name to instance name + index name (e.g. "sc82u0_sitecore_web_index")
+    * Copies configuration from "collection1" for each new core.
+    * Calls Sitecore schema update wizard ("Generate the Solr Schema.xml file") for each new core.
+    * Calls Solr API to create each core/collection.
+    * Indexes are left empty, but can be built from Control Panel/Indexing Manager.
+    * Enables Solr term support, as described [here.](https://doc.sitecore.net/sitecore_experience_platform/80/setting_up__maintaining/search_and_indexing/walkthrough_setting_up_solr#_Toc399318998)
+
+
 #### Extra features
 
 * Install MongoDB in one click
 * Edit `etc\hosts` file
 * Batch operations with SQL databases
 * Predefined configurations (Enable MVC, Scaling ...)
-
-### [Plug-ins](https://github.com/Sitecore/Sitecore-Instance-Manager/wiki/Plugins) 
-
-* Tray Plugin – simple actions from SIM tray icon: list sites, open in browser, hide window 
 * Delete All Instances - wizard for deleting all installed Sitecore instances
 * Update Licenses - Updating Sitecore license file in all installed Sitecore instances
 * [SSPG](https://marketplace.sitecore.net/en/Modules/Sitecore_Support_Package_Generator.aspx) - Sitecore Support Package Generator for collecting detailed information about an instance
-* Linqpad - Incorporated LINQPad plugin written by Adam Conn, used for accessing Sitecore API without touching an instance files
-* [Support Toolbox](https://marketplace.sitecore.net/en/Modules/Sitecore_Support_Toolbox.aspx) - an extension of /sitecore/admin pages
 * Publish Dialog - executing Sitecore publishing in application
 
 ### Supported Products
 
-* Sitecore CMS 6.0 and later
-* Sitecore Intranet 3.x 
-* Sitecore Foundry 3.0 and 4.x (in a form of Sitecore package)
-* Demo Solutions (Nicam, Jetstream) 
+* Sitecore CMS 6.3 and later
 * All Sitecore modules 
 
 Some of Sitecore modules have special support for initial configuration:

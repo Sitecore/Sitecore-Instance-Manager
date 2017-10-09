@@ -4,9 +4,10 @@
   using System.Collections.Generic;
   using System.Linq;
   using System.Xml;
-  using Sitecore.Diagnostics;
-  using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnostics.Base;
+  using JetBrains.Annotations;
   using Sitecore.Diagnostics.Logging;
+  using SIM.Extensions;
 
   #region
 
@@ -19,8 +20,8 @@
     [NotNull]
     public static List<Processor> CreateProcessors([NotNull] IEnumerable<ProcessorDefinition> processorDefinitions, [NotNull] ProcessorArgs args, [CanBeNull] IPipelineController controller = null)
     {
-      Assert.ArgumentNotNull(processorDefinitions, "processorDefinitions");
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(processorDefinitions, nameof(processorDefinitions));
+      Assert.ArgumentNotNull(args, nameof(args));
 
       return new List<Processor>(CreateProcessorsPrivate(processorDefinitions, args, controller));
     }
@@ -28,8 +29,8 @@
     [NotNull]
     public static List<ProcessorDefinition> GetProcessors([NotNull] XmlElement container, [NotNull] string pipelineName, XmlElement pipelineElement)
     {
-      Assert.ArgumentNotNull(container, "container");
-      Assert.ArgumentNotNull(pipelineName, "pipelineName");
+      Assert.ArgumentNotNull(container, nameof(container));
+      Assert.ArgumentNotNull(pipelineName, nameof(pipelineName));
 
       XmlNodeList processorNodes = container.SelectNodes("*");
 
@@ -48,16 +49,16 @@
 
     public static long GetProcessorsCount([NotNull] ProcessorArgs args, [NotNull] List<Step> steps)
     {
-      Assert.ArgumentNotNull(args, "args");
-      Assert.ArgumentNotNull(steps, "steps");
+      Assert.ArgumentNotNull(args, nameof(args));
+      Assert.ArgumentNotNull(steps, nameof(steps));
 
-      return steps.Select(step => step.Processors).Select(list => GetProcessorsCount(args, list)).Sum();
+      return steps.Select(step => step._Processors).Select(list => GetProcessorsCount(args, list)).Sum();
     }
 
     public static long GetProcessorsCount([NotNull] ProcessorArgs args, [NotNull] List<Processor> list)
     {
-      Assert.ArgumentNotNull(args, "args");
-      Assert.ArgumentNotNull(list, "list");
+      Assert.ArgumentNotNull(args, nameof(args));
+      Assert.ArgumentNotNull(list, nameof(list));
 
       return list.Sum(item =>
       {
@@ -68,10 +69,10 @@
         }
         catch (Exception ex)
         {
-          Log.Error(ex, "Error during evaluating steps count of {0}",  item.GetType().FullName);
+          Log.Error(ex, $"Error during evaluating steps count of {item.GetType().FullName}");
         }
 
-        return itemStepsCount + GetProcessorsCount(args, item.NestedProcessors);
+        return itemStepsCount + GetProcessorsCount(args, item._NestedProcessors);
       });
     }
 
@@ -82,8 +83,8 @@
     [NotNull]
     private static IEnumerable<Processor> CreateProcessorsPrivate([NotNull] IEnumerable<ProcessorDefinition> processorDefinitions, [NotNull] ProcessorArgs args, [CanBeNull] IPipelineController controller)
     {
-      Assert.ArgumentNotNull(processorDefinitions, "processorDefinitions");
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(processorDefinitions, nameof(processorDefinitions));
+      Assert.ArgumentNotNull(args, nameof(args));
 
       foreach (ProcessorDefinition processorDefinition in processorDefinitions)
       {
@@ -97,13 +98,13 @@
           }
           catch (Exception ex)
           {
-            Log.Warn(ex, "Cannot detect if the processor {0} requires processing", processor.ProcessorDefinition.Type);
+            Log.Warn(ex, $"Cannot detect if the processor {processor.ProcessorDefinition.Type} requires processing");
           }
 
           if (isRequireProcessing)
           {
-            List<Processor> nested = CreateProcessors(processorDefinition.NestedProcessorDefinitions, args, controller);
-            processor.NestedProcessors.AddRange(nested);
+            List<Processor> nested = CreateProcessors(processorDefinition._NestedProcessorDefinitions, args, controller);
+            processor._NestedProcessors.AddRange(nested);
             processor.Controller = controller;
             yield return processor;
           }
@@ -114,17 +115,17 @@
     [NotNull]
     private static ProcessorDefinition ParseProcessorDefinition([NotNull] XmlElement processorElement)
     {
-      Assert.ArgumentNotNull(processorElement, "processorElement");
+      Assert.ArgumentNotNull(processorElement, nameof(processorElement));
 
-      string typeNameValue = processorElement.GetAttribute("type");
-      string paramValue = processorElement.GetAttribute("param");
-      string titleValue = processorElement.GetAttribute("title");
-      string process = processorElement.GetAttribute("process");
+      var typeNameValue = processorElement.GetAttribute("type");
+      var paramValue = processorElement.GetAttribute("param");
+      var titleValue = processorElement.GetAttribute("title");
+      var process = processorElement.GetAttribute("process");
 
       try
       {
         Type type = Type.GetType(typeNameValue);
-        Assert.IsNotNull(type, "Can't find the '{0}' type".FormatWith(typeNameValue));
+        Assert.IsNotNull(type, $"Can't find the '{typeNameValue}' type");
 
         ProcessorDefinition definition;
         var name = processorElement.Name;
@@ -155,8 +156,8 @@
 
     private static void ParseProcessorDefinitions([NotNull] XmlNodeList processorNodes, [NotNull] List<ProcessorDefinition> processorDefinitions, XmlElement parentNode)
     {
-      Assert.ArgumentNotNull(processorNodes, "processorNodes");
-      Assert.ArgumentNotNull(processorDefinitions, "processorDefinitions");
+      Assert.ArgumentNotNull(processorNodes, nameof(processorNodes));
+      Assert.ArgumentNotNull(processorDefinitions, nameof(processorDefinitions));
 
       foreach (XmlElement processorElement in processorNodes.OfType<XmlElement>())
       {
@@ -169,7 +170,7 @@
         definitionNode.SetAttribute("param", definition.Param);
 
         // add nested processor definitions
-        ParseProcessorDefinitions(processorElement.ChildNodes, definition.NestedProcessorDefinitions, definitionNode);
+        ParseProcessorDefinitions(processorElement.ChildNodes, definition._NestedProcessorDefinitions, definitionNode);
         processorDefinitions.Add(definition);
       }
     }

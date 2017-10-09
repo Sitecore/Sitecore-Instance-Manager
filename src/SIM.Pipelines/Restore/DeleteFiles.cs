@@ -1,6 +1,6 @@
 ﻿namespace SIM.Pipelines.Restore
 {
-  using Sitecore.Diagnostics;
+  using Sitecore.Diagnostics.Base;
 
   public class DeleteFiles : RestoreProcessor
   {
@@ -13,18 +13,18 @@
 
     protected override bool IsRequireProcessing(RestoreArgs args)
     {
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(args, nameof(args));
 
       return args.Backup.BackupWebsiteFiles;
     }
 
     protected override void Process(RestoreArgs args)
     {
-      var webRootPath = args.WebRootPath;
+      var webRootPath = args._WebRootPath;
       if (args.Backup.BackupDataFiles)
       {
-        FileSystem.FileSystem.Local.Directory.DeleteIfExists(args.DataFolder);
-        this.Controller.IncrementProgress();
+        FileSystem.FileSystem.Local.Directory.DeleteIfExists(args._DataFolder);
+        Controller.IncrementProgress();
       }
 
       if (args.Backup.BackupWebsiteFiles)

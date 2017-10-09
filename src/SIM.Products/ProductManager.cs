@@ -5,9 +5,10 @@
   using System.Configuration;
   using System.IO;
   using System.Linq;
-  using Sitecore.Diagnostics;
-  using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnostics.Base;
+  using JetBrains.Annotations;
   using Sitecore.Diagnostics.Logging;
+  using SIM.Extensions;
 
   #region
 
@@ -36,10 +37,15 @@
 
     #region Public Methods
 
+    public static Product GetProduct(FileInfo file)
+    {
+      return GetProduct(file.FullName);
+    }
+
     [NotNull]
     public static Product GetProduct([NotNull] string productName)
     {
-      Assert.ArgumentNotNull(productName, "productName");
+      Assert.ArgumentNotNull(productName, nameof(productName));
       var product = Products.FirstOrDefault(p => p.ToString().EqualsIgnoreCase(productName));
       if (product != null)
       {
@@ -60,41 +66,11 @@
       return Product.Parse(productName);
     }
 
-    [CanBeNull]
-    public static IEnumerable<Product> GetProducts([CanBeNull] string productName, [CanBeNull] string version, [CanBeNull] string revision)
-    {
-      IEnumerable<Product> products = Products;
-      if (!string.IsNullOrEmpty(productName))
-      {
-        products = products.Where(p => p.Name.EqualsIgnoreCase(productName));
-      }
-
-      if (!string.IsNullOrEmpty(version))
-      {
-        products = products.Where(p => p.Version == version);
-      }
-
-      if (!string.IsNullOrEmpty(revision))
-      {
-        products = products.Where(p => p.Revision == revision);
-      }
-
-      return products;
-    }
-
     public static void Initialize([NotNull] string localRepository)
     {
-      Assert.ArgumentNotNull(localRepository, "localRepository");
+      Assert.ArgumentNotNull(localRepository, nameof(localRepository));
 
       Refresh(localRepository);
-      OnProductManagerInitialized();
-    }
-
-    public static void Initialize(List<string> zipFiles)
-    {
-      Assert.ArgumentNotNull(zipFiles, "zipFiles");
-
-      Refresh(zipFiles);
       OnProductManagerInitialized();
     }
 
@@ -125,7 +101,7 @@
 
     private static void ProcessFile(string file)
     {
-      Assert.IsNotNullOrEmpty(file, "file");
+      Assert.IsNotNullOrEmpty(file, nameof(file));
 
       using (new ProfileSection("Process file"))
       {
@@ -151,7 +127,7 @@
 
     private static void Refresh([NotNull] string localRepository)
     {
-      Assert.ArgumentNotNull(localRepository, "localRepository");
+      Assert.ArgumentNotNull(localRepository, nameof(localRepository));
 
       using (new ProfileSection("Refresh product manager"))
       {
@@ -205,5 +181,35 @@
     public static readonly List<Product> Products = new List<Product>();
 
     #endregion
+
+    public static Product FindProduct(ProductType type, [CanBeNull] string product, [CanBeNull] string version, [CanBeNull] string revision)
+    {
+      var products = type == ProductType.Standalone ? StandaloneProducts : Modules;
+      if (!string.IsNullOrEmpty(product))
+      {
+        products = products.Where(x => x.Name.Equals(product, StringComparison.OrdinalIgnoreCase));
+      }
+
+      if (!string.IsNullOrEmpty(version))
+      {
+        products = products.Where(x => x.Version == version);
+      }
+      else
+      {
+        products = products.OrderByDescending(x => x.Version);
+      }
+
+      if (!string.IsNullOrEmpty(revision))
+      {
+        products = products.Where(x => x.Revision == revision);
+      }
+      else
+      {
+        products = products.OrderByDescending(x => x.Revision);
+      }
+
+      var distributive = products.FirstOrDefault();
+      return distributive;
+    }
   }
 }

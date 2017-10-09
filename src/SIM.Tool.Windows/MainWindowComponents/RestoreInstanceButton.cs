@@ -1,11 +1,13 @@
 ﻿namespace SIM.Tool.Windows.MainWindowComponents
 {
   using System.Windows;
+  using SIM.Core.Common;
   using SIM.Instances;
   using SIM.Pipelines.Restore;
   using SIM.Tool.Base.Plugins;
-  using SIM.Tool.Wizards;
-  using Sitecore.Diagnostics.Annotations;
+  using JetBrains.Annotations;
+  using SIM.Tool.Base.Pipelines;
+  using SIM.Tool.Base.Wizards;
 
   [UsedImplicitly]
   public class RestoreInstanceButton : IMainWindowButton
@@ -19,11 +21,13 @@
 
     public void OnClick(Window mainWindow, Instance instance)
     {
+      Analytics.TrackEvent("Restore");
+
       if (instance != null)
       {
         var args = new RestoreArgs(instance);
         var id = MainWindowHelper.GetListItemID(instance.ID);
-        WizardPipelineManager.Start("restore", mainWindow, args, null, () => MainWindowHelper.MakeInstanceSelected(id), instance);
+        WizardPipelineManager.Start("restore", mainWindow, args, null, ignore => MainWindowHelper.MakeInstanceSelected(id), () => new RestoreWizardArgs(instance));
       }
     }
 

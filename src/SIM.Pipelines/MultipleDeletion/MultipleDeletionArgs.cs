@@ -8,9 +8,9 @@
   {
     #region Fields
 
-    public SqlConnectionStringBuilder ConnectionString;
+    public SqlConnectionStringBuilder _ConnectionString;
 
-    private readonly List<string> _instances;
+    private readonly List<string> _Instances;
 
     #endregion
 
@@ -18,7 +18,7 @@
 
     public MultipleDeletionArgs(List<string> instances)
     {
-      this._instances = instances;
+      _Instances = instances;
     }
 
     #endregion
@@ -29,7 +29,7 @@
     {
       get
       {
-        return this._instances;
+        return _Instances;
       }
     }
 

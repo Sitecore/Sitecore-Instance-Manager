@@ -4,8 +4,8 @@ namespace SIM.Pipelines.Install.Modules
   using System.Linq;
   using SIM.Pipelines.Agent;
   using SIM.Products;
-  using Sitecore.Diagnostics;
-  using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnostics.Base;
+  using JetBrains.Annotations;
 
   #region
 
@@ -16,7 +16,7 @@ namespace SIM.Pipelines.Install.Modules
   {
     #region Fields
 
-    private readonly List<Product> done = new List<Product>();
+    private readonly List<Product> _Done = new List<Product>();
 
     #endregion
 
@@ -24,22 +24,22 @@ namespace SIM.Pipelines.Install.Modules
 
     protected override void Process([NotNull] InstallArgs args)
     {
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(args, nameof(args));
 
       Assert.IsNotNull(args.Instance, "Instance");
 
       AgentHelper.ResetStatus(args.Instance);
 
-      foreach (Product module in args.Modules.Where(m => m.IsPackage))
+      foreach (var module in args._Modules.Where(m => m.IsPackage))
       {
-        if (this.done.Contains(module))
+        if (_Done.Contains(module))
         {
           continue;
         }
 
         AgentHelper.PerformPostStepAction(args.Instance, module);
 
-        this.done.Add(module);
+        _Done.Add(module);
       }
     }
 

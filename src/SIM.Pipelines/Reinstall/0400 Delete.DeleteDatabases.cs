@@ -3,8 +3,8 @@
   using System.Collections.Generic;
   using SIM.Adapters.SqlServer;
   using SIM.Pipelines.Processors;
-  using Sitecore.Diagnostics;
-  using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnostics.Base;
+  using JetBrains.Annotations;
 
   #region
 
@@ -15,7 +15,7 @@
   {
     #region Fields
 
-    private readonly List<string> done = new List<string>();
+    private readonly List<string> _Done = new List<string>();
 
     #endregion
 
@@ -23,26 +23,26 @@
 
     public override long EvaluateStepsCount(ProcessorArgs args)
     {
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(args, nameof(args));
 
-      return ((ReinstallArgs)args).InstanceDatabases.Count;
+      return ((ReinstallArgs)args)._InstanceDatabases.Count;
     }
 
-    protected override void Process([NotNull] ReinstallArgs args)
+    protected override void Process(ReinstallArgs args)
     {
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(args, nameof(args));
 
-      IEnumerable<Database> detectedDatabases = args.InstanceDatabases;
-      string rootPath = args.RootPath.ToLower();
+      IEnumerable<Database> detectedDatabases = args._InstanceDatabases;
+      var rootPath = args.RootPath.ToLower();
       var connectionString = args.ConnectionString;
-      string instanceName = args.InstanceName;
-      IPipelineController controller = this.Controller;
+      var instanceName = args.InstanceName;
+      IPipelineController controller = Controller;
 
-      DeleteDatabasesHelper.Process(detectedDatabases, rootPath, connectionString, instanceName, controller, this.done);
+      DeleteDatabasesHelper.Process(detectedDatabases, rootPath, connectionString, instanceName, controller, _Done);
 
       if (controller != null)
       {
-        controller.IncrementProgress(args.InstanceDatabases.Count - 1);
+        controller.IncrementProgress(args._InstanceDatabases.Count - 1);
       }
     }
 

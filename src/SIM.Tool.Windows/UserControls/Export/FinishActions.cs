@@ -1,7 +1,7 @@
 ﻿namespace SIM.Tool.Windows.UserControls.Export
 {
   using System.IO;
-  using SIM.Tool.Base;
+  using SIM.Core;
 
   public class FinishActions
   {
@@ -9,7 +9,7 @@
 
     public static void OpenExportFolder(ExportWizardArgs args)
     {
-      WindowHelper.OpenFolder(Path.GetDirectoryName(args.ExportFilePath));
+      CoreApp.OpenFolder(Path.GetDirectoryName(args.ExportFilePath));
     }
 
     #endregion

@@ -4,8 +4,8 @@
 
   using System;
   using Microsoft.Win32;
-  using Sitecore.Diagnostics;
-  using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnostics.Base;
+  using JetBrains.Annotations;
   using Sitecore.Diagnostics.Logging;
 
   #endregion
@@ -23,10 +23,10 @@
 
     protected override void Process(DeleteArgs args)
     {
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(args, nameof(args));
 
       var localMachine = Registry.LocalMachine;
-      Assert.IsNotNull(localMachine, "localMachine");
+      Assert.IsNotNull(localMachine, nameof(localMachine));
 
       var sitecoreNode = localMachine.OpenSubKey(SitecoreNodePath, true);
       if (sitecoreNode == null)
@@ -36,7 +36,7 @@
 
       foreach (var subKeyName in sitecoreNode.GetSubKeyNames())
       {
-        Assert.IsNotNull(subKeyName, "subKeyName");
+        Assert.IsNotNull(subKeyName, nameof(subKeyName));
 
         var instanceNode = sitecoreNode.OpenSubKey(subKeyName);
         if (instanceNode == null)
@@ -48,7 +48,7 @@
         var dir = (instanceNode.GetValue("InstanceDirectory") as string ?? string.Empty).TrimEnd('\\');
         if (name.Equals(args.InstanceName, StringComparison.OrdinalIgnoreCase) || dir.Equals(args.Instance.RootPath.TrimEnd('\\'), StringComparison.OrdinalIgnoreCase))
         {
-          Log.Info(string.Format("Deleting {0}\\{1} key from registry", SitecoreNodePath, subKeyName));
+          Log.Info($"Deleting {SitecoreNodePath}\\{subKeyName} key from registry");
           sitecoreNode.DeleteSubKey(subKeyName);
 
           return;

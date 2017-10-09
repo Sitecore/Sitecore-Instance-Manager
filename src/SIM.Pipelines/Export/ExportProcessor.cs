@@ -1,8 +1,8 @@
 ﻿namespace SIM.Pipelines.Export
 {
   using SIM.Pipelines.Processors;
-  using Sitecore.Diagnostics;
-  using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnostics.Base;
+  using JetBrains.Annotations;
 
   public abstract class ExportProcessor : Processor
   {
@@ -12,14 +12,14 @@
 
     public override sealed long EvaluateStepsCount(ProcessorArgs args)
     {
-      return this.EvaluateStepsCount((ExportArgs)args);
+      return EvaluateStepsCount((ExportArgs)args);
     }
 
     public override bool IsRequireProcessing(ProcessorArgs args)
     {
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(args, nameof(args));
 
-      return this.IsRequireProcessing((ExportArgs)args);
+      return IsRequireProcessing((ExportArgs)args);
     }
 
     #endregion
@@ -33,16 +33,16 @@
 
     protected virtual bool IsRequireProcessing([NotNull] ExportArgs args)
     {
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(args, nameof(args));
 
       return true;
     }
 
     protected override void Process(ProcessorArgs args)
     {
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(args, nameof(args));
 
-      this.Process((ExportArgs)args);
+      Process((ExportArgs)args);
     }
 
     protected abstract void Process([NotNull] ExportArgs args);

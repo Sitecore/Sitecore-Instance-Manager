@@ -4,9 +4,9 @@
   using System.Windows;
   using System.Windows.Input;
   using System.Windows.Navigation;
-  using SIM.Tool.Base;
-  using Sitecore.Diagnostics;
-  using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnostics.Base;
+  using JetBrains.Annotations;
+  using SIM.Core;
 
   public partial class AboutDialog
   {
@@ -14,18 +14,18 @@
 
     public AboutDialog()
     {
-      this.InitializeComponent();
-      this.VersionNumber.Text = ApplicationManager.AppVersion;
-      this.RevisionNumber.Text = ApplicationManager.AppRevision;
+      InitializeComponent();
+      VersionNumber.Text = ApplicationManager.AppVersion;
+      RevisionNumber.Text = ApplicationManager.AppRevision;
 
       var label = ApplicationManager.AppLabel;
       if (!string.IsNullOrEmpty(label))
       {
-        this.UpdateNumber.Text = label;
+        UpdateNumber.Text = label;
       }
       else
       {
-        this.Update.Visibility = Visibility.Hidden;
+        Update.Visibility = Visibility.Hidden;
       }
     }
 
@@ -35,19 +35,19 @@
 
     private void OnOkButtonClick(object sender, RoutedEventArgs e)
     {
-      this.Close();
+      Close();
     }
 
     private void RequestNavigate(object sender, RequestNavigateEventArgs e)
     {
-      WindowHelper.RunApp(new ProcessStartInfo(e.Uri.AbsoluteUri));
+      CoreApp.RunApp(new ProcessStartInfo(e.Uri.AbsoluteUri));
       e.Handled = true;
     }
 
     private void WindowKeyUp([NotNull] object sender, [NotNull] KeyEventArgs e)
     {
-      Assert.ArgumentNotNull(sender, "sender");
-      Assert.ArgumentNotNull(e, "e");
+      Assert.ArgumentNotNull(sender, nameof(sender));
+      Assert.ArgumentNotNull(e, nameof(e));
 
       if (e.Key != Key.Escape)
       {
@@ -60,7 +60,7 @@
       }
 
       e.Handled = true;
-      this.Close();
+      Close();
     }
 
     #endregion

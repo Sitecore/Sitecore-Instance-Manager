@@ -1,8 +1,8 @@
 ﻿namespace SIM.Pipelines.Backup
 {
   using System.IO;
-  using Sitecore.Diagnostics;
-  using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnostics.Base;
+  using JetBrains.Annotations;
 
   #region
 
@@ -17,35 +17,35 @@
 
     protected override long EvaluateStepsCount(BackupArgs args)
     {
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(args, nameof(args));
 
       return 2;
     }
 
     protected override bool IsRequireProcessing(BackupArgs args)
     {
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(args, nameof(args));
 
       return args.BackupFiles;
     }
 
     protected override void Process([NotNull] BackupArgs args)
     {
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(args, nameof(args));
 
       var instance = args.Instance;
       var webRootPath = instance.WebRootPath;
       if (args.BackupClient)
       {
-        this.BackupFolder(args, webRootPath, "WebRoot.zip");
+        BackupFolder(args, webRootPath, "WebRoot.zip");
       }
       else
       {
-        this.BackupFolder(args, webRootPath, "WebRootNoClient.zip", "sitecore");
+        BackupFolder(args, webRootPath, "WebRootNoClient.zip", "sitecore");
       }
 
-      this.IncrementProgress();
-      this.BackupFolder(args, instance.DataFolderPath, "Data.zip");
+      IncrementProgress();
+      BackupFolder(args, instance.DataFolderPath, "Data.zip");
     }
 
     #endregion
@@ -54,9 +54,9 @@
 
     private void BackupFolder([NotNull] BackupArgs args, [NotNull] string path, [NotNull] string fileName, string ignore = null)
     {
-      Assert.ArgumentNotNull(args, "args");
-      Assert.ArgumentNotNull(path, "path");
-      Assert.ArgumentNotNull(fileName, "fileName");
+      Assert.ArgumentNotNull(args, nameof(args));
+      Assert.ArgumentNotNull(path, nameof(path));
+      Assert.ArgumentNotNull(fileName, nameof(fileName));
 
       if (FileSystem.FileSystem.Local.Directory.Exists(path))
       {

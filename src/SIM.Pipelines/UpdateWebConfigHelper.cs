@@ -1,48 +1,49 @@
-﻿namespace SIM.Pipelines
+﻿using System.Xml;
+
+namespace SIM.Pipelines
 {
   using System.Collections.Specialized;
   using System.IO;
   using System.Text;
   using SIM.Pipelines.Install;
-  using Sitecore.Diagnostics;
-  using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnostics.Base;
+  using JetBrains.Annotations;
+  using Sitecore.Diagnostics.Logging;
+  using SIM.Extensions;
 
   public static class UpdateWebConfigHelper
   {
     #region Public methods
 
-    public static void Process([NotNull] string rootFolderPath, [NotNull] string webRootPath, [NotNull] string dataFolder)
+    public static void Process([NotNull] string rootFolderPath, [NotNull] string webRootPath, [NotNull] string dataFolder, bool serverSideRedirect, bool increaseExecutionTimeout)
     {
-      Assert.ArgumentNotNull(rootFolderPath, "rootFolderPath");
-      Assert.ArgumentNotNull(webRootPath, "webRootPath");
-      Assert.ArgumentNotNull(dataFolder, "dataFolder");
+      Assert.ArgumentNotNull(rootFolderPath, nameof(rootFolderPath));
+      Assert.ArgumentNotNull(webRootPath, nameof(webRootPath));
+      Assert.ArgumentNotNull(dataFolder, nameof(dataFolder));
 
-      if (Settings.CoreInstallHttpRuntimeExecutionTimeout.HasUserValue)
+      if (increaseExecutionTimeout)
       {
         var executionTimeout = Settings.CoreInstallHttpRuntimeExecutionTimeout.Value;
-        var webConfig = XmlDocumentEx.LoadFile(Path.Combine(webRootPath, "web.config"));
-        var systemWeb = webConfig.SelectSingleElement("/configuration/system.web");
-        if (systemWeb == null)
+        if (!string.IsNullOrEmpty(executionTimeout))
         {
-          systemWeb = webConfig.CreateElement("system.web");
-          webConfig.DocumentElement.AppendChild(systemWeb);
+          var webConfig = XmlDocumentEx.LoadFile(Path.Combine(webRootPath, "web.config"));
+          var httpRuntime = GetHttpRuntime(webConfig, true);
+          if (httpRuntime == null)
+          {
+            Log.Error("Cannot extend executionTimeout as httpRuntime element is missing");
+          }
+          else
+          {
+            httpRuntime.SetAttribute("executionTimeout", executionTimeout);
+            webConfig.Save();
+          }           
         }
-
-        var httpRuntime = systemWeb.SelectSingleElement("httpRuntime");
-        if (httpRuntime == null)
-        {
-          httpRuntime = webConfig.CreateElement("httpRuntime");
-          systemWeb.AppendChild(httpRuntime);
-        }
-
-        httpRuntime.SetAttribute("executionTimeout", executionTimeout.ToString());
-        webConfig.Save();
       }
 
       SetupWebsiteHelper.SetDataFolder(rootFolderPath, dataFolder);
-      if (Settings.CoreInstallNotFoundTransfer.Value)
+      if (serverSideRedirect)
       {
-        CreateIncludeFile(rootFolderPath, "UseServerSideRedirect.config", new NameValueCollection
+        CreateSettingsIncludeFile(rootFolderPath, "UseServerSideRedirect.config", new NameValueCollection
         {
           {
             "RequestErrors.UseServerSideRedirect", "true"
@@ -82,18 +83,50 @@
         }
       };
 
-      CreateIncludeFile(rootFolderPath, "MailServer.config", settings);
+      CreateSettingsIncludeFile(rootFolderPath, "MailServer.config", settings);
+    }
+
+    [CanBeNull]
+    public static XmlElement GetHttpRuntime(XmlDocument configuration, bool createIfMissing = false)
+    {
+      var systemWeb = configuration.SelectSingleElement("/configuration/system.web");
+      if (systemWeb == null)
+      {
+        if (!createIfMissing)
+        {
+          return null;
+        }
+
+        systemWeb = configuration.CreateElement("system.web");
+        configuration.DocumentElement.AppendChild(systemWeb);
+      }
+
+      var httpRuntime = systemWeb.SelectSingleElement("httpRuntime");
+      if (httpRuntime != null)
+      {
+        return httpRuntime;
+      }
+
+      if (!createIfMissing)
+      {
+        return null;
+      }
+
+      httpRuntime = configuration.CreateElement("httpRuntime");
+      systemWeb.AppendChild(httpRuntime);
+
+      return httpRuntime;
     }
 
     #endregion
 
     #region Private methods
 
-    private static void CreateIncludeFile([NotNull] string rootFolderPath, [NotNull] string includeFileName, [NotNull] NameValueCollection settings)
+    private static void CreateSettingsIncludeFile([NotNull] string rootFolderPath, [NotNull] string includeFileName, [NotNull] NameValueCollection settings)
     {
-      Assert.ArgumentNotNull(rootFolderPath, "rootFolderPath");
-      Assert.ArgumentNotNull(includeFileName, "includeFileName");
-      Assert.ArgumentNotNull(settings, "settings");
+      Assert.ArgumentNotNull(rootFolderPath, nameof(rootFolderPath));
+      Assert.ArgumentNotNull(includeFileName, nameof(includeFileName));
+      Assert.ArgumentNotNull(settings, nameof(settings));
 
       const string Prefix = @"<configuration xmlns:patch=""http://www.sitecore.net/xmlconfig/"">
   <sitecore>
@@ -109,7 +142,7 @@
   </sitecore>
 </configuration>";
 
-      var includeFilePath = Path.Combine(rootFolderPath, @"Website\App_Config\Include\zzz\" + includeFileName);
+      var includeFilePath = Path.Combine(rootFolderPath, $@"Website\App_Config\Include\zzz\{includeFileName}");
       var sb = new StringBuilder();
       sb.Append(Prefix);
       foreach (string key in settings.Keys)

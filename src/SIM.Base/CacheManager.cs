@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using Sitecore.Diagnostics;
-
-namespace SIM
+﻿namespace SIM
 {
+  using System;
+  using System.Collections.Generic;
+  using System.IO;
+  using System.Linq;
+  using Sitecore.Diagnostics.Base;
   using Sitecore.Diagnostics.Logging;
 
   public static class CacheManager
@@ -22,9 +21,9 @@ namespace SIM
       }
     };
 
-    private static readonly object GetCacheLock = new object();
-    private static readonly Dictionary<string, object> caches = new Dictionary<string, object>();
-    private static readonly object getEntryLock = new object();
+    private static object GetCacheLock { get; } = new object();
+    private static readonly Dictionary<string, object> Caches = new Dictionary<string, object>();
+    private static object GetEntryLock { get; } = new object();
     private static bool isReady;
 
     #endregion
@@ -33,9 +32,9 @@ namespace SIM
 
     public static void ClearAll()
     {
-      lock (caches)
+      lock (Caches)
       {
-        caches.Clear();
+        Caches.Clear();
         foreach (var path in GetCacheFiles())
         {
           FileSystem.FileSystem.Local.File.Delete(path);
@@ -48,7 +47,7 @@ namespace SIM
       key = key.ToLowerInvariant();
       if (!isReady)
       {
-        lock (getEntryLock)
+        lock (GetEntryLock)
         {
           if (!isReady)
           {
@@ -68,7 +67,7 @@ namespace SIM
       lock (cache)
       {
         cache[key] = value;
-        FileSystem.FileSystem.Local.File.AppendAllText(GetFilePath(cacheName), "{0}|{1}{2}".FormatWith(EncodeDecodeValue(key, true), EncodeDecodeValue(value, true), Environment.NewLine));
+        FileSystem.FileSystem.Local.File.AppendAllText(GetFilePath(cacheName), $"{EncodeDecodeValue(key, true)}|{EncodeDecodeValue(value, true)}{Environment.NewLine}");
       }
     }
 
@@ -96,20 +95,20 @@ namespace SIM
 
     private static Cache GetCache(string cacheName)
     {
-      if (!caches.ContainsKey(cacheName))
+      if (!Caches.ContainsKey(cacheName))
       {
         lock (GetCacheLock)
         {
-          if (!caches.ContainsKey(cacheName))
+          if (!Caches.ContainsKey(cacheName))
           {
             var cache = new Cache();
-            caches.Add(cacheName, cache);
+            Caches.Add(cacheName, cache);
             return cache;
           }
         }
       }
 
-      return (Cache)caches[cacheName];
+      return (Cache)Caches[cacheName];
     }
 
     private static string[] GetCacheFiles()
@@ -138,7 +137,7 @@ namespace SIM
         }
         catch (Exception ex)
         {
-          Log.Warn(ex, "The {0} cache is corrupted and will be deleted", path);
+          Log.Warn(ex, $"The {path} cache is corrupted and will be deleted");
           FileSystem.FileSystem.Local.File.Delete(path);
         }
       }
@@ -153,8 +152,8 @@ namespace SIM
       {
         var fileName = Path.GetFileNameWithoutExtension(path).Split('.');
         var name = fileName[0];
-        Assert.IsTrue(!caches.ContainsKey(name), "The {0} cache is already created".FormatWith(fileName));
-        caches.Add(name, LoadCache(path));
+        Assert.IsTrue(!Caches.ContainsKey(name), $"The {fileName} cache is already created");
+        Caches.Add(name, LoadCache(path));
       }
 
       isReady = true;

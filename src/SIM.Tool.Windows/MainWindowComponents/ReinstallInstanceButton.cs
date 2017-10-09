@@ -1,12 +1,14 @@
 ﻿namespace SIM.Tool.Windows.MainWindowComponents
 {
   using System.Windows;
+  using SIM.Core.Common;
   using SIM.Instances;
   using SIM.Tool.Base;
   using SIM.Tool.Base.Plugins;
   using SIM.Tool.Base.Profiles;
-  using Sitecore.Diagnostics;
-  using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnostics.Base;
+  using JetBrains.Annotations;
+  using SIM.Extensions;
 
   [UsedImplicitly]
   public class ReinstallInstanceButton : IMainWindowButton
@@ -20,6 +22,8 @@
 
     public void OnClick(Window mainWindow, Instance instance)
     {
+      Analytics.TrackEvent("Reinstall");
+
       if (instance != null)
       {
         if (!MainWindowHelper.IsInstallerReady())
@@ -28,7 +32,7 @@
           return;
         }
 
-        string license = ProfileManager.Profile.License;
+        var license = ProfileManager.Profile.License;
         Assert.IsNotNull(license, @"The license file isn't set in the Settings window");
         FileSystem.FileSystem.Local.File.AssertExists(license, "The {0} file is missing".FormatWith(license));
 

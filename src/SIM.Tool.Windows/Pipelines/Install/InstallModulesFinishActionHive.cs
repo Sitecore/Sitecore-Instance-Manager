@@ -6,7 +6,6 @@
   using SIM.Products;
   using SIM.Tool.Base.Pipelines;
   using SIM.Tool.Base.Wizards;
-  using SIM.Tool.Wizards;
 
   #region
 
@@ -27,8 +26,8 @@
     public override IEnumerable<FinishAction> GetFinishActions(WizardArgs wizardArgs)
     {
       InstallModulesWizardArgs installModulesWizardArgs = (InstallModulesWizardArgs)wizardArgs;
-      List<Product> modules = installModulesWizardArgs.Modules;
-      foreach (Product module in modules)
+      List<Product> modules = installModulesWizardArgs._Modules;
+      foreach (var module in modules)
       {
         XmlDocument manifest = module.Manifest;
         if (manifest != null && manifest != Product.EmptyManifest)
@@ -39,7 +38,7 @@
             continue;
           }
 
-          foreach (FinishAction action in WizardPipelineManager.GetFinishActions(finish, this.WizardArgumentsType))
+          foreach (FinishAction action in WizardPipelineManager.GetFinishActions(finish, WizardArgumentsType))
           {
             yield return new FinishAction(action.Text, action.Method);
           }

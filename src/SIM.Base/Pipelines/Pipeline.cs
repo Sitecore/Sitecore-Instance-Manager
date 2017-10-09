@@ -5,9 +5,10 @@
   using System.Reflection;
   using System.Threading;
   using SIM.Pipelines.Processors;
-  using Sitecore.Diagnostics;
-  using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnostics.Base;
+  using JetBrains.Annotations;
   using Sitecore.Diagnostics.Logging;
+  using SIM.Extensions;
 
   #region
 
@@ -18,24 +19,24 @@
     #region Fields
 
     [CanBeNull]
-    private readonly IPipelineController controller;
+    private IPipelineController Controller { get; }
 
-    private readonly bool isAsync;
-
-    [NotNull]
-    private readonly PipelineDefinition pipelineDefinition;
+    private bool IsAsync { get; }
 
     [NotNull]
-    private readonly ProcessorArgs processorArgs;
+    private PipelineDefinition PipelineDefinition { get; }
 
     [NotNull]
-    private readonly List<Step> steps;
+    private ProcessorArgs ProcessorArgs { get; }
 
     [NotNull]
-    private readonly string title;
+    private readonly List<Step> _Steps;
+
+    [NotNull]
+    private string Title { get; }
 
     [CanBeNull]
-    private Thread thread;
+    private Thread _Thread;
 
     #endregion
 
@@ -43,17 +44,17 @@
 
     public Pipeline([NotNull] PipelineDefinition pipelineDefinition, [NotNull] ProcessorArgs args, [CanBeNull] IPipelineController controller = null, bool isAsync = true)
     {
-      Assert.ArgumentNotNull(pipelineDefinition, "pipelineDefinition");
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(pipelineDefinition, nameof(pipelineDefinition));
+      Assert.ArgumentNotNull(args, nameof(args));
 
-      this.controller = controller;
-      this.pipelineDefinition = pipelineDefinition;
-      this.title = pipelineDefinition.Title;
-      this.steps = Step.CreateSteps(this.pipelineDefinition.Steps, args, controller);
-      this.isAsync = isAsync;
+      Controller = controller;
+      PipelineDefinition = pipelineDefinition;
+      Title = pipelineDefinition.Title;
+      _Steps = Step.CreateSteps(PipelineDefinition.Steps, args, controller);
+      IsAsync = isAsync;
 
       // Storing args for restarting pipeline
-      this.processorArgs = args;
+      ProcessorArgs = args;
     }
 
     #endregion
@@ -61,10 +62,10 @@
     #region Public Methods
 
     [NotNull]
-    public static string ReplaceVariables([NotNull] string message, [NotNull] AbstractArgs args)
+    public static string ReplaceVariables([NotNull] string message, [NotNull] object args)
     {
-      Assert.ArgumentNotNull(message, "message");
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(message, nameof(message));
+      Assert.ArgumentNotNull(args, nameof(args));
 
       using (new ProfileSection("Replace pipeline variables in message"))
       {
@@ -87,9 +88,9 @@
 
     public void Abort()
     {
-      if (this.thread != null && this.thread.IsAlive)
+      if (_Thread != null && _Thread.IsAlive)
       {
-        this.thread.Abort();
+        _Thread.Abort();
       }
     }
 
@@ -97,7 +98,7 @@
     {
       using (new ProfileSection("Restart pipeline"))
       {
-        this.Start();
+        Start();
       }
     }
 
@@ -109,28 +110,28 @@
 
     public void Dispose()
     {
-      this.processorArgs.Dispose();
+      ProcessorArgs.Dispose();
     }
 
     public void Start()
     {
       using (new ProfileSection("Start pipeline", this))
       {
-        if (this.controller != null)
+        if (Controller != null)
         {
-          this.controller.Start(ReplaceVariables(this.title, this.processorArgs), this.steps);
+          Controller.Start(ReplaceVariables(Title, ProcessorArgs), _Steps);
         }
 
-        Assert.IsTrue(this.thread == null || !this.thread.IsAlive, "The previous thread didn't complete its job");
+        Assert.IsTrue(_Thread == null || !_Thread.IsAlive, "The previous thread didn't complete its job");
 
-        var pipelineStartInfo = new PipelineStartInfo(this.processorArgs, this.steps, this.controller);
-        if (this.isAsync)
+        var pipelineStartInfo = new PipelineStartInfo(ProcessorArgs, _Steps, Controller);
+        if (IsAsync)
         {
-          this.thread = new Thread(Execute);
-          this.thread.SetApartmentState(ApartmentState.STA);
+          _Thread = new Thread(Execute);
+          _Thread.SetApartmentState(ApartmentState.STA);
 
           // Calls the Execute method in thread  
-          this.thread.Start(pipelineStartInfo);
+          _Thread.Start(pipelineStartInfo);
           return;
         }
 
@@ -144,9 +145,9 @@
 
     private static void Execute([NotNull] object obj)
     {
-      Assert.ArgumentNotNull(obj, "obj");
+      Assert.ArgumentNotNull(obj, nameof(obj));
 
-      Pipeline.Execute((PipelineStartInfo)obj);
+      Execute((PipelineStartInfo)obj);
     }
 
     private static void Execute([NotNull] PipelineStartInfo info)
@@ -159,10 +160,10 @@
         {
           if (info.PipelineController != null)
           {
-            info.PipelineController.Maximum = ProcessorManager.GetProcessorsCount(info.ProcessorArgs, info.Steps);
+            info.PipelineController.Maximum = ProcessorManager.GetProcessorsCount(info.ProcessorArgs, info._Steps);
           }
 
-          bool result = ExecuteSteps(info.ProcessorArgs, info.Steps, info.PipelineController);
+          bool result = ExecuteSteps(info.ProcessorArgs, info._Steps, info.PipelineController);
 
           if (info.PipelineController != null)
           {
@@ -185,8 +186,8 @@
 
     private static bool ExecuteProcessors([NotNull] ProcessorArgs args, [NotNull] IEnumerable<Processor> processorList, [CanBeNull] IPipelineController controller = null, bool startThisAndNestedProcessors = true)
     {
-      Assert.ArgumentNotNull(args, "args");
-      Assert.ArgumentNotNull(processorList, "processorList");
+      Assert.ArgumentNotNull(args, nameof(args));
+      Assert.ArgumentNotNull(processorList, nameof(processorList));
 
       using (new ProfileSection("Execute pipeline processors"))
       {
@@ -215,7 +216,7 @@
           }
 
           // Process nested steps
-          result &= ExecuteProcessors(args, processor.NestedProcessors, controller, processorResult);
+          result &= ExecuteProcessors(args, processor._NestedProcessors, controller, processorResult);
         }
 
         return ProfileSection.Result(result);
@@ -224,8 +225,8 @@
 
     private static bool ExecuteSteps([NotNull] ProcessorArgs args, [NotNull] IEnumerable<Step> steps, [CanBeNull] IPipelineController controller = null, bool startThisAndNestedProcessors = true)
     {
-      Assert.ArgumentNotNull(args, "args");
-      Assert.ArgumentNotNull(steps, "steps");
+      Assert.ArgumentNotNull(args, nameof(args));
+      Assert.ArgumentNotNull(steps, nameof(steps));
 
       using (new ProfileSection("Execute pipeline steps"))
       {
@@ -239,19 +240,19 @@
           ProcessorArgs innerArgs = null;
 
           /* Use args' member as args for nested pipeline*/
-          string argsName = step.ArgsName.EmptyToNull();
+          var argsName = step.ArgsName.EmptyToNull();
           if (argsName != null)
           {
             Type type = args.GetType();
-            const BindingFlags flags = BindingFlags.Instance | BindingFlags.NonPublic;
-            FieldInfo field = type.GetField(argsName) ?? type.GetField(argsName, flags);
+            const BindingFlags Flags = BindingFlags.Instance | BindingFlags.NonPublic;
+            FieldInfo field = type.GetField(argsName) ?? type.GetField(argsName, Flags);
             if (field != null)
             {
               innerArgs = (ProcessorArgs)field.GetValue(args);
             }
             else
             {
-              PropertyInfo property = type.GetProperty(argsName) ?? type.GetProperty(argsName, flags);
+              PropertyInfo property = type.GetProperty(argsName) ?? type.GetProperty(argsName, Flags);
               if (property != null)
               {
                 innerArgs = (ProcessorArgs)property.GetValue(args, new object[0]);
@@ -261,7 +262,7 @@
             Assert.IsNotNull(innerArgs, "Inner args are null, " + argsName);
           }
 
-          startThisAndNestedProcessors = ExecuteProcessors(innerArgs ?? args, step.Processors, controller, 
+          startThisAndNestedProcessors = ExecuteProcessors(innerArgs ?? args, step._Processors, controller, 
             startThisAndNestedProcessors);
         }
 
@@ -280,11 +281,11 @@
     {
       #region Fields
 
-      public readonly IPipelineController PipelineController;
+      public IPipelineController PipelineController { get; }
 
-      public readonly ProcessorArgs ProcessorArgs;
+      public ProcessorArgs ProcessorArgs { get; }
 
-      public readonly List<Step> Steps;
+      public readonly List<Step> _Steps;
 
       #endregion
 
@@ -292,12 +293,12 @@
 
       public PipelineStartInfo([NotNull] ProcessorArgs processorArgs, [NotNull] List<Step> steps, [CanBeNull] IPipelineController pipelineController = null)
       {
-        Assert.ArgumentNotNull(processorArgs, "processorArgs");
-        Assert.ArgumentNotNull(steps, "steps");
+        Assert.ArgumentNotNull(processorArgs, nameof(processorArgs));
+        Assert.ArgumentNotNull(steps, nameof(steps));
 
-        this.ProcessorArgs = processorArgs;
-        this.PipelineController = pipelineController;
-        this.Steps = steps;
+        ProcessorArgs = processorArgs;
+        PipelineController = pipelineController;
+        _Steps = steps;
       }
 
       #endregion

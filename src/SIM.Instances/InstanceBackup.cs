@@ -3,8 +3,8 @@
   using System.IO;
   using System.Linq;
   using SIM.Adapters.SqlServer;
-  using Sitecore.Diagnostics;
-  using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnostics.Base;
+  using JetBrains.Annotations;
 
   #region
 
@@ -14,19 +14,19 @@
   {
     #region Fields
 
-    public readonly bool BackupDataFiles;
+    public bool BackupDataFiles { get; }
 
-    public readonly bool BackupDatabases;
+    public bool BackupDatabases { get; }
 
-    public readonly bool BackupMongoDatabases;
+    public bool BackupMongoDatabases { get; }
 
-    public readonly bool BackupWebsiteFiles;
+    public bool BackupWebsiteFiles { get; }
 
-    public readonly bool BackupWebsiteFilesNoClient;
+    public bool BackupWebsiteFilesNoClient { get; }
 
-    public readonly string Date;
+    public string Date { get; }
 
-    public readonly string FolderPath;
+    public string FolderPath { get; }
 
     #endregion
 
@@ -34,31 +34,31 @@
 
     public InstanceBackup([NotNull] string date, [NotNull] string folder, bool backupWebsiteFiles, bool backupDataFiles, bool backupDatabases, bool backupWebsiteFilesNoClient, bool backupMongoDatabases)
     {
-      Assert.ArgumentNotNull(folder, "folder");
+      Assert.ArgumentNotNull(folder, nameof(folder));
 
-      this.BackupWebsiteFiles = backupWebsiteFiles;
-      this.BackupWebsiteFilesNoClient = backupWebsiteFilesNoClient;
-      this.BackupMongoDatabases = backupMongoDatabases;
-      this.BackupDataFiles = backupDataFiles;
-      this.BackupDatabases = backupDatabases;
-      this.Date = date;
-      this.FolderPath = folder;
+      BackupWebsiteFiles = backupWebsiteFiles;
+      BackupWebsiteFilesNoClient = backupWebsiteFilesNoClient;
+      BackupMongoDatabases = backupMongoDatabases;
+      BackupDataFiles = backupDataFiles;
+      BackupDatabases = backupDatabases;
+      Date = date;
+      FolderPath = folder;
     }
 
     public InstanceBackup(string date, [NotNull] string folder)
     {
-      Assert.ArgumentNotNull(folder, "folder");
+      Assert.ArgumentNotNull(folder, nameof(folder));
 
-      this.FolderPath = folder;
-      bool full = FileSystem.FileSystem.Local.File.Exists(this.WebRootFilePath);
-      bool noclient = FileSystem.FileSystem.Local.File.Exists(this.WebRootNoClientFilePath);
-      this.BackupWebsiteFiles = full || noclient;
-      this.BackupWebsiteFilesNoClient = noclient;
-      this.BackupDataFiles = FileSystem.FileSystem.Local.File.Exists(this.DataFilePath);
+      FolderPath = folder;
+      bool full = FileSystem.FileSystem.Local.File.Exists(WebRootFilePath);
+      bool noclient = FileSystem.FileSystem.Local.File.Exists(WebRootNoClientFilePath);
+      BackupWebsiteFiles = full || noclient;
+      BackupWebsiteFilesNoClient = noclient;
+      BackupDataFiles = FileSystem.FileSystem.Local.File.Exists(DataFilePath);
 
-      this.BackupDatabases = FileSystem.FileSystem.Local.Directory.Exists(this.DatabasesFolderPath) && FileSystem.FileSystem.Local.Directory.GetFiles(this.DatabasesFolderPath, "*.bak").Length > 0;
-      this.BackupMongoDatabases = FileSystem.FileSystem.Local.Directory.Exists(this.MongoDatabasesFolderPath) && FileSystem.FileSystem.Local.Directory.GetDirectories(this.MongoDatabasesFolderPath).Length > 0;
-      this.Date = date;
+      BackupDatabases = FileSystem.FileSystem.Local.Directory.Exists(DatabasesFolderPath) && FileSystem.FileSystem.Local.Directory.GetFiles(DatabasesFolderPath, "*.bak").Length > 0;
+      BackupMongoDatabases = FileSystem.FileSystem.Local.Directory.Exists(MongoDatabasesFolderPath) && FileSystem.FileSystem.Local.Directory.GetDirectories(MongoDatabasesFolderPath).Length > 0;
+      Date = date;
     }
 
     #endregion
@@ -70,7 +70,7 @@
     {
       get
       {
-        return Path.Combine(this.FolderPath, "Data.zip");
+        return Path.Combine(FolderPath, "Data.zip");
       }
     }
 
@@ -79,7 +79,7 @@
     {
       get
       {
-        return FileSystem.FileSystem.Local.Directory.GetFiles(this.DatabasesFolderPath, '*' + SqlServerManager.BackupExtension);
+        return FileSystem.FileSystem.Local.Directory.GetFiles(DatabasesFolderPath, '*' + SqlServerManager.BackupExtension);
       }
     }
 
@@ -88,7 +88,7 @@
     {
       get
       {
-        return Path.Combine(this.FolderPath, "Databases");
+        return Path.Combine(FolderPath, "Databases");
       }
     }
 
@@ -97,7 +97,7 @@
       get
       {
         const string Separator = ", ";
-        string dbs = this.DatabaseFilenames.Aggregate(string.Empty, (current, file) => current + (Path.GetFileNameWithoutExtension(file) + Separator));
+        var dbs = DatabaseFilenames.Aggregate(string.Empty, (current, file) => current + (Path.GetFileNameWithoutExtension(file) + Separator));
         dbs = dbs.Substring(0, dbs.Length - Separator.Length);
         return dbs;
       }
@@ -107,7 +107,7 @@
     {
       get
       {
-        return this.Date; // .ToString("yyyy.MM.dd") + " at " + this.Date.ToString("hh:mm");
+        return Date; // .ToString("yyyy.MM.dd") + " at " + this.Date.ToString("hh:mm");
       }
     }
 
@@ -116,7 +116,7 @@
     {
       get
       {
-        return FileSystem.FileSystem.Local.Directory.GetDirectories(this.MongoDatabasesFolderPath);
+        return FileSystem.FileSystem.Local.Directory.GetDirectories(MongoDatabasesFolderPath);
       }
     }
 
@@ -125,7 +125,7 @@
     {
       get
       {
-        return Path.Combine(this.FolderPath, "MongoDatabases");
+        return Path.Combine(FolderPath, "MongoDatabases");
       }
     }
 
@@ -134,7 +134,7 @@
       get
       {
         const string Separator = ", ";
-        string dbs = this.MongoDatabaseFilenames.Aggregate(string.Empty, (current, file) => current + (Path.GetFileName(file) + Separator));
+        var dbs = MongoDatabaseFilenames.Aggregate(string.Empty, (current, file) => current + (Path.GetFileName(file) + Separator));
         dbs = dbs.Substring(0, dbs.Length - Separator.Length);
         return dbs;
       }
@@ -145,7 +145,7 @@
     {
       get
       {
-        return Path.Combine(this.FolderPath, "WebRoot.zip");
+        return Path.Combine(FolderPath, "WebRoot.zip");
       }
     }
 
@@ -154,7 +154,7 @@
     {
       get
       {
-        return Path.Combine(this.FolderPath, "WebRootNoClient.zip");
+        return Path.Combine(FolderPath, "WebRootNoClient.zip");
       }
     }
 
@@ -164,19 +164,23 @@
 
     public override string ToString()
     {
-      string dbs = string.Empty;
-      if (this.BackupDatabases)
+      var dbs = string.Empty;
+      if (BackupDatabases)
       {
-        dbs = this.DatabasesString;
+        dbs = DatabasesString;
       }
 
-      if (this.BackupMongoDatabases)
+      if (BackupMongoDatabases)
       {
-        dbs += this.MongoDatabasesString;
+        dbs += MongoDatabasesString;
       }
 
-      var backupDbs = this.BackupDatabases || this.BackupMongoDatabases;
-      return this.DateString + ": " + (this.BackupWebsiteFiles ? (this.BackupWebsiteFilesNoClient ? "files (no client)" : "files") : string.Empty) + (this.BackupWebsiteFiles && backupDbs ? " and " : string.Empty) + (backupDbs ? "databases: " + dbs : string.Empty);
+      var backupDbs = BackupDatabases || BackupMongoDatabases;
+      var files = BackupWebsiteFiles ? (BackupWebsiteFilesNoClient ? "files (no client)" : "files") : string.Empty;
+      var and = BackupWebsiteFiles && backupDbs ? " and " : string.Empty;
+      var databases = backupDbs ? $"databases: {dbs}" : string.Empty;
+      return
+        $"{DateString}: {files}{and}{databases}";
     }
 
     #endregion

@@ -1,12 +1,10 @@
-﻿using System.ComponentModel;
-using Sitecore.Diagnostics;
-using Sitecore.Diagnostics.Annotations;
-
-namespace SIM
+﻿namespace SIM
 {
   #region
 
-  
+  using System.ComponentModel;
+  using Sitecore.Diagnostics.Base;
+  using JetBrains.Annotations;
 
   #endregion
 
@@ -22,11 +20,11 @@ namespace SIM
 
     protected void NotifyPropertyChanged([NotNull] string name)
     {
-      Assert.ArgumentNotNull(name, "name");
+      Assert.ArgumentNotNull(name, nameof(name));
 
-      if (this.PropertyChanged != null)
+      if (PropertyChanged != null)
       {
-        this.PropertyChanged(this, new PropertyChangedEventArgs(name));
+        PropertyChanged(this, new PropertyChangedEventArgs(name));
       }
     }
 

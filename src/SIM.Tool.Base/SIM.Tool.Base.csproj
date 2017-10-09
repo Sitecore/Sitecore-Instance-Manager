@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SIM.Tool.Base</RootNamespace>
     <AssemblyName>SIM.Tool.Base</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
@@ -26,33 +26,38 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>TRACE;JETBRAINS_ANNOTATIONS</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="JetBrains.Annotations, Version=10.4.0.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
+      <HintPath>..\packages\JetBrains.Annotations.10.4.0\lib\net\JetBrains.Annotations.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="Microsoft.Web.Administration, Version=7.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.Web.Administration.7.0.0.0\lib\net20\Microsoft.Web.Administration.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Sitecore.Diagnostics.Base, Version=1.0.0.0, Culture=neutral, PublicKeyToken=2a430da507ea8b02, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Sitecore.Diagnostics.Base.1.0.0.15\lib\net35\Sitecore.Diagnostics.Base.dll</HintPath>
+    <Reference Include="Sitecore.Diagnostics.Base, Version=2.0.0.180, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Sitecore.Diagnostics.Base.2.0.0.180\lib\Sitecore.Diagnostics.Base.dll</HintPath>
     </Reference>
-    <Reference Include="Sitecore.Diagnostics.Logging, Version=1.0.0.0, Culture=neutral, PublicKeyToken=8e71e5db3070b7f5, processorArchitecture=MSIL">
-      <HintPath>..\packages\Sitecore.Diagnostics.Logging.1.0.0.15\lib\net40\Sitecore.Diagnostics.Logging.dll</HintPath>
+    <Reference Include="Sitecore.Diagnostics.Logging, Version=2.0.0.180, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Sitecore.Diagnostics.Logging.2.0.0.180\lib\Sitecore.Diagnostics.Logging.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.DirectoryServices" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Net" />
     <Reference Include="System.ServiceProcess" />
     <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
@@ -65,27 +70,23 @@
     <Reference Include="PresentationFramework" />
     <Reference Include="TaskDialog, Version=1.7.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\WPFTaskDialog.1.7.1\lib\net40-Client\TaskDialog.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AppSettings.cs" />
+    <Compile Include="EnvironmentHelper.cs" />
+    <Compile Include="WinAppSettings.cs" />
     <Compile Include="AuthenticationHelper.cs" />
-    <Compile Include="Converters\InverseBooleanConverter.cs" />
-    <Compile Include="Converters\IsNotNullConverter.cs" />
     <Compile Include="Converters\IsNotNullOrEmptyAndDirectoryExists.cs" />
     <Compile Include="Converters\Product.cs" />
-    <Compile Include="EnvironmentHelper.cs" />
     <Compile Include="InstanceHelperEx.cs" />
     <Compile Include="LicenseUpdater.cs" />
-    <Compile Include="Plugins\IInitProcessor.cs" />
     <Compile Include="Plugins\IMainWindowButton.cs" />
-    <Compile Include="Plugins\IMainWindowLoadedProcessor.cs" />
     <Compile Include="Pipelines\InstallModulesWizardArgs.cs" />
     <Compile Include="Pipelines\InstallWizardArgs.cs" />
     <Compile Include="Pipelines\RestoreWizardArgs.cs" />
     <Compile Include="Plugins\Plugin.cs" />
-    <Compile Include="Plugins\PluginManager.cs" />
     <Compile Include="Profiles\Profile.cs" />
     <Compile Include="Profiles\ProfileManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -101,30 +102,32 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="Runtime\ISingleInstanceMonitor.cs" />
-    <Compile Include="Runtime\KnownShutdownCodes.cs" />
-    <Compile Include="Runtime\LifeManager.cs" />
-    <Compile Include="Runtime\SingleInstanceMonitor.cs" />
     <Compile Include="WindowHelper.cs" />
     <Compile Include="Windows\Dialogs\InputDialog.xaml.cs">
       <DependentUpon>InputDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\Dialogs\InputDialogArgs.cs" />
-    <Compile Include="Windows\Dialogs\ProgressDialog.xaml.cs">
-      <DependentUpon>ProgressDialog.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Windows\Dialogs\SelectDialog.xaml.cs">
       <DependentUpon>SelectDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\Wizard.xaml.cs">
+      <DependentUpon>Wizard.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Wizards\FinishAction.cs" />
+    <Compile Include="Wizards\FinishActionHive.cs" />
     <Compile Include="Wizards\ICustomButtonWizardStep.cs" />
     <Compile Include="Wizards\IFlowControl.cs" />
     <Compile Include="Wizards\IWizardStep.cs" />
+    <Compile Include="Wizards\StepInfo.cs" />
     <Compile Include="Wizards\WizardArgs.cs" />
+    <Compile Include="Wizards\WizardPipeline.cs" />
+    <Compile Include="Wizards\WizardPipelineManager.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <None Include="app.config" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -137,11 +140,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Windows\Dialogs\ProgressDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Windows\Dialogs\SelectDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Windows\Wizard.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -154,6 +157,14 @@
     <ProjectReference Include="..\SIM.Base\SIM.Base.csproj">
       <Project>{CA9339A0-9A7D-4900-839E-F21B7269BDAA}</Project>
       <Name>SIM.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SIM.Core\SIM.Core.csproj">
+      <Project>{a124d359-b9bf-44f4-98cb-c40d3d490839}</Project>
+      <Name>SIM.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SIM.FileSystem\SIM.FileSystem.csproj">
+      <Project>{02B6C2D7-3083-4DF3-B86D-B6D4728C4EF2}</Project>
+      <Name>SIM.FileSystem</Name>
     </ProjectReference>
     <ProjectReference Include="..\SIM.Instances\SIM.Instances.csproj">
       <Project>{CCA7B157-A743-4A5A-A03B-B6B27CB2BE1C}</Project>
@@ -170,6 +181,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\window.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Sitecore.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

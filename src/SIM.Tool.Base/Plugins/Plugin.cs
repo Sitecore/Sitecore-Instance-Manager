@@ -1,44 +1,14 @@
 namespace SIM.Tool.Base.Plugins
 {
   using System;
-  using System.Collections.Generic;
-  using System.IO;
   using System.Linq;
-  using System.Reflection;
   using System.Windows.Media;
   using System.Xml;
-  using Sitecore.Diagnostics;
-  using Sitecore.Diagnostics.Logging;
+  using Sitecore.Diagnostics.Base;
+  using SIM.Extensions;
 
-  public class Plugin
+  public static class Plugin
   {
-    #region Constants
-
-    private const string PluginXmlFileName = "Plugin.xml";
-
-    #endregion
-
-    #region Fields
-
-    public readonly IEnumerable<string> AssemblyFilePaths;
-    public readonly string PluginFilePath;
-    public readonly string PluginFolder;
-    public readonly XmlDocumentEx PluginXmlDocument;
-
-    #endregion
-
-    #region Constructors
-
-    private Plugin(string pluginFilePath)
-    {
-      this.PluginFilePath = pluginFilePath;
-      this.PluginFolder = Path.GetDirectoryName(pluginFilePath);
-      this.AssemblyFilePaths = FileSystem.FileSystem.Local.File.GetNeighbourFiles(pluginFilePath, "*.dll");
-      this.PluginXmlDocument = XmlDocumentEx.LoadFile(pluginFilePath);
-    }
-
-    #endregion
-
     #region Public Methods and Operators
 
     public static object CreateInstance(XmlElement element)
@@ -65,16 +35,10 @@ namespace SIM.Tool.Base.Plugins
       return ReflectionUtil.CreateObject(type);
     }
 
-    public static Plugin Detect(string folder)
-    {
-      var path = Path.Combine(folder, PluginXmlFileName);
-      return FileSystem.FileSystem.Local.File.Exists(path) ? new Plugin(path) : null;
-    }
-
-    public static ImageSource GetImage(string imageSource, string pluginFilePath)
+    public static ImageSource GetImage(string imageSource)
     {
       var arr = imageSource.Split(',');
-      Assert.IsTrue(arr.Length == 2, "The {0} file contains incorrect image source format \"{1}\" when the correct one is \"ImageFilePath, AssemblyName\"".FormatWith(pluginFilePath, imageSource));
+      Assert.IsTrue(arr.Length == 2, $"Incorrect image source format \"{imageSource}\" when the correct one is \"ImageFilePath, AssemblyName\"");
       return WindowHelper.GetImage(arr[0], arr[1]);
     }
 
@@ -104,76 +68,6 @@ namespace SIM.Tool.Base.Plugins
       }
 
       return type;
-    }
-
-    public override bool Equals(object obj)
-    {
-      var plugin = obj as Plugin;
-      return plugin != null ? this.PluginFolder.EqualsIgnoreCase(plugin.PluginFolder) : base.Equals(obj);
-    }
-
-    public override int GetHashCode()
-    {
-      return this.PluginFolder.GetHashCode();
-    }
-
-    public ImageSource GetImage(string imageSource)
-    {
-      return GetImage(imageSource, this.PluginFilePath);
-    }
-
-    public void Load()
-    {
-      foreach (var path in this.AssemblyFilePaths)
-      {
-        var assemblyPath = path.Length > 2 && path[1] == ':' ? path : Path.Combine(Environment.CurrentDirectory, path);
-        try
-        {
-          Assembly.LoadFile(assemblyPath);
-        }
-        catch (Exception ex)
-        {
-          WindowHelper.HandleError("There was a problem for loading the {0} assembly of the {1} plugin".FormatWith(assemblyPath, this.PluginFolder), true, ex);
-        }
-      }
-
-      /*
-      AppDomain.CurrentDomain.AssemblyResolve += (sender, args) =>
-      {
-        var file = AssemblyFilePaths.FirstOrDefault(fi => Path.GetFileNameWithoutExtension(fi) == args.Name);
-        return file.With(Assembly.Load);
-      };*/
-    }
-
-    public override string ToString()
-    {
-      return this.PluginFolder;
-    }
-
-    #endregion
-
-    // If the folder contains Plugin.xml file, then it returns an instance of Plugin class otherwise null.
-    #region Nested type: Proxy
-
-    public class Proxy : MarshalByRefObject
-    {
-      #region Public Methods and Operators
-
-      public Assembly GetAssembly(string assemblyPath)
-      {
-        try
-        {
-          return Assembly.LoadFile(assemblyPath);
-        }
-        catch (Exception ex)
-        {
-          Log.Warn(ex, "An error occurred during getting assembly: {0}",  assemblyPath);
-
-          return null;
-        }
-      }
-
-      #endregion
     }
 
     #endregion

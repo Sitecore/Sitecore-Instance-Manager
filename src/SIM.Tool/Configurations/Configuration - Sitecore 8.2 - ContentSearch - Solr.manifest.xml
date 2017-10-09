@@ -1,0 +1,17 @@
+<manifest version="1.4">
+  <archive>
+    <install>
+      <params>
+          <param name="{SOLR URL}" title="Please enter or confirm Solr URL" defaultValue="http://localhost:8983/solr" />
+        </params>
+      <actions>
+        <editfile path="/Website/App_Config/Include/Sitecore.ContentSearch.Solr.DefaultIndexConfiguration.config.example">
+          <replace source="http://localhost:8983/solr" target="{SOLR URL}" />
+          <replacevariables />
+        </editfile>
+        <custom type="SIM.Pipelines.Install.Modules.SwitchConfigsToSolr, SIM.Pipelines" />
+        <custom type="SIM.Pipelines.Install.Modules.CreateSolrCores, SIM.Pipelines" />
+      </actions>
+    </install>
+  </archive>
+</manifest>

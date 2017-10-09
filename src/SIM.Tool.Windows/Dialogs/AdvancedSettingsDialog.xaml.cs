@@ -7,8 +7,10 @@
   using System.Windows.Input;
   using SIM.Tool.Base;
   using SIM.Tool.Base.Profiles;
-  using Sitecore.Diagnostics;
-  using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnostics.Base;
+  using JetBrains.Annotations;
+  using SIM.Core;
+  using SIM.Products;
 
   #region
 
@@ -23,13 +25,15 @@
       // workaround for #179
       var types = new[]
       {
-        typeof(SIM.Tool.Base.AppSettings), 
+        typeof(SIM.Core.CoreAppSettings), 
+        typeof(SIM.Tool.Base.WinAppSettings), 
         typeof(SIM.Tool.Windows.Properties.Settings), 
         typeof(SIM.Tool.Windows.WindowsSettings), 
-        typeof(SIM.Instances.InstanceManager.Settings), 
         typeof(SIM.Pipelines.Install.Settings), 
         typeof(SIM.Adapters.SqlServer.SqlServerManager.Settings), 
-        typeof(WebRequestHelper.Settings)
+        typeof(WebRequestHelper.Settings),
+        typeof(ProductHelper.Settings),
+        typeof(EnvironmentHelper)
       };
 
       foreach (Type type in types)
@@ -37,7 +41,7 @@
         System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(type.TypeHandle);
       }
 
-      this.InitializeComponent();
+      InitializeComponent();
     }
 
     #endregion
@@ -49,14 +53,14 @@
     {
       get
       {
-        return (Profile)this.DataContext;
+        return (Profile)DataContext;
       }
 
       set
       {
-        Assert.ArgumentNotNull(value, "value");
+        Assert.ArgumentNotNull(value, nameof(value));
 
-        this.DataContext = value;
+        DataContext = value;
       }
     }
 
@@ -66,17 +70,17 @@
 
     private void CancelChanges([CanBeNull] object sender, [CanBeNull] RoutedEventArgs e)
     {
-      this.Close();
+      Close();
     }
 
     private void ContentLoaded(object sender, EventArgs e)
     {
-      this.DataGrid.DataContext = this.GetAdvancedProperties();
+      DataGrid.DataContext = GetAdvancedProperties();
     }
 
     private IEnumerable<AdvancedPropertyBase> GetAdvancedProperties()
     {
-      string pluginPrefix = "App/Plugins/";
+      var pluginPrefix = "App/Plugins/";
 
       var nonPluginsSettings = new List<AdvancedPropertyBase>();
       var pluginsSettings = new List<AdvancedPropertyBase>();
@@ -100,25 +104,25 @@
 
     private void OpenDocumentation([CanBeNull] object sender, [CanBeNull] RoutedEventArgs e)
     {
-      WindowHelper.OpenInBrowser("https://bitbucket.org/alienlab/sitecore-instance-manager/wiki/Home", true);
+      CoreApp.OpenInBrowser("https://github.com/sitecore/sitecore-instance-manager/wiki/Advanced", true);
     }
 
     private void OpenFile(object sender, RoutedEventArgs e)
     {
-      WindowHelper.OpenFolder(ApplicationManager.DataFolder);
+      CoreApp.OpenFolder(ApplicationManager.DataFolder);
     }
 
     private void SaveSettings()
     {
-      ProfileManager.SaveChanges(this.Profile);
-      this.DialogResult = true;
-      this.Close();
+      ProfileManager.SaveChanges(Profile);
+      DialogResult = true;
+      Close();
     }
 
     private void WindowKeyUp([NotNull] object sender, [NotNull] KeyEventArgs e)
     {
-      Assert.ArgumentNotNull(sender, "sender");
-      Assert.ArgumentNotNull(e, "e");
+      Assert.ArgumentNotNull(sender, nameof(sender));
+      Assert.ArgumentNotNull(e, nameof(e));
 
       if (e.Key == Key.Escape)
       {
@@ -128,7 +132,7 @@
         }
 
         e.Handled = true;
-        this.Close();
+        Close();
       }
     }
 

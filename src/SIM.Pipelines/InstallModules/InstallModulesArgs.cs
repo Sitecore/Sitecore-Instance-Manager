@@ -5,8 +5,8 @@
   using SIM.Instances;
   using SIM.Pipelines.Processors;
   using SIM.Products;
-  using Sitecore.Diagnostics;
-  using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnostics.Base;
+  using JetBrains.Annotations;
 
   #region
 
@@ -16,12 +16,12 @@
   {
     #region Fields
 
-    public readonly SqlConnectionStringBuilder ConnectionString;
-    public readonly Instance Instance;
+    public SqlConnectionStringBuilder ConnectionString { get; }
+    public Instance Instance { get; }
 
-    public readonly IEnumerable<Product> Modules;
+    public readonly IEnumerable<Product> _Modules;
 
-    private readonly string instanceName;
+    private string instanceName { get; }
 
     #endregion
 
@@ -29,13 +29,13 @@
 
     public InstallModulesArgs([NotNull] Instance instance, [NotNull] IEnumerable<Product> modules, [CanBeNull] SqlConnectionStringBuilder connectionString = null)
     {
-      Assert.ArgumentNotNull(instance, "instance");
-      Assert.ArgumentNotNull(modules, "modules");
+      Assert.ArgumentNotNull(instance, nameof(instance));
+      Assert.ArgumentNotNull(modules, nameof(modules));
 
-      this.Modules = modules;
-      this.ConnectionString = connectionString;
-      this.Instance = instance;
-      this.instanceName = instance.Name;
+      _Modules = modules;
+      ConnectionString = connectionString;
+      Instance = instance;
+      instanceName = instance.Name;
     }
 
     #endregion
@@ -46,7 +46,7 @@
     {
       get
       {
-        return this.instanceName;
+        return instanceName;
       }
     }
 

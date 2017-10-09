@@ -1,15 +1,40 @@
-﻿using System.IO;
-using System.Windows;
-using SIM.Instances;
-using SIM.Tool.Base;
-using SIM.Tool.Base.Plugins;
-using Sitecore.Diagnostics.Annotations;
-
-namespace SIM.Tool.Windows.MainWindowComponents
+﻿namespace SIM.Tool.Windows.MainWindowComponents
 {
+  using System.IO;
+  using System.Windows;
+  using SIM.Core.Common;
+  using SIM.Instances;
+  using SIM.Tool.Base.Plugins;
+  using JetBrains.Annotations;
+  using SIM.Extensions;
+
   [UsedImplicitly]
-  public class OpenLogsButton : IMainWindowButton
+  public class OpenLogsButton : AbstractDownloadAndRunButton, IMainWindowButton
   {
+    protected override string BaseUrl
+    {
+      get
+      {
+        return "http://dl.sitecore.net/updater/1.1/scla/";
+      }
+    }
+
+    protected override string AppName
+    {
+      get
+      {
+        return "Log Analyzer";
+      }
+    }
+
+    protected override string ExecutableName
+    {
+      get
+      {
+        return "SitecoreLogAnalyzer.exe";
+      }
+    }
+
     #region Public methods
 
     public bool IsEnabled(Window mainWindow, Instance instance)
@@ -17,21 +42,22 @@ namespace SIM.Tool.Windows.MainWindowComponents
       return true;
     }
 
-    public void OnClick(Window mainWindow, Instance instance)
+    public override void OnClick(Window mainWindow, Instance instance)
     {
-      var appFilePath = ApplicationManager.GetEmbeddedApp("Log Analyzer.zip", "SIM.Tool.Plugins.LogAnalyzer", "SitecoreLogAnalyzer.exe");
+      Analytics.TrackEvent("OpenLogAnalyzer");
+      
       if (instance != null)
       {
-        string dataFolderPath = instance.DataFolderPath;
+        var dataFolderPath = instance.DataFolderPath;
         FileSystem.FileSystem.Local.Directory.AssertExists(dataFolderPath, "The data folder ({0}) of the {1} instance doesn't exist".FormatWith(dataFolderPath, instance.Name));
 
         var logs = Path.Combine(dataFolderPath, "logs");
-        WindowHelper.RunApp(appFilePath, logs);
+        RunApp(mainWindow, logs);
 
         return;
       }
 
-      WindowHelper.RunApp(appFilePath);
+      RunApp(mainWindow);
     }
 
     #endregion

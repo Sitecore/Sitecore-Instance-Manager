@@ -1,19 +1,19 @@
 ﻿namespace SIM
 {
   using System.Linq;
-  using Sitecore.Diagnostics;
-  using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnostics.Base;
+  using JetBrains.Annotations;
 
   public class Parameters
   {
     [NotNull]
-    private readonly string[] array;
+    private readonly string[] _Array;
 
     private Parameters([NotNull] string paramString)
     {
-      Assert.ArgumentNotNull(paramString, "paramString");
+      Assert.ArgumentNotNull(paramString, nameof(paramString));
 
-      this.array = paramString.Split(":|;".ToCharArray());
+      _Array = paramString.Split(":|;".ToCharArray());
     }
 
     [NotNull]
@@ -21,9 +21,9 @@
     {
       get
       {
-        if (this.array.Length > number)
+        if (_Array.Length > number)
         {
-          return this.array[number] ?? string.Empty;
+          return _Array[number] ?? string.Empty;
         }
 
         return string.Empty;
@@ -33,7 +33,7 @@
     [NotNull]
     public static Parameters Parse([NotNull] string paramString)
     {
-      Assert.ArgumentNotNull(paramString, "paramString");
+      Assert.ArgumentNotNull(paramString, nameof(paramString));
 
       return new Parameters(paramString);
     }
@@ -41,9 +41,9 @@
     [NotNull]
     public string[] Skip(int count)
     {
-      if (this.array.Length > count)
+      if (_Array.Length > count)
       {
-        return this.array.Skip(count).Where(x => !string.IsNullOrWhiteSpace(x)).ToArray();
+        return _Array.Skip(count).Where(x => !string.IsNullOrWhiteSpace(x)).ToArray();
       }
 
       return new string[0];

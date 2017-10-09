@@ -6,89 +6,135 @@
   using System.Linq;
   using Microsoft.VisualStudio.TestTools.UnitTesting;
   using SIM.Adapters.SqlServer;
+  using SIM.Extensions;
   using SIM.Instances;
 
-  [TestClass()]
+  [TestClass]
   public class InstanceTest
   {
     #region Public methods
-
+    
     [TestMethod]
-    public void RootPathTest()
+    public void RootPathTest1()
     {
       {
-        var name = this.GetName();
+        var name = GetName();
         var root = GetRootFolder(name);
-        var instance = new FakeInstance(this.GetRelativeFolder(root, "Website"), this.GetRelativeFolder(root, "Data"), GetDatabases(name, this.GetRelativeFolder(root, "Databases")));
-        this.RootPathTest("#1 regular (root/website, root/data, root/databases)", root, instance);
+        var instance = new FakeInstance(GetRelativeFolder(root, "Website"), GetRelativeFolder(root, "Data"), GetDatabases(name, GetRelativeFolder(root, "Databases")));
+        RootPathTest("#1 regular (root/website, root/data, root/databases)", root, instance);
       }
+    }
+
+    [TestMethod]
+    public void RootPathTest2()
+    {
       {
-        var name = this.GetName();
+        var name = GetName();
         var root = GetRootFolder(name);
 
-        var instance = new FakeInstance(this.GetRelativeFolder(root, "Website"), this.GetRelativeFolder(root, "Website\\Data"), GetDatabases(name, this.GetRelativeFolder(root, "Databases")));
-        this.RootPathTest("#2 data inside (root/website, root/website/data, root/databases)", root, instance);
+        var instance = new FakeInstance(GetRelativeFolder(root, "Website"), GetRelativeFolder(root, "Website\\Data"), GetDatabases(name, GetRelativeFolder(root, "Databases")));
+        RootPathTest("#2 data inside (root/website, root/website/data, root/databases)", root, instance);
       }
+    }
+
+    [TestMethod]
+    public void RootPathTest3()
+    {
       {
-        var name = this.GetName();
+        var name = GetName();
         var root = GetRootFolder(name);
 
-        var instance = new FakeInstance(this.GetRelativeFolder(root, "Website"), this.GetRelativeFolder(root, "Website"), GetDatabases(name, this.GetRelativeFolder(root, "Databases")));
-        this.RootPathTest("#3 data is website (root/website, root/website, root/databases)", root, instance);
+        var instance = new FakeInstance(GetRelativeFolder(root, "Website"), GetRelativeFolder(root, "Website"), GetDatabases(name, GetRelativeFolder(root, "Databases")));
+        RootPathTest("#3 data is website (root/website, root/website, root/databases)", root, instance);
       }
+    }
+
+    [TestMethod]
+    public void RootPathTest4()
+    {
       {
-        var name = this.GetName();
+        var name = GetName();
         var root = GetRootFolder(name);
 
         var instance = new FakeInstance(root, root, GetDatabases(name, root));
-        this.RootPathTest("#4 all are root (root, root, root)", root, instance);
+        RootPathTest("#4 all are root (root, root, root)", root, instance);
       }
+    }
+
+    [TestMethod]
+    public void RootPathTest5()
+    {
       {
-        var name = this.GetName();
+        var name = GetName();
         var root = GetRootFolder(name);
         var rootDrive = FileSystem.FileSystem.Local.Directory.GetDirectoryRoot(root.FullName);
         var drive = Environment.GetLogicalDrives().First(d => !d.EqualsIgnoreCase(rootDrive));
-        var instance = new FakeInstance(this.GetRelativeFolder(root, "Website"), new DirectoryInfo(drive + "data"), GetDatabases(name, this.GetRelativeFolder(root, "Databases")));
-        this.RootPathTest("#5 data on another drive (root/website, " + drive + "data, root/databases)", root, instance);
+        var instance = new FakeInstance(GetRelativeFolder(root, "Website"), new DirectoryInfo(drive + "data"), GetDatabases(name, GetRelativeFolder(root, "Databases")));
+        RootPathTest($"#5 data on another drive (root/website, {drive}data, root/databases)", root, instance);
       }
+    }
+
+    [TestMethod]
+    public void RootPathTest6()
+    {
       {
-        var name = this.GetName();
+        var name = GetName();
         var root = GetRootFolder(name);
-        var instance = new FakeInstance(this.GetRelativeFolder(root, "Website"), this.GetRelativeFolder(root.Parent, "data"), GetDatabases(name, this.GetRelativeFolder(root, "Databases")));
-        this.RootPathTest("#6 data is too far, but databases are fine (root/website, root/../data, root/databases)", root, instance);
+        var instance = new FakeInstance(GetRelativeFolder(root, "Website"), GetRelativeFolder(root.Parent, "data"), GetDatabases(name, GetRelativeFolder(root, "Databases")));
+        RootPathTest("#6 data is too far, but databases are fine (root/website, root/../data, root/databases)", root, instance);
       }
+    }
+
+    [TestMethod]
+    public void RootPathTest7()
+    {
       {
-        var name = this.GetName();
-        var root = GetRootFolder(name);
-        var rootDrive = FileSystem.FileSystem.Local.Directory.GetDirectoryRoot(root.FullName);
-        var drive = Environment.GetLogicalDrives().First(d => !d.EqualsIgnoreCase(rootDrive));
-        var instance = new FakeInstance(this.GetRelativeFolder(root, "Website"), this.GetRelativeFolder(root, "Data"), GetDatabases(name, new DirectoryInfo(drive + "databases")));
-        this.RootPathTest("#7 databases on another drive (root/website, root/data, " + drive + "databases)", root, instance);
-      }
-      {
-        var name = this.GetName();
-        var root = GetRootFolder(name);
-        var rootDrive = FileSystem.FileSystem.Local.Directory.GetDirectoryRoot(root.FullName);
-        var drive = Environment.GetLogicalDrives().First(d => !d.EqualsIgnoreCase(rootDrive));
-        var instance = new FakeInstance(this.GetRelativeFolder(root, "Website"), this.GetRelativeFolder(root.Parent, "Data"), GetDatabases(name, new DirectoryInfo(drive + "databases")));
-        this.RootPathTest("#8 databases on another drive, data too far (root/website, root/data, " + drive + "databases)", root, instance);
-      }
-      {
-        var name = this.GetName();
+        var name = GetName();
         var root = GetRootFolder(name);
         var rootDrive = FileSystem.FileSystem.Local.Directory.GetDirectoryRoot(root.FullName);
         var drive = Environment.GetLogicalDrives().First(d => !d.EqualsIgnoreCase(rootDrive));
-        var instance = new FakeInstance(this.GetRelativeFolder(root, "Website"), this.GetRelativeFolder(root.Parent, "Data"), new Database[0]);
-        this.RootPathTest("#9 no databases, data too far (root/website, root/data, " + drive + "databases)", root, instance);
+        var instance = new FakeInstance(GetRelativeFolder(root, "Website"), GetRelativeFolder(root, "Data"), GetDatabases(name, new DirectoryInfo(drive + "databases")));
+        RootPathTest($"#7 databases on another drive (root/website, root/data, {drive}databases)", root, instance);
       }
+    }
+
+    [TestMethod]
+    public void RootPathTest8()
+    {
       {
-        var name = this.GetName();
+        var name = GetName();
         var root = GetRootFolder(name);
         var rootDrive = FileSystem.FileSystem.Local.Directory.GetDirectoryRoot(root.FullName);
         var drive = Environment.GetLogicalDrives().First(d => !d.EqualsIgnoreCase(rootDrive));
-        var website = this.GetRelativeFolder(root, "Website");
-        var instance = new FakeInstance(website, this.GetRelativeFolder(website, "Data"), new Database[0]);
-        this.RootPathTest("#9 no databases, data is inside (root/website, root/website/data, " + drive + "databases)", website, instance);
+        var instance = new FakeInstance(GetRelativeFolder(root, "Website"), GetRelativeFolder(root.Parent, "Data"), GetDatabases(name, new DirectoryInfo(drive + "databases")));
+        RootPathTest($"#8 databases on another drive, data too far (root/website, root/data, {drive}databases)", root, instance);
+      }
+    }
+
+    [TestMethod]
+    public void RootPathTest9()
+    {
+      {
+        var name = GetName();
+        var root = GetRootFolder(name);
+        var rootDrive = FileSystem.FileSystem.Local.Directory.GetDirectoryRoot(root.FullName);
+        var drive = Environment.GetLogicalDrives().First(d => !d.EqualsIgnoreCase(rootDrive));
+        var instance = new FakeInstance(GetRelativeFolder(root, "Website"), GetRelativeFolder(root.Parent, "Data"), new Database[0]);
+        RootPathTest($"#9 no databases, data too far (root/website, root/data, {drive}databases)", root, instance);
+      }
+    }
+
+    [TestMethod]
+    public void RootPathTest10()
+    {
+      {
+        var name = GetName();
+        var root = GetRootFolder(name);
+        var rootDrive = FileSystem.FileSystem.Local.Directory.GetDirectoryRoot(root.FullName);
+        var drive = Environment.GetLogicalDrives().First(d => !d.EqualsIgnoreCase(rootDrive));
+        var website = GetRelativeFolder(root, "Website");
+        var instance = new FakeInstance(website, GetRelativeFolder(website, "Data"), new Database[0]);
+        RootPathTest($"#9 no databases, data is inside (root/website, root/website/data, {drive}databases)", website, instance);
       }
     }
 
@@ -144,18 +190,18 @@
           Assert.Fail("No {0} exception for {1}".FormatWith(exception.Name, desc));
         }
 
-        this.AreEqual(rootPath, root, desc);
+        AreEqual(rootPath, root, desc);
       }
       catch (Exception ex)
       {
         if (exception == null)
         {
-          throw new Exception(desc);
+          throw new Exception(desc, ex);
         }
 
         if (ex.GetType() != exception)
         {
-          throw new Exception("Exception is {0} instead of expected {1} for {2}".FormatWith(ex.GetType().Name, exception.Name, desc));
+          throw new Exception("Exception is {0} instead of expected {1} for {2}".FormatWith(ex.GetType().Name, exception.Name, desc), ex);
         }
       }
       finally
@@ -171,7 +217,7 @@
   {
     #region Fields
 
-    private readonly string fileName;
+    private string fileName { get; }
 
     #endregion
 
@@ -179,8 +225,8 @@
 
     public FakeDatabase(string name, string realName, DirectoryInfo databasesFolder, string fileName)
     {
-      this.Name = name;
-      this.RealName = realName;
+      Name = name;
+      RealName = realName;
       this.fileName = Path.Combine(databasesFolder.FullName, fileName);
     }
 
@@ -192,7 +238,7 @@
     {
       get
       {
-        return this.fileName;
+        return fileName;
       }
     }
 
@@ -203,9 +249,9 @@
   {
     #region Fields
 
-    private readonly string dataFolderPath;
-    private readonly Database[] getAttachedDatabases;
-    private readonly string webRootPath;
+    private string dataFolderPath { get; }
+    private readonly Database[] _GetAttachedDatabases;
+    private string webRootPath { get; }
 
     #endregion
 
@@ -216,7 +262,7 @@
     {
       this.webRootPath = webRootPath;
       this.dataFolderPath = dataFolderPath;
-      this.getAttachedDatabases = databases;
+      _GetAttachedDatabases = databases;
     }
 
     public FakeInstance(DirectoryInfo webroot, DirectoryInfo dataFolder, Database[] databases)
@@ -232,7 +278,7 @@
     {
       get
       {
-        return this.webRootPath;
+        return webRootPath;
       }
     }
 
@@ -242,12 +288,12 @@
 
     protected override ICollection<Database> GetAttachedDatabases()
     {
-      return this.getAttachedDatabases;
+      return _GetAttachedDatabases;
     }
 
     protected override string GetDataFolderPath()
     {
-      return this.dataFolderPath;
+      return dataFolderPath;
     }
 
     #endregion

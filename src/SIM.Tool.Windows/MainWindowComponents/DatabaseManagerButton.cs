@@ -5,7 +5,7 @@
   using SIM.Tool.Base;
   using SIM.Tool.Base.Plugins;
   using SIM.Tool.Windows.Dialogs;
-  using Sitecore.Diagnostics.Annotations;
+  using JetBrains.Annotations;
 
   [UsedImplicitly]
   public class DatabaseManagerButton : IMainWindowButton

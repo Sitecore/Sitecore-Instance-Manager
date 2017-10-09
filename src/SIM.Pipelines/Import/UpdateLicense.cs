@@ -1,6 +1,7 @@
 ﻿namespace SIM.Pipelines.Import
 {
-  using Sitecore.Diagnostics.Annotations;
+  using JetBrains.Annotations;
+  using SIM.Extensions;
 
   [UsedImplicitly]
   public class UpdateLicense : ImportProcessor
@@ -9,10 +10,10 @@
 
     protected override void Process(ImportArgs args)
     {
-      if (args.updateLicense)
+      if (args._UpdateLicense)
       {
-        string pathToDataFolder = args.rootPath.PathCombine("Data");
-        FileSystem.FileSystem.Local.File.Copy(args.pathToLicenseFile, pathToDataFolder.PathCombine("license.xml"));
+        var pathToDataFolder = args._RootPath.PathCombine("Data");
+        FileSystem.FileSystem.Local.File.Copy(args._PathToLicenseFile, pathToDataFolder.PathCombine("license.xml"));
       }
     }
 

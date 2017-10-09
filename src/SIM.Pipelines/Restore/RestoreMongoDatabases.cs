@@ -3,8 +3,8 @@ namespace SIM.Pipelines.Restore
   using System;
   using System.Collections.Generic;
   using System.Linq;
-  using Sitecore.Diagnostics;
-  using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnostics.Base;
+  using JetBrains.Annotations;
   using Sitecore.Diagnostics.Logging;
 
   [UsedImplicitly]
@@ -12,7 +12,7 @@ namespace SIM.Pipelines.Restore
   {
     #region Fields
 
-    protected readonly List<string> done = new List<string>();
+    protected readonly List<string> _Done = new List<string>();
 
     #endregion
 
@@ -20,21 +20,21 @@ namespace SIM.Pipelines.Restore
 
     protected override long EvaluateStepsCount(RestoreArgs args)
     {
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(args, nameof(args));
 
       return args.Backup.MongoDatabaseFilenames.Count();
     }
 
     protected override bool IsRequireProcessing(RestoreArgs args)
     {
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(args, nameof(args));
 
       return args.Backup.BackupMongoDatabases;
     }
 
     protected override void Process([NotNull] RestoreArgs args)
     {
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(args, nameof(args));
 
       var databases = args.Backup.MongoDatabaseFilenames;
 
@@ -45,15 +45,15 @@ namespace SIM.Pipelines.Restore
         instance.Stop();
         foreach (var database in databases)
         {
-          if (this.done.Contains(database))
+          if (_Done.Contains(database))
           {
             continue;
           }
 
           MongoHelper.Restore(database);
-          this.IncrementProgress();
+          IncrementProgress();
 
-          this.done.Add(database);
+          _Done.Add(database);
         }
       }
       finally
@@ -69,7 +69,7 @@ namespace SIM.Pipelines.Restore
       }
 
 
-      this.IncrementProgress();
+      IncrementProgress();
     }
 
     #endregion

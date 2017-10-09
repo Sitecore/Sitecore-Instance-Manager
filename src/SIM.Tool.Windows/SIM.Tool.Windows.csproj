@@ -1,6 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -9,7 +8,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SIM.Tool.Windows</RootNamespace>
     <AssemblyName>SIM.Tool.Windows</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
@@ -23,72 +22,87 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>TRACE;JETBRAINS_ANNOTATIONS</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup>
-    <ApplicationIcon>
-    </ApplicationIcon>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Alienlab.NetExtensions, Version=1.0.7.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Alienlab.NetExtensions.1.0.7\lib\Alienlab.NetExtensions.dll</HintPath>
+    <Reference Include="Alienlab.NetExtensions, Version=1.0.8.0, Culture=neutral, PublicKeyToken=b4f6771b076f5394, processorArchitecture=MSIL">
+      <HintPath>..\packages\Alienlab.NetExtensions.1.0.8\lib\Alienlab.NetExtensions.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="Fluent, Version=3.5.1.198, Culture=neutral, PublicKeyToken=3e436e32a8c5546f, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Fluent.Ribbon.3.5.1.198\lib\net40\Fluent.dll</HintPath>
+    <Reference Include="ControlzEx, Version=2.0.1.61, Culture=neutral, PublicKeyToken=f08b075e934b7045, processorArchitecture=MSIL">
+      <HintPath>..\packages\ControlzEx.2.0.1.61\lib\net45\ControlzEx.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Fluent, Version=4.0.3.394, Culture=neutral, PublicKeyToken=3e436e32a8c5546f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Fluent.Ribbon.4.0.3.394\lib\net45\Fluent.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Ionic.Zip.Reduced, Version=1.9.1.8, Culture=neutral, PublicKeyToken=edbe51ad942a3f5c, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\DotNetZip.Reduced.1.9.1.8\lib\net20\Ionic.Zip.Reduced.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="JetBrains.Annotations, Version=10.4.0.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
+      <HintPath>..\packages\JetBrains.Annotations.10.4.0\lib\net\JetBrains.Annotations.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ApplicationInsights, Version=1.2.3.490, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.1.2.3\lib\net45\Microsoft.ApplicationInsights.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.ApplicationInsights.PersistenceChannel, Version=1.2.3.490, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.PersistenceChannel.1.2.3\lib\net45\Microsoft.ApplicationInsights.PersistenceChannel.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="Microsoft.Web.Administration, Version=7.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.Web.Administration.7.0.0.0\lib\net20\Microsoft.Web.Administration.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.Web.XmlTransform">
+    <Reference Include="Microsoft.Web.XmlTransform, Version=2.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Web.Xdt.2.1.1\lib\net40\Microsoft.Web.XmlTransform.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Windows.Shell, Version=3.5.41019.1, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Fluent.Ribbon.3.5.1.198\lib\net40\Microsoft.Windows.Shell.dll</HintPath>
-    </Reference>
-    <Reference Include="NuGet.Core, Version=2.8.60717.93, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\NuGet.Core.2.8.6\lib\net40-Client\NuGet.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="Sitecore.Diagnostics.Base, Version=1.0.0.0, Culture=neutral, PublicKeyToken=2a430da507ea8b02, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Sitecore.Diagnostics.Base.1.0.0.15\lib\net35\Sitecore.Diagnostics.Base.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Sitecore.Diagnostics.Database">
-      <HintPath>..\packages\Sitecore.Diagnostics.Database.1.0.0.7\lib\net40\Sitecore.Diagnostics.Database.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="Sitecore.Diagnostics.Logging, Version=1.0.0.0, Culture=neutral, PublicKeyToken=8e71e5db3070b7f5, processorArchitecture=MSIL">
-      <HintPath>..\packages\Sitecore.Diagnostics.Logging.1.0.0.15\lib\net40\Sitecore.Diagnostics.Logging.dll</HintPath>
+    <Reference Include="Sitecore.Diagnostics.Base, Version=2.0.0.180, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Sitecore.Diagnostics.Base.2.0.0.180\lib\Sitecore.Diagnostics.Base.dll</HintPath>
     </Reference>
-    <Reference Include="Sitecore.Diagnsotics.InformationService.Client">
-      <HintPath>..\packages\Sitecore.Diagnsotics.InformationService.Client.1.0.0.144\lib\net40\Sitecore.Diagnsotics.InformationService.Client.dll</HintPath>
+    <Reference Include="Sitecore.Diagnostics.InfoService.Client.Core, Version=2.0.0.180, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Sitecore.Diagnostics.InfoService.Client.Core.2.0.0.180\lib\Sitecore.Diagnostics.InfoService.Client.Core.dll</HintPath>
     </Reference>
-    <Reference Include="Sitecore.NuGet.Core">
-      <HintPath>..\packages\Sitecore.NuGet.Core.1.0.0\lib\Sitecore.NuGet.Core.dll</HintPath>
+    <Reference Include="Sitecore.Diagnostics.Logging, Version=2.0.0.180, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Sitecore.Diagnostics.Logging.2.0.0.180\lib\Sitecore.Diagnostics.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.Diagnostics.Net, Version=2.0.0.180, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Sitecore.Diagnostics.Net.2.0.0.180\lib\Sitecore.Diagnostics.Net.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.Diagnostics.Objects, Version=2.0.0.180, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Sitecore.Diagnostics.Objects.2.0.0.180\lib\Sitecore.Diagnostics.Objects.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.IO.Abstractions, Version=2.0.0.124, Culture=neutral, PublicKeyToken=d480b5b72fb413da, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.Abstractions.2.0.0.124\lib\net40\System.IO.Abstractions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.IO.Compression.FileSystem" />
+    <Reference Include="System.Net" />
     <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Windows.Interactivity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Fluent.Ribbon.3.5.1.198\lib\net40\System.Windows.Interactivity.dll</HintPath>
+    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\ControlzEx.2.0.1.61\lib\net45\System.Windows.Interactivity.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
@@ -96,14 +110,15 @@
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
     <Reference Include="TaskDialog, Version=1.7.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>True</SpecificVersion>
       <HintPath>..\packages\WPFTaskDialog.1.7.1\lib\net40-Client\TaskDialog.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ButtonDefinition.cs" />
     <Compile Include="CustomConverter.cs" />
     <Compile Include="Dialogs\DatabaseQueryExecutionDialog.xaml.cs">
       <DependentUpon>DatabaseQueryExecutionDialog.xaml</DependentUpon>
@@ -117,17 +132,27 @@
     <Compile Include="Dialogs\RestoreDatabaseDialog.xaml.cs">
       <DependentUpon>RestoreDatabaseDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="GroupDefinition.cs" />
     <Compile Include="MainWindowComponents\AboutButton.cs" />
+    <Compile Include="MainWindowComponents\AbstractInstanceButton.cs" />
+    <Compile Include="MainWindowComponents\AbstractSimpleButton.cs" />
     <Compile Include="MainWindowComponents\AttachDebuggerButton.cs" />
+    <Compile Include="MainWindowComponents\AttachReportingDatabaseButton.cs" />
+    <Compile Include="MainWindowComponents\AttachReportingSecondaryDatabaseButton.cs" />
     <Compile Include="MainWindowComponents\BackupInstanceButton.cs" />
     <Compile Include="MainWindowComponents\BrowseButton.cs" />
+    <Compile Include="MainWindowComponents\CleanupInstanceButton.cs" />
+    <Compile Include="MainWindowComponents\ClearEventQueueButton.cs" />
     <Compile Include="MainWindowComponents\CollectMemoryDumpButton.cs" />
+    <Compile Include="MainWindowComponents\CommandLineButton.cs" />
     <Compile Include="MainWindowComponents\ConfigBuilderButton.cs" />
     <Compile Include="MainWindowComponents\ControlAppPoolButton.cs" />
+    <Compile Include="MainWindowComponents\CopyMarketingDefinitionTablesButton.cs" />
+    <Compile Include="MainWindowComponents\CreateSupportPatchButton.cs" />
     <Compile Include="MainWindowComponents\DatabaseManagerButton.cs" />
     <Compile Include="MainWindowComponents\DeleteInstanceButton.cs" />
     <Compile Include="MainWindowComponents\Download8Button.cs" />
-    <Compile Include="MainWindowComponents\DownloadButton.cs" />
+    <Compile Include="MainWindowComponents\AbstractDownloadAndRunButton.cs" />
     <Compile Include="MainWindowComponents\ExportInstanceButton.cs" />
     <Compile Include="MainWindowComponents\GenerateNuGetPackagesButton.cs" />
     <Compile Include="MainWindowComponents\ImportInstanceButton.cs" />
@@ -147,18 +172,16 @@
     <Compile Include="MainWindowComponents\OpenToolboxButton.cs" />
     <Compile Include="MainWindowComponents\OpenVisualStudioButton.cs" />
     <Compile Include="MainWindowComponents\OpenWebConfigButton.cs" />
-    <Compile Include="MainWindowComponents\PluginsButton.cs" />
     <Compile Include="MainWindowComponents\PublishButton.cs" />
     <Compile Include="MainWindowComponents\RecycleAllButThisButton.cs" />
     <Compile Include="MainWindowComponents\RefreshButton.cs" />
     <Compile Include="MainWindowComponents\ReinstallInstanceButton.cs" />
+    <Compile Include="MainWindowComponents\ReplaceReportingDatabaseWithSecondaryButton.cs" />
     <Compile Include="MainWindowComponents\RestoreInstanceButton.cs" />
     <Compile Include="MainWindowComponents\SettingsButton.cs" />
     <Compile Include="MainWindowComponents\UpdateLicenseButton.cs" />
+    <Compile Include="MainWindowData.cs" />
     <Compile Include="Pipelines\Agreement\AcceptAgreement.cs" />
-    <Compile Include="Pipelines\Download\DownloadArgs.cs" />
-    <Compile Include="Pipelines\Download\DownloadProcessor.cs" />
-    <Compile Include="Pipelines\Download\GetPackageFileNamesProcessor.cs" />
     <Compile Include="Pipelines\Download8\Download8Args.cs" />
     <Compile Include="Pipelines\Download8\DownloadProcessor.cs" />
     <Compile Include="Pipelines\FinishActions.cs" />
@@ -182,6 +205,7 @@
     </Compile>
     <Compile Include="PublishMode.cs" />
     <Compile Include="StateToVisibility.cs" />
+    <Compile Include="TabDefinition.cs" />
     <Compile Include="TreeViewItemExtensions.cs" />
     <Compile Include="UserControls\Backup\BackupSettings.xaml.cs">
       <DependentUpon>BackupSettings.xaml</DependentUpon>
@@ -193,14 +217,6 @@
     <Compile Include="UserControls\ConfirmStepUserControl.xaml.cs">
       <DependentUpon>ConfirmStepUserControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\Download\Downloads.xaml.cs">
-      <DependentUpon>Downloads.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UserControls\Download\DownloadWizardArgs.xaml.cs" />
-    <Compile Include="UserControls\Download\Login.xaml.cs">
-      <DependentUpon>Login.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UserControls\Download\ProductDownloadInCheckbox.cs" />
     <Compile Include="UserControls\Download8\Downloads.xaml.cs">
       <DependentUpon>Downloads.xaml</DependentUpon>
     </Compile>
@@ -223,6 +239,12 @@
     <Compile Include="UserControls\Import\ImportWizardArgs.cs" />
     <Compile Include="UserControls\Import\SetWebsiteBindings.xaml.cs">
       <DependentUpon>SetWebsiteBindings.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Install\InstanceRole.xaml.cs">
+      <DependentUpon>InstanceRole.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Install\InstanceSettings.xaml.cs">
+      <DependentUpon>InstanceSettings.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\Install\InstanceDetails.xaml.cs">
       <DependentUpon>InstanceDetails.xaml</DependentUpon>
@@ -265,9 +287,6 @@
     <Compile Include="Dialogs\ConnectionStringDialog.xaml.cs">
       <DependentUpon>ConnectionStringDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Dialogs\PluginsDialog.xaml.cs">
-      <DependentUpon>PluginsDialog.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Dialogs\SettingsDialog.xaml.cs">
       <DependentUpon>SettingsDialog.xaml</DependentUpon>
     </Compile>
@@ -279,104 +298,16 @@
       <DependentUpon>HostsDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="WindowsSettings.cs" />
+    <Compile Include="WizardPipelinesConfig.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="logview.zip" />
-    <EmbeddedResource Include="Log Analyzer.zip" />
     <EmbeddedResource Include="ManagedArgsTracer.zip" />
     <EmbeddedResource Include="ManagedGcAwareDump.zip" />
-    <Content Include="Configurations\Configuration - Sitecore 8 - Development - Disable Event Queue.zip">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <None Include="Packages\Support Toolbox.zip">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <Resource Include="Configurations\Configuration - Sitecore 6 - DMS - Dedicated CD mode.manifest.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Configurations\Configuration - Sitecore 6 - DMS - Dedicated CM mode.manifest.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Content Include="Configurations\Configuration - Sitecore 7.5 - xDB - Dedicated CD mode.manifest.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Configurations\Configuration - Sitecore 7 - DMS - Dedicated CD mode.zip">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Configurations\Configuration - Sitecore 7 - DMS - Dedicated CM mode.zip">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Configurations\Configuration - DMS - Disable Robots Detection.zip">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Configurations\Configuration - General - Disable Custom Errors.zip">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Configurations\Configuration - General - Enable DEBUG Logging.zip">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Configurations\Configuration - General - Enable Events Timing Level High.zip">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Configurations\Configuration - General - Enable Pipeline Profiling.zip">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Configurations\Configuration - General - Enable Publish Logging.zip">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Configurations\Configuration - General - Unlimited SQL Timeout.zip">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Configurations\Configuration - Sitecore 6 - Dedicated CD mode.zip">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Configurations\Configuration - Sitecore 6 - Dedicated CM mode.zip">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Configurations\Configuration - Sitecore 6 - Main CM mode.zip">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Configurations\Configuration - Sitecore 6.6 - DMS - Enable MVC.zip">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Configurations\Configuration - Sitecore 6.6 - Enable MVC.zip">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Configurations\Configuration - Sitecore 7 - Dedicated CD mode.zip">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Configurations\Configuration - Sitecore 7 - Dedicated CM mode.zip">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Configurations\Configuration - Sitecore 7 - Disable ContentSearch.zip">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Configurations\Configuration - Sitecore 7.0 - DMS - Enable MVC.zip">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Configurations\Configuration - Sitecore 7.0 - Enable MVC.zip">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Configurations\Configuration - Sitecore 7.5 - xDB - Dedicated CD mode.zip">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Configurations\Configuration - Sitecore 8 - ContentSearch - Disable Crawlers.zip">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Configurations\Configuration - Sitecore 8 - Disable ContentSearch.zip">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Configurations\Configuration - Sitecore 6 - DMS - Dedicated CM mode.zip">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Configurations\Configuration - Sitecore 6 - DMS - Dedicated CD mode.zip">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Configurations\Configuration - Sitecore 8 - Development - Initialize Speed Booster.zip">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <EmbeddedResource Include="MongoDb.WindowsService.Installer.zip" />
+    <None Include="app.config" />
     <None Include="packages.config" />
     <Resource Include="Images\16\astrologer.png" />
     <Resource Include="Images\16\chrome.png" />
@@ -457,18 +388,6 @@
     <Resource Include="Images\32\new_package.png" />
     <Resource Include="Images\24\new_package.png" />
     <Resource Include="Images\16\new_package.png" />
-    <Content Include="Packages\DMS - Fix Integrity.zip">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Packages\EAS - Simple Plan-1.zip">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Packages\EAS - Simple Plan-2.zip">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Packages\Sample Item with Sitecore MVC Presentation-1.0.zip">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Resource Include="Images\16\add_domain.png" />
     <Resource Include="Images\16\box_into.png" />
     <Resource Include="Images\16\box_out.png" />
@@ -606,26 +525,9 @@
     <Resource Include="Images\48\upload.png" />
     <Resource Include="Images\48\wrench.png" />
     <Resource Include="Images\48\zoom_vertical.png" />
-    <Resource Include="Packages\Support Toolbox.manifest.xml">
-      <SubType>Designer</SubType>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Content Include="Packages\Visual Studio 2012 MVC 4 Website Project.zip">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Packages\Visual Studio 2012 MVC Website Project.zip">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Packages\Visual Studio 2012 Website Project.zip">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </Content>
-    <Content Include="WizardPipelines.config">
-      <SubType>Designer</SubType>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <ItemGroup>
@@ -642,6 +544,14 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Dialogs\RestoreDatabaseDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\Install\InstanceRole.xaml">
+      <SubType>Designer</SubType>
+      <Generator>XamlIntelliSenseFileGenerator</Generator>
+    </Page>
+    <Page Include="UserControls\Install\InstanceSettings.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -701,14 +611,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="UserControls\Download\Login.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="UserControls\Download\Downloads.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="UserControls\Download8\Login.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -751,12 +653,6 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Dialogs\PluginsDialog.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
     <Page Include="Dialogs\SettingsDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -775,12 +671,6 @@
     <Resource Include="Images\window.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <SubType>Designer</SubType>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\SIM.Base\SIM.Base.csproj">
       <Project>{CA9339A0-9A7D-4900-839E-F21B7269BDAA}</Project>
       <Name>SIM.Base</Name>
@@ -788,6 +678,14 @@
     <ProjectReference Include="..\SIM.Adapters\SIM.Adapters.csproj">
       <Project>{CA40C57A-EF4F-474D-BE8B-98E51AE62C1F}</Project>
       <Name>SIM.Adapters</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SIM.Core\SIM.Core.csproj">
+      <Project>{a124d359-b9bf-44f4-98cb-c40d3d490839}</Project>
+      <Name>SIM.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SIM.FileSystem\SIM.FileSystem.csproj">
+      <Project>{02B6C2D7-3083-4DF3-B86D-B6D4728C4EF2}</Project>
+      <Name>SIM.FileSystem</Name>
     </ProjectReference>
     <ProjectReference Include="..\SIM.Products\SIM.Products.csproj">
       <Project>{BC8B4EE5-C053-42E1-A5BA-07F8C41915A9}</Project>
@@ -805,72 +703,9 @@
       <Project>{EF380B2A-1171-4A9F-96D0-176ABA6CAD74}</Project>
       <Name>SIM.Tool.Base</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SIM.Tool.Wizards\SIM.Tool.Wizards.csproj">
-      <Project>{E67BF633-2709-4106-A984-DE811CE8C689}</Project>
-      <Name>SIM.Tool.Wizards</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Sitecore.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Packages\Visual Studio 2012 MVC 4 Website Project.manifest.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Packages\Visual Studio 2012 MVC Website Project.manifest.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Packages\Visual Studio 2012 Website Project.manifest.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Configurations\Configuration - Sitecore 7 - DMS - Dedicated CD mode.manifest.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Configurations\Configuration - Sitecore 7 - DMS - Dedicated CM mode.manifest.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Configurations\Configuration - General - Disable Custom Errors.manifest.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Configurations\Configuration - General - Enable DEBUG Logging.manifest.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Configurations\Configuration - General - Enable Publish Logging.manifest.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Configurations\Configuration - Sitecore 6 - Dedicated CD mode.manifest.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Configurations\Configuration - Sitecore 6 - Dedicated CM mode.manifest.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Configurations\Configuration - Sitecore 6.6 - DMS - Enable MVC.manifest.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Configurations\Configuration - Sitecore 6.6 - Enable MVC.manifest.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Configurations\Configuration - Sitecore 7 - Dedicated CD mode.manifest.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Configurations\Configuration - Sitecore 7 - Dedicated CM mode.manifest.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Configurations\Configuration - Sitecore 7.0 - DMS - Enable MVC.manifest.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Configurations\Configuration - Sitecore 7.0 - Enable MVC.manifest.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Plugins\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -4,14 +4,14 @@
   using SIM.Pipelines.Processors;
   using SIM.Pipelines.Restore;
   using SIM.Tool.Base.Wizards;
-  using Sitecore.Diagnostics;
+  using Sitecore.Diagnostics.Base;
 
   public class RestoreWizardArgs : WizardArgs
   {
     #region Fields
 
-    public readonly Instance Instance;
-    private readonly string instanceName;
+    public Instance Instance { get; }
+    private string instanceName { get; }
 
     #endregion
 
@@ -19,8 +19,8 @@
 
     public RestoreWizardArgs(Instance instance)
     {
-      this.Instance = instance;
-      this.instanceName = instance.Name;
+      Instance = instance;
+      instanceName = instance.Name;
     }
 
     #endregion
@@ -33,7 +33,7 @@
     {
       get
       {
-        return this.instanceName;
+        return instanceName;
       }
     }
 
@@ -43,8 +43,8 @@
 
     public override ProcessorArgs ToProcessorArgs()
     {
-      Assert.IsNotNull(this.Backup, "Any backup wasn't chosen", false);
-      return new RestoreArgs(this.Instance, this.Backup);
+      Assert.IsNotNull(Backup, "Any backup wasn\'t chosen");
+      return new RestoreArgs(Instance, Backup);
     }
 
     #endregion

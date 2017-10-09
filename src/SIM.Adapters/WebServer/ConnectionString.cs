@@ -4,9 +4,11 @@
 
   using System.Data.SqlClient;
   using System.Xml;
+  using SIM.Adapters.MongoDb;
   using SIM.Adapters.SqlServer;
-  using Sitecore.Diagnostics;
-  using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnostics.Base;
+  using JetBrains.Annotations;
+  using SIM.Extensions;
 
   #endregion
 
@@ -15,7 +17,7 @@
     #region Fields
 
     [NotNull]
-    private readonly XmlElementEx element;
+    private XmlElementEx Element { get; }
 
     #endregion
 
@@ -23,15 +25,15 @@
 
     public ConnectionString([NotNull] XmlElement element, [NotNull] XmlDocumentEx document) : this(new XmlElementEx(element, document))
     {
-      Assert.ArgumentNotNull(element, "element");
-      Assert.ArgumentNotNull(document, "document");
+      Assert.ArgumentNotNull(element, nameof(element));
+      Assert.ArgumentNotNull(document, nameof(document));
     }
 
     private ConnectionString([NotNull] XmlElementEx xmlElement)
     {
-      Assert.ArgumentNotNull(xmlElement, "xmlElement");
+      Assert.ArgumentNotNull(xmlElement, nameof(xmlElement));
 
-      this.element = xmlElement;
+      this.Element = xmlElement;
     }
 
     #endregion
@@ -39,19 +41,13 @@
     #region Properties
 
     [NotNull]
-    public string DefaultFileName
-    {
-      get
-      {
-        return "Sitecore." + this.Name + ".mdf";
-      }
-    }
+    public string DefaultFileName => $"Sitecore.{this.Name}.mdf";
 
     public bool IsMongoConnectionString
     {
       get
       {
-        if (SqlServerManager.Instance.IsMongoConnectionString(this.Value))
+        if (MongoDbManager.Instance.IsMongoConnectionString(this.Value))
         {
           return true;
         }
@@ -78,13 +74,13 @@
     {
       get
       {
-        XmlAttribute attribute = this.element.Attributes["name"];
+        XmlAttribute attribute = this.Element.Attributes["name"];
         if (attribute != null)
         {
-          return attribute.Value ?? this.element.Name;
+          return attribute.Value ?? this.Element.Name;
         }
 
-        return this.element.Name;
+        return this.Element.Name;
       }
     }
 
@@ -98,7 +94,7 @@
 
       set
       {
-        Assert.ArgumentNotNull(value, "value");
+        Assert.ArgumentNotNull(value, nameof(value));
 
         SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder(this.Value)
         {
@@ -113,15 +109,15 @@
     {
       get
       {
-        XmlAttribute attribute = this.element.Attributes["connectionString"];
+        XmlAttribute attribute = this.Element.Attributes["connectionString"];
         return attribute == null ? null : attribute.Value;
       }
 
       set
       {
-        Assert.ArgumentNotNull(value, "value");
+        Assert.ArgumentNotNull(value, nameof(value));
 
-        XmlAttribute attribute = this.element.Attributes["connectionString"] ?? this.element.CreateAttribute("connectionString");
+        XmlAttribute attribute = this.Element.Attributes["connectionString"] ?? this.Element.CreateAttribute("connectionString");
         attribute.Value = value;
       }
     }
@@ -132,22 +128,23 @@
 
     public void Delete()
     {
-      var xmlElement = this.element.Element;
+      var xmlElement = this.Element.Element;
       xmlElement.ParentNode.RemoveChild(xmlElement);
       this.SaveChanges();
     }
 
     [NotNull]
-    public string GenerateDatabaseName([NotNull] string instanceName)
+    public string GenerateDatabaseName([NotNull] string instanceName, [NotNull] string sqlPrefix)
     {
-      Assert.ArgumentNotNull(instanceName, "instanceName");
+      Assert.ArgumentNotNull(instanceName, nameof(instanceName));
+      Assert.ArgumentNotNull(sqlPrefix, nameof(sqlPrefix));
 
-      return SqlServerManager.Instance.GenerateDatabaseRealName(instanceName, this.Name, this.GetProductName(instanceName));
+      return SqlServerManager.Instance.GenerateDatabaseRealName(instanceName, sqlPrefix, this.Name, this.GetProductName(instanceName));
     }
 
     public void SaveChanges()
     {
-      this.element.Save();
+      this.Element.Save();
     }
 
     #endregion
@@ -157,9 +154,9 @@
     [NotNull]
     protected string GetProductName([NotNull] string instanceName)
     {
-      Assert.ArgumentNotNull(instanceName, "instanceName");
+      Assert.ArgumentNotNull(instanceName, nameof(instanceName));
 
-      string value = new SqlConnectionStringBuilder(this.Value).InitialCatalog;
+      var value = new SqlConnectionStringBuilder(this.Value).InitialCatalog;
       string[] arr = value.Split('_');
       return arr.Length == 2 ? arr[0].TrimStart(instanceName) : string.Empty;
     }

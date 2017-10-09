@@ -6,7 +6,8 @@
   using System.Xml;
   using SIM.Adapters.WebServer;
   using SIM.Instances;
-  using Sitecore.Diagnostics.Annotations;
+  using JetBrains.Annotations;
+  using SIM.Extensions;
 
   [UsedImplicitly]
   internal class ImportRegisterWebsite : ImportProcessor
@@ -16,7 +17,7 @@
     public string CreateNewAppPoolName(string oldName)
     {
       List<string> poolsNames = new List<string>();
-      foreach (var appPool in WebServerManager.CreateContext(string.Empty).ApplicationPools)
+      foreach (var appPool in WebServerManager.CreateContext().ApplicationPools)
       {
         poolsNames.Add(appPool.Name);
       }
@@ -41,7 +42,7 @@
 
     public long? CreateNewID(long? oldID)
     {
-      using (WebServerManager.WebServerContext context = WebServerManager.CreateContext("InstanceMgr.Init"))
+      using (WebServerManager.WebServerContext context = WebServerManager.CreateContext())
       {
         var instances = context.Sites;
         return oldID == null || instances.Any(x => x.Id == oldID) ? instances.Max(x => x.Id) + 1 : oldID;
@@ -102,10 +103,10 @@
     {
       // var websiteName = args.Instance.Name;
       // var appPoolName = WebServerManager.CreateContext(string.Empty).Sites[websiteName].ApplicationDefaults.ApplicationPoolName;        
-      this.ChangeAppPoolSettingsIfNeeded(args.temporaryPathToUnpack.PathCombine(ImportArgs.appPoolSettingsFileName), args);
-      this.ChangeWebsiteSettingsIfNeeded(args.temporaryPathToUnpack.PathCombine(ImportArgs.websiteSettingsFileName), args);
-      var importAppPoolSettingsCommand = string.Format(@"%windir%\system32\inetsrv\appcmd add apppool /in < {0}", args.temporaryPathToUnpack.PathCombine(ImportArgs.appPoolSettingsFileName) + ".fixed.xml");
-      var importWebsiteSettingsCommand = string.Format(@"%windir%\system32\inetsrv\appcmd add site /in < {0}", args.temporaryPathToUnpack.PathCombine(ImportArgs.websiteSettingsFileName) + ".fixed.xml");
+      ChangeAppPoolSettingsIfNeeded(args._TemporaryPathToUnpack.PathCombine(ImportArgs.AppPoolSettingsFileName), args);
+      ChangeWebsiteSettingsIfNeeded(args._TemporaryPathToUnpack.PathCombine(ImportArgs.WebsiteSettingsFileName), args);
+      var importAppPoolSettingsCommand = $@"%windir%\system32\inetsrv\appcmd add apppool /in < {args._TemporaryPathToUnpack.PathCombine(ImportArgs.AppPoolSettingsFileName) + ".fixed.xml"}";
+      var importWebsiteSettingsCommand = $@"%windir%\system32\inetsrv\appcmd add site /in < {args._TemporaryPathToUnpack.PathCombine(ImportArgs.WebsiteSettingsFileName) + ".fixed.xml"}";
 
       ExecuteCommand(importAppPoolSettingsCommand);
       ExecuteCommand(importWebsiteSettingsCommand);
@@ -117,7 +118,7 @@
 
     private static void ExecuteCommand(string command)
     {
-      var procStartInfo = new ProcessStartInfo("cmd", "/c " + command)
+      var procStartInfo = new ProcessStartInfo("cmd", $"/c {command}")
       {
         UseShellExecute = false, 
         CreateNoWindow = true
@@ -137,9 +138,9 @@
       // need to change AppName
       XmlDocumentEx appPoolSettings = new XmlDocumentEx();
       appPoolSettings.Load(path);
-      args.appPoolName = this.CreateNewAppPoolName(args.appPoolName);
-      appPoolSettings.SetElementAttributeValue("/appcmd/APPPOOL", "APPPOOL.NAME", args.appPoolName);
-      appPoolSettings.SetElementAttributeValue("appcmd/APPPOOL/add", "name", args.appPoolName);
+      args._AppPoolName = CreateNewAppPoolName(args._AppPoolName);
+      appPoolSettings.SetElementAttributeValue("/appcmd/APPPOOL", "APPPOOL.NAME", args._AppPoolName);
+      appPoolSettings.SetElementAttributeValue("appcmd/APPPOOL/add", "name", args._AppPoolName);
 
       appPoolSettings.Save(appPoolSettings.FilePath + ".fixed.xml");
     }
@@ -152,23 +153,23 @@
     {
       XmlDocumentEx websiteSettings = new XmlDocumentEx();
       websiteSettings.Load(path);
-      args.siteName = this.CreateNewSiteName(InstanceManager.Instances, args.siteName);
-      websiteSettings.SetElementAttributeValue("/appcmd/SITE", "SITE.NAME", args.siteName);
-      websiteSettings.SetElementAttributeValue("/appcmd/SITE/site", "name", args.siteName);
+      args._SiteName = CreateNewSiteName(InstanceManager.Default.Instances, args._SiteName);
+      websiteSettings.SetElementAttributeValue("/appcmd/SITE", "SITE.NAME", args._SiteName);
+      websiteSettings.SetElementAttributeValue("/appcmd/SITE/site", "name", args._SiteName);
 
-      websiteSettings.SetElementAttributeValue("/appcmd/SITE", "bindings", "http/*:80:" + args.siteName);
+      websiteSettings.SetElementAttributeValue("/appcmd/SITE", "bindings", $"http/*:80:{args._SiteName}");
 
       // need to change site ID
-      args.siteID = this.CreateNewID(args.siteID);
-      websiteSettings.SetElementAttributeValue("/appcmd/SITE", "SITE.ID", args.siteID.ToString());
-      websiteSettings.SetElementAttributeValue("/appcmd/SITE/site", "id", args.siteID.ToString());
+      args._SiteID = CreateNewID(args._SiteID);
+      websiteSettings.SetElementAttributeValue("/appcmd/SITE", "SITE.ID", args._SiteID.ToString());
+      websiteSettings.SetElementAttributeValue("/appcmd/SITE/site", "id", args._SiteID.ToString());
 
       // change apppool name
-      websiteSettings.SetElementAttributeValue("/appcmd/SITE/site/application", "applicationPool", args.appPoolName);
-      websiteSettings.SetElementAttributeValue("/appcmd/SITE/site/applicationDefaults", "applicationPool", args.appPoolName);
+      websiteSettings.SetElementAttributeValue("/appcmd/SITE/site/application", "applicationPool", args._AppPoolName);
+      websiteSettings.SetElementAttributeValue("/appcmd/SITE/site/applicationDefaults", "applicationPool", args._AppPoolName);
 
       // change root folder
-      websiteSettings.SetElementAttributeValue("/appcmd/SITE/site/application/virtualDirectory", "physicalPath", args.rootPath + "\\Website");
+      websiteSettings.SetElementAttributeValue("/appcmd/SITE/site/application/virtualDirectory", "physicalPath", $"{args._RootPath}\\Website");
 
       // TODO: need to change bindings in right way(maybe with the UI dialog)
       // websiteSettings.SetElementAttributeValue("/appcmd/SITE/site/bindings/binding[@bindingInformation='*:80:" + args.oldSiteName + "']", "bindingInformation", "*:80:" + args.siteName);
@@ -178,9 +179,9 @@
         bindingsElement.InnerXml = string.Empty;
 
         // it's a fucking HACK, I can't work with xml nodes
-        foreach (var key in args.bindings.Keys)
+        foreach (var key in args._Bindings.Keys)
         {
-          bindingsElement.InnerXml += "<binding protocol=\"http\" bindingInformation=\"*:{1}:{0}\" />".FormatWith(key, args.bindings[key].ToString());
+          bindingsElement.InnerXml += "<binding protocol=\"http\" bindingInformation=\"*:{1}:{0}\" />".FormatWith(key, args._Bindings[key].ToString());
         }
 
         // foreach (XmlElement bindingElement in bindingsElement.ChildNodes)

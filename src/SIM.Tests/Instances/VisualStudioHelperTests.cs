@@ -4,6 +4,7 @@
   using System.IO;
   using System.Linq;
   using Microsoft.VisualStudio.TestTools.UnitTesting;
+  using SIM.Extensions;
   using SIM.Instances;
 
   [TestClass]
@@ -17,12 +18,12 @@
       {
         // 1
         var tmpFolder = GetTempFolder();
-        var project1 = this.CreateProject(tmpFolder, "Project1");
-        var project2 = this.CreateProject(tmpFolder, "Project2");
-        var project3 = this.CreateProject(tmpFolder, "Project3");
+        var project1 = CreateProject(tmpFolder, "Project1");
+        var project2 = CreateProject(tmpFolder, "Project2");
+        var project3 = CreateProject(tmpFolder, "Project3");
 
         var actual = VisualStudioHelper.GetVisualStudioSolutionFiles(tmpFolder, tmpFolder).ToArray();
-        this.Assert(actual, new[]
+        Assert(actual, new[]
         {
           project1, project2, project3
         });
@@ -30,14 +31,14 @@
       {
         // 2
         var tmpFolder = GetTempFolder();
-        var project1 = this.CreateProject(tmpFolder, "Project1");
-        var project2 = this.CreateProject(tmpFolder, "Project2");
-        var project3 = this.CreateProject(tmpFolder, "Project3");
-        var solution1 = this.CreateSolution(tmpFolder, "Solution1", project1);
-        var solution2 = this.CreateSolution(tmpFolder, "Solution2", project1, project2);
+        var project1 = CreateProject(tmpFolder, "Project1");
+        var project2 = CreateProject(tmpFolder, "Project2");
+        var project3 = CreateProject(tmpFolder, "Project3");
+        var solution1 = CreateSolution(tmpFolder, "Solution1", project1);
+        var solution2 = CreateSolution(tmpFolder, "Solution2", project1, project2);
 
         var actual = VisualStudioHelper.GetVisualStudioSolutionFiles(tmpFolder, tmpFolder).ToArray();
-        this.Assert(actual, new[]
+        Assert(actual, new[]
         {
           solution1, solution2, project3
         });
@@ -62,7 +63,7 @@
       {
         var a = actual[i];
         var e = expected[i];
-        Microsoft.VisualStudio.TestTools.UnitTesting.Assert.AreEqual(a, e, "Array[{0}]".FormatWith(i));
+        Microsoft.VisualStudio.TestTools.UnitTesting.Assert.AreEqual(a, e, $"Array[{i}]");
       }
     }
 

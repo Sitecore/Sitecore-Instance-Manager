@@ -3,16 +3,14 @@
   using System;
   using System.Data;
   using System.Data.SqlClient;
-  using System.DirectoryServices.ActiveDirectory;
   using System.Linq;
-  using System.Reflection;
   using System.ServiceProcess;
-  using System.Threading;
-  using SIM.Adapters.SqlServer;
-  using SIM.Tool.Base.Profiles;
-  using Sitecore.Diagnostics;
-  using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnostics.Base;
+  using JetBrains.Annotations;
   using Sitecore.Diagnostics.Logging;
+  using SIM.Adapters.SqlServer;
+  using SIM.Extensions;
+  using SIM.Tool.Base.Profiles;
 
   public class EnvironmentHelper
   {
@@ -25,28 +23,15 @@
 
     public static readonly string[] FilePackageFolders = new[]
     {
-      ApplicationManager.FilePackagesFolder, ApplicationManager.PluginsFolder, ApplicationManager.DefaultPackages, ApplicationManager.StockPlugins
+      ApplicationManager.FilePackagesFolder, ApplicationManager.DefaultPackages
     };
 
     [NotNull]
     private static readonly AdvancedProperty<bool> CheckSqlServerState = AdvancedSettings.Create("App/SqlServer/CheckSqlState", false);
 
-    [NotNull]
-    private static readonly AdvancedProperty<string> GetCurrentDomainTimeout = AdvancedSettings.Create("App/GetCurrentDomain/Timeout", "00:00:00.1");
-
-    private static bool? isSitecoreMachine;
-
     #endregion
 
     #region Public properties
-
-    public static bool IsSitecoreMachine
-    {
-      get
-      {
-        return isSitecoreMachine ?? (bool)(isSitecoreMachine = GetIsSitecoreMachine());
-      }
-    }
 
     #endregion
 
@@ -54,7 +39,7 @@
 
     public static bool CheckSqlServer()
     {
-      if (!EnvironmentHelper.CheckSqlServerState.Value)
+      if (!CheckSqlServerState.Value)
       {
         return true;
       }
@@ -63,22 +48,22 @@
       {
         using (new ProfileSection("Check SQL Server"))
         {
-          Profile profile = ProfileManager.Profile;
+          var profile = ProfileManager.Profile;
           Assert.IsNotNull(profile, "Profile is unavailable");
 
           var ds = new SqlConnectionStringBuilder(profile.ConnectionString).DataSource;
           var arr = ds.Split('\\');
-          var name = arr.Length == 2 ? arr[1] : string.Empty;
+          var name = arr.Length == 2 ? arr[1] : String.Empty;
 
           var serviceName = GetSqlServerServiceName(profile.ConnectionString);
-          if (string.IsNullOrEmpty(serviceName))
+          if (String.IsNullOrEmpty(serviceName))
           {
             WindowHelper.HandleError("The {0} instance of SQL Server cannot be reached".FormatWith(ds), false);
             return ProfileSection.Result(false);
           }
 
           ServiceController[] serviceControllers = ServiceController.GetServices();
-          ServiceController server = (!string.IsNullOrEmpty(name) ? serviceControllers.FirstOrDefault(s => s.ServiceName.EqualsIgnoreCase(name)) : null) ??
+          ServiceController server = (!String.IsNullOrEmpty(name) ? serviceControllers.FirstOrDefault(s => s.ServiceName.EqualsIgnoreCase(name)) : null) ??
                                      serviceControllers.FirstOrDefault(
                                        s => s.ServiceName.EqualsIgnoreCase(serviceName)) ??
                                      serviceControllers.FirstOrDefault(s => s.ServiceName.EqualsIgnoreCase(serviceName));
@@ -99,48 +84,16 @@
 
     #region Private methods
 
-    private static bool CheckSqlServer(ServiceController server)
+    private static bool CheckSqlServer([CanBeNull] ServiceController server)
     {
-      if (server.Status != ServiceControllerStatus.Running)
+      if (server != null && server.Status == ServiceControllerStatus.Running)
       {
-        WindowHelper.HandleError("The {0} instance of SQL Server is not running, it is in {1} state".FormatWith(server.ServiceName, server.Status), false);
-        return false;
+        return true;
       }
 
-      return true;
-    }
+      WindowHelper.HandleError("The {0} instance of SQL Server is not running, it is in {1} state".FormatWith(server.ServiceName, server.Status), false);
 
-    private static bool GetIsSitecoreMachine()
-    {
-      using (new ProfileSection("IsSitecoreMachine"))
-      {
-        try
-        {
-          TimeSpan timeout;
-          if (!TimeSpan.TryParse(GetCurrentDomainTimeout.Value, out timeout))
-          {
-            timeout = TimeSpan.Parse(GetCurrentDomainTimeout.DefaultValue);
-          }
-
-          try
-          {
-            var name = Run(timeout, () => Domain.GetCurrentDomain().Name);
-
-            return "dk.sitecore.net".EqualsIgnoreCase(name);
-          }
-          catch (Exception ex)
-          {
-            Log.Warn(ex, "An error occurred during retrieving current domain name");
-
-            return false;
-          }
-        }
-        catch (Exception ex)
-        {
-          Log.Error(ex, "Error getting error getting current domain");
-          return false;
-        }
-      }
+      return false;
     }
 
     private static string GetSqlServerServiceName(string connectionString)
@@ -171,43 +124,6 @@
         Log.Error(ex, "GetSqlServerServiceName");
         return null;
       }
-    }
-
-    private static T Run<T>(TimeSpan timeout, [NotNull] Func<T> operation) where T : class
-    {
-      Assert.ArgumentNotNull(operation, "operation");
-      Exception error = null;
-      T result = null;
-
-      var mre = new ManualResetEvent(false);
-      ThreadPool.QueueUserWorkItem(
-        delegate
-        {
-          try
-          {
-            result = operation();
-          }
-          catch (Exception e)
-          {
-            error = e;
-          }
-          finally
-          {
-            mre.Set();
-          }
-        });
-
-      if (!mre.WaitOne(timeout, true))
-      {
-        return null;
-      }
-
-      if (error != null)
-      {
-        throw new TargetInvocationException(error);
-      }
-
-      return result;
     }
 
     #endregion

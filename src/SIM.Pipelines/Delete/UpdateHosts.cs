@@ -1,8 +1,8 @@
 ﻿namespace SIM.Pipelines.Delete
 {
   using SIM.Adapters.WebServer;
-  using Sitecore.Diagnostics;
-  using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnostics.Base;
+  using JetBrains.Annotations;
 
   #region
 
@@ -15,7 +15,7 @@
 
     protected override void Process([NotNull] DeleteArgs args)
     {
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(args, nameof(args));
 
       Hosts.Remove(args.InstanceHostNames);
     }

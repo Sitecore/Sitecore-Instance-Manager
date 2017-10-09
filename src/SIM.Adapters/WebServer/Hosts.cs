@@ -5,10 +5,10 @@
   using System.IO;
   using System.Linq;
   using System.Text;
-  using System.Text.RegularExpressions;
-  using Sitecore.Diagnostics;
-  using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnostics.Base;
+  using JetBrains.Annotations;
   using Sitecore.Diagnostics.Logging;
+  using SIM.Extensions;
 
   #region
 
@@ -16,53 +16,38 @@
 
   public static class Hosts
   {
-    #region Constants
-
-    private const string ExactRegexPattern = @"^\s*\d{{1,3}}\.\d{{1,3}}\.\d{{1,3}}\.\d{{1,3}}\s+({0})\s*$";
-
-    #endregion
-
-    #region Fields
-
-    private static readonly string AppendPattern = Environment.NewLine + "127.0.0.1\t{0}";
-
-    #endregion
 
     #region Public Methods
 
     public static void Append([NotNull] string hostName)
     {
-      Assert.ArgumentNotNull(hostName, "hostName");
+      Assert.ArgumentNotNull(hostName, nameof(hostName));
 
-      string path = GetHostsFilePath();
+      var path = GetHostsFilePath();
       string[] lines = FileSystem.FileSystem.Local.File.ReadAllLines(path);
 
-      const string DefaultRegexPattern = @"^\s*\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\s+(\S+)$";
-      Regex regex = new Regex(DefaultRegexPattern);
-      if (lines.All(line => !LineMatches(regex, line, hostName)))
+      Log.Info($"Appending host: {hostName}");
+      if (lines.Any(line => Matches(hostName, line)))
       {
-        Log.Info("Appending host: {0}", hostName);
-        FileSystem.FileSystem.Local.File.AppendAllText(path, AppendPattern.FormatWith(hostName));
+        Log.Info("Host already exists");
+        return;
       }
+      
+      FileSystem.FileSystem.Local.File.AppendAllText(path, Environment.NewLine + $"127.0.0.1\t{hostName}");
     }
 
-    public static bool Contains([NotNull] string hostName)
+    private static bool Matches(string hostName, string line)
     {
-      Assert.ArgumentNotNullOrEmpty(hostName, "hostName");
-
-      string path = GetHostsFilePath();
-      string[] lines = FileSystem.FileSystem.Local.File.ReadAllLines(path);
-      Regex regex = new Regex(ExactRegexPattern.FormatWith(Regex.Escape(hostName)));
-      return lines.Any(regex.IsMatch);
+      return (line + " ").Replace("\t", " ").Contains(" " + hostName + " ");
     }
-
+    
     public static void Remove([NotNull] IEnumerable<string> hostNames)
     {
-      Assert.ArgumentNotNull(hostNames, "hostNames");
+      Assert.ArgumentNotNull(hostNames, nameof(hostNames));
 
       foreach (string hostName in hostNames)
       {
-        Log.Info("Removing host: {0}", hostName);
+        Log.Info($"Removing host: {hostName}");
         Remove(hostName);
       }
     }
@@ -70,12 +55,6 @@
     #endregion
 
     #region Methods
-
-    #region Constants
-
-    private const char separator = '\t';
-
-    #endregion
 
     #region Private methods
 
@@ -85,39 +64,21 @@
       const string HostsPath = @"%WINDIR%\System32\drivers\etc\hosts";
       return Environment.ExpandEnvironmentVariables(HostsPath);
     }
-
-    private static bool LineMatches([NotNull] Regex regex, [NotNull] string line, [NotNull] string hostName)
-    {
-      Assert.ArgumentNotNull(regex, "regex");
-      Assert.ArgumentNotNull(line, "line");
-      Assert.ArgumentNotNull(hostName, "hostName");
-
-      return regex.Match(line).Groups[1].Value.EqualsIgnoreCase(hostName);
-    }
-
-    [NotNull]
-    private static string NormalizeLine([NotNull] string line)
-    {
-      Assert.ArgumentNotNull(line, "line");
-
-      return line.Trim(' ', separator).Replace("  ", " ").Replace("  ", " ").Replace(' ', separator).Replace(separator.ToString() + separator, separator.ToString());
-    }
-
+    
     private static void Remove([NotNull] string hostName)
     {
-      Assert.ArgumentNotNull(hostName, "hostName");
+      Assert.ArgumentNotNull(hostName, nameof(hostName));
 
-      string path = GetHostsFilePath();
-      string[] lines = FileSystem.FileSystem.Local.File.ReadAllLines(path);
-      Regex regex = new Regex(ExactRegexPattern.FormatWith(Regex.Escape(hostName)));
+      var path = GetHostsFilePath();
+      var records = GetRecords().ToArray();
       using (StreamWriter writer = new StreamWriter(path, false))
       {
-        foreach (string line in lines)
+        foreach (var record in records)
         {
-          string record = NormalizeLine(line);
-          if (!string.IsNullOrEmpty(record) && !regex.IsMatch(record))
+          var hostRecord = record as IpHostRecord;
+          if (hostRecord == null || !hostRecord.Host.EqualsIgnoreCase(hostName))
           {
-            writer.WriteLine(line);
+            writer.WriteLine(record);
           }
         }
       }
@@ -129,28 +90,59 @@
 
     #region Public methods
 
-    public static IEnumerable<HostRecord> GetRecords()
+    public static IEnumerable<IHostRecord> GetRecords()
     {
-      string path = GetHostsFilePath();
+      var path = GetHostsFilePath();
       string[] lines = FileSystem.FileSystem.Local.File.ReadAllLines(path);
       foreach (string line in lines)
       {
-        string record = NormalizeLine(line);
-        if (!string.IsNullOrEmpty(record) && record[0] != '#')
+        if (!string.IsNullOrEmpty(line))
         {
-          var r = record.Split(separator);
-          yield return new HostRecord(r[0], r[1]);
+          if (line[0] != '#')
+          {
+            var arr = line.Split(" \t".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
+            var arrLength = arr.Length;
+            if (arrLength < 2)
+            {
+              continue;
+            }
+
+            var ip = arr[0];
+            for (var i = 1; i < arrLength; ++i)
+            {
+              yield return new IpHostRecord(ip, arr[i]);
+            }
+          }
+          else
+          {
+            yield return new CommentHostRecord(line);
+          }
         }
       }
     }
 
-    public static void Save(IEnumerable<HostRecord> records)
+    public class CommentHostRecord : IHostRecord
     {
-      string path = GetHostsFilePath();
-      string text = FileSystem.FileSystem.Local.File.ReadAllText(path);
-      Log.Info("A backup of the hosts file\r\n{0}",  text);
+      private string Line { get; }
+
+      public CommentHostRecord(string line)
+      {
+        Line = line;
+      }
+
+      public override string ToString()
+      {
+        return Line;
+      }
+    }
+
+    public static void Save(IEnumerable<IHostRecord> records)
+    {
+      var path = GetHostsFilePath();
+      var text = FileSystem.FileSystem.Local.File.ReadAllText(path);
+      Log.Info($"A backup of the hosts file\r\n{text}");
       var sb = new StringBuilder();
-      foreach (HostRecord hostRecord in records)
+      foreach (IHostRecord hostRecord in records)
       {
         sb.AppendLine(hostRecord.ToString());
       }
@@ -162,22 +154,21 @@
 
     #region Nested type: HostRecord
 
-    public class HostRecord
+    public class IpHostRecord : IHostRecord
     {
       #region Fields
 
-      private static int _id;
-      private string id;
+      private static int NextId { get; set; }
 
       #endregion
 
       #region Constructors
 
-      public HostRecord(string ip, string host = null)
+      public IpHostRecord(string ip, string host = null)
       {
-        this.IP = ip;
-        this.Host = host ?? string.Empty;
-        this.id = _id++.ToString();
+        IP = ip;
+        Host = host ?? string.Empty;
+        ID = NextId++.ToString();
       }
 
       #endregion
@@ -186,13 +177,7 @@
 
       public string Host { get; set; }
 
-      public string ID
-      {
-        get
-        {
-          return this.id;
-        }
-      }
+      public string ID { get; }
 
       public string IP { get; set; }
 
@@ -202,10 +187,14 @@
 
       public override string ToString()
       {
-        return this.IP + separator + this.Host;
+        return IP + '\t' + Host;
       }
 
       #endregion
+    }
+
+    public interface IHostRecord
+    {
     }
 
     #endregion

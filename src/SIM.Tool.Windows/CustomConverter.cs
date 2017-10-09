@@ -5,8 +5,8 @@ namespace SIM.Tool.Windows
   using System.Windows.Data;
   using SIM.Instances;
   using SIM.Tool.Base.Plugins;
-  using Sitecore.Diagnostics;
-  using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnostics.Base;
+  using JetBrains.Annotations;
   using Sitecore.Diagnostics.Logging;
 
   public class CustomConverter : IValueConverter
@@ -14,7 +14,7 @@ namespace SIM.Tool.Windows
     #region Fields
 
     [NotNull]
-    private readonly IMainWindowButton button;
+    private IMainWindowButton Button { get; }
 
     #endregion
 
@@ -22,9 +22,9 @@ namespace SIM.Tool.Windows
 
     public CustomConverter([NotNull] IMainWindowButton mainWindowButton)
     {
-      Assert.ArgumentNotNull(mainWindowButton, "mainWindowButton");
+      Assert.ArgumentNotNull(mainWindowButton, nameof(mainWindowButton));
 
-      this.button = mainWindowButton;
+      Button = mainWindowButton;
     }
 
     #endregion
@@ -36,8 +36,8 @@ namespace SIM.Tool.Windows
     {
       using (new ProfileSection("Checking if button is enabled", this))
       {
-        ProfileSection.Argument("this.button", this.button.GetType().FullName);
-        return this.button.IsEnabled(MainWindow.Instance, value as Instance);
+        ProfileSection.Argument("this.button", Button.GetType().FullName);
+        return Button.IsEnabled(MainWindow.Instance, value as Instance);
       }
     }
 

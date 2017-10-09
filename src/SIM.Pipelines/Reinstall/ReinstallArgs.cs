@@ -11,7 +11,7 @@
   using SIM.Instances;
   using SIM.Pipelines.Processors;
   using SIM.Products;
-  using Sitecore.Diagnostics.Annotations;
+  using JetBrains.Annotations;
 
   #endregion
 
@@ -20,94 +20,103 @@
     #region Fields
 
     [NotNull]
-    public readonly IEnumerable<BindingInfo> Bindings;
+    public readonly IEnumerable<BindingInfo> _Bindings;
 
     [NotNull]
-    public readonly SqlConnectionStringBuilder ConnectionString;
+    public SqlConnectionStringBuilder ConnectionString { get; }
 
     [NotNull]
-    public readonly string DataFolderPath;
+    public string DataFolderPath { get; }
 
     [NotNull]
-    public readonly string DatabasesFolderPath;
+    public string DatabasesFolderPath { get; }
 
-    public readonly bool ForceNetFramework4;
+    public bool ForceNetFramework4 { get; }
 
     [CanBeNull]
-    public readonly ICollection<Database> InstanceDatabases;
+    public readonly ICollection<Database> _InstanceDatabases;
 
-    public readonly bool Is32Bit;
+    public bool Is32Bit { get; }
 
-    public readonly bool IsClassic;
-
-    [NotNull]
-    public readonly string LicenseFilePath;
+    public bool IsClassic { get; }
 
     [NotNull]
-    public readonly IEnumerable<Product> Modules;
+    public string LicenseFilePath { get; }
 
     [NotNull]
-    public readonly string Name;
+    public readonly IEnumerable<Product> _Modules;
 
     [NotNull]
-    public readonly Product Product;
-
-    public readonly string RootPath;
+    public string Name { get; }
 
     [NotNull]
-    public readonly Action<bool> StopInstance;
+    public Product Product { get; }
 
-    public readonly string TempFolder;
-
-    [NotNull]
-    public readonly string WebRootPath;
+    public string RootPath { get; }
 
     [NotNull]
-    public readonly string WebServerIdentity;
+    public readonly Action<bool?> _StopInstance;
+
+    public string TempFolder { get; }
 
     [NotNull]
-    public readonly long WebsiteID;
+    public string WebRootPath { get; }
 
     [NotNull]
-    public readonly string instanceName;
+    public string WebServerIdentity { get; }
+
+    public long WebsiteID { get; }
+
+    [NotNull]
+    public string instanceName { get; }
+
+    public bool ServerSideRedirect { get; }
+
+    public bool IncreaseExecutionTimeout { get; }
+    public string SqlPrefix { get; }
 
     #endregion
 
     #region Constructors
 
-    public ReinstallArgs(Instance instance, SqlConnectionStringBuilder connectionString, string license, string webServerIdentity)
+    public ReinstallArgs(Instance instance, SqlConnectionStringBuilder connectionString, string license, string webServerIdentity, bool serverSideRedirect)
     {
-      this.ConnectionString = connectionString;
-      this.Name = instance.Name;
-      this.Bindings = instance.Bindings;
-      this.Product = instance.Product;
-      this.WebRootPath = instance.WebRootPath;
-      this.RootPath = instance.RootPath;
-      this.DataFolderPath = instance.DataFolderPath;
-      this.DatabasesFolderPath = Path.Combine(this.RootPath, "Databases");
-      this.WebServerIdentity = webServerIdentity;
-      this.LicenseFilePath = license;
-      this.Modules = new Product[0];
-      this.IsClassic = instance.IsClassic;
-      this.Is32Bit = instance.Is32Bit;
-      this.ForceNetFramework4 = instance.IsNetFramework4;
-      this.TempFolder = Path.Combine(this.RootPath, "Temp");
-      this.InstanceDatabases = instance.AttachedDatabases;
-      this.instanceName = instance.Name;
-      this.StopInstance = instance.Stop;
-      this.WebsiteID = instance.ID;
+      ConnectionString = connectionString;
+      Name = instance.Name;
+      _Bindings = instance.Bindings;
+      Product = instance.Product;
+      WebRootPath = instance.WebRootPath;
+      RootPath = instance.RootPath;
+      DataFolderPath = instance.DataFolderPath;
+      DatabasesFolderPath = Path.Combine(RootPath, "Databases");
+      WebServerIdentity = webServerIdentity;
+      LicenseFilePath = license;
+      _Modules = new Product[0];
+      IsClassic = instance.IsClassic;
+      Is32Bit = instance.Is32Bit;
+      ForceNetFramework4 = instance.IsNetFramework4;
+      ServerSideRedirect = serverSideRedirect;
+      TempFolder = Path.Combine(RootPath, "Temp");
+      _InstanceDatabases = instance.AttachedDatabases;
+      instanceName = instance.Name;
+      _StopInstance = instance.Stop;
+      WebsiteID = instance.ID;
+      SqlPrefix = AttachDatabasesHelper.GetSqlPrefix(instance);
+
+      var executionTimeout = UpdateWebConfigHelper.GetHttpRuntime(instance.GetWebResultConfig()).GetAttribute("executionTimeout");
+      IncreaseExecutionTimeout = string.IsNullOrEmpty(executionTimeout) || executionTimeout != "600";
     }
 
-    #endregion
-
     #region Properties
+
+    #endregion
 
     [NotNull]
     public string PackagePath
     {
       get
       {
-        return this.Product.PackagePath;
+        return Product.PackagePath;
       }
     }
 
@@ -120,7 +129,7 @@
     {
       get
       {
-        return this.instanceName;
+        return instanceName;
       }
     }
 

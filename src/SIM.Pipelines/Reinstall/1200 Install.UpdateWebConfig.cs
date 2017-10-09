@@ -1,8 +1,7 @@
 ﻿namespace SIM.Pipelines.Reinstall
 {
-  using SIM.Pipelines.Install;
-  using Sitecore.Diagnostics;
-  using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnostics.Base;
+  using JetBrains.Annotations;
 
   #region
 
@@ -19,11 +18,11 @@
 
     #region Methods
 
-    protected override void Process([NotNull] ReinstallArgs args)
+    protected override void Process(ReinstallArgs args)
     {
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(args, nameof(args));
 
-      UpdateWebConfigHelper.Process(args.RootPath, args.WebRootPath, args.DataFolderPath);
+      UpdateWebConfigHelper.Process(args.RootPath, args.WebRootPath, args.DataFolderPath, args.ServerSideRedirect, args.IncreaseExecutionTimeout);
     }
 
     #endregion

@@ -14,16 +14,18 @@
   using SIM.Tool.Base.Pipelines;
   using SIM.Tool.Base.Profiles;
   using SIM.Tool.Base.Wizards;
-  using Sitecore.Diagnostics;
-  using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnostics.Base;
+  using Sitecore.Diagnostics.Logging;
+  using JetBrains.Annotations;
+  using SIM.Extensions;
 
   public partial class ModulesDetails : IWizardStep, ICustomButton
   {
     #region Fields
 
-    private bool isProductFamiliesChanged;
-    private ObservableCollection<ProductInCheckbox> productFamilies = new ObservableCollection<ProductInCheckbox>();
-    private ObservableCollection<ProductInCheckbox> unfilteredProductFamilies = new ObservableCollection<ProductInCheckbox>();
+    private bool _IsProductFamiliesChanged;
+    private ObservableCollection<ProductInCheckbox> _ProductFamilies = new ObservableCollection<ProductInCheckbox>();
+    private ObservableCollection<ProductInCheckbox> _UnfilteredProductFamilies = new ObservableCollection<ProductInCheckbox>();
 
     #endregion
 
@@ -31,8 +33,8 @@
 
     public ModulesDetails()
     {
-      this.InitializeComponent();
-      this.sitecoreModules.ItemsSource = this.productFamilies;
+      InitializeComponent();
+      sitecoreModules.ItemsSource = _ProductFamilies;
     }
 
     #endregion
@@ -41,27 +43,27 @@
 
     private void ModuleSelected([CanBeNull] object sender, [CanBeNull] SelectionChangedEventArgs e)
     {
-      this.sitecoreModules.SelectedIndex = -1;
+      sitecoreModules.SelectedIndex = -1;
     }
 
     #region Search Implementation
 
     private void DoSearch(string filter)
     {
-      this.productFamilies = new ObservableCollection<ProductInCheckbox>(this.unfilteredProductFamilies.Where(product => product.Name.ContainsIgnoreCase(filter) || product.Value.SearchToken.ContainsIgnoreCase(filter)));
-      this.sitecoreModules.ItemsSource = this.productFamilies;
+      _ProductFamilies = new ObservableCollection<ProductInCheckbox>(_UnfilteredProductFamilies.Where(product => product.Name.ContainsIgnoreCase(filter) || product.Value.SearchToken.ContainsIgnoreCase(filter)));
+      sitecoreModules.ItemsSource = _ProductFamilies;
     }
 
     private void Search(object sender, RoutedEventArgs e)
     {
-      this.DoSearch(this.SearchTextBox.Text);
+      DoSearch(SearchTextBox.Text);
     }
 
     private void SearchTextBoxKeyPressed(object sender, KeyEventArgs e)
     {
       try
       {
-        Assert.ArgumentNotNull(e, "e");
+        Assert.ArgumentNotNull(e, nameof(e));
 
         if (e.Handled)
         {
@@ -73,10 +75,10 @@
 
         if (key == Key.Escape)
         {
-          this.SearchTextBox.Text = string.Empty;
+          SearchTextBox.Text = string.Empty;
         }
 
-        this.DoSearch(this.SearchTextBox.Text);
+        DoSearch(SearchTextBox.Text);
       }
       catch (Exception ex)
       {
@@ -105,10 +107,10 @@
       IEnumerable<string> moduleNames = modules.GroupBy(module => module.Name).Select(moduleGroup => moduleGroup.Key);
       ProductInCheckbox[] productCheckboxes = moduleNames.Select(moduleName => new ProductInCheckbox(moduleName, modules.Where(module => module.Name.EqualsIgnoreCase(moduleName)).OrderByDescending(m => m.VersionAndRevision).ToArray())).ToArray();
 
-      this.productFamilies = new ObservableCollection<ProductInCheckbox>(productCheckboxes);
-      this.unfilteredProductFamilies = new ObservableCollection<ProductInCheckbox>(productCheckboxes);
+      _ProductFamilies = new ObservableCollection<ProductInCheckbox>(productCheckboxes);
+      _UnfilteredProductFamilies = new ObservableCollection<ProductInCheckbox>(productCheckboxes);
 
-      foreach (Product module in args.Modules)
+      foreach (var module in args._Modules)
       {
         Product alreadySelectedModule = module;
         ProductInCheckbox checkBoxItem = productCheckboxes.SingleOrDefault(cbi => cbi.Name.Equals(alreadySelectedModule.Name, StringComparison.OrdinalIgnoreCase));
@@ -119,17 +121,17 @@
         }
       }
 
-      this.DoSearch(this.SearchTextBox.Text = string.Empty);
-      this.sitecoreModules.ItemsSource = this.productFamilies;
+      DoSearch(SearchTextBox.Text = string.Empty);
+      sitecoreModules.ItemsSource = _ProductFamilies;
     }
 
     bool IWizardStep.SaveChanges(WizardArgs wizardArgs)
     {
       var args = (InstallModulesWizardArgs)wizardArgs;
       Product product = args.Product;
-      Assert.IsNotNull(product, "product");
-      Product[] selectedModules = this.unfilteredProductFamilies.Where(mm => mm.IsChecked).Select(mm => mm.Value).ToArray();
-      args.Modules.AddRange(selectedModules.Where(module => !args.Modules.Any(p => p.Name.Equals(module.Name, StringComparison.OrdinalIgnoreCase))));
+      Assert.IsNotNull(product, nameof(product));
+      Product[] selectedModules = _UnfilteredProductFamilies.Where(mm => mm.IsChecked).Select(mm => mm.Value).ToArray();
+      args._Modules.AddRange(selectedModules.Where(module => !args._Modules.Any(p => p.Name.Equals(module.Name, StringComparison.OrdinalIgnoreCase))));
 
       return true;
     }
@@ -179,26 +181,29 @@
 
         Product.TryParse(path, out addedProduct);
 
-        if (addedProduct == null || string.IsNullOrEmpty(addedProduct.Name) || string.IsNullOrEmpty(addedProduct.Version) || string.IsNullOrEmpty(addedProduct.Revision))
+        if (string.IsNullOrEmpty(addedProduct?.Name) || string.IsNullOrEmpty(addedProduct.Version) || string.IsNullOrEmpty(addedProduct.Revision))
         {
-          WindowHelper.ShowMessage("Selected file is not a Sitecore module package");
+          var errorMessage =
+            $"There was a problem installing a Sitecore module package. The requested package had the following properties: addedProduct is null: [{addedProduct == null}] | addedProduct name: [{addedProduct?.Name}] | addedProduct version: [{addedProduct?.Version}] | addedProduct revision: [{addedProduct?.Revision}]";
+          WindowHelper.ShowMessage($"Selected file is not a Sitecore module package");
+          Log.Error(errorMessage);
           return;
         }
 
-        var family = this.GetProductFamily(addedProduct.OriginalName);
+        var family = GetProductFamily(addedProduct.OriginalName);
 
         if (family == null)
         {
           FileSystem.FileSystem.Local.File.Copy(path, Path.Combine(ProfileManager.Profile.LocalRepository, fileName));
 
           Product.TryParse(Path.Combine(ProfileManager.Profile.LocalRepository, fileName), out addedProduct);
-          products = this.productFamilies.ToList();
+          products = _ProductFamilies.ToList();
           products.Add(family = new ProductInCheckbox(addedProduct.Name, new[]
           {
             addedProduct
           }));
 
-          this.isProductFamiliesChanged = true;
+          _IsProductFamiliesChanged = true;
         }
         else
         {
@@ -210,10 +215,10 @@
             FileSystem.FileSystem.Local.File.Copy(path, Path.Combine(location, fileName));
             Product.TryParse(Path.Combine(location, fileName), out addedProduct);
 
-            products = this.productFamilies.Where(item => !item.Name.Equals(family.Name, StringComparison.InvariantCultureIgnoreCase)).ToList();
-            products.Insert(this.productFamilies.IndexOf(family), family = new ProductInCheckbox(family.Name, family.Scope.Add(addedProduct).ToArray()));
+            products = _ProductFamilies.Where(item => !item.Name.Equals(family.Name, StringComparison.InvariantCultureIgnoreCase)).ToList();
+            products.Insert(_ProductFamilies.IndexOf(family), family = new ProductInCheckbox(family.Name, family.Scope.Add(addedProduct).ToArray()));
 
-            this.isProductFamiliesChanged = true;
+            _IsProductFamiliesChanged = true;
           }
           else
           {
@@ -225,11 +230,11 @@
         }
 
         ProductManager.Initialize(ProfileManager.Profile.LocalRepository);
-        this.SelectAddedPackage(family, addedProduct);
+        SelectAddedPackage(family, addedProduct);
 
-        if (this.isProductFamiliesChanged)
+        if (_IsProductFamiliesChanged)
         {
-          this.RefreshDataSource(products);
+          RefreshDataSource(products);
         }
       }
     }
@@ -245,16 +250,16 @@
 
     private ProductInCheckbox GetProductFamily(string originalName)
     {
-      return this.productFamilies.FirstOrDefault(productInCheckbox => productInCheckbox.Scope.FirstOrDefault().IsNotNull().OriginalName.Equals(originalName, StringComparison.InvariantCultureIgnoreCase));
+      return _ProductFamilies.FirstOrDefault(productInCheckbox => productInCheckbox.Scope.FirstOrDefault().IsNotNull().OriginalName.Equals(originalName, StringComparison.InvariantCultureIgnoreCase));
     }
 
     private void RefreshDataSource(List<ProductInCheckbox> products)
     {
-      this.productFamilies = new ObservableCollection<ProductInCheckbox>(products);
-      this.unfilteredProductFamilies = new ObservableCollection<ProductInCheckbox>(products);
-      this.sitecoreModules.ItemsSource = this.productFamilies;
+      _ProductFamilies = new ObservableCollection<ProductInCheckbox>(products);
+      _UnfilteredProductFamilies = new ObservableCollection<ProductInCheckbox>(products);
+      sitecoreModules.ItemsSource = _ProductFamilies;
 
-      this.isProductFamiliesChanged = false;
+      _IsProductFamiliesChanged = false;
     }
 
     private void SelectAddedPackage(ProductInCheckbox family, Product product)

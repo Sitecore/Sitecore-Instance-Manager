@@ -1,8 +1,8 @@
 ﻿namespace SIM.Pipelines.Import
 {
   using SIM.Pipelines.Processors;
-  using Sitecore.Diagnostics;
-  using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnostics.Base;
+  using JetBrains.Annotations;
 
   public abstract class ImportProcessor : Processor
   {
@@ -12,14 +12,14 @@
 
     public override sealed long EvaluateStepsCount(ProcessorArgs args)
     {
-      return this.EvaluateStepsCount((ImportArgs)args);
+      return EvaluateStepsCount((ImportArgs)args);
     }
 
     public override bool IsRequireProcessing(ProcessorArgs args)
     {
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(args, nameof(args));
 
-      return this.IsRequireProcessing((ImportArgs)args);
+      return IsRequireProcessing((ImportArgs)args);
     }
 
     #endregion
@@ -33,16 +33,16 @@
 
     protected virtual bool IsRequireProcessing([NotNull] ImportArgs args)
     {
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(args, nameof(args));
 
       return true;
     }
 
     protected override void Process(ProcessorArgs args)
     {
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(args, nameof(args));
 
-      this.Process((ImportArgs)args);
+      Process((ImportArgs)args);
     }
 
     protected abstract void Process([NotNull] ImportArgs args);

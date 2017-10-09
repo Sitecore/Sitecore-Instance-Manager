@@ -3,8 +3,9 @@
   using System.Diagnostics;
   using System.IO;
   using SIM.Adapters.MongoDb;
-  using Sitecore.Diagnostics;
-  using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnostics.Base;
+  using JetBrains.Annotations;
+  using SIM.Extensions;
 
   public static class MongoHelper
   {
@@ -12,11 +13,11 @@
 
     public static void Backup([NotNull] MongoDbDatabase database, [NotNull] string folder)
     {
-      Assert.ArgumentNotNull(database, "database");
-      Assert.ArgumentNotNull(folder, "folder");
+      Assert.ArgumentNotNull(database, nameof(database));
+      Assert.ArgumentNotNull(folder, nameof(folder));
 
       var arguments = @"--db ""{0}"" --out ""{1}""".FormatWith(database.LogicalName, folder);
-      var info = new ProcessStartInfo(ApplicationManager.GetEmbeddedApp("mongo.tools.zip", "SIM.Pipelines", "mongodump.exe"), arguments)
+      var info = new ProcessStartInfo(ApplicationManager.GetEmbeddedFile("mongo.tools.zip", "SIM.Pipelines", "mongodump.exe"), arguments)
       {
         CreateNoWindow = true, 
         WindowStyle = ProcessWindowStyle.Hidden
@@ -29,11 +30,19 @@
 
     public static void Restore([NotNull] string directoryPath)
     {
-      Assert.ArgumentNotNull(directoryPath, "filePath");
+      Assert.ArgumentNotNull(directoryPath, nameof(directoryPath));
 
       var logicalName = Path.GetFileName(directoryPath);
-      var arguments = @"--db ""{0}"" ""{1}""".FormatWith(logicalName, directoryPath);
-      var info = new ProcessStartInfo(ApplicationManager.GetEmbeddedApp("mongo.tools.zip", "SIM.Pipelines", "mongorestore.exe"), arguments)
+      Restore(directoryPath, logicalName);
+    }
+
+    public static void Restore([NotNull] string directoryPath, [NotNull] string newDatabaseName)
+    {
+      Assert.ArgumentNotNull(directoryPath, nameof(directoryPath));
+      Assert.ArgumentNotNull(newDatabaseName, nameof(newDatabaseName));
+
+      var arguments = @"--db ""{0}"" ""{1}""".FormatWith(newDatabaseName, directoryPath);
+      var info = new ProcessStartInfo(ApplicationManager.GetEmbeddedFile("mongo.tools.zip", "SIM.Pipelines", "mongorestore.exe"), arguments)
       {
         CreateNoWindow = true, 
         WindowStyle = ProcessWindowStyle.Hidden

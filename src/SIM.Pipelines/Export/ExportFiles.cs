@@ -5,8 +5,9 @@
   using System.Linq;
   using System.Xml;
   using SIM.Adapters.WebServer;
-  using Sitecore.Diagnostics;
-  using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnostics.Base;
+  using JetBrains.Annotations;
+  using SIM.Extensions;
 
   [UsedImplicitly]
   public class ExportFiles : ExportProcessor
@@ -17,14 +18,14 @@
 
     protected override long EvaluateStepsCount(ExportArgs args)
     {
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(args, nameof(args));
 
       return 1 + 10;
     }
 
     protected override void Process([NotNull] ExportArgs args)
     {
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(args, nameof(args));
 
       var instance = args.Instance;
       var webRootPath = instance.WebRootPath;
@@ -33,15 +34,15 @@
       var dataFolder = Path.Combine(args.Folder, "data");
 
 
-      this.BackupFolder(args, webRootPath, webRootName);
+      BackupFolder(args, webRootPath, webRootName);
 
       // 0
-      this.IncrementProgress();
+      IncrementProgress();
 
-      this.BackupFolder(args, instance.DataFolderPath, "Data");
+      BackupFolder(args, instance.DataFolderPath, "Data");
 
       // 1
-      this.IncrementProgress();
+      IncrementProgress();
 
       if (args.WipeSqlServerCredentials)
       {
@@ -49,67 +50,67 @@
       }
 
       // 2
-      this.IncrementProgress();
+      IncrementProgress();
 
       if (!args.IncludeTempFolderContents)
       {
-        this.WipeTempFolderContents(websiteFolder);
+        WipeTempFolderContents(websiteFolder);
       }
 
       // 3
-      this.IncrementProgress();
+      IncrementProgress();
 
       if (!args.IncludeMediaCacheFolderContents)
       {
-        this.WipeMediaCacheFolderContents(websiteFolder);
+        WipeMediaCacheFolderContents(websiteFolder);
       }
 
       // 4
-      this.IncrementProgress();
+      IncrementProgress();
 
       if (args.ExcludeUploadFolderContents)
       {
-        this.WipeUploadFolderContents(websiteFolder);
+        WipeUploadFolderContents(websiteFolder);
       }
 
       // 5
-      this.IncrementProgress();
+      IncrementProgress();
 
       if (true)
       {
-        this.WipeViewStateFolderContents(dataFolder);
+        WipeViewStateFolderContents(dataFolder);
       }
 
       // 6
-      this.IncrementProgress();
+      IncrementProgress();
 
       if (args.ExcludeDiagnosticsFolderContents)
       {
-        this.WipDiagnosticsFolderContents(dataFolder);
+        WipDiagnosticsFolderContents(dataFolder);
       }
 
       // 7
-      this.IncrementProgress();
+      IncrementProgress();
 
       if (args.ExcludeLogsFolderContents)
       {
-        this.WipeLogsFolderContents(dataFolder);
+        WipeLogsFolderContents(dataFolder);
       }
 
       // 8
-      this.IncrementProgress();
+      IncrementProgress();
 
       if (args.ExcludePackagesFolderContents)
       {
-        this.WipePackagesFolderContents(dataFolder);
+        WipePackagesFolderContents(dataFolder);
       }
 
       // 9
-      this.IncrementProgress();
+      IncrementProgress();
 
       if (args.ExcludeLicenseFile)
       {
-        this.WipeLicenseFile(dataFolder);
+        WipeLicenseFile(dataFolder);
       }
     }
 
@@ -155,9 +156,9 @@
 
     private void BackupFolder([NotNull] ExportArgs args, [NotNull] string path, [NotNull] string fileName)
     {
-      Assert.ArgumentNotNull(args, "args");
-      Assert.ArgumentNotNull(path, "path");
-      Assert.ArgumentNotNull(fileName, "fileName");
+      Assert.ArgumentNotNull(args, nameof(args));
+      Assert.ArgumentNotNull(path, nameof(path));
+      Assert.ArgumentNotNull(fileName, nameof(fileName));
 
       if (!FileSystem.FileSystem.Local.Directory.Exists(path))
       {

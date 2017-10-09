@@ -11,19 +11,21 @@
   using System.Windows.Forms;
   using System.Windows.Input;
   using System.Windows.Media;
-  using System.Xml;
   using Fluent;
   using SIM.Instances;
   using SIM.Pipelines.Agent;
+  using SIM.Pipelines.Install;
   using SIM.Pipelines.Reinstall;
   using SIM.Products;
   using SIM.Tool.Base;
   using SIM.Tool.Base.Plugins;
   using SIM.Tool.Base.Profiles;
-  using SIM.Tool.Wizards;
-  using Sitecore.Diagnostics;
-  using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnostics.Base;
+  using JetBrains.Annotations;
   using Sitecore.Diagnostics.Logging;
+  using SIM.Tool.Base.Wizards;
+  using Core;
+  using SIM.Extensions;
 
   #region
 
@@ -76,61 +78,30 @@
           MainWindow.Instance.Width = d;
         }
 
-        MainWindowHelper.RefreshInstances();
-        PluginManager.ExecuteMainWindowLoadedProcessors(MainWindow.Instance);
-        MainWindowHelper.RefreshInstaller();
+        RefreshInstances();
+        RefreshInstaller();
       }
     }
 
-    public static void InitializeContextMenu(XmlDocumentEx appDocument)
+    public static void InitializeContextMenu(ButtonDefinition[] menuItems)
     {
       using (new ProfileSection("Initialize context menu"))
       {
-        ProfileSection.Argument("appDocument", appDocument);
-
         MainWindow window = MainWindow.Instance;
-        var menuItems = appDocument.SelectElements("/app/mainWindow/contextMenu/*");
-
         foreach (var item in menuItems)
         {
           using (new ProfileSection("Fill in context menu"))
           {
             ProfileSection.Argument("item", item);
 
-            if (item.Name == "item")
-            {
-              InitializeContextMenuItem(item, window.ContextMenu.Items, window, uri => Plugin.GetImage(uri, "App.xml"));
-            }
-            else if (item.Name == "separator")
+            var header = item.Label;
+            if (string.IsNullOrEmpty(header))
             {
               window.ContextMenu.Items.Add(new Separator());
+              continue;
             }
-            else if (item.Name == "plugins")
-            {
-              using (new ProfileSection("Fill in context menu by plugins"))
-              {
-                foreach (var plugin in PluginManager.GetEnabledPlugins())
-                {
-                  using (new ProfileSection("Fill in context menu by plugin"))
-                  {
-                    ProfileSection.Argument("plugin", plugin);
 
-                    try
-                    {
-                      var pluginMenuItems = plugin.PluginXmlDocument.SelectElements("/plugin/mainWindow/contextMenu/item");
-                      foreach (var menuItemElement in pluginMenuItems)
-                      {
-                        InitializeContextMenuItem(menuItemElement, window.ContextMenu.Items, window, plugin.GetImage);
-                      }
-                    }
-                    catch (Exception ex)
-                    {
-                      PluginManager.HandleError(ex, plugin);
-                    }
-                  }
-                }
-              }
-            }
+            InitializeContextMenuItem(item, window.ContextMenu.Items, window, uri => Plugin.GetImage(uri));            
           }
         }
       }
@@ -141,7 +112,7 @@
       using (new ProfileSection("Initialize Installer (Unsafe)"))
       {
         string message = null;
-        string localRepository = ProfileManager.Profile.LocalRepository;
+        var localRepository = ProfileManager.Profile.LocalRepository;
 
         try
         {
@@ -149,7 +120,7 @@
         }
         catch (Exception ex)
         {
-          Log.Error(ex, "Installer failed to init. {0}", ex.Message);
+          Log.Error(ex, $"Installer failed to init. {ex.Message}");
           message = ex.Message;
         }
 
@@ -157,44 +128,17 @@
       }
     }
 
-    public static void InitializeRibbon(XmlDocument appDocument)
+    public static void InitializeRibbon(TabDefinition[] tabs)
     {
       using (new ProfileSection("Initialize main window ribbon"))
       {
         MainWindow window = MainWindow.Instance;
         using (new ProfileSection("Loading tabs from App.xml"))
         {
-          var tabs = appDocument.SelectElements("/app/mainWindow/ribbon/tab");
-          foreach (var tabElement in tabs)
+          foreach (var tab in tabs)
           {
             // Get Ribbon Tab to insert button to
-            InitializeRibbonTab(tabElement, window, uri => Plugin.GetImage(uri, "App.xml"));
-          }
-        }
-
-        // load plugins
-        using (new ProfileSection("Loading tabs from plugins"))
-        {
-          foreach (var plugin in PluginManager.GetEnabledPlugins())
-          {
-            using (new ProfileSection("Loading tabs from plugin"))
-            {
-              ProfileSection.Argument("plugin", plugin);
-
-              try
-              {
-                var tabs = plugin.PluginXmlDocument.SelectElements("/plugin/mainWindow/ribbon/tab");
-                foreach (var tabElement in tabs)
-                {
-                  // Get Ribbon Tab to insert button to
-                  InitializeRibbonTab(tabElement, window, plugin.GetImage);
-                }
-              }
-              catch (Exception ex)
-              {
-                PluginManager.HandleError(ex, plugin);
-              }
-            }
+            InitializeRibbonTab(tab, window, uri => Plugin.GetImage(uri));
           }
         }
 
@@ -203,7 +147,7 @@
         {
           foreach (var tab in window.MainRibbon.Tabs)
           {
-            int hiddenGroups = 0;
+            var hiddenGroups = 0;
             foreach (var group in tab.Groups)
             {
               if (group.Items.Count == 0)
@@ -246,7 +190,7 @@
         foreach (var id in instance.ProcessIds)
         {
           Process process = Process.GetProcessById((int)id);
-          Log.Info("Kill the w3wp.exe worker process ({0}) of the {1} instance", id, instance.Name);
+          Log.Info($"Kill the w3wp.exe worker process ({id}) of the {instance.Name} instance");
           process.Kill();
           OnInstanceSelected();
         }
@@ -259,21 +203,16 @@
       MakeInstanceSelected(id);
     }
 
-    public static void OpenManifestsFolder()
-    {
-      OpenFolder("Manifests");
-    }
-
     public static void OpenProgramLogs()
     {
-      WindowHelper.OpenFolder(ApplicationManager.LogsFolder);
+      CoreApp.OpenFolder(ApplicationManager.LogsFolder);
     }
 
     public static void Publish(Instance instance, Window owner, PublishMode mode)
     {
       WindowHelper.LongRunningTask(
-        () => PublishAsync(instance), "Publish", 
-        owner, "Publish", "Publish 'en' language from 'master' to 'web' with mode " + mode);
+        () => PublishAsync(instance), "Publish",
+        owner, "Publish", $"Publish \'en\' language from \'master\' to \'web\' with mode {mode}");
     }
 
     public static void RefreshCaches()
@@ -289,8 +228,8 @@
       using (new ProfileSection("Refresh everything"))
       {
         CacheManager.ClearAll();
-        MainWindowHelper.RefreshInstaller();
-        MainWindowHelper.RefreshInstances();
+        RefreshInstaller();
+        RefreshInstances();
       }
     }
 
@@ -314,8 +253,8 @@
         var tabIndex = mainWindow.MainRibbon.SelectedTabIndex;
         var instance = SelectedInstance;
         var name = instance != null ? instance.Name : null;
-        string instancesFolder = ProfileManager.Profile.InstancesFolder;
-        InstanceManager.Initialize(instancesFolder);
+        var instancesFolder = !CoreAppSettings.CoreInstancesDetectEverywhere.Value ? ProfileManager.Profile.InstancesFolder : null;
+        InstanceManager.Default.Initialize(instancesFolder);
         Search();
         if (string.IsNullOrEmpty(name))
         {
@@ -339,9 +278,9 @@
 
     public static void ReinstallInstance([NotNull] Instance instance, Window owner, [NotNull] string license, [NotNull] SqlConnectionStringBuilder connectionString)
     {
-      Assert.ArgumentNotNull(instance, "instance");
-      Assert.ArgumentNotNull(license, "license");
-      Assert.ArgumentNotNull(connectionString, "connectionString");
+      Assert.ArgumentNotNull(instance, nameof(instance));
+      Assert.ArgumentNotNull(license, nameof(license));
+      Assert.ArgumentNotNull(connectionString, nameof(connectionString));
 
       if (instance.IsSitecore)
       {
@@ -350,12 +289,12 @@
         {
           if (WindowHelper.ShowMessage("The {0} product isn't presented in your local repository. Would you like to choose the zip installation package?".FormatWith(instance.ProductFullName), MessageBoxButton.YesNo, MessageBoxImage.Stop) == MessageBoxResult.Yes)
           {
-            string patt = instance.ProductFullName + ".zip";
+            var patt = instance.ProductFullName + ".zip";
             OpenFileDialog fileBrowserDialog = new OpenFileDialog
             {
-              Title = @"Choose installation package", 
-              Multiselect = false, 
-              CheckFileExists = true, 
+              Title = @"Choose installation package",
+              Multiselect = false,
+              CheckFileExists = true,
               Filter = patt + '|' + patt
             };
 
@@ -379,7 +318,7 @@
         ReinstallArgs args;
         try
         {
-          args = new ReinstallArgs(instance, connectionString, license, SIM.Pipelines.Install.Settings.CoreInstallWebServerIdentity.Value);
+          args = new ReinstallArgs(instance, connectionString, license, SIM.Pipelines.Install.Settings.CoreInstallWebServerIdentity.Value, Settings.CoreInstallNotFoundTransfer.Value);
         }
         catch (Exception ex)
         {
@@ -388,7 +327,7 @@
         }
 
         var name = instance.Name;
-        WizardPipelineManager.Start("reinstall", owner, args, null, () => MainWindowHelper.MakeInstanceSelected(name));
+        WizardPipelineManager.Start("reinstall", owner, args, null, ignore => MakeInstanceSelected(name), () => null);
       }
     }
 
@@ -396,8 +335,8 @@
     {
       using (new ProfileSection("Refresh instances (softly)"))
       {
-        string instancesFolder = ProfileManager.Profile.InstancesFolder;
-        InstanceManager.InitializeWithSoftListRefresh(instancesFolder);
+        var instancesFolder = !CoreAppSettings.CoreInstancesDetectEverywhere.Value ? ProfileManager.Profile.InstancesFolder : null;
+        InstanceManager.Default.InitializeWithSoftListRefresh(instancesFolder);
         Search();
       }
     }
@@ -408,7 +347,7 @@
       EnableRefreshButton(mainWindow);
       if (message != null)
       {
-        WindowHelper.HandleError("Refresh failed ... " + message, false);
+        WindowHelper.HandleError($"Refresh failed ... {message}", false);
       }
     }
 
@@ -420,7 +359,7 @@
     {
       var group = new RibbonGroupBox
       {
-        Name = "{0}{1}Group".FormatWith(tab.Name, name.Replace(" ", "_")), 
+        Name = "{0}{1}Group".FormatWith(tab.Name, name.Replace(" ", "_")),
         Header = name
       };
 
@@ -433,7 +372,7 @@
     {
       var tab = new RibbonTabItem
       {
-        Name = "{0}Tab".FormatWith(name.Replace(" ", "_")), 
+        Name = "{0}Tab".FormatWith(name.Replace(" ", "_")),
         Header = name
       };
 
@@ -451,7 +390,7 @@
           if (mainWindowButton != null && mainWindowButton.IsEnabled(MainWindow.Instance, SelectedInstance))
           {
             mainWindowButton.OnClick(MainWindow.Instance, SelectedInstance);
-            MainWindowHelper.RefreshInstances();
+            RefreshInstances();
           }
         }
         catch (Exception ex)
@@ -463,20 +402,23 @@
       return clickHandler;
     }
 
-    private static FrameworkElement GetRibbonButton(MainWindow window, Func<string, ImageSource> getImage, XmlElement button, RibbonGroupBox ribbonGroup, IMainWindowButton mainWindowButton)
+    private static FrameworkElement GetRibbonButton(MainWindow window, Func<string, ImageSource> getImage, ButtonDefinition button, RibbonGroupBox ribbonGroup, IMainWindowButton mainWindowButton)
     {
-      var header = button.GetNonEmptyAttribute("label");
+      Assert.ArgumentNotNull(button, nameof(button));
+      Assert.ArgumentNotNull(ribbonGroup, nameof(ribbonGroup));
+
+      var header = button.Label;
 
       var clickHandler = GetClickHandler(mainWindowButton);
 
-      if (button.ChildNodes.Count == 0)
+      if (button.Buttons == null || button.Buttons.Length == 0)
       {
         // create Ribbon Button
-        var imageSource = getImage(button.GetNonEmptyAttribute("largeImage"));
+        var imageSource = getImage(button.Image);
         var fluentButton = new Fluent.Button
         {
-          Icon = imageSource, 
-          LargeIcon = imageSource, 
+          Icon = imageSource,
+          LargeIcon = imageSource,
           Header = header
         };
         fluentButton.Click += clickHandler;
@@ -488,11 +430,11 @@
       var splitButton = ribbonGroup.Items.OfType<SplitButton>().SingleOrDefault(x => x.Header.ToString().Trim().EqualsIgnoreCase(header.Trim()));
       if (splitButton == null)
       {
-        var imageSource = getImage(button.GetNonEmptyAttribute("largeImage"));
+        var imageSource = getImage(button.Image);
         splitButton = new Fluent.SplitButton
         {
-          Icon = imageSource, 
-          LargeIcon = imageSource, 
+          Icon = imageSource,
+          LargeIcon = imageSource,
           Header = header
         };
 
@@ -511,9 +453,9 @@
       }
 
       var items = splitButton.Items;
-      Assert.IsNotNull(items, "items");
+      Assert.IsNotNull(items, nameof(items));
 
-      foreach (var menuItem in button.ChildNodes.OfType<XmlElement>())
+      foreach (var menuItem in button.Buttons)
       {
         if (menuItem == null)
         {
@@ -522,24 +464,16 @@
 
         try
         {
-          var name = menuItem.Name;
-          if (name.EqualsIgnoreCase("separator"))
+          var menuHeader = menuItem.Label;
+          if (string.IsNullOrEmpty(menuHeader))
           {
             items.Add(new Separator());
             continue;
           }
 
-          if (!name.EqualsIgnoreCase("button"))
-          {
-            Log.Error("This element is not supported as SplitButton element: {0}", menuItem.OuterXml);
-            continue;
-          }
-
-          var menuHeader = menuItem.GetAttribute("label");
-          var largeImage = menuItem.GetAttribute("largeImage");
+          var largeImage = menuItem.Image;
           var menuIcon = string.IsNullOrEmpty(largeImage) ? null : getImage(largeImage);
-          var menuHandler = (IMainWindowButton)Plugin.CreateInstance(menuItem);
-          Assert.IsNotNull(menuHandler, "model");
+          var menuHandler = menuItem.Handler;
 
           var childrenButtons = splitButton.Tag as ICollection<KeyValuePair<string, IMainWindowButton>>;
           if (childrenButtons != null)
@@ -549,8 +483,8 @@
 
           var menuButton = new Fluent.MenuItem()
           {
-            Header = menuHeader, 
-            IsEnabled = menuHandler.IsEnabled(window, SelectedInstance)
+            Header = menuHeader,
+            IsEnabled = menuHandler?.IsEnabled(window, SelectedInstance) ?? true
           };
 
           if (menuIcon != null)
@@ -558,30 +492,33 @@
             menuButton.Icon = menuIcon;
           }
 
-          // bind IsEnabled event
-          SetIsEnabledProperty(menuButton, menuHandler);
-          
-          menuButton.Click += delegate
+          if (menuHandler != null)
+          {
+            // bind IsEnabled event
+            SetIsEnabledProperty(menuButton, menuHandler);
+
+            menuButton.Click += delegate
           {
             try
             {
               if (menuHandler.IsEnabled(MainWindow.Instance, SelectedInstance))
               {
                 menuHandler.OnClick(MainWindow.Instance, SelectedInstance);
-                MainWindowHelper.RefreshInstances();
+                RefreshInstances();
               }
             }
             catch (Exception ex)
             {
-              WindowHelper.HandleError("Error during handling menu button click: " + menuHandler.GetType().FullName, true, ex);
+              WindowHelper.HandleError($"Error during handling menu button click: {menuHandler.GetType().FullName}", true, ex);
             }
           };
+          }
 
           items.Add(menuButton);
         }
         catch (Exception ex)
         {
-          WindowHelper.HandleError("Error during initializing ribbon button: " + menuItem.OuterXml, true, ex);
+          WindowHelper.HandleError($"Error during initializing ribbon button: {menuItem.Label}", true, ex);
         }
       }
 
@@ -625,35 +562,31 @@
       }
     }
 
-    private static void InitializeContextMenuItem(XmlElement menuItemElement, ItemCollection itemCollection, MainWindow window, Func<string, ImageSource> getImage)
+    private static void InitializeContextMenuItem(ButtonDefinition menuItemElement, ItemCollection itemCollection, MainWindow window, Func<string, ImageSource> getImage)
     {
       try
       {
-        if (menuItemElement.Name.EqualsIgnoreCase("separator"))
+        var header = menuItemElement.Label;
+        if (string.IsNullOrEmpty(header))
         {
           itemCollection.Add(new Separator());
           return;
         }
-
-        if (!menuItemElement.Name.EqualsIgnoreCase("item"))
-        {
-          Assert.IsTrue(false, "The element is not supported: {0}".FormatWith(menuItemElement.OuterXml));
-        }
-
+        
         // create handler
-        var mainWindowButton = (IMainWindowButton)Plugin.CreateInstance(menuItemElement);
+        var mainWindowButton = menuItemElement.Handler;
 
         // create Context Menu Item
         var menuItem = new System.Windows.Controls.MenuItem
         {
-          Header = menuItemElement.GetNonEmptyAttribute("header"), 
+          Header = header,
           Icon = new Image
           {
-            Source = getImage(menuItemElement.GetNonEmptyAttribute("image")), 
-            Width = 16, 
+            Source = getImage(menuItemElement.Image),
+            Width = 16,
             Height = 16
-          }, 
-          IsEnabled = mainWindowButton == null || mainWindowButton.IsEnabled(window, SelectedInstance), 
+          },
+          IsEnabled = mainWindowButton == null || mainWindowButton.IsEnabled(window, SelectedInstance),
           Tag = mainWindowButton
         };
 
@@ -666,7 +599,7 @@
               if (mainWindowButton.IsEnabled(MainWindow.Instance, SelectedInstance))
               {
                 mainWindowButton.OnClick(MainWindow.Instance, SelectedInstance);
-                MainWindowHelper.RefreshInstances();
+                RefreshInstances();
               }
             }
             catch (Exception ex)
@@ -678,7 +611,7 @@
           SetIsEnabledProperty(menuItem, mainWindowButton);
         }
 
-        foreach (var childElement in menuItemElement.ChildNodes.OfType<XmlElement>())
+        foreach (var childElement in menuItemElement.Buttons ?? new ButtonDefinition[0])
         {
           InitializeContextMenuItem(childElement, menuItem.Items, window, getImage);
         }
@@ -691,7 +624,7 @@
       }
     }
 
-    private static void InitializeRibbonButton(MainWindow window, Func<string, ImageSource> getImage, XmlElement button, RibbonGroupBox ribbonGroup)
+    private static void InitializeRibbonButton(MainWindow window, Func<string, ImageSource> getImage, ButtonDefinition button, RibbonGroupBox ribbonGroup)
     {
       using (new ProfileSection("Initialize ribbon button"))
       {
@@ -703,15 +636,14 @@
         try
         {
           // create handler
-          var mainWindowButton = (IMainWindowButton)Plugin.CreateInstance(button);
-
+          var mainWindowButton = button.Handler;
 
           FrameworkElement ribbonButton;
           ribbonButton = GetRibbonButton(window, getImage, button, ribbonGroup, mainWindowButton);
 
-          Assert.IsNotNull(ribbonButton, "ribbonButton");
+          Assert.IsNotNull(ribbonButton, nameof(ribbonButton));
 
-          var width = button.GetAttribute("width");
+          var width = button.Width;
           double d;
           if (!string.IsNullOrEmpty(width) && double.TryParse(width, out d))
           {
@@ -728,45 +660,17 @@
         }
         catch (Exception ex)
         {
-          WindowHelper.HandleError("Plugin Button caused an exception: " + button.OuterXml, true, ex);
+          WindowHelper.HandleError($"Plugin Button caused an exception: {button.Label}", true, ex);
         }
       }
     }
 
-    private static void InitializeRibbonGroup(string name, string tabName, XmlElement groupElement, RibbonTabItem ribbonTab, MainWindow window, Func<string, ImageSource> getImage)
+    private static void InitializeRibbonTab([NotNull] TabDefinition tab, MainWindow window, Func<string, ImageSource> getImage)
     {
-      using (new ProfileSection("Initialize ribbon group"))
-      {
-        ProfileSection.Argument("name", name);
-        ProfileSection.Argument("tabName", tabName);
-        ProfileSection.Argument("groupElement", groupElement);
-        ProfileSection.Argument("ribbonTab", ribbonTab);
-        ProfileSection.Argument("window", window);
-        ProfileSection.Argument("getImage", getImage);
+      Assert.ArgumentNotNull(tab, nameof(tab));
 
-        // Get Ribbon Group to insert button to
-        name = groupElement.GetNonEmptyAttribute("name");
-        var groupName = tabName + name + "Group";
-        var ribbonGroup = GetRibbonGroup(name, tabName, groupName, ribbonTab, window);
-
-        Assert.IsNotNull(ribbonGroup, "Cannot find RibbonGroup with {0} name".FormatWith(groupName));
-
-        var buttons = SelectNonEmptyCollection(groupElement, "button");
-        foreach (var button in buttons)
-        {
-          InitializeRibbonButton(window, getImage, button, ribbonGroup);
-        }
-      }
-    }
-
-    private static void InitializeRibbonTab(XmlElement tabElement, MainWindow window, Func<string, ImageSource> getImage)
-    {
-      var name = tabElement.GetNonEmptyAttribute("name");
-      if (string.IsNullOrEmpty(name))
-      {
-        Log.Error("Ribbon tab doesn't have name: {0}",  tabElement.OuterXml);
-        return;
-      }
+      var name = tab.Name;
+      Assert.IsNotNull(name, nameof(name));
 
       using (new ProfileSection("Initialize ribbon tab"))
       {
@@ -776,26 +680,30 @@
         var ribbonTab = window.FindName(tabName) as RibbonTabItem ?? CreateTab(window, name);
         Assert.IsNotNull(ribbonTab, "Cannot find RibbonTab with {0} name".FormatWith(tabName));
 
-        var groups = SelectNonEmptyCollection(tabElement, "group");
-        foreach (XmlElement groupElement in groups)
+        foreach (var group in tab.Groups)
         {
-          InitializeRibbonGroup(name, tabName, groupElement, ribbonTab, window, getImage);
+          Assert.IsNotNull(group, nameof(group));
+
+          // Get Ribbon Group to insert button to
+          name = group.Name;
+          var groupName = tabName + name + "Group";
+          var ribbonGroup = GetRibbonGroup(name, tabName, groupName, ribbonTab, window);
+
+          Assert.IsNotNull(ribbonGroup, "Cannot find RibbonGroup with {0} name".FormatWith(groupName));
+
+          foreach (var button in group.Buttons)
+          {
+            InitializeRibbonButton(window, getImage, button, ribbonGroup);
+          }
         }
       }
-    }
-
-    private static IEnumerable<XmlElement> SelectNonEmptyCollection(XmlElement xmlElement, string name)
-    {
-      var collection = xmlElement.SelectElements(name).ToArray();
-      Assert.IsTrue(collection.Length > 0, "<{0}> doesn't contain any <{1}> element".FormatWith(xmlElement.Name, name));
-      return collection;
     }
 
     private static void SetIsEnabledProperty(FrameworkElement ribbonButton, IMainWindowButton mainWindowButton)
     {
       ribbonButton.SetBinding(UIElement.IsEnabledProperty, new System.Windows.Data.Binding("SelectedItem")
       {
-        Converter = new CustomConverter(mainWindowButton), 
+        Converter = new CustomConverter(mainWindowButton),
         ElementName = "InstanceList"
       });
     }
@@ -818,24 +726,6 @@
     #region Methods
 
     #region Public methods
-
-    public static void ChangeAppPoolMode(System.Windows.Controls.MenuItem menuItem)
-    {
-      var selectedInstance = SelectedInstance;
-      WindowHelper.LongRunningTask(() => MainWindow.Instance.Dispatcher.Invoke(
-        new Action(delegate
-        {
-          string header = menuItem.Header.ToString();
-          selectedInstance.SetAppPoolMode(header.Contains("4.0"), header.Contains("32bit"));
-          OnInstanceSelected();
-        })), "Changing application pool", MainWindow.Instance, null, "The IIS metabase is being updated");
-    }
-
-    public static void CloseMainWindow()
-    {
-      MainWindow.Instance.Dispatcher.InvokeShutdown();
-      MainWindow.Instance.Close();
-    }
 
     public static int GetListItemID(long value)
     {
@@ -867,14 +757,14 @@
     {
       var window = MainWindow.Instance;
       T result = null;
-      window.Dispatcher.Invoke(new Action(() => { result = func(window); }));
+      window.Dispatcher.Invoke(() => { result = func(window); });
       return result;
     }
 
     public static void Invoke(Action<MainWindow> func)
     {
       var window = MainWindow.Instance;
-      window.Dispatcher.Invoke(new Action(() => func(window)));
+      window.Dispatcher.Invoke(() => func(window));
     }
 
     public static void MakeInstanceSelected(int id)
@@ -942,11 +832,11 @@
     // }
     public static void OpenFolder([NotNull] string path)
     {
-      Assert.ArgumentNotNull(path, "path");
+      Assert.ArgumentNotNull(path, nameof(path));
 
       if (FileSystem.FileSystem.Local.Directory.Exists(path))
       {
-        WindowHelper.OpenFolder(path);
+        CoreApp.OpenFolder(path);
       }
     }
 
@@ -954,8 +844,8 @@
     {
       using (new ProfileSection("Main window search handler"))
       {
-        string searchPhrase = Invoke(w => w.SearchTextBox.Text.Trim());
-        IEnumerable<Instance> source = InstanceManager.PartiallyCachedInstances;
+        var searchPhrase = Invoke(w => w.SearchTextBox.Text.Trim());
+        IEnumerable<Instance> source = InstanceManager.Default.PartiallyCachedInstances;
         if (source == null)
         {
           return;
@@ -1010,6 +900,7 @@
         }
       }
     }*/
+
     #endregion
 
     #region Private methods
@@ -1050,7 +941,7 @@
       }
       catch (Exception ex)
       {
-        WindowHelper.HandleError("An error occurred while publishing" + Environment.NewLine + ex.Message, true, ex);
+        WindowHelper.HandleError($"An error occurred while publishing{Environment.NewLine}{ex.Message}", true, ex);
       }
       finally
       {
@@ -1060,11 +951,11 @@
 
     private static void RefreshInstallerTask()
     {
-      string message = InitializeInstallerUnsafe(MainWindow.Instance);
-      MainWindowHelper.Invoke((mainWindow) => MainWindowHelper.UpdateInstallButtons(message, mainWindow));
+      var message = InitializeInstallerUnsafe(MainWindow.Instance);
+      Invoke((mainWindow) => UpdateInstallButtons(message, mainWindow));
       if (message != null)
       {
-        WindowHelper.HandleError("Cannot find any installation package. " + message, false, null);
+        WindowHelper.HandleError($"Cannot find any installation package. {message}", false, null);
       }
     }
 

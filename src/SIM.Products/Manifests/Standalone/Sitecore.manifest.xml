@@ -1,6 +1,0 @@
-<manifest version="1.4">
-  <standalone>
-    <name>Sitecore CMS</name>
-    <shortName>sc</shortName>
-  </standalone>
-</manifest>

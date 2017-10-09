@@ -6,6 +6,7 @@ namespace SIM.Tool.Base
   using SIM.Instances;
   using SIM.Tool.Base.Profiles;
   using Sitecore.Diagnostics.Logging;
+  using SIM.Extensions;
 
   public static class LicenseUpdater
   {
@@ -21,11 +22,11 @@ namespace SIM.Tool.Base
     {
       if (instance != null)
       {
-        const string current = "Selected instance";
-        const string all = "All instances";
+        const string Current = "Selected instance";
+        const string All = "All instances";
         var options = new[]
         {
-          current, all
+          Current, All
         };
 
         var result = WindowHelper.AskForSelection(Title, null, "You have selected \"{0}\" Sitecore instance. \nWould you like to update the license file only there?".FormatWith(instance.Name), options, mainWindow);
@@ -35,19 +36,19 @@ namespace SIM.Tool.Base
           return;
         }
 
-        if (result == all)
+        if (result == All)
         {
           instance = null;
         }
       }
 
-      string filePath = ProfileManager.Profile.License;
+      var filePath = ProfileManager.Profile.License;
 
-      const string settings = "Definied in settings";
-      const string custom = "Another license file";
+      const string Settings = "Definied in settings";
+      const string Custom = "Another license file";
       var options2 = new[]
       {
-        settings, custom
+        Settings, Custom
       };
       var result2 = WindowHelper.AskForSelection(Title, null, "Which license file would you like to use?", options2, mainWindow);
 
@@ -56,7 +57,7 @@ namespace SIM.Tool.Base
         return;
       }
 
-      if (result2 == custom)
+      if (result2 == Custom)
       {
         var openDialog = new OpenFileDialog
         {
@@ -94,7 +95,7 @@ namespace SIM.Tool.Base
       }
       else
       {
-        foreach (Instance inst in InstanceManager.Instances)
+        foreach (Instance inst in InstanceManager.Default.Instances)
         {
           try
           {

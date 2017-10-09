@@ -1,4 +1,4 @@
-﻿<Window x:Class="SIM.Tool.Windows.Dialogs.HostsDialog" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Converters="clr-namespace:SIM.Tool.Base.Converters;assembly=SIM.Tool.Base" Title="Hosts" Height="440" Width="540" Background="#FFF0F0F0" Icon="pack://application:,,,/SIM.Tool.Windows;component/Images/window.ico" KeyUp="WindowKeyUp" Loaded="WindowLoaded">
+﻿<Window x:Class="SIM.Tool.Windows.Dialogs.HostsDialog" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:converters="clr-namespace:SIM.Tool.Base.Converters;assembly=SIM.Tool.Base" Title="Hosts" Height="440" Width="540" Background="#FFF0F0F0" Icon="pack://application:,,,/SIM.Tool.Windows;component/Images/window.ico" KeyUp="WindowKeyUp" Loaded="WindowLoaded">
   <Window.Resources>
     <ImageBrush x:Key="Sitecore" ImageSource="pack://application:,,,/SIM.Tool.Windows;component/Images/Sitecore.png" Stretch="None" AlignmentX="Right" AlignmentY="Top" />
   </Window.Resources>
@@ -46,7 +46,7 @@
       <Grid Margin="23,11,21,12">
         <Button Content="Add" Click="Add" Width="90" Margin="0, 0, 4, 0" HorizontalAlignment="Left" Name="AddButton" />
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-          <Grid HorizontalAlignment="Left" Margin="6,0,0,0" VerticalAlignment="Stretch" IsEnabled="{Binding ElementName=MainRootFolder, Path=Text, Converter={x:Static Converters:IsNotNullOrEmptyAndDirectoryExists.Instance}}" Width="72">
+          <Grid HorizontalAlignment="Left" Margin="6,0,0,0" VerticalAlignment="Stretch" IsEnabled="{Binding ElementName=MainRootFolder, Path=Text, Converter={x:Static converters:IsNotNullOrEmptyAndDirectoryExists.Instance}}" Width="72">
             <Button Content="OK" Name="DoneButton" Click="SaveChanges" />
           </Grid>
           <Button Content="Cancel" HorizontalAlignment="Left" Margin="24,0,0,0" Name="CancelButton" VerticalAlignment="Stretch" IsEnabled="True" IsDefault="False" IsCancel="True" Width="72" Click="CancelChanges" />

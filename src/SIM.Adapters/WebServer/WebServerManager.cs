@@ -3,9 +3,10 @@
   using System;
   using System.Linq;
   using Microsoft.Web.Administration;
-  using Sitecore.Diagnostics;
-  using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnostics.Base;
+  using JetBrains.Annotations;
   using Sitecore.Diagnostics.Logging;
+  using SIM.Extensions;
 
   #region
 
@@ -16,16 +17,16 @@
     #region Public Methods
 
     [NotNull]
-    public static WebServerContext CreateContext([CanBeNull] string debugLocation, object callingClass = null)
+    public static WebServerContext CreateContext()
     {
-      return new WebServerContext(debugLocation, callingClass);
+      return new WebServerContext();
     }
 
     public static void DeleteWebsite([NotNull] long id)
     {
-      Log.Info("Deleting website {0}", id);
+      Log.Info($"Deleting website {id}");
 
-      using (WebServerContext context = CreateContext("WebServerManager.DeleteWebsite({0})".FormatWith(id)))
+      using (WebServerContext context = CreateContext())
       {
         Site site = context.Sites.SingleOrDefault(s => s.Id == id);
         if (site != null)
@@ -33,27 +34,12 @@
           DeleteWebsite(context, site);
         }
       }
-    }
-
-    public static void DeleteWebsite([NotNull] string name)
-    {
-      Assert.ArgumentNotNull(name, "name");
-
-      Log.Info("Deleting website {0}", name);
-      using (WebServerContext context = CreateContext("WebServerManager.DeleteWebsite('{0}')".FormatWith(name)))
-      {
-        Site site = context.Sites[name];
-        if (site != null)
-        {
-          DeleteWebsite(context, site);
-        }
-      }
-    }
+    }                              
 
     [NotNull]
     public static string GetWebRootPath([NotNull] Site site)
     {
-      Assert.ArgumentNotNull(site, "site");
+      Assert.ArgumentNotNull(site, nameof(site));
 
       Application apps = site.Applications["/"];
       if (apps != null)
@@ -64,7 +50,7 @@
           ConfigurationAttribute phpath = vdirs.Attributes["physicalPath"];
           if (phpath != null)
           {
-            string value = (string)phpath.Value;
+            var value = (string)phpath.Value;
             if (!string.IsNullOrEmpty(value))
             {
               return value;
@@ -73,15 +59,15 @@
         }
       }
 
-      throw new Exception("IIS website " + site.Id + " seems to be corrupted or misconfigured");
+      throw new Exception($"IIS website {site.Id} seems to be corrupted or misconfigured");
     }
 
     public static bool HostBindingExists([NotNull] string host)
     {
-      Assert.ArgumentNotNull(host, "host");
+      Assert.ArgumentNotNull(host, nameof(host));
 
       bool result;
-      using (WebServerContext context = CreateContext("WebServerManager.HostBindingExists('{0}')".FormatWith(host)))
+      using (WebServerContext context = CreateContext())
       {
         result = context.Sites.Any(site => site.Bindings.Any(binding => binding.Host.EqualsIgnoreCase(host)));
       }
@@ -89,19 +75,33 @@
       return result;
     }
 
-    public static bool IsApplicationPoolRunning([NotNull] ApplicationPool appPool)
+    public static bool AddHostBinding([NotNull] string siteName, [NotNull] BindingInfo binding)
     {
-      Assert.ArgumentNotNull(appPool, "appPool");
+      Assert.ArgumentNotNull(siteName, nameof(siteName));
+      Assert.ArgumentNotNull(binding, nameof(binding));
 
-      return appPool.WorkerProcesses.Count > 0 && appPool.WorkerProcesses.Any(wp => wp != null && wp.State == WorkerProcessState.Running);
-    }
+      using (WebServerContext context = CreateContext())
+      {
+        Site siteInfo = context.Sites.FirstOrDefault(site => site.Name.EqualsIgnoreCase(siteName));
+        if (HostBindingExists(binding.Host) || siteInfo == null)
+        {
+          return false;
+        }
+        var bindingInformation = $"{binding.IP}:{binding.Port}:{binding.Host}";
+        
+        siteInfo.Bindings.Add(bindingInformation, binding.Protocol);
+        context.CommitChanges();
+      }
+
+      return true;
+    }               
 
     public static bool WebsiteExists([NotNull] string name)
     {
-      Assert.ArgumentNotNull(name, "name");
+      Assert.ArgumentNotNull(name, nameof(name));
 
       bool v;
-      using (WebServerContext context = CreateContext("WebServerManager.WebsiteExists('{0}')".FormatWith(name)))
+      using (WebServerContext context = CreateContext())
       {
         v = context.Sites.Any(s => s.Name.EqualsIgnoreCase(name));
       }
@@ -115,12 +115,12 @@
 
     private static void DeleteWebsite([NotNull] WebServerContext context, [NotNull] Site site)
     {
-      Assert.ArgumentNotNull(context, "context");
-      Assert.ArgumentNotNull(site, "site");
+      Assert.ArgumentNotNull(context, nameof(context));
+      Assert.ArgumentNotNull(site, nameof(site));
 
       foreach (Application application in site.Applications)
       {
-        string applicationPoolName = application.ApplicationPoolName;
+        var applicationPoolName = application.ApplicationPoolName;
         ApplicationPool appplicationPool = context.ApplicationPools[applicationPoolName];
 
         // Application is used only in the current website or isn't used at all
@@ -135,72 +135,28 @@
     }
 
     #endregion
-
-    #region Nested type: WebServerContext
-
-    public sealed class WebServerContext : ProfileSection
+    
+    public sealed class WebServerContext : IDisposable
     {
-      #region Fields
-
-      public string DebugLocation;
-      private readonly ServerManager serverManager = new ServerManager();
-
-      #endregion
-
-      #region Constructors
-
-      public WebServerContext(string debugLocation, object caller = null) : base("{0} (IIS)".FormatWith(debugLocation), caller)
-      {
-      }
-
-      #endregion
-
-      #region Properties
+      [NotNull]
+      private ServerManager ServerManager { get; } = new ServerManager();
+      
+      [NotNull]
+      public ApplicationPoolCollection ApplicationPools => ServerManager.ApplicationPools.IsNotNull();
 
       [NotNull]
-      public ApplicationPoolCollection ApplicationPools
-      {
-        get
-        {
-          return this.serverManager.ApplicationPools;
-        }
-      }
-
-      [NotNull]
-      public SiteCollection Sites
-      {
-        get
-        {
-          return this.serverManager.Sites;
-        }
-      }
-
-      #endregion
-
-      #region Public Methods
-
+      public SiteCollection Sites => ServerManager.Sites.IsNotNull();
+      
       public void CommitChanges()
       {
-        this.serverManager.CommitChanges();
+        ServerManager.CommitChanges();
       }
-
-      #endregion
-
-      #region Implemented Interfaces
-
-      #region IDisposable
-
-      public override void Dispose()
+      
+      public void Dispose()
       {
-        this.serverManager.Dispose();
-        base.Dispose();
+        ServerManager.Dispose();
       }
-
-      #endregion
-
-      #endregion
+      
     }
-
-    #endregion
   }
 }

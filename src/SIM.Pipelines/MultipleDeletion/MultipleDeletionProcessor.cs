@@ -1,8 +1,8 @@
 ﻿namespace SIM.Pipelines.MultipleDeletion
 {
   using SIM.Pipelines.Processors;
-  using Sitecore.Diagnostics;
-  using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnostics.Base;
+  using JetBrains.Annotations;
 
   public abstract class MultipleDeletionProcessor : Processor
   {
@@ -10,9 +10,9 @@
 
     protected override sealed void Process([NotNull] ProcessorArgs args)
     {
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(args, nameof(args));
 
-      this.Process((MultipleDeletionArgs)args);
+      Process((MultipleDeletionArgs)args);
     }
 
     protected abstract void Process([NotNull] MultipleDeletionArgs args);

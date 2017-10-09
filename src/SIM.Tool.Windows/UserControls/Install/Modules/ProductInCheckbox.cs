@@ -11,13 +11,13 @@
   {
     #region Fields
 
-    private readonly string name;
+    private string name { get; }
 
-    private readonly Product[] products;
+    private readonly Product[] _Products;
 
-    private bool isChecked;
+    private bool _IsChecked;
 
-    private Product value;
+    private Product _Value;
 
     #endregion
 
@@ -25,15 +25,15 @@
 
     public ProductInCheckbox(Product value)
     {
-      this.Value = value;
-      this.products = null;
+      Value = value;
+      _Products = null;
     }
 
     public ProductInCheckbox(string name, Product[] products)
     {
       this.name = name;
-      this.products = products;
-      this.Value = products.First();
+      _Products = products;
+      Value = products.First();
     }
 
     #endregion
@@ -44,13 +44,13 @@
     {
       get
       {
-        return this.isChecked;
+        return _IsChecked;
       }
 
       set
       {
-        this.isChecked = value;
-        this.NotifyPropertyChanged("IsChecked");
+        _IsChecked = value;
+        NotifyPropertyChanged("IsChecked");
       }
     }
 
@@ -58,7 +58,7 @@
     {
       get
       {
-        return this.name ?? this.Value.Label ?? this.Value.Name;
+        return name ?? Value.Label ?? Value.Name;
       }
     }
 
@@ -66,7 +66,7 @@
     {
       get
       {
-        return this.products;
+        return _Products;
       }
     }
 
@@ -74,14 +74,14 @@
     {
       get
       {
-        return this.value;
+        return _Value;
       }
 
       set
       {
-        this.value = value;
-        this.NotifyPropertyChanged("Value");
-        this.NotifyPropertyChanged("ValueIndex");
+        _Value = value;
+        NotifyPropertyChanged("Value");
+        NotifyPropertyChanged("ValueIndex");
       }
     }
 
@@ -89,10 +89,10 @@
     {
       get
       {
-        int i = 0;
-        foreach (Product product in this.Scope)
+        var i = 0;
+        foreach (var product in Scope)
         {
-          if (product == this.Value)
+          if (product == Value)
           {
             return i;
           }
@@ -105,8 +105,8 @@
 
       set
       {
-        this.value = this.Scope[value];
-        this.NotifyPropertyChanged("ValueIndex");
+        _Value = Scope[value];
+        NotifyPropertyChanged("ValueIndex");
       }
     }
 
@@ -116,7 +116,7 @@
 
     public override string ToString()
     {
-      return this.Value.Name;
+      return Value.Name;
     }
 
     #endregion

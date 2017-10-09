@@ -6,7 +6,7 @@
   using SIM.Tool.Base;
   using SIM.Tool.Base.Pipelines;
   using SIM.Tool.Base.Plugins;
-  using Sitecore.Diagnostics.Annotations;
+  using JetBrains.Annotations;
   using Sitecore.Diagnostics.Logging;
 
   [UsedImplicitly]
@@ -23,7 +23,7 @@
 
     #region Fields
 
-    protected string Mode;
+    protected string _Mode;
 
     #endregion
 
@@ -31,12 +31,12 @@
 
     public PublishButton()
     {
-      this.Mode = null;
+      _Mode = null;
     }
 
     public PublishButton(string mode)
     {
-      this.Mode = mode;
+      _Mode = mode;
     }
 
     #endregion
@@ -46,7 +46,7 @@
     public static void PublishSite(InstallWizardArgs args)
     {
       MainWindowHelper.RefreshInstances();
-      var instance = InstanceManager.GetInstance(args.InstanceName);
+      var instance = InstanceManager.Default.GetInstance(args.InstanceName);
       new PublishButton().OnClick(MainWindow.Instance, instance);
     }
 
@@ -67,14 +67,14 @@
         ProfileSection.Argument("mainWindow", mainWindow);
         ProfileSection.Argument("instance", instance);
 
-        var modeText = this.GetMode(mainWindow);
+        var modeText = GetMode(mainWindow);
 
         if (modeText == null || modeText == CancelOption)
         {
           return;
         }
 
-        var mode = this.ParseMode(modeText);
+        var mode = ParseMode(modeText);
         MainWindowHelper.Publish(instance, mainWindow, mode);
       }
     }
@@ -85,7 +85,7 @@
 
     private string GetMode(Window mainWindow)
     {
-      if (string.IsNullOrEmpty(this.Mode))
+      if (string.IsNullOrEmpty(_Mode))
       {
         var options = new[]
         {
@@ -98,7 +98,7 @@
         return WindowHelper.AskForSelection("Publish", "Publish", "Choose publish mode", options, mainWindow, IncrementalOption);
       }
 
-      return this.Mode;
+      return _Mode;
     }
 
     private PublishMode ParseMode(string result)

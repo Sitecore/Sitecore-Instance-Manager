@@ -1,0 +1,173 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{A124D359-B9BF-44F4-98CB-C40D3D490839}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SIM.Core</RootNamespace>
+    <AssemblyName>SIM.Core</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+    <LangVersion>6</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE;JETBRAINS_ANNOTATIONS</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="JetBrains.Annotations, Version=10.4.0.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
+      <HintPath>..\packages\JetBrains.Annotations.10.4.0\lib\net\JetBrains.Annotations.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net, Version=1.2.15.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.5\lib\net45-full\log4net.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.ApplicationInsights, Version=1.2.3.490, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.1.2.3\lib\net45\Microsoft.ApplicationInsights.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.ApplicationInsights.PersistenceChannel, Version=1.2.3.490, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.PersistenceChannel.1.2.3\lib\net45\Microsoft.ApplicationInsights.PersistenceChannel.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Web.Administration, Version=7.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Web.Administration.7.0.0.0\lib\net20\Microsoft.Web.Administration.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Web.XmlTransform, Version=2.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Web.Xdt.2.1.1\lib\net40\Microsoft.Web.XmlTransform.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.Diagnostics.Base, Version=2.0.0.180, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Sitecore.Diagnostics.Base.2.0.0.180\lib\Sitecore.Diagnostics.Base.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.Diagnostics.ConfigBuilder, Version=2.0.0.180, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Sitecore.Diagnostics.ConfigBuilder.2.0.0.180\lib\Sitecore.Diagnostics.ConfigBuilder.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.Diagnostics.InfoService.Client.Core, Version=2.0.0.180, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Sitecore.Diagnostics.InfoService.Client.Core.2.0.0.180\lib\Sitecore.Diagnostics.InfoService.Client.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.Diagnostics.Logging, Version=2.0.0.180, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Sitecore.Diagnostics.Logging.2.0.0.180\lib\Sitecore.Diagnostics.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.Diagnostics.Logging.Log4Net, Version=2.0.0.180, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Sitecore.Diagnostics.Logging.Log4Net.2.0.0.180\lib\Sitecore.Diagnostics.Logging.Log4Net.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.Diagnostics.Net, Version=2.0.0.180, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Sitecore.Diagnostics.Net.2.0.0.180\lib\Sitecore.Diagnostics.Net.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.Diagnostics.Objects, Version=2.0.0.180, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Sitecore.Diagnostics.Objects.2.0.0.180\lib\Sitecore.Diagnostics.Objects.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.IO.Abstractions, Version=2.0.0.124, Culture=neutral, PublicKeyToken=d480b5b72fb413da, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.Abstractions.2.0.0.124\lib\net40\System.IO.Abstractions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Net" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Commands\BrowseCommand.cs" />
+    <Compile Include="Commands\ConfigCommand.cs" />
+    <Compile Include="Commands\InstallRolesCommand.cs" />
+    <Compile Include="Commands\LoginCommand.cs" />
+    <Compile Include="Commands\RepositoryCommand.cs" />
+    <Compile Include="Commands\RepositoryCommandResult.cs" />
+    <Compile Include="Commands\StateCommand.cs" />
+    <Compile Include="Commands\StopCommand.cs" />
+    <Compile Include="Common\AbstractInstanceActionCommand.cs" />
+    <Compile Include="Common\AbstractMultiInstanceActionCommand.cs" />
+    <Compile Include="Common\AggregatePipelineController.cs" />
+    <Compile Include="Commands\StartCommand.cs" />
+    <Compile Include="Commands\DeleteCommand.cs" />
+    <Compile Include="Commands\InstallCommand.cs" />
+    <Compile Include="Commands\InstallModuleCommand.cs" />
+    <Compile Include="Commands\ListCommandResult.cs" />
+    <Compile Include="Common\CustomException.cs" />
+    <Compile Include="Common\Ensure.cs" />
+    <Compile Include="Common\ICommand.cs" />
+    <Compile Include="Common\MessageException.cs" />
+    <Compile Include="CoreAppSettings.cs" />
+    <Compile Include="CoreInstance.cs" />
+    <Compile Include="CoreInstanceAuth.cs" />
+    <Compile Include="Models\Configuration\ConfigDatabaseHistoryEngineInfo.cs" />
+    <Compile Include="Models\Configuration\ConfigDatabaseInfo.cs" />
+    <Compile Include="Models\Configuration\ConfigDatabaseNotificationProviderInfo.cs" />
+    <Compile Include="Models\Configuration\ConfigDatabaseWorkflowProviderInfo.cs" />
+    <Compile Include="Models\InstanceInfo.cs" />
+    <Compile Include="Common\Analytics.cs" />
+    <Compile Include="Common\ProfileHelper.cs" />
+    <Compile Include="Common\AbstractCommand.cs" />
+    <Compile Include="Common\CommandResultBase.cs" />
+    <Compile Include="Commands\ListCommand.cs" />
+    <Compile Include="Common\Profile.cs" />
+    <Compile Include="CoreApp.cs" />
+    <Compile Include="Logging\LogFileAppender.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Commands\ProfileCommand.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SIM.Adapters\SIM.Adapters.csproj">
+      <Project>{CA40C57A-EF4F-474D-BE8B-98E51AE62C1F}</Project>
+      <Name>SIM.Adapters</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SIM.Base\SIM.Base.csproj">
+      <Project>{CA9339A0-9A7D-4900-839E-F21B7269BDAA}</Project>
+      <Name>SIM.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SIM.FileSystem\SIM.FileSystem.csproj">
+      <Project>{02B6C2D7-3083-4DF3-B86D-B6D4728C4EF2}</Project>
+      <Name>SIM.FileSystem</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SIM.Instances\SIM.Instances.csproj">
+      <Project>{CCA7B157-A743-4A5A-A03B-B6B27CB2BE1C}</Project>
+      <Name>SIM.Instances</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SIM.Pipelines\SIM.Pipelines.csproj">
+      <Project>{7A3FEDF8-DF96-4426-AA01-C2D4FD3E68C8}</Project>
+      <Name>SIM.Pipelines</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SIM.Products\SIM.Products.csproj">
+      <Project>{BC8B4EE5-C053-42E1-A5BA-07F8C41915A9}</Project>
+      <Name>SIM.Products</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -2,7 +2,7 @@
 {
   using System;
   using System.Data.SqlClient;
-  using Sitecore.Diagnostics.Annotations;
+  using JetBrains.Annotations;
   using Sitecore.Diagnostics.Logging;
 
   #region
@@ -18,7 +18,7 @@
     {
       get
       {
-        return this.Name + SqlServerManager.BackupExtension;
+        return Name + SqlServerManager.BackupExtension;
       }
     }
 
@@ -29,16 +29,15 @@
     {
       get
       {
-        var databaseName = this.RealName;
-        var connectionString = this.ConnectionString;
+        var databaseName = RealName;
+        var connectionString = ConnectionString;
         try
         {
           return SqlServerManager.Instance.GetDatabaseFileName(databaseName, connectionString);
         }
         catch (Exception ex)
         {
-          Log.Warn(ex, "An error while retrieving database file name, database: {0}, connection string: {1}", databaseName, connectionString);
-
+          Log.Warn(ex, $"An error while retrieving database file name, database: {databaseName}, connection string: {connectionString}");
           return null;
         }
       }
@@ -54,32 +53,21 @@
 
     public void Delete()
     {
-      SqlServerManager.Instance.DeleteDatabase(this.RealName, this.ConnectionString);
+      SqlServerManager.Instance.DeleteDatabase(RealName, ConnectionString);
     }
 
     public void Restore([CanBeNull] string backupFile)
     {
-      SqlServerManager.Instance.RestoreDatabase(this.RealName, this.ConnectionString, backupFile);
+      SqlServerManager.Instance.RestoreDatabase(RealName, ConnectionString, backupFile);
     }
 
     #endregion
 
     #region Methods
 
-    [NotNull]
-    public SqlConnection OpenConnection()
-    {
-      return SqlServerManager.Instance.OpenConnection(this.ConnectionString);
-    }
-
     #endregion
 
     #region Public methods
-
-    public void Detach()
-    {
-      SqlServerManager.Instance.DetachDatabase(this.RealName, this.ConnectionString);
-    }
 
     #endregion
   }

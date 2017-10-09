@@ -1,16 +1,16 @@
 ﻿namespace SIM.Adapters.MongoDb
 {
-  using Sitecore.Diagnostics.Annotations;
+  using JetBrains.Annotations;
 
   public class MongoDbDatabase
   {
     #region Fields
 
     [NotNull]
-    private readonly string connectionString;
+    public string ConnectionString { get; }
 
     [NotNull]
-    private readonly string name;
+    public string Name { get; }
 
     #endregion
 
@@ -18,40 +18,22 @@
 
     public MongoDbDatabase(string name, string connectionString)
     {
-      this.name = name;
-      this.connectionString = connectionString;
+      Name = name;
+      ConnectionString = connectionString;
     }
 
     #endregion
 
-    #region Public properties
-
-    [NotNull]
-    public string ConnectionString
-    {
-      get
-      {
-        return this.connectionString;
-      }
-    }
+    #region Public properties              
 
     [NotNull]
     public string LogicalName
     {
       get
       {
-        return this.connectionString.Substring(this.connectionString.LastIndexOf('/') + 1);
+        return ConnectionString.Substring(ConnectionString.LastIndexOf('/') + 1);
       }
-    }
-
-    [NotNull]
-    public string Name
-    {
-      get
-      {
-        return this.name;
-      }
-    }
+    }              
 
     #endregion
   }

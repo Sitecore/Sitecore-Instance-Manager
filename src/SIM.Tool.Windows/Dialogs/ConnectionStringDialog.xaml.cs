@@ -5,8 +5,9 @@
   using System.Windows;
   using System.Windows.Input;
   using SIM.Tool.Base;
-  using Sitecore.Diagnostics;
-  using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnostics.Base;
+  using JetBrains.Annotations;
+  using SIM.Extensions;
 
   #region
 
@@ -18,7 +19,7 @@
 
     public ConnectionStringDialog()
     {
-      this.InitializeComponent();
+      InitializeComponent();
     }
 
     #endregion
@@ -27,20 +28,20 @@
 
     private void CancelChanges([CanBeNull] object sender, [CanBeNull] RoutedEventArgs e)
     {
-      this.Close();
+      Close();
     }
 
     private void SaveChanges([CanBeNull] object sender, [CanBeNull] RoutedEventArgs e)
     {
       SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder
       {
-        DataSource = this.dataSource.Text
+        DataSource = dataSource.Text
       };
 
-      if (this.useSqlServerLogin.IsChecked == true)
+      if (useSqlServerLogin.IsChecked == true)
       {
-        builder.UserID = this.userId.Text;
-        builder.Password = this.password.Text;
+        builder.UserID = userId.Text;
+        builder.Password = password.Text;
       }
       else
       {
@@ -50,30 +51,30 @@
       var value = builder.ToString();
 
       /* hack for settings dialog */
-      SettingsDialog owner = this.Owner as SettingsDialog;
+      SettingsDialog owner = Owner as SettingsDialog;
       if (owner != null)
       {
         WindowHelper.SetTextboxTextValue(owner.ConnectionString, value, owner.DoneButton);
       }
 
-      this.DataContext = value;
-      this.DialogResult = true;
-      this.Close();
+      DataContext = value;
+      DialogResult = true;
+      Close();
     }
 
     private void WindowContentRendered([CanBeNull] object sender, [CanBeNull] EventArgs e)
     {
-      SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder(this.DataContext as string);
-      this.dataSource.Text = builder.DataSource.EmptyToNull() ?? ".\\SQLEXPRESS";
-      this.userId.Text = builder.UserID.EmptyToNull() ?? "sa";
-      this.password.Text = builder.Password.EmptyToNull() ?? "12345";
-      this.useSqlServerLogin.IsChecked = !builder.IntegratedSecurity;
+      SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder(DataContext as string);
+      dataSource.Text = builder.DataSource.EmptyToNull() ?? ".\\SQLEXPRESS";
+      userId.Text = builder.UserID.EmptyToNull() ?? "sa";
+      password.Text = builder.Password.EmptyToNull() ?? "12345";
+      useSqlServerLogin.IsChecked = !builder.IntegratedSecurity;
     }
 
     private void WindowKeyUp([NotNull] object sender, [NotNull] KeyEventArgs e)
     {
-      Assert.ArgumentNotNull(sender, "sender");
-      Assert.ArgumentNotNull(e, "e");
+      Assert.ArgumentNotNull(sender, nameof(sender));
+      Assert.ArgumentNotNull(e, nameof(e));
 
       if (e.Key == Key.Escape)
       {
@@ -83,7 +84,7 @@
         }
 
         e.Handled = true;
-        this.Close();
+        Close();
       }
     }
 

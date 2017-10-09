@@ -9,15 +9,18 @@
   using SIM.Tool.Base;
   using SIM.Tool.Base.Profiles;
   using SIM.Tool.Base.Wizards;
-  using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnostics.Base;
+  using JetBrains.Annotations;
+  using Sitecore.Diagnostics.InfoService.Client.Model;
   using Sitecore.Diagnostics.Logging;
-  using Sitecore.Diagnsotics.InformationService.Client.Model;
+  using SIM.Core;
 
+  [UsedImplicitly]
   public partial class Downloads : IWizardStep, ICustomButton, IFlowControl
   {
     #region Fields
 
-    private readonly List<ProductDownload8InCheckbox> checkBoxItems = new List<ProductDownload8InCheckbox>();
+    private readonly List<ProductDownload8InCheckbox> _CheckBoxItems = new List<ProductDownload8InCheckbox>();
 
     #endregion
 
@@ -25,7 +28,7 @@
 
     public Downloads()
     {
-      this.InitializeComponent();
+      InitializeComponent();
     }
 
     #endregion
@@ -48,7 +51,7 @@
 
     public void CustomButtonClick()
     {
-      WindowHelper.OpenFolder(ProfileManager.Profile.LocalRepository);
+      CoreApp.OpenFolder(ProfileManager.Profile.LocalRepository);
     }
 
     #endregion
@@ -71,7 +74,7 @@
         WindowHelper.HandleError("You didn't select any download, please select one to go further", false);
       }
 
-      WindowHelper.LongRunningTask(() => this.PrepareData(args), "Sitecore Versions Downloader", Window.GetWindow(this), "Preparing for downloading");
+      WindowHelper.LongRunningTask(() => PrepareData(args), "Sitecore Versions Downloader", Window.GetWindow(this), "Preparing for downloading");
 
       return canMoveNext;
     }
@@ -89,7 +92,7 @@
     {
       try
       {
-        var links = this.GetLinks(args);
+        var links = GetLinks(args);
         args.Links = links;
       }
       catch (Exception ex)
@@ -104,19 +107,12 @@
 
     #region IStateControl Members
 
-    #region Public properties
-
-    public static WebBrowser WebBrowser { get; private set; }
-    public WizardArgs WizardArgs { get; set; }
-
-    #endregion
-
     #region Public methods
 
     public bool SaveChanges(WizardArgs wizardArgs)
     {
       var args = (DownloadWizardArgs)wizardArgs;
-      var selected = this.checkBoxItems.Where(mm => mm.IsChecked);
+      var selected = _CheckBoxItems.Where(mm => mm.IsChecked);
       args.Products.AddRange(selected);
 
       return true;
@@ -135,34 +131,36 @@
     public void InitializeStep(WizardArgs wizardArgs)
     {
       var args = (DownloadWizardArgs)wizardArgs;
-      this.checkBoxItems.Clear();
-      this.Append(args.Releases);
+      _CheckBoxItems.Clear();
+      Append(args.Releases);
 
       foreach (var product in args.Products)
       {
         var selectedPRoduct = product;
-        ProductDownload8InCheckbox checkBoxItem = this.checkBoxItems.SingleOrDefault(cbi => cbi.Value.Equals(selectedPRoduct));
+        ProductDownload8InCheckbox checkBoxItem = _CheckBoxItems.SingleOrDefault(cbi => cbi.Value.Equals(selectedPRoduct));
         if (checkBoxItem != null)
         {
           checkBoxItem.IsChecked = true;
         }
       }
 
-      this.filePackages.DataContext = this.checkBoxItems;
+      filePackages.DataContext = _CheckBoxItems;
     }
 
     #endregion
 
     #region Private methods
 
-    private void Append(IEnumerable<IRelease> records)
+    private void Append([NotNull] IEnumerable<IRelease> records)
     {
-      this.checkBoxItems.AddRange(records.Select(r => new ProductDownload8InCheckbox(r)).ToList());
+      Assert.ArgumentNotNull(records, nameof(records));
+
+      _CheckBoxItems.AddRange(records.Select(r => new ProductDownload8InCheckbox(r)).ToList());
     }
 
     private void ModuleSelected([CanBeNull] object sender, [CanBeNull] SelectionChangedEventArgs e)
     {
-      this.filePackages.SelectedIndex = -1;
+      filePackages.SelectedIndex = -1;
     }
 
     private void UserControlLoaded(object sender, RoutedEventArgs e)

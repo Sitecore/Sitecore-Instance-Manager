@@ -1,19 +1,16 @@
-﻿using System;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Xml;
-using Sitecore.Diagnostics;
-using Sitecore.Diagnostics.Annotations;
-
-namespace SIM
+﻿namespace SIM
 {
-  
-
-
   #region
 
+  using System;
+  using System.IO;
+  using System.Linq;
+  using System.Text;
+  using System.Xml;
+  using Sitecore.Diagnostics.Base;
+  using JetBrains.Annotations;
   using Sitecore.Diagnostics.Logging;
+  using SIM.Extensions;
 
   #endregion
 
@@ -27,10 +24,10 @@ namespace SIM
 
     public XmlDocumentEx([NotNull] string filePath)
     {
-      Assert.ArgumentNotNull(filePath, "filePath");
+      Assert.ArgumentNotNull(filePath, nameof(filePath));
 
-      this.FilePath = filePath;
-      this.Load(filePath);
+      FilePath = filePath;
+      Load(filePath);
     }
 
     #endregion
@@ -54,37 +51,45 @@ namespace SIM
       }
       catch (Exception ex)
       {
-        Log.Warn(ex, "Cannot load xml: {0}. {1}\r\n{2}", xml, ex.Message, Environment.StackTrace);
+        Log.Warn(ex, $"Cannot load xml: {xml}. {ex.Message}\r\n{Environment.StackTrace}");
+        return null;
+      }
+    }
+    
+    [CanBeNull]
+    public static XmlDocumentEx LoadStream(Stream stream)
+    {
+      try
+      {
+        XmlDocument doc = new XmlDocumentEx();
+        doc.Load(stream);
+        return (XmlDocumentEx)doc;
+      }
+      catch (Exception ex)
+      {
+        Log.Warn(ex, string.Format("Cannot load xml. {1}\r\n{2}", ex.Message, Environment.StackTrace));
         return null;
       }
     }
 
     public override sealed void Load([NotNull] string filename)
     {
-      Assert.ArgumentNotNull(filename, "filename");
+      Assert.ArgumentNotNull(filename, nameof(filename));
 
-      this.FilePath = filename;
+      FilePath = filename;
       base.Load(filename);
     }
 
     public void Save()
     {
-      Assert.IsNotNull(this.FilePath.EmptyToNull(), "FilePath is empty");
+      Assert.IsNotNull(FilePath.EmptyToNull(), "FilePath is empty");
 
-      this.Save(this.FilePath);
+      Save(FilePath);
     }
 
     #endregion
 
     #region Public properties
-
-    public bool Exists
-    {
-      get
-      {
-        return FileSystem.FileSystem.Local.File.Exists(this.FilePath);
-      }
-    }
 
     #endregion
 
@@ -93,7 +98,7 @@ namespace SIM
     [NotNull]
     public static XmlDocumentEx LoadFile([NotNull] string path)
     {
-      Assert.ArgumentNotNull(path, "path");
+      Assert.ArgumentNotNull(path, nameof(path));
       if (!FileSystem.FileSystem.Local.File.Exists(path))
       {
         throw new FileIsMissingException("The " + path + " doesn't exists");
@@ -107,9 +112,28 @@ namespace SIM
       return document;
     }
 
+    [CanBeNull]
+    public static XmlDocumentEx LoadFileSafe([NotNull] string path)
+    {
+      Assert.ArgumentNotNull(path, nameof(path));
+
+      if (!FileSystem.FileSystem.Local.File.Exists(path))
+      {
+        return null;
+      }
+
+      var document = new XmlDocumentEx
+      {
+        FilePath = path
+      };
+
+      document.Load(path);
+      return document;
+    }
+
     public static string Normalize(string xml)
     {
-      var doc = XmlDocumentEx.LoadXml(xml);
+      var doc = LoadXml(xml);
       var stringWriter = new StringWriter(new StringBuilder());
       var xmlTextWriter = new XmlTextWriter(stringWriter)
       {
@@ -123,7 +147,7 @@ namespace SIM
     public string GetElementAttributeValue(string xpath, string attributeName)
     {
       // Assert.IsTrue(xpath[0] == '/', "The xpath expression must be rooted");
-      XmlElement element = this.SelectSingleElement(this.FixNotRootedXpathExpression(xpath));
+      XmlElement element = this.SelectSingleElement(FixNotRootedXpathExpression(xpath));
       if (element != null && element.Attributes[attributeName] != null)
       {
         return element.Attributes[attributeName].Value;
@@ -134,8 +158,8 @@ namespace SIM
 
     public XmlDocumentEx Merge(XmlDocument target)
     {
-      Assert.ArgumentNotNull(target, "target");
-      var root = this.DocumentElement.IsNotNull("The DocumentElement is missing");
+      Assert.ArgumentNotNull(target, nameof(target));
+      var root = DocumentElement.IsNotNull("The DocumentElement is missing");
       var importedRoot = target.DocumentElement.IsNotNull("The DocumentElement of imported xml is missing");
       Merge(root, importedRoot);
 
@@ -145,7 +169,7 @@ namespace SIM
     public void SetElementAttributeValue(string xpath, string attributeName, string value)
     {
       // Assert.IsTrue(xpath[0] == '/', "The xpath expression must be rooted");
-      XmlElement element = this.SelectSingleElement(this.FixNotRootedXpathExpression(xpath));
+      XmlElement element = this.SelectSingleElement(FixNotRootedXpathExpression(xpath));
       if (element != null && element.Attributes[attributeName] != null)
       {
         element.Attributes[attributeName].Value = value;
@@ -155,31 +179,35 @@ namespace SIM
     public void SetElementValue(string xpath, string value)
     {
       // Assert.IsTrue(xpath[0] == '/', "The xpath expression must be rooted");
-      XmlElement element = this.SelectSingleElement(this.FixNotRootedXpathExpression(xpath));
+      XmlElement element = this.SelectSingleElement(FixNotRootedXpathExpression(xpath));
 
       if (element != null)
       {
+        if (value.IsNullOrEmpty()) return;
+
         element.InnerText = value;
         return;
       }
 
       var segments = xpath.Split('/').Where(w => !string.IsNullOrEmpty(w)).ToArray();
 
-      string path = this.Prefix.TrimEnd("/");
-      element = this.DocumentElement;
+      var path = Prefix.TrimEnd("/");
+      element = DocumentElement;
       for (int i = 1; i < segments.Length; ++i)
       {
         var segment = segments[i];
         path += "/" + segment;
-        var newElement = this.SelectSingleElement(this.Prefix + path);
+        var newElement = this.SelectSingleElement(Prefix + path);
         if (newElement == null)
         {
-          newElement = this.CreateElement(segment);
+          newElement = CreateElement(segment);
           element.AppendChild(newElement);
         }
 
         element = newElement;
       }
+
+      if (value.IsNullOrEmpty()) return;
 
       element.InnerText = value;
     }
@@ -254,5 +282,18 @@ namespace SIM
     }
 
     #endregion
+
+    public string ToPrettyXmlString()
+    {
+      var sw = new StringWriter();
+      var xml = new XmlTextWriter(sw);
+      xml.Formatting = Formatting.Indented;
+      xml.Indentation = 2;
+      xml.IndentChar = ' ';
+      Save(xml);
+
+      return sw.ToString();
+    }
+    
   }
 }

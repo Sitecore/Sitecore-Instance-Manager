@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace SIM
+﻿namespace SIM
 {
+  using System;
+
   public static class EventHelper
   {
     #region Public methods
@@ -11,14 +11,6 @@ namespace SIM
       if (subscriptionHandler != null)
       {
         subscriptionHandler(sender, args);
-      }
-    }
-
-    public static void RaiseEvent(EventHandler subscriptionHandler, object sender)
-    {
-      if (subscriptionHandler != null)
-      {
-        subscriptionHandler(sender, EventArgs.Empty);
       }
     }
 

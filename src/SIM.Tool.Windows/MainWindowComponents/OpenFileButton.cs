@@ -2,17 +2,19 @@ namespace SIM.Tool.Windows.MainWindowComponents
 {
   using System.IO;
   using System.Windows;
+  using SIM.Core.Common;
   using SIM.Instances;
-  using SIM.Tool.Base;
   using SIM.Tool.Base.Plugins;
-  using Sitecore.Diagnostics.Annotations;
+  using JetBrains.Annotations;
+  using SIM.Core;
+  using SIM.Extensions;
 
   [UsedImplicitly]
   public class OpenFileButton : IMainWindowButton
   {
     #region Fields
 
-    protected readonly string FilePath;
+    protected string FilePath { get; }
 
     #endregion
 
@@ -20,7 +22,7 @@ namespace SIM.Tool.Windows.MainWindowComponents
 
     public OpenFileButton(string param)
     {
-      this.FilePath = param;
+      FilePath = param;
     }
 
     #endregion
@@ -34,19 +36,21 @@ namespace SIM.Tool.Windows.MainWindowComponents
 
     public void OnClick(Window mainWindow, Instance instance)
     {
+      Analytics.TrackEvent("OpenFile");
+
       if (instance != null)
       {
-        string filePath = this.FilePath.StartsWith("/") ? Path.Combine(instance.WebRootPath, this.FilePath.Substring(1)) : this.FilePath;
+        var filePath = FilePath.StartsWith("/") ? Path.Combine(instance.WebRootPath, FilePath.Substring(1)) : FilePath;
         FileSystem.FileSystem.Local.File.AssertExists(filePath, "The {0} file of the {1} instance doesn't exist".FormatWith(filePath, instance.Name));
 
-        string editor = WindowsSettings.AppToolsConfigEditor.Value;
+        var editor = WindowsSettings.AppToolsConfigEditor.Value;
         if (!string.IsNullOrEmpty(editor))
         {
-          WindowHelper.RunApp(editor, filePath);
+          CoreApp.RunApp(editor, filePath);
         }
         else
         {
-          WindowHelper.OpenFile(filePath);
+          CoreApp.OpenFile(filePath);
         }
       }
     }

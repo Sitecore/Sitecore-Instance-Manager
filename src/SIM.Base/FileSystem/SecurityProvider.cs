@@ -4,18 +4,19 @@ using System.IO;
 using System.Linq;
 using System.Security.AccessControl;
 using System.Security.Principal;
-using Sitecore.Diagnostics;
-using Sitecore.Diagnostics.Annotations;
+using Sitecore.Diagnostics.Base;
+using JetBrains.Annotations;
 
 namespace SIM.FileSystem
 {
   using Sitecore.Diagnostics.Logging;
+  using SIM.Extensions;
 
   public static class SecurityExtensions
   {
     #region Fields
 
-    private static readonly Type SecurityIdentifier = typeof(SecurityIdentifier);
+    private static Type SecurityIdentifier { get; } = typeof(SecurityIdentifier);     
 
     #endregion
 
@@ -34,15 +35,13 @@ namespace SIM.FileSystem
   public class SecurityProvider
   {
     #region Fields
+                                          
+    protected IdentityReference Everyone { get; } = new SecurityIdentifier("S-1-1-0").Translate(typeof(NTAccount));
+    protected IdentityReference LocalService { get; } = new SecurityIdentifier("S-1-5-19").Translate(typeof(NTAccount));
+    protected IdentityReference LocalSystem { get; } = new SecurityIdentifier("S-1-5-18").Translate(typeof(NTAccount));
+    protected IdentityReference NetworkService { get; } = new SecurityIdentifier("S-1-5-20").Translate(typeof(NTAccount));
 
-    protected readonly IdentityReference AuthenticatedUsers = new SecurityIdentifier("S-1-5-11").Translate(typeof(NTAccount));
-
-    protected readonly IdentityReference Everyone = new SecurityIdentifier("S-1-1-0").Translate(typeof(NTAccount));
-    protected readonly IdentityReference LocalService = new SecurityIdentifier("S-1-5-19").Translate(typeof(NTAccount));
-    protected readonly IdentityReference LocalSystem = new SecurityIdentifier("S-1-5-18").Translate(typeof(NTAccount));
-    protected readonly IdentityReference NetworkService = new SecurityIdentifier("S-1-5-20").Translate(typeof(NTAccount));
-
-    protected readonly FileSystem fileSystem;
+    protected FileSystem FileSystem { get; }
 
     #endregion
 
@@ -50,7 +49,7 @@ namespace SIM.FileSystem
 
     public SecurityProvider(FileSystem fileSystem)
     {
-      this.fileSystem = fileSystem;
+      FileSystem = fileSystem;
     }
 
     #endregion
@@ -59,21 +58,21 @@ namespace SIM.FileSystem
 
     public virtual void EnsurePermissions([NotNull] string path, [NotNull] string identity)
     {
-      Assert.ArgumentNotNullOrEmpty(path, "path");
-      Assert.ArgumentNotNullOrEmpty(identity, "identity");
+      Assert.ArgumentNotNullOrEmpty(path, nameof(path));
+      Assert.ArgumentNotNullOrEmpty(identity, nameof(identity));
 
-      var identityReference = this.GetIdentityReference(identity);
-      Assert.IsNotNull(identityReference, "Cannot find {0} identity reference".FormatWith(identity));
+      var identityReference = GetIdentityReference(identity);
+      Assert.IsNotNull(identityReference, $"Cannot find {identity} identity reference");
 
-      if (this.fileSystem.Directory.Exists(path))
+      if (FileSystem.Directory.Exists(path))
       {
-        this.EnsureDirectoryPermissions(path, identityReference);
+        EnsureDirectoryPermissions(path, identityReference);
         return;
       }
 
-      if (this.fileSystem.File.Exists(path))
+      if (FileSystem.File.Exists(path))
       {
-        this.EnsureFilePermissions(path, identityReference);
+        EnsureFilePermissions(path, identityReference);
         return;
       }
 
@@ -83,20 +82,20 @@ namespace SIM.FileSystem
     [CanBeNull]
     public virtual IdentityReference GetIdentityReference([NotNull] string name)
     {
-      Assert.ArgumentNotNullOrEmpty(name, "name");
+      Assert.ArgumentNotNullOrEmpty(name, nameof(name));
 
       IdentityReference reference = null;
       if (name.EndsWith("NetworkService", StringComparison.OrdinalIgnoreCase) || name.EndsWith("Network Service", StringComparison.OrdinalIgnoreCase))
       {
-        reference = this.NetworkService;
+        reference = NetworkService;
       }
       else if (name.EndsWith("LocalSystem", StringComparison.OrdinalIgnoreCase) || name.EndsWith("Local System", StringComparison.OrdinalIgnoreCase))
       {
-        reference = this.LocalSystem;
+        reference = LocalSystem;
       }
       else if (name.EndsWith("LocalService", StringComparison.OrdinalIgnoreCase) || name.EndsWith("Local Service", StringComparison.OrdinalIgnoreCase))
       {
-        reference = this.LocalService;
+        reference = LocalService;
       }
       else
       {
@@ -115,14 +114,14 @@ namespace SIM.FileSystem
         }
         catch (Exception ex)
         {
-          Log.Warn(ex, "An error occurred during paring {0} security identifier", name);
+          Log.Warn(ex, $"An error occurred during paring {name} security identifier");
           try
           {
             reference = new NTAccount(name);
           }
           catch (Exception ex1)
           {
-            Log.Warn(ex, "An error occurred during parsing {0} user account", ex1);
+            Log.Warn(ex, $"An error occurred during parsing {ex1} user account");
           }
         }
       }
@@ -134,18 +133,18 @@ namespace SIM.FileSystem
 
     public virtual bool HasPermissions(string path, string identity, FileSystemRights permissions)
     {
-      Assert.ArgumentNotNullOrEmpty(path, "path");
-      Assert.ArgumentNotNullOrEmpty(identity, "identity");
-      Assert.ArgumentNotNull(permissions, "permissions");
+      Assert.ArgumentNotNullOrEmpty(path, nameof(path));
+      Assert.ArgumentNotNullOrEmpty(identity, nameof(identity));
+      Assert.ArgumentNotNull(permissions, nameof(permissions));
 
-      if (this.fileSystem.Directory.Exists(path))
+      if (FileSystem.Directory.Exists(path))
       {
-        return this.HasDirectoryPermissions(path, this.GetIdentityReference(identity), permissions);
+        return HasDirectoryPermissions(path, GetIdentityReference(identity), permissions);
       }
 
-      if (this.fileSystem.File.Exists(path))
+      if (FileSystem.File.Exists(path))
       {
-        return this.HasFilePermissions(path, this.GetIdentityReference(identity), permissions);
+        return HasFilePermissions(path, GetIdentityReference(identity), permissions);
       }
 
       throw new InvalidOperationException("File or directory not found: " + path);
@@ -157,8 +156,8 @@ namespace SIM.FileSystem
 
     protected virtual void EnsureDirectoryPermissions([NotNull] string path, [NotNull] IdentityReference identity)
     {
-      Assert.ArgumentNotNull(path, "path");
-      Assert.ArgumentNotNull(identity, "identity");
+      Assert.ArgumentNotNull(path, nameof(path));
+      Assert.ArgumentNotNull(identity, nameof(identity));
 
       DirectoryInfo dirInfo = new DirectoryInfo(path);
       DirectorySecurity dirSecurity = dirInfo.GetAccessControl(AccessControlSections.All);
@@ -166,8 +165,8 @@ namespace SIM.FileSystem
 
       if (!HasPermissions(rules, identity, FileSystemRights.FullControl))
       {
-        Log.Info("Granting full access for '{0}' identity to the '{1}' folder", identity, path, 
-          typeof(FileSystem));
+        Log.Info(string.Format("Granting full access for '{0}' identity to the '{1}' folder", identity, path, 
+          typeof(FileSystem)));
         FileSystemAccessRule rule = new FileSystemAccessRule(identity, FileSystemRights.FullControl, 
           InheritanceFlags.ContainerInherit |
           InheritanceFlags.ObjectInherit, PropagationFlags.None, 
@@ -185,8 +184,8 @@ namespace SIM.FileSystem
 
     protected virtual void EnsureFilePermissions([NotNull] string path, [NotNull] IdentityReference identity)
     {
-      Assert.ArgumentNotNull(path, "path");
-      Assert.ArgumentNotNull(identity, "identity");
+      Assert.ArgumentNotNull(path, nameof(path));
+      Assert.ArgumentNotNull(identity, nameof(identity));
 
       var fileInfo = new FileInfo(path);
       var dirSecurity = fileInfo.GetAccessControl(AccessControlSections.All);
@@ -194,8 +193,8 @@ namespace SIM.FileSystem
 
       if (!HasPermissions(rules, identity, FileSystemRights.FullControl))
       {
-        Log.Info("Granting full access for '{0}' identity to the '{1}' file", identity, path, 
-          typeof(FileSystem));
+        Log.Info(string.Format("Granting full access for '{0}' identity to the '{1}' file", identity, path, 
+          typeof(FileSystem)));
 
         var rule = new FileSystemAccessRule(identity, FileSystemRights.FullControl, AccessControlType.Allow);
         dirSecurity.AddAccessRule(rule);
@@ -213,16 +212,16 @@ namespace SIM.FileSystem
     protected virtual IEnumerable<AuthorizationRule> GetRules([NotNull] AuthorizationRuleCollection rules, 
       [NotNull] IdentityReference identity)
     {
-      Assert.ArgumentNotNull(rules, "rules");
-      Assert.ArgumentNotNull(identity, "identity");
+      Assert.ArgumentNotNull(rules, nameof(rules));
+      Assert.ArgumentNotNull(identity, nameof(identity));
 
       try
       {
-        return rules.Cast<AuthorizationRule>().Where(rule => rule.IdentityReference.CompareTo(identity) || rule.IdentityReference.CompareTo(this.Everyone));
+        return rules.Cast<AuthorizationRule>().Where(rule => rule.IdentityReference.CompareTo(identity) || rule.IdentityReference.CompareTo(Everyone));
       }
       catch (Exception ex)
       {
-        Log.Warn(ex, "Cannot get rules. {0}", ex.Message);
+        Log.Warn(ex, $"Cannot get rules. {ex.Message}");
         return new AuthorizationRule[0];
       }
     }
@@ -247,12 +246,12 @@ namespace SIM.FileSystem
 
     protected virtual bool HasPermissions([NotNull] AuthorizationRuleCollection rules, [NotNull] IdentityReference identity, FileSystemRights permissions)
     {
-      Assert.ArgumentNotNull(rules, "rules");
-      Assert.ArgumentNotNull(identity, "identity");
+      Assert.ArgumentNotNull(rules, nameof(rules));
+      Assert.ArgumentNotNull(identity, nameof(identity));
       try
       {
         return
-          this.GetRules(rules, identity).Any(
+          GetRules(rules, identity).Any(
             rule => (((FileSystemAccessRule)rule).FileSystemRights & permissions) > 0);
       }
       catch (Exception ex)

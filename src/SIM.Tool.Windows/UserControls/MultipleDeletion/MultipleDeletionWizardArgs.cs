@@ -10,7 +10,7 @@
   {
     #region Fields
 
-    public List<string> SelectedInstances;
+    public List<string> _SelectedInstances;
 
     #endregion
 
@@ -18,9 +18,9 @@
 
     public override ProcessorArgs ToProcessorArgs()
     {
-      return new MultipleDeletionArgs(this.SelectedInstances)
+      return new MultipleDeletionArgs(_SelectedInstances)
       {
-        ConnectionString = ProfileManager.GetConnectionString()
+        _ConnectionString = ProfileManager.GetConnectionString()
       };
     }
 

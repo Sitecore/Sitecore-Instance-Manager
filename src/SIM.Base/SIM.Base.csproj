@@ -10,9 +10,10 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SIM</RootNamespace>
     <AssemblyName>SIM.Base</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
+    <LangVersion>6</LangVersion>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -23,67 +24,60 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>TRACE;JETBRAINS_ANNOTATIONS</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Ionic.Zip.Reduced">
+    <Reference Include="Ionic.Zip.Reduced, Version=1.9.1.8, Culture=neutral, PublicKeyToken=edbe51ad942a3f5c, processorArchitecture=MSIL">
       <HintPath>..\packages\DotNetZip.Reduced.1.9.1.8\lib\net20\Ionic.Zip.Reduced.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="Sitecore.Diagnostics.Base, Version=1.0.0.0, Culture=neutral, PublicKeyToken=2a430da507ea8b02, processorArchitecture=MSIL">
-      <HintPath>..\packages\Sitecore.Diagnostics.Base.1.0.0.15\lib\net35\Sitecore.Diagnostics.Base.dll</HintPath>
+    <Reference Include="JetBrains.Annotations, Version=10.4.0.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
+      <HintPath>..\packages\JetBrains.Annotations.10.4.0\lib\net\JetBrains.Annotations.dll</HintPath>
     </Reference>
-    <Reference Include="Sitecore.Diagnostics.Logging, Version=1.0.0.0, Culture=neutral, PublicKeyToken=8e71e5db3070b7f5, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Sitecore.Diagnostics.Logging.1.0.0.15\lib\net40\Sitecore.Diagnostics.Logging.dll</HintPath>
+    <Reference Include="Sitecore.Diagnostics.Base, Version=2.0.0.180, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Sitecore.Diagnostics.Base.2.0.0.180\lib\Sitecore.Diagnostics.Base.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.Diagnostics.Logging, Version=2.0.0.180, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Sitecore.Diagnostics.Logging.2.0.0.180\lib\Sitecore.Diagnostics.Logging.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AbstractArgs.cs" />
     <Compile Include="AdvancedProperty.cs" />
     <Compile Include="AdvancedPropertyBase.cs" />
     <Compile Include="AdvancedSettings.cs" />
     <Compile Include="AdvancedSettingsManager.cs" />
     <Compile Include="ApplicationManager.cs" />
     <Compile Include="CacheManager.cs" />
-    <Compile Include="CustomDataStoring\Bucket.cs" />
-    <Compile Include="CustomDataStoring\FileSystemBucketStorage.cs" />
-    <Compile Include="CustomDataStoring\IBucketStorage.cs" />
-    <Compile Include="CustomDataStoring\IDataBox.cs" />
-    <Compile Include="CustomDataStoring\PermanentDataManager.cs" />
-    <Compile Include="CustomDataStoring\PermanentInfoStorage.cs" />
-    <Compile Include="CustomDataStoring\SavePolicies\ImmediateSaveStrategy.cs" />
-    <Compile Include="CustomDataStoring\SavePolicies\IntervalSaveStrategy.cs" />
-    <Compile Include="CustomDataStoring\SavePolicies\ISaveStrategy.cs" />
-    <Compile Include="CustomDataStoring\SavePolicies\ManualSaveStrategy.cs" />
-    <Compile Include="CustomDataStoring\SavePolicies\RubberDelaySaveStrategy.cs" />
-    <Compile Include="CustomDataStoring\StorageBox.cs" />
     <Compile Include="DataObject.cs" />
     <Compile Include="DataObjectBase.cs" />
     <Compile Include="EventHelper.cs" />
-    <Compile Include="Extensions.cs" />
+    <Compile Include="Extensions\Extensions.cs" />
+    <Compile Include="Extensions\StringExtensions.cs" />
+    <Compile Include="FileSystem\FilePath.cs" />
     <Compile Include="FileSystem\FileProvider.cs" />
     <Compile Include="FileSystem\DirectoryProvider.cs" />
     <Compile Include="FileSystem\FileSystem.cs" />
-    <Compile Include="FileSystem\PathProvider.cs" />
+    <Compile Include="FileSystem\PathUtils.cs" />
     <Compile Include="FileSystem\SecurityProvider.cs" />
     <Compile Include="FileSystem\TempFolder.cs" />
-    <Compile Include="FileSystem\UncDirectoryProvider.cs" />
-    <Compile Include="FileSystem\UncFileProvider.cs" />
-    <Compile Include="FileSystem\UncSecurityProvider.cs" />
-    <Compile Include="FileSystem\UncZipProvider.cs" />
     <Compile Include="IAdvancedSettingsStorage.cs" />
+    <Compile Include="IProfile.cs" />
+    <Compile Include="Safe.cs" />
     <Compile Include="Parameters.cs" />
     <Compile Include="Pipelines\Pipeline.cs" />
     <Compile Include="Pipelines\PipelineController.cs" />
@@ -106,6 +100,8 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="ReflectionUtil.cs" />
+    <Compile Include="Services\ConnectionString.cs" />
+    <Compile Include="Services\SqlConnectionString.cs" />
     <Compile Include="WebRequestHelper.cs" />
     <Compile Include="XmlBasedAdvancedSettingsStorage.cs" />
     <Compile Include="AppConfigSectionHandler.cs" />
@@ -122,6 +118,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Extensions\DirectoryInfo\" />
+    <Folder Include="Extensions\FileInfo\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

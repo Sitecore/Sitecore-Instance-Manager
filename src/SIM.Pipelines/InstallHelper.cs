@@ -4,31 +4,33 @@
   using System.IO;
   using System.Linq;
   using Ionic.Zip;
-  using SIM.Pipelines.Install;
-  using Sitecore.Diagnostics;
-  using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnostics.Base;
+  using JetBrains.Annotations;
   using Sitecore.Diagnostics.Logging;
 
   public static class InstallHelper
   {
-    public static void ExtractFile([NotNull] string packagePath, [NotNull] string webRootPath, [NotNull] string databasesFolderPath, [NotNull] string dataFolderPath, [CanBeNull] IPipelineController controller = null)
+    public const string RadControls = "sitecore/shell/RadControls";
+    public const string Dictionaries = "sitecore/shell/Controls/Rich Text Editor/Dictionaries";
+      
+    public static void ExtractFile([NotNull] string packagePath, [NotNull] string webRootPath, [NotNull] string databasesFolderPath, [NotNull] string dataFolderPath, bool attachSql, bool installRadControls, bool installDictionaries, [CanBeNull] IPipelineController controller = null)
     {
-      Assert.ArgumentNotNull(packagePath, "packagePath");
-      Assert.ArgumentNotNull(webRootPath, "webRootPath");
-      Assert.ArgumentNotNull(databasesFolderPath, "databasesFolderPath");
-      Assert.ArgumentNotNull(dataFolderPath, "dataFolderPath");
+      Assert.ArgumentNotNull(packagePath, nameof(packagePath));
+      Assert.ArgumentNotNull(webRootPath, nameof(webRootPath));
+      Assert.ArgumentNotNull(databasesFolderPath, nameof(databasesFolderPath));
+      Assert.ArgumentNotNull(dataFolderPath, nameof(dataFolderPath));
 
-      Log.Info("Extracting {0}", packagePath);
-      var ignore = Settings.CoreInstallRadControls.Value ? ":#!" : "sitecore/shell/RadControls";
+      Log.Info($"Extracting {packagePath}");
+      var ignore = installRadControls ? ":#!" : RadControls;
 
-      var ignore2 = Settings.CoreInstallDictionaries.Value ? ":#!" : "sitecore/shell/Controls/Rich Text Editor/Dictionaries";
+      var ignore2 = installDictionaries ? ":#!" : Dictionaries;
       var incrementProgress = controller != null ? new Action<long>(controller.IncrementProgress) : null;
 
       try
       {
         using (var zip = new ZipFile(packagePath))
         {
-          var prefix = zip.Entries.First().FileName;
+          var prefix = zip.Entries.First(x => x.FileName.StartsWith("Sitecore ")).FileName;
           prefix = prefix.Substring(0, prefix.IndexOf('/', 1));
 
           var webRootPrefix = prefix + "/Website/";
@@ -36,6 +38,9 @@
 
           var databasesPrefix = prefix + "/Databases/";
           var databasesPrefixLength = databasesPrefix.Length;
+
+          var databasesPrefix2 = "Databases/";
+          var databasesPrefix2Length = databasesPrefix2.Length;
 
           var dataPrefix = prefix + "/Data/";
           var dataPrefixLength = dataPrefix.Length;
@@ -81,12 +86,59 @@
             }
             else if (fileName.StartsWith(databasesPrefix, StringComparison.OrdinalIgnoreCase))
             {
-              if (fileName.EndsWith(".ldf"))
+              if (!attachSql)
               {
                 continue;
               }
 
-              var filePath = Path.Combine(databasesFolderPath, fileName.Substring(databasesPrefixLength));
+              if (!fileName.EndsWith(".mdf", StringComparison.OrdinalIgnoreCase) && !fileName.EndsWith(".dacpac", StringComparison.OrdinalIgnoreCase))
+              {
+                continue;
+              }
+
+              var text = fileName.Substring(databasesPrefixLength);
+              if (text.Contains("Sitecore.Analytics."))
+              {
+                text = text.Replace("Sitecore.Analytics.", "Sitecore.Reporting.");
+              }
+
+              var filePath = Path.Combine(databasesFolderPath, text);
+              if (entry.IsDirectory)
+              {
+                Directory.CreateDirectory(filePath);
+                continue;
+              }
+
+              var folder = Path.GetDirectoryName(filePath);
+              if (!Directory.Exists(folder))
+              {
+                Directory.CreateDirectory(folder);
+              }
+
+              using (var write = new StreamWriter(filePath))
+              {
+                entry.Extract(write.BaseStream);
+              }
+            }
+            else if (fileName.StartsWith(databasesPrefix2, StringComparison.OrdinalIgnoreCase))
+            {
+              if (!attachSql)
+              {
+                continue;
+              }
+
+              if (!fileName.EndsWith(".mdf", StringComparison.OrdinalIgnoreCase) && !fileName.EndsWith(".dacpac", StringComparison.OrdinalIgnoreCase))
+              {
+                continue;
+              }
+
+              var text = fileName.Substring(databasesPrefix2Length);
+              if (text.Contains("Sitecore.Analytics."))
+              {
+                text = text.Replace("Sitecore.Analytics.", "Sitecore.Reporting.");
+              }
+
+              var filePath = Path.Combine(databasesFolderPath, text);
               if (entry.IsDirectory)
               {
                 Directory.CreateDirectory(filePath);
@@ -126,14 +178,14 @@
             }
             else
             {
-              Log.Warn("Unexpected file or directory is ignored: {0}",  fileName);
+              Log.Warn($"Unexpected file or directory is ignored: {fileName}");
             }
           }
         }
       }
       catch (ZipException)
       {
-        throw new InvalidOperationException(string.Format("The \"{0}\" package seems to be corrupted.", packagePath));
+        throw new InvalidOperationException($"The \"{packagePath}\" package seems to be corrupted.");
       }
     }
 

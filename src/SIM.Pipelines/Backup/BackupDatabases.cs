@@ -3,8 +3,8 @@
   using System.IO;
   using System.Linq;
   using SIM.Adapters.SqlServer;
-  using Sitecore.Diagnostics;
-  using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnostics.Base;
+  using JetBrains.Annotations;
   using Sitecore.Diagnostics.Logging;
 
   [UsedImplicitly]
@@ -16,30 +16,30 @@
 
     protected override long EvaluateStepsCount(BackupArgs args)
     {
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(args, nameof(args));
 
       return args.Instance.AttachedDatabases.Count();
     }
 
     protected override bool IsRequireProcessing(BackupArgs args)
     {
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(args, nameof(args));
 
       return args.BackupDatabases;
     }
 
     protected override void Process([NotNull] BackupArgs args)
     {
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(args, nameof(args));
 
       var instance = args.Instance;
-      Assert.IsNotNull(instance, "instance");
+      Assert.IsNotNull(instance, nameof(instance));
       var backupDatabasesFolder = FileSystem.FileSystem.Local.Directory.Ensure(Path.Combine(args.Folder, "Databases"));
 
       foreach (Database database in instance.AttachedDatabases)
       {
-        this.Backup(database, backupDatabasesFolder);
-        this.IncrementProgress();
+        Backup(database, backupDatabasesFolder);
+        IncrementProgress();
       }
     }
 
@@ -49,8 +49,8 @@
 
     private void Backup([NotNull] Database database, [NotNull] string folder)
     {
-      Assert.ArgumentNotNull(database, "database");
-      Assert.ArgumentNotNull(folder, "folder");
+      Assert.ArgumentNotNull(database, nameof(database));
+      Assert.ArgumentNotNull(folder, nameof(folder));
 
       var connectionString = database.ConnectionString;
 
@@ -58,11 +58,12 @@
       {
         var databaseName = database.RealName;
         var fileName = Path.Combine(folder, database.BackupFilename);
-        Log.Info("Backing up the '{0}' database to the '{1}' file", databaseName, fileName);
+        Log.Info($"Backing up the '{databaseName}' database to the '{fileName}' file");
 
-        var command = "BACKUP DATABASE [" + databaseName + "] TO  DISK = N'" + fileName +
-                      "' WITH NOFORMAT, NOINIT,  NAME = N'" + databaseName +
-                      " initial backup', SKIP, NOREWIND, NOUNLOAD,  STATS = 10";
+        var command = $"BACKUP DATABASE [{databaseName}] TO  " +
+                      $"DISK = N\'{fileName}\' WITH NOFORMAT, NOINIT,  " +
+                      $"NAME = N\'{databaseName} initial backup\', SKIP, NOREWIND, NOUNLOAD,  STATS = 10";
+
         SqlServerManager.Instance.Execute(connection, command);
       }
     }

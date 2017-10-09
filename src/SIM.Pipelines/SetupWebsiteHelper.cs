@@ -4,11 +4,13 @@ using Microsoft.Web.Administration;
 using SIM.Adapters.WebServer;
 using SIM.Pipelines.Install;
 using SIM.Products;
-using Sitecore.Diagnostics;
-using Sitecore.Diagnostics.Annotations;
+using Sitecore.Diagnostics.Base;
+using JetBrains.Annotations;
 
 namespace SIM.Pipelines
 {
+  using SIM.Extensions;
+
   public class SetupWebsiteHelper
   {
     #region Constants
@@ -30,11 +32,11 @@ namespace SIM.Pipelines
     [NotNull]
     public static string ChooseAppPoolName([NotNull] string name, [NotNull] ApplicationPoolCollection applicationPools)
     {
-      Assert.ArgumentNotNull(name, "name");
-      Assert.ArgumentNotNull(applicationPools, "applicationPools");
+      Assert.ArgumentNotNull(name, nameof(name));
+      Assert.ArgumentNotNull(applicationPools, nameof(applicationPools));
 
-      int modifier = 0;
-      string newname = name;
+      var modifier = 0;
+      var newname = name;
       while (applicationPools[newname] != null)
       {
         newname = name + '_' + ++modifier;
@@ -45,7 +47,7 @@ namespace SIM.Pipelines
 
     public static void SetDataFolder([NotNull] string rootFolderPath, [CanBeNull] string dataFolderPath = null)
     {
-      Assert.ArgumentNotNull(rootFolderPath, "rootFolderPath");
+      Assert.ArgumentNotNull(rootFolderPath, nameof(rootFolderPath));
 
       var dataFolder = Path.Combine(rootFolderPath, @"Website\App_Config\Include\zzz\DataFolder.config");
       var dir = Path.GetDirectoryName(dataFolder);
@@ -65,11 +67,11 @@ namespace SIM.Pipelines
       IEnumerable<BindingInfo> bindings, string name)
     {
       long siteId;
-      using (WebServerManager.WebServerContext context = WebServerManager.CreateContext("SetupWebsite.Process"))
+      using (WebServerManager.WebServerContext context = WebServerManager.CreateContext())
       {
         ApplicationPool appPool = context.ApplicationPools.Add(ChooseAppPoolName(name, context.ApplicationPools));
         appPool.ManagedRuntimeVersion = NetFrameworkV2;
-        string id = Settings.CoreInstallWebServerIdentity.Value;
+        var id = Settings.CoreInstallWebServerIdentity.Value;
         ProcessModelIdentityType type = GetIdentityType(id);
         appPool.ProcessModel.IdentityType = type;
         appPool.ProcessModel.PingingEnabled = false;
@@ -92,7 +94,7 @@ namespace SIM.Pipelines
 
         if (product.Name.EqualsIgnoreCase("Sitecore CMS"))
         {
-          string ver = product.Version;
+          var ver = product.Version;
           if (ver.StartsWith("6.0") || ver.StartsWith("6.1"))
           {
             appPool.Enable32BitAppOnWin64 = true;
@@ -107,7 +109,7 @@ namespace SIM.Pipelines
         Site site = null;
         foreach (BindingInfo binding in bindings)
         {
-          string bindingInformation = binding.IP + ":" + binding.Port + ":" + binding.Host;
+          var bindingInformation = $"{binding.IP}:{binding.Port}:{binding.Host}";
           if (site == null)
           {
             site = context.Sites.Add(name, binding.Protocol, bindingInformation, webRootPath);
@@ -118,7 +120,7 @@ namespace SIM.Pipelines
           }
         }
 
-        Assert.IsNotNull(site, "site");
+        Assert.IsNotNull(site, nameof(site));
         siteId = site.Id;
         site.ApplicationDefaults.ApplicationPoolName = name;
         context.CommitChanges();
@@ -133,7 +135,7 @@ namespace SIM.Pipelines
 
     private static ProcessModelIdentityType GetIdentityType([NotNull] string name)
     {
-      Assert.ArgumentNotNull(name, "name");
+      Assert.ArgumentNotNull(name, nameof(name));
 
       if (name.EqualsIgnoreCase("NetworkService"))
       {

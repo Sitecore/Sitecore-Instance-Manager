@@ -6,7 +6,7 @@
   using System.Net;
   using System.Windows;
   using Alienlab.NetExtensions;
-  using SIM.Products;
+  using SIM.Extensions;
   using SIM.Tool.Base;
   using SIM.Tool.Base.Wizards;
 
@@ -16,8 +16,8 @@
 
     public Login(string param)
     {
-      this.InitializeComponent();
-      this.TextBlock.Text = param;
+      InitializeComponent();
+      TextBlock.Text = param;
     }
 
     #endregion
@@ -26,12 +26,12 @@
 
     private static string GetMarketplaceCookie(string username, string password)
     {
-      const string baseUri = "https://dev.sitecore.net";
-      var request = FormHelper.CreatePostRequest(new Uri(baseUri + @"/api/authorization"));
+      const string BaseUri = "https://dev.sitecore.net";
+      var request = FormHelper.CreatePostRequest(new Uri(BaseUri + @"/api/authorization"));
       request.ContentType = @"application/json;charset=UTF-8";
       var cookies = new CookieContainer();
       request.CookieContainer = cookies;
-      var content = "{" + string.Format("\"username\":\"{0}\",\"password\":\"{1}\"", username, password) + "}";
+      var content = "{" + $"\"username\":\"{username}\",\"password\":\"{password}\"" + "}";
       request.ContentLength = content.Length;
       using (var inputStream = request.GetRequestStream())
       {
@@ -56,7 +56,7 @@
                 throw new InvalidOperationException("The username or password or both are incorrect, or an unexpected error happen");
               }
 
-              return marketplaceCookie + "; " + GetSessionCookie(baseUri);
+              return marketplaceCookie + "; " + GetSessionCookie(BaseUri);
             }
           }
         }
@@ -87,14 +87,10 @@
     bool IFlowControl.OnMovingNext(WizardArgs wizardArgs)
     {
       var args = (DownloadWizardArgs)wizardArgs;
-      if (!string.IsNullOrEmpty(args.Cookies) && this.UserName.Text.EqualsIgnoreCase(args.UserName) && this.Passowrd.Password.EqualsIgnoreCase(args.Password) && args.Releases.Length > 0)
+      if (!string.IsNullOrEmpty(args.Cookies) && UserName.Text.EqualsIgnoreCase(args.UserName) && Passowrd.Password.EqualsIgnoreCase(args.Password) && args.Releases.Length > 0)
       {
         return true;
       }
-
-      args.Releases = Product.Service.GetVersions("Sitecore CMS")
-        .With(x => x.Where(z => z.Name.StartsWith("8")))
-        .With(x => x.SelectMany(y => y.Releases).ToArray());
 
       var username = args.UserName;
       var password = args.Password;
@@ -139,15 +135,15 @@
     void IWizardStep.InitializeStep(WizardArgs wizardArgs)
     {
       var args = (DownloadWizardArgs)wizardArgs;
-      this.UserName.Text = args.UserName;
-      this.Passowrd.Password = args.Password;
+      UserName.Text = args.UserName;
+      Passowrd.Password = args.Password;
     }
 
     bool IWizardStep.SaveChanges(WizardArgs wizardArgs)
     {
-      string username = this.UserName.Text.Trim();
+      var username = UserName.Text.Trim();
 
-      string password = this.Passowrd.Password;
+      var password = Passowrd.Password;
 
       var args = (DownloadWizardArgs)wizardArgs;
       args.UserName = username;

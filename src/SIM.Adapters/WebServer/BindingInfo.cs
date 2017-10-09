@@ -2,17 +2,17 @@
 {
   using System.Net;
   using Microsoft.Web.Administration;
-  using Sitecore.Diagnostics;
-  using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnostics.Base;
+  using JetBrains.Annotations;
 
   public sealed class BindingInfo
   {
     #region Fields
 
-    public readonly string Host;
-    public readonly string IP;
-    public readonly int Port;
-    public readonly string Protocol;
+    public string Host { get; }
+    public string IP { get; }
+    public int Port { get; }
+    public string Protocol { get; }
 
     #endregion
 
@@ -20,9 +20,9 @@
 
     public BindingInfo([NotNull] string protocol, [NotNull] string host, int port, [NotNull] string ip)
     {
-      Assert.ArgumentNotNull(protocol, "protocol");
-      Assert.ArgumentNotNull(host, "host");
-      Assert.ArgumentNotNull(ip, "ip");
+      Assert.ArgumentNotNull(protocol, nameof(protocol));
+      Assert.ArgumentNotNull(host, nameof(host));
+      Assert.ArgumentNotNull(ip, nameof(ip));
 
       if (host == "*")
       {
@@ -34,10 +34,10 @@
         ip = "*";
       }
 
-      this.Protocol = protocol;
-      this.Host = host;
-      this.Port = port;
-      this.IP = ip;
+      Protocol = protocol;
+      Host = host;
+      Port = port;
+      IP = ip;
     }
 
     public BindingInfo([NotNull] Binding binding)
@@ -46,14 +46,14 @@
         binding.Host.IsNotNull("binding.Host"), 
         binding.EndPoint.IsNotNull("binding.EndPoint"))
     {
-      Assert.ArgumentNotNull(binding, "binding");
+      Assert.ArgumentNotNull(binding, nameof(binding));
     }
 
     private BindingInfo([NotNull] string protocol, [NotNull] string host, [NotNull] IPEndPoint endPoint) : this(protocol, host, endPoint.Port, endPoint.Address.ToString())
     {
-      Assert.ArgumentNotNull(protocol, "protocol");
-      Assert.ArgumentNotNull(host, "host");
-      Assert.ArgumentNotNull(endPoint, "endPoint");
+      Assert.ArgumentNotNull(protocol, nameof(protocol));
+      Assert.ArgumentNotNull(host, nameof(host));
+      Assert.ArgumentNotNull(endPoint, nameof(endPoint));
     }
 
     #endregion

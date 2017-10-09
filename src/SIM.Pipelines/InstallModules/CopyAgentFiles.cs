@@ -2,8 +2,8 @@ namespace SIM.Pipelines.InstallModules
 {
   using System.Linq;
   using SIM.Pipelines.Agent;
-  using Sitecore.Diagnostics;
-  using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnostics.Base;
+  using JetBrains.Annotations;
 
   #region
 
@@ -16,14 +16,14 @@ namespace SIM.Pipelines.InstallModules
 
     protected override bool IsRequireProcessing(InstallModulesArgs args)
     {
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(args, nameof(args));
 
-      return args.Modules.Any(m => m.IsPackage);
+      return args._Modules.Any(m => m.IsPackage);
     }
 
     protected override void Process([NotNull] InstallModulesArgs args)
     {
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(args, nameof(args));
 
       AgentHelper.CopyAgentFiles(args.Instance);
     }

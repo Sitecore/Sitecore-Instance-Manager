@@ -3,8 +3,8 @@
   using System;
   using System.Globalization;
   using System.Windows.Data;
-  using Sitecore.Diagnostics;
-  using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnostics.Base;
+  using JetBrains.Annotations;
 
   #region
 
@@ -14,9 +14,9 @@
   {
     #region Fields
 
-    public static Product DefaultInstanceName = new Product(p => p.DefaultInstanceName);
+    public static Product _DefaultInstanceName = new Product(p => p.DefaultInstanceName);
 
-    private readonly Func<Products.Product, string> target;
+    private readonly Func<Products.Product, string> _Target;
 
     #endregion
 
@@ -24,9 +24,9 @@
 
     public Product([NotNull] Func<Products.Product, string> target)
     {
-      Assert.ArgumentNotNull(target, "target");
+      Assert.ArgumentNotNull(target, nameof(target));
 
-      this.target = target;
+      _Target = target;
     }
 
     #endregion
@@ -51,7 +51,7 @@
       Products.Product val = value as Products.Product;
       Assert.IsNotNull(val, "The value must be a Product variable");
 
-      return this.target(val);
+      return _Target(val);
     }
 
     [CanBeNull]

@@ -1,0 +1,29 @@
+<manifest version="1.4">
+  <archive>
+    <name>Sitecore Solr Support</name>
+    <install>
+      <params>
+          <param name="{SOLR URL}" title="Please enter or confirm Solr URL" defaultValue="http://localhost:8983/solr" />
+        </params>
+      <actions>
+        <extract />
+        <editfile path="/Website/App_Config/Include/Sitecore.ContentSearch.Solr.DefaultIndexConfiguration.config.example">
+          <replace source="http://localhost:8983/solr" target="{SOLR URL}" />
+          <replacevariables />
+        </editfile>
+        <custom type="SIM.Pipelines.Install.Modules.SwitchConfigsToSolr, SIM.Pipelines" />
+        <!-- Update Global.asax-->
+        <editfile path="/Website/Global.asax">
+          <replace source="Sitecore.Web.Application" target="Sitecore.ContentSearch.SolrProvider.CastleWindsorIntegration.WindsorApplication"/>
+          <replacevariables/>
+        </editfile>
+        <!-- Deploy IOC Dlls -->
+        <deployfile path="SIM.Pipelines/IOC_Containers.zip/IOC_Containers/Castle.Core.dll"       
+                    target="/Website/bin/Castle.Core.dll" />
+        <deployfile path="SIM.Pipelines/IOC_Containers.zip/IOC_Containers/Castle.Windsor.dll"    
+                    target="/Website/bin/Castle.Windsor.dll" />
+        <custom type="SIM.Pipelines.Install.Modules.CreateSolrCores, SIM.Pipelines" />
+      </actions>
+    </install>
+  </archive>
+</manifest>

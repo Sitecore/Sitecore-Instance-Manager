@@ -8,29 +8,33 @@
   using SIM.Products;
   using SIM.Tool.Base.Profiles;
   using SIM.Tool.Base.Wizards;
-  using Sitecore.Diagnostics.Annotations;
+  using JetBrains.Annotations;
 
   [UsedImplicitly]
   public class InstallModulesWizardArgs : WizardArgs
   {
     #region Fields
 
-    public readonly Instance Instance;
+    public Instance Instance { get; }
 
-    public readonly List<Product> Modules = new List<Product>();
+    public readonly List<Product> _Modules = new List<Product>();
 
-    private string webRootPath;
+    private string _WebRootPath;
 
     #endregion
 
     #region Constructors
 
-    public InstallModulesWizardArgs(Instance instance = null)
+    public InstallModulesWizardArgs()
+    { 
+    }
+
+    public InstallModulesWizardArgs(Instance instance)
     {
-      this.Instance = instance;
+      Instance = instance;
       if (instance != null)
       {
-        this.WebRootPath = instance.WebRootPath;
+        WebRootPath = instance.WebRootPath;
       }
     }
 
@@ -45,7 +49,7 @@
     {
       get
       {
-        return this.Instance != null ? this.Instance.Name : string.Empty;
+        return Instance != null ? Instance.Name : string.Empty;
       }
     }
 
@@ -54,7 +58,7 @@
     {
       get
       {
-        return this.Instance != null ? this.Instance.Product : null;
+        return Instance != null ? Instance.Product : null;
       }
 
       set
@@ -70,14 +74,14 @@
     public override ProcessorArgs ToProcessorArgs()
     {
       var connectionString = ProfileManager.GetConnectionString();
-      var products = this.Modules;
-      var product = this.ExtraPackage;
+      var products = _Modules;
+      var product = ExtraPackage;
       if (product != null)
       {
         products.Add(product);
       }
 
-      return new InstallModulesArgs(this.Instance, products, connectionString);
+      return new InstallModulesArgs(Instance, products, connectionString);
     }
 
     #endregion
@@ -88,12 +92,12 @@
     {
       get
       {
-        return this.webRootPath ?? this.Instance.WebRootPath;
+        return _WebRootPath ?? Instance.WebRootPath;
       }
 
       set
       {
-        this.webRootPath = value;
+        _WebRootPath = value;
       }
     }
 

@@ -8,7 +8,7 @@
   using SIM.Products;
   using SIM.Tool.Base;
   using SIM.Tool.Base.Plugins;
-  using Sitecore.Diagnostics.Annotations;
+  using JetBrains.Annotations;
 
   [UsedImplicitly]
   public class OpenToolboxButton : IMainWindowButton
@@ -16,7 +16,7 @@
     #region Fields
 
     private const string PackageName = "Support Toolbox.zip";
-    private readonly bool bypassSecurity;
+    private bool BypassSecurity { get; }
 
     #endregion
 
@@ -24,12 +24,12 @@
 
     public OpenToolboxButton()
     {
-      this.bypassSecurity = false;
+      BypassSecurity = false;
     }
 
     public OpenToolboxButton(string param)
     {
-      this.bypassSecurity = param == "bypass";
+      BypassSecurity = param == "bypass";
     }
 
     #endregion
@@ -53,8 +53,8 @@
         return;
       }
 
-      var path = Path.Combine(instance.WebRootPath, @"sitecore\admin\toolbox");
-      if (!FileSystem.FileSystem.Local.Directory.Exists(path))
+      var path = Path.Combine(instance.WebRootPath, @"sitecore\admin\logs.aspx");
+      if (!FileSystem.FileSystem.Local.File.Exists(path))
       {
         var product = Product.GetFilePackageProduct(Path.Combine(ApplicationManager.DefaultPackages, PackageName)) ?? Product.GetFilePackageProduct(Path.Combine(ApplicationManager.FilePackagesFolder, PackageName));
         if (product == null)
@@ -68,12 +68,12 @@
         PipelineManager.StartPipeline("installmodules", args, isAsync: false);
       }
 
-      if (!FileSystem.FileSystem.Local.Directory.Exists(path))
+      if (!FileSystem.FileSystem.Local.File.Exists(path))
       {
         return;
       }
 
-      if (this.bypassSecurity)
+      if (BypassSecurity)
       {
         InstanceHelperEx.OpenInBrowserAsAdmin(instance, mainWindow, @"/sitecore/admin");
       }

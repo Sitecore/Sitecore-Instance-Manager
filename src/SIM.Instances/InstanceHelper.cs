@@ -2,19 +2,45 @@
 {
   using System;
   using System.IO;
+  using System.Linq;
   using System.Net;
-  using Sitecore.Diagnostics;
+  using System.Text.RegularExpressions;
+  using Sitecore.Diagnostics.Base;
+  using JetBrains.Annotations;
+  using SIM.Extensions;
 
   public static class InstanceHelper
   {
+    [NotNull]
+    private static Regex LogGroupRegex { get; } = new Regex(@"(.+)(\.\d\d\d\d\d\d\d\d)(\.\d\d\d\d\d\d)?\.txt", RegexOptions.Compiled);
+
     #region Public methods
+
+    public static string[] GetLogGroups(string[] files)
+    {
+      var groups = files
+        .Where(x => !string.IsNullOrEmpty(x))
+        .Select(x => new
+        {
+          FilePath = x,
+          Position = x.LastIndexOf('\\')
+        })
+        .Select(x => x.Position < 0 ? x.FilePath : x.FilePath.Substring(x.Position + 1))
+        .Select(x => LogGroupRegex.Match(x))
+        .Where(x => x.Success)
+        .Select(x => x.Groups[1].Value)
+        .Distinct()
+        .ToArray();
+
+      return groups;
+    }
 
     public static bool IsInstanceResponsive(Instance instance, string reason = null)
     {
       try
       {
         // 200ms should be more than enough to respond with empty page
-        InstanceHelper.StartInstance(instance, 200, reason);
+        StartInstance(instance, 200, reason);
         return true;
       }
       catch (WebException)
@@ -25,17 +51,17 @@
 
     public static void StartInstance(Instance instance, int? timeout = null, string reason = null)
     {
-      Assert.ArgumentNotNull(instance, "instance");
+      Assert.ArgumentNotNull(instance, nameof(instance));
 
-      string url = instance.GetUrl(@"/sitecore/service/keepalive.aspx?ts=" + DateTime.Now.Ticks + "&reason=" + (reason ?? "default"));
-      Assert.IsNotNullOrEmpty(url, "url");
+      var url = instance.GetUrl(@"/sitecore/service/keepalive.aspx?ts=" + DateTime.Now.Ticks + "&reason=" + (reason ?? "default"));
+      Assert.IsNotNullOrEmpty(url, nameof(url));
       try
       {
         WebRequestHelper.DownloadString(url, timeout);
       }
       catch (WebException ex)
       {
-        string text = "There is an issue with requesting '" + url + "'. ";
+        var text = "There is an issue with requesting '" + url + "'. ";
         var webResponse = ex.Response;
         if (webResponse != null)
         {
@@ -59,7 +85,7 @@
           text += "No error response provided.";
         }
 
-        string text2 = string.Empty;
+        var text2 = string.Empty;
         try
         {
           text2 = text.Substring(text.IndexOf("<title>") + "<title>".Length);

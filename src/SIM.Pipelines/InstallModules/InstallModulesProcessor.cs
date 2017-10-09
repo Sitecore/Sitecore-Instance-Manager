@@ -1,8 +1,8 @@
 ﻿namespace SIM.Pipelines.InstallModules
 {
   using SIM.Pipelines.Processors;
-  using Sitecore.Diagnostics;
-  using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnostics.Base;
+  using JetBrains.Annotations;
 
   #region
 
@@ -16,16 +16,16 @@
 
     public override sealed long EvaluateStepsCount(ProcessorArgs args)
     {
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(args, nameof(args));
 
-      return this.EvaluateStepsCount((InstallModulesArgs)args);
+      return EvaluateStepsCount((InstallModulesArgs)args);
     }
 
     public override sealed bool IsRequireProcessing(ProcessorArgs args)
     {
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(args, nameof(args));
 
-      return this.IsRequireProcessing((InstallModulesArgs)args);
+      return IsRequireProcessing((InstallModulesArgs)args);
     }
 
     #endregion
@@ -34,23 +34,23 @@
 
     protected virtual long EvaluateStepsCount([NotNull] InstallModulesArgs args)
     {
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(args, nameof(args));
 
       return 1;
     }
 
     protected virtual bool IsRequireProcessing([NotNull] InstallModulesArgs args)
     {
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(args, nameof(args));
 
       return true;
     }
 
     protected override void Process(ProcessorArgs args)
     {
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(args, nameof(args));
 
-      this.Process((InstallModulesArgs)args);
+      Process((InstallModulesArgs)args);
     }
 
     protected abstract void Process([NotNull] InstallModulesArgs args);

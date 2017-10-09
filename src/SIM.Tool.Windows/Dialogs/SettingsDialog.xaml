@@ -1,4 +1,4 @@
-﻿<Window x:Class="SIM.Tool.Windows.Dialogs.SettingsDialog" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Converters="clr-namespace:SIM.Tool.Base.Converters;assembly=SIM.Tool.Base" Title="Sitecore Instance Manager" Height="440" Width="540" Background="#FFF0F0F0" Icon="pack://application:,,,/SIM.Tool.Windows;component/Images/window.ico" KeyUp="WindowKeyUp">
+﻿<Window x:Class="SIM.Tool.Windows.Dialogs.SettingsDialog" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:converters="clr-namespace:SIM.Tool.Base.Converters;assembly=SIM.Tool.Base" Title="Sitecore Instance Manager" Height="440" Width="540" Background="#FFF0F0F0" Icon="pack://application:,,,/SIM.Tool.Windows;component/Images/window.ico" KeyUp="WindowKeyUp">
   <Window.Resources>
     <ImageBrush x:Key="Sitecore" ImageSource="pack://application:,,,/SIM.Tool.Windows;component/Images/Sitecore.png" Stretch="None" AlignmentX="Right" AlignmentY="Top" />
   </Window.Resources>
@@ -82,12 +82,11 @@
     <Grid Grid.Row="6" Grid.ColumnSpan="2">
       <Grid Margin="23,11,21,12">
         <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
-          <Button Content="Advanced Settings" Click="ShowAdvanced" Width="112" Margin="0, 0, 12, 0" Name="CustomButton" />
-          <Button Content="Plugins" Click="ShowPlugins" Width="72" Margin="0, 0, 12, 0" Name="PluginsButton" />
+          <Button Content="Advanced Settings" Click="ShowAdvanced" Width="112" Margin="0, 0, 12, 0" Name="CustomButton" />          
           <Button Content="About" Click="ShowAbout" Width="72" Margin="0, 0, 4, 0" Name="AboutButton" />
         </StackPanel>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-          <Grid HorizontalAlignment="Left" Margin="6,0,0,0" VerticalAlignment="Stretch" IsEnabled="{Binding ElementName=MainRootFolder, Path=Text, Converter={x:Static Converters:IsNotNullOrEmptyAndDirectoryExists.Instance}}" Width="72">
+          <Grid HorizontalAlignment="Left" Margin="6,0,0,0" VerticalAlignment="Stretch" IsEnabled="{Binding ElementName=MainRootFolder, Path=Text, Converter={x:Static converters:IsNotNullOrEmptyAndDirectoryExists.Instance}}" Width="72">
             <Button Content="OK" Name="DoneButton" Click="SaveChanges" Width="72" />
             <!--  IsEnabled="{Binding ElementName=LicenseFile, Path=Text, Converter={x:Static Converters:IsNotNullOrEmptyAndFileExists.Instance}}" />-->
           </Grid>

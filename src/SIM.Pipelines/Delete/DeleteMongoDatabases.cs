@@ -1,15 +1,15 @@
 namespace SIM.Pipelines.Delete
 {
   using System.Collections.Generic;
-  using Sitecore.Diagnostics;
-  using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnostics.Base;
+  using JetBrains.Annotations;
 
   [UsedImplicitly]
   public class DeleteMongoDatabases : DeleteProcessor
   {
     #region Fields
 
-    private readonly List<string> done = new List<string>();
+    private readonly List<string> _Done = new List<string>();
 
     #endregion
 
@@ -17,11 +17,11 @@ namespace SIM.Pipelines.Delete
 
     protected override void Process([NotNull] DeleteArgs args)
     {
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(args, nameof(args));
 
-      var detectedDatabases = args.MongoDatabases;
+      var detectedDatabases = args._MongoDatabases;
 
-      DeleteDatabasesHelper.Process(detectedDatabases, this.done);
+      DeleteDatabasesHelper.Process(detectedDatabases, _Done);
     }
 
     #endregion

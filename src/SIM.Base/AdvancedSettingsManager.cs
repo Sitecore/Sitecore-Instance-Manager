@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using Sitecore.Diagnostics;
-
-namespace SIM
+﻿namespace SIM
 {
+  using System.Collections.Generic;
+  using Sitecore.Diagnostics.Base;
+
   public static class AdvancedSettingsManager
   {
     #region Constructors
@@ -64,7 +64,7 @@ namespace SIM
 
     public static void RegisterGenericSetting(AdvancedPropertyBase propertyToRegister)
     {
-      Assert.IsTrue(!RegisteredSettings.ContainsKey(propertyToRegister.XPathKey), "Property with '{0}' key is already registered. Duplicates are not allowed".FormatWith(propertyToRegister.XPathKey));
+      Assert.IsTrue(!RegisteredSettings.ContainsKey(propertyToRegister.XPathKey), $"Property with '{propertyToRegister.XPathKey}' key is already registered. Duplicates are not allowed");
       RegisteredSettings[propertyToRegister.XPathKey] = propertyToRegister;
     }
 

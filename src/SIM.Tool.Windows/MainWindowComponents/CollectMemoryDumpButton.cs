@@ -7,7 +7,7 @@ namespace SIM.Tool.Windows.MainWindowComponents
   using SIM.Instances;
   using SIM.Tool.Base;
   using SIM.Tool.Base.Plugins;
-  using Sitecore.Diagnostics.Annotations;
+  using JetBrains.Annotations;
 
   [UsedImplicitly]
   public class CollectMemoryDumpButton : IMainWindowButton
@@ -30,7 +30,7 @@ namespace SIM.Tool.Windows.MainWindowComponents
         }
 
         var options = WindowHelper.Ask("Please specify params for Managed Gc Aware Dump", string.Empty, mainWindow);
-        var executableFilePath = ApplicationManager.GetEmbeddedApp("ManagedGcAwareDump.zip", "SIM.Tool.Windows", "ManagedGcAwareDump_" + bitness + ".exe");
+        var executableFilePath = ApplicationManager.GetEmbeddedFile("ManagedGcAwareDump.zip", "SIM.Tool.Windows", "ManagedGcAwareDump_" + bitness + ".exe");
         Process.Start(new ProcessStartInfo(executableFilePath, options)).WaitForExit();
 
         return;
@@ -53,7 +53,7 @@ namespace SIM.Tool.Windows.MainWindowComponents
           return;
         }
         
-        var executableFilePath = ApplicationManager.GetEmbeddedApp("ManagedGcAwareDump.zip", "SIM.Tool.Windows", "ManagedGcAwareDump_" + bit + ".exe");
+        var executableFilePath = ApplicationManager.GetEmbeddedFile("ManagedGcAwareDump.zip", "SIM.Tool.Windows", "ManagedGcAwareDump_" + bit + ".exe");
         Process.Start(executableFilePath).WaitForExit();
       }
     }

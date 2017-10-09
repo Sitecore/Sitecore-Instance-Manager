@@ -1,8 +1,8 @@
 ﻿namespace SIM.Pipelines.Reinstall
 {
   using System;
-  using Sitecore.Diagnostics;
-  using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnostics.Base;
+  using JetBrains.Annotations;
   using Sitecore.Diagnostics.Logging;
 
   #region
@@ -16,15 +16,15 @@
 
     protected override void Process(ReinstallArgs args)
     {
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(args, nameof(args));
 
       try
       {
-        args.StopInstance(true);
+        args._StopInstance(true);
       }
       catch (Exception ex)
       {
-        Log.Warn(ex, "Cannot stop instance {0}. {1}", args.InstanceName, ex.Message);
+        Log.Warn(ex, $"Cannot stop instance {args.InstanceName}. {ex.Message}");
       }
     }
 

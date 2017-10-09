@@ -4,8 +4,9 @@
   using System.Collections.Generic;
   using System.IO;
   using System.Linq;
-  using Sitecore.Diagnostics.Annotations;
+  using JetBrains.Annotations;
   using Sitecore.Diagnostics.Logging;
+  using SIM.Extensions;
 
   public static class VisualStudioHelper
   {
@@ -29,7 +30,7 @@
         }
         catch (Exception ex)
         {
-          Log.Error(ex, "Visual Studio project distinction failed on {0} file", filePath);
+          Log.Error(ex, $"Visual Studio project distinction failed on {filePath} file");
         }
       }
 
@@ -48,7 +49,7 @@
           var commaPos = line.IndexOf(',');
           if (commaPos < 0)
           {
-            Log.Warn("File {0} seems to be corrupted, line: {1}", filePath, line);
+            Log.Warn($"File {filePath} seems to be corrupted, line: {line}");
             continue;
           }
 
@@ -56,7 +57,7 @@
           var quotePos = str.IndexOf('"');
           if (quotePos < 0)
           {
-            Log.Warn("File {0} seems to be corrupted, line: {1}", filePath, line);
+            Log.Warn($"File {filePath} seems to be corrupted, line: {line}");
             continue;
           }
 
@@ -72,8 +73,8 @@
 
     public static IEnumerable<string> GetVisualStudioSolutionFiles(string rootPath, string webRootPath, string searchPattern = null)
     {
-      var files = VisualStudioHelper.GetVisualStudioSolutionFilesRaw(rootPath, webRootPath, searchPattern).ToArray();
-      return VisualStudioHelper.DistinctVisualStudioFiles(files, rootPath);
+      var files = GetVisualStudioSolutionFilesRaw(rootPath, webRootPath, searchPattern).ToArray();
+      return DistinctVisualStudioFiles(files, rootPath);
     }
 
     [CanBeNull]

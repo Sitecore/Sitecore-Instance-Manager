@@ -8,7 +8,7 @@
   using SIM.Tool.Base.Wizards;
   using SIM.Tool.Windows.Dialogs;
   using SIM.Tool.Windows.Pipelines.Setup;
-  using Sitecore.Diagnostics.Annotations;
+  using JetBrains.Annotations;
 
   public partial class ConnectionString : IWizardStep, IFlowControl
   {
@@ -16,7 +16,7 @@
 
     public ConnectionString()
     {
-      this.InitializeComponent();
+      InitializeComponent();
     }
 
     #endregion
@@ -26,7 +26,7 @@
     void IWizardStep.InitializeStep(WizardArgs wizardArgs)
     {
       var args = (SetupWizardArgs)wizardArgs;
-      this.ConnectionStringTextBox.Text = args.ConnectionString;
+      ConnectionStringTextBox.Text = args.ConnectionString;
     }
 
     bool IFlowControl.OnMovingBack(WizardArgs wizardArgs)
@@ -67,15 +67,15 @@
     {
       var result = WindowHelper.ShowDialog(new ConnectionStringDialog()
       {
-        DataContext = this.ConnectionStringTextBox.Text
-      }, (Window)((Grid)((TabControl)((TabItem)this.Parent).Parent).Parent).Parent);
-      this.ConnectionStringTextBox.Text = (string)result;
+        DataContext = ConnectionStringTextBox.Text
+      }, (Window)((Grid)((TabControl)((TabItem)Parent).Parent).Parent).Parent);
+      ConnectionStringTextBox.Text = (string)result;
     }
 
     bool IWizardStep.SaveChanges(WizardArgs wizardArgs)
     {
       var args = (SetupWizardArgs)wizardArgs;
-      args.ConnectionString = this.ConnectionStringTextBox.Text;
+      args.ConnectionString = ConnectionStringTextBox.Text;
       return true;
     }
 

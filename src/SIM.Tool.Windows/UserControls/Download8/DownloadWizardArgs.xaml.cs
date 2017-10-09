@@ -3,20 +3,23 @@
   using System;
   using System.Collections.Generic;
   using System.Collections.ObjectModel;
+  using System.Linq;
   using SIM.Pipelines.Processors;
   using SIM.Tool.Base.Profiles;
   using SIM.Tool.Base.Wizards;
   using SIM.Tool.Windows.Pipelines.Download8;
-  using Sitecore.Diagnostics;
-  using Sitecore.Diagnostics.Annotations;
-  using Sitecore.Diagnsotics.InformationService.Client.Model;
+  using Sitecore.Diagnostics.Base;
+  using JetBrains.Annotations;
+  using Sitecore.Diagnostics.InfoService.Client;
+  using Sitecore.Diagnostics.InfoService.Client.Model;
+  using SIM.Extensions;
 
   public class DownloadWizardArgs : WizardArgs
   {
     #region Fields
 
     [NotNull]
-    private readonly List<ProductDownload8InCheckbox> products = new List<ProductDownload8InCheckbox>();
+    private readonly List<ProductDownload8InCheckbox> _Products = new List<ProductDownload8InCheckbox>();
 
     #endregion
 
@@ -29,10 +32,10 @@
 
     public DownloadWizardArgs([NotNull] string username, [NotNull] string password)
     {
-      Assert.ArgumentNotNull(username, "username");
-      Assert.ArgumentNotNull(password, "password");
-      this.UserName = username;
-      this.Password = password;
+      Assert.ArgumentNotNull(username, nameof(username));
+      Assert.ArgumentNotNull(password, nameof(password));
+      UserName = username;
+      Password = password;
     }
 
     #endregion
@@ -50,12 +53,19 @@
     {
       get
       {
-        return this.products;
+        return _Products;
       }
     }
 
     [CanBeNull]
-    public IRelease[] Releases { get; set; }
+    public IRelease[] Releases
+    {
+      get
+      {
+        return Extensions.With(SIM.Products.Product.Service.GetVersions("Sitecore CMS")
+            .With(x => x.Where(z => z.MajorMinor.StartsWith("8"))), x => x.SelectMany(y => y.Releases.Values).ToArray());
+      }
+    }
 
     public string UserName { get; set; }
 
@@ -66,7 +76,7 @@
     [NotNull]
     public override ProcessorArgs ToProcessorArgs()
     {
-      return new Download8Args(this.Cookies, this.Links, ProfileManager.Profile.LocalRepository);
+      return new Download8Args(Cookies, Links, ProfileManager.Profile.LocalRepository);
     }
 
     #endregion

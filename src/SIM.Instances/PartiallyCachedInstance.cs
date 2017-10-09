@@ -3,30 +3,31 @@
   using System;
   using System.IO;
   using System.Xml;
-  using Sitecore.Diagnostics.Annotations;
+  using JetBrains.Annotations;
 
   public sealed class PartiallyCachedInstance : Instance, IDisposable
   {
     #region Instance fields
 
     [CanBeNull]
-    private readonly FileSystemWatcher appConfigWatcher;
+    private FileSystemWatcher AppConfigWatcher { get; }
 
     [CanBeNull]
-    private readonly FileSystemWatcher webConfigWatcher;
+    private FileSystemWatcher WebConfigWatcher { get; }
 
-    private string licencePath;
-
-    [CanBeNull]
-    private string modulesNamesCache;
-
-    private string name;
-    private string productFullName;
+    private string _LicencePath;
 
     [CanBeNull]
-    private XmlDocument webConfigResultCache;
+    private string _ModulesNamesCache;
 
-    private string webRootPath;
+    private string _Name;
+    private string _ProductFullName;
+
+    [CanBeNull]
+    private XmlDocument _WebConfigResultCache;
+
+    private string _WebRootPath;
+    private string _BindingsNames;
 
     #endregion
 
@@ -34,16 +35,16 @@
 
     public PartiallyCachedInstance(int id) : base(id)
     {
-      var path = this.WebRootPath;
+      var path = WebRootPath;
       if (!File.Exists(path))
       {
         return;
       }
 
       var webConfig = new FileSystemWatcher(path, "web.config");
-      this.webConfigWatcher = webConfig;
+      WebConfigWatcher = webConfig;
       webConfig.IncludeSubdirectories = false;
-      webConfig.Changed += this.ClearCache;
+      webConfig.Changed += ClearCache;
       webConfig.EnableRaisingEvents = true;
       var appConfigPath = Path.Combine(path, "App_Config");
       if (!Directory.Exists(appConfigPath))
@@ -52,9 +53,9 @@
       }
 
       var appConfig = new FileSystemWatcher(appConfigPath, "*.config");
-      this.appConfigWatcher = appConfig;
+      AppConfigWatcher = appConfig;
       appConfig.IncludeSubdirectories = true;
-      appConfig.Changed += this.ClearCache;
+      appConfig.Changed += ClearCache;
       appConfig.EnableRaisingEvents = true;
     }
 
@@ -70,7 +71,7 @@
     {
       get
       {
-        return this.licencePath ?? (this.licencePath = base.LicencePath);
+        return _LicencePath ?? (_LicencePath = base.LicencePath);
       }
     }
 
@@ -78,7 +79,7 @@
     {
       get
       {
-        return this.name ?? (this.name = base.Name);
+        return _Name ?? (_Name = base.Name);
       }
     }
 
@@ -86,7 +87,7 @@
     {
       get
       {
-        return this.productFullName ?? (this.productFullName = base.ProductFullName);
+        return _ProductFullName ?? (_ProductFullName = base.ProductFullName);
       }
     }
 
@@ -94,7 +95,7 @@
     {
       get
       {
-        return this.webRootPath ?? (this.webRootPath = base.WebRootPath);
+        return _WebRootPath ?? (_WebRootPath = base.WebRootPath);
       }
     }
 
@@ -106,7 +107,15 @@
     {
       get
       {
-        return this.modulesNamesCache ?? (this.modulesNamesCache = base.ModulesNames);
+        return _ModulesNamesCache ?? (_ModulesNamesCache = base.ModulesNames);
+      }
+    }
+
+    public override string BindingsNames
+    {
+      get
+      {
+        return _BindingsNames ?? (_BindingsNames = base.BindingsNames);
       }
     }
 
@@ -116,20 +125,20 @@
 
     public void Dispose()
     {
-      if (this.appConfigWatcher != null)
+      if (AppConfigWatcher != null)
       {
-        this.appConfigWatcher.EnableRaisingEvents = false;
+        AppConfigWatcher.EnableRaisingEvents = false;
       }
 
-      if (this.webConfigWatcher != null)
+      if (WebConfigWatcher != null)
       {
-        this.webConfigWatcher.EnableRaisingEvents = false;
+        WebConfigWatcher.EnableRaisingEvents = false;
       }
     }
 
     public override XmlDocument GetWebResultConfig(bool normalize = false)
     {
-      return this.webConfigResultCache ?? (this.webConfigResultCache = base.GetWebResultConfig(normalize));
+      return _WebConfigResultCache ?? (_WebConfigResultCache = base.GetWebResultConfig(normalize));
     }
 
     #endregion
@@ -138,8 +147,8 @@
 
     private void ClearCache([CanBeNull] object sender, [CanBeNull] FileSystemEventArgs fileSystemEventArgs)
     {
-      this.webConfigResultCache = null;
-      this.modulesNamesCache = null;
+      _WebConfigResultCache = null;
+      _ModulesNamesCache = null;
     }
 
     #endregion

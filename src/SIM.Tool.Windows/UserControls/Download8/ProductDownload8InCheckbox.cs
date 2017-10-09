@@ -1,26 +1,26 @@
 ﻿namespace SIM.Tool.Windows.UserControls.Download8
 {
   using System;
-  using System.Collections.ObjectModel;
   using System.Linq;
   using SIM.Products;
-  using Sitecore.Diagnostics;
-  using Sitecore.Diagnostics.Annotations;
-  using Sitecore.Diagnsotics.InformationService.Client.Model;
+  using Sitecore.Diagnostics.Base;
+  using JetBrains.Annotations;
+  using Sitecore.Diagnostics.InfoService.Client.Model;
+  using SIM.Extensions;
 
   public class ProductDownload8InCheckbox : DataObjectBase
   {
     #region Fields
 
-    private readonly bool isEnabled;
-    private readonly string label;
-    private readonly string name;
-    private readonly string nameOverride;
-    private readonly string revision;
-    private readonly string version;
-    private bool isChecked;
+    private bool isEnabled { get; }
+    private string label { get; }
+    private string name { get; }
+    private string NameOverride { get; }
+    private string revision { get; }
+    private string version { get; }
+    private bool _IsChecked;
 
-    private Uri value;
+    private Uri _Value;
 
     #endregion
 
@@ -28,14 +28,17 @@
 
     public ProductDownload8InCheckbox([NotNull] IRelease release)
     {
-      Assert.ArgumentNotNull(release, "release");
+      Assert.ArgumentNotNull(release, nameof(release));
 
-      this.name = "Sitecore CMS";
-      this.version = release.Version;
-      this.revision = release.Revision;
-      this.label = release.Label;
-      this.value = new Uri(release.Downloads.First(x => x.StartsWith("http")));
-      this.isEnabled = !ProductManager.Products.Any(this.CheckProduct);
+      name = "Sitecore CMS";
+      version = release.Version.MajorMinor;
+      revision = release.Version.Revision.ToString();
+      label = release.Label;
+      var distribution = release.DefaultDistribution;
+      Assert.IsNotNull(distribution, nameof(distribution));
+
+      _Value = new Uri(distribution.Downloads.First(x => x.StartsWith("http")));
+      isEnabled = !ProductManager.Products.Any(CheckProduct);
     }
 
     #endregion
@@ -44,24 +47,37 @@
 
     public override string ToString()
     {
-      return string.Format("{0} {1} rev. {2}{3}{4}", this.nameOverride ?? this.Name, this.Version, this.Revision, string.IsNullOrEmpty(this.Label) ? string.Empty : " (" + this.Label + ")", this.IsEnabled ? string.Empty : " - you already have it");
+      return $"{NameOverride ?? Name} {Version} rev. {Revision}{(string.IsNullOrEmpty(Label) ? string.Empty : $" ({Label})")}{(IsEnabled ? string.Empty : " - you already have it")}";
     }
 
     #endregion
 
     #region Private methods
 
-    private bool CheckAnalyticsProduct(Product product)
+    private bool CheckAnalyticsProduct(Products.Product product)
     {
       return product.Name.Equals("Sitecore Analytics")
-             && product.Revision == this.revision;
+             && product.Revision == revision;
     }
 
-    private bool CheckProduct(Product product)
+    private bool CheckProduct([CanBeNull] Products.Product product)
     {
-      return (product.Name.EqualsIgnoreCase(this.name) || product.OriginalName.EqualsIgnoreCase(this.name))
-             && product.Version == this.version
-             && product.Revision == this.revision;
+      if (product == null)
+      {
+        return false;
+      }
+
+      if (!product.Name.EqualsIgnoreCase(name) && !product.OriginalName.EqualsIgnoreCase(name))
+      {
+        return false;
+      }
+
+      if (product.Version != version)
+      {
+        return false;
+      }
+
+      return product.Revision == revision;
     }
 
     #endregion
@@ -74,13 +90,13 @@
     {
       get
       {
-        return this.isChecked;
+        return _IsChecked;
       }
 
       set
       {
-        this.isChecked = value;
-        this.NotifyPropertyChanged("IsChecked");
+        _IsChecked = value;
+        NotifyPropertyChanged("IsChecked");
       }
     }
 
@@ -88,7 +104,7 @@
     {
       get
       {
-        return this.isEnabled;
+        return isEnabled;
       }
     }
 
@@ -96,7 +112,7 @@
     {
       get
       {
-        return this.name;
+        return name;
       }
     }
 
@@ -104,13 +120,13 @@
     {
       get
       {
-        return this.value;
+        return _Value;
       }
 
       set
       {
-        this.value = value;
-        this.NotifyPropertyChanged("Value");
+        _Value = value;
+        NotifyPropertyChanged("Value");
       }
     }
 
@@ -122,7 +138,7 @@
     {
       get
       {
-        return this.label;
+        return label;
       }
     }
 
@@ -130,7 +146,7 @@
     {
       get
       {
-        return this.revision;
+        return revision;
       }
     }
 
@@ -138,7 +154,7 @@
     {
       get
       {
-        return this.version;
+        return version;
       }
     }
 

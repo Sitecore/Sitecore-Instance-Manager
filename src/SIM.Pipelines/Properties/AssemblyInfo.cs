@@ -12,3 +12,5 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTrademark("Sitecore® is a registered trademark of Sitecore Corporation")]
 [assembly: AssemblyCulture("")]
 [assembly: ComVisible(false)]
+
+/*TeamCityPlaceholder*/

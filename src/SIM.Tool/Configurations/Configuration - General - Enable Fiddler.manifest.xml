@@ -1,0 +1,32 @@
+﻿<manifest version="1.4">
+  <archive>
+    <install>
+      <actions>
+        <config>
+          <delete xpath="/configuration/system.net/defaultProxy" />
+          <append xpath="/configuration/system.net" appendIfMissing="true">
+            <defaultProxy useDefaultCredentials="true" enabled="true">
+              <proxy usesystemdefault="false" proxyaddress="http://127.0.0.1:8888" bypassonlocal="false" autoDetect="false"/>
+            </defaultProxy>
+          </append>
+        </config>
+        <editfile path="/Website/Global.asax">
+          <append stopword="ServerCertificateValidationCallback">
+            
+&lt;%@ Import Namespace="System.Net" %&gt;
+&lt;%@ Import Namespace="System.Net.Security" %&gt;
+
+&lt;script runat="server"&gt;
+
+  public void Application_Start()
+  {
+    ServicePointManager.ServerCertificateValidationCallback = new RemoteCertificateValidationCallback(delegate { return true; });
+  }
+  
+&lt;/script&gt;
+          </append>
+        </editfile>
+      </actions>
+    </install>
+  </archive>
+</manifest>

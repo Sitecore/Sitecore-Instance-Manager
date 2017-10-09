@@ -2,11 +2,13 @@
 {
   using System;
   using System.Windows;
+  using SIM.Core.Common;
   using SIM.Instances;
   using SIM.Tool.Base.Plugins;
-  using Sitecore.Diagnostics;
-  using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnostics.Base;
+  using JetBrains.Annotations;
   using Sitecore.Diagnostics.Logging;
+  using SIM.Extensions;
   using TaskDialogInterop;
 
   [UsedImplicitly]
@@ -27,7 +29,7 @@
 
     #region Fields
 
-    private readonly RefreshMode mode;
+    private RefreshMode Mode { get; }
 
     #endregion
 
@@ -35,26 +37,26 @@
 
     public RefreshButton()
     {
-      this.mode = RefreshMode.Undefined;
+      Mode = RefreshMode.Undefined;
     }
 
     public RefreshButton([NotNull] string param)
     {
-      Assert.ArgumentNotNull(param, "param");
+      Assert.ArgumentNotNull(param, nameof(param));
 
       switch (param.ToLower())
       {
         case "all":
-          this.mode = RefreshMode.Everything;
+          Mode = RefreshMode.Everything;
           return;
         case "sites":
-          this.mode = RefreshMode.Instances;
+          Mode = RefreshMode.Instances;
           return;
         case "installer":
-          this.mode = RefreshMode.Installer;
+          Mode = RefreshMode.Installer;
           return;
         case "caches":
-          this.mode = RefreshMode.Caches;
+          Mode = RefreshMode.Caches;
           return;
         default:
           throw new NotSupportedException("The {0} type is not supported".FormatWith(param));
@@ -72,12 +74,14 @@
 
     public void OnClick(Window mainWindow, Instance instance)
     {
+      Analytics.TrackEvent("Refresh");
+
       using (new ProfileSection("Refresh main window instances", this))
       {
         ProfileSection.Argument("mainWindow", mainWindow);
         ProfileSection.Argument("instance", instance);
 
-        var refreshMode = this.GetMode(mainWindow);
+        var refreshMode = GetMode(mainWindow);
         switch (refreshMode)
         {
           case RefreshMode.Instances:
@@ -102,11 +106,11 @@
 
     private RefreshMode GetMode([NotNull] Window mainWindow)
     {
-      Assert.ArgumentNotNull(mainWindow, "mainWindow");
+      Assert.ArgumentNotNull(mainWindow, nameof(mainWindow));
 
-      if (this.mode != RefreshMode.Undefined)
+      if (Mode != RefreshMode.Undefined)
       {
-        return this.mode;
+        return Mode;
       }
 
       var config = new TaskDialogOptions

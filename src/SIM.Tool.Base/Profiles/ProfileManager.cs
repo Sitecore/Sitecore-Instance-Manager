@@ -4,9 +4,10 @@
   using System.Data.SqlClient;
   using System.IO;
   using System.Xml.Serialization;
-  using Sitecore.Diagnostics;
-  using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnostics.Base;
+  using JetBrains.Annotations;
   using Sitecore.Diagnostics.Logging;
+  using SIM.IO;
 
   #region
 
@@ -17,7 +18,7 @@
     #region Fields
 
     [NotNull]
-    private static readonly string ProfileFilePath = GetProfilePath("profile.xml");
+    private static string ProfileFilePath { get; } = GetProfilePath("profile.xml");
 
     #endregion
 
@@ -56,24 +57,26 @@
 
     #region Public Methods
 
-    public static void Initialize()
+    public static void Initialize([NotNull] IFileSystem fileSystem)
     {
-      if (FileExists)
-      {
-        var profileFilePath = ProfileFilePath;
-        var profile = ReadProfile(profileFilePath);
+      Assert.ArgumentNotNull(fileSystem, nameof(fileSystem));
 
-        Assert.IsNotNull(profile, "profile");
+      var file = fileSystem.ParseFile(ProfileFilePath);
+      if (file.Exists)
+      {
+        var profile = ReadProfile(file);
+
+        Assert.IsNotNull(profile, nameof(profile));
         Profile = profile;
       }
     }
 
-    public static Profile ReadProfile(string profileFilePath)
+    public static Profile ReadProfile(IFile profileFile)
     {
       try
       {
         var deserializer = new XmlSerializer(typeof(Profile));
-        using (TextReader textReader = new StreamReader(profileFilePath))
+        using (TextReader textReader = new StreamReader(profileFile.FullName))
         {
           return (Profile)deserializer.Deserialize(textReader);
         }
@@ -82,7 +85,7 @@
       {
         Log.Warn(ex, "An error occurred during reading profile");
 
-        FileSystem.FileSystem.Local.Directory.TryDelete(profileFilePath);
+        profileFile.TryDelete();
         return null;
       }
     }
@@ -107,7 +110,7 @@
 
     public static SqlConnectionStringBuilder GetConnectionString()
     {
-      string profileConnectionString = ProfileManager.Profile.ConnectionString;
+      var profileConnectionString = Profile.ConnectionString;
       Assert.IsNotNull(profileConnectionString, "Connection String Not Set");
       var connectionString = new SqlConnectionStringBuilder(profileConnectionString);
       return connectionString;

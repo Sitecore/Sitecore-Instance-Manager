@@ -6,23 +6,28 @@ namespace SIM.FileSystem
   {
     #region Fields
 
-    public readonly string Path;
-    private readonly FileSystem fileSystem;
+    public string Path { get; }
+    private FileSystem FileSystem { get; }
 
     #endregion
 
     #region Constructors
 
-    public TempFolder(FileSystem fileSystem, string path = null)
+    public TempFolder(FileSystem fileSystem, string path, bool? rooted)
     {
-      this.fileSystem = fileSystem;
+      FileSystem = fileSystem;
       if (path != null)
       {
-        this.Path = fileSystem.Directory.Ensure(System.IO.Path.Combine(System.IO.Path.GetPathRoot(path), Guid.NewGuid().ToString()));
+        if (rooted != false)
+        Path = fileSystem.Directory.Ensure(System.IO.Path.Combine(System.IO.Path.GetPathRoot(path), Guid.NewGuid().ToString()));
+        else
+        {
+          Path = fileSystem.Directory.Ensure(System.IO.Path.Combine(path, Guid.NewGuid().ToString("N")));
+        }
       }
       else
       {
-        this.Path = fileSystem.Directory.Ensure(System.IO.Path.Combine(System.IO.Path.GetTempPath(), System.IO.Path.GetRandomFileName()));
+        Path = fileSystem.Directory.Ensure(System.IO.Path.Combine(System.IO.Path.GetTempPath(), System.IO.Path.GetRandomFileName()));
       }
     }
 
@@ -32,12 +37,12 @@ namespace SIM.FileSystem
 
     public void Dispose()
     {
-      this.fileSystem.Directory.DeleteIfExists(this.Path);
+      FileSystem.Directory.DeleteIfExists(Path);
     }
 
     public override string ToString()
     {
-      return this.Path;
+      return Path;
     }
 
     #endregion

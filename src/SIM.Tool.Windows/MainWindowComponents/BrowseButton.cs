@@ -2,10 +2,11 @@
 {
   using System.Linq;
   using System.Windows;
+  using SIM.Core.Common;
   using SIM.Instances;
   using SIM.Tool.Base;
   using SIM.Tool.Base.Plugins;
-  using Sitecore.Diagnostics.Annotations;
+  using JetBrains.Annotations;
 
   [UsedImplicitly]
   public class BrowseButton : IMainWindowButton
@@ -13,13 +14,13 @@
     #region Fields
 
     [CanBeNull]
-    protected readonly string Browser;
+    protected string Browser { get; }
 
     [NotNull]
-    protected readonly string VirtualPath;
+    protected string VirtualPath { get; }
 
     [NotNull]
-    private string[] Params;
+    private readonly string[] _Params;
 
     #endregion
 
@@ -27,17 +28,17 @@
 
     public BrowseButton()
     {
-      this.VirtualPath = string.Empty;
-      this.Browser = null;
-      this.Params = new string[0];
+      VirtualPath = string.Empty;
+      Browser = null;
+      _Params = new string[0];
     }
 
-    public BrowseButton(string param)
+    public BrowseButton([CanBeNull] string param)
     {
       var arr = (param + ":").Split(':');
-      this.VirtualPath = arr[0];
-      this.Browser = arr[1];
-      this.Params = arr.Skip(2).ToArray();
+      VirtualPath = arr[0];
+      Browser = arr[1];
+      _Params = arr.Skip(2).ToArray();
     }
 
     #endregion
@@ -51,6 +52,8 @@
 
     public void OnClick(Window mainWindow, Instance instance)
     {
+      Analytics.TrackEvent("Browse");
+
       if (instance != null)
       {
         if (!InstanceHelperEx.PreheatInstance(instance, mainWindow))
@@ -58,7 +61,7 @@
           return;
         }
 
-        InstanceHelperEx.BrowseInstance(instance, mainWindow, this.VirtualPath, true, this.Browser, this.Params);
+        InstanceHelperEx.BrowseInstance(instance, mainWindow, VirtualPath, true, Browser, _Params);
       }
     }
 

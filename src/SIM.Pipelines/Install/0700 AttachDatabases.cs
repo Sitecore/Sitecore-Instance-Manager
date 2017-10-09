@@ -3,8 +3,8 @@
   using System.Collections.Generic;
   using SIM.Adapters.WebServer;
   using SIM.Pipelines.Processors;
-  using Sitecore.Diagnostics;
-  using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnostics.Base;
+  using JetBrains.Annotations;
 
   #region
 
@@ -15,7 +15,7 @@
   {
     #region Fields
 
-    private readonly List<string> done = new List<string>();
+    private readonly List<string> _Done = new List<string>();
     
     #endregion
 
@@ -28,30 +28,41 @@
 
     protected override void Process(InstallArgs args)
     {
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(args, nameof(args));
 
       var defaultConnectionString = args.ConnectionString;
       Assert.IsNotNull(defaultConnectionString, "SQL Connection String isn't set in the Settings dialog");
 
       var instance = args.Instance;
-      Assert.IsNotNull(instance, "instance");
+      Assert.IsNotNull(instance, nameof(instance));
 
-      var controller = this.Controller;
+      var sqlPrefix = args.InstanceSqlPrefix;
+      Assert.IsNotNull(sqlPrefix, nameof(sqlPrefix));
+
+      var controller = Controller;
+
       foreach (ConnectionString connectionString in instance.Configuration.ConnectionStrings)
       {
-        if (this.done.Contains(connectionString.Name))
+        var connectionStringName = connectionString.Name;
+        if (_Done.Contains(connectionStringName))
         {
           continue;
         }
+        
+        if (connectionStringName.Contains("apikey"))
+        {
+          _Done.Add(connectionStringName);
+          continue;
+        }
 
-        AttachDatabasesHelper.AttachDatabase(connectionString, defaultConnectionString, args.Name, args.DatabasesFolderPath, instance.Name, controller);
+        AttachDatabasesHelper.AttachDatabase(connectionString, defaultConnectionString, args.Name, sqlPrefix, args.InstanceAttachSql, args.DatabasesFolderPath, instance.Name, controller);
 
         if (controller != null)
         {
           controller.IncrementProgress(AttachDatabasesHelper.StepsCount / args.ConnectionString.Count);
         }
 
-        this.done.Add(connectionString.Name);
+        _Done.Add(connectionStringName);
       }
     }
 

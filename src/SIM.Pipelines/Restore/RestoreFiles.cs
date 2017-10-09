@@ -1,7 +1,7 @@
 ﻿namespace SIM.Pipelines.Restore
 {
-  using Sitecore.Diagnostics;
-  using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnostics.Base;
+  using JetBrains.Annotations;
 
   #region
 
@@ -22,23 +22,23 @@
 
     protected override long EvaluateStepsCount(RestoreArgs args)
     {
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(args, nameof(args));
 
       return args.Backup.BackupDataFiles ? A + B : A;
     }
 
     protected override bool IsRequireProcessing(RestoreArgs args)
     {
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(args, nameof(args));
 
       return args.Backup.BackupWebsiteFiles;
     }
 
     protected override void Process([NotNull] RestoreArgs args)
     {
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(args, nameof(args));
 
-      var webRootPath = args.WebRootPath;
+      var webRootPath = args._WebRootPath;
       if (args.Backup.BackupWebsiteFiles)
       {
         FileSystem.FileSystem.Local.Zip.UnpackZip(
@@ -48,8 +48,8 @@
 
       if (args.Backup.BackupDataFiles)
       {
-        this.IncrementProgress();
-        FileSystem.FileSystem.Local.Zip.UnpackZip(args.Backup.DataFilePath, args.DataFolder, null, B);
+        IncrementProgress();
+        FileSystem.FileSystem.Local.Zip.UnpackZip(args.Backup.DataFilePath, args._DataFolder, null, B);
       }
     }
 

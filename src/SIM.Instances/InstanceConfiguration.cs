@@ -6,8 +6,9 @@
   using System.Linq;
   using System.Xml;
   using SIM.Adapters.WebServer;
-  using Sitecore.Diagnostics;
-  using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnostics.Base;
+  using JetBrains.Annotations;
+  using SIM.Extensions;
 
   #endregion
 
@@ -16,7 +17,7 @@
     #region Fields
 
     [NotNull]
-    private readonly Instance instance;
+    private Instance Instance { get; }
 
     #endregion
 
@@ -24,9 +25,9 @@
 
     public InstanceConfiguration([NotNull] Instance instance)
     {
-      Assert.ArgumentNotNull(instance, "instance");
+      Assert.ArgumentNotNull(instance, nameof(instance));
 
-      this.instance = instance;
+      Instance = instance;
     }
 
     #endregion
@@ -40,7 +41,7 @@
     {
       get
       {
-        XmlElementEx connectionStringsNode = this.GetConnectionStringsElement();
+        XmlElementEx connectionStringsNode = GetConnectionStringsElement();
         return GetConnectionStringCollection(connectionStringsNode);
       }
     }
@@ -77,10 +78,10 @@
       XmlAttribute configSourceAttribute = webConfigConnectionStrings.Attributes[WebConfig.ConfigSourceAttributeName];
       if (configSourceAttribute != null)
       {
-        string configSourceValue = configSourceAttribute.Value;
+        var configSourceValue = configSourceAttribute.Value;
         if (!string.IsNullOrEmpty(configSourceValue) && !string.IsNullOrEmpty(webRootPath))
         {
-          string filePath = Path.Combine(webRootPath, configSourceValue);
+          var filePath = Path.Combine(webRootPath, configSourceValue);
           if (FileSystem.FileSystem.Local.File.Exists(filePath))
           {
             XmlDocumentEx connectionStringsConfig = XmlDocumentEx.LoadFile(filePath);
@@ -99,8 +100,8 @@
     [NotNull]
     private XmlElementEx GetConnectionStringsElement()
     {
-      XmlDocumentEx webConfig = this.instance.GetWebConfig();
-      Assert.IsNotNull(webConfig, "webConfig");
+      XmlDocumentEx webConfig = Instance.GetWebConfig();
+      Assert.IsNotNull(webConfig, nameof(webConfig));
 
       return GetConnectionStringsElement(webConfig);
     }
@@ -108,12 +109,6 @@
     #endregion
 
     #region Public methods
-
-    public static ConnectionStringCollection GetConnectionStrings(string webRootPath)
-    {
-      XmlElementEx connectionStringsNode = GetConnectionStringsElement(XmlDocumentEx.LoadFile(Path.Combine(webRootPath, "web.config")));
-      return GetConnectionStringCollection(connectionStringsNode);
-    }
 
     #endregion
   }

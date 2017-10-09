@@ -1,8 +1,9 @@
 ﻿namespace SIM.Pipelines.Reinstall
 {
+  using System.IO;
   using SIM.Pipelines.Processors;
-  using Sitecore.Diagnostics;
-  using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnostics.Base;
+  using JetBrains.Annotations;
 
   #region
 
@@ -15,7 +16,7 @@
 
     public override long EvaluateStepsCount(ProcessorArgs args)
     {
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(args, nameof(args));
 
       return InstallHelper.GetStepsCount(((ReinstallArgs)args).PackagePath);
     }
@@ -26,9 +27,12 @@
 
     protected override void Process(ReinstallArgs args)
     {
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(args, nameof(args));
 
-      InstallHelper.ExtractFile(args.PackagePath, args.WebRootPath, args.DatabasesFolderPath, args.DataFolderPath, this.Controller);
+      var installRadControls = Directory.Exists(Path.Combine(args.WebRootPath, InstallHelper.RadControls));
+      var installDictionaries = Directory.Exists(Path.Combine(args.WebRootPath, InstallHelper.Dictionaries));
+
+      InstallHelper.ExtractFile(args.PackagePath, args.WebRootPath, args.DatabasesFolderPath, args.DataFolderPath, true, installRadControls, installDictionaries, Controller);
     }
 
     #endregion

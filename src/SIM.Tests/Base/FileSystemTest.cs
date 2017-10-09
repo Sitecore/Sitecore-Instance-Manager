@@ -5,27 +5,8 @@
 
   [TestClass()]
   public class FileSystemTest
-  {
-    #region Fields
-
-    private TestContext testContextInstance;
-
-    #endregion
-
+  {                     
     #region Public properties
-
-    public TestContext TestContext
-    {
-      get
-      {
-        return this.testContextInstance;
-      }
-
-      set
-      {
-        this.testContextInstance = value;
-      }
-    }
 
     #endregion
 

@@ -16,7 +16,7 @@
       <Label Content="Path:" Height="28" HorizontalAlignment="Left" Margin="52,53,0,0" Name="labelPath" VerticalAlignment="Top" Width="82" />
       <TextBox Height="23" HorizontalAlignment="Right" Margin="0,16,57,0" Name="dbName" VerticalAlignment="Top" Width="240" BorderBrush="Black" />
       <TextBox Height="23" HorizontalAlignment="Right" Margin="0,53,57,0" Name="dbPath" VerticalAlignment="Top" Width="240" BorderBrush="Black" />
-      <Button Content="Ok" Height="23" HorizontalAlignment="Left" Margin="12,92,0,0" Name="btnOk" VerticalAlignment="Top" Width="376" Click="btnOk_Click" />
+      <Button Content="Ok" Height="23" HorizontalAlignment="Left" Margin="12,92,0,0" Name="btnOk" VerticalAlignment="Top" Width="376" Click="BtnOkClick" />
     </Grid>
   </Grid>
 </Window>

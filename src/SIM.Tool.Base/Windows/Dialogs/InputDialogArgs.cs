@@ -1,6 +1,6 @@
 namespace SIM.Tool.Base.Windows.Dialogs
 {
-  using Sitecore.Diagnostics.Annotations;
+  using JetBrains.Annotations;
 
   public class InputDialogArgs
   {

@@ -1,0 +1,117 @@
+﻿<manifest version="1.4">
+  <archive>
+    <install>
+      <actions>
+        <editfile path="/Website/App_Config/Include/zzz/Scheduling.EmailReportsTask.config">
+          <write>
+            <configuration xmlns:patch="http://www.sitecore.net/xmlconfig/">
+              <sitecore>
+                <scheduling>
+                  <agent type="Sitecore.Analytics.Tasks.EmailReportsTask, Sitecore.Analytics">
+                    <patch:delete />
+                  </agent>
+                </scheduling>
+              </sitecore>
+            </configuration>
+          </write>
+        </editfile>
+        <editfile path="/Website/App_Config/Include/zzz/Settings.Analytics.ClusterName.config">
+          <write>
+            <configuration xmlns:set="http://www.sitecore.net/xmlconfig/set/">
+              <sitecore>
+                <settings>
+                  <setting name="Analytics.ClusterName" set:value="{InstanceHost}" />
+                </settings>
+              </sitecore>
+            </configuration>
+          </write>
+          <replacevariables />
+        </editfile>
+        <editfile path="/Website/App_Config/Include/zzz/Settings.Analytics.HostName.config">
+          <write>
+            <configuration xmlns:set="http://www.sitecore.net/xmlconfig/set/">
+              <sitecore>
+                <settings>
+                  <setting name="Analytics.HostName" set:value="{InstanceHost}" />
+                </settings>
+              </sitecore>
+            </configuration>
+          </write>
+          <replacevariables />
+        </editfile>
+        <editfile path="/Website/App_Config/Include/zzz/Settings.Analytics.DefaultDefinitionDatabase.config">
+          <write>
+            <configuration xmlns:set="http://www.sitecore.net/xmlconfig/set/">
+              <sitecore>
+                <settings>
+                  <setting name="Analytics.DefaultDefinitionDatabase" set:value="web" />
+                </settings>
+              </sitecore>
+            </configuration>
+          </write>
+          <replacevariables />
+        </editfile>
+        <config path="App_Config\ConnectionStrings.config">    
+          <delete xpath="/connectionStrings/add[@name='master']" />   
+          <delete xpath="/connectionStrings/add[@name='reporting']" />          
+          <delete xpath="/connectionStrings/add[@name='tracking.history']" />          
+        </config>        
+        <config>
+          <disable path="001.Sitecore.Speak.Important.config" />
+          <enable path="ScalabilitySettings.config.example" />
+          <disable path="Sitecore.Analytics.Automation.TimeoutProcessing.config" />
+          <enable path="Sitecore.Analytics.MarketingTaxonomyCD.config.disabled" />
+          <disable path="Sitecore.Analytics.Processing.Aggregation.config" />
+          <disable path="Sitecore.Analytics.Processing.Aggregation.Services.config" />
+          <disable path="Sitecore.Analytics.Processing.config" />
+          <disable path="Sitecore.Analytics.Processing.Services.config" />
+          <disable path="Sitecore.Analytics.Reporting.config" />
+          <disable path="Sitecore.ContentSearch.Lucene.Index.Master.config" />
+          <disable path="Sitecore.ExperienceEditor.Speak.Requests.config" />
+          <disable path="Sitecore.ExperienceExplorer.Speak.Requests.config" />
+          <disable path="Sitecore.Marketing.Definitions.MarketingAssets.Repositories.Lucene.Index.Master.config" />
+          <enable path="Sitecore.Marketing.Definitions.MarketingAssets.RepositoriesCD.config.disabled" />
+          <disable path="Sitecore.Marketing.Lucene.Index.Master.config" />
+          <enable path="Sitecore.MarketingCD.config.disabled" />
+          <disable path="Sitecore.PathAnalyzer.Client.config" />
+          <disable path="Sitecore.PathAnalyzer.config" />
+          <disable path="Sitecore.PathAnalyzer.Processing.config" />
+          <disable path="Sitecore.PathAnalyzer.Services.config" />
+          <disable path="Sitecore.PathAnalyzer.StorageProviders.config" />
+          <disable path="Sitecore.Processing.config" />
+          <disable path="Sitecore.Speak.AntiCsrf.SheerUI.config" />
+          <disable path="Sitecore.Speak.Applications.config" />
+          <disable path="Sitecore.Speak.Components.config" />
+          <disable path="Sitecore.Speak.config" />
+          <disable path="Sitecore.Speak.ItemWebApi.config" />
+          <disable path="Sitecore.Speak.LaunchPad.config" />
+          <disable path="Sitecore.Speak.Mvc.config" />
+          <disable path="Sitecore.WebDAV.config" />
+          <disable path="ContentTesting/Sitecore.ContentTesting.Lucene.IndexConfiguration.config" />
+          <disable path="ContentTesting/Sitecore.ContentTesting.Processing.Aggregation.config" />
+          <disable path="ExperienceAnalytics/Sitecore.ExperienceAnalytics.Aggregation.config" />
+          <disable path="ExperienceAnalytics/Sitecore.ExperienceAnalytics.Client.config" />
+          <disable path="ExperienceAnalytics/Sitecore.ExperienceAnalytics.Reduce.config" />
+          <disable path="ExperienceAnalytics/Sitecore.ExperienceAnalytics.StorageProviders.config" />
+          <disable path="ExperienceAnalytics/Sitecore.ExperienceAnalytics.WebAPI.config" />
+          <disable path="ExperienceProfile/Sitecore.ExperienceProfile.Client.config" />
+          <disable path="ExperienceProfile/Sitecore.ExperienceProfile.config" />
+          <disable path="ExperienceProfile/Sitecore.ExperienceProfile.Reporting.config" />
+          <disable path="FXM/Sitecore.FXM.Lucene.DomainsSearch.DefaultIndexConfiguration.config" />
+          <disable path="FXM/Sitecore.FXM.Lucene.DomainsSearch.Index.Master.config" />
+          <disable path="FXM/Sitecore.FXM.Lucene.DomainsSearch.Index.Web.config" />
+          <disable path="FXM/Sitecore.FXM.Speak.config" />
+          <disable path="ListManagement/Sitecore.ListManagement.Client.config" />
+          <disable path="ListManagement/Sitecore.ListManagement.config" />
+          <disable path="ListManagement/Sitecore.ListManagement.Lucene.Index.List.config" />
+          <disable path="ListManagement/Sitecore.ListManagement.Lucene.IndexConfiguration.config" />
+          <disable path="ListManagement/Sitecore.ListManagement.Services.config" />
+          <disable path="Social/Sitecore.Social.ExperienceProfile.config" />
+          <disable path="Social/Sitecore.Social.Lucene.Index.Master.config" />
+          <enable path="Social/Sitecore.Social.ScalabilitySettings.config.disabled" />
+          <enable path="Z.SwitchMasterToWeb/SwitchMasterToWeb.config.example" />
+        </config>
+      </actions>
+    </install>
+  </archive>
+</manifest>

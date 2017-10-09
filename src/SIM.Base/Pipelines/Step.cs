@@ -4,8 +4,9 @@
 
   using System.Collections.Generic;
   using SIM.Pipelines.Processors;
-  using Sitecore.Diagnostics;
-  using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnostics.Base;
+  using JetBrains.Annotations;
+  using SIM.Extensions;
 
   #endregion
 
@@ -14,10 +15,10 @@
     #region Fields
 
     [CanBeNull]
-    public readonly string ArgsName;
+    public string ArgsName { get; }
 
     [NotNull]
-    public readonly List<Processor> Processors;
+    public readonly List<Processor> _Processors;
 
     #endregion
 
@@ -25,10 +26,10 @@
 
     public Step([NotNull] List<Processor> processors, [CanBeNull] string argsName)
     {
-      Assert.ArgumentNotNull(processors, "processors");
+      Assert.ArgumentNotNull(processors, nameof(processors));
 
-      this.Processors = processors;
-      this.ArgsName = argsName;
+      _Processors = processors;
+      ArgsName = argsName;
     }
 
     #endregion
@@ -38,8 +39,8 @@
     [NotNull]
     public static List<Step> CreateSteps([NotNull] List<StepDefinition> stepDefinitions, [NotNull] ProcessorArgs args, [CanBeNull] IPipelineController controller = null)
     {
-      Assert.ArgumentNotNull(stepDefinitions, "stepDefinitions");
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(stepDefinitions, nameof(stepDefinitions));
+      Assert.ArgumentNotNull(args, nameof(args));
 
       return new List<Step>(CreateStepsPrivate(stepDefinitions, args, controller));
     }
@@ -51,13 +52,13 @@
     [NotNull]
     private static IEnumerable<Step> CreateStepsPrivate([NotNull] IEnumerable<StepDefinition> steps, [NotNull] ProcessorArgs args, [CanBeNull] IPipelineController controller = null)
     {
-      Assert.ArgumentNotNull(steps, "steps");
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(steps, nameof(steps));
+      Assert.ArgumentNotNull(args, nameof(args));
 
       foreach (StepDefinition stepDefinition in steps)
       {
-        string argsName = stepDefinition.ArgsName.EmptyToNull();
-        Step step = new Step(ProcessorManager.CreateProcessors(stepDefinition.ProcessorDefinitions, args, controller), argsName);
+        var argsName = stepDefinition.ArgsName.EmptyToNull();
+        Step step = new Step(ProcessorManager.CreateProcessors(stepDefinition._ProcessorDefinitions, args, controller), argsName);
         Assert.IsNotNull(step, "Can't instantiate step");
         yield return step;
       }

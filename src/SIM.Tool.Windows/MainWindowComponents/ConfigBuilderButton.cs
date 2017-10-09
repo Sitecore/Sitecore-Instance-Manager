@@ -1,30 +1,23 @@
 ﻿namespace SIM.Tool.Windows.MainWindowComponents
 {
   using System;
-  using System.Diagnostics;
   using System.IO;
   using System.Windows;
   using SIM.Instances;
-  using SIM.Tool.Base;
-  using SIM.Tool.Base.Plugins;
-  using Sitecore.Diagnostics;
-  using Sitecore.Diagnostics.Annotations;
-  using Sitecore.Diagnostics.Logging;
+  using Sitecore.Diagnostics.Base;
+  using JetBrains.Annotations;
+  using SIM.Core;
+  using SIM.Core.Common;
+  using SIM.Extensions;
 
   [UsedImplicitly]
-  public class ConfigBuilderButton : IMainWindowButton
+  public class ConfigBuilderButton : AbstractDownloadAndRunButton
   {
-    #region Constants
-
-    private const string BaseUrl = "http://dl.sitecore.net/updater/1.1/scb/";
-
-    #endregion
-
     #region Fields
 
-    protected readonly bool Normalize;
-    protected readonly bool Showconfig;
-    protected readonly bool WebConfigResult;
+    protected bool Normalize { get; }
+    protected bool Showconfig { get; }
+    protected bool WebConfigResult { get; }
 
     #endregion
 
@@ -32,60 +25,60 @@
 
     public ConfigBuilderButton()
     {
-      this.Normalize = false;
-      this.WebConfigResult = false;
-      this.Showconfig = false;
+      Normalize = false;
+      WebConfigResult = false;
+      Showconfig = false;
     }
 
     public ConfigBuilderButton(string param)
     {
-      this.Normalize = param.ContainsIgnoreCase("/normalize");
-      this.Showconfig = param.ContainsIgnoreCase("/showconfig");
-      this.WebConfigResult = param.ContainsIgnoreCase("/webconfigresult");
-      Assert.IsTrue(!(this.Showconfig && this.WebConfigResult), "/showconfig and /webconfigresult params must not be used together");
+      Normalize = param.ContainsIgnoreCase("/normalize");
+      Showconfig = param.ContainsIgnoreCase("/showconfig");
+      WebConfigResult = param.ContainsIgnoreCase("/webconfigresult");
+      Assert.IsTrue(!(Showconfig && WebConfigResult), "/showconfig and /webconfigresult params must not be used together");
     }
 
     #endregion
 
+    protected override string BaseUrl
+    {
+      get
+      {
+        return "http://dl.sitecore.net/updater/1.1/scb/";
+      }
+    }
+
+    protected override string AppName
+    {
+      get
+      {
+        return "Config Builder";
+      }
+    }
+
+    protected override string ExecutableName
+    {
+      get
+      {
+        return "Sitecore.ConfigBuilder.Tool.exe";
+      }
+    }
+
     #region Public methods
-
-    public static void RunConfigApp(string name, Window mainWindow, string param = null)
+                     
+    public override void OnClick(Window mainWindow, Instance instance)
     {
-      string path = Path.Combine(ApplicationManager.TempFolder, "Config Builder\\" + name);
+      Analytics.TrackEvent("RunConfigBuilder");
 
-      var latestVersion = GetLatestVersion();
-
-      if (!FileSystem.FileSystem.Local.File.Exists(path) || (!string.IsNullOrEmpty(latestVersion) && FileVersionInfo.GetVersionInfo(path).ProductVersion != latestVersion))
+      if (!Showconfig && !WebConfigResult)
       {
-        GetLatestVersion(mainWindow, path);
+        var param = instance != null ? Path.Combine(instance.WebRootPath, "web.config") : null;
+        RunApp(mainWindow, param);
 
-        if (!FileSystem.FileSystem.Local.File.Exists(path))
-        {
-          return;
-        }
-      }
-
-      if (param != null)
-      {
-        WindowHelper.RunApp(path, param);
         return;
       }
 
-      WindowHelper.RunApp(path);
-    }
-
-    public bool IsEnabled(Window mainWindow, Instance instance)
-    {
-      return true;
-    }
-
-    public void OnClick(Window mainWindow, Instance instance)
-    {
-      if (!this.Showconfig && !this.WebConfigResult)
-      {
-        RunConfigApp("Sitecore.ConfigBuilder.Tool.exe", mainWindow, instance != null ? Path.Combine(instance.WebRootPath, "web.config") : null);
-        return;
-      }
+      Assert.IsNotNull(instance, nameof(instance));
 
       var folder = Path.Combine(ApplicationManager.TempFolder, "configs", instance.Name);
       if (!Directory.Exists(folder))
@@ -94,11 +87,11 @@
       }
 
       string path;
-      if (this.Showconfig)
+      if (Showconfig)
       {
         path = Path.Combine(folder, "showconfig.xml");
       }
-      else if (this.WebConfigResult)
+      else if (WebConfigResult)
       {
         path = Path.Combine(folder, "web.config.result.xml");
       }
@@ -107,69 +100,25 @@
         throw new NotSupportedException("This is not supported");
       }
 
-      if (this.Normalize)
+      if (Normalize)
       {
-        path += ".normalized.xml";
+        path = Path.Combine(Path.GetDirectoryName(path), $"norm.{Path.GetFileName(path)}");
       }
 
-      if (this.Showconfig)
+      if (Showconfig)
       {
-        instance.GetShowconfig(this.Normalize).Save(path);
+        instance.GetShowconfig(Normalize).Save(path);
       }
-      else if (this.WebConfigResult)
+      else if (WebConfigResult)
       {
-        instance.GetWebResultConfig(this.Normalize).Save(path);
+        instance.GetWebResultConfig(Normalize).Save(path);
       }
       else
       {
-        Assert.IsTrue(false, "Impossible");
+        throw new NotImplementedException("This is not supported #2");
       }
 
-      WindowHelper.OpenFile(path);
-    }
-
-    #endregion
-
-    #region Private methods
-
-    private static string GetLatestVersion()
-    {
-      var latestVersion = string.Empty;
-      var url = BaseUrl + "latest-version.txt";
-      try
-      {
-        latestVersion = WebRequestHelper.DownloadString(url).Trim();
-      }
-      catch (Exception ex)
-      {
-        Log.Warn(ex, "The {0} URL is unavailable", url);
-      }
-
-      return latestVersion;
-    }
-
-    private static void GetLatestVersion(Window mainWindow, string path)
-    {
-      WindowHelper.LongRunningTask(() => GetLatestVersion(path), "Downloading latest version", mainWindow, 
-        "Downloading latest version of Sitecore ConfigBuilder. \n\nNext time this operation will not be needed.", 
-        "It may take a few minutes if you have slow internet connection", true);
-    }
-
-    private static void GetLatestVersion(string path)
-    {
-      try
-      {
-        var folder = Path.GetDirectoryName(path);
-        FileSystem.FileSystem.Local.Directory.Ensure(folder);
-        var downloadUrl = WebRequestHelper.DownloadString(BaseUrl + "download.txt");
-        var packageZipPath = Path.Combine(folder, "package.zip");
-        WebRequestHelper.DownloadFile(downloadUrl, packageZipPath);
-        FileSystem.FileSystem.Local.Zip.UnpackZip(packageZipPath, folder);
-      }
-      catch (Exception ex)
-      {
-        WindowHelper.HandleError("Couldn't get latest version of Sitecore ConfigBuilder", true, ex);
-      }
+      CoreApp.OpenFile(path);
     }
 
     #endregion

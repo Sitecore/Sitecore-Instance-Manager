@@ -1,8 +1,8 @@
 ﻿namespace SIM.Pipelines.Backup
 {
   using SIM.Pipelines.Processors;
-  using Sitecore.Diagnostics;
-  using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnostics.Base;
+  using JetBrains.Annotations;
 
   public abstract class BackupProcessor : Processor
   {
@@ -12,14 +12,14 @@
 
     public override sealed long EvaluateStepsCount(ProcessorArgs args)
     {
-      return this.EvaluateStepsCount((BackupArgs)args);
+      return EvaluateStepsCount((BackupArgs)args);
     }
 
     public override bool IsRequireProcessing(ProcessorArgs args)
     {
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(args, nameof(args));
 
-      return this.IsRequireProcessing((BackupArgs)args);
+      return IsRequireProcessing((BackupArgs)args);
     }
 
     #endregion
@@ -33,16 +33,16 @@
 
     protected virtual bool IsRequireProcessing([NotNull] BackupArgs args)
     {
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(args, nameof(args));
 
       return true;
     }
 
     protected override void Process(ProcessorArgs args)
     {
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(args, nameof(args));
 
-      this.Process((BackupArgs)args);
+      Process((BackupArgs)args);
     }
 
     protected abstract void Process([NotNull] BackupArgs args);

@@ -3,7 +3,9 @@
   using System.Data.SqlClient;
   using System.Linq;
   using System.Xml;
+  using MongoDB.Driver;
   using SIM.Adapters.WebServer;
+  using SIM.Extensions;
 
   public class UpdateConnectionStrings : ImportProcessor
   {
@@ -11,11 +13,11 @@
 
     protected override void Process(ImportArgs args)
     {
-      var pathToConnectionStringsConfig = args.rootPath.PathCombine("Website").PathCombine("App_Config").PathCombine("ConnectionStrings.config");
+      var pathToConnectionStringsConfig = args._RootPath.PathCombine("Website").PathCombine("App_Config").PathCombine("ConnectionStrings.config");
       var connectionStringsDocument = new XmlDocumentEx();
       connectionStringsDocument.Load(pathToConnectionStringsConfig);
       var connectionsStringsElement = new XmlElementEx(connectionStringsDocument.DocumentElement, connectionStringsDocument);
-      ConnectionStringCollection connStringCollection = this.GetConnectionStringCollection(connectionsStringsElement);
+      ConnectionStringCollection connStringCollection = GetConnectionStringCollection(connectionsStringsElement);
 
       foreach (var conn in connStringCollection)
       {
@@ -24,14 +26,14 @@
           var builder = new SqlConnectionStringBuilder(conn.Value)
           {
             IntegratedSecurity = false, 
-            DataSource = args.connectionString.DataSource, 
-            UserID = args.connectionString.UserID, 
-            Password = args.connectionString.Password
+            DataSource = args._ConnectionString.DataSource, 
+            UserID = args._ConnectionString.UserID, 
+            Password = args._ConnectionString.Password
           };
 
-          if (args.databaseNameAppend != -1)
+          if (args._DatabaseNameAppend != -1)
           {
-            builder.InitialCatalog = builder.InitialCatalog + "_" + args.databaseNameAppend.ToString();
+            builder.InitialCatalog = $"{builder.InitialCatalog}_{args._DatabaseNameAppend}";
           }
           else
           {
@@ -39,6 +41,20 @@
           }
 
           conn.Value = builder.ToString();
+        }
+        else if (conn.IsMongoConnectionString)
+        {
+          var builder = new MongoUrlBuilder(conn.Value);
+
+          foreach (var database in args.ExtractedMongoDatabases)
+          {
+            if (database.OriginalName == builder.DatabaseName)
+            {
+              builder.DatabaseName = database.FinalName;
+              conn.Value = builder.ToString();
+              break;
+            }
+          }
         }
       }
 

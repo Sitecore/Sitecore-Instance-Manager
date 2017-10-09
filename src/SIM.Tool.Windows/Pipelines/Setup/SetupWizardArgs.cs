@@ -19,10 +19,10 @@
         return;
       }
 
-      this.InstancesRootFolderPath = profile.InstancesFolder;
-      this.LicenseFilePath = profile.License;
-      this.ConnectionString = profile.ConnectionString;
-      this.LocalRepositoryFolderPath = profile.LocalRepository;
+      InstancesRootFolderPath = profile.InstancesFolder;
+      LicenseFilePath = profile.License;
+      ConnectionString = profile.ConnectionString;
+      LocalRepositoryFolderPath = profile.LocalRepository;
     }
 
     #endregion
@@ -44,10 +44,10 @@
     {
       return new SetupArgs()
       {
-        InstancesRootFolderPath = this.InstancesRootFolderPath, 
-        LocalRepositoryFolderPath = this.LocalRepositoryFolderPath, 
-        LicenseFilePath = this.LicenseFilePath, 
-        ConnectionString = this.ConnectionString
+        InstancesRootFolderPath = InstancesRootFolderPath, 
+        LocalRepositoryFolderPath = LocalRepositoryFolderPath, 
+        LicenseFilePath = LicenseFilePath, 
+        ConnectionString = ConnectionString
       };
     }
 

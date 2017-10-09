@@ -2,18 +2,20 @@
 {
   using System;
   using System.Windows;
+  using SIM.Core.Common;
   using SIM.Instances;
   using SIM.Tool.Base;
   using SIM.Tool.Base.Plugins;
-  using Sitecore.Diagnostics;
-  using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnostics.Base;
+  using JetBrains.Annotations;
+  using SIM.Extensions;
 
   [UsedImplicitly]
   public class OpenFolderButton : IMainWindowButton
   {
     #region Fields
 
-    private readonly string folder;
+    private string Folder { get; }
 
     #endregion
 
@@ -21,9 +23,9 @@
 
     public OpenFolderButton(string folder)
     {
-      Assert.IsNotNullOrEmpty(folder, "folder");
+      Assert.IsNotNullOrEmpty(folder, nameof(folder));
 
-      this.folder = folder;
+      Folder = folder;
     }
 
     #endregion
@@ -32,12 +34,14 @@
 
     public bool IsEnabled(Window mainWindow, Instance instance)
     {
-      return instance != null || !this.RequiresInstance(this.folder);
+      return instance != null || !RequiresInstance(Folder);
     }
 
     public void OnClick(Window mainWindow, Instance instance)
     {
-      var path = this.ExpandPath(instance).Replace("/", "\\");
+      Analytics.TrackEvent("OpenFolder");
+
+      var path = ExpandPath(instance).Replace("/", "\\");
       if (!FileSystem.FileSystem.Local.Directory.Exists(path))
       {
         var answer = WindowHelper.ShowMessage("The folder does not exist. Would you create it?\n\n" + path, MessageBoxButton.OKCancel, MessageBoxImage.Asterisk);
@@ -58,8 +62,8 @@
 
     private string ExpandPath(Instance instance)
     {
-      var path = this.folder;
-      if (!string.IsNullOrEmpty(path) && !this.RequiresInstance(path))
+      var path = Folder;
+      if (!string.IsNullOrEmpty(path) && !RequiresInstance(path))
       {
         return Environment.ExpandEnvironmentVariables(path);
       }
@@ -72,7 +76,7 @@
         .Replace("$(indexes)", () => instance.IndexesFolderPath)
         .Replace("$(serialization)", () => instance.SerializationFolderPath);
 
-      if (this.RequiresInstance(path))
+      if (RequiresInstance(path))
       {
         throw new InvalidOperationException("The {0} pattern is not supported".FormatWith(path));
       }

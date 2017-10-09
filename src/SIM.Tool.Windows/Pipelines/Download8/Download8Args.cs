@@ -5,24 +5,24 @@
   using System.Collections.ObjectModel;
   using System.Linq;
   using SIM.Pipelines.Processors;
-  using Sitecore.Diagnostics;
-  using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnostics.Base;
+  using JetBrains.Annotations;
 
   public class Download8Args : ProcessorArgs
   {
     #region Fields
 
     [NotNull]
-    public readonly string Cookies;
+    public string Cookies { get; }
 
     [NotNull]
-    public readonly UriBasedCollection<string> FileNames;
+    public readonly UriBasedCollection<string> _FileNames;
 
     [NotNull]
-    public readonly ReadOnlyCollection<Uri> Links;
+    public readonly ReadOnlyCollection<Uri> _Links;
 
     [NotNull]
-    public readonly string LocalRepository;
+    public string LocalRepository { get; }
 
     #endregion
 
@@ -30,13 +30,13 @@
 
     public Download8Args([NotNull] string cookies, [NotNull] ReadOnlyCollection<Uri> links, [NotNull] string localRepository)
     {
-      Assert.ArgumentNotNull(cookies, "cookies");
-      Assert.ArgumentNotNull(links, "links");
-      Assert.ArgumentNotNull(localRepository, "localRepository");
-      this.LocalRepository = localRepository;
-      this.Links = links;
-      this.Cookies = cookies;
-      this.FileNames = new UriBasedCollection<string>(links.ToDictionary(x => x, x => WebRequestHelper.GetFileName(x, cookies)));
+      Assert.ArgumentNotNull(cookies, nameof(cookies));
+      Assert.ArgumentNotNull(links, nameof(links));
+      Assert.ArgumentNotNull(localRepository, nameof(localRepository));
+      LocalRepository = localRepository;
+      _Links = links;
+      Cookies = cookies;
+      _FileNames = new UriBasedCollection<string>(links.ToDictionary(x => x, x => WebRequestHelper.GetFileName(x, cookies)));
     }
 
     #endregion
@@ -63,9 +63,9 @@
 
       set
       {
-        if (!this.ContainsKey(index))
+        if (!ContainsKey(index))
         {
-          this.Add(index, value);
+          Add(index, value);
         }
         else
         {

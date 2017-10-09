@@ -5,25 +5,26 @@ using System.IO;
 using System.Linq;
 using Ionic.Zip;
 using Ionic.Zlib;
-using Sitecore.Diagnostics;
-using Sitecore.Diagnostics.Annotations;
+using Sitecore.Diagnostics.Base;
+using JetBrains.Annotations;
 
 namespace SIM.FileSystem
 {
   using Sitecore.Diagnostics.Logging;
+  using SIM.Extensions;
 
   public class ZipProvider
   {
     #region Constants
 
-    private const long KB = 1024;
-    private const long MB = 1024 * KB;
+    private const long Kb = 1024;
+    private const long Mb = 1024 * Kb;
 
     #endregion
 
     #region Fields
 
-    private readonly FileSystem fileSystem;
+    private FileSystem FileSystem { get; }
 
     #endregion
 
@@ -31,7 +32,7 @@ namespace SIM.FileSystem
 
     public ZipProvider(FileSystem fileSystem)
     {
-      this.fileSystem = fileSystem;
+      FileSystem = fileSystem;
     }
 
     #endregion
@@ -40,7 +41,7 @@ namespace SIM.FileSystem
 
     public virtual void CheckZip([NotNull] string packagePath)
     {
-      Assert.ArgumentNotNullOrEmpty(packagePath, "packagePath");
+      Assert.ArgumentNotNullOrEmpty(packagePath, nameof(packagePath));
 
       if (System.IO.File.Exists(packagePath))
       {
@@ -55,14 +56,13 @@ namespace SIM.FileSystem
             if (!(data && databases && website))
             {
               throw new InvalidOperationException(
-                string.Format("The \"{0}\" archive isn't a Sitecore installation package.", packagePath));
+                $"The \"{packagePath}\" archive isn't a Sitecore installation package.");
             }
           }
         }
         catch (ZipException)
         {
-          throw new InvalidOperationException(string.Format("The \"{0}\" installation package seems to be corrupted.", 
-            packagePath));
+          throw new InvalidOperationException($"The \"{packagePath}\" installation package seems to be corrupted.");
         }
       }
     }
@@ -92,7 +92,7 @@ namespace SIM.FileSystem
         Assert.IsTrue(!ignore.Contains('\\') && !ignore.Contains('/'), "Multi-level ignore is not supported for archiving");
         foreach (var directory in Directory.GetDirectories(path))
         {
-          string directoryName = new DirectoryInfo(directory).Name;
+          var directoryName = new DirectoryInfo(directory).Name;
           if (!directoryName.EqualsIgnoreCase(ignore))
           {
             zip.AddDirectory(directory, directoryName);
@@ -123,8 +123,7 @@ namespace SIM.FileSystem
         }
         catch (ZipException)
         {
-          throw new InvalidOperationException(string.Format("The \"{0}\" installation package seems to be corrupted.", 
-            packagePath));
+          throw new InvalidOperationException($"The \"{packagePath}\" installation package seems to be corrupted.");
         }
       }
 
@@ -135,8 +134,8 @@ namespace SIM.FileSystem
       [CanBeNull] string entriesPattern = null, int stepsCount = 1, 
       [CanBeNull] Action incrementProgress = null, bool skipErrors = false)
     {
-      Assert.ArgumentNotNull(packagePath, "packagePath");
-      Assert.ArgumentNotNull(path, "path");
+      Assert.ArgumentNotNull(packagePath, nameof(packagePath));
+      Assert.ArgumentNotNull(path, nameof(path));
 
       // TODO: comment this line when the progress bar is adjusted
       incrementProgress = null;
@@ -148,19 +147,19 @@ namespace SIM.FileSystem
         {
           if (entriesPattern != null)
           {
-            Log.Info("Unzipping the {2} entries of the '{0}' archive to the '{1}' folder", packagePath, path, entriesPattern);
+            Log.Info(string.Format("Unzipping the {2} entries of the '{0}' archive to the '{1}' folder", packagePath, path, entriesPattern));
           }
           else 
           {
-            Log.Info("Unzipping the '{0}' archive to the '{1}' folder", packagePath, path);
+            Log.Info($"Unzipping the '{packagePath}' archive to the '{path}' folder");
           }
 
           using (ZipFile zip = new ZipFile(packagePath))
           {
-            int q = Math.Max(zip.Entries.Count / stepsCount, 1);
+            var q = Math.Max(zip.Entries.Count / stepsCount, 1);
 
-            this.fileSystem.Directory.Ensure(path);
-            int i = 0;
+            FileSystem.Directory.Ensure(path);
+            var i = 0;
             ICollection<ZipEntry> entries = entriesPattern != null ? zip.SelectEntries(entriesPattern) : zip.Entries;
             foreach (ZipEntry entry in entries)
             {
@@ -182,7 +181,7 @@ namespace SIM.FileSystem
                   ".tmp", ".PendingOverwrite"
                 })
                 {
-                  string errorPath = Path.Combine(path, entry.FileName) + postFix;
+                  var errorPath = Path.Combine(path, entry.FileName) + postFix;
                   if (System.IO.File.Exists(errorPath))
                   {
                     System.IO.File.Delete(errorPath);
@@ -219,15 +218,15 @@ namespace SIM.FileSystem
         }
         catch (ZipException)
         {
-          throw new InvalidOperationException(string.Format("The \"{0}\" package seems to be corrupted.", packagePath));
+          throw new InvalidOperationException($"The \"{packagePath}\" package seems to be corrupted.");
         }
       }
     }
 
     public virtual void UnpackZipWithActualWebRootName([NotNull] string packagePath, [NotNull] string path, string webRootName, [CanBeNull] string entriesPattern = null, int stepsCount = 1, [CanBeNull] Action incrementProgress = null)
     {
-      Assert.ArgumentNotNull(packagePath, "packagePath");
-      Assert.ArgumentNotNull(path, "path");
+      Assert.ArgumentNotNull(packagePath, nameof(packagePath));
+      Assert.ArgumentNotNull(path, nameof(path));
 
       // TODO: comment this line when the progress bar is adjusted
       incrementProgress = null;
@@ -242,18 +241,18 @@ namespace SIM.FileSystem
       {
         if (entriesPattern != null)
         {
-          Log.Info("Unzipping the {2} entries of the '{0}' archive to the '{1}' folder", packagePath, path, entriesPattern);
+          Log.Info(string.Format("Unzipping the {2} entries of the '{0}' archive to the '{1}' folder", packagePath, path, entriesPattern));
         }
         else
         {
-          Log.Info("Unzipping the '{0}' archive to the '{1}' folder", packagePath, path);
+          Log.Info($"Unzipping the '{packagePath}' archive to the '{path}' folder");
         }
 
         using (var zip = new ZipFile(packagePath))
         {
           var q = Math.Max(zip.Entries.Count / stepsCount, 1);
 
-          this.fileSystem.Directory.Ensure(path);
+          FileSystem.Directory.Ensure(path);
           var i = 0;
           var entries = entriesPattern != null ? zip.SelectEntries(entriesPattern) : zip.Entries;
 
@@ -311,35 +310,14 @@ namespace SIM.FileSystem
       }
       catch (ZipException)
       {
-        throw new InvalidOperationException(string.Format("The \"{0}\" package seems to be corrupted.", packagePath));
+        throw new InvalidOperationException($"The \"{packagePath}\" package seems to be corrupted.");
       }
     }
-
-    public virtual bool ZipContainsFile(string packagePath, string innerFileName)
-    {
-      var fileInfo = new FileInfo(packagePath);
-      Assert.IsTrue(fileInfo.Exists, "The {0} file does not exist".FormatWith(packagePath));
-
-      if (fileInfo.Length <= 22)
-      {
-        return false;
-      }
-
-      using (ZipFile zip = new ZipFile(packagePath))
-      {
-        if (zip.Entries.Any(e => e.FileName.EqualsIgnoreCase(innerFileName)))
-        {
-          return true;
-        }
-      }
-
-      return false;
-    }
-
+    
     public virtual bool ZipContainsSingleFile(string packagePath, string innerFileName)
     {
       var fileInfo = new FileInfo(packagePath);
-      Assert.IsTrue(fileInfo.Exists, "The {0} file does not exist".FormatWith(packagePath));
+      Assert.IsTrue(fileInfo.Exists, $"The {packagePath} file does not exist");
 
       if (fileInfo.Length <= 22)
       {
@@ -359,8 +337,8 @@ namespace SIM.FileSystem
 
     public virtual string ZipUnpackFile(string pathToZip, string pathToUnpack, string fileName)
     {
-      string zipToUnpack = pathToZip;
-      string unpackDirectory = pathToUnpack;
+      var zipToUnpack = pathToZip;
+      var unpackDirectory = pathToUnpack;
       using (ZipFile zip = ZipFile.Read(zipToUnpack))
       {
         foreach (ZipEntry entry in zip)
@@ -382,7 +360,7 @@ namespace SIM.FileSystem
       using (ZipFile zip1 = ZipFile.Read(pathToZip))
       {
         var selection = from e in zip1.Entries
-          where (e.FileName).StartsWith(folderName + "/")
+          where (e.FileName).StartsWith(folderName + "/") || (e.FileName).StartsWith(folderName + "\\")          
           select e;
 
 
@@ -390,7 +368,14 @@ namespace SIM.FileSystem
 
         foreach (var e in selection)
         {
-          e.Extract(pathToUnpack, ExtractExistingFileAction.OverwriteSilently);
+          if (e.UncompressedSize > 0)
+          {
+            e.Extract(pathToUnpack, ExtractExistingFileAction.OverwriteSilently);
+          }
+          else
+          {
+            new DirectoryInfo(Path.Combine(pathToUnpack, e.FileName.Trim("\\/".ToCharArray()))).Create();
+          }
         }
       }
 

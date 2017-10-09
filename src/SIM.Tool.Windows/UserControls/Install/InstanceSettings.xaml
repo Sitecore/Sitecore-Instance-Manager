@@ -1,0 +1,35 @@
+﻿<UserControl x:Class="SIM.Tool.Windows.UserControls.Install.InstanceSettings" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d" d:DesignHeight="172" d:DesignWidth="443">
+	<StackPanel Orientation="Vertical">
+    <StackPanel Orientation="Vertical" Margin="0 0 0 4">
+      <CheckBox x:Name="RadControls">
+        <Bold>Skip RadControls (faster installation)</Bold>
+      </CheckBox>
+      <TextBlock HorizontalAlignment="Left" TextAlignment="Left" Margin="20 0 0 0">Skip unpacking "Website/sitecore/shell/RadControls"</TextBlock>
+    </StackPanel>
+    <StackPanel Orientation="Vertical" Margin="0 0 0 4">
+      <CheckBox x:Name="Dictionaries">
+        <Bold>Skip RTE Dictionaries (faster installation)</Bold>
+      </CheckBox>
+      <TextBlock HorizontalAlignment="Left" TextAlignment="Left" Margin="20 0 0 0">Skip unpacking "Website/sitecore/shell/Controls/Rich Text Editor/Dictionaries"</TextBlock>
+    </StackPanel>
+    <StackPanel Orientation="Vertical" Margin="0 0 0 4">
+      <CheckBox x:Name="ServerSideRedirect">
+        <Bold>Improve HTTP 4xx error handling</Bold>
+      </CheckBox>
+      <TextBlock HorizontalAlignment="Left" TextAlignment="Left" Margin="20 0 0 0">Enable <Bold>RequestErrors.ServerSideRedirect</Bold> setting to handle error w/o redirect</TextBlock>
+    </StackPanel>
+    <StackPanel Orientation="Vertical" Margin="0 0 0 4">
+      <CheckBox x:Name="IncreaseExecutionTimeout">
+        <Bold>Increase &lt;httpRuntime /&gt; execution timeout</Bold>
+      </CheckBox>
+      <TextBlock HorizontalAlignment="Left" TextAlignment="Left" Margin="20 0 0 0">Set /configuration/system.web/httpRuntime[@executionTimeout] to <Bold>24 hours</Bold></TextBlock>
+    </StackPanel>
+    <StackPanel Orientation="Vertical" Margin="0 0 0 0">
+      <CheckBox x:Name="PreHeat">
+        <Bold>Preheat the instance (faster first response)</Bold>
+      </CheckBox>
+      <TextBlock HorizontalAlignment="Left" TextAlignment="Left" Margin="20 0 0 0">As last step, make HTTP request to keepalive page to spin up w3wp process</TextBlock>
+    </StackPanel>
+  </StackPanel>
+</UserControl>

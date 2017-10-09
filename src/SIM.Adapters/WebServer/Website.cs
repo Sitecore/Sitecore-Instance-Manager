@@ -5,9 +5,10 @@
   using System.Diagnostics;
   using System.Linq;
   using Microsoft.Web.Administration;
-  using Sitecore.Diagnostics;
-  using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnostics.Base;
+  using JetBrains.Annotations;
   using Sitecore.Diagnostics.Logging;
+  using SIM.Extensions;
 
   #region
 
@@ -17,7 +18,7 @@
   {
     #region Fields
 
-    public readonly long ID;
+    public long ID { get; }
 
     #endregion
 
@@ -25,7 +26,7 @@
 
     public Website(long id)
     {
-      this.ID = id;
+      ID = id;
     }
 
     protected Website()
@@ -43,9 +44,9 @@
       get
       {
         ObjectState result;
-        using (WebServerManager.WebServerContext context = WebServerManager.CreateContext("Website.ApplicationPoolState"))
+        using (WebServerManager.WebServerContext context = WebServerManager.CreateContext())
         {
-          ApplicationPool pool = this.GetPool(context);
+          ApplicationPool pool = GetPool(context);
           result = pool.State;
         }
 
@@ -59,12 +60,12 @@
       get
       {
         var list = new List<BindingInfo>();
-        using (WebServerManager.WebServerContext context = WebServerManager.CreateContext("Get website bindings", this))
+        using (WebServerManager.WebServerContext context = WebServerManager.CreateContext())
         {
-          Site site = this.GetSite(context);
+          Site site = GetSite(context);
 
           var bindings = site.Bindings;
-          Assert.IsNotNull(bindings, "bindings");
+          Assert.IsNotNull(bindings, nameof(bindings));
 
           foreach (Binding binding in bindings.Where(x => x.Protocol.StartsWith("http", StringComparison.OrdinalIgnoreCase)))
           {
@@ -89,13 +90,13 @@
       get
       {
         List<string> list = new List<string>();
-        using (WebServerManager.WebServerContext context = WebServerManager.CreateContext("Get website hostnames"))
+        using (WebServerManager.WebServerContext context = WebServerManager.CreateContext())
         {
-          Site site = this.GetSite(context);
+          Site site = GetSite(context);
           {
             foreach (Binding binding in site.Bindings)
             {
-              string host = binding.Host;
+              var host = binding.Host;
               if (string.IsNullOrEmpty(host))
               {
                 host = "*";
@@ -115,9 +116,9 @@
       get
       {
         bool result;
-        using (WebServerManager.WebServerContext context = WebServerManager.CreateContext("Website.Is32Bit"))
+        using (WebServerManager.WebServerContext context = WebServerManager.CreateContext())
         {
-          ApplicationPool pool = this.GetPool(context);
+          ApplicationPool pool = GetPool(context);
           result = pool.Enable32BitAppOnWin64;
         }
 
@@ -130,9 +131,9 @@
       get
       {
         bool result;
-        using (WebServerManager.WebServerContext context = WebServerManager.CreateContext("Website.IsClassic"))
+        using (WebServerManager.WebServerContext context = WebServerManager.CreateContext())
         {
-          ApplicationPool pool = this.GetPool(context);
+          ApplicationPool pool = GetPool(context);
           result = pool.ManagedPipelineMode == ManagedPipelineMode.Classic;
         }
 
@@ -145,9 +146,9 @@
       get
       {
         bool result;
-        using (WebServerManager.WebServerContext context = WebServerManager.CreateContext("Website.IsNetFramework4"))
+        using (WebServerManager.WebServerContext context = WebServerManager.CreateContext())
         {
-          ApplicationPool pool = this.GetPool(context);
+          ApplicationPool pool = GetPool(context);
           result = pool.GetAttribute("managedRuntimeVersion").Value as string == "v4.0";
         }
 
@@ -160,9 +161,9 @@
     {
       get
       {
-        using (WebServerManager.WebServerContext context = WebServerManager.CreateContext("Website({0}).Name".FormatWith(this.ID)))
+        using (WebServerManager.WebServerContext context = WebServerManager.CreateContext())
         {
-          return this.GetName(context);
+          return GetName(context);
         }
       }
     }
@@ -171,10 +172,10 @@
     {
       get
       {
-        using (WebServerManager.WebServerContext context = WebServerManager.CreateContext("Website.ProcessIds"))
+        using (WebServerManager.WebServerContext context = WebServerManager.CreateContext())
         {
-          ApplicationPool pool = this.GetPool(context);
-          return pool.WorkerProcesses.NotNull().Select(process => process.ProcessId);
+          ApplicationPool pool = GetPool(context);
+          return Extensions.NotNull(pool.WorkerProcesses).Select(process => process.ProcessId);
         }
       }
     }
@@ -185,10 +186,10 @@
       get
       {
         string w;
-        using (WebServerManager.WebServerContext context = WebServerManager.CreateContext("Website({0}).WebRootPath".FormatWith(this.ID)))
+        using (WebServerManager.WebServerContext context = WebServerManager.CreateContext())
         {
-          Site site = this.GetSite(context);
-          Assert.IsNotNull(site, "The '{0}' site can't be found".FormatWith(this.ID));
+          Site site = GetSite(context);
+          Assert.IsNotNull(site, $"The '{ID}' site can't be found");
 
           w = WebServerManager.GetWebRootPath(site);
         }
@@ -197,13 +198,21 @@
       }
     }
 
+    public bool IsDisabled
+    {
+      get
+      {
+        return Name.ToLowerInvariant().EndsWith("_disabled");
+      }    
+    }
+
     #endregion
 
     #region Public methods
 
     public virtual string GetName(WebServerManager.WebServerContext context)
     {
-      return this.GetSite(context).Name;
+      return GetSite(context).Name;
     }
 
     [NotNull]
@@ -214,7 +223,7 @@
       {
         ProfileSection.Argument("webRootPath", webRootPath);
 
-        xmlDocumentEx = WebServer.WebConfig.GetWebConfig(webRootPath ?? this.WebRootPath);
+        xmlDocumentEx = WebServer.WebConfig.GetWebConfig(webRootPath ?? WebRootPath);
 
         return ProfileSection.Result(xmlDocumentEx);
       }
@@ -229,15 +238,15 @@
     [NotNull]
     public virtual string GetUrl([CanBeNull] string path = null)
     {
-      var binding = this.Bindings.FirstOrDefault();
-      Assert.IsNotNull(binding, "Website " + this.ID + " has no url bindings");
+      var binding = Bindings.FirstOrDefault();
+      Assert.IsNotNull(binding, $"Website {ID} has no url bindings");
       var url = binding.Protocol + "://";
       var host = binding.Host;
       url += host != "*" ? host : Environment.MachineName;
       var port = binding.Port;
       if (port != 80)
       {
-        url += ":" + port;
+        url += $":{port}";
       }
 
       if (!string.IsNullOrEmpty(path))
@@ -250,12 +259,12 @@
 
     public virtual void Recycle()
     {
-      Log.Info("Recycle the {0} instance's application pool", this.Name);
+      Log.Info($"Recycle the {Name} instance's application pool");
 
-      using (WebServerManager.WebServerContext context = WebServerManager.CreateContext("Website.Recycle"))
+      using (WebServerManager.WebServerContext context = WebServerManager.CreateContext())
       {
-        ApplicationPool pool = this.GetPool(context);
-        if (this.IsStarted(pool))
+        ApplicationPool pool = GetPool(context);
+        if (IsStarted(pool))
         {
           pool.Recycle();
           context.CommitChanges();
@@ -265,24 +274,29 @@
 
     public virtual void Start()
     {
-      Log.Info("Starting website {0}", this.ID);
-
-      using (WebServerManager.WebServerContext context = WebServerManager.CreateContext("Website.Start"))
+      Log.Info($"Starting website {ID}");
+      
+      if (IsDisabled)
       {
-        Site site = this.GetSite(context);
+        throw new InvalidOperationException("The {0} website is disabled. Open IIS Manager and remove _disabled suffix from its name in order to enable the website.");
+      }
+
+      using (WebServerManager.WebServerContext context = WebServerManager.CreateContext())
+      {
+        Site site = GetSite(context);
         Assert.IsNotNull(site, "Site is missing");
-        ApplicationPool pool = this.GetPool(context);
-        Assert.IsNotNull(pool, "pool");
-        if (!this.IsStarted(pool))
+        ApplicationPool pool = GetPool(context);
+        Assert.IsNotNull(pool, nameof(pool));
+        if (!IsStarted(pool))
         {
           pool.Start();
           context.CommitChanges();
         }
       }
 
-      using (WebServerManager.WebServerContext context = WebServerManager.CreateContext("Website.Start"))
+      using (WebServerManager.WebServerContext context = WebServerManager.CreateContext())
       {
-        Site site = this.GetSite(context);
+        Site site = GetSite(context);
         Assert.IsNotNull(site, "Site is missing");
         if (!IsStarted(site))
         {
@@ -292,15 +306,15 @@
       }
     }
 
-    public virtual void Stop(bool force = false)
+    public virtual void Stop(bool? force = null)
     {
-      Log.Info("Stop website {0} ({1})", this.Name, this.ID);
+      Log.Info($"Stop website {Name} ({ID})");
 
-      using (WebServerManager.WebServerContext context = WebServerManager.CreateContext("Website.Stop"))
+      using (WebServerManager.WebServerContext context = WebServerManager.CreateContext())
       {
-        ApplicationPool pool = this.GetPool(context);
+        ApplicationPool pool = GetPool(context);
 
-        if (force)
+        if (force ?? false)
         {
           foreach (WorkerProcess workerProcess in pool.WorkerProcesses)
           {
@@ -311,12 +325,12 @@
             }
             catch (Exception ex)
             {
-              Log.Warn(ex, "Stop website {0} ({1}) failed", this.Name, this.ID);
+              Log.Warn(ex, $"Stop website {Name} ({ID}) failed");
             }
           }
         }
 
-        if (this.IsStarted(pool))
+        if (IsStarted(pool))
         {
           pool.Stop();
           context.CommitChanges();
@@ -326,12 +340,12 @@
 
     public virtual void StopApplicationPool()
     {
-      Log.Info("Stop app pool {0} ({1})", this.Name, this.ID);
+      Log.Info($"Stop app pool {Name} ({ID})");
 
-      using (WebServerManager.WebServerContext context = WebServerManager.CreateContext("Website.StopApplicationPool"))
+      using (WebServerManager.WebServerContext context = WebServerManager.CreateContext())
       {
-        ApplicationPool pool = this.GetPool(context);
-        if (this.IsStarted(pool))
+        ApplicationPool pool = GetPool(context);
+        if (IsStarted(pool))
         {
           pool.Stop();
           context.CommitChanges();
@@ -346,14 +360,14 @@
     [NotNull]
     public virtual ApplicationPool GetPool([NotNull] WebServerManager.WebServerContext context)
     {
-      Assert.ArgumentNotNull(context, "context");
+      Assert.ArgumentNotNull(context, nameof(context));
 
-      var site = this.GetSite(context);
+      var site = GetSite(context);
       var application = site.Applications.FirstOrDefault(ap => ap.Path.EqualsIgnoreCase("/"));
-      Assert.IsNotNull(application, "Cannot find root application for {0} site".FormatWith(site.Name));
-      string poolname = application.ApplicationPoolName;
+      Assert.IsNotNull(application, $"Cannot find root application for {site.Name} site");
+      var poolname = application.ApplicationPoolName;
       ApplicationPool pool = context.ApplicationPools[poolname];
-      Assert.IsNotNull(pool, "The " + poolname + "application pool doesn't exists");
+      Assert.IsNotNull(pool, $"The {poolname}application pool doesn\'t exists");
 
       return pool;
     }
@@ -361,18 +375,18 @@
     [NotNull]
     public virtual Site GetSite([NotNull] WebServerManager.WebServerContext context)
     {
-      Assert.ArgumentNotNull(context, "context");
+      Assert.ArgumentNotNull(context, nameof(context));
 
-      Site site = context.Sites.SingleOrDefault(s => s.Id == this.ID);
-      Assert.IsNotNull(site, "Website " + this.ID + " not found");
+      Site site = context.Sites.SingleOrDefault(s => s.Id == ID);
+      Assert.IsNotNull(site, $"Website {ID} not found");
       return site;
     }
 
     public virtual void SetAppPoolMode(bool? is40 = null, bool? is32 = null)
     {
-      using (WebServerManager.WebServerContext context = WebServerManager.CreateContext("Website.SetAppPoolMode"))
+      using (WebServerManager.WebServerContext context = WebServerManager.CreateContext())
       {
-        ApplicationPool pool = this.GetPool(context);
+        ApplicationPool pool = GetPool(context);
         if (is32 != null)
         {
           pool.Enable32BitAppOnWin64 = (bool)is32;
@@ -393,7 +407,7 @@
 
     public override string ToString()
     {
-      return "ID: {0}, {1}".FormatWith(this.ID, this.Name);
+      return $"ID: {ID}, {Name}";
     }
 
     #endregion
@@ -402,14 +416,14 @@
 
     private bool IsStarted([NotNull] Site site)
     {
-      Assert.ArgumentNotNull(site, "site");
+      Assert.ArgumentNotNull(site, nameof(site));
 
       return site.State == ObjectState.Started || site.State == ObjectState.Starting;
     }
 
     private bool IsStarted([NotNull] ApplicationPool pool)
     {
-      Assert.ArgumentNotNull(pool, "pool");
+      Assert.ArgumentNotNull(pool, nameof(pool));
 
       return pool.State == ObjectState.Started || pool.State == ObjectState.Starting;
     }

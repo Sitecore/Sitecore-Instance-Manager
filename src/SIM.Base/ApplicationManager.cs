@@ -1,13 +1,15 @@
-using System;
-using System.ComponentModel;
-using System.IO;
-using System.Reflection;
-using Ionic.Zip;
-using Sitecore.Diagnostics;
-using Sitecore.Diagnostics.Annotations;
-
 namespace SIM
 {
+  using System;
+  using System.ComponentModel;
+  using System.Diagnostics;
+  using System.IO;
+  using System.Reflection;
+  using Ionic.Zip;
+  using Sitecore.Diagnostics.Base;
+  using JetBrains.Annotations;
+  using SIM.Extensions;
+
   #region
 
   
@@ -27,52 +29,56 @@ namespace SIM
     public const string AppDataRoot = @"%AppData%\Sitecore\Sitecore Instance Manager";
     public const string DefaultConfigurations = "Configurations";
     public const string DefaultPackages = "Packages";
-    public const string StockPlugins = "Plugins";
 
     #endregion
 
     #region Fields
 
     [NotNull]
-    public static readonly string AppLabel;
+    public static string AppLabel { get; }
 
     [NotNull]
-    public static readonly string AppRevision;
+    public static string AppRevision { get; }
 
     [NotNull]
-    public static readonly string AppShortVersion;
+    public static string AppShortVersion { get; }
 
     [NotNull]
-    public static readonly string AppVersion;
+    public static string AppVersion { get; }
 
     [NotNull]
-    public static readonly string CachesFolder;
+    public static string CachesFolder { get; }
 
     [NotNull]
-    public static readonly string ConfigurationPackagesFolder;
+    public static string ConfigurationPackagesFolder { get; }
 
     [NotNull]
-    public static readonly string DataFolder;
+    public static string DataFolder { get; }
 
     [NotNull]
-    public static readonly string FilePackagesFolder;
+    public static string FilePackagesFolder { get; }
 
-    public static readonly bool IsDebugging;
+    public static bool IsDebugging { get; }
 
-    [NotNull]
-    public static readonly string LogsFolder;
+    public static bool IsQa { get; }
 
-    [NotNull]
-    public static readonly string PluginsFolder;
+    public static bool IsDev { get; }
 
-    [NotNull]
-    public static readonly string ProfilesFolder;
+    public static string ProcessName { get; }
 
     [NotNull]
-    public static readonly string TempFolder;
+    public static string LogsFolder { get; }
+    
+    [NotNull]
+    public static string ProfilesFolder { get; }
 
     [NotNull]
-    public static readonly string UserManifestsFolder;
+    public static string TempFolder { get; }
+
+    [NotNull]
+    public static string UserManifestsFolder { get; }
+
+    public static string AppsFolder { get; }
 
     #endregion
 
@@ -80,19 +86,25 @@ namespace SIM
 
     static ApplicationManager()
     {
-      DataFolder = InitializeFolder(Environment.ExpandEnvironmentVariables(AppDataRoot));
-      PluginsFolder = InitializeDataFolder("Plugins");
+      var processName = Process.GetCurrentProcess().ProcessName + ".exe";
+      ProcessName = processName;
+      IsDebugging = processName.ContainsIgnoreCase(".vshost.");
+      IsQa = processName.ContainsIgnoreCase(".QA.");
+      IsDev = processName.ContainsIgnoreCase(".DEV.");
+
+      DataFolder = InitializeFolder(Environment.ExpandEnvironmentVariables(AppDataRoot + (IsQa ? "-QA" : "")));
       CachesFolder = InitializeDataFolder("Caches");
       FilePackagesFolder = InitializeDataFolder("Custom Packages");
       ConfigurationPackagesFolder = InitializeDataFolder("Custom Configurations");
       ProfilesFolder = InitializeDataFolder("Profiles");
       LogsFolder = InitializeDataFolder("Logs");
+      AppsFolder = InitializeDataFolder("Apps");
       UserManifestsFolder = InitializeDataFolder("Manifests");
       AppRevision = GetRevision();
       AppVersion = GetVersion();
       AppShortVersion = GetShortVersion();
       AppLabel = GetLabel();
-      IsDebugging = Environment.GetCommandLineArgs()[0].ContainsIgnoreCase("vshost.exe");
+
       TempFolder = InitializeDataFolder("Temp");
     }
 
@@ -100,55 +112,114 @@ namespace SIM
 
     #region Public methods
 
-    public static void RaiseAttemptToClose(CancelEventArgs e)
+    [NotNull]
+    public static string GetEmbeddedFile([NotNull] string assemblyName, [NotNull] string fileName)
     {
-      EventHelper.RaiseEvent(AttemptToClose, typeof(ApplicationManager), e);
-    }
-
-    public static string GetEmbeddedApp(string packageName, string assemblyName, string executableName)
-    {
-      Assert.ArgumentNotNull(packageName, "packageName");
-      Assert.ArgumentNotNull(assemblyName, "assemblyName");
-      Assert.ArgumentNotNull(executableName, "executableName");
+      Assert.ArgumentNotNull(assemblyName, nameof(assemblyName));
+      Assert.ArgumentNotNull(fileName, nameof(fileName));
 
       var folder = Path.Combine(TempFolder, assemblyName);
-      var filePath = Path.Combine(folder, executableName);
+      if (!Directory.Exists(folder))
+      {
+        Directory.CreateDirectory(folder);
+      }
+
+      var filePath = Path.Combine(folder, fileName);
       if (File.Exists(filePath))
       {
         return filePath;
       }
 
       var assembly = Assembly.Load(assemblyName);
-      using (var stream = assembly.GetManifestResourceStream(assemblyName + @"." + packageName))
+      Assert.IsNotNull(assembly, nameof(assembly));
+
+      using (var stream = assembly.GetManifestResourceStream(assemblyName + @"." + fileName))
       {
-        Assert.IsNotNull(stream, "stream");
+        Assert.IsNotNull(stream, nameof(stream));
 
-        var tmp = Path.GetTempFileName();
-        using (var fileStream = new FileStream(tmp, System.IO.FileMode.Create))
+        using (var fileStream = new FileStream(filePath, FileMode.Create))
         {
-          int len;
-          var buffer = new byte[2048];
+          const int BufferSize = 2048;
 
-          while ((len = stream.Read(buffer, 0, buffer.Length)) > 0)
+          int len;
+          var buffer = new byte[BufferSize];
+
+          while ((len = stream.Read(buffer, 0, BufferSize)) > 0)
           {
             fileStream.Write(buffer, 0, len);
           }
         }
 
-        using (var fs = new ZipFile(tmp))
-        {
-          fs.ExtractAll(folder);
-        }
-
-        Assert.IsTrue(File.Exists(filePath), "The {0} file path doesn't exist after successful extracting {1} package into {2} folder", filePath, tmp, folder);
-
-        if (File.Exists(tmp))
-        {
-          File.Delete(tmp);
-        }
+        Assert.IsTrue(File.Exists(filePath), $"The {filePath} file path doesn't exist after successful extracting {filePath} package into {folder} folder");
 
         return filePath;
       }
+    }
+
+    [NotNull]
+    public static string GetEmbeddedFile([NotNull] string packageName, [NotNull] string assemblyName, [NotNull] string fileName)
+    {
+      Assert.ArgumentNotNull(packageName, nameof(packageName));
+      Assert.ArgumentNotNull(assemblyName, nameof(assemblyName));
+      Assert.ArgumentNotNull(fileName, nameof(fileName));
+
+      var folder = Path.Combine(TempFolder, assemblyName, packageName);
+      var filePath = Path.Combine(folder, fileName);
+      if (File.Exists(filePath) || Directory.Exists(filePath))
+      {
+        return filePath;
+      }
+
+      if (!Directory.Exists(folder))
+      {
+        Directory.CreateDirectory(folder);
+      }
+
+      var assembly = Assembly.Load(assemblyName);
+      Assert.IsNotNull(assembly, nameof(assembly));
+
+      using (var stream = assembly.GetManifestResourceStream(assemblyName + @"." + packageName))
+      {
+        Assert.IsNotNull(stream, nameof(stream));
+
+        var tempFilePath = Path.GetTempFileName();
+        try
+        {
+          using (var fileStream = new FileStream(tempFilePath, FileMode.Create))
+          {
+            const int BufferSize = 2048;
+
+            int len;
+            var buffer = new byte[BufferSize];
+
+            while ((len = stream.Read(buffer, 0, BufferSize)) > 0)
+            {
+              fileStream.Write(buffer, 0, len);
+            }
+          }
+
+          using (var zip = new ZipFile(tempFilePath))
+          {
+            zip.ExtractAll(folder, ExtractExistingFileAction.OverwriteSilently);
+          }
+
+        Assert.IsTrue(File.Exists(filePath) || Directory.Exists(filePath), $"The {filePath} file path doesn't exist after successful extracting {tempFilePath} package into {folder} folder");
+
+          return filePath;
+        }
+        finally
+        {
+          if (File.Exists(tempFilePath))
+          {
+            File.Delete(tempFilePath);
+          }
+        }
+      }
+    }
+
+    public static void RaiseAttemptToClose(CancelEventArgs e)
+    {
+      EventHelper.RaiseEvent(AttemptToClose, typeof(ApplicationManager), e);
     }
 
     #endregion
@@ -216,7 +287,7 @@ namespace SIM
     [NotNull]
     private static string InitializeDataFolder([NotNull] string folder)
     {
-      Assert.ArgumentNotNull(folder, "folder");
+      Assert.ArgumentNotNull(folder, nameof(folder));
 
       return InitializeFolder(Path.Combine(DataFolder, folder));
     }
@@ -224,9 +295,9 @@ namespace SIM
     [NotNull]
     private static string InitializeFolder([NotNull] string folder)
     {
-      Assert.ArgumentNotNull(folder, "folder");
+      Assert.ArgumentNotNull(folder, nameof(folder));
 
-      string path = Path.Combine(Environment.CurrentDirectory, folder);
+      var path = Path.Combine(Environment.CurrentDirectory, folder);
       if (!FileSystem.FileSystem.Local.Directory.Exists(folder))
       {
         FileSystem.FileSystem.Local.Directory.CreateDirectory(folder);

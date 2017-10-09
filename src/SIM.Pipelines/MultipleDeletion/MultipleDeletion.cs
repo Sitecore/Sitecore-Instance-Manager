@@ -1,6 +1,7 @@
 ﻿namespace SIM.Pipelines.MultipleDeletion
 {
   using System.Linq;
+  using SIM.Extensions;
   using SIM.Instances;
   using SIM.Pipelines.Delete;
   using SIM.Pipelines.Processors;
@@ -20,10 +21,10 @@
 
     protected override void Process(MultipleDeletionArgs args)
     {
-      foreach (var deleteArgs in args.Instances.Select(InstanceManager.GetInstance).NotNull().Select(instance => new DeleteArgs(instance, args.ConnectionString)))
+      foreach (var deleteArgs in args.Instances.Select(InstanceManager.Default.GetInstance).NotNull().Select(instance => new DeleteArgs(instance, args._ConnectionString)))
       {
         PipelineManager.StartPipeline("delete", deleteArgs, null, false);
-        this.IncrementProgress();
+        IncrementProgress();
       }
     }
 

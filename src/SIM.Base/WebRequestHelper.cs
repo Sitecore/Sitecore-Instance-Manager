@@ -1,12 +1,11 @@
-﻿using System;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Threading;
-using Sitecore.Diagnostics;
-
-namespace SIM
+﻿namespace SIM
 {
+  using System;
+  using System.IO;
+  using System.Linq;
+  using System.Net;
+  using System.Threading;
+  using Sitecore.Diagnostics.Base;
   using Sitecore.Diagnostics.Logging;
 
   public static class WebRequestHelper
@@ -72,7 +71,7 @@ namespace SIM
         {
           try
           {
-            Assert.ArgumentNotNull(responseStream, "responseStream");
+            Assert.ArgumentNotNull(responseStream, nameof(responseStream));
             responseStream.ReadTimeout = Settings.CoreWebDownloadTimeoutMinutes.Value * Minute;
             DownloadFile(destFileName, responseStream, token, indicateProgress);
 
@@ -103,7 +102,7 @@ namespace SIM
         ProfileSection.Argument("token", token);
         ProfileSection.Argument("indicateProgress", indicateProgress);
 
-        int bufferSize = Settings.CoreWebDownloadBufferSize.Value;
+        var bufferSize = Settings.CoreWebDownloadBufferSize.Value;
         using (var fileStream = new FileStream(destFileName, FileMode.Create, FileAccess.Write, FileShare.Read, bufferSize))
         {
           var buffer = new byte[bufferSize];
@@ -114,7 +113,7 @@ namespace SIM
               ((CancellationToken)token).ThrowIfCancellationRequested();
             }
 
-            int count = responseStream.Read(buffer, 0, bufferSize);
+            var count = responseStream.Read(buffer, 0, bufferSize);
 
             if (count == 0)
             {
@@ -147,18 +146,18 @@ namespace SIM
 
     public static string GetCookie(string cookies, string cookieName)
     {
-      Assert.ArgumentNotNullOrEmpty(cookies, "cookies");
-      Assert.ArgumentNotNullOrEmpty(cookieName, "cookieName");
+      Assert.ArgumentNotNullOrEmpty(cookies, nameof(cookies));
+      Assert.ArgumentNotNullOrEmpty(cookieName, nameof(cookieName));
 
       return cookies.Split(';').Single(s => s.Split('=')[0].Trim().Equals(cookieName)).Trim();
     }
 
     public static string GetCookieValue(string cookies, string cookieName)
     {
-      Assert.ArgumentNotNullOrEmpty(cookies, "cookies");
-      Assert.ArgumentNotNullOrEmpty(cookieName, "cookieName");
+      Assert.ArgumentNotNullOrEmpty(cookies, nameof(cookies));
+      Assert.ArgumentNotNullOrEmpty(cookieName, nameof(cookieName));
 
-      string cookie = GetCookie(cookies, cookieName);
+      var cookie = GetCookie(cookies, cookieName);
       if (string.IsNullOrEmpty(cookie))
       {
         return null;
@@ -171,14 +170,14 @@ namespace SIM
     {
       try
       {
-        using (var response = WebRequestHelper.RequestAndGetResponse(link, null, null, cookies))
+        using (var response = RequestAndGetResponse(link, null, null, cookies))
         {
           return GetFileName(response);
         }
       }
       catch (InvalidOperationException ex)
       {
-        Log.Warn(ex, "There is a problem with detecting file name of {0}", link);
+        Log.Warn(ex, $"There is a problem with detecting file name of {link}");
         var path = link.AbsolutePath;
         return path.Substring(path.LastIndexOf("/") + 1);
       }
@@ -192,38 +191,6 @@ namespace SIM
 
       // it is not just get cookie value but also get some sort of querystirng param
       return GetCookieValue(contentDisposition, "filename").Trim('"');
-    }
-
-    public static long GetFileSize(Uri link, int? timeout = null, int? readWriteTimeout = null, string cookies = null)
-    {
-      try
-      {
-        using (var response = RequestAndGetResponse(link, timeout, readWriteTimeout, cookies))
-        {
-          return response.ContentLength;
-        }
-      }
-      catch (InvalidOperationException ex)
-      {
-        Log.Warn(ex, "There is a problem with detecting file size of {0}", link);
-        return -1;
-      }
-    }
-
-    public static string GetSessionCookie(string authCookie, string loginUrl)
-    {
-      var wc = CreateRequest(loginUrl, null, null, authCookie);
-      wc.AllowAutoRedirect = false;
-      using (var response = wc.GetResponse())
-      {
-        var cookies = response.Headers[HttpResponseHeader.SetCookie];
-        return WebRequestHelper.GetCookie(cookies, "ASP.NET_SessionId");
-      }
-    }
-
-    public static string MakeValidCookie(string authCookie, string session)
-    {
-      return authCookie + "; " + session;
     }
 
     public static HttpWebResponse RequestAndGetResponse(string url, int? timeout = null, int? readWriteTimeout = null, string cookies = null)

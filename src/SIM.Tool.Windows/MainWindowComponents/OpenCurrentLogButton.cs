@@ -1,11 +1,12 @@
 ﻿namespace SIM.Tool.Windows.MainWindowComponents
 {
   using System.Windows;
+  using SIM.Core.Common;
   using SIM.Instances;
   using SIM.Tool.Base;
   using SIM.Tool.Base.Plugins;
-  using Sitecore.Diagnostics;
-  using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnostics.Base;
+  using JetBrains.Annotations;
 
   [UsedImplicitly]
   public class OpenCurrentLogButton : IMainWindowButton
@@ -13,7 +14,7 @@
     #region Fields
 
     [CanBeNull]
-    private readonly string logFileType;
+    private string LogFileType { get; }
 
     #endregion
 
@@ -25,9 +26,9 @@
 
     public OpenCurrentLogButton([NotNull] string param)
     {
-      Assert.ArgumentNotNull(param, "param");
+      Assert.ArgumentNotNull(param, nameof(param));
 
-      this.logFileType = param;
+      LogFileType = param;
     }
 
     #endregion
@@ -36,18 +37,20 @@
 
     public bool IsEnabled(Window mainWindow, Instance instance)
     {
-      Assert.ArgumentNotNull(mainWindow, "mainWindow");
+      Assert.ArgumentNotNull(mainWindow, nameof(mainWindow));
 
       return instance != null;
     }
 
     public void OnClick(Window mainWindow, Instance instance)
     {
-      Assert.ArgumentNotNull(mainWindow, "mainWindow");
+      Assert.ArgumentNotNull(mainWindow, nameof(mainWindow));
+
+      Analytics.TrackEvent("OpenLog");
 
       if (instance != null)
       {
-        InstanceHelperEx.OpenCurrentLogFile(instance, mainWindow, this.logFileType);
+        InstanceHelperEx.OpenCurrentLogFile(instance, mainWindow, LogFileType);
       }
     }
 

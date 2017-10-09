@@ -5,7 +5,9 @@
   using SIM.Tool.Base;
   using SIM.Tool.Base.Wizards;
   using SIM.Tool.Windows.Pipelines.Setup;
-  using Sitecore.Diagnostics.Annotations;
+  using JetBrains.Annotations;
+  using SIM.Core;
+  using SIM.Extensions;
 
   public partial class LocalRepository : IWizardStep, IFlowControl
   {
@@ -13,7 +15,7 @@
 
     public LocalRepository()
     {
-      this.InitializeComponent();
+      InitializeComponent();
     }
 
     #endregion
@@ -49,22 +51,22 @@
 
     private void PickLicenseFileClick([CanBeNull] object sender, [CanBeNull] RoutedEventArgs e)
     {
-      WindowHelper.PickFile("Choose the Sitecore license file", this.LicenseFile, this.PickLicenseFile, "*.xml|*.xml");
+      WindowHelper.PickFile("Choose the Sitecore license file", LicenseFile, PickLicenseFile, "*.xml|*.xml");
     }
 
     private void PickLocalRepositoryFolderClick([CanBeNull] object sender, [CanBeNull] RoutedEventArgs e)
     {
-      WindowHelper.PickFolder("Choose the Local Repository folder", this.LocalRepositoryFolder, this.PickLocalRepositoryFolder);
+      WindowHelper.PickFolder("Choose the Local Repository folder", LocalRepositoryFolder, PickLocalRepositoryFolder);
     }
 
     private void ShowMoreInfo([CanBeNull] object sender, [CanBeNull] RoutedEventArgs e)
     {
-      WindowHelper.OpenInBrowser("https://bitbucket.org/alienlab/sitecore-instance-manager/wiki/Manual-Download", true);
+      CoreApp.OpenInBrowser("https://bitbucket.org/sitecore/sitecore-instance-manager/wiki/Manual-Download", true);
     }
 
     private void ShowSupportedModules([CanBeNull] object sender, [CanBeNull] RoutedEventArgs e)
     {
-      WindowHelper.OpenInBrowser("https://bitbucket.org/alienlab/sitecore-instance-manager/wiki/Home", true);
+      CoreApp.OpenInBrowser("https://bitbucket.org/sitecore/sitecore-instance-manager/wiki/Home", true);
     }
 
     #endregion
@@ -73,7 +75,7 @@
 
     private static string GetRepositoryPath()
     {
-      string path = Path.Combine(ApplicationManager.DataFolder, "Repository");
+      var path = Path.Combine(ApplicationManager.DataFolder, "Repository");
       FileSystem.FileSystem.Local.Directory.Ensure(path);
       return path;
     }
@@ -81,15 +83,15 @@
     void IWizardStep.InitializeStep(WizardArgs wizardArgs)
     {
       var args = (SetupWizardArgs)wizardArgs;
-      this.LicenseFile.Text = args.LicenseFilePath;
-      this.LocalRepositoryFolder.Text = args.LocalRepositoryFolderPath.EmptyToNull() ?? GetRepositoryPath();
+      LicenseFile.Text = args.LicenseFilePath;
+      LocalRepositoryFolder.Text = args.LocalRepositoryFolderPath.EmptyToNull() ?? GetRepositoryPath();
     }
 
     bool IWizardStep.SaveChanges(WizardArgs wizardArgs)
     {
       var args = (SetupWizardArgs)wizardArgs;
-      args.LicenseFilePath = this.LicenseFile.Text;
-      args.LocalRepositoryFolderPath = this.LocalRepositoryFolder.Text;
+      args.LicenseFilePath = LicenseFile.Text;
+      args.LocalRepositoryFolderPath = LocalRepositoryFolder.Text;
       return true;
     }
 

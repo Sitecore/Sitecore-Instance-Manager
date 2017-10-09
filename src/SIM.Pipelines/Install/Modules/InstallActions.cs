@@ -4,7 +4,8 @@
   using System.Linq;
   using SIM.Instances;
   using SIM.Products;
-  using Sitecore.Diagnostics;
+  using Sitecore.Diagnostics.Base;
+  using SIM.Extensions;
 
   #region
 
@@ -14,7 +15,7 @@
   {
     #region Fields
 
-    private readonly List<Product> done = new List<Product>();
+    private readonly List<Product> _Done = new List<Product>();
 
     #endregion
 
@@ -22,18 +23,18 @@
 
     protected override bool IsRequireProcessing(InstallArgs args)
     {
-      return !this.ProcessorDefinition.Param.EqualsIgnoreCase("archive") || (args.Modules != null && args.Modules.Any(m => m != null && m.IsArchive));
+      return !ProcessorDefinition.Param.EqualsIgnoreCase("archive") || (args._Modules != null && args._Modules.Any(m => m != null && m.IsArchive));
     }
 
     protected override void Process(InstallArgs args)
     {
-      Assert.ArgumentNotNull(args, "args");
+      Assert.ArgumentNotNull(args, nameof(args));
       Assert.IsNotNull(args.Instance, "Instance");
 
       Instance instance = args.Instance;
-      IEnumerable<Product> modules = args.Modules;
-      string param = this.ProcessorDefinition.Param;
-      ConfigurationActions.ExecuteActions(instance, modules.ToArray(), this.done, param, args.ConnectionString, this.Controller);
+      IEnumerable<Product> modules = args._Modules;
+      var param = ProcessorDefinition.Param;
+      ConfigurationActions.ExecuteActions(instance, modules.ToArray(), _Done, param, args.ConnectionString, Controller);
     }
 
     #endregion

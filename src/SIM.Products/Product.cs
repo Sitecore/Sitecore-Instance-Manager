@@ -12,11 +12,13 @@
   using System.Xml.Schema;
   using System.Xml.Serialization;
   using Ionic.Zip;
-  using Sitecore.Diagnostics;
-  using Sitecore.Diagnostics.Annotations;
+  using Sitecore.Diagnostics.Base;
+  using JetBrains.Annotations;
+  using Sitecore.Diagnostics.Base.Extensions.DictionaryExtensions;
+  using Sitecore.Diagnostics.InfoService.Client;
+  using Sitecore.Diagnostics.InfoService.Client.Model;
   using Sitecore.Diagnostics.Logging;
-  using Sitecore.Diagnsotics.InformationService.Client;
-  using Sitecore.Diagnsotics.InformationService.Client.Model;
+  using SIM.Extensions;
 
   #endregion
 
@@ -29,7 +31,7 @@
 
     private const string ProductNamePattern = @"([a-zA-Z][a-zA-Z\d\-\s\._]*[a-zA-Z0-9])";
 
-    private const string ProductRevisionPattern = @"(\d\d\d\d\d\d[\d\w\s_\-\!\(\)]*)"; // @"(\d\d\d\d\d\d)";
+    private const string ProductRevisionPattern = @"(\d\d\d\d\d\d([\d\w\s_\-\!\(\)]*|[\d\w\s_\-\!\(\)]+\.[\d\w\s_\-\!\(\)]+))"; // @"(\d\d\d\d\d\d)";
 
     private const string ProductVersionPattern = @"(\d\.\d(\.?\d?))";
 
@@ -37,13 +39,13 @@
 
     #region Fields
 
-    public static readonly XmlDocumentEx EmptyManifest = XmlDocumentEx.LoadXml("<manifest version=\"1.4\" />");
+    public static XmlDocumentEx EmptyManifest { get; } = XmlDocumentEx.LoadXml("<manifest version=\"1.4\" />");
 
-    public static readonly string ProductFileNamePattern = ProductHelper.Settings.CoreProductNamePattern.Value.EmptyToNull() ?? ProductNamePattern + @"[\s]?[\-_]?[\s]?" + ProductVersionPattern + @"[\s\-]*(rev\.|build)[\s]*" + ProductRevisionPattern + @"(.zip)?$";
+    public static string ProductFileNamePattern { get; } = $@"{ProductNamePattern}[\s]?[\-_]?[\s]?{ProductVersionPattern}[\s\-]*(rev\.|build)[\s]*{ProductRevisionPattern}(.zip)?$";
 
-    public static readonly Regex ProductRegex = new Regex(ProductFileNamePattern, RegexOptions.IgnoreCase);
+    public static Regex ProductRegex { get; } = new Regex(ProductFileNamePattern, RegexOptions.IgnoreCase);
 
-    public static readonly Product Undefined = new Product()
+    public static Product Undefined { get; } = new Product()
     {
       Name = "Undefined", 
       OriginalName = "Undefined", 
@@ -54,15 +56,15 @@
       Revision = string.Empty
     };
 
-    private bool? isPackage;
-    private bool? isStandalone;
-    private XmlDocument manifest;
-    private string name;
-    private string packagePath;
-    private Dictionary<bool, string> readme;
-    private string shortName;
-    private string shortVersion;
-    private int? sortOrder;
+    private bool? _IsPackage;
+    private bool? _IsStandalone;
+    private XmlDocument _Manifest;
+    private string _Name;
+    private string _PackagePath;
+    private Dictionary<bool, string> _Readme;
+    private string _ShortName;
+    private string _ShortVersion;
+    private int? _SortOrder;
 
     #endregion
 
@@ -72,7 +74,7 @@
     {
       get
       {
-        XmlDocument document = this.Manifest;
+        XmlDocument document = Manifest;
         if (document == null)
         {
           return false;
@@ -81,7 +83,7 @@
         XmlElement install = document.SelectSingleElement(ManifestPrefix + "package/install/postStepActions");
         if (install != null)
         {
-          string skip = install.GetAttribute("skipStandard");
+          var skip = install.GetAttribute("skipStandard");
           if (!string.IsNullOrEmpty(skip) && skip.EqualsIgnoreCase("true"))
           {
             return true;
@@ -96,7 +98,7 @@
     {
       get
       {
-        return this.sortOrder ?? (int)(this.sortOrder = int.Parse(this.Manifest.With(m => m.SelectSingleElement(ManifestPrefix + "*/sortOrder")).With(m => m.InnerText.EmptyToNull()) ?? "0"));
+        return _SortOrder ?? (int)(_SortOrder = int.Parse(Manifest.With(m => m.SelectSingleElement(ManifestPrefix + "*/sortOrder")).With(m => m.InnerText.EmptyToNull()) ?? "0"));
       }
     }
 
@@ -107,7 +109,7 @@
     // Used when computing default standalone instance name
     #region Fields
 
-    public static readonly XmlDocumentEx ArchiveManifest = XmlDocumentEx.LoadXml(@"<manifest version=""1.4"">
+    public static XmlDocumentEx ArchiveManifest { get; } = XmlDocumentEx.LoadXml(@"<manifest version=""1.4"">
   <archive>
     <install>
       <actions>
@@ -117,37 +119,28 @@
   </archive>
 </manifest>");
 
-    public static readonly XmlDocumentEx PackageManifest = XmlDocumentEx.LoadXml(@"<manifest version=""1.4"">
+    public static XmlDocumentEx PackageManifest { get; } = XmlDocumentEx.LoadXml(@"<manifest version=""1.4"">
   <package />
 </manifest>");
-    private bool? isArchive;
-    private string searchToken;
-    public static readonly IServiceClient Service = new ServiceClient();
+    private bool? _IsArchive;
+    private string _SearchToken;
+    public static IServiceClient Service { get; } = new ServiceClient();
 
     [CanBeNull]
-    private IRelease release;
+    private IRelease _Release;
 
-    private bool unknownRelease;
+    private bool _UnknownRelease;
 
     #endregion
 
-    #region Public properties
-
-    [NotNull]
-    public string DefaultFolderName
-    {
-      get
-      {
-        return this.FormatString(ProductHelper.Settings.CoreProductRootFolderNamePattern.Value);
-      }
-    }
+    #region Public properties      
 
     [NotNull]
     public string DefaultInstanceName
     {
       get
       {
-        return this.FormatString(ProductHelper.Settings.CoreInstallInstanceNamePattern.Value);
+        return FormatString(ProductHelper.Settings.CoreInstallInstanceNamePattern.Value);
       }
     }
 
@@ -155,10 +148,10 @@
     {
       get
       {
-        return (bool)(this.isArchive ??
+        return (bool)(_IsArchive ??
                       (
-                        this.isArchive =
-                          !string.IsNullOrEmpty(this.PackagePath) && (this.Manifest.With(x => x.SelectSingleElement(ManifestPrefix + "archive")) != null || !this.IsPackage && !this.IsStandalone)
+                        _IsArchive =
+                          !string.IsNullOrEmpty(PackagePath) && (Manifest.With(x => x.SelectSingleElement(ManifestPrefix + "archive")) != null || !IsPackage && !IsStandalone)
                         ));
       }
     }
@@ -167,7 +160,7 @@
     {
       get
       {
-        return (bool)(this.isPackage ?? (this.isPackage = GetIsPackage(this.PackagePath, this.Manifest)));
+        return (bool)(_IsPackage ?? (_IsPackage = GetIsPackage(PackagePath, Manifest)));
       }
     }
 
@@ -175,12 +168,12 @@
     {
       get
       {
-        return (bool)(this.isStandalone ?? (this.isStandalone = this.Manifest.With(m => m.SelectSingleElement(ManifestPrefix + "standalone")) != null));
+        return (bool)(_IsStandalone ?? (_IsStandalone = Manifest.With(m => m.SelectSingleElement(ManifestPrefix + "standalone")) != null));
       }
 
       set
       {
-        this.isStandalone = value;
+        _IsStandalone = value;
       }
     }
 
@@ -189,7 +182,7 @@
     {
       get
       {
-        return this.Manifest.With(m => m.SelectSingleElement(ManifestPrefix + "*/label").With(x => x.InnerText)) ?? this.Release.With(x => x.Label);
+        return Manifest.With(m => m.SelectSingleElement(ManifestPrefix + "*/label").With(x => x.InnerText)) ?? Release.With(x => x.Label);
       }
     }
 
@@ -198,30 +191,42 @@
     {
       get
       {
-        var release = this.release;
+        var release = _Release;
         if (release != null)
         {
           return release;
         }
 
-        if (this.unknownRelease || this.Name != "Sitecore CMS")
+        if (_UnknownRelease || Name != "Sitecore CMS")
         {
           return null;
         }
 
-        release = Service.GetVersions("Sitecore CMS")
-          .With(x => x.FirstOrDefault(z => z.Name == this.Version))
-          .With(x => x.Releases)
-          .With(x => x.FirstOrDefault(z => z.Revision == this.Revision));
+
+        var ver = Version;
+        switch (ver)
+        {
+          case "6.6.0":
+            ver = "6.6";
+            break;
+          case "6.5.0":
+            ver = "6.5";
+            break;
+        }
+
+        release = Service.GetVersions("Sitecore CMS")?
+          .FirstOrDefault(z => z.MajorMinor == ver)?
+          .Releases?
+          .TryGetValue(Revision);
 
         if (release == null)
         {
-          this.unknownRelease = true;
+          _UnknownRelease = true;
 
           return null;
         }
 
-        this.release = release;
+        _Release = release;
 
         return release;
       }
@@ -232,30 +237,30 @@
     {
       get
       {
-        if (this.manifest == null)
+        if (_Manifest == null)
         {
-          string packageFile = this.PackagePath;
+          var packageFile = PackagePath;
           if (string.IsNullOrEmpty(packageFile))
           {
             return EmptyManifest;
           }
 
           // get from cache
-          const string cacheName = "manifest";
-          var text = CacheManager.GetEntry(cacheName, packageFile);
+          const string CacheName = "manifest";
+          var text = CacheManager.GetEntry(CacheName, packageFile);
           if (text != null)
           {
-            this.manifest = XmlDocumentEx.LoadXml(text);
-            return this.manifest;
+            _Manifest = XmlDocumentEx.LoadXml(text);
+            return _Manifest;
           }
 
-          this.manifest = ManifestHelper.Compute(packageFile, this.OriginalName);
+          _Manifest = ManifestHelper.Compute(packageFile, OriginalName);
 
           // put to cache
-          CacheManager.SetEntry(cacheName, packageFile, this.manifest.OuterXml);
+          CacheManager.SetEntry(CacheName, packageFile, _Manifest.OuterXml);
         }
 
-        return this.manifest;
+        return _Manifest;
       }
     }
 
@@ -264,12 +269,12 @@
     {
       get
       {
-        return this.name ?? (this.name = this.Manifest.With(m => m.SelectSingleElement(ManifestPrefix + "*/name")).With(x => x.InnerText.EmptyToNull()) ?? this.NormalizeName(this.OriginalName));
+        return _Name ?? (_Name = Manifest.With(m => m.SelectSingleElement(ManifestPrefix + "*/name")).With(x => x.InnerText.EmptyToNull()) ?? NormalizeName(OriginalName));
       }
 
       set
       {
-        this.name = this.NormalizeName(value);
+        _Name = NormalizeName(value);
       }
     }
 
@@ -280,26 +285,28 @@
     {
       get
       {
-        return this.packagePath;
+        return _PackagePath;
       }
 
       set
       {
-        this.packagePath = value;
-        this.isPackage = GetIsPackage(value, this.Manifest);
+        _PackagePath = value;
+        _IsPackage = GetIsPackage(value, Manifest);
       }
     }
 
+    //maybe used implicitly
+    [UsedImplicitly]
     public Dictionary<bool, string> Readme
     {
       get
       {
-        if (this.readme == null)
+        if (_Readme == null)
         {
-          return this.readme = this.GetReadme();
+          return _Readme = GetReadme();
         }
 
-        return this.readme;
+        return _Readme;
       }
     }
 
@@ -312,13 +319,13 @@
     {
       get
       {
-        var label = this.Label;
+        var label = Label;
         if (!string.IsNullOrEmpty(label))
         {
-          return this.Revision + " - " + label;
+          return $"{Revision} - {label}";
         }
 
-        return this.Revision;
+        return Revision;
       }
     }
 
@@ -326,7 +333,7 @@
     {
       get
       {
-        return this.searchToken ?? (this.searchToken = this.ShortName + this.shortVersion + this.ToString());
+        return _SearchToken ?? (_SearchToken = ShortName + _ShortVersion + ToString());
       }
     }
 
@@ -335,9 +342,9 @@
     {
       get
       {
-        return this.shortName ??
-               (this.shortName = this.Manifest.With(m => m.SelectSingleElement(ManifestPrefix + "*/shortName")).With(m => m.InnerText.EmptyToNull()) ??
-                                 this.Name.Split(' ')
+        return _ShortName ??
+               (_ShortName = Manifest.With(m => m.SelectSingleElement(ManifestPrefix + "*/shortName")).With(m => m.InnerText.EmptyToNull()) ??
+                                 Name.Split(' ')
                                    .Aggregate(string.Empty, 
                                      (current, word) =>
                                        current +
@@ -347,7 +354,7 @@
 
       set
       {
-        this.shortName = value;
+        _ShortName = value;
       }
     }
 
@@ -356,7 +363,7 @@
     {
       get
       {
-        return this.shortVersion ?? (this.shortVersion = this.Version.Replace(".", string.Empty));
+        return _ShortVersion ?? (_ShortVersion = Version.Replace(".", string.Empty));
       }
     }
 
@@ -369,8 +376,26 @@
       get
       {
         const string Pattern = "{0} rev. {1}";
-        var longVersion = this.Version.Length == "7.0".Length ? this.Version + ".0" : this.Version;
-        return Pattern.FormatWith(longVersion, this.Revision).TrimEnd(" rev. ");
+        var longVersion = Version.Length == "7.0".Length ? Version + ".0" : Version;
+        return Pattern.FormatWith(longVersion, Revision).TrimEnd(" rev. ");
+      }
+    }
+
+    [NotNull]
+    public string UpdateOrRevision
+    {
+      get
+      {
+        try
+        {
+          return $"{Update}";
+        }
+        catch (Exception ex)
+        {
+          Log.Warn(ex, "Failed to retrieve Update, using Revision instead");
+
+          return $"r{Revision}";
+        }
       }
     }
 
@@ -380,13 +405,13 @@
 
     private string NormalizeName(string name)
     {
-      string result = string.Empty;
+      var result = string.Empty;
       var words = name.Split();
       foreach (var word in words)
       {
         if (!string.IsNullOrEmpty(word))
         {
-          result += " " + char.ToUpperInvariant(word[0]) + (word.Length > 1 ? word.Substring(1) : string.Empty);
+          result += $" {char.ToUpperInvariant(word[0])}{(word.Length > 1 ? word.Substring(1) : string.Empty)}";
         }
       }
 
@@ -407,7 +432,27 @@
       get
       {
         const string Pattern = "{0} {1} rev. {2}";
-        return Pattern.FormatWith(this.Name, this.Version, this.Revision).TrimEnd(" rev. ").TrimEnd(' ');
+        return Pattern.FormatWith(Name, Version, Revision).TrimEnd(" rev. ").TrimEnd(' ');
+      }
+    }
+
+    public int Update
+    {
+      get
+      {
+        var productName = "Sitecore CMS";
+        var versions = Service.GetVersions(productName)?.ToArray();
+        Assert.IsNotNull(versions, nameof(versions));
+
+        var ver = new Version(Version);
+        var majorMinor = $"{ver.Major}.{ver.Minor}";
+        var version = versions.FirstOrDefault(x => x.MajorMinor.Equals(majorMinor, StringComparison.Ordinal));
+        Assert.IsNotNull(version, $"Cannot find {productName} version {majorMinor}");
+
+        var release = version.Releases.TryGetValue(Revision);
+        Assert.IsNotNull(release, $"Cannot find {productName} version {majorMinor} revision {Revision}");
+
+        return release.Version.Update;
       }
     }
 
@@ -418,7 +463,7 @@
     [NotNull]
     public static Product Parse([NotNull] string path)
     {
-      Assert.ArgumentNotNull(path, "path");
+      Assert.ArgumentNotNull(path, nameof(path));
 
       Product product;
       return TryParse(path, out product) && product != null ? product : Undefined;
@@ -426,7 +471,7 @@
 
     public static bool TryParse([NotNull] string packagePath, [CanBeNull] out Product product)
     {
-      Assert.ArgumentNotNull(packagePath, "file");
+      Assert.ArgumentNotNull(packagePath, nameof(packagePath));
 
       product = null;
       Match match = ProductRegex.Match(packagePath);
@@ -440,31 +485,31 @@
 
     public bool IsMatchRequirements([NotNull] Product instanceProduct)
     {
-      Assert.ArgumentNotNull(instanceProduct, "instanceProduct");
+      Assert.ArgumentNotNull(instanceProduct, nameof(instanceProduct));
 
       // !ProductHelper.Settings.InstallModulesCheckRequirements.Value&& 
-      if (!this.Name.EqualsIgnoreCase("Sitecore Analytics"))
+      if (!Name.EqualsIgnoreCase("Sitecore Analytics"))
       {
         return true;
       }
 
-      foreach (XmlElement product in this.Manifest.SelectElements(ManifestPrefix + "*/requirements/product"))
+      foreach (XmlElement product in Manifest.SelectElements(ManifestPrefix + "*/requirements/product"))
       {
         IEnumerable<XmlElement> rules = product.ChildNodes.OfType<XmlElement>().ToArray();
         foreach (IGrouping<string, XmlElement> group in rules.GroupBy(ch => ch.Name.ToLower()))
         {
-          string key = group.Key;
+          var key = group.Key;
           switch (key)
           {
             case "version":
-              if (rules.Where(r => r.Name.ToLower() == key).All(s => !this.VersionMatch(instanceProduct, s.GetAttribute("value"), s)))
+              if (rules.Where(r => r.Name.ToLower() == key).All(s => !VersionMatch(instanceProduct, s.GetAttribute("value"), s)))
               {
                 return false;
               }
 
               break;
             case "revision":
-              if (rules.Where(r => r.Name.ToLower() == key).All(s => !this.RevisionMatch(instanceProduct, s.GetAttribute("value"))))
+              if (rules.Where(r => r.Name.ToLower() == key).All(s => !RevisionMatch(instanceProduct, s.GetAttribute("value"))))
               {
                 return false;
               }
@@ -479,7 +524,7 @@
 
     public override string ToString()
     {
-      return this.DisplayName;
+      return DisplayName;
     }
 
     #endregion
@@ -488,7 +533,7 @@
 
     private Dictionary<bool, string> GetReadme()
     {
-      var readmeNode = this.Manifest.GetElementsByTagName("readme")[0];
+      var readmeNode = Manifest.GetElementsByTagName("readme")[0];
       if (readmeNode != null && !string.IsNullOrEmpty(readmeNode.InnerText))
       {
         return new Dictionary<bool, string>
@@ -499,13 +544,13 @@
         };
       }
 
-      var tempExtractFolderPath = Path.Combine(Directory.GetParent(this.PackagePath).FullName, "TempExtract");
+      var tempExtractFolderPath = Path.Combine(Directory.GetParent(PackagePath).FullName, "TempExtract");
       if (!Directory.Exists(tempExtractFolderPath))
       {
         Directory.CreateDirectory(tempExtractFolderPath);
       }
 
-      using (var zip = ZipFile.Read(this.PackagePath))
+      using (var zip = ZipFile.Read(PackagePath))
       {
         ZipEntry readmeEntry;
 
@@ -543,7 +588,7 @@
       }
       catch (Exception ex)
       {
-        Log.Warn(ex, "An error occurred during extracting readme text from {0}",  path);
+        Log.Warn(ex, $"An error occurred during extracting readme text from {path}");
         readmeText = string.Empty;
       }
 
@@ -564,8 +609,8 @@
 
     private static bool TryParse([NotNull] string packagePath, [NotNull] Match match, [CanBeNull] out Product product)
     {
-      Assert.ArgumentNotNull(packagePath, "file");
-      Assert.ArgumentNotNull(match, "match");
+      Assert.ArgumentNotNull(packagePath, nameof(packagePath));
+      Assert.ArgumentNotNull(match, nameof(match));
 
       product = null;
       if (!FileSystem.FileSystem.Local.File.Exists(packagePath))
@@ -573,11 +618,11 @@
         packagePath = null;
       }
 
-      string originalName = match.Groups[1].Value;
-      string name = originalName;
+      var originalName = match.Groups[1].Value;
+      var name = originalName;
       string shortName = null;
-      string version = match.Groups[2].Value;
-      string revision = match.Groups[5].Value;
+      var version = match.Groups[2].Value;
+      var revision = match.Groups[5].Value;
 
       if (name.EqualsIgnoreCase("sitecore") && version[0] == '5')
       {
@@ -601,22 +646,23 @@
     [NotNull]
     private string FormatString([NotNull] string pattern)
     {
-      Assert.ArgumentNotNull(pattern, "pattern");
+      Assert.ArgumentNotNull(pattern, nameof(pattern));
 
-      return pattern.Replace("{ShortName}", this.ShortName).Replace("{Name}", this.Name).Replace("{ShortVersion}", this.ShortVersion).Replace("{Version}", this.Version).Replace("{Revision}", this.Revision);
+      return pattern.Replace("{ShortName}", ShortName).Replace("{Name}", Name).Replace("{ShortVersion}", ShortVersion).Replace("{Version}", Version).Replace("{Revision}", Revision)
+        .Replace("{UpdateOrRevision}", UpdateOrRevision);
     }
 
     private bool RevisionMatch([NotNull] Product instanceProduct, [NotNull] string revision)
     {
-      Assert.ArgumentNotNull(instanceProduct, "instanceProduct");
-      Assert.ArgumentNotNull(revision, "revision");
+      Assert.ArgumentNotNull(instanceProduct, nameof(instanceProduct));
+      Assert.ArgumentNotNull(revision, nameof(revision));
 
       if (string.IsNullOrEmpty(revision))
       {
-        revision = this.Revision;
+        revision = Revision;
       }
 
-      string instanceRevision = instanceProduct.Revision;
+      var instanceRevision = instanceProduct.Revision;
       if (instanceRevision == revision || string.IsNullOrEmpty(instanceRevision))
       {
         return true;
@@ -627,16 +673,16 @@
 
     private bool VersionMatch([NotNull] Product instanceProduct, [NotNull] string version, [NotNull] XmlElement versionRule)
     {
-      Assert.ArgumentNotNull(instanceProduct, "instanceProduct");
-      Assert.ArgumentNotNull(version, "version");
-      Assert.ArgumentNotNull(versionRule, "versionRule");
+      Assert.ArgumentNotNull(instanceProduct, nameof(instanceProduct));
+      Assert.ArgumentNotNull(version, nameof(version));
+      Assert.ArgumentNotNull(versionRule, nameof(versionRule));
 
       if (string.IsNullOrEmpty(version))
       {
-        version = this.Version;
+        version = Version;
       }
 
-      string instanceVersion = instanceProduct.Version;
+      var instanceVersion = instanceProduct.Version;
       if (instanceVersion == version)
       {
         var rules = versionRule.SelectElements("revision").ToArray();
@@ -645,7 +691,7 @@
           return true;
         }
 
-        if (rules.Any(s => this.RevisionMatch(instanceProduct, s.GetAttribute("value"))))
+        if (rules.Any(s => RevisionMatch(instanceProduct, s.GetAttribute("value"))))
         {
           return true;
         }
@@ -679,8 +725,8 @@
         return false;
       }
 
-      const string cacheName = "IsPackage";
-      string path = packagePath.ToLowerInvariant();
+      const string CacheName = "IsPackage";
+      var path = packagePath.ToLowerInvariant();
       using (new ProfileSection("Is it package or not"))
       {
         ProfileSection.Argument("packagePath", packagePath);
@@ -689,7 +735,7 @@
         try
         {
           // cache            
-          var entry = CacheManager.GetEntry(cacheName, path);
+          var entry = CacheManager.GetEntry(CacheName, path);
           if (entry != null)
           {
             var result = entry.EqualsIgnoreCase("true");
@@ -703,7 +749,7 @@
                 x.SelectSingleElement(ManifestPrefix + "standalone") ?? x.SelectSingleElement(ManifestPrefix + "archive")) !=
             null)
           {
-            CacheManager.SetEntry(cacheName, path, "false");
+            CacheManager.SetEntry(CacheName, path, "false");
             return ProfileSection.Result(false);
           }
 
@@ -713,19 +759,19 @@
                 x.SelectSingleElement(ManifestPrefix + "package")) !=
             null)
           {
-            CacheManager.SetEntry(cacheName, path, "true");
+            CacheManager.SetEntry(CacheName, path, "true");
 
             return ProfileSection.Result(true);
           }
 
-          CacheManager.SetEntry(cacheName, path, "false");
+          CacheManager.SetEntry(CacheName, path, "false");
 
           return ProfileSection.Result(false);
         }
         catch (Exception e)
         {
-          Log.Warn("Detecting if the '{0}' file is a Sitecore Package failed with exception.", path, e);
-          CacheManager.SetEntry(cacheName, path, "false");
+          Log.Warn(string.Format("Detecting if the '{0}' file is a Sitecore Package failed with exception.", path, e));
+          CacheManager.SetEntry(CacheName, path, "false");
 
           return ProfileSection.Result(false);
         }
@@ -744,13 +790,13 @@
 
     void IXmlSerializable.WriteXml(XmlWriter writer)
     {
-      foreach (var property in this.GetType().GetProperties())
+      foreach (var property in GetType().GetProperties())
       {
         object value = property.GetValue(this, new object[0]);
         var xml = value as XmlDocument;
         if (xml != null)
         {
-          writer.WriteNode(new XmlNodeReader(XmlDocumentEx.LoadXml("<Manifest>" + xml.OuterXml + "</Manifest>")), false);
+          writer.WriteNode(new XmlNodeReader(XmlDocumentEx.LoadXml($"<Manifest>{xml.OuterXml}</Manifest>")), false);
           continue;
         }
 
@@ -759,5 +805,13 @@
     }
 
     #endregion
+
+    /// <summary>
+    /// Force manifest to be reloaded from disk, to reset variable replacements.
+    /// </summary>
+    public void ResetManifest()
+    {
+      _Manifest = null;
+    }
   }
 }
