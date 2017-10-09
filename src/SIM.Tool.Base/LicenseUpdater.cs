@@ -44,7 +44,7 @@ namespace SIM.Tool.Base
 
       var filePath = ProfileManager.Profile.License;
 
-      const string Settings = "Definied in settings";
+      const string Settings = "Defined in settings";
       const string Custom = "Another license file";
       var options2 = new[]
       {
