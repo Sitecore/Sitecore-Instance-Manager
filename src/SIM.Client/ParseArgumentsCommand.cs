@@ -6,7 +6,8 @@ namespace SIM.Client
   using JetBrains.Annotations;
   using Sitecore.Diagnostics.Base;
   using SIM.Client.Commands;
-  using SIM.Core.Common;
+
+  using ICommand = SIM.Core.Common.ICommand;
 
   public class ParseArgumentsCommand
   {
