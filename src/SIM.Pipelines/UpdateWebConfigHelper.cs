@@ -52,38 +52,36 @@ namespace SIM.Pipelines
       }
 
       var addressString = Settings.CoreInstallMailServerAddress.Value;
-      if (string.IsNullOrEmpty(addressString))
+      if (!string.IsNullOrEmpty(addressString))
       {
-        return;
+        var credentialsString = Settings.CoreInstallMailServerCredentials.Value;
+
+        var address = Parameters.Parse(addressString);
+        var host = address[0];
+        var port = address[1];
+
+        var credentials = Parameters.Parse(credentialsString);
+        var username = credentials[0];
+        var password = credentials[1];
+
+        var settings = new NameValueCollection
+        {
+          {
+            "MailServer", host
+          },
+          {
+            "MailServerPort", port
+          },
+          {
+            "MailServerUserName", username
+          },
+          {
+            "MailServerPassword", password
+          }
+        };
+
+        CreateSettingsIncludeFile(rootFolderPath, "MailServer.config", settings);
       }
-
-      var credentialsString = Settings.CoreInstallMailServerCredentials.Value;
-
-      var address = Parameters.Parse(addressString);
-      var host = address[0];
-      var port = address[1];
-
-      var credentials = Parameters.Parse(credentialsString);
-      var username = credentials[0];
-      var password = credentials[1];
-
-      var settings = new NameValueCollection
-      {
-        {
-          "MailServer", host
-        }, 
-        {
-          "MailServerPort", port
-        }, 
-        {
-          "MailServerUserName", username
-        }, 
-        {
-          "MailServerPassword", password
-        }
-      };
-
-      CreateSettingsIncludeFile(rootFolderPath, "MailServer.config", settings);
     }
 
     [CanBeNull]
