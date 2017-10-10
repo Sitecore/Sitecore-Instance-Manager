@@ -16,7 +16,7 @@
     {
       Assert.ArgumentNotNull(args, nameof(args));
 
-      UpdateWebConfigHelper.Process(args.RootFolderPath, args.WebRootPath, args.DataFolderPath, args.ServerSideRedirect, args.IncreaseExecutionTimeout);
+      UpdateWebConfigHelper.Process(args.RootFolderPath, args.WebRootPath, args.DataFolderPath, args.ServerSideRedirect, args.IncreaseExecutionTimeout, args.Product);
     }
 
     #endregion

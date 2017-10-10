@@ -10,12 +10,13 @@ namespace SIM.Pipelines
   using JetBrains.Annotations;
   using Sitecore.Diagnostics.Logging;
   using SIM.Extensions;
+  using SIM.Products;
 
   public static class UpdateWebConfigHelper
   {
     #region Public methods
 
-    public static void Process([NotNull] string rootFolderPath, [NotNull] string webRootPath, [NotNull] string dataFolder, bool serverSideRedirect, bool increaseExecutionTimeout)
+    public static void Process([NotNull] string rootFolderPath, [NotNull] string webRootPath, [NotNull] string dataFolder, bool serverSideRedirect, bool increaseExecutionTimeout, Product product)
     {
       Assert.ArgumentNotNull(rootFolderPath, nameof(rootFolderPath));
       Assert.ArgumentNotNull(webRootPath, nameof(webRootPath));
@@ -81,6 +82,16 @@ namespace SIM.Pipelines
         };
 
         CreateSettingsIncludeFile(rootFolderPath, "MailServer.config", settings);
+      }
+
+      if (product.Name == "Sitecore CMS" && product.Version.StartsWith("9.0"))
+      {
+        CreateSettingsIncludeFile(rootFolderPath, "DisableXdb.config", new NameValueCollection
+        {
+          {
+            "Xdb.Enabled", "false"
+          }
+        });
       }
     }
 
