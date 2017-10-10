@@ -83,6 +83,20 @@ namespace SIM.Tool.Windows.UserControls.Install
       Product product = productRevision.SelectedValue as Product;
       Assert.IsNotNull(product, nameof(product));
 
+      if (product.Name == "Sitecore CMS" && product.Version.StartsWith("9.0"))
+      {
+        var agreementAcceptedFilePath = Path.Combine(ApplicationManager.TempFolder, "sitecore9.txt");
+        if (!File.Exists(agreementAcceptedFilePath))
+        {
+          if (MessageBox.Show("XCONNECT IS NOT SUPPORTED\r\n\r\nCMS-MODE WILL BE ENABLED IF YOU PROCEED\r\n\r\nThis means all xDB and xConnect features will be unavailable as well as all components and modules that utilize these subsystems.\r\n\r\nUse Sitecore Installation Framework (SIF) to install Sitecore 9 with all features\r\n\r\nDo you want to proceed?", "Sitecore 9.0 CMS-only support", MessageBoxButton.YesNo) != MessageBoxResult.Yes)
+          {
+            return false;
+          }
+
+          File.WriteAllText(agreementAcceptedFilePath, @"acknowledged");
+        }
+      }
+
       var rootName = GetValidRootName();
 
       var rootPath = GetValidRootPath(rootName);
