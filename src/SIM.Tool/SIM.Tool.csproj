@@ -371,7 +371,7 @@
     <Content Include="Manifests\Modules\Web Forms for Marketers 2.manifest.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Manifests\Modules\Web Forms for Marketers 8.manifest.xml">
+    <Content Include="Manifests\Modules\Web Forms for Marketers 8.0.manifest.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Manifests\Modules\Web Forms for Marketers.manifest.xml">
