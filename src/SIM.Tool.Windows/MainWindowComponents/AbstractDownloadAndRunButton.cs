@@ -37,7 +37,7 @@ namespace SIM.Tool.Windows.MainWindowComponents
 
     public virtual void OnClick(Window mainWindow, Instance instance)
     {
-      Analytics.TrackEvent("OpenCommandLine");             
+      Analytics.TrackEvent(AppName);             
 
       RunApp(mainWindow);
     }

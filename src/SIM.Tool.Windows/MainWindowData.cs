@@ -86,13 +86,6 @@ namespace SIM.Tool.Windows
               {
                 new ButtonDefinition
                 {
-                  Label = "Command Line",
-                  Image = "/Images/$sm/console.png, SIM.Tool.Windows",
-                  Handler = new SIM.Tool.Windows.MainWindowComponents.CommandLineButton()
-                },
-                new ButtonDefinition(),
-                new ButtonDefinition
-                {
                   Label = "SIM Logs",
                   Image = "/Images/$sm/folder_document2.png, SIM.Tool.Windows",
                   Handler = new SIM.Tool.Windows.MainWindowComponents.OpenFolderButton(@"%APPDATA%\Sitecore\Sitecore Instance Manager\Logs")
