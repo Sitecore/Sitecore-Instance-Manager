@@ -22,7 +22,7 @@
     {
       Assert.ArgumentNotNull(args, nameof(args));
 
-      UpdateWebConfigHelper.Process(args.RootPath, args.WebRootPath, args.DataFolderPath, args.ServerSideRedirect, args.IncreaseExecutionTimeout);
+      UpdateWebConfigHelper.Process(args.RootPath, args.WebRootPath, args.DataFolderPath, args.ServerSideRedirect, args.IncreaseExecutionTimeout, args.Product);
     }
 
     #endregion
