@@ -11,6 +11,8 @@
   using System.Windows.Forms;
   using System.Windows.Input;
   using System.Windows.Media;
+  using System.Xaml;
+
   using Fluent;
   using SIM.Instances;
   using SIM.Pipelines.Agent;
@@ -411,7 +413,7 @@
 
       var clickHandler = GetClickHandler(mainWindowButton);
 
-      if (button.Buttons == null || button.Buttons.Length == 0)
+      if (button.Buttons == null || button.Buttons.Length == 0 || button.Buttons.All(x => x == null))
       {
         // create Ribbon Button
         var imageSource = getImage(button.Image);
@@ -562,7 +564,7 @@
       }
     }
 
-    private static void InitializeContextMenuItem(ButtonDefinition menuItemElement, ItemCollection itemCollection, MainWindow window, Func<string, ImageSource> getImage)
+    private static void InitializeContextMenuItem([NotNull] ButtonDefinition menuItemElement, ItemCollection itemCollection, MainWindow window, Func<string, ImageSource> getImage)
     {
       try
       {
@@ -613,6 +615,11 @@
 
         foreach (var childElement in menuItemElement.Buttons ?? new ButtonDefinition[0])
         {
+          if (childElement == null)
+          {
+            continue;
+          }
+
           InitializeContextMenuItem(childElement, menuItem.Items, window, getImage);
         }
 

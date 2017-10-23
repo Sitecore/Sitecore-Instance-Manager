@@ -1,5 +1,7 @@
 namespace SIM.Tool.Windows
 {
+  using JetBrains.Annotations;
+
   using SIM.Tool.Base.Plugins;
 
   public class ButtonDefinition
@@ -10,6 +12,7 @@ namespace SIM.Tool.Windows
 
     public string Image { get; set; }
 
+    [ItemCanBeNull]
     public ButtonDefinition[] Buttons { get; set; }
 
     public string Width { get; set; }

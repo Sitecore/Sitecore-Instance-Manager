@@ -1,5 +1,8 @@
 namespace SIM.Tool.Windows
 {
+  using System;
+  using System.IO;
+
   public static class MainWindowData
   {
     private static TabDefinition HomeTab { get; } = new TabDefinition
@@ -97,18 +100,8 @@ namespace SIM.Tool.Windows
                   Handler = new SIM.Tool.Windows.MainWindowComponents.OpenFolderButton(@"%APPDATA%\Sitecore\Sitecore Instance Manager")
                 },
                 new ButtonDefinition(),
-                new ButtonDefinition
-                {
-                  Label = "Create Support Patch",
-                  Image = "/Images/$sm/vs.png, SIM.Tool.Windows",
-                  Handler = new SIM.Tool.Windows.MainWindowComponents.CreateSupportPatchButton("%APPDATA%\\Sitecore\\PatchCreator", $"http://dl.sitecore.net/updater/pc/PatchCreator.application")
-                },
-                new ButtonDefinition
-                {
-                  Label = "Create Hotfix",
-                  Image = "/Images/$sm/vs.png, SIM.Tool.Windows",
-                  Handler = new SIM.Tool.Windows.MainWindowComponents.CreateSupportPatchButton("%APPDATA%\\Sitecore\\HotfixCreator", $"http://dl.sitecore.net/updater/hc/HotfixCreator.application")
-                },
+                GetPatchButton(),
+                GetHotfixButton(),
                 new ButtonDefinition(),
                 new ButtonDefinition
                 {
@@ -200,6 +193,36 @@ namespace SIM.Tool.Windows
         },
       }
     };
+
+    private static ButtonDefinition GetHotfixButton()
+    {
+      if (!File.Exists(Environment.ExpandEnvironmentVariables("%PROGRAMDATA%\\Sitecore\\Sitecore Instance Manager\\pss.txt")))
+      {
+        return null;
+      }
+
+      return new ButtonDefinition
+      {                
+        Label = "Create Hotfix",
+        Image = "/Images/$sm/vs.png, SIM.Tool.Windows",
+        Handler = new SIM.Tool.Windows.MainWindowComponents.CreateSupportPatchButton("%APPDATA%\\Sitecore\\HotfixCreator", $"http://dl.sitecore.net/updater/hc/HotfixCreator.application")
+      };
+    }
+
+    private static ButtonDefinition GetPatchButton()
+    {
+      if (!File.Exists(Environment.ExpandEnvironmentVariables("%PROGRAMDATA%\\Sitecore\\Sitecore Instance Manager\\pss.txt")))
+      {
+        return null;
+      }
+
+      return new ButtonDefinition
+      {
+        Label = "Create Support Patch",
+        Image = "/Images/$sm/vs.png, SIM.Tool.Windows",
+        Handler = new SIM.Tool.Windows.MainWindowComponents.CreateSupportPatchButton("%APPDATA%\\Sitecore\\PatchCreator", $"http://dl.sitecore.net/updater/pc/PatchCreator.application")
+      };
+    }
 
     private static TabDefinition OpenTab { get; } = new TabDefinition
     {
@@ -600,18 +623,8 @@ namespace SIM.Tool.Windows
                   Image = "/Images/$sm/vs.png, SIM.Tool.Windows",
                   Handler = new SIM.Tool.Windows.MainWindowComponents.OpenVisualStudioButton()
                 },
-                new ButtonDefinition
-                {
-                  Label = "Create Support Patch",
-                  Image = "/Images/$sm/console.png, SIM.Tool.Windows",
-                  Handler = new SIM.Tool.Windows.MainWindowComponents.CreateSupportPatchButton("%APPDATA%\\Sitecore\\PatchCreator", $"http://dl.sitecore.net/updater/pc/PatchCreator.application")
-                },
-                new ButtonDefinition
-                {
-                  Label = "Create Hotfix",
-                  Image = "/Images/$sm/console.png, SIM.Tool.Windows",
-                  Handler = new SIM.Tool.Windows.MainWindowComponents.CreateSupportPatchButton("%APPDATA%\\Sitecore\\HotfixCreator", $"http://dl.sitecore.net/updater/hc/HotfixCreator.application")
-                },
+                GetPatchButton(),
+                GetHotfixButton()
               }
             },
           }
