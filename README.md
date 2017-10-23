@@ -83,6 +83,18 @@ Note, we are in progress of migrating from bitbucket to github so don't be confu
 * [SSPG](https://marketplace.sitecore.net/en/Modules/Sitecore_Support_Package_Generator.aspx) - Sitecore Support Package Generator for collecting detailed information about an instance
 * Publish Dialog - executing Sitecore publishing in application
 
+### Prerequisites
+
+SIM will only work: 
+
+* on **Windows 7+**, or **Windows Server 2008 R2+** 
+* with `Administrator` permissions
+* with direct internet access (no proxy)
+* when **IIS is pre-configured** with all necessary features (check Sitecore installation guide for details)
+* with **local SQL Server 2012+** instance with `sa` user account with `sysadmin` permissions
+
+For `Sitecore 7.5, 8.0, 8.1 and 8.2` **local MongoDB** instance pre-configured and running as a service.
+
 ### Supported Products
 
 * Sitecore CMS 6.3 and later
