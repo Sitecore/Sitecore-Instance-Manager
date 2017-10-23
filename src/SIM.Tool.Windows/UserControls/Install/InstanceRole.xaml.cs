@@ -49,6 +49,13 @@ namespace SIM.Tool.Windows.UserControls.Install
             radio.IsChecked = true;
           }
         }
+        else
+        {
+          foreach (var radio in RoleName.Children.OfType<RadioButton>())
+          {
+            radio.IsChecked = false;
+          }
+        }
       }
       catch (Exception e)
       {
