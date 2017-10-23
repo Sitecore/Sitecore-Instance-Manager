@@ -19,7 +19,7 @@ namespace SIM.Tool.Windows.MainWindowComponents
 
     public bool IsEnabled(Window mainWindow, Instance instance)
     {
-      return instance != null;
+      return !instance?.Product.Version.StartsWith("9") ?? false;
     }
 
     public void OnClick(Window mainWindow, Instance instance)
