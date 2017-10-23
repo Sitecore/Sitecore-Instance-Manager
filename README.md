@@ -93,7 +93,12 @@ SIM will only work:
 * when **IIS is pre-configured** with all necessary features (check Sitecore installation guide for details)
 * with **local SQL Server 2012+** instance with `sa` user account with `sysadmin` permissions
 
-For `Sitecore 7.5, 8.0, 8.1 and 8.2` **local MongoDB** instance pre-configured and running as a service.
+For `Sitecore 7.5, 8.0, 8.1 and 8.2`:  
+* with **local MongoDB** instance pre-configured and running as a service
+
+For `Sitecore 9.0`:  
+* with **local SQL Server 2016+** instance with `sa` user account with `sysadmin` permissions
+* with **local Solr** instance pre-configured and running as a service
 
 ### Known Issues
 
