@@ -45,7 +45,7 @@
           MaxWidth = MinWidth;
         }
 
-        Title = string.Format(Title, ApplicationManager.AppShortVersion, ApplicationManager.AppVersion, ApplicationManager.AppLabel);
+        Title = string.Format(Title, ApplicationManager.IsQa ? "QA" : (ApplicationManager.IsDev ? "DEV" : ""), ApplicationManager.AppShortVersion, ApplicationManager.AppVersion, ApplicationManager.AppLabel);
 
         Timer =
           new Timer(
