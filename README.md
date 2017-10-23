@@ -95,6 +95,11 @@ SIM will only work:
 
 For `Sitecore 7.5, 8.0, 8.1 and 8.2` **local MongoDB** instance pre-configured and running as a service.
 
+### Known Issues
+
+* [SQL Server integrated security is not supported](https://github.com/Sitecore/Sitecore-Instance-Manager/wiki/KnownIssue-IntegratedSecurity)
+* [IIS ip bindings are not supported](https://github.com/Sitecore/Sitecore-Instance-Manager/wiki/KnownIssue-IpBindings)
+
 ### Supported Products
 
 * Sitecore CMS 6.3 and later
