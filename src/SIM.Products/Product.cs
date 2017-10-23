@@ -629,14 +629,16 @@
         return false;
       }
 
-      ;
+      var digits = version.Split('.');
+      var major = digits[0];
+      var minor = digits[1];
 
       product = ProductManager.Products.FirstOrDefault(p => p.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase) && p.OriginalName.Equals(originalName) && p.ShortName.EqualsIgnoreCase(shortName) && p.Revision.EqualsIgnoreCase(revision))
                 ?? new Product
                 {
                   OriginalName = originalName, 
                   PackagePath = packagePath, 
-                  Version = version, 
+                  Version = $"{major}{'.'}{minor}", 
                   Revision = revision
                 };
 
