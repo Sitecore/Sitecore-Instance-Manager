@@ -12,9 +12,9 @@ namespace SIM.Tool.Windows.UserControls.Install
   using Sitecore.Diagnostics.Base;
   using JetBrains.Annotations;
 
-  public partial class InstanceRole : IWizardStep
+  public partial class InstanceRole9 : IWizardStep
   {
-    public InstanceRole()
+    public InstanceRole9()
     {
       InitializeComponent();
     }
@@ -23,8 +23,7 @@ namespace SIM.Tool.Windows.UserControls.Install
     {
       Assert.ArgumentNotNull(wizardArgs, nameof(wizardArgs));
 
-      InstallRoles.IsEnabled = false;
-      InstallRoles.IsChecked = false;
+      RoleName.IsEnabled = false;
 
       var args = (InstallWizardArgs)wizardArgs;
       try
@@ -37,16 +36,26 @@ namespace SIM.Tool.Windows.UserControls.Install
        
         var txt = int.Parse(ver);
 
-        if (txt >= 813 && txt < 900)
+        if (txt >= 900)
         {
-          InstallRoles.IsEnabled = true;
-          if (!string.IsNullOrEmpty(args.InstallRoles))
+          RoleName.IsEnabled = true;
+          if (string.IsNullOrEmpty(args.InstallRoles))
           {
-            InstallRoles.IsChecked = true;
-            var radio = (RadioButton)RoleName.FindName(args.InstallRoles);
+            Standalone.IsChecked = true;
+          }
+          else
+          {
+            var radio = (RadioButton) RoleName.FindName(args.InstallRoles);
             Assert.IsNotNull(radio, $"{args.InstallRoles} is not supported");
 
             radio.IsChecked = true;
+          }
+        }
+        else
+        {
+          foreach (var radio in RoleName.Children.OfType<RadioButton>())
+          {
+            radio.IsChecked = false;
           }
         }
       }
@@ -61,7 +70,7 @@ namespace SIM.Tool.Windows.UserControls.Install
       Assert.ArgumentNotNull(wizardArgs, nameof(wizardArgs));
 
       var args = (InstallWizardArgs)wizardArgs;
-      if (InstallRoles.IsChecked != true)
+      if (RoleName.IsEnabled != true)
       {
         args.InstallRoles = "";
         InstallWizardArgs.SaveLastTimeOption(nameof(args.InstallRoles), args.InstallRoles);

@@ -203,6 +203,8 @@ By clicking 'Next' you accept the License Agreement."" />
               type=""SIM.Tool.Windows.UserControls.Install.InstanceSettings, SIM.Tool.Windows"" />
         <step name=""STEP 3 of 7 - CONFIGURATION ROLES"" 
               type=""SIM.Tool.Windows.UserControls.Install.InstanceRole, SIM.Tool.Windows"" />
+        <step name=""STEP 3 of 7 - CONFIGURATION ROLES"" 
+              type=""SIM.Tool.Windows.UserControls.Install.InstanceRole9, SIM.Tool.Windows"" />
         <step name=""STEP 4 of 7 - OFFICIAL SITECORE MODULES"" 
               type=""SIM.Tool.Windows.UserControls.Install.Modules.ModulesDetails, SIM.Tool.Windows"" />
         <step name=""STEP 5 of 7 - CUSTOM PACKAGES AND ZIP FILES""

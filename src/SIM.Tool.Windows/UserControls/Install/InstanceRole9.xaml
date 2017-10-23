@@ -1,0 +1,24 @@
+﻿<UserControl x:Class="SIM.Tool.Windows.UserControls.Install.InstanceRole9" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d" d:DesignHeight="172" d:DesignWidth="443">
+  <StackPanel Orientation="Vertical">
+    <StackPanel Margin="0 0 0 0">
+      <TextBlock HorizontalAlignment="Left" TextAlignment="Left">
+          <Bold>In Sitecore 9, Sitecore Configuration Roles are available out-of-box. </Bold><LineBreak />
+          Only 2 types of solutions are supported (D, M - 1 or more): <LineBreak/>
+          1. <Bold>1 × Standalone</Bold>, <LineBreak/>
+          2. <Bold>D × ContentDelivery</Bold> + <Bold>M × ContentManagement</Bold>
+      </TextBlock>
+    </StackPanel>
+    <StackPanel x:Name="RoleName" Margin="20 0 0 0">
+      <RadioButton x:Name="Standalone" Margin="0 4 0 0" GroupName="Role">
+        <TextBlock><Bold>Standalone</Bold></TextBlock>
+      </RadioButton>
+      <RadioButton x:Name="ContentDelivery" Margin="0 4 0 0" GroupName="Role">
+        <TextBlock><Bold>ContentDelivery (CD)</Bold></TextBlock>
+      </RadioButton>
+      <RadioButton x:Name="ContentManagement" Margin="0 4 0 0" GroupName="Role">
+        <TextBlock><Bold>ContentManagement (CM)</Bold></TextBlock>
+      </RadioButton>
+    </StackPanel>
+  </StackPanel>
+</UserControl>

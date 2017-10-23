@@ -238,6 +238,9 @@
     <Compile Include="UserControls\Import\SetWebsiteBindings.xaml.cs">
       <DependentUpon>SetWebsiteBindings.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\Install\InstanceRole9.xaml.cs">
+      <DependentUpon>InstanceRole9.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\Install\InstanceRole.xaml.cs">
       <DependentUpon>InstanceRole.xaml</DependentUpon>
     </Compile>
@@ -542,6 +545,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Dialogs\RestoreDatabaseDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\Install\InstanceRole9.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
