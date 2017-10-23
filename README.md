@@ -1,8 +1,8 @@
-# Sitecore Instance Manager (SIM 1.4)
+# Sitecore Instance Manager (SIM 1.5)
 
-**SIM 1.4 is an open source tool** for managing the local park of Sitecore instances. You can install, locate, maintain, reinstall or delete Sitecore products. It has API and plugin engine so you can extend it for any your need. 
+**SIM 1.5 is an open source tool** for managing the local park of Sitecore instances. You can install, locate, maintain, reinstall or delete Sitecore products. It has API and plugin engine so you can extend it for any your need. 
 
-### [Download SIM 1.4](http://dl.sitecore.net/updater/sim) as a ClickOnce app
+### [Download SIM 1.5](http://dl.sitecore.net/updater/sim) as a ClickOnce app
 
 ### Resources
 
