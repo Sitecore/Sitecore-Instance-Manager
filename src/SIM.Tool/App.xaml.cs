@@ -395,40 +395,57 @@ namespace SIM.Tool
 
     private static Base.Profiles.Profile DetectProfile()
     {
-      try
+      var profile = new Base.Profiles.Profile();
+
+      Action action = delegate
       {
-        InstanceManager.Default.Initialize();
-        var instances = InstanceManager.Default.Instances.ToArray();
-        if (!instances.Any())
+        try
         {
-          return null;
-        }
+          InstanceManager.Default.Initialize();
+          var instances = InstanceManager.Default.Instances.ToArray();
+          if (!instances.Any())
+          {
+            return;
+          }
 
-        var database = instances.Select(x => Safe(() => x.AttachedDatabases.FirstOrDefault(y => y.Name.EqualsIgnoreCase("core")), x.ToString())).FirstOrDefault(x => x != null);
-        var cstr = SqlServerManager.Instance.GetManagementConnectionString(database.ConnectionString).ToString();
-        var instance = instances.FirstOrDefault();
-        var root = instance.RootPath.EmptyToNull().With(x => Path.GetDirectoryName(x)) ?? "C:\\inetpub\\wwwroot";
-        var rep = GetRepositoryPath();
-        var lic = GetLicensePath();
-        if (!SIM.FileSystem.FileSystem.Local.File.Exists(lic))
-        {
-          SIM.FileSystem.FileSystem.Local.File.Copy(instance.LicencePath, lic);
-        }
+          var database = instances
+            .Select(x => Safe(() => x.AttachedDatabases.FirstOrDefault(y => y.Name.EqualsIgnoreCase("core")),
+              x.ToString())).FirstOrDefault(x => x != null);
+          var cstr = SqlServerManager.Instance.GetManagementConnectionString(database.ConnectionString).ToString();
+          var instance = instances.FirstOrDefault();
+          var root = instance.RootPath.EmptyToNull().With(x => Path.GetDirectoryName(x)) ?? "C:\\inetpub\\wwwroot";
+          var rep = GetRepositoryPath();
+          var lic = GetLicensePath();
+          if (!SIM.FileSystem.FileSystem.Local.File.Exists(lic))
+          {
+            SIM.FileSystem.FileSystem.Local.File.Copy(instance.LicencePath, lic);
+          }
 
-        return new Base.Profiles.Profile
+          profile = new Base.Profiles.Profile
+          {
+            ConnectionString = cstr,
+            InstancesFolder = root,
+            LocalRepository = rep,
+            License = lic
+          };
+        }
+        catch (Exception ex)
         {
-          ConnectionString = cstr,
-          InstancesFolder = root,
-          LocalRepository = rep,
-          License = lic
-        };
-      }
-      catch (Exception ex)
+          Log.Error(ex, "Error during detecting profile defaults");
+        }
+      };
+
+      // max timeout 5 seconds
+      var thread = new Thread(new ThreadStart(action));
+      thread.Start();
+      
+      Thread.Sleep(5000);
+      if (thread.IsAlive)
       {
-        Log.Error(ex, "Error during detecting profile defaults");
-
-        return new Base.Profiles.Profile();
+        thread.Abort();
       }
+
+      return profile;
     }
 
     private static bool InitializePipelines()
