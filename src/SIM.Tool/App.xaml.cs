@@ -409,8 +409,11 @@ namespace SIM.Tool
           }
 
           var database = instances
-            .Select(x => Safe(() => x.AttachedDatabases.FirstOrDefault(y => y.Name.EqualsIgnoreCase("core")),
-              x.ToString())).FirstOrDefault(x => x != null);
+            .Select(x => 
+              Safe(() => 
+                x.AttachedDatabases.FirstOrDefault(y => y.Name.EqualsIgnoreCase("core")), x.ToString()))
+            .FirstOrDefault(x => x != null);
+
           var cstr = SqlServerManager.Instance.GetManagementConnectionString(database.ConnectionString).ToString();
           var instance = instances.FirstOrDefault();
           var root = instance.RootPath.EmptyToNull().With(x => Path.GetDirectoryName(x)) ?? "C:\\inetpub\\wwwroot";
