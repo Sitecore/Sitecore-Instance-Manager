@@ -96,10 +96,6 @@ SIM will only work:
 For `Sitecore 7.5, 8.0, 8.1 and 8.2`:  
 * with **local MongoDB** instance pre-configured and running as a service
 
-For `Sitecore 9.0`:  
-* with **local SQL Server 2016+** instance with `sa` user account with `sysadmin` permissions
-* with **local Solr** instance pre-configured and running as a service
-
 ### Known Issues
 
 * [SQL Server integrated security is not supported](https://github.com/Sitecore/Sitecore-Instance-Manager/wiki/KnownIssue-IntegratedSecurity)
