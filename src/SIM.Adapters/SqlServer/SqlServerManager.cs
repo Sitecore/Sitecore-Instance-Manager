@@ -557,8 +557,8 @@
     public virtual bool TestSqlServer(string rootPath, string connectionString)
     {
       var createDatabase =
-        $"CREATE DATABASE TestDatabase ON PRIMARY (NAME = TestDatabase_Data, FILENAME = '{rootPath}\\TestDatabase.mdf', SIZE = 20MB, MAXSIZE = 100MB, FILEGROWTH = 10%) " +
-        $"LOG ON (NAME = TestDatabase_Log, FILENAME = '{rootPath}\\TestDatabase.ldf', SIZE = 10MB, MAXSIZE = 50MB, FILEGROWTH = 10%)";
+        $"CREATE DATABASE TestDatabase ON PRIMARY (NAME = 'TestDatabase_Data', FILENAME = '{rootPath}\\TestDatabase.mdf') " +
+        $"LOG ON (NAME = 'TestDatabase_Log', FILENAME = '{rootPath}\\TestDatabase.ldf')";
 
       try
       {
