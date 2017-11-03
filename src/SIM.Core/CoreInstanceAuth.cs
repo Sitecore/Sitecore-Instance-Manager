@@ -24,7 +24,7 @@
       // Generating unique key to authenticate user
       var authKey = GetTempAuthKey();
 
-      return "/sitecore/shell/sim-agent/login-" + authKey + ".aspx";
+      return "/sitecore/login/sim-agent/login-" + authKey + ".aspx";
     }
 
     private static void CreateFile(string destFileName)
