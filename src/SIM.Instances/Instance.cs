@@ -138,6 +138,14 @@
       }
     }
 
+    public virtual bool IsHidden
+    {
+      get
+      {
+        return GetIsHidden();
+      }
+    }
+
     [CanBeNull]
     public virtual string LicencePath
     {
@@ -542,6 +550,20 @@
       catch (Exception ex)
       {
         Log.Warn(ex, "An error occurred during checking if it is sitecore");
+
+        return false;
+      }
+    }
+
+    protected virtual bool GetIsHidden()
+    {
+      try
+      {
+        return FileSystem.FileSystem.Local.File.Exists(System.IO.Path.Combine(WebRootPath, "hidden.txt"));
+      }
+      catch (Exception ex)
+      {
+        Log.Warn(ex, "An error occurred during checking if it is hidden");
 
         return false;
       }
