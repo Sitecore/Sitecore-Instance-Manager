@@ -215,9 +215,7 @@
         }
 
         release = Service.GetVersions("Sitecore CMS")?
-          .FirstOrDefault(z => z.MajorMinor == ver)?
-          .Releases?
-          .TryGetValue(Revision);
+          .FirstOrDefault(z => z.Version.MajorMinor == ver && z.Revision == Revision);
 
         if (release == null)
         {
@@ -436,25 +434,7 @@
       }
     }
 
-    public int Update
-    {
-      get
-      {
-        var productName = "Sitecore CMS";
-        var versions = Service.GetVersions(productName)?.ToArray();
-        Assert.IsNotNull(versions, nameof(versions));
-
-        var ver = new Version(Version);
-        var majorMinor = $"{ver.Major}.{ver.Minor}";
-        var version = versions.FirstOrDefault(x => x.MajorMinor.Equals(majorMinor, StringComparison.Ordinal));
-        Assert.IsNotNull(version, $"Cannot find {productName} version {majorMinor}");
-
-        var release = version.Releases.TryGetValue(Revision);
-        Assert.IsNotNull(release, $"Cannot find {productName} version {majorMinor} revision {Revision}");
-
-        return release.Version.Update;
-      }
-    }
+    public int Update => Release.Version.Update;
 
     #endregion
 

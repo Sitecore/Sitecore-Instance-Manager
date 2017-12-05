@@ -32,7 +32,7 @@
 
       name = "Sitecore CMS";
       version = release.Version.MajorMinor;
-      revision = release.Version.Revision.ToString();
+      revision = release.Revision;
       label = release.Label;
       var distribution = release.DefaultDistribution;
       Assert.IsNotNull(distribution, nameof(distribution));

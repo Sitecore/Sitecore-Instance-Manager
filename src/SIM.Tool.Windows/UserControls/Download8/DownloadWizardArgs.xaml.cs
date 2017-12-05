@@ -58,14 +58,7 @@
     }
 
     [CanBeNull]
-    public IRelease[] Releases
-    {
-      get
-      {
-        return Extensions.With(SIM.Products.Product.Service.GetVersions("Sitecore CMS")
-            .With(x => x.Where(z => z.MajorMinor.StartsWith("8"))), x => x.SelectMany(y => y.Releases.Values).ToArray());
-      }
-    }
+    public IRelease[] Releases { get; } = SIM.Products.Product.Service.GetVersions("Sitecore CMS").ToArray();
 
     public string UserName { get; set; }
 
