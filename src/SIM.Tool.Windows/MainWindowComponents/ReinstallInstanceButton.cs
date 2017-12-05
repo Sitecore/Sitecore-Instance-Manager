@@ -17,7 +17,7 @@
 
     public bool IsEnabled(Window mainWindow, Instance instance)
     {
-      return !instance?.Product.Version.StartsWith("9") ?? false;
+      return instance != null;
     }
 
     public void OnClick(Window mainWindow, Instance instance)
