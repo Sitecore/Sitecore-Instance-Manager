@@ -141,6 +141,7 @@
           PartiallyCachedInstances = sites
             .Select(site => PartiallyCachedInstances.FirstOrDefault(cachedInst => cachedInst.ID == site.Id) ?? GetPartiallyCachedInstance(site))
             .Where(IsSitecore)
+            .Where(IsNotHidden)
             .ToArray();
 
           Instances = PartiallyCachedInstances.Select(x => GetInstance(x.ID)).ToArray();
@@ -168,7 +169,10 @@
       {
         ProfileSection.Argument("sites", sites);
 
-        var array = sites.Select(GetPartiallyCachedInstance).Where(IsSitecore).ToArray();
+        var array = sites.Select(GetPartiallyCachedInstance)
+          .Where(IsSitecore)
+          .Where(IsNotHidden)
+          .ToArray();
 
         return ProfileSection.Result(array);
       }
@@ -212,6 +216,11 @@
     private bool IsSitecore([CanBeNull] Instance instance)
     {
       return instance != null && instance.IsSitecore;
+    }
+
+    private bool IsNotHidden([CanBeNull] Instance instance)
+    {
+      return instance != null && !instance.IsHidden;
     }
 
     private void OnInstancesListUpdated()
