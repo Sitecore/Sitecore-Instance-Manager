@@ -115,7 +115,7 @@
       var cookies = string.Empty;
       WindowHelper.LongRunningTask(
         () => cookies = GetMarketplaceCookie(username, password), 
-        "Download Sitecore 8.x Wizard", 
+        "Download Sitecore Wizard", 
         Window.GetWindow(this), 
         "Authenticating");
 
