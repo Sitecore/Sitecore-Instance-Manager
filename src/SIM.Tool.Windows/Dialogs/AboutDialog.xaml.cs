@@ -7,6 +7,7 @@
   using Sitecore.Diagnostics.Base;
   using JetBrains.Annotations;
   using SIM.Core;
+  using System;
 
   public partial class AboutDialog
   {
@@ -27,6 +28,11 @@
       {
         Update.Visibility = Visibility.Hidden;
       }
+
+      CopyrightInformation.Text = "Sitecore(R) is a registered trademark. " +
+                                  "All other brand and product names are the property of their respective holders. " +
+                                  "The contents of this document are the property of Sitecore.\r\n" +
+                                  $"Copyright (C) 2001-{DateTime.UtcNow.Year} Sitecore. All rights reserved.";
     }
 
     #endregion
