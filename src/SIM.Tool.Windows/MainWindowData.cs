@@ -196,7 +196,7 @@ namespace SIM.Tool.Windows
 
     private static ButtonDefinition GetHotfixButton()
     {
-      if (!File.Exists(Environment.ExpandEnvironmentVariables("%PROGRAMDATA%\\Sitecore\\Sitecore Instance Manager\\pss.txt")))
+      if (!File.Exists(Environment.ExpandEnvironmentVariables("%PROGRAMDATA%\\Sitecore\\Sitecore Instance Manager\\pss.txt")) && !Directory.Exists(Environment.ExpandEnvironmentVariables("%PROGRAMDATA%\\Sitecore\\NuGet")))
       {
         return null;
       }
@@ -211,7 +211,7 @@ namespace SIM.Tool.Windows
 
     private static ButtonDefinition GetPatchButton()
     {
-      if (!File.Exists(Environment.ExpandEnvironmentVariables("%PROGRAMDATA%\\Sitecore\\Sitecore Instance Manager\\pss.txt")))
+      if (!File.Exists(Environment.ExpandEnvironmentVariables("%PROGRAMDATA%\\Sitecore\\Sitecore Instance Manager\\pss.txt")) && !Directory.Exists(Environment.ExpandEnvironmentVariables("%PROGRAMDATA%\\Sitecore\\NuGet")))
       {
         return null;
       }
