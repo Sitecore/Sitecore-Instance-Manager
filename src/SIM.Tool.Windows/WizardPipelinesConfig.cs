@@ -14,7 +14,7 @@
       <processor type=""SIM.Tool.Windows.Pipelines.Agreement.AcceptAgreement, SIM.Tool.Windows""
                  title=""Saving accepted agreement"" />
     </agreement>
-    <download8 title=""Downloading Sitecore 8.x"">
+    <download8 title=""Downloading Sitecore"">
       <processor type=""SIM.Tool.Windows.Pipelines.Download8.Download8Processor, SIM.Tool.Windows""
                  title=""Downloading packages"" />
     </download8>
@@ -144,7 +144,7 @@ By clicking 'Next' you accept the License Agreement."" />
       </steps>
     </setup>
 
-    <download8 title=""Download Sitecore 8.x Wizard"" startButton=""Next"" finishText=""Done"" cancelButton=""Exit"">
+    <download8 title=""Download Sitecore Wizard"" startButton=""Next"" finishText=""Done"" cancelButton=""Exit"">
       <steps>
         <step name=""Welcome message"" type=""SIM.Tool.Windows.UserControls.ConfirmStepUserControl, SIM.Tool.Windows""
               param=""This wizard helps you to download packages ('ZIP archive of the Sitecore CMS site root') of the Sitecore CMS versions that Sitecore Instance Manager will be able to install for you. It will require your credentials from dev.sitecore.net because all downloads are protected from being downloaded by anonymous users. 
