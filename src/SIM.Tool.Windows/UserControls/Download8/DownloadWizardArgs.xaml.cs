@@ -58,7 +58,7 @@
     }
 
     [CanBeNull]
-    public IRelease[] Releases { get; } = SIM.Products.Product.Service.GetVersions("Sitecore CMS").ToArray();
+    public IRelease[] Releases { get; } = SIM.Products.Product.Service.GetVersions("Sitecore CMS").Where(x => x.Version.Major >= 8).ToArray();
 
     public string UserName { get; set; }
 
