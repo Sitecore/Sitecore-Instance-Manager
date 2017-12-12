@@ -342,6 +342,11 @@ namespace SIM.Tool
         return true;
       }
 
+      if (Debugger.IsAttached)
+      {
+        throw new InvalidOperationException("SIM requires administrator permissions to operate. Relaunch Visual Studio with elevated permissions to debug SIM.");
+      }
+
       // It is not possible to launch a ClickOnce app as administrator directly, so instead we launch the
       // app as administrator in a new process.
       var processInfo = new ProcessStartInfo(Assembly.GetExecutingAssembly().CodeBase)
