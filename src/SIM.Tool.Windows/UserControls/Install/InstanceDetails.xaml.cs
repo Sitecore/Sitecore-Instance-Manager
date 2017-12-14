@@ -318,26 +318,46 @@ namespace SIM.Tool.Windows.UserControls.Install
 
         RootName.Text = name;
         SqlPrefix.Text = name;
-        HostNames.Text = GenerateHostName(name);
+        HostNames.Text = string.Join("\r\n", GenerateHostNames(name));
       }
     }
 
     [NotNull]
-    private string GenerateHostName([NotNull]string name)
+    private IEnumerable<string> GenerateHostNames([NotNull]string name)
     {
-      var hostName = name;
+      var prefix = GetPrefix(name);
+
+      var value = ProductHelper.Settings.CoreProductHostNameSuffix.Value;
+      var suffixes = value.Split(",;|".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
+
+      foreach (var suffix in suffixes)
+      {
+        var append = suffix;
+        if (append == "<empty>")
+        {
+          append = "";
+        }
+
+        var hostName = prefix;
+        if (!hostName.EndsWith(append, StringComparison.InvariantCultureIgnoreCase))
+        {
+          // convert to www1.sc820 => [ www1.sc820, www1.sc820.local, www1.sc820.siteco.re ]
+          hostName += append;
+        }
+
+        yield return hostName;
+      }
+    }
+
+    private static string GetPrefix(string name)
+    {
       if (ProductHelper.Settings.CoreProductReverseHostName.Value)
       {
-        // convert example.cm1 into cm1.example
-        hostName = string.Join(".", hostName.Split(".".ToCharArray(), StringSplitOptions.RemoveEmptyEntries).Reverse());
-      }
-      if (ProductHelper.Settings.CoreProductHostNameEndsWithLocal && !hostName.EndsWith(ProductHelper.Settings.CoreProductHostNameSuffix.Value, StringComparison.InvariantCultureIgnoreCase))
-      {
-        // convert to cm1.example.local
-        hostName = hostName + ProductHelper.Settings.CoreProductHostNameSuffix.Value;
+        // convert sc820.www1 into www1.sc820
+        return string.Join(".", name.Split(".".ToCharArray(), StringSplitOptions.RemoveEmptyEntries).Reverse());
       }
 
-      return hostName;
+      return name;
     }
 
     private void PickLocationFolder([CanBeNull] object sender, [CanBeNull] RoutedEventArgs e)
