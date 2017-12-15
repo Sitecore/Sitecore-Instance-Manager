@@ -6,6 +6,8 @@ using SIM.IO.Real;
 
 namespace SIM.Pipelines.Install
 {
+  using SIM.Extensions;
+
   [UsedImplicitly]
   public class InstallRoles : InstallProcessor
   {
@@ -18,7 +20,7 @@ namespace SIM.Pipelines.Install
     {
       Assert.ArgumentNotNull(args, nameof(args));
 
-      var role = args.InstallRoles;
+      var role = args.InstallRoles8.EmptyToNull() ?? args.InstallRoles9;
       if (string.IsNullOrEmpty(role))
       {
         return;

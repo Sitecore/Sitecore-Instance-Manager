@@ -72,8 +72,8 @@
 
     #region Constructors
 
-    public InstallArgs([NotNull] string name, [NotNull] string[] hosts, string instanceSqlPrefix, bool instanceAttachSql, [NotNull] Product product, [NotNull] IFolder rootDir, [NotNull] SqlConnectionStringBuilder connectionString, [NotNull] string sqlServerIdentity, [NotNull] string webServerIdentity, [NotNull] IFile license, bool forceNetFramework4, bool is32Bit, bool isClassic, bool installRadControls, bool installDictionaries, bool serverSideRedirect, bool increaseExecutionTimeout, bool preheat, string installRoles, [NotNull] IEnumerable<Product> modules)
-      : this(name, hosts, instanceSqlPrefix, instanceAttachSql, product, rootDir.GetChildFolder("Website"), rootDir.GetChildFolder("Data"), rootDir.GetChildFolder("Databases"), connectionString, sqlServerIdentity, webServerIdentity, license, forceNetFramework4, is32Bit, isClassic, installRadControls, installDictionaries, serverSideRedirect, increaseExecutionTimeout, preheat, rootDir, installRoles, modules)
+    public InstallArgs([NotNull] string name, [NotNull] string[] hosts, string instanceSqlPrefix, bool instanceAttachSql, [NotNull] Product product, [NotNull] IFolder rootDir, [NotNull] SqlConnectionStringBuilder connectionString, [NotNull] string sqlServerIdentity, [NotNull] string webServerIdentity, [NotNull] IFile license, bool forceNetFramework4, bool is32Bit, bool isClassic, bool installRadControls, bool installDictionaries, bool serverSideRedirect, bool increaseExecutionTimeout, bool preheat, string installRoles8, string installRoles9, [NotNull] IEnumerable<Product> modules)
+      : this(name, hosts, instanceSqlPrefix, instanceAttachSql, product, rootDir.GetChildFolder("Website"), rootDir.GetChildFolder("Data"), rootDir.GetChildFolder("Databases"), connectionString, sqlServerIdentity, webServerIdentity, license, forceNetFramework4, is32Bit, isClassic, installRadControls, installDictionaries, serverSideRedirect, increaseExecutionTimeout, preheat, rootDir, installRoles8, installRoles9, modules)
     {
       Assert.ArgumentNotNull(name, nameof(name));
       Assert.ArgumentNotNull(hosts, nameof(hosts));
@@ -88,7 +88,7 @@
       _Modules = modules;
     }
 
-    public InstallArgs([NotNull] string name, [NotNull] string[] hosts, string instanceSqlPrefix, bool instanceAttachSql, [NotNull] Product product, [NotNull] IFolder webRootDir, [NotNull] IFolder dataDir, [NotNull] IFolder databasesDir, [NotNull] SqlConnectionStringBuilder connectionString, [NotNull] string sqlServerIdentity, [NotNull] string webServerIdentity, [NotNull] IFile license, bool forceNetFramework4, bool is32Bit, bool isClassic, bool installRadControls, bool installDictionaries, bool serverSideRedirect, bool increaseExecutionTimeout, bool preheat, [NotNull] IFolder rootDir, string installRoles, [NotNull] IEnumerable<Product> modules)
+    public InstallArgs([NotNull] string name, [NotNull] string[] hosts, string instanceSqlPrefix, bool instanceAttachSql, [NotNull] Product product, [NotNull] IFolder webRootDir, [NotNull] IFolder dataDir, [NotNull] IFolder databasesDir, [NotNull] SqlConnectionStringBuilder connectionString, [NotNull] string sqlServerIdentity, [NotNull] string webServerIdentity, [NotNull] IFile license, bool forceNetFramework4, bool is32Bit, bool isClassic, bool installRadControls, bool installDictionaries, bool serverSideRedirect, bool increaseExecutionTimeout, bool preheat, [NotNull] IFolder rootDir, string installRoles8, string installRoles9, [NotNull] IEnumerable<Product> modules)
     {
       Assert.ArgumentNotNull(name, nameof(name));
       Assert.ArgumentNotNull(hosts, nameof(hosts));
@@ -125,7 +125,8 @@
       InstallDictionaries = installDictionaries;
       ServerSideRedirect = serverSideRedirect;
       IncreaseExecutionTimeout = increaseExecutionTimeout;
-      InstallRoles = installRoles;
+      InstallRoles8 = installRoles8;
+      InstallRoles9 = installRoles9;
     }
 
     #endregion
@@ -156,7 +157,8 @@
     public bool ServerSideRedirect { get; set; }
 
     public bool IncreaseExecutionTimeout { get; set; }
-    public string InstallRoles { get; set; }
+    public string InstallRoles8 { get; set; }
+    public string InstallRoles9 { get; set; }
 
     #endregion
 

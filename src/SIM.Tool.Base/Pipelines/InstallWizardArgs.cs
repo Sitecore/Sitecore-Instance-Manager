@@ -35,7 +35,8 @@
     {
       Assert.ArgumentNotNull(args, nameof(args));
 
-      args.InstallRoles = LastTimeOption(nameof(args.InstallRoles)) ?? ""; 
+      args.InstallRoles8 = LastTimeOption(nameof(args.InstallRoles8)) ?? ""; 
+      args.InstallRoles9 = LastTimeOption(nameof(args.InstallRoles9)) ?? ""; 
       args.SkipRadControls = LastTimeOption(nameof(args.SkipRadControls))?.StartsWith("1") ?? !Settings.CoreInstallRadControls.Value;
       args.SkipDictionaries = LastTimeOption(nameof(args.SkipDictionaries))?.StartsWith("1") ?? !Settings.CoreInstallDictionaries.Value;
       args.PreHeat = LastTimeOption(nameof(args.PreHeat))?.StartsWith("1") ?? true;
@@ -88,9 +89,10 @@
       var installRadControls = !((bool)skipRadControls);
       var installDictionaries = !((bool)skipDictionaries);
       var preheat = PreHeat;
-      var installRoles = InstallRoles;
+      var installRoles8 = InstallRoles8;
+      var installRoles9 = InstallRoles9;
 
-      return new InstallArgs(InstanceName, InstanceHostNames, InstanceSqlPrefix, InstanceAttachSql, InstanceProduct, FileSystem.ParseFolder(InstanceRootPath), InstanceConnectionString, SqlServerManager.Instance.GetSqlServerAccountName(InstanceConnectionString), Settings.CoreInstallWebServerIdentity.Value, FileSystem.ParseFile(LicenseFileInfo), InstanceAppPoolInfo.FrameworkVersion == "v4.0", InstanceAppPoolInfo.Enable32BitAppOnWin64, !InstanceAppPoolInfo.ManagedPipelineMode, installRadControls, installDictionaries, (bool)serverSideRedirect, (bool)increaseExecutionTimeout, (bool)preheat, installRoles, _Modules);
+      return new InstallArgs(InstanceName, InstanceHostNames, InstanceSqlPrefix, InstanceAttachSql, InstanceProduct, FileSystem.ParseFolder(InstanceRootPath), InstanceConnectionString, SqlServerManager.Instance.GetSqlServerAccountName(InstanceConnectionString), Settings.CoreInstallWebServerIdentity.Value, FileSystem.ParseFile(LicenseFileInfo), InstanceAppPoolInfo.FrameworkVersion == "v4.0", InstanceAppPoolInfo.Enable32BitAppOnWin64, !InstanceAppPoolInfo.ManagedPipelineMode, installRadControls, installDictionaries, (bool)serverSideRedirect, (bool)increaseExecutionTimeout, (bool)preheat, installRoles8, installRoles9, _Modules);
     }
 
     public static string LastTimeOption(string option)
@@ -141,7 +143,9 @@
 
     public bool InstanceAttachSql { get; set; }
 
-    public string InstallRoles { get; set; }
+    public string InstallRoles8 { get; set; }
+
+    public string InstallRoles9 { get; set; }
 
     #endregion
   }

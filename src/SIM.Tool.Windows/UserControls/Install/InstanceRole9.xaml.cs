@@ -39,14 +39,14 @@ namespace SIM.Tool.Windows.UserControls.Install
         if (txt >= 900)
         {
           RoleName.IsEnabled = true;
-          if (string.IsNullOrEmpty(args.InstallRoles))
+          if (string.IsNullOrEmpty(args.InstallRoles9))
           {
             Standalone.IsChecked = true;
           }
           else
           {
-            var radio = (RadioButton) RoleName.FindName(args.InstallRoles);
-            Assert.IsNotNull(radio, $"{args.InstallRoles} is not supported");
+            var radio = (RadioButton) RoleName.FindName(args.InstallRoles9);
+            Assert.IsNotNull(radio, $"{args.InstallRoles9} is not supported");
 
             radio.IsChecked = true;
           }
@@ -72,16 +72,16 @@ namespace SIM.Tool.Windows.UserControls.Install
       var args = (InstallWizardArgs)wizardArgs;
       if (RoleName.IsEnabled != true)
       {
-        args.InstallRoles = "";
-        InstallWizardArgs.SaveLastTimeOption(nameof(args.InstallRoles), args.InstallRoles);
+        args.InstallRoles9 = ""; 
+        InstallWizardArgs.SaveLastTimeOption(nameof(args.InstallRoles9), args.InstallRoles9);
 
         return true;
       }
 
       var role = RoleName.Children.OfType<RadioButton>().FirstOrDefault(x => x.IsChecked == true).IsNotNull("role").Name;
 
-      args.InstallRoles = role;
-      InstallWizardArgs.SaveLastTimeOption(nameof(args.InstallRoles), args.InstallRoles);
+      args.InstallRoles9 = role;
+      InstallWizardArgs.SaveLastTimeOption(nameof(args.InstallRoles9), args.InstallRoles9);
 
       return true;
     }
