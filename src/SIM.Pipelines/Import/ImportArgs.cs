@@ -2,6 +2,7 @@
 {
   using System.Collections.Generic;
   using System.Data.SqlClient;
+  using SIM.Adapters.MongoDb;
   using SIM.Pipelines.Processors;
   using Sitecore.Diagnostics.Base;
   using JetBrains.Annotations;
@@ -11,8 +12,8 @@
   {
     #region Constants
 
-    public const string appPoolSettingsFileName = "AppPoolSettings.xml";
-    public const string websiteSettingsFileName = "WebsiteSettings.xml";
+    public const string AppPoolSettingsFileName = "AppPoolSettings.xml";
+    public const string WebsiteSettingsFileName = "WebsiteSettings.xml";
 
     #endregion
 
@@ -20,25 +21,26 @@
     // public List<string> siteBindingsHostnames = new List<string>();
     #region Fields
 
-    public string appPoolName = string.Empty;
-    public Dictionary<string, int> bindings = new Dictionary<string, int>();
-    public SqlConnectionStringBuilder connectionString;
-    public int databaseNameAppend = -1;
-    public string oldSiteName = string.Empty;
-    public string pathToLicenseFile = string.Empty;
-    public string rootPath = string.Empty;
-    public long? siteID = 0;
-    public string siteName = string.Empty;
-    public string temporaryPathToUnpack = string.Empty;
-    public bool updateLicense = false;
-    public string virtualDirectoryPath = string.Empty;
-    public string virtualDirectoryPhysicalPath = string.Empty;
+    public string _AppPoolName = string.Empty;
+    public Dictionary<string, int> _Bindings = new Dictionary<string, int>();
+    public SqlConnectionStringBuilder _ConnectionString;
+    public int _DatabaseNameAppend = -1;
+    public string _OldSiteName = string.Empty;
+    public string _PathToLicenseFile = string.Empty;
+    public string _RootPath = string.Empty;
+    public long? _SiteID = 0;
+    public string _SiteName = string.Empty;
+    public string _TemporaryPathToUnpack = string.Empty;
+    public bool _UpdateLicense = false;
+    public string _VirtualDirectoryPath = string.Empty;
+    public string _VirtualDirectoryPhysicalPath = string.Empty;
 
     #endregion
 
     #region Properties
 
     public string PathToExportedInstance { get; set; }
+    public List<MongoDbDatabaseImport> ExtractedMongoDatabases { get; set; }
 
     #endregion
 
@@ -47,30 +49,30 @@
     public ImportArgs([NotNull] string pathToExportedInstance, [NotNull] SqlConnectionStringBuilder connectionString)
     {
       Assert.ArgumentNotNull(pathToExportedInstance, nameof(pathToExportedInstance));
-      this.PathToExportedInstance = pathToExportedInstance;
-      this.connectionString = connectionString;
+      PathToExportedInstance = pathToExportedInstance;
+      _ConnectionString = connectionString;
     }
 
     public ImportArgs([NotNull] string pathToExportedInstance, [NotNull] string siteName, [NotNull] SqlConnectionStringBuilder connectionString)
     {
       Assert.ArgumentNotNull(pathToExportedInstance, nameof(pathToExportedInstance));
-      this.PathToExportedInstance = pathToExportedInstance;
-      this.siteName = siteName;
-      this.connectionString = connectionString;
+      PathToExportedInstance = pathToExportedInstance;
+      _SiteName = siteName;
+      _ConnectionString = connectionString;
     }
 
     public ImportArgs([NotNull] string pathToExportedInstance, [NotNull] string siteName, [NotNull] string temporaryPathToUnpack, [NotNull] string rootPath, [NotNull] SqlConnectionStringBuilder connectionString, bool updateLicense, [CanBeNull] string pathToLicenseFile, [NotNull] Dictionary<string, int> bindings)
     {
       Assert.ArgumentNotNull(pathToExportedInstance, nameof(pathToExportedInstance));
-      this.PathToExportedInstance = pathToExportedInstance;
-      this.siteName = siteName;
-      this.temporaryPathToUnpack = temporaryPathToUnpack;
-      this.rootPath = rootPath;
-      this.virtualDirectoryPhysicalPath = this.rootPath.PathCombine("Website");
-      this.connectionString = connectionString;
-      this.updateLicense = updateLicense;
-      this.pathToLicenseFile = pathToLicenseFile;
-      this.bindings = bindings;
+      PathToExportedInstance = pathToExportedInstance;
+      _SiteName = siteName;
+      _TemporaryPathToUnpack = temporaryPathToUnpack;
+      _RootPath = rootPath;
+      _VirtualDirectoryPhysicalPath = _RootPath.PathCombine("Website");
+      _ConnectionString = connectionString;
+      _UpdateLicense = updateLicense;
+      _PathToLicenseFile = pathToLicenseFile;
+      _Bindings = bindings;
     }
 
     #endregion

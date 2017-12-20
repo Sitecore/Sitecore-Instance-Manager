@@ -7,22 +7,19 @@ namespace SIM.FileSystem
     #region Fields
 
     [NotNull]
-    public static readonly FileSystem Local = new FileSystem();
+    public static FileSystem Local { get; } = new FileSystem();
 
     [NotNull]
-    public readonly DirectoryProvider Directory;
+    public DirectoryProvider Directory { get; }
 
     [NotNull]
-    public readonly FileProvider File;
+    public FileProvider File { get; }
 
     [NotNull]
-    public readonly PathProvider Path;
+    public SecurityProvider Security { get; }
 
     [NotNull]
-    public readonly SecurityProvider Security;
-
-    [NotNull]
-    public readonly ZipProvider Zip;
+    public ZipProvider Zip { get; }
 
     #endregion
 
@@ -38,11 +35,10 @@ namespace SIM.FileSystem
       Path = new PathProvider(this);
       Security = new UncSecurityProvider(this);
        */
-      this.Directory = new DirectoryProvider(this);
-      this.File = new FileProvider(this);
-      this.Zip = new ZipProvider(this);
-      this.Path = new PathProvider(this);
-      this.Security = new SecurityProvider(this);
+      Directory = new DirectoryProvider(this);
+      File = new FileProvider(this);
+      Zip = new ZipProvider(this);
+      Security = new SecurityProvider(this);
     }
 
     #endregion

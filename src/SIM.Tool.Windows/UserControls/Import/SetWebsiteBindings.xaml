@@ -18,8 +18,8 @@
                             <ColumnDefinition Width="60" />
                         </Grid.ColumnDefinitions>
                         <CheckBox Grid.Column="0" IsChecked="{Binding IsChecked, Mode=TwoWay}" Margin="4 0 4 10" Name="binding"  />
-                        <TextBox Grid.Column="1" Text="{Binding hostName, Mode=TwoWay}" TextAlignment="Center"  />
-                        <TextBox Grid.Column="2" Text="{Binding port, Mode=TwoWay}" TextAlignment="Center" />
+                        <TextBox Grid.Column="1" Text="{Binding Path=HostName, Mode=TwoWay}" TextAlignment="Center"  />
+                        <TextBox Grid.Column="2" Text="{Binding Path=Port, Mode=TwoWay}" TextAlignment="Center" />
                     </Grid>
                 </DataTemplate>
             </ListBox.ItemTemplate>

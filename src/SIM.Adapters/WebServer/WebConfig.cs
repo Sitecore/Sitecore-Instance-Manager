@@ -26,8 +26,6 @@
 
     public const string ConfigurationXPath = "/configuration";
 
-    public const string ScVariableXPath = ConfigurationXPath + "/sitecore/sc.variable[@name='{0}']";
-
     private const string SettingXPath = ConfigurationXPath + "/sitecore/settings/setting[@name='{0}']";
 
     #endregion
@@ -160,7 +158,7 @@
       Assert.ArgumentNotNull(webConfig, nameof(webConfig));
       Assert.ArgumentNotNull(elementName, nameof(elementName));
 
-      return webConfig.SelectSingleNode(ScVariableXPath.FormatWith(elementName)) as XmlElement;
+      return webConfig.SelectSingleNode(ConfigurationXPath + $"/sitecore/sc.variable[@name='{elementName}']") as XmlElement;
     }
 
     [NotNull]

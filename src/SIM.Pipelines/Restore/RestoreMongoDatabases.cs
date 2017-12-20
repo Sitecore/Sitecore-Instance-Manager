@@ -12,7 +12,7 @@ namespace SIM.Pipelines.Restore
   {
     #region Fields
 
-    protected readonly List<string> done = new List<string>();
+    protected readonly List<string> _Done = new List<string>();
 
     #endregion
 
@@ -45,15 +45,15 @@ namespace SIM.Pipelines.Restore
         instance.Stop();
         foreach (var database in databases)
         {
-          if (this.done.Contains(database))
+          if (_Done.Contains(database))
           {
             continue;
           }
 
           MongoHelper.Restore(database);
-          this.IncrementProgress();
+          IncrementProgress();
 
-          this.done.Add(database);
+          _Done.Add(database);
         }
       }
       finally
@@ -64,12 +64,12 @@ namespace SIM.Pipelines.Restore
         }
         catch (Exception ex)
         {
-          Log.Warn(ex, string.Format("An error occurred during starting an instance"));
+          Log.Warn(ex, "An error occurred during starting an instance");
         }
       }
 
 
-      this.IncrementProgress();
+      IncrementProgress();
     }
 
     #endregion

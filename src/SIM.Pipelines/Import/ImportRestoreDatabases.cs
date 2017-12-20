@@ -42,7 +42,7 @@
     {
       foreach (string dbName in dbNames)
       {
-        if (SqlServerManager.Instance.DatabaseExists(dbName + "_" + postfix.ToString(), connectionString))
+        if (SqlServerManager.Instance.DatabaseExists($"{dbName}_{postfix}", connectionString))
         {
           return false;
         }
@@ -61,7 +61,7 @@
         {
           newName = oldName;
           postFix++;
-          newName += "_" + postFix.ToString();
+          newName += $"_{postFix}";
         }
         else
         {
@@ -81,7 +81,7 @@
     {
       if (postfix != -1)
       {
-        return oldName + "_" + postfix.ToString();
+        return $"{oldName}_{postfix}";
       }
       else
       {
@@ -94,7 +94,7 @@
       List<string> dbNames = new List<string>();
       foreach (string backupPath in dbBackupsPaths)
       {
-        dbNames.Add(SqlServerManager.Instance.GetDatabasesNameFromBackup(connectionString, backupPath).dbOriginalName);
+        dbNames.Add(SqlServerManager.Instance.GetDatabasesNameFromBackup(connectionString, backupPath)._DbOriginalName);
       }
 
       var i = 0;
@@ -111,13 +111,13 @@
         {
           postfix++;
         }
-        else if (SqlServerManager.Instance.DatabaseExists(dbNames[i] + "_" + postfix.ToString(), connectionString))
+        else if (SqlServerManager.Instance.DatabaseExists($"{dbNames[i]}_{postfix}", connectionString))
         {
           postfix++;
         }
         else if (i == dbNames.Count - 1)
         {
-          if (this.CheckDatabases(dbNames, connectionString, ref postfix))
+          if (CheckDatabases(dbNames, connectionString, ref postfix))
           {
             return;
           }
@@ -143,7 +143,7 @@
     {
       // SqlServerManager.Instance.BackupInfo b = new SqlServerManager.Instance.BackupInfo();
       // SqlServerManager.Instance.GetDatabasesNameFromBackup(
-      this.RestoreDatabases(args); // DEBUG
+      RestoreDatabases(args); // DEBUG
     }
 
     #endregion
@@ -153,7 +153,7 @@
     private List<string> ExtractDatabases(ImportArgs args)
     {
       List<string> result = new List<string>();
-      var folderWithExtractedBackups = FileSystem.FileSystem.Local.Zip.ZipUnpackFolder(args.PathToExportedInstance, args.rootPath.PathCombine("Databases"), "Databases");
+      var folderWithExtractedBackups = FileSystem.FileSystem.Local.Zip.ZipUnpackFolder(args.PathToExportedInstance, args._RootPath, "Databases");
       foreach (string file in FileSystem.FileSystem.Local.Directory.GetFiles(folderWithExtractedBackups, "*.bak"))
       {
         result.Add(file);
@@ -164,36 +164,36 @@
 
     private void RestoreDatabases(ImportArgs args)
     {
-      if (FileSystem.FileSystem.Local.Directory.Exists(args.temporaryPathToUnpack.PathCombine("Databases")))
+      if (FileSystem.FileSystem.Local.Directory.Exists(args._TemporaryPathToUnpack.PathCombine("Databases")))
       {
-        foreach (string file in FileSystem.FileSystem.Local.Directory.GetFiles(args.temporaryPathToUnpack.PathCombine("Databases")))
+        foreach (string file in FileSystem.FileSystem.Local.Directory.GetFiles(args._TemporaryPathToUnpack.PathCombine("Databases")))
         {
           FileSystem.FileSystem.Local.File.Delete(file);
         }
       }
 
-      List<string> backupsPaths = this.ExtractDatabases(args);
+      List<string> backupsPaths = ExtractDatabases(args);
       if (backupsPaths.Count == 0)
       {
         return;
       }
 
       var backupInfo = new SqlServerManager.BackupInfo();
-      this.GetPostfixForDatabases(backupsPaths, args.connectionString, ref args.databaseNameAppend);
+      GetPostfixForDatabases(backupsPaths, args._ConnectionString, ref args._DatabaseNameAppend);
 
       foreach (string backup in backupsPaths)
       {
-        backupInfo = SqlServerManager.Instance.GetDatabasesNameFromBackup(args.connectionString, backup);
-        var dbName = backupInfo.dbOriginalName;
+        backupInfo = SqlServerManager.Instance.GetDatabasesNameFromBackup(args._ConnectionString, backup);
+        var dbName = backupInfo._DbOriginalName;
 
         // dbName = GetDatabaseName(dbName, args.connectionString, ref args.databaseNameAppend);
-        dbName = this.GetDatabaseName(dbName, ref args.databaseNameAppend);
+        dbName = GetDatabaseName(dbName, ref args._DatabaseNameAppend);
 
         // dbName = dbName + GetDBNameAppend(dbName, args.connectionString, 0);
         SqlServerManager.Instance.RestoreDatabase(dbName, 
-          args.connectionString, 
+          args._ConnectionString, 
           backup, 
-          FileSystem.FileSystem.Local.Directory.GetParent(args.virtualDirectoryPhysicalPath).FullName.PathCombine("Databases"), 
+          FileSystem.FileSystem.Local.Directory.GetParent(args._VirtualDirectoryPhysicalPath).FullName.PathCombine("Databases"), 
           backupInfo);
       }
     }

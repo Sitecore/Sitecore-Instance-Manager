@@ -33,7 +33,15 @@
       Assert.ArgumentNotNull(directoryPath, nameof(directoryPath));
 
       var logicalName = Path.GetFileName(directoryPath);
-      var arguments = @"--db ""{0}"" ""{1}""".FormatWith(logicalName, directoryPath);
+      Restore(directoryPath, logicalName);
+    }
+
+    public static void Restore([NotNull] string directoryPath, [NotNull] string newDatabaseName)
+    {
+      Assert.ArgumentNotNull(directoryPath, nameof(directoryPath));
+      Assert.ArgumentNotNull(newDatabaseName, nameof(newDatabaseName));
+
+      var arguments = @"--db ""{0}"" ""{1}""".FormatWith(newDatabaseName, directoryPath);
       var info = new ProcessStartInfo(ApplicationManager.GetEmbeddedFile("mongo.tools.zip", "SIM.Pipelines", "mongorestore.exe"), arguments)
       {
         CreateNoWindow = true, 

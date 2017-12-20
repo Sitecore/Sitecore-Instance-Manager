@@ -57,7 +57,7 @@
 
   private void Finish(string message)
   {
-    Log.Info(@""[SIM] " + PublishAgentFiles.PublishFileName + @": "" + message, this);
+    Log.Info(@""[SIM] " + PublishFileName + @": "" + message, this);
     this.UpdateStatus(message);
     this.Response.Write(message);
   }

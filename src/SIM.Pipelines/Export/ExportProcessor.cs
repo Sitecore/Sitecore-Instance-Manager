@@ -12,14 +12,14 @@
 
     public override sealed long EvaluateStepsCount(ProcessorArgs args)
     {
-      return this.EvaluateStepsCount((ExportArgs)args);
+      return EvaluateStepsCount((ExportArgs)args);
     }
 
     public override bool IsRequireProcessing(ProcessorArgs args)
     {
       Assert.ArgumentNotNull(args, nameof(args));
 
-      return this.IsRequireProcessing((ExportArgs)args);
+      return IsRequireProcessing((ExportArgs)args);
     }
 
     #endregion
@@ -42,7 +42,7 @@
     {
       Assert.ArgumentNotNull(args, nameof(args));
 
-      this.Process((ExportArgs)args);
+      Process((ExportArgs)args);
     }
 
     protected abstract void Process([NotNull] ExportArgs args);

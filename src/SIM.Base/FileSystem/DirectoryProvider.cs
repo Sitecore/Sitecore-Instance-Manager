@@ -15,7 +15,7 @@ namespace SIM.FileSystem
   {
     #region Fields
 
-    private readonly FileSystem fileSystem;
+    private FileSystem FileSystem { get; }
 
     #endregion
 
@@ -23,7 +23,7 @@ namespace SIM.FileSystem
 
     public DirectoryProvider(FileSystem fileSystem)
     {
-      this.fileSystem = fileSystem;
+      FileSystem = fileSystem;
     }
 
     #endregion
@@ -54,16 +54,16 @@ namespace SIM.FileSystem
       }
 
       // If the destination directory doesn't exist, create it. 
-      if (!this.Exists(newPath))
+      if (!Exists(newPath))
       {
-        this.CreateDirectory(newPath);
+        CreateDirectory(newPath);
       }
 
       // Get the files in the directory and copy them to the new location.
-      foreach (var file in this.fileSystem.Directory.GetFiles(path))
+      foreach (var file in FileSystem.Directory.GetFiles(path))
       {
         var temppath = Path.Combine(newPath, Path.GetFileName(file));
-        this.fileSystem.File.Copy(file, temppath);
+        FileSystem.File.Copy(file, temppath);
       }
 
       // If copying subdirectories, copy them and their contents to new location. 
@@ -72,7 +72,7 @@ namespace SIM.FileSystem
         foreach (DirectoryInfo subdir in dirs)
         {
           var temppath = Path.Combine(newPath, subdir.Name);
-          this.Copy(subdir.FullName, temppath, recursive);
+          Copy(subdir.FullName, temppath, recursive);
         }
       }
     }
@@ -123,14 +123,14 @@ namespace SIM.FileSystem
 
     public virtual void DeleteContents(string path)
     {
-      foreach (var file in this.GetFiles(path))
+      foreach (var file in GetFiles(path))
       {
-        this.fileSystem.File.Delete(file);
+        FileSystem.File.Delete(file);
       }
 
-      foreach (var directory in this.GetDirectories(path))
+      foreach (var directory in GetDirectories(path))
       {
-        this.Delete(directory);
+        Delete(directory);
       }
     }
 
@@ -140,7 +140,7 @@ namespace SIM.FileSystem
       {
         if (ignore == null)
         {
-          this.Delete(path);
+          Delete(path);
         }
         else
         {
@@ -150,13 +150,13 @@ namespace SIM.FileSystem
             var directoryName = new DirectoryInfo(directory).Name;
             if (!directoryName.EqualsIgnoreCase(ignore))
             {
-              this.Delete(directory);
+              Delete(directory);
             }
           }
 
           foreach (var file in Directory.GetFiles(path))
           {
-            this.Delete(file);
+            Delete(file);
           }
         }
       }
@@ -176,7 +176,7 @@ namespace SIM.FileSystem
         var paths = System.IO.File.ReadAllLines(tempFoldersCacheFilePath);
         foreach (var path in paths)
         {
-          this.DeleteIfExists(path);
+          DeleteIfExists(path);
         }
 
         System.IO.File.Delete(tempFoldersCacheFilePath);
@@ -286,9 +286,9 @@ namespace SIM.FileSystem
         directory1 = directory1.TrimEnd('\\');
         directory2 = directory2.TrimEnd('\\');
 
-        var root1 = this.GetPathRoot(directory1);
-        var root2 = this.GetPathRoot(directory2);
-        Assert.IsTrue(this.HaveSameRoot(root1, root2), "The '{0}' and '{1}' paths has different roots so unaplicable".FormatWith(directory1, directory2));
+        var root1 = GetPathRoot(directory1);
+        var root2 = GetPathRoot(directory2);
+        Assert.IsTrue(HaveSameRoot(root1, root2), $"The '{directory1}' and '{directory2}' paths has different roots so unaplicable");
 
         var arr1 = directory1.Split('\\');
         var arr2 = directory2.Split('\\');
@@ -340,9 +340,9 @@ namespace SIM.FileSystem
       return Path.GetPathRoot(path);
     }
 
-    public TempFolder GetTempFolder(string path = null)
+    public TempFolder GetTempFolder(string path = null, bool? rooted = null)
     {
-      return new TempFolder(this.fileSystem, path);
+      return new TempFolder(FileSystem, path, rooted);
     }
 
     public string GetVirtualPath(string databaseFilePath)
@@ -364,8 +364,8 @@ namespace SIM.FileSystem
         ProfileSection.Argument("directory1", directory1);
         ProfileSection.Argument("directory2", directory2);
 
-        var root1 = this.GetPathRoot(directory1);
-        var root2 = this.GetPathRoot(directory2);
+        var root1 = GetPathRoot(directory1);
+        var root2 = GetPathRoot(directory2);
         bool haveSameRoot = root2.EqualsIgnoreCase(root1);
 
         return ProfileSection.Result(haveSameRoot);
@@ -377,7 +377,7 @@ namespace SIM.FileSystem
     {
       Assert.ArgumentNotNull(virtualPath, nameof(virtualPath));
       Assert.ArgumentNotNullOrEmpty(rootPath, nameof(rootPath));
-      if (this.HasDriveLetter(virtualPath))
+      if (HasDriveLetter(virtualPath))
       {
         return virtualPath;
       }
@@ -407,7 +407,7 @@ namespace SIM.FileSystem
 
       try
       {
-        this.Delete(path);
+        Delete(path);
       }
       catch (Exception ex)
       {
@@ -426,8 +426,8 @@ namespace SIM.FileSystem
       Assert.ArgumentNotNullOrEmpty(folderName, nameof(folderName));
 
       DirectoryInfo[] websites = extracted.GetDirectories(folderName);
-      Assert.IsTrue(websites != null && websites.Length > 0, 
-        "Can't find extracted {0} folder here: {1}".FormatWith(folderName, extracted.FullName));
+      Assert.IsTrue(websites != null && websites.Length > 0,
+        $"Can't find extracted {folderName} folder here: {extracted.FullName}");
 
       return websites[0];
     }

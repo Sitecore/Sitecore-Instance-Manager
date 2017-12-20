@@ -75,7 +75,7 @@
       }
       catch (Exception ex)
       {
-        Log.Warn(ex, string.Format("Failed to check SQL Server state"));
+        Log.Warn(ex, "Failed to check SQL Server state");
         return ProfileSection.Result(true);
       }
     }
@@ -121,7 +121,7 @@
       }
       catch (Exception ex)
       {
-        Log.Error(ex, string.Format("GetSqlServerServiceName"));
+        Log.Error(ex, "GetSqlServerServiceName");
         return null;
       }
     }

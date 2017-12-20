@@ -7,10 +7,10 @@
   {
     #region Fields
 
-    private bool _databases;
-    private bool _excludeClient;
-    private bool _files;
-    private bool _mongoDatabases;
+    private bool _Databases;
+    private bool _ExcludeClient;
+    private bool _Files;
+    private bool _MongoDatabases;
 
     #endregion
 
@@ -18,7 +18,7 @@
 
     public BackupSettings()
     {
-      this.InitializeComponent();
+      InitializeComponent();
     }
 
     #endregion
@@ -34,7 +34,7 @@
     {
       var args = (BackupSettingsWizardArgs)wizardArgs;
 
-      if (args.Databases || args.MongoDatabases || args.Files)
+      if (args._Databases || args._MongoDatabases || args._Files)
       {
         return true;
       }
@@ -49,7 +49,7 @@
 
     void IWizardStep.InitializeStep(WizardArgs wizardArgs)
     {
-      this.BackupName.Text = ((BackupSettingsWizardArgs)wizardArgs).BackupName;
+      BackupName.Text = ((BackupSettingsWizardArgs)wizardArgs).BackupName;
     }
 
     private void OnChanged(object sender, RoutedEventArgs e)
@@ -59,21 +59,21 @@
       switch (name)
       {
         case "Databases":
-          this._databases = true;
+          _Databases = true;
           break;
 
         case "MongoDatabases":
-          this._mongoDatabases = true;
+          _MongoDatabases = true;
           break;
 
         case "Files":
-          this._files = true;
+          _Files = true;
           break;
 
         case "ExcludeClient":
-          this._excludeClient = true;
-          this._files = true;
-          this.Files.IsChecked = true;
+          _ExcludeClient = true;
+          _Files = true;
+          Files.IsChecked = true;
           break;
       }
     }
@@ -85,21 +85,21 @@
       switch (name)
       {
         case "Databases":
-          this._databases = false;
+          _Databases = false;
           break;
 
         case "MongoDatabases":
-          this._mongoDatabases = false;
+          _MongoDatabases = false;
           break;
 
         case "Files":
-          this._files = false;
-          this._excludeClient = false;
-          this.ExcludeClient.IsChecked = false;
+          _Files = false;
+          _ExcludeClient = false;
+          ExcludeClient.IsChecked = false;
           break;
 
         case "ExcludeClient":
-          this._excludeClient = false;
+          _ExcludeClient = false;
           break;
       }
     }
@@ -108,15 +108,15 @@
     {
       var args = (BackupSettingsWizardArgs)wizardArgs;
 
-      if (!string.IsNullOrEmpty(this.BackupName.Text))
+      if (!string.IsNullOrEmpty(BackupName.Text))
       {
-        args.BackupName = this.BackupName.Text;
+        args.BackupName = BackupName.Text;
       }
 
-      args.Files = this._files;
-      args.Databases = this._databases;
-      args.MongoDatabases = this._mongoDatabases;
-      args.ExcludeClient = !this._excludeClient;
+      args._Files = _Files;
+      args._Databases = _Databases;
+      args._MongoDatabases = _MongoDatabases;
+      args._ExcludeClient = !_ExcludeClient;
 
       return true;
     }

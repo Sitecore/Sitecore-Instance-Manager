@@ -16,7 +16,7 @@ namespace SIM.Pipelines.Install.Modules
   {
     #region Fields
 
-    private readonly List<Product> done = new List<Product>();
+    private readonly List<Product> _Done = new List<Product>();
 
     #endregion
 
@@ -30,16 +30,16 @@ namespace SIM.Pipelines.Install.Modules
 
       AgentHelper.ResetStatus(args.Instance);
 
-      foreach (var module in args.Modules.Where(m => m.IsPackage))
+      foreach (var module in args._Modules.Where(m => m.IsPackage))
       {
-        if (this.done.Contains(module))
+        if (_Done.Contains(module))
         {
           continue;
         }
 
         AgentHelper.PerformPostStepAction(args.Instance, module);
 
-        this.done.Add(module);
+        _Done.Add(module);
       }
     }
 

@@ -13,6 +13,7 @@ namespace SIM.Tool
   using System.Reflection;
   using System.Security.Principal;
   using System.ServiceProcess;
+  using System.Threading;
   using System.Windows;
   using System.Xml;
   using SIM.Adapters.SqlServer;
@@ -26,16 +27,24 @@ namespace SIM.Tool
   using SIM.Tool.Windows;
   using Sitecore.Diagnostics.Base;
   using JetBrains.Annotations;
+  using log4net.Core;
+  using log4net.Layout;
+  using log4net.Util;
   using Sitecore.Diagnostics.Logging;
+  using SIM.Core.Logging;
   using SIM.Extensions;
   using SIM.Tool.Base.Wizards;
   using File = System.IO.File;
+  using SIM.IO.Real;
+  using SIM.Tool.Windows.Pipelines.Setup;
 
   public partial class App
   {
     #region Fields
 
-    private static readonly string AppLogsMessage = "The application will be suspended, look at the " + ApplicationManager.LogsFolder + " log file to find out what has happened";
+    private static string AppLogsMessage { get; } = $"The application will be suspended, look at the {ApplicationManager.LogsFolder} log file to find out what has happened";
+
+    private static IO.IFileSystem FileSystem { get; } = new RealFileSystem();
 
     #endregion
 
@@ -55,7 +64,7 @@ namespace SIM.Tool
     public static string GetRepositoryPath()
     {
       var path = Path.Combine(ApplicationManager.DataFolder, "Repository");
-      FileSystem.FileSystem.Local.Directory.Ensure(path);
+      SIM.FileSystem.FileSystem.Local.Directory.Ensure(path);
       return path;
     }
 
@@ -65,13 +74,43 @@ namespace SIM.Tool
 
     protected override void OnStartup([CanBeNull] StartupEventArgs e)
     {
+      InitializeLogging();
+
       base.OnStartup(e);
 
-      if (!App.EnsureSingleProcess(e.Args))
+      if (!CheckPermissions())
       {
+        Log.Info("Shutting down due to missing permissions (it is normally okay as it will be re-run with elevated permissions)");
+
         Environment.Exit(0);
 
         return;
+      }
+
+      if (!EnsureSingleProcess(e.Args))
+      {
+        Log.Info("Shutting down as there is another process running");
+
+        Environment.Exit(0);
+
+        return;
+      }
+
+      // invoke auto-updater if not developing or debugging
+      if (!ApplicationManager.IsDev && !ApplicationManager.IsDebugging)
+      {
+        try
+        {
+          Log.Info("Running update procedure");
+
+          var prefix = ApplicationManager.IsQa ? "qa/" : "";
+          var suffix = ApplicationManager.IsQa ? ".QA" : "";
+          CoreApp.RunApp("rundll32.exe", $"dfshim.dll,ShOpenVerbApplication http://dl.sitecore.net/updater/{prefix}sim/SIM.Tool{suffix}.application");
+        }
+        catch (Exception ex)
+        {
+          Log.Error(ex, "Error connecting to SIM auto-updater.");
+        }
       }
 
       if (CoreApp.HasBeenUpdated)
@@ -81,7 +120,7 @@ namespace SIM.Tool
         {
           var exists = false;
           var wc = new WebClient();
-          var url = "https://github.com/Sitecore/Sitecore-Instance-Manager/releases/tag/" + ver;
+          var url = $"https://github.com/Sitecore/Sitecore-Instance-Manager/releases/tag/{ver}";
           try
           {
             wc.DownloadString(url);
@@ -94,6 +133,8 @@ namespace SIM.Tool
 
           if (exists)
           {
+            Log.Info("Showing release notes");
+
             CoreApp.OpenInBrowser(url, true);
           }
         }
@@ -101,6 +142,8 @@ namespace SIM.Tool
       
       if (CoreApp.IsVeryFirstRun || CoreApp.HasBeenUpdated)
       {
+        Log.Info("Cleaning up caches after update");
+
         CacheManager.ClearAll();
         foreach (var dir in Directory.GetDirectories(ApplicationManager.TempFolder))
         {
@@ -110,12 +153,14 @@ namespace SIM.Tool
           }
           catch (Exception ex)
           {
-            throw new InvalidOperationException($"Failed to delete directory1: {dir}", ex);
+            WindowHelper.HandleError($"Failed to delete directory1: {dir}", isError: true, ex: ex);
           }
         }
 
+        Log.Info("Unpacking resources");
+
         var ext = ".deploy.txt";
-        foreach (var filePath in Directory.GetFiles(".", "*" + ext, SearchOption.AllDirectories))
+        foreach (var filePath in Directory.GetFiles(".", $"*{ext}", SearchOption.AllDirectories))
         {
           if (filePath == null)
           {
@@ -139,18 +184,12 @@ namespace SIM.Tool
         }
       }
 
-      if (!App.CheckPermissions())
-      {
-        Environment.Exit(0);
-
-        return;
-      }
-
-      CoreApp.InitializeLogging();
+      // write it here as all preceding logic is finished
+      CoreApp.WriteLastRunVersion();
 
       CoreApp.LogMainInfo();
 
-      if (!App.CheckIIS())
+      if (!CheckIis())
       {
         WindowHelper.ShowMessage("Cannot connect to IIS. Make sure it is installed and running.", MessageBoxButton.OK, MessageBoxImage.Exclamation);
 
@@ -160,7 +199,7 @@ namespace SIM.Tool
       }
 
       // Initializing pipelines from Pipelines.config and WizardPipelines.config files
-      if (!App.InitializePipelines())
+      if (!InitializePipelines())
       {
         Environment.Exit(0);
 
@@ -169,7 +208,7 @@ namespace SIM.Tool
 
       // Application is closing when it doesn't have any window instance therefore it's 
       // required to create MainWindow before creating the initial configuration dialog
-      var main = App.CreateMainWindow();
+      var main = CreateMainWindow();
       if (main == null)
       {
         Environment.Exit(0);
@@ -178,9 +217,9 @@ namespace SIM.Tool
       }
 
       // Initialize Profile Manager
-      if (!App.InitializeProfileManager(main))
+      if (!InitializeProfileManager(main))
       {
-        Log.Info(string.Format("Application closes due to invalid configuration"));
+        Log.Info("Application closes due to invalid configuration");
 
         // Since the main window instance was already created we need to "dispose" it by showing and closing.
         main.Width = 0;
@@ -197,7 +236,7 @@ namespace SIM.Tool
       var agreementAcceptedFilePath = Path.Combine(ApplicationManager.TempFolder, "agreement-accepted.txt");
       if (!File.Exists(agreementAcceptedFilePath))
       {
-        WizardPipelineManager.Start("agreement", main, new ProcessorArgs(), false);
+        WizardPipelineManager.Start("agreement", main, new ProcessorArgs(), false, null, () => null);
         if (!File.Exists(agreementAcceptedFilePath))
         {
           Environment.Exit(0);
@@ -209,11 +248,8 @@ namespace SIM.Tool
       // Clean up garbage
       CoreApp.DeleteTempFolders();
 
-      App.LoadIocResourcesForSolr();
+      LoadIocResourcesForSolr();
       Analytics.Start();
-
-
-      CoreApp.WriteLastRunVersion();
 
       // Show main window
       try
@@ -232,6 +268,29 @@ namespace SIM.Tool
       Analytics.Flush();
 
       Environment.Exit(0);
+    }
+
+    private void InitializeLogging()
+    {
+      var info = new LogFileAppender
+      {
+        AppendToFile = true,
+        File = "$(logFolder)\\{0:yyyy-MM-dd}.txt",
+        Layout = new PatternLayout("%4t %d{ABSOLUTE} %-5p %m%n"),
+        SecurityContext = new WindowsSecurityContext(),
+        Threshold = Level.Info
+      };
+
+      var debug = new LogFileAppender
+      {
+        AppendToFile = true,
+        File = "$(logFolder)\\{0:yyyy-MM-dd}_DEBUG.txt",
+        Layout = new PatternLayout("%4t %d{ABSOLUTE} %-5p %m%n"),
+        SecurityContext = new WindowsSecurityContext(),
+        Threshold = Level.Debug
+      };
+
+      CoreApp.InitializeLogging(info, debug);
     }
 
     private static void LoadIocResourcesForSolr()
@@ -253,7 +312,7 @@ namespace SIM.Tool
       return processes.Count(x => x.SessionId == currentSessionId && !x.HasExited && x.PrivateMemorySize64 > 5000000) <= count;
     }
 
-    private static bool CheckIIS()
+    private static bool CheckIis()
     {
       try
       {
@@ -270,7 +329,7 @@ namespace SIM.Tool
       }
       catch (Exception ex)
       {
-        Log.Error(ex, string.Format("Error during checking IIS state"));
+        Log.Error(ex, "Error during checking IIS state");
 
         return false;
       }
@@ -281,6 +340,11 @@ namespace SIM.Tool
       if (new WindowsPrincipal(WindowsIdentity.GetCurrent()).IsInRole(WindowsBuiltInRole.Administrator))
       {
         return true;
+      }
+
+      if (Debugger.IsAttached)
+      {
+        throw new InvalidOperationException("SIM requires administrator permissions to operate. Relaunch Visual Studio with elevated permissions to debug SIM.");
       }
 
       // It is not possible to launch a ClickOnce app as administrator directly, so instead we launch the
@@ -306,12 +370,12 @@ namespace SIM.Tool
             throw;
           }
 
-          Log.Info(string.Format("User cancelled permissions elevation"));
+          Log.Info("User cancelled permissions elevation");
         }
       }
       catch (Exception ex)
       {
-        Log.Error(ex, string.Format("An unhandled exception was thrown"));
+        Log.Error(ex, "An unhandled exception was thrown");
       }
 
       return false;
@@ -329,47 +393,67 @@ namespace SIM.Tool
       }
       catch (Exception ex)
       {
-        WindowHelper.HandleError("The main window thrown an exception during creation. " + AppLogsMessage, true, ex);
+        WindowHelper.HandleError($"The main window thrown an exception during creation. {AppLogsMessage}", true, ex);
         return null;
       }
     }
 
     private static Base.Profiles.Profile DetectProfile()
     {
-      try
+      var profile = new Base.Profiles.Profile();
+
+      Action action = delegate
       {
-        InstanceManager.Initialize();
-        var instances = InstanceManager.Instances.ToArray();
-        if (!instances.Any())
+        try
         {
-          return null;
-        }
+          InstanceManager.Default.Initialize();
+          var instances = InstanceManager.Default.Instances.ToArray();
+          if (!instances.Any())
+          {
+            return;
+          }
 
-        var database = instances.Select(x => Safe(() => x.AttachedDatabases.FirstOrDefault(y => y.Name.EqualsIgnoreCase("core")), x.ToString())).FirstOrDefault(x => x != null);
-        var cstr = SqlServerManager.Instance.GetManagementConnectionString(database.ConnectionString).ToString();
-        var instance = instances.FirstOrDefault();
-        var root = instance.RootPath.EmptyToNull().With(x => Path.GetDirectoryName(x)) ?? "C:\\inetpub\\wwwroot";
-        var rep = GetRepositoryPath();
-        var lic = GetLicensePath();
-        if (!FileSystem.FileSystem.Local.File.Exists(lic))
-        {
-          FileSystem.FileSystem.Local.File.Copy(instance.LicencePath, lic);
-        }
+          var database = instances
+            .Select(x => 
+              Safe(() => 
+                x.AttachedDatabases.FirstOrDefault(y => y.Name.EqualsIgnoreCase("core")), x.ToString()))
+            .FirstOrDefault(x => x != null);
 
-        return new Base.Profiles.Profile
+          var cstr = SqlServerManager.Instance.GetManagementConnectionString(database.ConnectionString).ToString();
+          var instance = instances.FirstOrDefault();
+          var root = instance.RootPath.EmptyToNull().With(x => Path.GetDirectoryName(x)) ?? "C:\\inetpub\\wwwroot";
+          var rep = GetRepositoryPath();
+          var lic = GetLicensePath();
+          if (!SIM.FileSystem.FileSystem.Local.File.Exists(lic))
+          {
+            SIM.FileSystem.FileSystem.Local.File.Copy(instance.LicencePath, lic);
+          }
+
+          profile = new Base.Profiles.Profile
+          {
+            ConnectionString = cstr,
+            InstancesFolder = root,
+            LocalRepository = rep,
+            License = lic
+          };
+        }
+        catch (Exception ex)
         {
-          ConnectionString = cstr,
-          InstancesFolder = root,
-          LocalRepository = rep,
-          License = lic
-        };
-      }
-      catch (Exception ex)
+          Log.Error(ex, "Error during detecting profile defaults");
+        }
+      };
+
+      // max timeout 5 seconds
+      var thread = new Thread(new ThreadStart(action));
+      thread.Start();
+      
+      Thread.Sleep(5000);
+      if (thread.IsAlive)
       {
-        Log.Error(ex, string.Format("Error during detecting profile defaults"));
-
-        return new Base.Profiles.Profile();
+        thread.Abort();
       }
+
+      return profile;
     }
 
     private static bool InitializePipelines()
@@ -411,14 +495,14 @@ namespace SIM.Tool
 
         try
         {
-          ProfileManager.Initialize();
+          ProfileManager.Initialize(FileSystem);
           if (ProfileManager.IsValid)
           {
             return ProfileSection.Result(true);
           }
 
           // if current profile is not valid then we will show the legacy profile if it exists, or at least use invalid one
-          WizardPipelineManager.Start("setup", mainWindow, null, false, null, ProfileManager.Profile ?? DetectProfile());
+          WizardPipelineManager.Start("setup", mainWindow, null, false, null, () => new SetupWizardArgs(ProfileManager.Profile ?? DetectProfile()));
           if (ProfileManager.IsValid)
           {
             return ProfileSection.Result(true);
@@ -426,7 +510,7 @@ namespace SIM.Tool
         }
         catch (Exception ex)
         {
-          WindowHelper.HandleError("Profile manager failed during initialization. " + AppLogsMessage, true, ex);
+          WindowHelper.HandleError($"Profile manager failed during initialization. {AppLogsMessage}", true, ex);
         }
 
         return ProfileSection.Result(false);

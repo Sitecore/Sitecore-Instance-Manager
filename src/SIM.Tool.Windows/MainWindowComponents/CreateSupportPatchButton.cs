@@ -1,4 +1,4 @@
-﻿namespace SIM.Tool.Windows.MainWindowComponents
+namespace SIM.Tool.Windows.MainWindowComponents
 {
   using System;
   using System.IO;
@@ -14,6 +14,15 @@
   public class CreateSupportPatchButton : IMainWindowButton
   {
     #region Public methods
+    
+    private string AppArgsFilePath { get; }
+    private string AppUrl { get; }
+    
+    public CreateSupportPatchButton(string appArgsFilePath, string appUrl)
+    {
+      AppArgsFilePath = appArgsFilePath;
+      AppUrl = appUrl;
+    }
 
     public bool IsEnabled(Window mainWindow, Instance instance)
     {
@@ -41,7 +50,7 @@
         instance.WebRootPath
       };
 
-      var dir = Environment.ExpandEnvironmentVariables("%APPDATA%\\Sitecore\\PatchCreator");
+      var dir = Environment.ExpandEnvironmentVariables(AppArgsFilePath);
       if (!Directory.Exists(dir))
       {
         Directory.CreateDirectory(dir);
@@ -49,16 +58,7 @@
 
       File.WriteAllLines(Path.Combine(dir, "args.txt"), args);
 
-      CoreApp.RunApp("iexplore", $"http://dl.sitecore.net/updater/pc/PatchCreator.application");
-              
-      NuGetHelper.UpdateSettings();
-
-      NuGetHelper.GeneratePackages(new FileInfo(product.PackagePath));
-
-      foreach (var module in instance.Modules)
-      {
-        NuGetHelper.GeneratePackages(new FileInfo(module.PackagePath));
-      }
+      CoreApp.RunApp("iexplore", AppUrl);
     }
 
     #endregion

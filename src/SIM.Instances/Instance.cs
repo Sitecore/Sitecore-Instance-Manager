@@ -20,25 +20,13 @@
 
   [Serializable]
   public class Instance : Website, IXmlSerializable
-  {
-    #region Static constants, fields, properties and methods
-    
-    #region Public methods
-
-    public static void DoSmth()
-    {
-    }
-
-    #endregion
-
-    #endregion
-
+  {                                                              
     #region Instance fields
 
-    protected RuntimeSettingsAccessor runtimeSettingsAccessor;
-    private InstanceConfiguration configuration;
+    protected RuntimeSettingsAccessor _RuntimeSettingsAccessor;
+    private InstanceConfiguration _Configuration;
 
-    private Product product;
+    private Product _Product;
 
     #endregion
 
@@ -63,8 +51,8 @@
     {
       get
       {
-        return this.runtimeSettingsAccessor ??
-               (this.runtimeSettingsAccessor = RuntimeSettingsManager.GetRealtimeSettingsAccessor(this));
+        return _RuntimeSettingsAccessor ??
+               (_RuntimeSettingsAccessor = RuntimeSettingsManager.GetRealtimeSettingsAccessor(this));
       }
     }
 
@@ -78,7 +66,7 @@
     {
       get
       {
-        return this.GetAttachedDatabases();
+        return GetAttachedDatabases();
       }
     }
 
@@ -86,7 +74,7 @@
     {
       get
       {
-        return this.GetBackups();
+        return GetBackups();
       }
     }
 
@@ -94,7 +82,7 @@
     {
       get
       {
-        return this.GetBackupsFolder();
+        return GetBackupsFolder();
       }
     }
 
@@ -103,23 +91,15 @@
     {
       get
       {
-        return this.configuration ?? (this.configuration = new InstanceConfiguration(this));
+        return _Configuration ?? (_Configuration = new InstanceConfiguration(this));
       }
-    }
-
-    public virtual string CurrentLogFilePath
-    {
-      get
-      {
-        return this.GetCurrentLogFilePath();
-      }
-    }
+    }          
 
     public virtual string DataFolderPath
     {
       get
       {
-        return this.GetDataFolderPath();
+        return GetDataFolderPath();
       }
     }
 
@@ -130,22 +110,22 @@
       {
         try
         {
-          var indexFolder = this.RuntimeSettingsAccessor.GetSitecoreSettingValue("IndexFolder");
+          var indexFolder = RuntimeSettingsAccessor.GetSitecoreSettingValue("IndexFolder");
           Assert.IsNotNull(indexFolder, "The <setting name=\"IndexFolder\" value=\"...\" /> element is not presented in the web.config file");
           Assert.IsNotNullOrEmpty(indexFolder, "The <setting name=\"IndexFolder\" value=\"...\" /> value is empty string");
-          return this.MapPath(indexFolder);
+          return MapPath(indexFolder);
         }
         catch (Exception ex)
         {
-          var rootData = Path.Combine(this.DataFolderPath, "Indexes");
+          var rootData = Path.Combine(DataFolderPath, "Indexes");
           if (FileSystem.FileSystem.Local.Directory.Exists(rootData))
           {
-            Log.Error(ex, $"Cannot get indexes folder of {this.WebRootPath}");
+            Log.Error(ex, $"Cannot get indexes folder of {WebRootPath}");
 
             return rootData;
           }
 
-          throw new InvalidOperationException("Cannot get indexes folder of " + this.WebRootPath);
+          throw new InvalidOperationException($"Cannot get indexes folder of {WebRootPath}");
         }
       }
     }
@@ -154,7 +134,15 @@
     {
       get
       {
-        return this.GetIsSitecore();
+        return GetIsSitecore();
+      }
+    }
+
+    public virtual bool IsHidden
+    {
+      get
+      {
+        return GetIsHidden();
       }
     }
 
@@ -165,22 +153,22 @@
       {
         try
         {
-          var licenseFile = this.RuntimeSettingsAccessor.GetSitecoreSettingValue("LicenseFile");
+          var licenseFile = RuntimeSettingsAccessor.GetSitecoreSettingValue("LicenseFile");
           Assert.IsNotNull(licenseFile, "The <setting name=\"LicenseFile\" value=\"...\" /> element is not presented in the web.config file");
           Assert.IsNotNullOrEmpty(licenseFile, "The <setting name=\"LicenseFile\" value=\"...\" /> value is empty string");
-          return this.MapPath(licenseFile);
+          return MapPath(licenseFile);
         }
         catch (Exception ex)
         {
-          var rootData = Path.Combine(this.DataFolderPath, "license.xml");
+          var rootData = Path.Combine(DataFolderPath, "license.xml");
           if (FileSystem.FileSystem.Local.File.Exists(rootData))
           {
-            Log.Error(ex, $"Cannot get license file of {this.WebRootPath}");
+            Log.Error(ex, $"Cannot get license file of {WebRootPath}");
 
             return rootData;
           }
 
-          throw new InvalidOperationException("Cannot get license file of " + this.WebRootPath);
+          throw new InvalidOperationException($"Cannot get license file of {WebRootPath}");
         }
       }
     }
@@ -190,7 +178,7 @@
     {
       get
       {
-        return this.GetLogsFolderPath();
+        return GetLogsFolderPath();
       }
     }
 
@@ -198,7 +186,7 @@
     {
       get
       {
-        return this.GetMongoDatabases();
+        return GetMongoDatabases();
       }
     }
 
@@ -209,22 +197,22 @@
       {
         try
         {
-          var packagePath = this.RuntimeSettingsAccessor.GetSitecoreSettingValue("PackagePath");
+          var packagePath = RuntimeSettingsAccessor.GetSitecoreSettingValue("PackagePath");
           Assert.IsNotNull(packagePath, "The <setting name=\"PackagePath\" value=\"...\" /> element is not presented in the web.config file");
           Assert.IsNotNullOrEmpty(packagePath, "The <setting name=\"PackagePath\" value=\"...\" /> value is empty string");
-          return this.MapPath(packagePath);
+          return MapPath(packagePath);
         }
         catch (Exception ex)
         {
-          var rootData = Path.Combine(this.DataFolderPath, "Packages");
+          var rootData = Path.Combine(DataFolderPath, "Packages");
           if (FileSystem.FileSystem.Local.Directory.Exists(rootData))
           {
-            Log.Error(ex, $"Cannot get packages folder of {this.WebRootPath}");
+            Log.Error(ex, $"Cannot get packages folder of {WebRootPath}");
 
             return rootData;
           }
 
-          throw new InvalidOperationException("Cannot get packages folder of " + this.WebRootPath);
+          throw new InvalidOperationException($"Cannot get packages folder of {WebRootPath}");
         }
       }
     }
@@ -234,7 +222,7 @@
     {
       get
       {
-        return this.product ?? (this.product = ProductManager.GetProduct(this.ProductFullName));
+        return _Product ?? (_Product = ProductManager.GetProduct(ProductFullName));
       }
     }
 
@@ -243,7 +231,7 @@
     {
       get
       {
-        return ProductHelper.DetectProductFullName(this.WebRootPath);
+        return ProductHelper.DetectProductFullName(WebRootPath);
       }
     }
 
@@ -251,7 +239,7 @@
     {
       get
       {
-        return this.GetRootPath();
+        return GetRootPath();
       }
     }
 
@@ -262,22 +250,22 @@
       {
         try
         {
-          var serializationFolder = this.RuntimeSettingsAccessor.GetSitecoreSettingValue("SerializationFolder");
+          var serializationFolder = RuntimeSettingsAccessor.GetSitecoreSettingValue("SerializationFolder");
           Assert.IsNotNull(serializationFolder, "The <setting name=\"dataserializationFolder\" value=\"...\" /> element is not presented in the web.config file");
           Assert.IsNotNullOrEmpty(serializationFolder, "The <setting name=\"dataserializationFolder\" value=\"...\" /> value is empty string");
-          return this.MapPath(serializationFolder);
+          return MapPath(serializationFolder);
         }
         catch (Exception ex)
         {
-          var rootData = Path.Combine(this.DataFolderPath, "Serialization");
+          var rootData = Path.Combine(DataFolderPath, "Serialization");
           if (FileSystem.FileSystem.Local.Directory.Exists(rootData))
           {
-            Log.Error(ex, $"Cannot get serialization folder of {this.WebRootPath}");
+            Log.Error(ex, $"Cannot get serialization folder of {WebRootPath}");
 
             return rootData;
           }
 
-          throw new InvalidOperationException("Cannot get serialization folder of " + this.WebRootPath);
+          throw new InvalidOperationException($"Cannot get serialization folder of {WebRootPath}");
         }
       }
     }
@@ -286,17 +274,17 @@
     {
       get
       {
-        if (this.IsDisabled)
+        if (IsDisabled)
         {
           return InstanceState.Disabled;
         }
 
-        if (this.ApplicationPoolState == ObjectState.Stopped || this.ApplicationPoolState == ObjectState.Stopping)
+        if (ApplicationPoolState == ObjectState.Stopped || ApplicationPoolState == ObjectState.Stopping)
         {
           return InstanceState.Stopped;
         }
 
-        if (this.ProcessIds.Any())
+        if (ProcessIds.Any())
         {
           return InstanceState.Running;
         }
@@ -305,27 +293,11 @@
       }
     }
 
-    public virtual bool SupportsCaching
-    {
-      get
-      {
-        return false;
-      }
-    }
-
     public virtual string TempFolderPath
     {
       get
       {
-        return this.GetTempFolderPath();
-      }
-    }
-
-    public virtual IEnumerable<string> VisualStudioSolutionFiles
-    {
-      get
-      {
-        return this.GetVisualStudioSolutionFiles();
+        return GetTempFolderPath();
       }
     }
 
@@ -337,7 +309,7 @@
     {
       using (new ProfileSection("Get mongo databases", this))
       {
-        return this.RuntimeSettingsAccessor.GetMongoDatabases();
+        return RuntimeSettingsAccessor.GetMongoDatabases();
       }
     }
 
@@ -359,13 +331,13 @@
 
     public virtual void WriteXml(XmlWriter writer)
     {
-      foreach (var property in this.GetType().GetProperties())
+      foreach (var property in GetType().GetProperties())
       {
         object value = property.GetValue(this, new object[0]);
         var xml = value as XmlDocument;
         if (xml != null)
         {
-          writer.WriteNode(new XmlNodeReader(XmlDocumentEx.LoadXml("<Instance>" + xml.OuterXml + "</Instance>")), false);
+          writer.WriteNode(new XmlNodeReader(XmlDocumentEx.LoadXml($"<Instance>{xml.OuterXml}</Instance>")), false);
           continue;
         }
 
@@ -385,7 +357,7 @@
     {
       get
       {
-        return $"{base.ToString()} ({this.ProductFullName})";
+        return $"{base.ToString()} ({ProductFullName})";
       }
     }
 
@@ -394,8 +366,12 @@
     {
       get
       {
+        var omsVersions = new[] { "6.2", "6.3", "6.4" };
+        var dmsVersions = new[] { "6.5", "6.6", "7.0", "7.1", "7.2" };
+        var dmsName = omsVersions.Any(x => ProductFullName.Contains(x)) ? "OMS" : (dmsVersions.Any(x => ProductFullName.Contains(x)) ? "DMS" : "xDB");
+
         var modulesNames = Modules.Select(x => x.Name.TrimStart("Sitecore "));
-        return (string.Join(", ", modulesNames) + (File.Exists(Path.Combine(this.WebRootPath, "App_Config\\Include\\Sitecore.Analytics.config")) ? ", DMS" : string.Empty)).TrimStart(" ,".ToCharArray());
+        return (string.Join(", ", modulesNames) + (File.Exists(Path.Combine(WebRootPath, "App_Config\\Include\\Sitecore.Analytics.config")) ? $", {dmsName}" : string.Empty)).TrimStart(" ,".ToCharArray());
       }
     }
 
@@ -404,7 +380,8 @@
     {
       get
       {
-        return "Hosts: " + string.Join(", ", this.Bindings.Select(x => (x.Host.EmptyToNull() ?? x.IP) + (x.Port != 80 ? $":{x.Port}" : "")));
+        return
+          $"Hosts: {string.Join(", ", Bindings.Select(x => (x.Host.EmptyToNull() ?? x.IP) + (x.Port != 80 ? $":{x.Port}" : "")))}";
       }
     }
 
@@ -422,7 +399,9 @@
     {
       get
       {
-        return new DirectoryInfo(this.PackagesFolderPath).GetFiles("*.zip");
+        var dir = new DirectoryInfo(PackagesFolderPath);
+        
+        return dir.Exists ? dir.GetFiles("*.zip") : new FileInfo[0];
       }
     }
 
@@ -433,13 +412,8 @@
     [NotNull]
     public virtual string GetBackupFolder(string name)
     {
-      var backups = this.GetBackupsFolder();
+      var backups = GetBackupsFolder();
       return Path.Combine(backups, name);
-    }
-
-    public virtual Instance GetCachedInstance()
-    {
-      return new PartiallyCachedInstance(this);
     }
 
     [NotNull]
@@ -449,15 +423,15 @@
       {
         ProfileSection.Argument("normalize", normalize);
 
-        return this.RuntimeSettingsAccessor.GetShowconfig(normalize);
+        return RuntimeSettingsAccessor.GetShowconfig(normalize);
       }
     }
 
     [CanBeNull]
     public virtual IEnumerable<string> GetVisualStudioSolutionFiles(string searchPattern = null)
     {
-      var rootPath = this.RootPath;
-      var webRootPath = this.WebRootPath;
+      var rootPath = RootPath;
+      var webRootPath = WebRootPath;
       return VisualStudioHelper.GetVisualStudioSolutionFiles(rootPath, webRootPath, searchPattern).ToArray();
     }
 
@@ -468,13 +442,13 @@
       {
         ProfileSection.Argument("normalize", normalize);
 
-        return this.RuntimeSettingsAccessor.GetWebConfigResult(normalize);
+        return RuntimeSettingsAccessor.GetWebConfigResult(normalize);
       }
     }
 
     public override string ToString()
     {
-      return this.DisplayName;
+      return DisplayName;
     }
 
     #endregion
@@ -483,22 +457,6 @@
 
     #region Non-public Methods
 
-    #region Public methods
-
-    public virtual string GetCurrentLogFilePath()
-    {
-      using (new ProfileSection("Get current log file path", this))
-      {
-        var logs = this.LogsFolderPath;
-        var files = FileSystem.FileSystem.Local.Directory.GetFiles(logs, "log*.txt").OrderBy(FileSystem.FileSystem.Local.File.GetCreationTimeUtc);
-        var lastOrDefault = files.LastOrDefault();
-
-        return ProfileSection.Result(lastOrDefault);
-      }
-    }
-
-    #endregion
-
     #region Protected methods
 
     [NotNull]
@@ -506,14 +464,14 @@
     {
       using (new ProfileSection("Get attached databases", this))
       {
-        return this.RuntimeSettingsAccessor.GetDatabases();
+        return RuntimeSettingsAccessor.GetDatabases();
       }
     }
 
     [CanBeNull]
     protected virtual IEnumerable<InstanceBackup> GetBackups()
     {
-      var root = this.SafeCall(this.GetBackupsFolder);
+      var root = this.SafeCall(GetBackupsFolder);
       if (string.IsNullOrEmpty(root) || !FileSystem.FileSystem.Local.Directory.Exists(root))
       {
         yield break;
@@ -544,12 +502,12 @@
     [NotNull]
     protected virtual string GetBackupsFolder()
     {
-      var rootPath = this.GetRootPath();
-      if (this.WebRootPath.EqualsIgnoreCase(rootPath))
+      var rootPath = GetRootPath();
+      if (WebRootPath.EqualsIgnoreCase(rootPath))
       {
         DirectoryInfo parent = new DirectoryInfo(rootPath).Parent;
         Assert.IsNotNull(parent, "Instance isn't permitted to use drive root as web root path");
-        return Path.Combine(parent.FullName, this.Name + " backups");
+        return Path.Combine(parent.FullName, Name + " backups");
       }
 
       return Path.Combine(rootPath, "Backups");
@@ -562,23 +520,23 @@
       {
         try
         {
-          var dataFolder = this.RuntimeSettingsAccessor.GetScVariableValue("dataFolder");
+          var dataFolder = RuntimeSettingsAccessor.GetScVariableValue("dataFolder");
           Assert.IsNotNull(dataFolder, "The <sc.variable name=\"dataFolder\" value=\"...\" /> element is not presented in the web.config file");
           Assert.IsNotNullOrEmpty(dataFolder, "The <sc.variable name=\"dataFolder\" value=\"...\" /> element value is empty string");
 
-          return this.MapPath(dataFolder);
+          return MapPath(dataFolder);
         }
         catch (Exception ex)
         {
-          var rootData = Path.Combine(Path.GetDirectoryName(this.WebRootPath), "Data");
+          var rootData = Path.Combine(Path.GetDirectoryName(WebRootPath), "Data");
           if (FileSystem.FileSystem.Local.Directory.Exists(rootData))
           {
-            Log.Error(ex, $"Cannot get data folder of {this.WebRootPath}");
+            Log.Error(ex, $"Cannot get data folder of {WebRootPath}");
 
             return rootData;
           }
 
-          throw new InvalidOperationException("Cannot get data folder of " + this.WebRootPath);
+          throw new InvalidOperationException($"Cannot get data folder of {WebRootPath}");
         }
       }
     }
@@ -587,11 +545,25 @@
     {
       try
       {
-        return FileSystem.FileSystem.Local.File.Exists(ProductHelper.GetKernelPath(this.WebRootPath));
+        return FileSystem.FileSystem.Local.File.Exists(ProductHelper.GetKernelPath(WebRootPath));
       }
       catch (Exception ex)
       {
-        Log.Warn(ex, string.Format("An error occurred during checking if it is sitecore"));
+        Log.Warn(ex, "An error occurred during checking if it is sitecore");
+
+        return false;
+      }
+    }
+
+    protected virtual bool GetIsHidden()
+    {
+      try
+      {
+        return FileSystem.FileSystem.Local.File.Exists(System.IO.Path.Combine(WebRootPath, "hidden.txt"));
+      }
+      catch (Exception ex)
+      {
+        Log.Warn(ex, "An error occurred during checking if it is hidden");
 
         return false;
       }
@@ -603,29 +575,29 @@
       {
         try
         {
-          var dataFolder = this.RuntimeSettingsAccessor.GetSitecoreSettingValue("LogFolder");
-          var result = this.MapPath(dataFolder);
+          var dataFolder = RuntimeSettingsAccessor.GetSitecoreSettingValue("LogFolder");
+          var result = MapPath(dataFolder);
 
           return ProfileSection.Result(result);
         }
         catch (Exception ex)
         {
-          var dataLogs = Path.Combine(this.DataFolderPath, "logs");
+          var dataLogs = Path.Combine(DataFolderPath, "logs");
           if (FileSystem.FileSystem.Local.Directory.Exists(dataLogs))
           {
-            Log.Error(ex, $"Cannot get logs folder of {this.WebRootPath}");
+            Log.Error(ex, $"Cannot get logs folder of {WebRootPath}");
 
             return dataLogs;
           }
 
-          throw new InvalidOperationException("Cannot get logs folder of " + this.WebRootPath);
+          throw new InvalidOperationException($"Cannot get logs folder of {WebRootPath}");
         }
       }
     }
 
     protected virtual string GetRootFolderViaDatabases(ICollection<Database> databases)
     {
-      var webRootPath = this.WebRootPath;
+      var webRootPath = WebRootPath;
       using (new ProfileSection("Get root folder (using databases)", this))
       {
         ProfileSection.Argument("databases", databases);
@@ -671,22 +643,22 @@
       {
         try
         {
-          var webRootPath = this.WebRootPath;
-          var dataFolderPath = this.GetDataFolderPath();
+          var webRootPath = WebRootPath;
+          var dataFolderPath = GetDataFolderPath();
           Assert.IsNotNullOrEmpty(dataFolderPath, nameof(dataFolderPath));
 
           // data folder is inside website folder
-          if (dataFolderPath.ContainsIgnoreCase(this.WebRootPath))
+          if (dataFolderPath.ContainsIgnoreCase(WebRootPath))
           {
             // find using only databases
-            var result = this.GetRootFolderViaDatabases(this.GetAttachedDatabases()) ?? webRootPath;
+            var result = GetRootFolderViaDatabases(GetAttachedDatabases()) ?? webRootPath;
 
             return ProfileSection.Result(result);
           }
 
 
           // trying to detect using databases
-          var common = this.GetRootFolderViaDatabases(this.GetAttachedDatabases());
+          var common = GetRootFolderViaDatabases(GetAttachedDatabases());
           if (common != null)
           {
             return ProfileSection.Result(common);
@@ -707,21 +679,21 @@
           var distance = FileSystem.FileSystem.Local.Directory.GetDistance(webRootPath, detectedRoot);
           InvalidConfigurationException.Assert(distance <= 1, 
             "Cannot detect the Root Folder - the detection result ({1}) is too far from the Website ({0}) folder"
-              .FormatWith(this.WebRootPath, detectedRoot));
+              .FormatWith(WebRootPath, detectedRoot));
 
           return ProfileSection.Result(detectedRoot);
         }
         catch (Exception ex)
         {
-          var rootData = Path.GetDirectoryName(this.WebRootPath);
+          var rootData = Path.GetDirectoryName(WebRootPath);
           if (FileSystem.FileSystem.Local.Directory.Exists(rootData))
           {
-            Log.Error(ex, $"Cannot get root folder of {this.WebRootPath}");
+            Log.Error(ex, $"Cannot get root folder of {WebRootPath}");
 
             return rootData;
           }
 
-          throw new InvalidOperationException("Cannot get root folder of " + this.WebRootPath);
+          throw new InvalidOperationException($"Cannot get root folder of {WebRootPath}");
         }
       }
     }
@@ -733,32 +705,32 @@
       {
         try
         {
-          var tempFolder = this.RuntimeSettingsAccessor.GetScVariableValue("tempFolder");
+          var tempFolder = RuntimeSettingsAccessor.GetScVariableValue("tempFolder");
           Assert.IsNotNull(tempFolder, "The <sc.variable name=\"tempFolder\" value=\"...\" /> element is not presented in the web.config file");
           Assert.IsNotNullOrEmpty(tempFolder, "The <sc.variable name=\"tempFolder\" value=\"...\" /> element value is empty string");
 
-          var result = this.MapPath(tempFolder);
+          var result = MapPath(tempFolder);
 
           return ProfileSection.Result(result);
         }
         catch (Exception ex)
         {
-          var websiteTemp = Path.Combine(this.WebRootPath, "temp");
+          var websiteTemp = Path.Combine(WebRootPath, "temp");
           if (FileSystem.FileSystem.Local.Directory.Exists(websiteTemp))
           {
-            Log.Error(ex, $"Cannot get temp folder of {this.WebRootPath}");
+            Log.Error(ex, $"Cannot get temp folder of {WebRootPath}");
 
             return websiteTemp;
           }
 
-          throw new InvalidOperationException("Cannot get temp folder of " + this.WebRootPath);
+          throw new InvalidOperationException($"Cannot get temp folder of {WebRootPath}");
         }
       }
     }
 
     protected virtual string MapPath(string virtualPath)
     {
-      return FileSystem.FileSystem.Local.Directory.MapPath(virtualPath, this.WebRootPath);
+      return FileSystem.FileSystem.Local.Directory.MapPath(virtualPath, WebRootPath);
     }
 
     #endregion

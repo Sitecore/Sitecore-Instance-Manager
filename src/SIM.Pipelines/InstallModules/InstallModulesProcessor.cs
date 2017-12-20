@@ -18,14 +18,14 @@
     {
       Assert.ArgumentNotNull(args, nameof(args));
 
-      return this.EvaluateStepsCount((InstallModulesArgs)args);
+      return EvaluateStepsCount((InstallModulesArgs)args);
     }
 
     public override sealed bool IsRequireProcessing(ProcessorArgs args)
     {
       Assert.ArgumentNotNull(args, nameof(args));
 
-      return this.IsRequireProcessing((InstallModulesArgs)args);
+      return IsRequireProcessing((InstallModulesArgs)args);
     }
 
     #endregion
@@ -50,7 +50,7 @@
     {
       Assert.ArgumentNotNull(args, nameof(args));
 
-      this.Process((InstallModulesArgs)args);
+      Process((InstallModulesArgs)args);
     }
 
     protected abstract void Process([NotNull] InstallModulesArgs args);

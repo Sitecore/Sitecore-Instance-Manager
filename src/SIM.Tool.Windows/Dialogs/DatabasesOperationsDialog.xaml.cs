@@ -8,27 +8,27 @@ namespace SIM.Tool.Windows.Dialogs
 
     public DatabasesOperationsDialog()
     {
-      this.InitializeComponent();
+      InitializeComponent();
     }
 
     public DatabasesOperationsDialog(string name)
     {
-      this.InitializeComponent();
-      this.dbName.Text = name;
+      InitializeComponent();
+      dbName.Text = name;
     }
 
     public DatabasesOperationsDialog(string name, string path)
     {
-      this.InitializeComponent();
-      this.dbName.Text = name;
-      this.dbPath.Text = path;
+      InitializeComponent();
+      dbName.Text = name;
+      dbPath.Text = path;
     }
 
     #endregion
 
     #region Private methods
 
-    private void btnOk_Click(object sender, RoutedEventArgs e)
+    private void BtnOkClick(object sender, RoutedEventArgs e)
     {
       // OpenFileDialog
     }

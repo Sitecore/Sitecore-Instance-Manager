@@ -18,7 +18,7 @@ namespace SIM.Pipelines.Install.Modules
     {
       Assert.ArgumentNotNull(args, nameof(args));
 
-      return args.Modules.Any(m => m.IsPackage);
+      return args._Modules.Any(m => m.IsPackage);
     }
 
     protected override void Process([NotNull] InstallArgs args)

@@ -67,7 +67,7 @@ namespace SIM.Pipelines
       IEnumerable<BindingInfo> bindings, string name)
     {
       long siteId;
-      using (WebServerManager.WebServerContext context = WebServerManager.CreateContext("SetupWebsite.Process"))
+      using (WebServerManager.WebServerContext context = WebServerManager.CreateContext())
       {
         ApplicationPool appPool = context.ApplicationPools.Add(ChooseAppPoolName(name, context.ApplicationPools));
         appPool.ManagedRuntimeVersion = NetFrameworkV2;
@@ -109,7 +109,7 @@ namespace SIM.Pipelines
         Site site = null;
         foreach (BindingInfo binding in bindings)
         {
-          var bindingInformation = binding.IP + ":" + binding.Port + ":" + binding.Host;
+          var bindingInformation = $"{binding.IP}:{binding.Port}:{binding.Host}";
           if (site == null)
           {
             site = context.Sites.Add(name, binding.Protocol, bindingInformation, webRootPath);

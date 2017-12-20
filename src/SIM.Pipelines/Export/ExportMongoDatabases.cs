@@ -11,7 +11,7 @@ namespace SIM.Pipelines.Export
   {
     #region Fields
 
-    private readonly List<string> done = new List<string>();
+    private readonly List<string> _Done = new List<string>();
 
     #endregion
 
@@ -40,15 +40,15 @@ namespace SIM.Pipelines.Export
 
       foreach (var database in mongoDatabases)
       {
-        if (this.done.Contains(database.Name))
+        if (_Done.Contains(database.Name))
         {
           continue;
         }
 
         MongoHelper.Backup(database, exportDatabasesFolder);
-        this.IncrementProgress();
+        IncrementProgress();
 
-        this.done.Add(database.Name);
+        _Done.Add(database.Name);
       }
     }
 

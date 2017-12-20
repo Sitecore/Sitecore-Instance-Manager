@@ -13,16 +13,16 @@
     #region Fields
 
     [NotNull]
-    public readonly string Cookies;
+    public string Cookies { get; }
 
     [NotNull]
-    public readonly UriBasedCollection<string> FileNames;
+    public readonly UriBasedCollection<string> _FileNames;
 
     [NotNull]
-    public readonly ReadOnlyCollection<Uri> Links;
+    public readonly ReadOnlyCollection<Uri> _Links;
 
     [NotNull]
-    public readonly string LocalRepository;
+    public string LocalRepository { get; }
 
     #endregion
 
@@ -33,10 +33,10 @@
       Assert.ArgumentNotNull(cookies, nameof(cookies));
       Assert.ArgumentNotNull(links, nameof(links));
       Assert.ArgumentNotNull(localRepository, nameof(localRepository));
-      this.LocalRepository = localRepository;
-      this.Links = links;
-      this.Cookies = cookies;
-      this.FileNames = new UriBasedCollection<string>(links.ToDictionary(x => x, x => WebRequestHelper.GetFileName(x, cookies)));
+      LocalRepository = localRepository;
+      _Links = links;
+      Cookies = cookies;
+      _FileNames = new UriBasedCollection<string>(links.ToDictionary(x => x, x => WebRequestHelper.GetFileName(x, cookies)));
     }
 
     #endregion
@@ -63,9 +63,9 @@
 
       set
       {
-        if (!this.ContainsKey(index))
+        if (!ContainsKey(index))
         {
-          this.Add(index, value);
+          Add(index, value);
         }
         else
         {

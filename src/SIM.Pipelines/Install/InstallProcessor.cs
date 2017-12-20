@@ -16,7 +16,7 @@
     {
       Assert.ArgumentNotNull(args, nameof(args));
 
-      return this.IsRequireProcessing((InstallArgs)args);
+      return IsRequireProcessing((InstallArgs)args);
     }
 
     #endregion
@@ -34,7 +34,7 @@
     {
       Assert.ArgumentNotNull(args, nameof(args));
 
-      this.Process((InstallArgs)args);
+      Process((InstallArgs)args);
     }
 
     protected abstract void Process([NotNull] InstallArgs args);

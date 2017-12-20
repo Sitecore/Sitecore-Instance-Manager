@@ -15,7 +15,7 @@ namespace SIM.Tool.Base.Converters
   {
     #region Fields
 
-    public static readonly IsNotNullOrEmptyAndDirectoryExists Instance = new IsNotNullOrEmptyAndDirectoryExists();
+    public static IsNotNullOrEmptyAndDirectoryExists Instance { get; } = new IsNotNullOrEmptyAndDirectoryExists();
 
     #endregion
 

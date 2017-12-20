@@ -19,7 +19,7 @@
   {
     #region Fields
 
-    private string _connectionString;
+    private string _ConnectionString;
 
     #endregion
 
@@ -27,7 +27,7 @@
 
     public Permissions()
     {
-      this.InitializeComponent();
+      InitializeComponent();
     }
 
     #endregion
@@ -38,7 +38,7 @@
     {
       get
       {
-        var sqlServerAccountName = SqlServerManager.Instance.GetSqlServerAccountName(new SqlConnectionStringBuilder(this._connectionString));
+        var sqlServerAccountName = SqlServerManager.Instance.GetSqlServerAccountName(new SqlConnectionStringBuilder(_ConnectionString));
 
         if (sqlServerAccountName == null)
         {
@@ -60,27 +60,22 @@
 
     private void Grant([CanBeNull] object sender, [CanBeNull] RoutedEventArgs e)
     {
-      WindowHelper.LongRunningTask(() => this.Dispatcher.Invoke(new Action(this.Grant)), "Applying security changes", Window.GetWindow(this));
+      WindowHelper.LongRunningTask(() => Dispatcher.Invoke(Grant), "Applying security changes", Window.GetWindow(this));
     }
 
     private void Grant()
     {
       using (new ProfileSection("Grant access", this))
       {
-        var path = this.InstancesRootFolder.Text;
+        var path = InstancesRootFolder.Text;
 
-        if (this.Accounts == null)
+        if (Accounts == null)
         {
           return;
         }
 
-        foreach (var account in this.Accounts)
+        foreach (var account in Accounts)
         {
-          if (!this.ValidateAccount(account))
-          {
-            return;
-          }
-
           if (!Grant(path, account))
           {
             return;
@@ -110,7 +105,7 @@
       }
       catch (Exception ex)
       {
-        Log.Error(ex, string.Format("Granting security permissions failed"));
+        Log.Error(ex, "Granting security permissions failed");
         WindowHelper.ShowMessage($"Something went wrong while assigning necessary permissions, so please assign them manually: grant the \"{path}\" folder with FULL ACCESS rights for {accountName} user account.", MessageBoxButton.OK, MessageBoxImage.Asterisk);
         return ProfileSection.Result(false);
       }
@@ -119,8 +114,8 @@
     void IWizardStep.InitializeStep(WizardArgs wizardArgs)
     {
       var args = (SetupWizardArgs)wizardArgs;
-      this.InstancesRootFolder.Text = args.InstancesRootFolderPath;
-      this._connectionString = args.ConnectionString;
+      InstancesRootFolder.Text = args.InstancesRootFolderPath;
+      _ConnectionString = args.ConnectionString;
     }
 
     bool IFlowControl.OnMovingBack(WizardArgs wizardArgs)
@@ -132,31 +127,26 @@
     {
       var args = (SetupWizardArgs)wizardArgs;
 
-      if (this.Accounts == null)
+      if (Accounts == null)
       {
         return false;
       }
 
       try
       {
-        const string message = "You probably don't have necessary permissions set. Please try to click 'Grant' button before you proceed.\r\n\r\nNote, the SQL Server account that you selected previously must have necessary permissions to create a SQL database in the instances root folder you specified earlier - please ensure that it is correct. In addition, the SQL Server service must use NETWORK SERVICE identity so that SIM can assign necessary permissions for it.";
-        foreach (var account in this.Accounts)
+        const string Message = "You probably don't have necessary permissions set. Please try to click 'Grant' button before you proceed.\r\n\r\nNote, the SQL Server account that you selected previously must have necessary permissions to create a SQL database in the instances root folder you specified earlier - please ensure that it is correct. In addition, the SQL Server service must use NETWORK SERVICE identity so that SIM can assign necessary permissions for it.";
+        foreach (var account in Accounts)
         {
-          if (!this.ValidateAccount(account))
-          {
-            return false;
-          }
-
           if (!FileSystem.FileSystem.Local.Security.HasPermissions(args.InstancesRootFolderPath, account, FileSystemRights.FullControl))
           {
-            WindowHelper.ShowMessage(message, MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
+            WindowHelper.ShowMessage(Message, MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
             return false;
           }
         }
 
         if (!SqlServerManager.Instance.TestSqlServer(args.InstancesRootFolderPath, args.ConnectionString))
         {
-          WindowHelper.ShowMessage(message, MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
+          WindowHelper.ShowMessage(Message, MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
           return false;
         }
 
@@ -164,27 +154,9 @@
       }
       catch (Exception ex)
       {
-        Log.Error(ex, string.Format("Cannot verify permissions"));
+        Log.Error(ex, "Cannot verify permissions");
         return true;
       }
-    }
-
-    private bool ValidateAccount(string account)
-    {
-      if (account.Equals(@"NT SERVICE\MSSQLSERVER", StringComparison.OrdinalIgnoreCase))
-      {
-        var result = WindowHelper.ShowMessage("The SQL Server is configured to use \"NT SERVICE\\MSSQLSERVER\" account which is not supported by current version of SIM. You need to change the SQL Server's user account and click Grant again. The instruction will be provided when you click OK.", MessageBoxButton.OKCancel, MessageBoxImage.Error);
-
-        if (result == MessageBoxResult.Cancel)
-        {
-          return false;
-        }
-
-        CoreApp.OpenInBrowser("https://github.com/Sitecore/Sitecore-Instance-Manager/wiki/Troubleshooting", true);
-        return false;
-      }
-
-      return true;
     }
 
     #endregion

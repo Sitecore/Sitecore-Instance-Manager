@@ -7,6 +7,7 @@
   using SIM.Tool.Base.Plugins;
   using SIM.Tool.Base.Profiles;
   using SIM.Tool.Base.Wizards;
+  using SIM.Tool.Windows.UserControls.Download8;
 
   [UsedImplicitly]
   public class Download8Button : IMainWindowButton
@@ -24,7 +25,7 @@
 
       if (FileSystem.FileSystem.Local.Directory.Exists(ProfileManager.Profile.LocalRepository))
       {
-        WizardPipelineManager.Start("download8", mainWindow, null, null, ignore => MainWindowHelper.RefreshInstaller(), WindowsSettings.AppDownloaderSdnUserName.Value, WindowsSettings.AppDownloaderSdnPassword.Value);
+        WizardPipelineManager.Start("download8", mainWindow, null, null, ignore => MainWindowHelper.RefreshInstaller(), () => new DownloadWizardArgs(WindowsSettings.AppDownloaderSdnUserName.Value, WindowsSettings.AppDownloaderSdnPassword.Value));
       }
     }
 

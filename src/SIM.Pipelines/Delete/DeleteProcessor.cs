@@ -16,7 +16,7 @@
     {
       Assert.ArgumentNotNull(args, nameof(args));
 
-      this.Process((DeleteArgs)args);
+      Process((DeleteArgs)args);
     }
 
     protected abstract void Process([NotNull] DeleteArgs args);

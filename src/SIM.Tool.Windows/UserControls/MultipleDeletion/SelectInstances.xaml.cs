@@ -10,7 +10,7 @@
   {
     #region Fields
 
-    private readonly List<string> _selectedInstances = new List<string>();
+    private readonly List<string> _SelectedInstances = new List<string>();
 
     #endregion
 
@@ -18,7 +18,7 @@
 
     public SelectInstances()
     {
-      this.InitializeComponent();
+      InitializeComponent();
     }
 
     #endregion
@@ -32,7 +32,7 @@
 
     public bool OnMovingNext(WizardArgs wizardArgs)
     {
-      if (this._selectedInstances.Count != 0)
+      if (_SelectedInstances.Count != 0)
       {
         return true;
       }
@@ -45,9 +45,9 @@
     {
       var args = (MultipleDeletionWizardArgs)wizardArgs;
 
-      if (this._selectedInstances.Count != 0)
+      if (_SelectedInstances.Count != 0)
       {
-        args.SelectedInstances = this._selectedInstances;
+        args._SelectedInstances = _SelectedInstances;
       }
 
       return true;
@@ -59,7 +59,7 @@
 
     void IWizardStep.InitializeStep(WizardArgs wizardArgs)
     {
-      this.Instances.DataContext = InstanceManager.Instances.OrderBy(instance => instance.Name);
+      Instances.DataContext = InstanceManager.Default.Instances.OrderBy(instance => instance.Name);
     }
 
     private void OnChecked(object sender, RoutedEventArgs e)
@@ -67,7 +67,7 @@
       var instanceName = ((System.Windows.Controls.CheckBox)sender).Content.ToString();
       if (!string.IsNullOrEmpty(instanceName))
       {
-        this._selectedInstances.Add(instanceName);
+        _SelectedInstances.Add(instanceName);
       }
     }
 
@@ -76,7 +76,7 @@
       var instanceName = ((System.Windows.Controls.CheckBox)sender).Content.ToString();
       if (!string.IsNullOrEmpty(instanceName))
       {
-        this._selectedInstances.Remove(instanceName);
+        _SelectedInstances.Remove(instanceName);
       }
     }
 

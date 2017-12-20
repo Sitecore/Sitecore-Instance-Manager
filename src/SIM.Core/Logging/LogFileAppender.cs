@@ -1,7 +1,6 @@
 ﻿namespace SIM.Core.Logging
 {
   using System;
-  using System.IO;
   using log4net.Appender;
   using JetBrains.Annotations;
   using SIM.Extensions;
@@ -11,7 +10,7 @@
   {
     #region Fields
 
-    protected string originalFileName;
+    protected string _ExpandedFilePath;
 
     #endregion
 
@@ -27,21 +26,19 @@
 
       set
       {
-        if (originalFileName == null)
+        if (_ExpandedFilePath == null)
         {
-          originalFileName = Path.Combine(ApplicationManager.LogsFolder, value.Equals("$(debugPath)", StringComparison.OrdinalIgnoreCase) ? GetLogFileName(string.Empty, "_DEBUG") : GetLogFileName());
+          _ExpandedFilePath = value
+            .Replace("$(logFolder)", ApplicationManager.LogsFolder)
+            .Replace("$(currentFolder)", Environment.CurrentDirectory)
+            .PipeTo(t => string.Format(t ?? "", DateTime.Now))            
+            .PipeTo(Environment.ExpandEnvironmentVariables);
         }
 
-        base.File = originalFileName;
+        base.File = _ExpandedFilePath;
       }
     }
 
-    #endregion
-
-    [NotNull]
-    private static string GetLogFileName([CanBeNull] string prefix = null, [CanBeNull] string suffix = null)
-    {
-      return "{0}{1}{2}.txt".FormatWith(prefix, DateTime.Now.ToString("yyyy-MM-dd"), suffix);
-    }
+    #endregion     
   }
 }

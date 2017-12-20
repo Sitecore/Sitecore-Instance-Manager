@@ -16,8 +16,8 @@
 
     public Login(string param)
     {
-      this.InitializeComponent();
-      this.TextBlock.Text = param;
+      InitializeComponent();
+      TextBlock.Text = param;
     }
 
     #endregion
@@ -26,8 +26,8 @@
 
     private static string GetMarketplaceCookie(string username, string password)
     {
-      const string baseUri = "https://dev.sitecore.net";
-      var request = FormHelper.CreatePostRequest(new Uri(baseUri + @"/api/authorization"));
+      const string BaseUri = "https://dev.sitecore.net";
+      var request = FormHelper.CreatePostRequest(new Uri(BaseUri + @"/api/authorization"));
       request.ContentType = @"application/json;charset=UTF-8";
       var cookies = new CookieContainer();
       request.CookieContainer = cookies;
@@ -56,7 +56,7 @@
                 throw new InvalidOperationException("The username or password or both are incorrect, or an unexpected error happen");
               }
 
-              return marketplaceCookie + "; " + GetSessionCookie(baseUri);
+              return marketplaceCookie + "; " + GetSessionCookie(BaseUri);
             }
           }
         }
@@ -87,7 +87,7 @@
     bool IFlowControl.OnMovingNext(WizardArgs wizardArgs)
     {
       var args = (DownloadWizardArgs)wizardArgs;
-      if (!string.IsNullOrEmpty(args.Cookies) && this.UserName.Text.EqualsIgnoreCase(args.UserName) && this.Passowrd.Password.EqualsIgnoreCase(args.Password) && args.Releases.Length > 0)
+      if (!string.IsNullOrEmpty(args.Cookies) && UserName.Text.EqualsIgnoreCase(args.UserName) && Passowrd.Password.EqualsIgnoreCase(args.Password) && args.Releases.Length > 0)
       {
         return true;
       }
@@ -115,7 +115,7 @@
       var cookies = string.Empty;
       WindowHelper.LongRunningTask(
         () => cookies = GetMarketplaceCookie(username, password), 
-        "Download Sitecore 8.x Wizard", 
+        "Download Sitecore Wizard", 
         Window.GetWindow(this), 
         "Authenticating");
 
@@ -135,15 +135,15 @@
     void IWizardStep.InitializeStep(WizardArgs wizardArgs)
     {
       var args = (DownloadWizardArgs)wizardArgs;
-      this.UserName.Text = args.UserName;
-      this.Passowrd.Password = args.Password;
+      UserName.Text = args.UserName;
+      Passowrd.Password = args.Password;
     }
 
     bool IWizardStep.SaveChanges(WizardArgs wizardArgs)
     {
-      var username = this.UserName.Text.Trim();
+      var username = UserName.Text.Trim();
 
-      var password = this.Passowrd.Password;
+      var password = Passowrd.Password;
 
       var args = (DownloadWizardArgs)wizardArgs;
       args.UserName = username;

@@ -1,6 +1,5 @@
 ﻿namespace SIM.Tool.Windows.MainWindowComponents
 {
-  using System;
   using System.IO;
   using System.Windows;
   using SIM.Instances;
@@ -26,9 +25,9 @@
       {
         var connectionString = ProfileManager.GetConnectionString();
         var args = new DeleteArgs(instance, connectionString);
-        args.OnCompleted += () => mainWindow.Dispatcher.Invoke(new Action(() => this.OnPipelineCompleted(args.RootPath)));
+        args.OnCompleted += () => mainWindow.Dispatcher.Invoke(() => OnPipelineCompleted(args.RootPath));
         var index = MainWindowHelper.GetListItemID(instance.ID);
-        WizardPipelineManager.Start("delete", mainWindow, args, null, (ignore) => OnWizardCompleted(index));
+        WizardPipelineManager.Start("delete", mainWindow, args, null, (ignore) => OnWizardCompleted(index), () => null); 
       }
     }
 

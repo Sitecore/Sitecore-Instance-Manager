@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SIM.Pipelines.Install.Modules;
 
@@ -13,31 +9,31 @@ namespace SIM.Tests.Pipelines
   {
     #region Constants
 
-    const string solr4xml = @"<response><lst name=""lucene""><str name=""solr-spec-version"">4.0.0</str></lst><str name=""solr_home"">anonymousPath</str></response>";
-    const string solr5xml = @"<response><lst name=""lucene""><str name=""solr-spec-version"">5.0.0</str></lst><str name=""solr_home"">anonymousPath</str></response>";
+    const string Solr4Xml = @"<response><lst name=""lucene""><str name=""solr-spec-version"">4.0.0</str></lst><str name=""solr_home"">anonymousPath</str></response>";
+    const string Solr5Xml = @"<response><lst name=""lucene""><str name=""solr-spec-version"">5.0.0</str></lst><str name=""solr_home"">anonymousPath</str></response>";
 
-    readonly XmlDocumentEx solr4definition = XmlDocumentEx.LoadXml(solr4xml);
-    readonly XmlDocumentEx solr5definition = XmlDocumentEx.LoadXml(solr5xml);
+    XmlDocumentEx Solr4Definition { get; } = XmlDocumentEx.LoadXml(Solr4Xml);
+    XmlDocumentEx Solr5Definition { get; } = XmlDocumentEx.LoadXml(Solr5Xml);
 
     #endregion
 
 
     [TestMethod]
-    public void Constructor_PassedSolr4_ReturnsObject()
+    public void ConstructorPassedSolr4ReturnsObject()
     {
-      SolrInformation sut = new SolrInformation(solr4definition);
+      SolrInformation sut = new SolrInformation(Solr4Definition);
       Assert.IsNotNull(sut);
     }
 
     [TestMethod]
-    public void Constructor_PassedSolr5_ReturnsObject()
+    public void ConstructorPassedSolr5ReturnsObject()
     {
-      SolrInformation sut = new SolrInformation(solr5definition);
+      SolrInformation sut = new SolrInformation(Solr5Definition);
       Assert.IsNotNull(sut);
     }
 
     [TestMethod, ExpectedException(typeof(SolrInformation.InvalidException))]
-    public void Constructor_InvalidSolrNode_Throws()
+    public void ConstructorInvalidSolrNodeThrows()
     {
       XmlDocumentEx definitionWithInvalidVersion =
         XmlDocumentEx.LoadXml(@"<response><lst name=""lucene""><str name=""solr-spec-version"">invalidSolrVersion</str></lst></response>");
@@ -46,7 +42,7 @@ namespace SIM.Tests.Pipelines
     }
 
     [TestMethod, ExpectedException(typeof(SolrInformation.InvalidException))]
-    public void Constructor_InvalidSolrVersion_Throws()
+    public void ConstructorInvalidSolrVersionThrows()
     {
       XmlDocumentEx solr4Definition =
         XmlDocumentEx.LoadXml(@"<response><lst name=""lucene""><str name=""solr-spec-version"">3.0.0</str></lst></response>");
@@ -56,7 +52,7 @@ namespace SIM.Tests.Pipelines
 
     
     [TestMethod, ExpectedException(typeof(SolrInformation.InvalidException))]
-    public void Constructor_SolrPathMissing_Throws()
+    public void ConstructorSolrPathMissingThrows()
     {
       XmlDocumentEx missingPath =
         XmlDocumentEx.LoadXml(@"<response><lst name=""lucene""><str name=""solr-spec-version"">4.0.0</str></lst></response>");
@@ -68,14 +64,14 @@ namespace SIM.Tests.Pipelines
     /// Documents behavior of LoadXml method when faced with invalid XML.
     /// </summary>
     [TestMethod, ExpectedException(typeof(ArgumentNullException))]
-    public void Construtor_PassedInvalidXML_ThrowsArgumentNull()
+    public void ConstrutorPassedInvalidXmlThrowsArgumentNull()
     {
       XmlDocumentEx solrDefinition = XmlDocumentEx.LoadXml(@"invalid xml");
       new SolrInformation(solrDefinition);
     }
 
     [TestMethod]
-    public void Constructor_PathInSolrHome_SetsProperty()
+    public void ConstructorPathInSolrHomeSetsProperty()
     {
       string anonymousPath = "anonymousPath" + Guid.NewGuid();
       XmlDocumentEx solrDefinition = XmlDocumentEx.LoadXml($@"<response><lst name=""lucene""><str name=""solr-spec-version"">5.0.0</str></lst><str name=""solr_home"">{anonymousPath}</str></response>");
@@ -89,7 +85,7 @@ namespace SIM.Tests.Pipelines
     /// Fallback for Solr 4, which does not set solr_home.
     /// </summary>
     [TestMethod]
-    public void Constructor_PathInJavaRuntimeSetting_SetsProperty()
+    public void ConstructorPathInJavaRuntimeSettingSetsProperty()
     {
       string anonymousPath = "anonymousPath" + Guid.NewGuid();
       XmlDocumentEx solrDefinition = XmlDocumentEx.LoadXml($@"
@@ -119,7 +115,7 @@ namespace SIM.Tests.Pipelines
     /// In practice, these should always be the same.
     /// </summary>
     [TestMethod]
-    public void Constructor_PathInSettingArgs_UsesSetting()
+    public void ConstructorPathInSettingArgsUsesSetting()
     {
       // Randomized to ensure separate, with embedded helper value. This 
       // pattern is borrowed from AutoFixture.
@@ -145,18 +141,18 @@ namespace SIM.Tests.Pipelines
     }
 
     [TestMethod]
-    public void CollectionTemplate_Solr4_SetToCollection1()
+    public void CollectionTemplateSolr4SetToCollection1()
     {
-      SolrInformation sut = new SolrInformation(solr4definition);
+      SolrInformation sut = new SolrInformation(Solr4Definition);
       
       Assert.AreEqual("collection1", sut.CollectionTemplate);
       Assert.AreEqual(@"anonymousPath\collection1", sut.TemplateFullPath);
     }
 
     [TestMethod]
-    public void CollectionTemplate_solr5_SetToConfigSetDataDrivenConfig()
+    public void CollectionTemplateSolr5SetToConfigSetDataDrivenConfig()
     {
-      SolrInformation sut = new SolrInformation(solr5definition);
+      SolrInformation sut = new SolrInformation(Solr5Definition);
 
       Assert.AreEqual(@"configsets\data_driven_schema_configs", sut.CollectionTemplate);
       Assert.AreEqual(@"anonymousPath\configsets\data_driven_schema_configs", sut.TemplateFullPath);

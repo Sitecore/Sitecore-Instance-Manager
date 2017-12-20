@@ -20,7 +20,7 @@ namespace SIM.Pipelines.Install.Modules
       Instance instance = args.Instance;
       Assert.IsNotNull(instance, nameof(instance));
 
-      if (this.ProcessorDefinition.Param == "nowait")
+      if (ProcessorDefinition.Param == "nowait")
       {
         if (!args.PreHeat)
         {

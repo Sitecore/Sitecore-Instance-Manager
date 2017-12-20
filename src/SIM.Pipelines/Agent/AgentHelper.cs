@@ -158,7 +158,7 @@
         bool customExists = custom.Count > 0;
         if (customExists)
         {
-          var value = custom.Aggregate(string.Empty, (current, pair) => current + (";" + pair[0] + "-" + pair[1]));
+          var value = custom.Aggregate(string.Empty, (current, pair) => current + ($";{pair[0]}-{pair[1]}"));
           var postInstallUrl = GetUrl(instance, AgentFiles.PostInstallActionsFileName, value.TrimStart(';'), "custom");
           ExecuteAgent(AgentFiles.StatusFileName, statusUrl, AgentFiles.PostInstallActionsFileName, postInstallUrl, ActionsPerforming, ActionsPerformed);
           return;
@@ -167,7 +167,7 @@
 
       if (skipPostActions)
       {
-        Log.Info(string.Format("PostActions are skipped"));
+        Log.Info("PostActions are skipped");
         return;
       }
 
@@ -185,7 +185,8 @@
 
     public static string GetUrl(Instance instance, string pageName, string value = null, string key = null)
     {
-      return instance.GetUrl(AgentPath + '/' + pageName) + (!string.IsNullOrEmpty(value) ? "?" + (key ?? "fileName") + "=" + HttpUtility.UrlEncode(value) : string.Empty);
+      return instance.GetUrl(AgentPath + '/' + pageName) + (!string.IsNullOrEmpty(value) ? $"?{key ?? "fileName"}={HttpUtility.UrlEncode(value)}"
+               : string.Empty);
     }
 
     [NotNull]

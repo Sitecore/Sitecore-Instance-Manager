@@ -7,6 +7,7 @@
   using SIM.Tool.Base.Plugins;
   using JetBrains.Annotations;
   using SIM.Tool.Base.Wizards;
+  using SIM.Tool.Windows.UserControls.Backup;
 
   [UsedImplicitly]
   public class BackupInstanceButton : IMainWindowButton
@@ -25,7 +26,7 @@
       if (instance != null)
       {
         var id = MainWindowHelper.GetListItemID(instance.ID);
-        WizardPipelineManager.Start("backup", mainWindow, new BackupArgs(instance), null, ignore => MainWindowHelper.MakeInstanceSelected(id), instance);
+        WizardPipelineManager.Start("backup", mainWindow, new BackupArgs(instance), null, ignore => MainWindowHelper.MakeInstanceSelected(id), () => new BackupSettingsWizardArgs(instance));
       }
     }
 

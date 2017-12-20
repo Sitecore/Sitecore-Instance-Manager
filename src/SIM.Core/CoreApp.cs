@@ -6,9 +6,6 @@
   using System.IO;
   using System.Linq;
   using log4net.Config;
-  using log4net.Core;
-  using log4net.Layout;
-  using log4net.Util;
   using JetBrains.Annotations;
   using Sitecore.Diagnostics.Logging;
   using SIM.Core.Logging;
@@ -62,7 +59,7 @@
 
     public static void Exit()
     {
-      Log.Info(string.Format("Shutting down"));
+      Log.Info("Shutting down");
     }
 
     public static void LogMainInfo()
@@ -73,18 +70,18 @@
         var commandLineArgs = nativeArgs.Skip(1).ToArray();
         var argsToLog = commandLineArgs.Length > 0 ? string.Join("|", commandLineArgs) : "<NO ARGUMENTS>";
 
-        Log.Info(string.Format("**********************************************************************"));
-        Log.Info(string.Format("**********************************************************************"));
-        Log.Info(string.Format("Sitecore Instance Manager started"));
+        Log.Info("**********************************************************************");
+        Log.Info("**********************************************************************");
+        Log.Info("Sitecore Instance Manager started");
         Log.Info($"Version: {ApplicationManager.AppVersion}");
         Log.Info($"Revision: {ApplicationManager.AppRevision}");
         Log.Info($"Label: {ApplicationManager.AppLabel}");
-        Log.Info($"IsQA: {ApplicationManager.IsQA}");
+        Log.Info($"IsQA: {ApplicationManager.IsQa}");
         Log.Info($"Executable: {nativeArgs.FirstOrDefault() ?? ApplicationManager.ProcessName}");
         Log.Info($"Arguments: {argsToLog}");
         Log.Info($"Directory: {Environment.CurrentDirectory}");
-        Log.Info(string.Format("**********************************************************************"));
-        Log.Info(string.Format("**********************************************************************"));
+        Log.Info("**********************************************************************");
+        Log.Info("**********************************************************************");
       }
       catch
       {
@@ -92,37 +89,11 @@
       }
     }
 
-    public static void InitializeLogging()
+    public static void InitializeLogging(LogFileAppender infoLogger, LogFileAppender debugLogger)
     {
       Log.Initialize(new Log4NetLogProvider());
-
-      var logConfig = new FileInfo("Log.config");
-      if (logConfig.Exists)
-      {
-        XmlConfigurator.Configure(logConfig);
-      }
-      else
-      {
-        var infoLogger = new LogFileAppender
-        {
-          AppendToFile = true,
-          File = "hard-coded",
-          Layout = new PatternLayout("%4t %d{ABSOLUTE} %-5p %m%n"),
-          SecurityContext = new WindowsSecurityContext(),
-          Threshold = Level.Info
-        };
-
-        var debugLogger = new LogFileAppender
-        {
-          AppendToFile = true,
-          File = "$(debugPath)",
-          Layout = new PatternLayout("%4t %d{ABSOLUTE} %-5p %m%n"),
-          SecurityContext = new WindowsSecurityContext(),
-          Threshold = Level.Debug
-        };
-
-        BasicConfigurator.Configure(infoLogger, debugLogger);
-      }
+                                          
+      BasicConfigurator.Configure(infoLogger, debugLogger);
     }
 
     public static void DeleteTempFolders()
@@ -133,7 +104,7 @@
       }
       catch (Exception ex)
       {
-        Log.Error(ex, string.Format("Deleting temp folders caused an exception"));
+        Log.Error(ex, "Deleting temp folders caused an exception");
       }
     }
 
@@ -169,7 +140,8 @@
         ProfileSection.Argument("app", app);
         ProfileSection.Argument("@params", @params);
 
-        var resultParams = string.Join(" ", @params.Select(x => x.Trim('\"')).Select(x => x.Contains(" ") || x.Contains("=") ? "\"" + x + "\"" : x));
+        var resultParams = string.Join(" ", @params.Select(x => x.Trim('\"')).Select(x => x.Contains(" ") || x.Contains("=") ? $"\"{x}\""
+          : x));
         Log.Debug($"resultParams: {resultParams}");
 
         var process = Process.Start(app, resultParams);

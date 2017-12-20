@@ -15,7 +15,7 @@
   {
     #region Fields
 
-    private readonly List<string> done = new List<string>();
+    private readonly List<string> _Done = new List<string>();
     
     #endregion
 
@@ -39,12 +39,19 @@
       var sqlPrefix = args.InstanceSqlPrefix;
       Assert.IsNotNull(sqlPrefix, nameof(sqlPrefix));
 
-      var controller = this.Controller;
+      var controller = Controller;
 
       foreach (ConnectionString connectionString in instance.Configuration.ConnectionStrings)
       {
-        if (this.done.Contains(connectionString.Name))
+        var connectionStringName = connectionString.Name;
+        if (_Done.Contains(connectionStringName))
         {
+          continue;
+        }
+        
+        if (connectionStringName.Contains("apikey"))
+        {
+          _Done.Add(connectionStringName);
           continue;
         }
 
@@ -55,7 +62,7 @@
           controller.IncrementProgress(AttachDatabasesHelper.StepsCount / args.ConnectionString.Count);
         }
 
-        this.done.Add(connectionString.Name);
+        _Done.Add(connectionStringName);
       }
     }
 

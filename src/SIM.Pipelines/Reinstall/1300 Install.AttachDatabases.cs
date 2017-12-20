@@ -1,7 +1,6 @@
 ﻿namespace SIM.Pipelines.Reinstall
 {
   using System.Collections.Generic;
-  using System.Linq;
   using SIM.Adapters.WebServer;
   using SIM.Instances;
   using SIM.Pipelines.Processors;
@@ -17,7 +16,7 @@
   {
     #region Fields
 
-    private readonly List<string> done = new List<string>();
+    private readonly List<string> _Done = new List<string>();
     
     #endregion
 
@@ -36,14 +35,14 @@
       Assert.IsNotNull(defaultConnectionString, "SQL Connection String isn't set in the Settings dialog");
 
       var instanceName = args.instanceName;
-      var instance = InstanceManager.GetInstance(instanceName);
-      var controller = this.Controller;
+      var instance = InstanceManager.Default.GetInstance(instanceName);
+      var controller = Controller;
 
       var sqlPrefix = args.SqlPrefix;
 
       foreach (ConnectionString connectionString in instance.Configuration.ConnectionStrings)
       {
-        if (this.done.Contains(connectionString.Name))
+        if (_Done.Contains(connectionString.Name))
         {
           continue;
         }
@@ -55,7 +54,7 @@
           controller.IncrementProgress(AttachDatabasesHelper.StepsCount / args.ConnectionString.Count);
         }
         
-        this.done.Add(connectionString.Name);
+        _Done.Add(connectionString.Name);
       }
     }
 

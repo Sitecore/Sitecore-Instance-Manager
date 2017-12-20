@@ -6,7 +6,7 @@
 			<RowDefinition Height="30*" />
 		</Grid.RowDefinitions>
 		<TextBlock HorizontalAlignment="Stretch" Name="title" Text="{Binding Title}" Margin="4" TextAlignment="Left" Grid.Row="0" />
-        <TextBox Height="23" HorizontalAlignment="Stretch" Name="value" VerticalAlignment="Center" Margin="4" Grid.Row="1" Text="{Binding DefaultValue}" KeyUp="value_KeyUp" />
-		<Button Content="OK" Height="23" HorizontalAlignment="Right" Name="OK" VerticalAlignment="Bottom" Width="80" Margin="4" Click="OKClick" Grid.Row="2" />
+        <TextBox Height="23" HorizontalAlignment="Stretch" Name="value" VerticalAlignment="Center" Margin="4" Grid.Row="1" Text="{Binding DefaultValue}" KeyUp="ValueKeyUp" />
+		<Button Content="OK" Height="23" HorizontalAlignment="Right" Name="OK" VerticalAlignment="Bottom" Width="80" Margin="4" Click="OkClick" Grid.Row="2" />
 	</Grid>
 </Window>

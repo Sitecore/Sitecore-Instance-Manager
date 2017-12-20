@@ -12,7 +12,7 @@ namespace SIM.Tool.Windows.Dialogs
   {
     #region Fields
 
-    private DataTable queryResults = new DataTable();
+    private DataTable _QueryResults = new DataTable();
 
     #endregion
 
@@ -20,25 +20,25 @@ namespace SIM.Tool.Windows.Dialogs
 
     public DatabaseQueryExecutionDialog()
     {
-      this.InitializeComponent();
+      InitializeComponent();
     }
 
     public DatabaseQueryExecutionDialog(string defaultQueryValue)
     {
-      this.InitializeComponent();
-      this.databaseQueryInput.Text = defaultQueryValue;
+      InitializeComponent();
+      databaseQueryInput.Text = defaultQueryValue;
     }
 
     #endregion
 
     #region Private methods
 
-    private void ExecuteQuery_Click(object sender, RoutedEventArgs e)
+    private void ExecuteQueryClick(object sender, RoutedEventArgs e)
     {
       try
       {
-        this.queryResults = SqlServerManager.Instance.GetResultOfQueryExecution(ProfileManager.GetConnectionString(), this.databaseQueryInput.Text);
-        this.dataGrid1.ItemsSource = this.queryResults.DefaultView;
+        _QueryResults = SqlServerManager.Instance.GetResultOfQueryExecution(ProfileManager.GetConnectionString(), databaseQueryInput.Text);
+        dataGrid1.ItemsSource = _QueryResults.DefaultView;
       }
       catch (Exception ex)
       {
@@ -46,14 +46,14 @@ namespace SIM.Tool.Windows.Dialogs
       }
     }
 
-    private void databaseQueryInput_KeyUp(object sender, KeyEventArgs e)
+    private void DatabaseQueryInputKeyUp(object sender, KeyEventArgs e)
     {
       if (e.Key == Key.F5)
       {
         try
         {
-          this.queryResults = SqlServerManager.Instance.GetResultOfQueryExecution(ProfileManager.GetConnectionString(), this.databaseQueryInput.Text);
-          this.dataGrid1.ItemsSource = this.queryResults.DefaultView;
+          _QueryResults = SqlServerManager.Instance.GetResultOfQueryExecution(ProfileManager.GetConnectionString(), databaseQueryInput.Text);
+          dataGrid1.ItemsSource = _QueryResults.DefaultView;
         }
         catch (Exception ex)
         {

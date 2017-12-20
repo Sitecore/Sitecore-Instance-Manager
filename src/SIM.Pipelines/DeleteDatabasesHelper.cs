@@ -78,13 +78,13 @@ namespace SIM.Pipelines
       foreach (var database in mongoDatabases)
       {
         var cstr = database.ConnectionString;
-        if (!SqlServerManager.Instance.IsMongoConnectionString(cstr))
+        if (!MongoDbManager.Instance.IsMongoConnectionString(cstr))
         {
           continue;
         }
 
         var pos = cstr.IndexOf('/', @"mongodb://".Length + 1);
-        Assert.IsTrue(pos >= 0 && pos < cstr.Length - 1, "Mongo connection string is corrupted: " + cstr);
+        Assert.IsTrue(pos >= 0 && pos < cstr.Length - 1, $"Mongo connection string is corrupted: {cstr}");
 
         var dbName = cstr.Substring(pos + 1);
         var client = new MongoClient();

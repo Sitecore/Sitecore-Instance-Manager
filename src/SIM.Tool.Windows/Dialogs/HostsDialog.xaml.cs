@@ -15,7 +15,7 @@
   {
     #region Fields
 
-    private IList<Hosts.IpHostRecord> records;
+    private IList<Hosts.IpHostRecord> _Records;
 
     #endregion
 
@@ -23,7 +23,7 @@
 
     public HostsDialog()
     {
-      this.InitializeComponent();
+      InitializeComponent();
     }
 
     #endregion
@@ -32,19 +32,19 @@
 
     private void CancelChanges([CanBeNull] object sender, [CanBeNull] RoutedEventArgs e)
     {
-      this.Close();
+      Close();
     }
 
     private void SaveChanges([CanBeNull] object sender, [CanBeNull] RoutedEventArgs e)
     {
-      this.SaveSettings();
+      SaveSettings();
     }
 
     private void SaveSettings()
     {
-      Hosts.Save(this.records);
-      this.DialogResult = true;
-      this.Close();
+      Hosts.Save(_Records);
+      DialogResult = true;
+      Close();
     }
 
     private void WindowKeyUp([NotNull] object sender, [NotNull] KeyEventArgs e)
@@ -60,7 +60,7 @@
         }
 
         e.Handled = true;
-        this.Close();
+        Close();
       }
     }
 
@@ -71,33 +71,33 @@
     private void Add(object sender, RoutedEventArgs e)
     {
       var newRecord = new Hosts.IpHostRecord("127.0.0.1");
-      this.records.Add(newRecord);
-      this.HostsList.DataContext = null;
-      this.HostsList.DataContext = this.records;
-      this.HostsList.ScrollIntoView(newRecord);
+      _Records.Add(newRecord);
+      HostsList.DataContext = null;
+      HostsList.DataContext = _Records;
+      HostsList.ScrollIntoView(newRecord);
     }
 
     private void Delete(object sender, RoutedEventArgs e)
     {
       var button = (Button)sender;
       var id = button.Tag;
-      var record = this.records.OfType<Hosts.IpHostRecord>().Single(r => r.ID.Equals(id));
-      this.records.Remove(record);
-      this.HostsList.DataContext = null;
-      this.HostsList.DataContext = this.records;
+      var record = _Records.OfType<Hosts.IpHostRecord>().Single(r => r.ID.Equals(id));
+      _Records.Remove(record);
+      HostsList.DataContext = null;
+      HostsList.DataContext = _Records;
     }
 
     private void WindowLoaded(object sender, RoutedEventArgs e)
     {
       try
       {
-        this.records = Hosts.GetRecords().OfType<Hosts.IpHostRecord>().ToList();
-        this.HostsList.DataContext = this.records;
+        _Records = Hosts.GetRecords().OfType<Hosts.IpHostRecord>().ToList();
+        HostsList.DataContext = _Records;
       }
       catch (Exception ex)
       {
         WindowHelper.HandleError("The exception occurred during window initialization - it will be closed then.", true, ex);
-        this.Close();
+        Close();
       }
     }
 

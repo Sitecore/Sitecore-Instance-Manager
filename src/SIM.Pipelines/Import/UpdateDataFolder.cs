@@ -6,7 +6,7 @@
 
     protected override void Process(ImportArgs args)
     {
-      var websiteFolderPath = args.rootPath;
+      var websiteFolderPath = args._RootPath;
       SetupWebsiteHelper.SetDataFolder(websiteFolderPath);
     }
 

@@ -37,7 +37,7 @@ namespace SIM.Tool.Windows.MainWindowComponents
 
     public virtual void OnClick(Window mainWindow, Instance instance)
     {
-      Analytics.TrackEvent("OpenCommandLine");             
+      Analytics.TrackEvent(AppName);             
 
       RunApp(mainWindow);
     }
@@ -46,7 +46,7 @@ namespace SIM.Tool.Windows.MainWindowComponents
 
     protected void RunApp(Window mainWindow, string param = null)
     {
-      var path = Path.Combine(AppFolder, this.ExecutableName);
+      var path = Path.Combine(AppFolder, ExecutableName);
 
       var latestVersion = GetLatestVersion();
 
@@ -82,7 +82,7 @@ namespace SIM.Tool.Windows.MainWindowComponents
     private string GetLatestVersion()
     {
       var latestVersion = string.Empty;
-      var url = this.BaseUrl.TrimEnd('/') + "/latest-version.txt";
+      var url = BaseUrl.TrimEnd('/') + "/latest-version.txt";
       try
       {
         latestVersion = WebRequestHelper.DownloadString(url).Trim();
@@ -97,8 +97,8 @@ namespace SIM.Tool.Windows.MainWindowComponents
 
     private void GetLatestVersion(Window mainWindow, string path)
     {
-      WindowHelper.LongRunningTask(() => this.GetLatestVersion(path), "Downloading latest version", mainWindow,
-        "Downloading latest version of " + this.AppName + ". \n\nNext time this operation will not be needed.",
+      WindowHelper.LongRunningTask(() => GetLatestVersion(path), "Downloading latest version", mainWindow,
+        "Downloading latest version of " + AppName + ". \n\nNext time this operation will not be needed.",
         "It may take a few minutes if you have slow internet connection", true);
     }
 
@@ -108,7 +108,7 @@ namespace SIM.Tool.Windows.MainWindowComponents
       {
         var folder = Path.GetDirectoryName(path);
         FileSystem.FileSystem.Local.Directory.Ensure(folder);
-        var downloadTxtUrl = this.BaseUrl.TrimEnd('/') + "/download.txt";
+        var downloadTxtUrl = BaseUrl.TrimEnd('/') + "/download.txt";
         var downloadUrl = WebRequestHelper.DownloadString(downloadTxtUrl).TrimEnd(" \r\n".ToCharArray());
         var packageZipPath = Path.Combine(folder, "package.zip");
         WebRequestHelper.DownloadFile(downloadUrl, packageZipPath);

@@ -9,7 +9,7 @@ namespace SIM.Pipelines.Delete
   {
     #region Fields
 
-    private readonly List<string> done = new List<string>();
+    private readonly List<string> _Done = new List<string>();
 
     #endregion
 
@@ -19,9 +19,9 @@ namespace SIM.Pipelines.Delete
     {
       Assert.ArgumentNotNull(args, nameof(args));
 
-      var detectedDatabases = args.MongoDatabases;
+      var detectedDatabases = args._MongoDatabases;
 
-      DeleteDatabasesHelper.Process(detectedDatabases, this.done);
+      DeleteDatabasesHelper.Process(detectedDatabases, _Done);
     }
 
     #endregion

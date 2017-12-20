@@ -41,7 +41,7 @@
         System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(type.TypeHandle);
       }
 
-      this.InitializeComponent();
+      InitializeComponent();
     }
 
     #endregion
@@ -53,14 +53,14 @@
     {
       get
       {
-        return (Profile)this.DataContext;
+        return (Profile)DataContext;
       }
 
       set
       {
         Assert.ArgumentNotNull(value, nameof(value));
 
-        this.DataContext = value;
+        DataContext = value;
       }
     }
 
@@ -70,12 +70,12 @@
 
     private void CancelChanges([CanBeNull] object sender, [CanBeNull] RoutedEventArgs e)
     {
-      this.Close();
+      Close();
     }
 
     private void ContentLoaded(object sender, EventArgs e)
     {
-      this.DataGrid.DataContext = this.GetAdvancedProperties();
+      DataGrid.DataContext = GetAdvancedProperties();
     }
 
     private IEnumerable<AdvancedPropertyBase> GetAdvancedProperties()
@@ -114,9 +114,9 @@
 
     private void SaveSettings()
     {
-      ProfileManager.SaveChanges(this.Profile);
-      this.DialogResult = true;
-      this.Close();
+      ProfileManager.SaveChanges(Profile);
+      DialogResult = true;
+      Close();
     }
 
     private void WindowKeyUp([NotNull] object sender, [NotNull] KeyEventArgs e)
@@ -132,7 +132,7 @@
         }
 
         e.Handled = true;
-        this.Close();
+        Close();
       }
     }
 

@@ -12,7 +12,7 @@ namespace SIM.Pipelines.Install.Modules
   /// </summary>
   public class SolrInformation
   {
-    private readonly XmlDocumentEx _solrInfoResponse;
+    private XmlDocumentEx _solrInfoResponse { get; }
 
     #region Properties
 
@@ -122,17 +122,17 @@ namespace SIM.Pipelines.Install.Modules
 
     public class InvalidException : ApplicationException
     {
-      private readonly string _message;
-      private readonly SolrInformation _solrInformation;
+      private string _message { get; }
+      private SolrInformation SolrInformation { get; }
 
 
       public InvalidException(string message, SolrInformation solrInformation)
       {
         _message = message;
-        _solrInformation = solrInformation;
+        SolrInformation = solrInformation;
       }
 
-      public override string Message => $"Invalid response from /solr/admin/info/system.\n\nDetails: {_message}\n\nSolr API Response:\n{_solrInformation.SolrInfoResponse.OuterXml}";
+      public override string Message => $"Invalid response from /solr/admin/info/system.\n\nDetails: {_message}\n\nSolr API Response:\n{SolrInformation.SolrInfoResponse.OuterXml}";
 
     }
 

@@ -5,6 +5,7 @@
   using SIM.Instances;
   using SIM.Tool.Base.Plugins;
   using JetBrains.Annotations;
+  using SIM.Tool.Base.Pipelines;
   using SIM.Tool.Base.Wizards;
 
   [UsedImplicitly]
@@ -24,7 +25,7 @@
       if (instance != null)
       {
         var id = MainWindowHelper.GetListItemID(instance.ID);
-        WizardPipelineManager.Start("installmodules", mainWindow, null, null, ignore => MainWindowHelper.MakeInstanceSelected(id), instance);
+        WizardPipelineManager.Start("installmodules", mainWindow, null, null, ignore => MainWindowHelper.MakeInstanceSelected(id), () => new InstallModulesWizardArgs(instance));
       }
     }
 

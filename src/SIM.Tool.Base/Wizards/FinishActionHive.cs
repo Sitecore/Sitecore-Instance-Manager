@@ -11,7 +11,7 @@
   {
     #region Fields
 
-    protected readonly Type WizardArgumentsType;
+    protected Type WizardArgumentsType { get; }
 
     #endregion
 
@@ -19,7 +19,7 @@
 
     public FinishActionHive(Type type)
     {
-      this.WizardArgumentsType = type;
+      WizardArgumentsType = type;
     }
 
     #endregion

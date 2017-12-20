@@ -26,7 +26,7 @@
     {
       Assert.ArgumentNotNull(mainWindow, nameof(mainWindow));
 
-      var instances = InstanceManager.PartiallyCachedInstances ?? InstanceManager.Instances;
+      var instances = InstanceManager.Default.PartiallyCachedInstances ?? InstanceManager.Default.Instances;
       Assert.IsNotNull(instances, nameof(instances));
 
       var otherInstances = instances.Where(x => x.ID != instance.ID);
@@ -50,7 +50,7 @@
         }
         catch (Exception ex)
         {
-          Log.Warn(ex, string.Format("An error occurred"));
+          Log.Warn(ex, "An error occurred");
         }
       }
     }

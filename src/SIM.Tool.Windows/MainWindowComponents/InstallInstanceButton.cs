@@ -10,7 +10,6 @@
   using SIM.Tool.Base.Profiles;
   using Sitecore.Diagnostics.Base;
   using JetBrains.Annotations;
-  using SIM.Pipelines.Install;
   using SIM.Tool.Base.Pipelines;
   using SIM.Tool.Base.Wizards;
 
@@ -28,7 +27,7 @@
     {
       Analytics.TrackEvent("Install");
 
-      Assert.IsTrue(ProfileManager.IsValid, string.Format("Some of configuration settings are invalid - please fix them in Settings dialog and try again"));
+      Assert.IsTrue(ProfileManager.IsValid, "Some of configuration settings are invalid - please fix them in Settings dialog and try again");
       Assert.IsTrue(ProductManager.StandaloneProducts.Any(),
         $@"You don't have any standalone product package in your repository. Options to solve:
 
@@ -60,7 +59,7 @@
           }
 
           Analytics.TrackEvent($"install-{product.Version}");
-        });
+        }, () => new InstallWizardArgs());
       }
     }
 

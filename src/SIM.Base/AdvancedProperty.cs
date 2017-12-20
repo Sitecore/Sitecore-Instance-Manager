@@ -8,7 +8,7 @@
   {
     #region Fields
 
-    protected string userValue;
+    protected string _UserValue;
 
     #endregion
 
@@ -17,9 +17,9 @@
     public AdvancedProperty(string xpathKey, T defaultValue, IAdvancedSettingsStorage settingsStorage, RawPropertyValueParser<T> rawValueParser)
       : base(xpathKey, settingsStorage)
     {
-      this.DefaultValue = defaultValue;
-      this.RawValueParser = rawValueParser;
-      this.userValue = this.ReadSetting();
+      DefaultValue = defaultValue;
+      RawValueParser = rawValueParser;
+      _UserValue = ReadSetting();
     }
 
     #endregion
@@ -32,13 +32,13 @@
     {
       get
       {
-        if (this.RawUserValue.IsNullOrEmpty())
+        if (RawUserValue.IsNullOrEmpty())
         {
           return true;
         }
 
         T parsedValue;
-        return this.RawValueParser(this.RawUserValue, out parsedValue);
+        return RawValueParser(RawUserValue, out parsedValue);
       }
     }
 
@@ -46,7 +46,7 @@
     {
       get
       {
-        return this.DefaultValue.ToString();
+        return DefaultValue.ToString();
       }
     }
 
@@ -55,13 +55,13 @@
     {
       get
       {
-        return this.userValue;
+        return _UserValue;
       }
 
       set
       {
-        this.WriteSetting(value);
-        this.userValue = value.IsNullOrEmpty() ? null : value;
+        WriteSetting(value);
+        _UserValue = value.IsNullOrEmpty() ? null : value;
       }
     }
 
@@ -70,17 +70,17 @@
       get
       {
         T parsedValue;
-        if (!this.RawUserValue.IsNullOrEmpty() && this.RawValueParser(this.RawUserValue, out parsedValue))
+        if (!RawUserValue.IsNullOrEmpty() && RawValueParser(RawUserValue, out parsedValue))
         {
           return parsedValue;
         }
 
-        return this.DefaultValue;
+        return DefaultValue;
       }
 
       set
       {
-        this.RawUserValue = value.ToString();
+        RawUserValue = value.ToString();
       }
     }
 

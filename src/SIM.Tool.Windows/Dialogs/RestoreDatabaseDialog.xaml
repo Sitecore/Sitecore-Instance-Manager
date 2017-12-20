@@ -2,7 +2,7 @@
     x:Class="SIM.Tool.Windows.Dialogs.RestoreDatabaseDialog" 
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
-    xmlns:Converters="clr-namespace:SIM.Tool.Base.Converters;assembly=SIM.Tool.Base" 
+    xmlns:converters="clr-namespace:SIM.Tool.Base.Converters;assembly=SIM.Tool.Base" 
     Title="Sitecore Instance Manager" Height="440" Width="540" Background="#FFF0F0F0" Icon="pack://application:,,,/SIM.Tool.Windows;component/Images/window.ico">
 
   <Window.Resources>
@@ -41,7 +41,7 @@
           <ColumnDefinition Width="72" />
         </Grid.ColumnDefinitions>
         <TextBox Name="dbPathFrom" Margin="0,0,4,0" />
-        <Button Content="Browse" Name="selectPathFrom" Click="selectPathFrom_Click" Grid.Column="1" />
+        <Button Content="Browse" Name="selectPathFrom" Click="SelectPathFromClick" Grid.Column="1" />
       </Grid>
       <TextBlock TextWrapping="Wrap">
 				<Bold>Restore to folder:</Bold>
@@ -52,7 +52,7 @@
           <ColumnDefinition Width="72" />
         </Grid.ColumnDefinitions>
         <TextBox Name="dbPathTo" Margin="0,0,4,0" />
-        <Button Content="Browse" Name="selectPathTo" Click="selectPathTo_Click" Grid.Column="1" />
+        <Button Content="Browse" Name="selectPathTo" Click="SelectPathToClick" Grid.Column="1" />
       </Grid>
       <TextBlock TextWrapping="Wrap">
       <Bold>Database file name:</Bold>
@@ -81,7 +81,7 @@
       <Grid Margin="23,11,21,12">
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
           <Grid HorizontalAlignment="Left" Margin="6,0,0,0" VerticalAlignment="Stretch"  Width="72">
-            <Button Content="OK" Name="DoneButton" Click="btnOk_Click" IsEnabled="True" />
+            <Button Content="OK" Name="DoneButton" Click="BtnOkClick" IsEnabled="True" />
             <!--  IsEnabled="{Binding ElementName=LicenseFile, Path=Text, Converter={x:Static Converters:IsNotNullOrEmptyAndFileExists.Instance}}" />-->
           </Grid>
           <Button Content="Cancel" HorizontalAlignment="Left" Margin="24,0,0,0" Name="CancelButton" VerticalAlignment="Stretch" IsEnabled="True" IsDefault="False" IsCancel="True" Width="72" />

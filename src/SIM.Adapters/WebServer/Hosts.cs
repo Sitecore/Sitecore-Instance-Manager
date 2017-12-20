@@ -16,11 +16,6 @@
 
   public static class Hosts
   {
-    #region Fields
-
-    private static readonly string AppendPattern = Environment.NewLine + "127.0.0.1\t{0}";
-
-    #endregion
 
     #region Public Methods
 
@@ -34,11 +29,11 @@
       Log.Info($"Appending host: {hostName}");
       if (lines.Any(line => Matches(hostName, line)))
       {
-        Log.Info(string.Format("Host already exists"));
+        Log.Info("Host already exists");
         return;
       }
       
-      FileSystem.FileSystem.Local.File.AppendAllText(path, AppendPattern.FormatWith(hostName));
+      FileSystem.FileSystem.Local.File.AppendAllText(path, Environment.NewLine + $"127.0.0.1\t{hostName}");
     }
 
     private static bool Matches(string hostName, string line)
@@ -128,16 +123,16 @@
 
     public class CommentHostRecord : IHostRecord
     {
-      private readonly string Line;
+      private string Line { get; }
 
       public CommentHostRecord(string line)
       {
-        this.Line = line;
+        Line = line;
       }
 
       public override string ToString()
       {
-        return this.Line;
+        return Line;
       }
     }
 
@@ -163,8 +158,7 @@
     {
       #region Fields
 
-      private static int _id;
-      private string id;
+      private static int NextId { get; set; }
 
       #endregion
 
@@ -172,9 +166,9 @@
 
       public IpHostRecord(string ip, string host = null)
       {
-        this.IP = ip;
-        this.Host = host ?? string.Empty;
-        this.id = _id++.ToString();
+        IP = ip;
+        Host = host ?? string.Empty;
+        ID = NextId++.ToString();
       }
 
       #endregion
@@ -183,13 +177,7 @@
 
       public string Host { get; set; }
 
-      public string ID
-      {
-        get
-        {
-          return this.id;
-        }
-      }
+      public string ID { get; }
 
       public string IP { get; set; }
 
@@ -199,7 +187,7 @@
 
       public override string ToString()
       {
-        return this.IP + '\t' + this.Host;
+        return IP + '\t' + Host;
       }
 
       #endregion

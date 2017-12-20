@@ -9,6 +9,7 @@
   using JetBrains.Annotations;
   using Sitecore.Diagnostics.Logging;
   using SIM.Extensions;
+  using SIM.IO.Real;
 
   public static class ManifestHelper
   {
@@ -25,15 +26,9 @@
       new LookupFolder("Manifests", true), new LookupFolder(ApplicationManager.UserManifestsFolder, true)
     };
 
-    public static LookupFolder[] CustomManifestsLocations = null;
+    public static LookupFolder[] _CustomManifestsLocations = null;
 
-    #endregion
-
-    #region Public properties
-
-    public static bool UpdateNeeded { get; private set; }
-
-    #endregion
+    #endregion                     
 
     #region Public methods
 
@@ -160,14 +155,14 @@
                       {
                         if (mainDocument == null)
                         {
-                          Log.Debug(string.Format("Loading file 'as main document'"));
+                          Log.Debug("Loading file \'as main document\'");
                           mainDocument = XmlDocumentEx.LoadFile(path);
 
                           ProfileSection.Result("Loaded");
                         }
                         else
                         {
-                          Log.Debug(string.Format("Loading file 'for merge'"));
+                          Log.Debug("Loading file \'for merge\'");
                           mainDocument.Merge(XmlDocumentEx.LoadFile(path));
 
                           ProfileSection.Result("Merged");
@@ -182,7 +177,7 @@
                     }
                     else if (findings.Length > 1)
                     {
-                      var findingsText = findings.Join(Environment.NewLine);
+                      var findingsText = string.Join(Environment.NewLine, findings);
                       var message = "There are several {0} files in the {1} folder: {2}".FormatWith(fileName, lookupFolder, findingsText);
                       Log.Warn(message);
 
@@ -212,7 +207,7 @@
                   var entry = zip[filenamePattern + ManifestExtension];
                   if (entry != null)
                   {
-                    Log.Debug(string.Format("Loading file 'as main document'"));
+                    Log.Debug("Loading file \'as main document\'");
 
                     using (var stream = new MemoryStream())
                     {
@@ -230,7 +225,7 @@
         }
         catch (Exception ex)
         {
-          Log.Error(ex, string.Format("Failed to find and merge manifests on file system"));
+          Log.Error(ex, "Failed to find and merge manifests on file system");
         }
 
         XmlDocumentEx archiveManifest = Product.ArchiveManifest;
@@ -242,7 +237,7 @@
             CacheManager.SetEntry("IsPackage", packageFile, "false");
             try
             {
-              Log.Debug(string.Format("Merging with 'archiveManifest'"));
+              Log.Debug("Merging with \'archiveManifest\'");
               mainDocument.Merge(archiveManifest);
             }
             catch (Exception ex)
@@ -255,7 +250,7 @@
             CacheManager.SetEntry("IsPackage", packageFile, "true");
             try
             {
-              Log.Debug(string.Format("Merging with 'packageManifest'"));
+              Log.Debug("Merging with \'packageManifest\'");
               mainDocument.Merge(packageManifest);
             }
             catch (Exception ex)
@@ -275,8 +270,9 @@
           return ProfileSection.Result(packageManifest);
         }
 
-        if (FileSystem.FileSystem.Local.Zip.ZipContainsFile(packageFile, "metadata/sc_name.txt") &&
-            FileSystem.FileSystem.Local.Zip.ZipContainsFile(packageFile, "installer/version"))
+        using(var zip = new RealZipFile(new RealFileSystem().ParseFile(packageFile)))
+        if (zip.Entries.Contains("metadata/sc_name.txt") &&
+            zip.Entries.Contains("installer/version"))
         {
           Log.Info($"The '{packageFile}' file is considered as Sitecore Package, (type #2)");
           CacheManager.SetEntry("IsPackage", packageFile, "true");
@@ -290,39 +286,6 @@
       }
     }
 
-    private static List<string> GetFileNamePatterns(IEnumerable<string> fileNamesRaw)
-    {
-      using (new ProfileSection("Get manifest lookup folders"))
-      {
-        ProfileSection.Argument("fileNamesRaw", fileNamesRaw);
-
-        var fileNamePatterns = new List<string>();
-        foreach (string filename in fileNamesRaw)
-        {
-          if (string.IsNullOrEmpty(filename) || fileNamePatterns.Contains(filename))
-          {
-            continue;
-          }
-
-          fileNamePatterns.Add(filename);
-
-          // if it is CMS
-          if (filename.StartsWith("sitecore 6") || filename.StartsWith("sitecore 7"))
-          {
-            continue;
-          }
-
-          var cut = filename.TrimStart("sitecore ").Trim();
-          if (!string.IsNullOrEmpty(cut) && !fileNamePatterns.Contains(cut))
-          {
-            fileNamePatterns.Add(cut);
-          }
-        }
-
-        return fileNamePatterns;
-      }
-    }
-
     private static LookupFolder[] GetManifestLookupFolders(string packageFile)
     {
       using (new ProfileSection("Get manifest lookup folders"))
@@ -331,7 +294,7 @@
 
         var packageFolder = new FileInfo(packageFile).Directory.IsNotNull("This is impossible").FullName;
         Assert.IsNotNull(packageFolder.EmptyToNull(), "folder");
-        var manifestLookupFolders = (CustomManifestsLocations ?? DefaultManifestsLocations).Add(new LookupFolder(packageFolder, false));
+        var manifestLookupFolders = (_CustomManifestsLocations ?? DefaultManifestsLocations).Add(new LookupFolder(packageFolder, false));
 
         return ProfileSection.Result(manifestLookupFolders.ToArray());
       }
@@ -343,17 +306,6 @@
       Log.Warn(ex, $"Failed merging '{(object)path}' with successfully merged {(object)str}. {(object)ex.Message}");
     }
 
-    private static string TrimRevision(string fileName)
-    {
-      var revIndex = fileName.IndexOf(" rev.", StringComparison.Ordinal);
-      if (revIndex >= 0)
-      {
-        return fileName.Substring(0, revIndex);
-      }
-
-      return fileName;
-    }
-
     #endregion
 
     #region Nested type: LookupFolder
@@ -363,9 +315,9 @@
       #region Fields
 
       [NotNull]
-      public readonly string Path;
+      public string Path { get; }
 
-      public readonly bool Recursive;
+      public bool Recursive { get; }
 
       #endregion
 
@@ -375,8 +327,8 @@
       {
         Assert.ArgumentNotNull(path, nameof(path));
 
-        this.Path = path;
-        this.Recursive = recursive;
+        Path = path;
+        Recursive = recursive;
       }
 
       #endregion
@@ -385,7 +337,7 @@
 
       public override string ToString()
       {
-        return "Path: {0}, Recursive: {1}".FormatWith(this.Path, this.Recursive);
+        return "Path: {0}, Recursive: {1}".FormatWith(Path, Recursive);
       }
 
       #endregion

@@ -12,7 +12,7 @@
   public static class InstanceHelper
   {
     [NotNull]
-    private static readonly Regex LogGroupRegex = new Regex(@"(.+)(\.\d\d\d\d\d\d\d\d)(\.\d\d\d\d\d\d)?\.txt", RegexOptions.Compiled);
+    private static Regex LogGroupRegex { get; } = new Regex(@"(.+)(\.\d\d\d\d\d\d\d\d)(\.\d\d\d\d\d\d)?\.txt", RegexOptions.Compiled);
 
     #region Public methods
 
@@ -40,7 +40,7 @@
       try
       {
         // 200ms should be more than enough to respond with empty page
-        InstanceHelper.StartInstance(instance, 200, reason);
+        StartInstance(instance, 200, reason);
         return true;
       }
       catch (WebException)

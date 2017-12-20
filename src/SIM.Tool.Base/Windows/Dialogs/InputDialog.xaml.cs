@@ -15,18 +15,18 @@
 
     public InputDialog()
     {
-      this.InitializeComponent();
+      InitializeComponent();
     }
 
     #endregion
 
     #region Methods
 
-    private void OKClick([CanBeNull] object sender, [CanBeNull] RoutedEventArgs e)
+    private void OkClick([CanBeNull] object sender, [CanBeNull] RoutedEventArgs e)
     {
-      this.DataContext = this.value.Text;
-      this.DialogResult = true;
-      this.Close();
+      DataContext = value.Text;
+      DialogResult = true;
+      Close();
     }
 
     #endregion
@@ -35,14 +35,14 @@
 
     private void WindowContentRendered(object sender, EventArgs e)
     {
-      FocusManager.SetFocusedElement(this.value, this.value);
+      FocusManager.SetFocusedElement(value, value);
     }
 
-    private void value_KeyUp(object sender, KeyEventArgs e)
+    private void ValueKeyUp(object sender, KeyEventArgs e)
     {
       if (e.Key == Key.Enter)
       {
-        this.OKClick(null, null);
+        OkClick(null, null);
       }
     }
 

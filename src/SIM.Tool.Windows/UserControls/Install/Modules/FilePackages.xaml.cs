@@ -21,8 +21,8 @@
   {
     #region Fields
 
-    private ObservableCollection<ProductInCheckbox> checkBoxItems = new ObservableCollection<ProductInCheckbox>();
-    private ObservableCollection<ProductInCheckbox> unfilteredCheckBoxItems = new ObservableCollection<ProductInCheckbox>();
+    private ObservableCollection<ProductInCheckbox> _CheckBoxItems = new ObservableCollection<ProductInCheckbox>();
+    private ObservableCollection<ProductInCheckbox> _UnfilteredCheckBoxItems = new ObservableCollection<ProductInCheckbox>();
 
     #endregion
 
@@ -30,8 +30,8 @@
 
     public FilePackages()
     {
-      this.InitializeComponent();
-      this.filePackages.ItemsSource = this.checkBoxItems;
+      InitializeComponent();
+      filePackages.ItemsSource = _CheckBoxItems;
     }
 
     #endregion
@@ -74,13 +74,13 @@
 
           FileSystem.FileSystem.Local.File.Copy(path, Path.Combine(ApplicationManager.FilePackagesFolder, fileName));
 
-          var products = this.checkBoxItems.Where(item => !item.Name.Equals(fileName, StringComparison.OrdinalIgnoreCase)).ToList();
+          var products = _CheckBoxItems.Where(item => !item.Name.Equals(fileName, StringComparison.OrdinalIgnoreCase)).ToList();
           products.Add(new ProductInCheckbox(Product.GetFilePackageProduct(Path.Combine(ApplicationManager.FilePackagesFolder, fileName))));
-          this.checkBoxItems = new ObservableCollection<ProductInCheckbox>(products);
-          this.unfilteredCheckBoxItems = new ObservableCollection<ProductInCheckbox>(products);
-          this.filePackages.ItemsSource = this.checkBoxItems;
+          _CheckBoxItems = new ObservableCollection<ProductInCheckbox>(products);
+          _UnfilteredCheckBoxItems = new ObservableCollection<ProductInCheckbox>(products);
+          filePackages.ItemsSource = _CheckBoxItems;
 
-          this.SelectAddedPackage(fileName);
+          SelectAddedPackage(fileName);
         }
       }
     }
@@ -116,19 +116,19 @@
       var args = (InstallModulesWizardArgs)wizardArgs;
       Product product = args.Product;
       Assert.IsNotNull(product, nameof(product));
-      IEnumerable<Product> selected = this.unfilteredCheckBoxItems.Where(mm => mm.IsChecked).Select(s => s.Value);
+      IEnumerable<Product> selected = _UnfilteredCheckBoxItems.Where(mm => mm.IsChecked).Select(s => s.Value);
 
-      foreach (var boxItem in this.unfilteredCheckBoxItems)
+      foreach (var boxItem in _UnfilteredCheckBoxItems)
       {
-        var moduleIndex = args.Modules.FindIndex(m => string.Equals(m.Name, boxItem.Value.Name, StringComparison.OrdinalIgnoreCase));
+        var moduleIndex = args._Modules.FindIndex(m => string.Equals(m.Name, boxItem.Value.Name, StringComparison.OrdinalIgnoreCase));
         while (moduleIndex >= 0)
         {
-          args.Modules.RemoveAt(moduleIndex);
-          moduleIndex = args.Modules.FindIndex(m => string.Equals(m.Name, boxItem.Value.Name, StringComparison.OrdinalIgnoreCase));
+          args._Modules.RemoveAt(moduleIndex);
+          moduleIndex = args._Modules.FindIndex(m => string.Equals(m.Name, boxItem.Value.Name, StringComparison.OrdinalIgnoreCase));
         }
       }
 
-      args.Modules.AddRange(selected);
+      args._Modules.AddRange(selected);
 
       return true;
     }
@@ -145,20 +145,20 @@
 
     public void InitializeStep(WizardArgs wizardArgs)
     {
-      this.WizardArgs = wizardArgs;
+      WizardArgs = wizardArgs;
       var args = (InstallModulesWizardArgs)wizardArgs;
-      this.checkBoxItems.Clear();
+      _CheckBoxItems.Clear();
       foreach (var folder in EnvironmentHelper.FilePackageFolders)
       {
-        this.Append(folder);
+        Append(folder);
       }
 
-      this.unfilteredCheckBoxItems = new ObservableCollection<ProductInCheckbox>(this.checkBoxItems);
+      _UnfilteredCheckBoxItems = new ObservableCollection<ProductInCheckbox>(_CheckBoxItems);
 
-      foreach (var module in args.Modules)
+      foreach (var module in args._Modules)
       {
         Product alreadySelectedModule = module;
-        ProductInCheckbox checkBoxItem = this.checkBoxItems.SingleOrDefault(cbi => cbi.Value.PackagePath.Equals(alreadySelectedModule.PackagePath, StringComparison.OrdinalIgnoreCase));
+        ProductInCheckbox checkBoxItem = _CheckBoxItems.SingleOrDefault(cbi => cbi.Value.PackagePath.Equals(alreadySelectedModule.PackagePath, StringComparison.OrdinalIgnoreCase));
         if (checkBoxItem != null)
         {
           checkBoxItem.IsChecked = true;
@@ -167,7 +167,7 @@
 
       if (args is InstallWizardArgs)
       {
-        foreach (var cbi in this.checkBoxItems.NotNull())
+        foreach (var cbi in _CheckBoxItems.NotNull())
         {
           if ((WindowsSettings.AppInstallDefaultCustomPackages.Value ?? string.Empty).Split('|').Any(s => cbi.Name.EqualsIgnoreCase(s)))
           {
@@ -176,7 +176,7 @@
         }
       }
 
-      this.DoSearch(this.SearchTextBox.Text = string.Empty);
+      DoSearch(SearchTextBox.Text = string.Empty);
     }
 
     #endregion
@@ -194,18 +194,18 @@
       var productsToAdd = files.Select(f => new ProductInCheckbox(Product.GetFilePackageProduct(f))).ToList();
       foreach (var productInCheckbox in productsToAdd)
       {
-        this.checkBoxItems.Add(productInCheckbox);
+        _CheckBoxItems.Add(productInCheckbox);
       }
     }
 
     private void ModuleSelected([CanBeNull] object sender, [CanBeNull] SelectionChangedEventArgs e)
     {
-      this.filePackages.SelectedIndex = -1;
+      filePackages.SelectedIndex = -1;
     }
 
     private void SelectAddedPackage(string packageName)
     {
-      var package = this.checkBoxItems.FirstOrDefault(item => item.Name.EqualsIgnoreCase(packageName));
+      var package = _CheckBoxItems.FirstOrDefault(item => item.Name.EqualsIgnoreCase(packageName));
       if (package != null)
       {
         package.IsChecked = true;
@@ -222,13 +222,13 @@
 
     private void DoSearch(string filter)
     {
-      this.checkBoxItems = new ObservableCollection<ProductInCheckbox>(this.unfilteredCheckBoxItems.Where(product => product.Name.ContainsIgnoreCase(filter) || product.Value.SearchToken.ContainsIgnoreCase(filter)));
-      this.filePackages.ItemsSource = this.checkBoxItems;
+      _CheckBoxItems = new ObservableCollection<ProductInCheckbox>(_UnfilteredCheckBoxItems.Where(product => product.Name.ContainsIgnoreCase(filter) || product.Value.SearchToken.ContainsIgnoreCase(filter)));
+      filePackages.ItemsSource = _CheckBoxItems;
     }
 
     private void Search(object sender, RoutedEventArgs e)
     {
-      this.DoSearch(this.SearchTextBox.Text);
+      DoSearch(SearchTextBox.Text);
     }
 
     private void SearchTextBoxKeyPressed(object sender, KeyEventArgs e)
@@ -247,10 +247,10 @@
 
         if (key == Key.Escape)
         {
-          this.SearchTextBox.Text = string.Empty;
+          SearchTextBox.Text = string.Empty;
         }
 
-        this.DoSearch(this.SearchTextBox.Text);
+        DoSearch(SearchTextBox.Text);
       }
       catch (Exception ex)
       {

@@ -14,14 +14,6 @@
       }
     }
 
-    public static void RaiseEvent(EventHandler subscriptionHandler, object sender)
-    {
-      if (subscriptionHandler != null)
-      {
-        subscriptionHandler(sender, EventArgs.Empty);
-      }
-    }
-
     #endregion
   }
 }

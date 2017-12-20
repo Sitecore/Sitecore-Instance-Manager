@@ -12,7 +12,7 @@
 
     #region Fields
 
-    private List<BindingsItem> BindingsItems = new List<BindingsItem>();
+    private List<BindingsItem> _BindingsItems = new List<BindingsItem>();
 
     #endregion
 
@@ -21,7 +21,7 @@
 
     public SetWebsiteBindings()
     {
-      this.InitializeComponent();
+      InitializeComponent();
     }
 
     #endregion
@@ -33,18 +33,18 @@
       ImportWizardArgs args = (ImportWizardArgs)wizardArgs;
 
       // TODO: Parse bindings in (ImportWizardArgs), Fill user control from bindings dictionary, Append all bindings in hosts
-      this.siteBindings.DataContext = args.bindings;
+      siteBindings.DataContext = args._Bindings;
     }
 
     public bool SaveChanges(WizardArgs wizardArgs)
     {
       ImportWizardArgs args = (ImportWizardArgs)wizardArgs;
       List<string> usedBindings = new List<string>();
-      foreach (var binding in args.bindings.Where(x => x.IsChecked == true))
+      foreach (var binding in args._Bindings.Where(x => x.IsChecked == true))
       {
-        if (this.BindingUsing(binding.hostName))
+        if (BindingUsing(binding.HostName))
         {
-          usedBindings.Add(binding.hostName);
+          usedBindings.Add(binding.HostName);
         }
       }
 

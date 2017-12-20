@@ -10,9 +10,9 @@
   {
     #region Fields
 
-    public readonly MethodInfo Method;
+    public MethodInfo Method { get; }
 
-    public readonly string Text;
+    public string Text { get; }
 
     #endregion
 
@@ -20,8 +20,8 @@
 
     public FinishAction(string text, MethodInfo method)
     {
-      this.Text = text;
-      this.Method = method;
+      Text = text;
+      Method = method;
     }
 
     #endregion

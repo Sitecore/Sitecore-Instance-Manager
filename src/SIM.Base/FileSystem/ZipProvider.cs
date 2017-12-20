@@ -17,14 +17,14 @@ namespace SIM.FileSystem
   {
     #region Constants
 
-    private const long KB = 1024;
-    private const long MB = 1024 * KB;
+    private const long Kb = 1024;
+    private const long Mb = 1024 * Kb;
 
     #endregion
 
     #region Fields
 
-    private readonly FileSystem fileSystem;
+    private FileSystem FileSystem { get; }
 
     #endregion
 
@@ -32,7 +32,7 @@ namespace SIM.FileSystem
 
     public ZipProvider(FileSystem fileSystem)
     {
-      this.fileSystem = fileSystem;
+      FileSystem = fileSystem;
     }
 
     #endregion
@@ -158,7 +158,7 @@ namespace SIM.FileSystem
           {
             var q = Math.Max(zip.Entries.Count / stepsCount, 1);
 
-            this.fileSystem.Directory.Ensure(path);
+            FileSystem.Directory.Ensure(path);
             var i = 0;
             ICollection<ZipEntry> entries = entriesPattern != null ? zip.SelectEntries(entriesPattern) : zip.Entries;
             foreach (ZipEntry entry in entries)
@@ -171,7 +171,7 @@ namespace SIM.FileSystem
               {
                 if (skipErrors)
                 {
-                  Log.Error(ex, string.Format("Unpacking caused exception"));
+                  Log.Error(ex, "Unpacking caused exception");
                   continue;
                 }
 
@@ -200,7 +200,7 @@ namespace SIM.FileSystem
               {
                 if (skipErrors)
                 {
-                  Log.Error(ex, string.Format("Unpacking caused exception"));
+                  Log.Error(ex, "Unpacking caused exception");
                   continue;
                 }
               }
@@ -252,7 +252,7 @@ namespace SIM.FileSystem
         {
           var q = Math.Max(zip.Entries.Count / stepsCount, 1);
 
-          this.fileSystem.Directory.Ensure(path);
+          FileSystem.Directory.Ensure(path);
           var i = 0;
           var entries = entriesPattern != null ? zip.SelectEntries(entriesPattern) : zip.Entries;
 
@@ -313,32 +313,11 @@ namespace SIM.FileSystem
         throw new InvalidOperationException($"The \"{packagePath}\" package seems to be corrupted.");
       }
     }
-
-    public virtual bool ZipContainsFile(string packagePath, string innerFileName)
-    {
-      var fileInfo = new FileInfo(packagePath);
-      Assert.IsTrue(fileInfo.Exists, "The {0} file does not exist".FormatWith(packagePath));
-
-      if (fileInfo.Length <= 22)
-      {
-        return false;
-      }
-
-      using (ZipFile zip = new ZipFile(packagePath))
-      {
-        if (zip.Entries.Any(e => e.FileName.EqualsIgnoreCase(innerFileName)))
-        {
-          return true;
-        }
-      }
-
-      return false;
-    }
-
+    
     public virtual bool ZipContainsSingleFile(string packagePath, string innerFileName)
     {
       var fileInfo = new FileInfo(packagePath);
-      Assert.IsTrue(fileInfo.Exists, "The {0} file does not exist".FormatWith(packagePath));
+      Assert.IsTrue(fileInfo.Exists, $"The {packagePath} file does not exist");
 
       if (fileInfo.Length <= 22)
       {
@@ -381,7 +360,7 @@ namespace SIM.FileSystem
       using (ZipFile zip1 = ZipFile.Read(pathToZip))
       {
         var selection = from e in zip1.Entries
-          where (e.FileName).StartsWith(folderName + "/")
+          where (e.FileName).StartsWith(folderName + "/") || (e.FileName).StartsWith(folderName + "\\")          
           select e;
 
 
@@ -389,7 +368,14 @@ namespace SIM.FileSystem
 
         foreach (var e in selection)
         {
-          e.Extract(pathToUnpack, ExtractExistingFileAction.OverwriteSilently);
+          if (e.UncompressedSize > 0)
+          {
+            e.Extract(pathToUnpack, ExtractExistingFileAction.OverwriteSilently);
+          }
+          else
+          {
+            new DirectoryInfo(Path.Combine(pathToUnpack, e.FileName.Trim("\\/".ToCharArray()))).Create();
+          }
         }
       }
 

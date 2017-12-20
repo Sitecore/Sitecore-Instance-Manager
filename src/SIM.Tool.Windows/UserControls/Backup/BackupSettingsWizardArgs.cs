@@ -1,6 +1,7 @@
 ﻿namespace SIM.Tool.Windows.UserControls.Backup
 {
   using System;
+  using SIM.FileSystem;
   using SIM.Instances;
   using SIM.Pipelines.Backup;
   using SIM.Pipelines.Processors;
@@ -10,12 +11,12 @@
   {
     #region Fields
 
-    public readonly Instance Instance;
-    public bool Databases;
-    public bool ExcludeClient;
-    public bool Files;
-    public bool MongoDatabases;
-    private readonly string _instanceName;
+    public Instance Instance { get; }
+    public bool _Databases;
+    public bool _ExcludeClient;
+    public bool _Files;
+    public bool _MongoDatabases;
+    private string _instanceName { get; }
 
     #endregion
 
@@ -23,9 +24,9 @@
 
     public BackupSettingsWizardArgs(Instance instance)
     {
-      this.Instance = instance;
-      this._instanceName = instance.Name;
-      this.BackupName = string.Format("{0:yyyy-MM-dd} at {0:hh-mm-ss}", DateTime.Now);
+      Instance = instance;
+      _instanceName = instance.Name;
+      BackupName = string.Format("{0:yyyy-MM-dd} at {0:hh-mm-ss}", DateTime.Now);
     }
 
     #endregion
@@ -38,7 +39,7 @@
     {
       get
       {
-        return this._instanceName;
+        return _instanceName;
       }
     }
 
@@ -48,7 +49,7 @@
 
     public override ProcessorArgs ToProcessorArgs()
     {
-      var backupArgs = new BackupArgs(this.Instance, FileSystem.FileSystem.Local.Path.EscapePath(this.BackupName.Trim(), "."), this.Files, this.Databases, this.ExcludeClient, this.MongoDatabases);
+      var backupArgs = new BackupArgs(Instance, PathUtils.EscapePath(BackupName.Trim(), "."), _Files, _Databases, _ExcludeClient, _MongoDatabases);
 
       return backupArgs;
     }

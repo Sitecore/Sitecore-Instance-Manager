@@ -73,7 +73,7 @@
   {
     #region Fields
 
-    private readonly ObservableCollection<Product> actualProducts = new ObservableCollection<Product>();
+    private readonly ObservableCollection<Product> _ActualProducts = new ObservableCollection<Product>();
 
     #endregion
 
@@ -81,7 +81,7 @@
 
     public ReorderPackages()
     {
-      this.InitializeComponent();
+      InitializeComponent();
     }
 
     #endregion
@@ -115,13 +115,13 @@
 
     public void InitializeStep(WizardArgs wizardArgs)
     {
-      this.WizardArgs = wizardArgs;
+      WizardArgs = wizardArgs;
       var args = (InstallModulesWizardArgs)wizardArgs;
-      this.actualProducts.Clear();
-      args.Modules.ForEach(module => this.actualProducts.Add(module));
+      _ActualProducts.Clear();
+      args._Modules.ForEach(module => _ActualProducts.Add(module));
 
-      this.modulesList.ItemsSource = this.actualProducts;
-      this.selectedProductLabel.DataContext = args.Product;
+      modulesList.ItemsSource = _ActualProducts;
+      selectedProductLabel.DataContext = args.Product;
     }
 
     #endregion
@@ -130,7 +130,7 @@
 
     private void ModuleSelected([CanBeNull] object sender, [CanBeNull] SelectionChangedEventArgs e)
     {
-      this.modulesList.SelectedIndex = -1;
+      modulesList.SelectedIndex = -1;
     }
 
     #endregion
@@ -144,21 +144,21 @@
 
       Assert.IsNotNull(droppedData, "[ReorderProducts] Drag-n-drop: droppedData is null");
       Assert.IsNotNull(target, "[ReorderProducts] Drag-n-drop: target is null");
-      var removeIndex = this.actualProducts.IndexOf(droppedData);
-      var insertIndex = this.actualProducts.IndexOf(target);
+      var removeIndex = _ActualProducts.IndexOf(droppedData);
+      var insertIndex = _ActualProducts.IndexOf(target);
 
       if (removeIndex < insertIndex)
       {
-        this.actualProducts.Insert(insertIndex + 1, droppedData);
-        this.actualProducts.RemoveAt(removeIndex);
+        _ActualProducts.Insert(insertIndex + 1, droppedData);
+        _ActualProducts.RemoveAt(removeIndex);
       }
       else
       {
         var removeIndexNext = removeIndex + 1;
-        if (this.modulesList.Items.Count + 1 > removeIndexNext)
+        if (modulesList.Items.Count + 1 > removeIndexNext)
         {
-          this.actualProducts.Insert(insertIndex, droppedData);
-          this.actualProducts.RemoveAt(removeIndexNext);
+          _ActualProducts.Insert(insertIndex, droppedData);
+          _ActualProducts.RemoveAt(removeIndexNext);
         }
       }
     }
@@ -214,9 +214,9 @@
           }
 
           Product product = Product.GetFilePackageProduct(path);
-          if (!this.actualProducts.Any(p => p.Name.Equals(product.Name, StringComparison.OrdinalIgnoreCase)))
+          if (!_ActualProducts.Any(p => p.Name.Equals(product.Name, StringComparison.OrdinalIgnoreCase)))
           {
-            this.actualProducts.Add(product);
+            _ActualProducts.Add(product);
           }
         }
       }
@@ -238,11 +238,11 @@
       var args = (InstallModulesWizardArgs)wizardArgs;
       Product product = args.Product;
       Assert.IsNotNull(product, nameof(product));
-      IEnumerable<Product> selected = this.actualProducts;
-      args.Modules.Clear();
-      args.Modules.AddRange(selected);
+      IEnumerable<Product> selected = _ActualProducts;
+      args._Modules.Clear();
+      args._Modules.AddRange(selected);
 
-      if (!(args is InstallWizardArgs) && !args.Modules.Any())
+      if (!(args is InstallWizardArgs) && !args._Modules.Any())
       {
         WindowHelper.HandleError("You haven't chosen any module to install", false);
         return false;

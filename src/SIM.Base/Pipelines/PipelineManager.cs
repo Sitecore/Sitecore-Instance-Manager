@@ -57,7 +57,7 @@
       {
         var pipelineName = element.Name;
         var title = element.GetAttribute("title");
-        Assert.IsNotNullOrEmpty(title, "The '{0}' pipeline definition doesn't contain the title attribute".FormatWith(pipelineName));
+        Assert.IsNotNullOrEmpty(title, $"The '{pipelineName}' pipeline definition doesn't contain the title attribute");
 
         var pipelineNode = resultXmlConfig.DocumentElement.AddElement(pipelineName);
         pipelineNode.SetAttribute("title", title);
@@ -164,7 +164,7 @@
         ProfileSection.Argument("controller", controller);
         ProfileSection.Argument("isAsync", isAsync);
 
-        Assert.IsTrue(Definitions.ContainsKey(pipelineName), "The {0} pipeline defintion does not exist".FormatWith(pipelineName));
+        Assert.IsTrue(Definitions.ContainsKey(pipelineName), "The {pipelineName} pipeline defintion does not exist");
         PipelineDefinition definition = Definitions[pipelineName];
 
         Pipeline pipeline = new Pipeline(definition, args, controller, isAsync);

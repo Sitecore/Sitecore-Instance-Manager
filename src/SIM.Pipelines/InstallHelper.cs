@@ -30,7 +30,7 @@
       {
         using (var zip = new ZipFile(packagePath))
         {
-          var prefix = zip.Entries.First().FileName;
+          var prefix = zip.Entries.First(x => x.FileName.StartsWith("Sitecore ")).FileName;
           prefix = prefix.Substring(0, prefix.IndexOf('/', 1));
 
           var webRootPrefix = prefix + "/Website/";
@@ -38,6 +38,9 @@
 
           var databasesPrefix = prefix + "/Databases/";
           var databasesPrefixLength = databasesPrefix.Length;
+
+          var databasesPrefix2 = "Databases/";
+          var databasesPrefix2Length = databasesPrefix2.Length;
 
           var dataPrefix = prefix + "/Data/";
           var dataPrefixLength = dataPrefix.Length;
@@ -88,15 +91,51 @@
                 continue;
               }
 
-              if (fileName.EndsWith(".ldf"))
+              if (!fileName.EndsWith(".mdf", StringComparison.OrdinalIgnoreCase) && !fileName.EndsWith(".dacpac", StringComparison.OrdinalIgnoreCase))
               {
                 continue;
               }
 
               var text = fileName.Substring(databasesPrefixLength);
-              if (text.Contains("Sitecore.Analytics.mdf"))
+              if (text.Contains("Sitecore.Analytics."))
               {
-                text = text.Replace("Sitecore.Analytics.mdf", "Sitecore.Reporting.mdf");
+                text = text.Replace("Sitecore.Analytics.", "Sitecore.Reporting.");
+              }
+
+              var filePath = Path.Combine(databasesFolderPath, text);
+              if (entry.IsDirectory)
+              {
+                Directory.CreateDirectory(filePath);
+                continue;
+              }
+
+              var folder = Path.GetDirectoryName(filePath);
+              if (!Directory.Exists(folder))
+              {
+                Directory.CreateDirectory(folder);
+              }
+
+              using (var write = new StreamWriter(filePath))
+              {
+                entry.Extract(write.BaseStream);
+              }
+            }
+            else if (fileName.StartsWith(databasesPrefix2, StringComparison.OrdinalIgnoreCase))
+            {
+              if (!attachSql)
+              {
+                continue;
+              }
+
+              if (!fileName.EndsWith(".mdf", StringComparison.OrdinalIgnoreCase) && !fileName.EndsWith(".dacpac", StringComparison.OrdinalIgnoreCase))
+              {
+                continue;
+              }
+
+              var text = fileName.Substring(databasesPrefix2Length);
+              if (text.Contains("Sitecore.Analytics."))
+              {
+                text = text.Replace("Sitecore.Analytics.", "Sitecore.Reporting.");
               }
 
               var filePath = Path.Combine(databasesFolderPath, text);

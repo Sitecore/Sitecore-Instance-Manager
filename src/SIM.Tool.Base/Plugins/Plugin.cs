@@ -35,10 +35,10 @@ namespace SIM.Tool.Base.Plugins
       return ReflectionUtil.CreateObject(type);
     }
 
-    public static ImageSource GetImage(string imageSource, string pluginFilePath)
+    public static ImageSource GetImage(string imageSource)
     {
       var arr = imageSource.Split(',');
-      Assert.IsTrue(arr.Length == 2, "The {0} file contains incorrect image source format \"{1}\" when the correct one is \"ImageFilePath, AssemblyName\"".FormatWith(pluginFilePath, imageSource));
+      Assert.IsTrue(arr.Length == 2, $"Incorrect image source format \"{imageSource}\" when the correct one is \"ImageFilePath, AssemblyName\"");
       return WindowHelper.GetImage(arr[0], arr[1]);
     }
 

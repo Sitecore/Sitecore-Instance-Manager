@@ -4,16 +4,15 @@
   using Microsoft.Web.Administration;
   using Sitecore.Diagnostics.Base;
   using JetBrains.Annotations;
-  using SIM.Extensions;
 
   public sealed class BindingInfo
   {
     #region Fields
 
-    public readonly string Host;
-    public readonly string IP;
-    public readonly int Port;
-    public readonly string Protocol;
+    public string Host { get; }
+    public string IP { get; }
+    public int Port { get; }
+    public string Protocol { get; }
 
     #endregion
 
@@ -35,10 +34,10 @@
         ip = "*";
       }
 
-      this.Protocol = protocol;
-      this.Host = host;
-      this.Port = port;
-      this.IP = ip;
+      Protocol = protocol;
+      Host = host;
+      Port = port;
+      IP = ip;
     }
 
     public BindingInfo([NotNull] Binding binding)

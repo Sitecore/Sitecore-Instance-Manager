@@ -37,15 +37,15 @@
       var webRootPath = instance.WebRootPath;
       if (args.BackupClient)
       {
-        this.BackupFolder(args, webRootPath, "WebRoot.zip");
+        BackupFolder(args, webRootPath, "WebRoot.zip");
       }
       else
       {
-        this.BackupFolder(args, webRootPath, "WebRootNoClient.zip", "sitecore");
+        BackupFolder(args, webRootPath, "WebRootNoClient.zip", "sitecore");
       }
 
-      this.IncrementProgress();
-      this.BackupFolder(args, instance.DataFolderPath, "Data.zip");
+      IncrementProgress();
+      BackupFolder(args, instance.DataFolderPath, "Data.zip");
     }
 
     #endregion

@@ -1,5 +1,6 @@
 ﻿namespace SIM.Tool.Base.Wizards
 {
+  using System;
   using System.Windows;
   using SIM.Pipelines.Processors;
 
@@ -7,7 +8,7 @@
 
   #endregion
 
-  public abstract class WizardArgs : AbstractArgs
+  public abstract class WizardArgs : IDisposable
   {
     #region Public properties
 
@@ -23,5 +24,9 @@
     }
 
     #endregion
+
+    public virtual void Dispose()
+    {
+    }
   }
 }

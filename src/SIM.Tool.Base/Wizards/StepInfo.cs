@@ -10,11 +10,11 @@
   {
     #region Fields
 
-    public readonly Type Control;
+    public Type Control { get; }
 
-    public readonly string Param;
+    public string Param { get; }
 
-    public readonly string Title;
+    public string Title { get; }
 
     #endregion
 
@@ -22,9 +22,9 @@
 
     public StepInfo(string title, Type control, string param = null)
     {
-      this.Title = title;
-      this.Control = control;
-      this.Param = param ?? string.Empty;
+      Title = title;
+      Control = control;
+      Param = param ?? string.Empty;
     }
 
     #endregion

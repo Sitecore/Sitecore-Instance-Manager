@@ -10,22 +10,21 @@
   {
     #region Fields
 
-    public readonly Type Args;
-    public readonly string CancelButtonText;
+    public string CancelButtonText { get; }
 
-    public readonly FinishActionHive[] FinishActionHives;
+    public readonly FinishActionHive[] _FinishActionHives;
 
-    public readonly FinishAction[] FinishActions;
+    public readonly FinishAction[] _FinishActions;
 
-    public readonly string FinishText;
+    public string FinishText { get; }
 
-    public readonly string StartButtonText;
+    public string StartButtonText { get; }
 
-    public readonly StepInfo[] StepInfos;
+    public readonly StepInfo[] _StepInfos;
 
-    public readonly string Title;
+    public string Title { get; }
 
-    private readonly string name;
+    private string name { get; }
 
     #endregion
 
@@ -34,14 +33,13 @@
     public WizardPipeline(string name, string title, StepInfo[] stepInfos, Type args, string startButtonText, string cancelButtonText, string finishText, FinishAction[] finishActions, FinishActionHive[] finishActionHives)
     {
       this.name = name;
-      this.Title = title;
-      this.FinishText = finishText;
-      this.StartButtonText = startButtonText;
-      this.CancelButtonText = cancelButtonText;
-      this.Args = args;
-      this.StepInfos = stepInfos;
-      this.FinishActions = finishActions;
-      this.FinishActionHives = finishActionHives;
+      Title = title;
+      FinishText = finishText;
+      StartButtonText = startButtonText;
+      CancelButtonText = cancelButtonText;
+      _StepInfos = stepInfos;
+      _FinishActions = finishActions;
+      _FinishActionHives = finishActionHives;
     }
 
     #endregion
@@ -52,7 +50,7 @@
     {
       get
       {
-        return this.name;
+        return name;
       }
     }
 

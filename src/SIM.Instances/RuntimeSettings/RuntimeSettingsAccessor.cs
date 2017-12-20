@@ -16,7 +16,7 @@
 
     public RuntimeSettingsAccessor(Instance instance)
     {
-      this.Instance = instance;
+      Instance = instance;
     }
 
     #endregion
@@ -31,11 +31,11 @@
       {
         try
         {
-          return WebConfig.GetWebConfigPath(this.Instance.WebRootPath);
+          return WebConfig.GetWebConfigPath(Instance.WebRootPath);
         }
         catch (Exception ex)
         {
-          throw new InvalidOperationException($"Failed to get web config path of {this.Instance.WebRootPath}", ex);
+          throw new InvalidOperationException($"Failed to get web config path of {Instance.WebRootPath}", ex);
         }
       }
     }
@@ -48,13 +48,13 @@
     {
       try
       {
-        var webConfigDocument = this.GetWebConfigResult();
-        var webRootPath = this.Instance.WebRootPath;
+        var webConfigDocument = GetWebConfigResult();
+        var webRootPath = Instance.WebRootPath;
         return WebConfig.GetDatabases(webRootPath, webConfigDocument);
       }
       catch (Exception ex)
       {
-        throw new InvalidOperationException($"Failed to get databases of {this.Instance.WebRootPath}", ex);
+        throw new InvalidOperationException($"Failed to get databases of {Instance.WebRootPath}", ex);
       }
     }
 
@@ -62,39 +62,26 @@
     {
       try
       {
-        var webConfigDocument = this.GetWebConfigResult();
-        var webRootPath = this.Instance.WebRootPath;
+        var webConfigDocument = GetWebConfigResult();
+        var webRootPath = Instance.WebRootPath;
         return WebConfig.GetMongoDatabases(webRootPath, webConfigDocument);
       }
       catch (Exception ex)
       {
-        throw new InvalidOperationException($"Failed to get mongo databases of {this.Instance.WebRootPath}", ex);
+        throw new InvalidOperationException($"Failed to get mongo databases of {Instance.WebRootPath}", ex);
       }
-    }
-
-    public virtual XmlElement GetScVariableElement([NotNull] string elementName)
-    {
-      try
-      {
-        var webConfigResult = this.GetWebConfigResult();
-        return WebConfig.GetScVariableElement(webConfigResult, elementName);
-      }
-      catch (Exception ex)
-      {
-        throw new InvalidOperationException(string.Format("Failed to get {1} sc variable of {0}", this.Instance.WebRootPath, elementName), ex);
-      }
-    }
+    }                
 
     public virtual string GetScVariableValue([NotNull] string variableName)
     {
       try
       {
-        var webConfigResult = this.GetWebConfigResult();
+        var webConfigResult = GetWebConfigResult();
         return WebConfig.GetScVariable(webConfigResult, variableName);
       }
       catch (Exception ex)
       {
-        throw new InvalidOperationException(string.Format("Failed to get {1} sc variable of {0}", this.Instance.WebRootPath, variableName), ex);
+        throw new InvalidOperationException(string.Format("Failed to get {1} sc variable of {0}", Instance.WebRootPath, variableName), ex);
       }
     }
 
@@ -106,13 +93,13 @@
         {
           ProfileSection.Argument("normalize", normalize);
 
-          var showConfig = ConfigBuilder.Build(this.WebConfigPath, false, normalize);
+          var showConfig = ConfigBuilder.Build(WebConfigPath, false, normalize);
 
           return ProfileSection.Result(showConfig);
         }
         catch (Exception ex)
         {
-          throw new InvalidOperationException($"Failed to get showconfig of {this.Instance.WebRootPath}", ex);
+          throw new InvalidOperationException($"Failed to get showconfig of {Instance.WebRootPath}", ex);
         }
       }
     }
@@ -121,12 +108,12 @@
     {
       try
       {
-        var webConfigResult = this.GetWebConfigResult();
+        var webConfigResult = GetWebConfigResult();
         return WebConfig.GetSitecoreSetting(name, webConfigResult);
       }
       catch (Exception ex)
       {
-        throw new InvalidOperationException(string.Format("Failed to get {1} sitecore setting of {0}", this.Instance.WebRootPath, name), ex);
+        throw new InvalidOperationException(string.Format("Failed to get {1} sitecore setting of {0}", Instance.WebRootPath, name), ex);
       }
     }
 
@@ -138,13 +125,13 @@
         {
           ProfileSection.Argument("normalize", normalize);
 
-          var webConfigResult = ConfigBuilder.Build(this.WebConfigPath, true, normalize);
+          var webConfigResult = ConfigBuilder.Build(WebConfigPath, true, normalize);
 
           return ProfileSection.Result(webConfigResult);
         }
         catch (Exception ex)
         {
-          throw new InvalidOperationException($"Failed to get web config result of {this.Instance.WebRootPath}", ex);
+          throw new InvalidOperationException($"Failed to get web config result of {Instance.WebRootPath}", ex);
         }
       }
     }

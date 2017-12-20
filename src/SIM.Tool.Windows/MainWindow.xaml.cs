@@ -24,10 +24,10 @@
     #region Fields
 
     [NotNull]
-    public static MainWindow Instance;
+    public static MainWindow Instance { get; private set; }
 
-    private readonly Timer timer;
-    private IMainWindowButton doubleClickHandler;
+    private Timer Timer { get; }
+    private IMainWindowButton _DoubleClickHandler;
 
     #endregion
 
@@ -35,21 +35,21 @@
 
     public MainWindow()
     {
-      this.InitializeComponent();
+      InitializeComponent();
 
       using (new ProfileSection("Main window ctor"))
       {
         Instance = this;
         if (WindowsSettings.AppUiMainWindowWidth.Value <= 0)
         {
-          this.MaxWidth = this.MinWidth;
+          MaxWidth = MinWidth;
         }
 
-        this.Title = string.Format(this.Title, ApplicationManager.AppShortVersion, ApplicationManager.AppVersion, ApplicationManager.AppLabel);
+        Title = string.Format(Title, ApplicationManager.IsQa ? "QA" : (ApplicationManager.IsDev ? "DEV" : ""), ApplicationManager.AppShortVersion, ApplicationManager.AppVersion, ApplicationManager.AppLabel);
 
-        this.timer =
-          new System.Threading.Timer(
-            obj => this.Dispatcher.Invoke(new Action(() => this.Search(null, null)), DispatcherPriority.Render));
+        Timer =
+          new Timer(
+            obj => Dispatcher.Invoke(() => Search(null, null), DispatcherPriority.Render));
       }
     }
 
@@ -63,73 +63,13 @@
     {
       get
       {
-        return this.doubleClickHandler ?? (this.doubleClickHandler = (IMainWindowButton)WindowsSettings.AppUiMainWindowDoubleClick.Value.With(x => Plugin.CreateInstance(x)));
+        return _DoubleClickHandler ?? (_DoubleClickHandler = (IMainWindowButton)WindowsSettings.AppUiMainWindowDoubleClick.Value.With(x => Plugin.CreateInstance(x)));
       }
     }
 
     #endregion
 
     #region Private methods
-
-    private void AppPoolRecycleClick(object sender, RoutedEventArgs e)
-    {
-      try
-      {
-        if (this.CheckSqlServer())
-        {
-          MainWindowHelper.AppPoolRecycle();
-        }
-      }
-      catch (Exception ex)
-      {
-        this.HandleError(ex);
-      }
-    }
-
-    private void AppPoolStartClick(object sender, RoutedEventArgs e)
-    {
-      try
-      {
-        if (this.CheckSqlServer())
-        {
-          MainWindowHelper.AppPoolStart();
-        }
-      }
-      catch (Exception ex)
-      {
-        this.HandleError(ex);
-      }
-    }
-
-    private void AppPoolStopClick(object sender, RoutedEventArgs e)
-    {
-      try
-      {
-        if (this.CheckSqlServer())
-        {
-          MainWindowHelper.AppPoolStop();
-        }
-      }
-      catch (Exception ex)
-      {
-        this.HandleError(ex);
-      }
-    }
-
-    private void ChangeAppPoolMode(object sender, RoutedEventArgs e)
-    {
-      try
-      {
-        if (this.CheckSqlServer())
-        {
-          MainWindowHelper.ChangeAppPoolMode((System.Windows.Controls.MenuItem)sender);
-        }
-      }
-      catch (Exception ex)
-      {
-        this.HandleError(ex);
-      }
-    }
 
     private bool CheckSqlServer()
     {
@@ -147,14 +87,14 @@
     {
       try
       {
-        if (this.CheckSqlServer())
+        if (CheckSqlServer())
         {
           MainWindowHelper.OnInstanceSelected();
         }
       }
       catch (Exception ex)
       {
-        this.HandleError(ex);
+        HandleError(ex);
       }
     }
 
@@ -175,7 +115,7 @@
         {
           case Key.Delete:
           {
-            if (this.CheckSqlServer())
+            if (CheckSqlServer())
             {
               new DeleteInstanceButton().OnClick(this, MainWindowHelper.SelectedInstance);
             }
@@ -185,7 +125,7 @@
 
           case Key.F2:
           {
-            if (this.CheckSqlServer())
+            if (CheckSqlServer())
             {
               // MainWindowHelper.Rename();
             }
@@ -195,13 +135,13 @@
 
           case Key.Escape:
           {
-            if (string.IsNullOrEmpty(this.SearchTextBox.Text))
+            if (string.IsNullOrEmpty(SearchTextBox.Text))
             {
               // this.WindowState = WindowState.Minimized;
             }
 
-            this.SearchTextBox.Text = string.Empty;
-            if (this.CheckSqlServer())
+            SearchTextBox.Text = string.Empty;
+            if (CheckSqlServer())
             {
               MainWindowHelper.Search();
             }
@@ -211,13 +151,13 @@
 
           case Key.F3:
           {
-            this.InstanceList.ContextMenu.IsOpen = true;
+            InstanceList.ContextMenu.IsOpen = true;
             return;
           }
 
           case Key.F5:
           {
-            this.RefreshInstances();
+            RefreshInstances();
             return;
           }
 
@@ -237,7 +177,7 @@
       }
       catch (Exception ex)
       {
-        this.HandleError(ex);
+        HandleError(ex);
       }
     }
 
@@ -247,17 +187,17 @@
       {
         try
         {
-          if (this.CheckSqlServer())
+          if (CheckSqlServer())
           {
-            if (this.DoubleClickHandler.IsEnabled(this, MainWindowHelper.SelectedInstance))
+            if (DoubleClickHandler.IsEnabled(this, MainWindowHelper.SelectedInstance))
             {
-              this.DoubleClickHandler.OnClick(this, MainWindowHelper.SelectedInstance);
+              DoubleClickHandler.OnClick(this, MainWindowHelper.SelectedInstance);
             }
           }
         }
         catch (Exception ex)
         {
-          this.HandleError(ex);
+          HandleError(ex);
         }
       }
     }
@@ -274,7 +214,7 @@
         }
         catch (Exception ex)
         {
-          this.HandleError(ex);
+          HandleError(ex);
         }
       }
     }
@@ -287,7 +227,7 @@
       }
       catch (Exception ex)
       {
-        this.HandleError(ex);
+        HandleError(ex);
       }
     }
 
@@ -299,7 +239,7 @@
       }
       catch (Exception ex)
       {
-        this.HandleError(ex);
+        HandleError(ex);
       }
     }
 
@@ -307,14 +247,14 @@
     {
       try
       {
-        if (this.CheckSqlServer())
+        if (CheckSqlServer())
         {
           MainWindowHelper.Search();
         }
       }
       catch (Exception ex)
       {
-        this.HandleError(ex);
+        HandleError(ex);
       }
     }
 
@@ -335,13 +275,13 @@
         {
           case Key.Escape:
           {
-            if (string.IsNullOrEmpty(this.SearchTextBox.Text))
+            if (string.IsNullOrEmpty(SearchTextBox.Text))
             {
               // this.WindowState = WindowState.Minimized;
             }
 
-            this.SearchTextBox.Text = string.Empty;
-            if (this.CheckSqlServer())
+            SearchTextBox.Text = string.Empty;
+            if (CheckSqlServer())
             {
               MainWindowHelper.Search();
             }
@@ -351,7 +291,7 @@
 
           case Key.Enter:
           {
-            if (this.CheckSqlServer())
+            if (CheckSqlServer())
             {
               MainWindowHelper.Search();
             }
@@ -361,7 +301,7 @@
 
           case Key.F5:
           {
-            this.RefreshInstances();
+            RefreshInstances();
             return;
           }
 
@@ -369,7 +309,7 @@
           {
             if (WindowsSettings.AppInstanceSearchEnabled.Value)
             {
-              this.timer.Change(TimeSpan.FromMilliseconds(WindowsSettings.AppInstanceSearchTimeout.Value), TimeSpan.FromMilliseconds(-1));
+              Timer.Change(TimeSpan.FromMilliseconds(WindowsSettings.AppInstanceSearchTimeout.Value), TimeSpan.FromMilliseconds(-1));
             }
 
             e.Handled = false;
@@ -379,7 +319,7 @@
       }
       catch (Exception ex)
       {
-        this.HandleError(ex);
+        HandleError(ex);
       }
     }
 
@@ -387,14 +327,14 @@
     {
       try
       {
-        if (this.CheckSqlServer())
+        if (CheckSqlServer())
         {
           MainWindowHelper.Initialize();
         }
       }
       catch (Exception ex)
       {
-        this.HandleError(ex);
+        HandleError(ex);
       }
     }
 
@@ -408,10 +348,8 @@
     {
       using (new ProfileSection("Initializing main window", this))
       {
-        var appDocument = XmlDocumentEx.LoadFileSafe("App.xml") ?? XmlDocumentEx.LoadFile(ApplicationManager.GetEmbeddedFile("SIM.Tool.Windows", "App.xml"));
-        appDocument.Save("App.xml");
-        MainWindowHelper.InitializeRibbon(appDocument);
-        MainWindowHelper.InitializeContextMenu(appDocument);
+        MainWindowHelper.InitializeRibbon(MainWindowData.Tabs);
+        MainWindowHelper.InitializeContextMenu(MainWindowData.MenuItems);
       }
     }
 
@@ -429,7 +367,7 @@
         }
         catch (Exception ex)
         {
-          Log.Error(ex, string.Format("Err"));
+          Log.Error(ex, "Err");
         }
       }
     }

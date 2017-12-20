@@ -14,7 +14,7 @@ namespace SIM.Tool.Windows.MainWindowComponents
   {
     #region Fields
 
-    protected readonly string FilePath;
+    protected string FilePath { get; }
 
     #endregion
 
@@ -22,7 +22,7 @@ namespace SIM.Tool.Windows.MainWindowComponents
 
     public OpenFileButton(string param)
     {
-      this.FilePath = param;
+      FilePath = param;
     }
 
     #endregion
@@ -40,7 +40,7 @@ namespace SIM.Tool.Windows.MainWindowComponents
 
       if (instance != null)
       {
-        var filePath = this.FilePath.StartsWith("/") ? Path.Combine(instance.WebRootPath, this.FilePath.Substring(1)) : this.FilePath;
+        var filePath = FilePath.StartsWith("/") ? Path.Combine(instance.WebRootPath, FilePath.Substring(1)) : FilePath;
         FileSystem.FileSystem.Local.File.AssertExists(filePath, "The {0} file of the {1} instance doesn't exist".FormatWith(filePath, instance.Name));
 
         var editor = WindowsSettings.AppToolsConfigEditor.Value;

@@ -52,7 +52,7 @@
       Assert.ArgumentNotNull(args, nameof(args));
       Assert.ArgumentNotNull(steps, nameof(steps));
 
-      return steps.Select(step => step.Processors).Select(list => GetProcessorsCount(args, list)).Sum();
+      return steps.Select(step => step._Processors).Select(list => GetProcessorsCount(args, list)).Sum();
     }
 
     public static long GetProcessorsCount([NotNull] ProcessorArgs args, [NotNull] List<Processor> list)
@@ -72,7 +72,7 @@
           Log.Error(ex, $"Error during evaluating steps count of {item.GetType().FullName}");
         }
 
-        return itemStepsCount + GetProcessorsCount(args, item.NestedProcessors);
+        return itemStepsCount + GetProcessorsCount(args, item._NestedProcessors);
       });
     }
 
@@ -103,8 +103,8 @@
 
           if (isRequireProcessing)
           {
-            List<Processor> nested = CreateProcessors(processorDefinition.NestedProcessorDefinitions, args, controller);
-            processor.NestedProcessors.AddRange(nested);
+            List<Processor> nested = CreateProcessors(processorDefinition._NestedProcessorDefinitions, args, controller);
+            processor._NestedProcessors.AddRange(nested);
             processor.Controller = controller;
             yield return processor;
           }
@@ -125,7 +125,7 @@
       try
       {
         Type type = Type.GetType(typeNameValue);
-        Assert.IsNotNull(type, "Can't find the '{0}' type".FormatWith(typeNameValue));
+        Assert.IsNotNull(type, $"Can't find the '{typeNameValue}' type");
 
         ProcessorDefinition definition;
         var name = processorElement.Name;
@@ -170,7 +170,7 @@
         definitionNode.SetAttribute("param", definition.Param);
 
         // add nested processor definitions
-        ParseProcessorDefinitions(processorElement.ChildNodes, definition.NestedProcessorDefinitions, definitionNode);
+        ParseProcessorDefinitions(processorElement.ChildNodes, definition._NestedProcessorDefinitions, definitionNode);
         processorDefinitions.Add(definition);
       }
     }

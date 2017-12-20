@@ -3,7 +3,6 @@
   using System;
   using System.Data.SqlClient;
   using System.IO;
-  using System.IO.Compression;
   using System.Linq;
   using System.Windows;
   using Sitecore.Diagnostics.Base;
@@ -12,6 +11,7 @@
   using SIM.Core.Common;
   using SIM.Extensions;
   using SIM.Instances;
+  using SIM.IO.Real;
   using SIM.Pipelines;
   using SIM.Tool.Base;
   using SIM.Tool.Base.Plugins;
@@ -57,7 +57,7 @@
       Assert.IsTrue(primaryFile.Exists, $"The {primaryFile.FullName} reporting database file does not exist");
 
       var secondaryCstr = instance.Configuration.ConnectionStrings.FirstOrDefault(x => x.Name == "reporting.secondary");
-      var mgmtCstr = new SqlConnectionStringBuilder(Profile.Read().ConnectionString);
+      var mgmtCstr = new SqlConnectionStringBuilder(Profile.Read(new RealFileSystem()).ConnectionString);
       if (secondaryCstr != null)
       {
         var name = new SqlConnectionStringBuilder(secondaryCstr.Value).InitialCatalog;

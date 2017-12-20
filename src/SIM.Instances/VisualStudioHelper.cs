@@ -73,8 +73,8 @@
 
     public static IEnumerable<string> GetVisualStudioSolutionFiles(string rootPath, string webRootPath, string searchPattern = null)
     {
-      var files = VisualStudioHelper.GetVisualStudioSolutionFilesRaw(rootPath, webRootPath, searchPattern).ToArray();
-      return VisualStudioHelper.DistinctVisualStudioFiles(files, rootPath);
+      var files = GetVisualStudioSolutionFilesRaw(rootPath, webRootPath, searchPattern).ToArray();
+      return DistinctVisualStudioFiles(files, rootPath);
     }
 
     [CanBeNull]

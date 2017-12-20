@@ -1,8 +1,8 @@
-# Sitecore Instance Manager (SIM 1.4)
+# Sitecore Instance Manager (SIM 1.5)
 
-**SIM 1.4 is an open source tool** for managing the local park of Sitecore instances. You can install, locate, maintain, reinstall or delete Sitecore products. It has API and plugin engine so you can extend it for any your need. 
+**SIM 1.5 is an open source tool** for managing the local park of Sitecore instances. You can install, locate, maintain, reinstall or delete Sitecore products. It has API and plugin engine so you can extend it for any your need. 
 
-### [Download SIM 1.4](http://dl.sitecore.net/updater/sim) as a ClickOnce app
+### [Download SIM 1.5](http://dl.sitecore.net/updater/sim) as a ClickOnce app
 
 ### Resources
 
@@ -82,6 +82,24 @@ Note, we are in progress of migrating from bitbucket to github so don't be confu
 * Update Licenses - Updating Sitecore license file in all installed Sitecore instances
 * [SSPG](https://marketplace.sitecore.net/en/Modules/Sitecore_Support_Package_Generator.aspx) - Sitecore Support Package Generator for collecting detailed information about an instance
 * Publish Dialog - executing Sitecore publishing in application
+
+### Prerequisites
+
+SIM will only work: 
+
+* on **Windows 7+**, or **Windows Server 2008 R2+** 
+* with `Administrator` permissions
+* with direct internet access (no proxy)
+* when **IIS is pre-configured** with all necessary features (check Sitecore installation guide for details)
+* with **local SQL Server 2012+** instance with `sa` user account with `sysadmin` permissions
+
+For `Sitecore 7.5, 8.0, 8.1 and 8.2`:  
+* with **local MongoDB** instance pre-configured and running as a service
+
+### Known Issues
+
+* [SQL Server integrated security is not supported](https://github.com/Sitecore/Sitecore-Instance-Manager/wiki/KnownIssue-IntegratedSecurity)
+* [IIS ip bindings are not supported](https://github.com/Sitecore/Sitecore-Instance-Manager/wiki/KnownIssue-IpBindings)
 
 ### Supported Products
 

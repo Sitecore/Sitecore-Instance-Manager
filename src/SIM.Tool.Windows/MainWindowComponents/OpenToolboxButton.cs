@@ -16,7 +16,7 @@
     #region Fields
 
     private const string PackageName = "Support Toolbox.zip";
-    private readonly bool bypassSecurity;
+    private bool BypassSecurity { get; }
 
     #endregion
 
@@ -24,12 +24,12 @@
 
     public OpenToolboxButton()
     {
-      this.bypassSecurity = false;
+      BypassSecurity = false;
     }
 
     public OpenToolboxButton(string param)
     {
-      this.bypassSecurity = param == "bypass";
+      BypassSecurity = param == "bypass";
     }
 
     #endregion
@@ -73,7 +73,7 @@
         return;
       }
 
-      if (this.bypassSecurity)
+      if (BypassSecurity)
       {
         InstanceHelperEx.OpenInBrowserAsAdmin(instance, mainWindow, @"/sitecore/admin");
       }

@@ -24,13 +24,13 @@
       expected = new string[0];
       includeBounds = false;
       actual = message.Extract(startChar, endChar, includeBounds).ToArray();
-      this.AreEqual(expected, actual);
+      AreEqual(expected, actual);
 
       message = "some text test ololo";
       expected = new string[0];
       includeBounds = true;
       actual = message.Extract(startChar, endChar, includeBounds).ToArray();
-      this.AreEqual(expected, actual);
+      AreEqual(expected, actual);
 
       message = "some text {test} ololo";
       expected = new[]
@@ -39,7 +39,7 @@
       };
       includeBounds = false;
       actual = message.Extract(startChar, endChar, includeBounds).ToArray();
-      this.AreEqual(expected, actual);
+      AreEqual(expected, actual);
 
       message = "some text {test} ololo";
       expected = new[]
@@ -48,7 +48,7 @@
       };
       includeBounds = true;
       actual = message.Extract(startChar, endChar, includeBounds).ToArray();
-      this.AreEqual(expected, actual);
+      AreEqual(expected, actual);
 
       message = "some text {test} ololo {test2}";
       expected = new[]
@@ -57,7 +57,7 @@
       };
       includeBounds = false;
       actual = message.Extract(startChar, endChar, includeBounds).ToArray();
-      this.AreEqual(expected, actual);
+      AreEqual(expected, actual);
 
       message = "some text {test} ololo {test2}";
       expected = new[]
@@ -66,11 +66,12 @@
       };
       includeBounds = true;
       actual = message.Extract(startChar, endChar, includeBounds).ToArray();
-      this.AreEqual(expected, actual);
+      AreEqual(expected, actual);
 
       try
       {
         message = "some text {test} ololo{";
+        // ReSharper disable once ReturnValueOfPureMethodIsNotUsed
         message.Extract(startChar, endChar, includeBounds).ToArray();
         Assert.Fail("the exception must have been thrown #1");
       }
@@ -81,6 +82,7 @@
       try
       {
         message = "some text {test} ololo}";
+        // ReSharper disable once ReturnValueOfPureMethodIsNotUsed
         message.Extract(startChar, endChar, includeBounds).ToArray();
         Assert.Fail("the exception must have been thrown #2");
       }
@@ -91,6 +93,7 @@
       try
       {
         message = "some text {test} ololo{}";
+        // ReSharper disable once ReturnValueOfPureMethodIsNotUsed
         message.Extract(startChar, endChar, includeBounds).ToArray();
         Assert.Fail("the exception must have been thrown #3");
       }
@@ -108,7 +111,7 @@
       };
       string actual;
       {
-        actual = arr.Join(", ");
+        actual = string.Join(", ", arr);
         Assert.AreEqual("1, 2, 3", actual);
       }
       {
@@ -151,8 +154,8 @@
     [TestMethod]
     public void TrimStartTest()
     {
-      const string source = "hellodearhellodeahelou";
-      Assert.AreEqual("deahelou", source.TrimStart("hello", "dear"));
+      const string Source = "hellodearhellodeahelou";
+      Assert.AreEqual("deahelou", Source.TrimStart("hello", "dear"));
     }
 
     #endregion

@@ -10,9 +10,9 @@
   {
     #region Fields
 
-    public readonly Instance Instance;
-    public bool WipeSqlServerCredentials;
-    private readonly string _instanceName;
+    public Instance Instance { get; }
+    public bool _WipeSqlServerCredentials;
+    private string _instanceName { get; }
 
     #endregion
 
@@ -20,9 +20,9 @@
 
     public ExportWizardArgs(Instance instance, string exportFilePath = null)
     {
-      this.Instance = instance;
-      this._instanceName = instance.Name;
-      this.ExportFilePath = exportFilePath ?? string.Empty;
+      Instance = instance;
+      _instanceName = instance.Name;
+      ExportFilePath = exportFilePath ?? string.Empty;
     }
 
     #endregion
@@ -43,7 +43,7 @@
     {
       get
       {
-        return this._instanceName;
+        return _instanceName;
       }
     }
 
@@ -55,7 +55,7 @@
 
     public override ProcessorArgs ToProcessorArgs()
     {
-      return new ExportArgs(this.Instance, this.WipeSqlServerCredentials, this.IncludeMongoDatabases, this.IncludeTempFolderContents, this.IncludeMediaCacheFolderContents, this.ExcludeUploadFolderContents, this.ExcludeLicenseFile, this.ExcludeDiagnosticsFolderContents, this.ExcludeLogsFolderContents, this.ExcludePackagesFolderContents, this.ExportFilePath, this.SelectedDatabases);
+      return new ExportArgs(Instance, _WipeSqlServerCredentials, IncludeMongoDatabases, IncludeTempFolderContents, IncludeMediaCacheFolderContents, ExcludeUploadFolderContents, ExcludeLicenseFile, ExcludeDiagnosticsFolderContents, ExcludeLogsFolderContents, ExcludePackagesFolderContents, ExportFilePath, SelectedDatabases);
     }
 
     #endregion

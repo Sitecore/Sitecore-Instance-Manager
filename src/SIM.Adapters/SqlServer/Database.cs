@@ -18,7 +18,7 @@
     {
       get
       {
-        return this.Name + SqlServerManager.BackupExtension;
+        return Name + SqlServerManager.BackupExtension;
       }
     }
 
@@ -29,8 +29,8 @@
     {
       get
       {
-        var databaseName = this.RealName;
-        var connectionString = this.ConnectionString;
+        var databaseName = RealName;
+        var connectionString = ConnectionString;
         try
         {
           return SqlServerManager.Instance.GetDatabaseFileName(databaseName, connectionString);
@@ -53,32 +53,21 @@
 
     public void Delete()
     {
-      SqlServerManager.Instance.DeleteDatabase(this.RealName, this.ConnectionString);
+      SqlServerManager.Instance.DeleteDatabase(RealName, ConnectionString);
     }
 
     public void Restore([CanBeNull] string backupFile)
     {
-      SqlServerManager.Instance.RestoreDatabase(this.RealName, this.ConnectionString, backupFile);
+      SqlServerManager.Instance.RestoreDatabase(RealName, ConnectionString, backupFile);
     }
 
     #endregion
 
     #region Methods
 
-    [NotNull]
-    public SqlConnection OpenConnection()
-    {
-      return SqlServerManager.Instance.OpenConnection(this.ConnectionString);
-    }
-
     #endregion
 
     #region Public methods
-
-    public void Detach()
-    {
-      SqlServerManager.Instance.DetachDatabase(this.RealName, this.ConnectionString);
-    }
 
     #endregion
   }

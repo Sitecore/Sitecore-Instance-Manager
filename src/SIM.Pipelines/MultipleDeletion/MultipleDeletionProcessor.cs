@@ -12,7 +12,7 @@
     {
       Assert.ArgumentNotNull(args, nameof(args));
 
-      this.Process((MultipleDeletionArgs)args);
+      Process((MultipleDeletionArgs)args);
     }
 
     protected abstract void Process([NotNull] MultipleDeletionArgs args);

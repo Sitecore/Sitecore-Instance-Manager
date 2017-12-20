@@ -23,7 +23,7 @@ namespace SIM.Core.Common
         return;
       }
 
-      Log.Debug(string.Format("Insights - starting"));
+      Log.Debug("Insights - starting");
 
       try
       {
@@ -54,15 +54,15 @@ namespace SIM.Core.Common
         catch (Exception ex)
         {
           client.TrackException(ex);
-          Log.Error(ex, string.Format("Error in app insights"));
+          Log.Error(ex, "Error in app insights");
         }
       }
       catch (Exception ex)
       {
-        Log.Error(ex, string.Format("Error in app insights"));
+        Log.Error(ex, "Error in app insights");
       }
 
-      Log.Debug(string.Format("Insights - started"));
+      Log.Debug("Insights - started");
     }
 
     public static void TrackEvent([NotNull] string eventName)
@@ -101,7 +101,7 @@ namespace SIM.Core.Common
       }
       catch (Exception ex)
       {
-        Log.Error(ex, string.Format("Error during flushing"));
+        Log.Error(ex, "Error during flushing");
       }
     }
     public static bool DoNotTrack()
@@ -132,7 +132,7 @@ namespace SIM.Core.Common
           }
           catch (Exception ex)
           {
-            Log.Error(ex, string.Format("Cannot delete cookie file"));
+            Log.Error(ex, "Cannot delete cookie file");
           }
         }
       }
@@ -148,7 +148,7 @@ namespace SIM.Core.Common
       }
       catch (Exception ex)
       {
-        Log.Error(ex, string.Format("Cannot write cookie"));
+        Log.Error(ex, "Cannot write cookie");
       }
 
       return newCookie;

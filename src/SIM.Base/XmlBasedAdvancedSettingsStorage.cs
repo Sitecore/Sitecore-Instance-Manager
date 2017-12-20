@@ -7,7 +7,7 @@
   {
     #region Fields
 
-    protected readonly string XPathPrefix = "/settings/";
+    protected string XPathPrefix { get; } = "/settings/";
 
     #endregion
 
@@ -29,27 +29,27 @@
 
     public virtual void Initialize()
     {
-      if (!FileSystem.FileSystem.Local.File.Exists(this.FilePath))
+      if (!FileSystem.FileSystem.Local.File.Exists(FilePath))
       {
-        FileSystem.FileSystem.Local.File.WriteAllText(this.FilePath, @"<settings version=""1.4"" />");
+        FileSystem.FileSystem.Local.File.WriteAllText(FilePath, @"<settings version=""1.4"" />");
       }
 
-      this.UnderlyingDocument = XmlDocumentEx.LoadFile(this.FilePath);
+      UnderlyingDocument = XmlDocumentEx.LoadFile(FilePath);
     }
 
     public virtual string ReadSetting(string key, string defaultValue)
     {
-      var normalizedXPathKey = this.NormalizeSettingKey(key);
-      var xmlValue = this.UnderlyingDocument.SelectSingleElement(normalizedXPathKey).With(element => element.InnerText);
+      var normalizedXPathKey = NormalizeSettingKey(key);
+      var xmlValue = UnderlyingDocument.SelectSingleElement(normalizedXPathKey).With(element => element.InnerText);
       return xmlValue.IsNullOrEmpty() ? defaultValue : xmlValue;
     }
 
     public virtual void WriteSetting(string key, string value)
     {
-      var normalizedXPathKey = this.NormalizeSettingKey(key);
+      var normalizedXPathKey = NormalizeSettingKey(key);
       if (value.IsNullOrEmpty())
       {
-        var settingElement = this.UnderlyingDocument.SelectSingleElement(normalizedXPathKey);
+        var settingElement = UnderlyingDocument.SelectSingleElement(normalizedXPathKey);
         if (settingElement != null)
         {
           settingElement.ParentNode.RemoveChild(settingElement);
@@ -57,10 +57,10 @@
       }
       else
       {
-        this.UnderlyingDocument.SetElementValue(normalizedXPathKey, value);
+        UnderlyingDocument.SetElementValue(normalizedXPathKey, value);
       }
 
-      this.UnderlyingDocument.Save();
+      UnderlyingDocument.Save();
     }
 
     #endregion
@@ -69,7 +69,7 @@
 
     protected virtual string NormalizeSettingKey(string originalKey)
     {
-      return this.XPathPrefix + originalKey;
+      return XPathPrefix + originalKey;
     }
 
     #endregion

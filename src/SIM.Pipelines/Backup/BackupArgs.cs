@@ -9,21 +9,21 @@
   {
     #region Fields
 
-    public readonly bool BackupClient;
+    public bool BackupClient { get; }
 
-    public readonly bool BackupDatabases;
+    public bool BackupDatabases { get; }
 
-    public readonly bool BackupFiles;
-    public readonly bool BackupMongoDatabases;
+    public bool BackupFiles { get; }
+    public bool BackupMongoDatabases { get; }
 
-    public readonly string BackupName;
+    public string BackupName { get; }
 
     [NotNull]
-    public readonly string Folder;
+    public string Folder { get; }
 
-    public readonly Instance Instance;
-    public string WebRootPath;
-    private readonly string _instanceName;
+    public Instance Instance { get; }
+    public string _WebRootPath;
+    private string _instanceName { get; }
 
     #endregion
 
@@ -32,17 +32,17 @@
     public BackupArgs([NotNull] Instance instance, string backupName = null, bool backupFiles = false, bool backupDatabases = false, bool backupClient = false, bool backupMongoDatabases = false)
     {
       Assert.ArgumentNotNull(instance, nameof(instance));
-      this.BackupFiles = backupFiles;
-      this.BackupClient = backupClient;
-      this.BackupMongoDatabases = backupMongoDatabases;
-      this.BackupDatabases = backupDatabases;
-      this.Instance = instance;
-      this.WebRootPath = instance.WebRootPath;
-      this.BackupName = backupName;
-      this.Folder = this.BackupName != null
-        ? FileSystem.FileSystem.Local.Directory.Ensure(instance.GetBackupFolder(this.BackupName))
+      BackupFiles = backupFiles;
+      BackupClient = backupClient;
+      BackupMongoDatabases = backupMongoDatabases;
+      BackupDatabases = backupDatabases;
+      Instance = instance;
+      _WebRootPath = instance.WebRootPath;
+      BackupName = backupName;
+      Folder = BackupName != null
+        ? FileSystem.FileSystem.Local.Directory.Ensure(instance.GetBackupFolder(BackupName))
         : string.Empty;
-      this._instanceName = this.Instance.Name;
+      _instanceName = Instance.Name;
     }
 
     #endregion
@@ -53,7 +53,7 @@
     {
       get
       {
-        return this._instanceName;
+        return _instanceName;
       }
     }
 

@@ -24,7 +24,7 @@
       // Generating unique key to authenticate user
       var authKey = GetTempAuthKey();
 
-      return "/sitecore/shell/sim-agent/login-" + authKey + ".aspx";
+      return "/sitecore/login/sim-agent/login-" + authKey + ".aspx";
     }
 
     private static void CreateFile(string destFileName)
@@ -46,7 +46,7 @@
 
 <script runat=""server"">
   private static readonly object SyncRoot = new object();
-  private static readonly DateTime endDate = DateTime.Parse(""DATETIME_NOW"", System.Globalization.CultureInfo.InvariantCulture);
+  private static readonly DateTime EndDate = DateTime.Parse(""DATETIME_NOW"", System.Globalization.CultureInfo.InvariantCulture);
   private static bool done;
   void Page_Load(object sender, EventArgs e)
   {
@@ -54,7 +54,7 @@
     {
       try
       {
-        if (!done && DateTime.Now <= endDate)
+        if (!done && DateTime.Now <= EndDate)
         {
           var shellUrlPrefix = @""/sitecore/shell"";
           var userName = Request.QueryString[""user""] ?? ""sitecore\\admin"";

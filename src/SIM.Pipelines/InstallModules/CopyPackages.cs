@@ -18,14 +18,14 @@ namespace SIM.Pipelines.InstallModules
     {
       Assert.ArgumentNotNull(args, nameof(args));
 
-      return args.Modules.Any(m => m.IsPackage);
+      return args._Modules.Any(m => m.IsPackage);
     }
 
     protected override void Process([NotNull] InstallModulesArgs args)
     {
       Assert.ArgumentNotNull(args, nameof(args));
 
-      AgentHelper.CopyPackages(args.Instance, args.Modules);
+      AgentHelper.CopyPackages(args.Instance, args._Modules);
     }
 
     #endregion

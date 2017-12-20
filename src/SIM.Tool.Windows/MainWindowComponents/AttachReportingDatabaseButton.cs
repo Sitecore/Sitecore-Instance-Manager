@@ -1,9 +1,7 @@
 namespace SIM.Tool.Windows.MainWindowComponents
 {
-  using System;
   using System.Data.SqlClient;
   using System.IO;
-  using System.IO.Compression;
   using System.Linq;
   using System.Windows;
   using Sitecore.Diagnostics.Base;
@@ -12,6 +10,7 @@ namespace SIM.Tool.Windows.MainWindowComponents
   using SIM.Core.Common;
   using SIM.Extensions;
   using SIM.Instances;
+  using SIM.IO.Real;
   using SIM.Pipelines;
   using SIM.Tool.Base;
   using SIM.Tool.Base.Plugins;
@@ -25,7 +24,7 @@ namespace SIM.Tool.Windows.MainWindowComponents
 
     public bool IsEnabled(Window mainWindow, Instance instance)
     {
-      return instance != null && instance.Configuration.ConnectionStrings.All(x => x.Name != "reporting");
+      return instance != null;
     }
 
     public void OnClick(Window mainWindow, Instance instance)
@@ -72,7 +71,7 @@ namespace SIM.Tool.Windows.MainWindowComponents
       var sqlPrefix = AttachDatabasesHelper.GetSqlPrefix(instance);
       var reportingSqlName = sqlPrefix + "_reporting";
 
-      var mgmtText = Profile.Read().ConnectionString;
+      var mgmtText = Profile.Read(new RealFileSystem()).ConnectionString;
       var mgmtValue = new SqlConnectionStringBuilder(mgmtText);
       SqlServerManager.Instance.AttachDatabase(reportingSqlName, reportingFile.FullName, mgmtValue);
 

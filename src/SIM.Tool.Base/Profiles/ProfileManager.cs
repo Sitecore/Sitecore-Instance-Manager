@@ -7,6 +7,7 @@
   using Sitecore.Diagnostics.Base;
   using JetBrains.Annotations;
   using Sitecore.Diagnostics.Logging;
+  using SIM.IO;
 
   #region
 
@@ -17,7 +18,7 @@
     #region Fields
 
     [NotNull]
-    private static readonly string ProfileFilePath = GetProfilePath("profile.xml");
+    private static string ProfileFilePath { get; } = GetProfilePath("profile.xml");
 
     #endregion
 
@@ -42,7 +43,7 @@
         }
         catch (Exception ex)
         {
-          Log.Warn(ex, string.Format("The profile is invalid"));
+          Log.Warn(ex, "The profile is invalid");
 
           return false;
         }
@@ -56,33 +57,35 @@
 
     #region Public Methods
 
-    public static void Initialize()
+    public static void Initialize([NotNull] IFileSystem fileSystem)
     {
-      if (FileExists)
+      Assert.ArgumentNotNull(fileSystem, nameof(fileSystem));
+
+      var file = fileSystem.ParseFile(ProfileFilePath);
+      if (file.Exists)
       {
-        var profileFilePath = ProfileFilePath;
-        var profile = ReadProfile(profileFilePath);
+        var profile = ReadProfile(file);
 
         Assert.IsNotNull(profile, nameof(profile));
         Profile = profile;
       }
     }
 
-    public static Profile ReadProfile(string profileFilePath)
+    public static Profile ReadProfile(IFile profileFile)
     {
       try
       {
         var deserializer = new XmlSerializer(typeof(Profile));
-        using (TextReader textReader = new StreamReader(profileFilePath))
+        using (TextReader textReader = new StreamReader(profileFile.FullName))
         {
           return (Profile)deserializer.Deserialize(textReader);
         }
       }
       catch (Exception ex)
       {
-        Log.Warn(ex, string.Format("An error occurred during reading profile"));
+        Log.Warn(ex, "An error occurred during reading profile");
 
-        FileSystem.FileSystem.Local.Directory.TryDelete(profileFilePath);
+        profileFile.TryDelete();
         return null;
       }
     }
@@ -107,7 +110,7 @@
 
     public static SqlConnectionStringBuilder GetConnectionString()
     {
-      var profileConnectionString = ProfileManager.Profile.ConnectionString;
+      var profileConnectionString = Profile.ConnectionString;
       Assert.IsNotNull(profileConnectionString, "Connection String Not Set");
       var connectionString = new SqlConnectionStringBuilder(profileConnectionString);
       return connectionString;

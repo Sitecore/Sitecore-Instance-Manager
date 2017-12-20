@@ -8,25 +8,27 @@ namespace SIM.Pipelines
   using System.IO.Compression;
   using System.Linq;
   using SIM.Adapters.SqlServer;
-  using SIM.Adapters.WebServer;
   using SIM.Pipelines.Install;
   using Sitecore.Diagnostics.Base;
   using JetBrains.Annotations;
   using Sitecore.Diagnostics.Logging;
+  using SIM.Adapters;
   using SIM.Extensions;
   using SIM.FileSystem;
   using SIM.Instances;
+  using SIM.IO.Real;
+  using SIM.Services;
 
   #endregion
 
   public static class AttachDatabasesHelper
   {
-    // total number of steps in entire install/reinstall wizard without this one is around 5000, so we can assume attaching databases takes 5% so 250
-    public const int StepsCount = 250;
+    // total number of steps in entire install/reinstall wizard without this one is around 5000, so we can assume attaching databases takes 20% so 250
+    public const int StepsCount = 1000;
 
     #region Public methods
 
-    public static void AttachDatabase(string name, string sqlPrefix, bool attachSql, string databasesFolderPath, ConnectionString connectionString, SqlConnectionStringBuilder defaultConnectionString, IPipelineController controller)
+    public static void AttachDatabase(string name, string sqlPrefix, bool attachSql, string databasesFolderPath, Adapters.WebServer.ConnectionString connectionString, SqlConnectionStringBuilder defaultConnectionString, IPipelineController controller)
     {
       SetConnectionStringNode(name, sqlPrefix, defaultConnectionString, connectionString);
 
@@ -37,32 +39,74 @@ namespace SIM.Pipelines
 
       var databaseName = connectionString.GenerateDatabaseName(name, sqlPrefix);
 
-      var databasePath =
-        DatabaseFilenameHook(Path.Combine(databasesFolderPath, connectionString.DefaultFileName), 
-          connectionString.Name.Replace("yafnet", "forum"), databasesFolderPath);
-
-      if (!FileSystem.Local.File.Exists(databasePath))
+      var databasePath = GetDatabasePath(databasesFolderPath, connectionString, databaseName, ".mdf");
+      if (!File.Exists(databasePath))
       {
-        var file = Path.GetFileName(databasePath);
-        if (connectionString.Name.EqualsIgnoreCase("reporting"))
+        databasePath = GetDatabasePath(databasesFolderPath, connectionString, databaseName, ".dacpac");
+        if (!File.Exists(databasePath))
         {
-          databasePath = Path.Combine(Path.GetDirectoryName(databasePath), "Sitecore.Analytics.mdf");
-        } else if (connectionString.Name.EqualsIgnoreCase("exm.dispatch"))
-        {
-          databasePath = Path.Combine(Path.GetDirectoryName(databasePath), "Sitecore.Exm.mdf");
-        }
-        else if (connectionString.Name.EqualsIgnoreCase("session"))
-        {
-          databasePath = Path.Combine(Path.GetDirectoryName(databasePath), "Sitecore.Sessions.mdf");
+          Log.Warn($"File cannot be found: {databasePath} (.dacpac or .mdf)");
+          return;
         }
       }
 
-      FileSystem.Local.File.AssertExists(databasePath, databasePath + " file doesn't exist");
+      if (SqlServerManager.Instance.DatabaseExists(databaseName, defaultConnectionString))
+      {
+        databaseName = ResolveConflict(defaultConnectionString, connectionString, databasePath, databaseName, controller);
+      }
+
+      if (databaseName != null)
+      {
+        var extension = Path.GetExtension(databasePath);
+        if (extension == ".dacpac")
+        {
+          new SqlAdapter(new SqlConnectionString(defaultConnectionString.ToString())).DeployDatabase(databaseName, new RealFileSystem().ParseFile(databasePath));
+          var tmpPath = SqlServerManager.Instance.GetDatabaseFileName(databaseName, defaultConnectionString);
+          SqlServerManager.Instance.DetachDatabase(databaseName, defaultConnectionString);
+
+          extension = ".mdf";
+          databasePath = Path.Combine(Path.GetDirectoryName(databasePath), Settings.CoreInstallRenameSqlFiles.Value ? databaseName + extension : Path.GetFileNameWithoutExtension(databasePath) + extension);
+
+          File.Move(tmpPath, databasePath);
+        }
+
+        SqlServerManager.Instance.AttachDatabase(databaseName, databasePath, defaultConnectionString);
+      }
+    }
+
+    private static string GetDatabasePath(string databasesFolderPath, Adapters.WebServer.ConnectionString connectionString, string databaseName, string extension)
+    {
+      var databasePath =
+          DatabaseFilenameHook(Path.Combine(databasesFolderPath, connectionString.DefaultFileName),
+              connectionString.Name.Replace("yafnet", "forum"), databasesFolderPath);
+
+      databasePath = Path.Combine(Path.GetDirectoryName(databasePath), Path.GetFileNameWithoutExtension(databasePath) + extension);
+
+      if (!FileSystem.Local.File.Exists(databasePath))
+      {
+        if (connectionString.Name.EqualsIgnoreCase("reporting"))
+        {
+          databasePath = Path.Combine(Path.GetDirectoryName(databasePath), "Sitecore.Analytics" + extension);
+        }
+        else if (connectionString.Name.EqualsIgnoreCase("exm.dispatch"))
+        {
+          databasePath = Path.Combine(Path.GetDirectoryName(databasePath), "Sitecore.Exm" + extension);
+        }
+        else if (connectionString.Name.EqualsIgnoreCase("session"))
+        {
+          databasePath = Path.Combine(Path.GetDirectoryName(databasePath), "Sitecore.Sessions" + extension);
+        }
+      }
+
+      if (!File.Exists(databasePath))
+      {
+        return databasePath;
+      }
 
       if (Settings.CoreInstallRenameSqlFiles.Value)
       {
         // Make the database data file also matching databaseName
-        var newPath = databasePath.Replace(connectionString.DefaultFileName, string.Concat(databaseName, ".mdf"));
+        var newPath = databasePath.Replace(Path.GetFileNameWithoutExtension(connectionString.DefaultFileName) + extension, string.Concat(databaseName, extension));
         try
         {
           File.Move(databasePath, newPath);
@@ -75,42 +119,21 @@ namespace SIM.Pipelines
         databasePath = newPath;
         FileSystem.Local.File.AssertExists(databasePath, databasePath + " file doesn't exist");
       }
-
-      if (SqlServerManager.Instance.DatabaseExists(databaseName, defaultConnectionString))
-      {
-        databaseName = ResolveConflict(defaultConnectionString, connectionString, databasePath, databaseName, controller);
-      }
-
-      if (databaseName != null)
-      {
-        SqlServerManager.Instance.AttachDatabase(databaseName, databasePath, defaultConnectionString);
-      }
+      return databasePath;
     }
 
-    public static void AttachDatabase(ConnectionString connectionString, SqlConnectionStringBuilder defaultConnectionString, string name, string sqlPrefix, bool attachSql, string databasesFolderPath, string instanceName, IPipelineController controller)
+    public static void AttachDatabase(Adapters.WebServer.ConnectionString connectionString, SqlConnectionStringBuilder defaultConnectionString, string name, string sqlPrefix, bool attachSql, string databasesFolderPath, string instanceName, IPipelineController controller)
     {
       if (connectionString.IsMongoConnectionString)
       {
-        connectionString.Value = AttachDatabasesHelper.GetMongoConnectionString(connectionString.Name, sqlPrefix);
+        connectionString.Value = GetMongoConnectionString(connectionString.Name, sqlPrefix);
         connectionString.SaveChanges();
         return;
       }
 
       if (connectionString.IsSqlConnectionString)
       {
-        try
-        {
-          AttachDatabasesHelper.AttachDatabase(name, sqlPrefix, attachSql, databasesFolderPath, connectionString, defaultConnectionString, controller);
-        }
-        catch (Exception ex)
-        {
-          if (connectionString.Name == "reporting.secondary")
-          {
-            throw;
-          }
-
-          Log.Warn(ex, string.Format("Attaching reporting.secondary database failed. Skipping..."));
-        }
+        AttachDatabase(name, sqlPrefix, attachSql, databasesFolderPath, connectionString, defaultConnectionString, controller);
       }
     }
 
@@ -140,7 +163,7 @@ namespace SIM.Pipelines
 
       if (!FileSystem.Local.File.Exists(databasePath))
       {
-        string[] files = FileSystem.Local.Directory.GetFiles(databasesFolderPath, "*" + databaseName + ".mdf");
+        string[] files = FileSystem.Local.Directory.GetFiles(databasesFolderPath, $"*{databaseName}.mdf");
         var file = files.SingleOrDefault();
         if (!String.IsNullOrEmpty(file) && FileSystem.Local.File.Exists(file))
         {
@@ -151,7 +174,7 @@ namespace SIM.Pipelines
       return databasePath;
     }
 
-    public static string ResolveConflict(SqlConnectionStringBuilder defaultConnectionString, ConnectionString connectionString, string databasePath, string databaseName, IPipelineController controller)
+    public static string ResolveConflict(SqlConnectionStringBuilder defaultConnectionString, Adapters.WebServer.ConnectionString connectionString, string databasePath, string databaseName, IPipelineController controller)
     {
       var existingDatabasePath = SqlServerManager.Instance.GetDatabaseFileName(databaseName, defaultConnectionString);
 
@@ -173,14 +196,14 @@ namespace SIM.Pipelines
       }
 
       // todo: replce this with shiny message box
-      var delete = "Delete the '{0}' database".FormatWith(databaseName);
+      var delete = $"Delete the '{databaseName}' database";
       const string AnotherName = "Use another database name";
       const string Cancel = "Terminate current action";
       string[] options = new[]
       {
         delete, AnotherName, Cancel
       };
-      var m2 = "The database with '{0}' name already exists".FormatWith(databaseName);
+      var m2 = $"The database with '{databaseName}' name already exists";
       var result = controller.Select(m2, options);
       switch (result)
       {
@@ -207,7 +230,7 @@ namespace SIM.Pipelines
       Assert.ArgumentNotNull(connectionStringName, nameof(connectionStringName));
       Assert.ArgumentNotNull(instanceName, nameof(instanceName));
 
-      var mongoDbName = instanceName + "_" + connectionStringName;
+      var mongoDbName = $"{instanceName}_{connectionStringName}";
       var invalidChars = new[]
       {
         '\0', ' ', '.', '$', '/', '\\'
@@ -217,7 +240,7 @@ namespace SIM.Pipelines
         mongoDbName = mongoDbName.Replace(@char, "_"); // #SIM-128 Fixed
       }
 
-      var value = Settings.AppMongoConnectionString.Value.TrimEnd('/') + @"/" + mongoDbName;
+      var value = $@"{Settings.AppMongoConnectionString.Value.TrimEnd('/')}/{mongoDbName}";
       return value;
     }
 
@@ -232,15 +255,16 @@ namespace SIM.Pipelines
       {
         if (!SqlServerManager.Instance.DatabaseExists(databaseName + '_' + i, defaultConnectionString))
         {
-          return databaseName + "_" + i;
+          return $"{databaseName}_{i}";
         }
       }
 
-      throw new InvalidOperationException("Something weird happen... Do you really have '{0}' file?".FormatWith(databaseName + "_" + K));
+      throw new InvalidOperationException(
+        $"Something weird happen... Do you really have \'{databaseName}_{K}\' file?");
     }
 
     [NotNull]
-    private static string ResolveConflictByUnsedName([NotNull] SqlConnectionStringBuilder defaultConnectionString, [NotNull] ConnectionString connectionString, [NotNull] string databaseName)
+    private static string ResolveConflictByUnsedName([NotNull] SqlConnectionStringBuilder defaultConnectionString, [NotNull] Adapters.WebServer.ConnectionString connectionString, [NotNull] string databaseName)
     {
       Assert.ArgumentNotNull(defaultConnectionString, nameof(defaultConnectionString));
       Assert.ArgumentNotNull(connectionString, nameof(connectionString));
@@ -252,7 +276,7 @@ namespace SIM.Pipelines
       return databaseName;
     }
 
-    private static void SetConnectionStringNode([NotNull] string name, [NotNull] string sqlPrefix, [NotNull] SqlConnectionStringBuilder defaultConnectionString, [NotNull] ConnectionString connectionString)
+    private static void SetConnectionStringNode([NotNull] string name, [NotNull] string sqlPrefix, [NotNull] SqlConnectionStringBuilder defaultConnectionString, [NotNull] Adapters.WebServer.ConnectionString connectionString)
     {
       Assert.ArgumentNotNull(name, nameof(name));
       Assert.ArgumentNotNull(sqlPrefix, nameof(sqlPrefix));
@@ -275,7 +299,7 @@ namespace SIM.Pipelines
       var connectionStrings = instance.Configuration.ConnectionStrings.Where(x => x.IsSqlConnectionString).ToArray();
       Assert.IsTrue(connectionStrings.Length >= 2, "2 or more sql connection strings are required");
 
-      return AttachDatabasesHelper.GetSqlPrefix(connectionStrings[0].Value, connectionStrings[1].Value);
+      return GetSqlPrefix(connectionStrings[0].Value, connectionStrings[1].Value);
     }
 
     public static void ExtractReportingDatabase(Instance instance, FileInfo destination)

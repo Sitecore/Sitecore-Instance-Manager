@@ -20,17 +20,17 @@ namespace SIM.Tool.Windows.MainWindowComponents
 
     #region Fields
 
-    protected readonly bool ChangeMode;
-    protected readonly bool KillMode;
-    protected readonly bool RecycleMode;
+    protected bool ChangeMode { get; }
+    protected bool KillMode { get; }
+    protected bool RecycleMode { get; }
 
-    protected readonly bool StartMode;
-    protected readonly bool StopMode;
+    protected bool StartMode { get; }
+    protected bool StopMode { get; }
 
     #endregion
 
-    // protected readonly bool FavoriteMode;
-    // protected readonly bool DisabledMode;
+    // protected bool FavoriteMode { get; }
+    // protected bool DisabledMode { get; }
     #region Constructors
 
     public ControlAppPoolButton(string param)
@@ -40,20 +40,20 @@ namespace SIM.Tool.Windows.MainWindowComponents
       switch (param.ToLowerInvariant())
       {
         case "start":
-          this.StartMode = true;
+          StartMode = true;
           return;
         case "stop":
-          this.StopMode = true;
+          StopMode = true;
           return;
         case "recycle":
-          this.RecycleMode = true;
+          RecycleMode = true;
           return;
         case "kill":
-          this.KillMode = true;
+          KillMode = true;
           return;
         case "mode":
         case "change":
-          this.ChangeMode = true;
+          ChangeMode = true;
           return;
 
           // case "favorite":
@@ -101,33 +101,33 @@ namespace SIM.Tool.Windows.MainWindowComponents
     {
       if (instance != null)
       {
-        if (this.StopMode)
+        if (StopMode)
         {
           instance.Stop();
           return;
         }
 
-        if (this.StartMode)
+        if (StartMode)
         {
           instance.Start();
           return;
         }
 
-        if (this.RecycleMode)
+        if (RecycleMode)
         {
           instance.Recycle();
           return;
         }
 
-        if (this.KillMode)
+        if (KillMode)
         {
           MainWindowHelper.KillProcess(instance);
           return;
         }
 
-        if (this.ChangeMode)
+        if (ChangeMode)
         {
-          this.DoChangeMode(mainWindow, instance);
+          DoChangeMode(mainWindow, instance);
           return;
         }
 
@@ -157,10 +157,10 @@ namespace SIM.Tool.Windows.MainWindowComponents
       var message = "Change {0} instance's Application Pool mode".FormatWith(instance.Name);
       var options = new[]
       {
-        this.GetLabel(instance, 2, false), 
-        this.GetLabel(instance, 2, true), 
-        this.GetLabel(instance, 4, false), 
-        this.GetLabel(instance, 4, true)
+        GetLabel(instance, 2, false), 
+        GetLabel(instance, 2, true), 
+        GetLabel(instance, 4, false), 
+        GetLabel(instance, 4, true)
       };
 
       var result = WindowHelper.AskForSelection(title, header, message, options, mainWindow);
@@ -177,15 +177,15 @@ namespace SIM.Tool.Windows.MainWindowComponents
       instance.SetAppPoolMode(result.Contains("4.0"), result.Contains(Label32Bit));
     }
 
-    private string GetLabel(Instance instance, int version, bool is32bit)
+    private string GetLabel(Instance instance, int version, bool is32Bit)
     {
       var label = version + ".0 ";
-      if (is32bit)
+      if (is32Bit)
       {
         label += " " + Label32Bit;
       }
 
-      if (instance.Is32Bit == is32bit && instance.IsNetFramework4 == (version == 4))
+      if (instance.Is32Bit == is32Bit && instance.IsNetFramework4 == (version == 4))
       {
         return label + " " + LabelCurrent;
       }

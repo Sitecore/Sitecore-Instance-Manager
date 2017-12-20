@@ -83,13 +83,13 @@
         string[] paramArgs = param.Split('|');
         var xpath =
           paramArgs.Length == 2
-            ? Product.ManifestPrefix + paramArgs[0] + "/install/" + paramArgs[1] // is package
+            ? $"{Product.ManifestPrefix}{paramArgs[0]}/install/{paramArgs[1]}" // is package
             : Product.ManifestPrefix + param + "/install"; // is archive
 
         XmlElement element = manifest.SelectSingleNode(xpath) as XmlElement;
         if (element == null)
         {
-          Log.Warn(string.Format("Can't find rules root (the {0} element in the manifest of the {3} file){1}The manifest is: {1}{2}", xpath, Environment.NewLine, manifest.OuterXml, module.PackagePath));
+          Log.Warn($"Can't find rules root (the {xpath} element in the manifest of the {module.PackagePath} file){Environment.NewLine}The manifest is: {Environment.NewLine}{manifest.OuterXml}");
           done?.Add(module);
 
           continue;
@@ -184,10 +184,10 @@
         if (SqlServerManager.Instance.DatabaseExists(realDBname, newDatabaseConnectionString))
         {
           var databasePath = SqlServerManager.Instance.GetDatabaseFileName(realDBname, newDatabaseConnectionString);
-          const string theDatabaseExists = "The database with the same name ('{0}') already exists in the current instance of SQL Server ('{1}')";
+          const string TheDatabaseExists = "The database with the same name ('{0}') already exists in the current instance of SQL Server ('{1}')";
           if (string.IsNullOrEmpty(databasePath))
           {
-            var message = string.Format(theDatabaseExists + ", but doesn't point to any file(s) and looks like corrupted.", realDBname, newDatabaseConnectionString.DataSource);
+            var message = string.Format(TheDatabaseExists + ", but doesn't point to any file(s) and looks like corrupted.", realDBname, newDatabaseConnectionString.DataSource);
             if (!controller.Confirm(message + "  Would you like to delete it? If not then this installation will be interrupted."))
             {
               throw new InvalidOperationException(message);
@@ -197,7 +197,7 @@
           }
           else if (!databasePath.EqualsIgnoreCase(physicalPath))
           {
-            throw new InvalidOperationException(string.Format(theDatabaseExists + ", but points to files by another location ('{2}') than was expected ('{3}')", realDBname, newDatabaseConnectionString.DataSource, databasePath, physicalPath));
+            throw new InvalidOperationException(string.Format(TheDatabaseExists + ", but points to files by another location ('{2}') than was expected ('{3}')", realDBname, newDatabaseConnectionString.DataSource, databasePath, physicalPath));
           }
 
           skipAttach = true;
@@ -249,8 +249,8 @@
       var value = fieldValueElement.InnerXml;
       Assert.IsNotNull(value, nameof(value));
 
-      const string formsRenderingID = "|{6D3B4E7D-FEF8-4110-804A-B56605688830}";
-      value += formsRenderingID;
+      const string FormsRenderingID = "|{6D3B4E7D-FEF8-4110-804A-B56605688830}";
+      value += FormsRenderingID;
       fieldValueElement.InnerXml = value.TrimStart('|');
 
       var xml = xmlDocument.OuterXml;
@@ -424,16 +424,16 @@
       Assert.ArgumentNotNullOrEmpty(packagePath, nameof(packagePath));
       Assert.IsTrue(string.IsNullOrEmpty(location) == string.IsNullOrEmpty(tmpPath), "tmpPath and location must be set or null at the same time");
 
-      const string packageZipFileName = "package.zip";
-      if (!string.IsNullOrEmpty(location) && location.StartsWith(packageZipFileName, StringComparison.OrdinalIgnoreCase))
+      const string PackageZipFileName = "package.zip";
+      if (!string.IsNullOrEmpty(location) && location.StartsWith(PackageZipFileName, StringComparison.OrdinalIgnoreCase))
       {
-        FileSystem.FileSystem.Local.Zip.UnpackZip(packagePath, tmpPath, packageZipFileName);
-        packagePath = Path.Combine(tmpPath, packageZipFileName);
-        location = location.Substring(packageZipFileName.Length).Trim('\\', '/');
+        FileSystem.FileSystem.Local.Zip.UnpackZip(packagePath, tmpPath, PackageZipFileName);
+        packagePath = Path.Combine(tmpPath, PackageZipFileName);
+        location = location.Substring(PackageZipFileName.Length).Trim('\\', '/');
 
         try
         {
-          var inPackageFilePath = location + "/" + (sourceFileName.EmptyToNull() ?? fileName);
+          var inPackageFilePath = $"{location}/{(sourceFileName.EmptyToNull() ?? fileName)}";
           FileSystem.FileSystem.Local.Zip.UnpackZip(packagePath, tmpPath, inPackageFilePath.Replace("\\", "/"));
 
           var source = Path.Combine(tmpPath, inPackageFilePath);
@@ -526,9 +526,8 @@
         while (true)
         {
           databasesFolder = controller.Ask(
-            "Can't find any local database of the " + instance +
-            " instance to detect the Databases folder. Please specify it manually:",
-            instance.RootPath.TrimEnd('\\') + "\\Databases");
+            $"Can\'t find any local database of the {instance} instance to detect the Databases folder. Please specify it manually:",
+            $"{instance.RootPath.TrimEnd('\\')}\\Databases");
           if (string.IsNullOrEmpty(databasesFolder))
           {
             if (controller.Confirm("You didn't input anything - would you like to terminate this installation?"))
@@ -541,7 +540,7 @@
 
           if (!FileSystem.FileSystem.Local.Directory.Exists(databasesFolder))
           {
-            if (controller.Confirm("The " + databasesFolder + " doesn't exist. Would you like to create the folder?"))
+            if (controller.Confirm($"The {databasesFolder} doesn\'t exist. Would you like to create the folder?"))
             {
               FileSystem.FileSystem.Local.Directory.CreateDirectory(databasesFolder);
               break;
@@ -811,7 +810,7 @@
       {
         if (!FileSystem.FileSystem.Local.File.Exists(fromPath) && FileSystem.FileSystem.Local.File.Exists(toPath))
         {
-          Log.Warn(string.Format("The moving does not seem to be needed"));
+          Log.Warn("The moving does not seem to be needed");
           return;
         }
 

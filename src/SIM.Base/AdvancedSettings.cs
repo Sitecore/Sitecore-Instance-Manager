@@ -30,7 +30,7 @@
     /// <returns></returns>
     public static AdvancedProperty<string> Create(string xPathKey, string defaultValue)
     {
-      return AdvancedSettingsManager.CreateAndRegisterGenericSetting(xPathKey, defaultValue, AdvancedSettings.TryParse);
+      return AdvancedSettingsManager.CreateAndRegisterGenericSetting(xPathKey, defaultValue, TryParse);
     }
 
     /// <summary>

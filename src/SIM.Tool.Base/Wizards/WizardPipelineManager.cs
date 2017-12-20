@@ -71,10 +71,7 @@
         return null;
       }
 
-      var method = type.GetMethod(methodName, BindingFlags.Static | BindingFlags.Public, null, args != null ? new[]
-      {
-        args
-      } : new Type[0], null);
+      var method = type.GetMethods().FirstOrDefault(x => x.IsStatic && x.Name == methodName);
       if (method == null)
       {
         Log.Error($"Finish action points to missing '{methodName}' method of the '{typeName}' type: {ch.OuterXml}");
@@ -90,14 +87,14 @@
 
     #region Fields
 
-    private static readonly Func<WizardPipeline, ProcessorArgs, object[], Wizard> CreateWizardWindow = (a, b, c) => new Wizard(a, b, c);
+    private static readonly Func<WizardPipeline, ProcessorArgs, Func<WizardArgs>, Wizard> CreateWizardWindow = (a, b, c) => new Wizard(a, b, c);
     private static bool flag;
 
     #endregion
 
     #region Public methods
 
-    public static void Start(string name, Window owner, ProcessorArgs args = null, bool? isAsync = null, Action<WizardArgs> action = null, params object[] wizardArgsParameters)
+    public static void Start(string name, Window owner, ProcessorArgs args, bool? isAsync, Action<WizardArgs> action, Func<WizardArgs> createWizardArgs)
     {
       Log.Info($"Wizard pipeline '{name}' starts");
       using (new ProfileSection("Start wizard"))
@@ -105,33 +102,46 @@
         ProfileSection.Argument("name", name);
         ProfileSection.Argument("owner", owner);
         ProfileSection.Argument("args", args);
-        ProfileSection.Argument("wizardArgsParameters", wizardArgsParameters);
 
         WizardPipeline wizardPipeline = Definitions[name];
-        var wizard = CreateWizardWindow(wizardPipeline, args, wizardArgsParameters);
         var isSync = !(isAsync ?? !WinAppSettings.AppSysIsSingleThreaded.Value);
         if (isSync)
         {
-          WindowHelper.ShowDialog(wizard, owner);
-          if (action != null)
+          using (var wizard = CreateWizardWindow(wizardPipeline, args, createWizardArgs))
           {
-            var wizardArgs = wizard.ProcessorArgs;
+            WindowHelper.ShowDialog(wizard, owner);
+            if (action != null)
+            {
+              var wizardArgs = wizard.WizardArgs;
 
-            action(wizardArgs);
-          }
+              action(wizardArgs);
+            }
+          }    
         }
         else
         {
+          var wizard = CreateWizardWindow(wizardPipeline, args, createWizardArgs);
           if (action != null && !flag)
           {
             flag = true;
             wizard.Closed += (o, e) =>
             {
-              var wizardArgs = wizard.ProcessorArgs;            
+              try
+              {
+                var wizardArgs = wizard.WizardArgs;
 
-              action(wizardArgs);
-              flag = false;
+                action(wizardArgs);
+                flag = false;
+              }
+              finally
+              {
+                wizard.Dispose();
+              }
             };
+          }
+          else
+          {
+            wizard.Closed += (obj, e) => wizard.Dispose();
           }
 
           WindowHelper.ShowWindow(wizard, owner);

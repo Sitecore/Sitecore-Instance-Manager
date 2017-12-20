@@ -17,7 +17,7 @@
     #region Fields
 
     [NotNull]
-    private readonly Instance instance;
+    private Instance Instance { get; }
 
     #endregion
 
@@ -27,7 +27,7 @@
     {
       Assert.ArgumentNotNull(instance, nameof(instance));
 
-      this.instance = instance;
+      Instance = instance;
     }
 
     #endregion
@@ -41,7 +41,7 @@
     {
       get
       {
-        XmlElementEx connectionStringsNode = this.GetConnectionStringsElement();
+        XmlElementEx connectionStringsNode = GetConnectionStringsElement();
         return GetConnectionStringCollection(connectionStringsNode);
       }
     }
@@ -100,7 +100,7 @@
     [NotNull]
     private XmlElementEx GetConnectionStringsElement()
     {
-      XmlDocumentEx webConfig = this.instance.GetWebConfig();
+      XmlDocumentEx webConfig = Instance.GetWebConfig();
       Assert.IsNotNull(webConfig, nameof(webConfig));
 
       return GetConnectionStringsElement(webConfig);
@@ -109,12 +109,6 @@
     #endregion
 
     #region Public methods
-
-    public static ConnectionStringCollection GetConnectionStrings(string webRootPath)
-    {
-      XmlElementEx connectionStringsNode = GetConnectionStringsElement(XmlDocumentEx.LoadFile(Path.Combine(webRootPath, "web.config")));
-      return GetConnectionStringCollection(connectionStringsNode);
-    }
 
     #endregion
   }

@@ -16,7 +16,7 @@ namespace SIM.FileSystem
   {
     #region Fields
 
-    private static readonly Type SecurityIdentifier = typeof(SecurityIdentifier);
+    private static Type SecurityIdentifier { get; } = typeof(SecurityIdentifier);     
 
     #endregion
 
@@ -35,15 +35,13 @@ namespace SIM.FileSystem
   public class SecurityProvider
   {
     #region Fields
+                                          
+    protected IdentityReference Everyone { get; } = new SecurityIdentifier("S-1-1-0").Translate(typeof(NTAccount));
+    protected IdentityReference LocalService { get; } = new SecurityIdentifier("S-1-5-19").Translate(typeof(NTAccount));
+    protected IdentityReference LocalSystem { get; } = new SecurityIdentifier("S-1-5-18").Translate(typeof(NTAccount));
+    protected IdentityReference NetworkService { get; } = new SecurityIdentifier("S-1-5-20").Translate(typeof(NTAccount));
 
-    protected readonly IdentityReference AuthenticatedUsers = new SecurityIdentifier("S-1-5-11").Translate(typeof(NTAccount));
-
-    protected readonly IdentityReference Everyone = new SecurityIdentifier("S-1-1-0").Translate(typeof(NTAccount));
-    protected readonly IdentityReference LocalService = new SecurityIdentifier("S-1-5-19").Translate(typeof(NTAccount));
-    protected readonly IdentityReference LocalSystem = new SecurityIdentifier("S-1-5-18").Translate(typeof(NTAccount));
-    protected readonly IdentityReference NetworkService = new SecurityIdentifier("S-1-5-20").Translate(typeof(NTAccount));
-
-    protected readonly FileSystem fileSystem;
+    protected FileSystem FileSystem { get; }
 
     #endregion
 
@@ -51,7 +49,7 @@ namespace SIM.FileSystem
 
     public SecurityProvider(FileSystem fileSystem)
     {
-      this.fileSystem = fileSystem;
+      FileSystem = fileSystem;
     }
 
     #endregion
@@ -63,18 +61,18 @@ namespace SIM.FileSystem
       Assert.ArgumentNotNullOrEmpty(path, nameof(path));
       Assert.ArgumentNotNullOrEmpty(identity, nameof(identity));
 
-      var identityReference = this.GetIdentityReference(identity);
-      Assert.IsNotNull(identityReference, "Cannot find {0} identity reference".FormatWith(identity));
+      var identityReference = GetIdentityReference(identity);
+      Assert.IsNotNull(identityReference, $"Cannot find {identity} identity reference");
 
-      if (this.fileSystem.Directory.Exists(path))
+      if (FileSystem.Directory.Exists(path))
       {
-        this.EnsureDirectoryPermissions(path, identityReference);
+        EnsureDirectoryPermissions(path, identityReference);
         return;
       }
 
-      if (this.fileSystem.File.Exists(path))
+      if (FileSystem.File.Exists(path))
       {
-        this.EnsureFilePermissions(path, identityReference);
+        EnsureFilePermissions(path, identityReference);
         return;
       }
 
@@ -89,15 +87,15 @@ namespace SIM.FileSystem
       IdentityReference reference = null;
       if (name.EndsWith("NetworkService", StringComparison.OrdinalIgnoreCase) || name.EndsWith("Network Service", StringComparison.OrdinalIgnoreCase))
       {
-        reference = this.NetworkService;
+        reference = NetworkService;
       }
       else if (name.EndsWith("LocalSystem", StringComparison.OrdinalIgnoreCase) || name.EndsWith("Local System", StringComparison.OrdinalIgnoreCase))
       {
-        reference = this.LocalSystem;
+        reference = LocalSystem;
       }
       else if (name.EndsWith("LocalService", StringComparison.OrdinalIgnoreCase) || name.EndsWith("Local Service", StringComparison.OrdinalIgnoreCase))
       {
-        reference = this.LocalService;
+        reference = LocalService;
       }
       else
       {
@@ -139,14 +137,14 @@ namespace SIM.FileSystem
       Assert.ArgumentNotNullOrEmpty(identity, nameof(identity));
       Assert.ArgumentNotNull(permissions, nameof(permissions));
 
-      if (this.fileSystem.Directory.Exists(path))
+      if (FileSystem.Directory.Exists(path))
       {
-        return this.HasDirectoryPermissions(path, this.GetIdentityReference(identity), permissions);
+        return HasDirectoryPermissions(path, GetIdentityReference(identity), permissions);
       }
 
-      if (this.fileSystem.File.Exists(path))
+      if (FileSystem.File.Exists(path))
       {
-        return this.HasFilePermissions(path, this.GetIdentityReference(identity), permissions);
+        return HasFilePermissions(path, GetIdentityReference(identity), permissions);
       }
 
       throw new InvalidOperationException("File or directory not found: " + path);
@@ -219,7 +217,7 @@ namespace SIM.FileSystem
 
       try
       {
-        return rules.Cast<AuthorizationRule>().Where(rule => rule.IdentityReference.CompareTo(identity) || rule.IdentityReference.CompareTo(this.Everyone));
+        return rules.Cast<AuthorizationRule>().Where(rule => rule.IdentityReference.CompareTo(identity) || rule.IdentityReference.CompareTo(Everyone));
       }
       catch (Exception ex)
       {
@@ -253,12 +251,12 @@ namespace SIM.FileSystem
       try
       {
         return
-          this.GetRules(rules, identity).Any(
+          GetRules(rules, identity).Any(
             rule => (((FileSystemAccessRule)rule).FileSystemRights & permissions) > 0);
       }
       catch (Exception ex)
       {
-        Log.Warn(ex, string.Format("Cannot get permissions for rules collection"));
+        Log.Warn(ex, "Cannot get permissions for rules collection");
         return false;
       }
     }

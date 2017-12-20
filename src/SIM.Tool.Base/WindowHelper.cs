@@ -59,7 +59,7 @@
         }
         else
         {
-          owner.Dispatcher.Invoke(new Action(() => { res = TaskDialog.Show(config); }));
+          owner.Dispatcher.Invoke(() => { res = TaskDialog.Show(config); });
         }
 
         if (res == null)
@@ -94,7 +94,7 @@
       }
       else
       {
-        owner.Dispatcher.Invoke(new Action(() => { result = ShowDialog(dialog, owner); }));
+        owner.Dispatcher.Invoke(() => { result = ShowDialog(dialog, owner); });
       }
 
       return result as string;
@@ -184,15 +184,15 @@
           }
         });
 
-        const string inerrupt = "&Cancel";
-        const string skip = "&Skip";
+        const string Inerrupt = "&Cancel";
+        const string Skip = "&Skip";
 
         var options = allowSkip ? new[]
         {
-          inerrupt, skip
+          Inerrupt, Skip
         } : new[]
         {
-          inerrupt
+          Inerrupt
         };
 
         // const string hide = "&Hide";
@@ -362,8 +362,8 @@
         }
       }
 
-      window.Left = Screen.PrimaryScreen.WorkingArea.Width / 2.0 - window.Width / 2.0;
-      window.Top = Screen.PrimaryScreen.WorkingArea.Height / 2.0 - window.Height / 2.0;
+      window.Left = SystemParameters.WorkArea.Width / 2.0 - window.Width / 2.0;
+      window.Top = SystemParameters.WorkArea.Height / 2.0 - window.Height / 2.0;
       bool? result = null;
       try
       {
@@ -405,6 +405,8 @@
     {
       Assert.ArgumentNotNull(window, nameof(window));
 
+      window.Left = SystemParameters.WorkArea.Width / 2.0 - window.Width / 2.0;
+      window.Top = SystemParameters.WorkArea.Height / 2.0 - window.Height / 2.0;
       try
       {
         window.Owner = owner;
@@ -489,9 +491,9 @@
       return ShowDialog(dialog, window) as string;
     }
 
-    public static void CopyFileUI(string sourceFileName, string destFileName, UIOption? showUI = null, UICancelOption? onUserCancel = null)
+    public static void CopyFileUi(string sourceFileName, string destFileName, UIOption? showUi = null, UICancelOption? onUserCancel = null)
     {
-      Microsoft.VisualBasic.FileIO.FileSystem.CopyFile(sourceFileName, destFileName, showUI ?? UIOption.AllDialogs, onUserCancel ?? UICancelOption.ThrowException);
+      Microsoft.VisualBasic.FileIO.FileSystem.CopyFile(sourceFileName, destFileName, showUi ?? UIOption.AllDialogs, onUserCancel ?? UICancelOption.ThrowException);
     }
    
     public static ImageSource GetImage(string imageName, string assemblyName)

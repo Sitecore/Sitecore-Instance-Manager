@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Configuration;
 using System.IO;
-using System.Net;
 using System.Reflection;
-using System.Runtime.Remoting.Messaging;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Xml;
 using Sitecore.Diagnostics.Base;
@@ -74,11 +70,11 @@ namespace SIM.Pipelines.Install.Modules
     private void UpdateSolrConfig(string corePath)
     {
       string filePath = corePath.EnsureEnd(@"\") + @"conf\solrconfig.xml";
-      XmlDocumentEx mergedXml = this.XmlMerge(filePath, SolrTermSuppportPatch);
+      XmlDocumentEx mergedXml = XmlMerge(filePath, SolrTermSuppportPatch);
       EnsureClassicSchemaMode(mergedXml);
       RemoveAddSchemaFieldsProcessor(mergedXml);
-      string mergedString = this.NormalizeXml(mergedXml);
-      this.WriteAllText(filePath, mergedString);
+      string mergedString = NormalizeXml(mergedXml);
+      WriteAllText(filePath, mergedString);
     }
 
     private void EnsureClassicSchemaMode(XmlDocumentEx solrConfig)
@@ -154,7 +150,7 @@ namespace SIM.Pipelines.Install.Modules
 
     private void CreateSolrCore(string url, string coreName, string instanceDir)
     {
-      this.RequestAndGetResponseStream($"{url}/admin/cores?action=CREATE&name={coreName}&instanceDir={instanceDir}&config=solrconfig.xml&schema=schema.xml&dataDir=data");
+      RequestAndGetResponseStream($"{url}/admin/cores?action=CREATE&name={coreName}&instanceDir={instanceDir}&config=solrconfig.xml&schema=schema.xml&dataDir=data");
     }
 
     private void RemoveCorePropertiesFile(string newCorePath)
@@ -166,7 +162,7 @@ namespace SIM.Pipelines.Install.Modules
     private SolrInformation GetSolrInformation(string url)
     {
       string solrInfoUrl = $"{url}/admin/info/system";
-      Stream response = this.RequestAndGetResponseStream(solrInfoUrl);
+      Stream response = RequestAndGetResponseStream(solrInfoUrl);
       string responseAsString = GetStringFromStream(response);
       var doc = XmlDocumentEx.LoadXml(responseAsString);
         

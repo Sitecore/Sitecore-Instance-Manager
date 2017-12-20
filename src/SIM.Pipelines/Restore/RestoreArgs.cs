@@ -13,12 +13,12 @@
   {
     #region Fields
 
-    public readonly InstanceBackup Backup;
+    public InstanceBackup Backup { get; }
 
-    public readonly Instance Instance;
-    public string DataFolder;
-    public string WebRootPath;
-    private readonly string instanceName;
+    public Instance Instance { get; }
+    public string _DataFolder;
+    public string _WebRootPath;
+    private string instanceName { get; }
 
     #endregion
 
@@ -35,11 +35,11 @@
       // backup = bs.OrderBy(b => b.Date).FirstOrDefault();
       // Assert.IsNotNull(backup, "There isn't any available backup", false);
       // }
-      this.Backup = backup;
-      this.Instance = instance;
-      this.WebRootPath = instance.WebRootPath;
-      this.DataFolder = instance.DataFolderPath;
-      this.instanceName = instance.Name;
+      Backup = backup;
+      Instance = instance;
+      _WebRootPath = instance.WebRootPath;
+      _DataFolder = instance.DataFolderPath;
+      instanceName = instance.Name;
     }
 
     #endregion
@@ -50,7 +50,7 @@
     {
       get
       {
-        return this.instanceName;
+        return instanceName;
       }
     }
 

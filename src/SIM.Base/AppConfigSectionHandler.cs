@@ -19,7 +19,7 @@
     {
       var document = new XmlDocument();
       document.Load(reader);
-      this.XmlRepresentation = document;
+      XmlRepresentation = document;
     }
 
     #endregion

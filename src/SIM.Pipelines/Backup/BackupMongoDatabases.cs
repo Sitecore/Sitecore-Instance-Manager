@@ -35,7 +35,7 @@ namespace SIM.Pipelines.Backup
       foreach (var database in instance.MongoDatabases)
       {
         MongoHelper.Backup(database, backupDatabasesFolder);
-        this.IncrementProgress();
+        IncrementProgress();
       }
     }
 

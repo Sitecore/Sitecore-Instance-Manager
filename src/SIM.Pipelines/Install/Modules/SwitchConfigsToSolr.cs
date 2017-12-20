@@ -63,9 +63,9 @@ namespace SIM.Pipelines.Install.Modules
     public IList<string> GetIncludeDirFiles()
     {
       string path = Instance.WebRootPath.EnsureEnd(@"\") + @"App_Config\Include";
-      const string filter = "*";
-      const SearchOption allDirectories = SearchOption.AllDirectories;
-      return GetFiles(path, filter, allDirectories);
+      const string Filter = "*";
+      const SearchOption AllDirectories = SearchOption.AllDirectories;
+      return GetFiles(path, Filter, AllDirectories);
     }
 
     private void EnableNonIocSolrFiles()
@@ -117,7 +117,7 @@ namespace SIM.Pipelines.Install.Modules
     private void RenameCoreInConfigFile(IList<string> solrFiles)
     {
       string oldCore = @"<param desc=""core"">$(id)</param>";
-      string newCore = $@"<param desc=""core"">{this.Instance.Name}_$(id)</param>";
+      string newCore = $@"<param desc=""core"">{Instance.Name}_$(id)</param>";
       foreach (var file in solrFiles)
       {
         string oldContents = FileReadAllText(file);

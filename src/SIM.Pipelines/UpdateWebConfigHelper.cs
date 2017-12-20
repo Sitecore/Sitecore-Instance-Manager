@@ -10,12 +10,13 @@ namespace SIM.Pipelines
   using JetBrains.Annotations;
   using Sitecore.Diagnostics.Logging;
   using SIM.Extensions;
+  using SIM.Products;
 
   public static class UpdateWebConfigHelper
   {
     #region Public methods
 
-    public static void Process([NotNull] string rootFolderPath, [NotNull] string webRootPath, [NotNull] string dataFolder, bool serverSideRedirect, bool increaseExecutionTimeout)
+    public static void Process([NotNull] string rootFolderPath, [NotNull] string webRootPath, [NotNull] string dataFolder, bool serverSideRedirect, bool increaseExecutionTimeout, Product product)
     {
       Assert.ArgumentNotNull(rootFolderPath, nameof(rootFolderPath));
       Assert.ArgumentNotNull(webRootPath, nameof(webRootPath));
@@ -30,13 +31,13 @@ namespace SIM.Pipelines
           var httpRuntime = GetHttpRuntime(webConfig, true);
           if (httpRuntime == null)
           {
-            Log.Error(string.Format("Cannot extend executionTimeout as httpRuntime element is missing"));
+            Log.Error("Cannot extend executionTimeout as httpRuntime element is missing");
           }
           else
           {
             httpRuntime.SetAttribute("executionTimeout", executionTimeout);
             webConfig.Save();
-          }           
+          }
         }
       }
 
@@ -52,38 +53,46 @@ namespace SIM.Pipelines
       }
 
       var addressString = Settings.CoreInstallMailServerAddress.Value;
-      if (string.IsNullOrEmpty(addressString))
+      if (!string.IsNullOrEmpty(addressString))
       {
-        return;
+        var credentialsString = Settings.CoreInstallMailServerCredentials.Value;
+
+        var address = Parameters.Parse(addressString);
+        var host = address[0];
+        var port = address[1];
+
+        var credentials = Parameters.Parse(credentialsString);
+        var username = credentials[0];
+        var password = credentials[1];
+
+        var settings = new NameValueCollection
+        {
+          {
+            "MailServer", host
+          },
+          {
+            "MailServerPort", port
+          },
+          {
+            "MailServerUserName", username
+          },
+          {
+            "MailServerPassword", password
+          }
+        };
+
+        CreateSettingsIncludeFile(rootFolderPath, "MailServer.config", settings);
       }
 
-      var credentialsString = Settings.CoreInstallMailServerCredentials.Value;
-
-      var address = Parameters.Parse(addressString);
-      var host = address[0];
-      var port = address[1];
-
-      var credentials = Parameters.Parse(credentialsString);
-      var username = credentials[0];
-      var password = credentials[1];
-
-      var settings = new NameValueCollection
+      if (product.Name == "Sitecore CMS" && product.Version.StartsWith("9.0"))
       {
+        CreateSettingsIncludeFile(rootFolderPath, "DisableXdb.config", new NameValueCollection
         {
-          "MailServer", host
-        }, 
-        {
-          "MailServerPort", port
-        }, 
-        {
-          "MailServerUserName", username
-        }, 
-        {
-          "MailServerPassword", password
-        }
-      };
-
-      CreateSettingsIncludeFile(rootFolderPath, "MailServer.config", settings);
+          {
+            "Xdb.Enabled", "false"
+          }
+        });
+      }
     }
 
     [CanBeNull]
@@ -142,7 +151,7 @@ namespace SIM.Pipelines
   </sitecore>
 </configuration>";
 
-      var includeFilePath = Path.Combine(rootFolderPath, @"Website\App_Config\Include\zzz\" + includeFileName);
+      var includeFilePath = Path.Combine(rootFolderPath, $@"Website\App_Config\Include\zzz\{includeFileName}");
       var sb = new StringBuilder();
       sb.Append(Prefix);
       foreach (string key in settings.Keys)

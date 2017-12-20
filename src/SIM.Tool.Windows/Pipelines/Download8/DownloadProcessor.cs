@@ -19,7 +19,7 @@
   {
     #region Constants
 
-    private const int scale = 100;
+    private const int Scale = 100;
 
     #endregion
 
@@ -28,8 +28,8 @@
     public override long EvaluateStepsCount(ProcessorArgs args)
     {
       var download = (Download8Args)args;
-      var count = download.FileNames.Count(x => this.RequireDownloading(x.Value, download.LocalRepository));
-      return count * scale;
+      var count = download._FileNames.Count(x => RequireDownloading(x.Value, download.LocalRepository));
+      return count * Scale;
     }
 
     #endregion
@@ -41,11 +41,11 @@
       var download = (Download8Args)args;
       var cookies = download.Cookies;
       var localRepository = download.LocalRepository;
-      var fileNames = download.FileNames;
-      var links = download.Links;
+      var fileNames = download._FileNames;
+      var links = download._Links;
 
       var cancellation = new CancellationTokenSource();
-      var urls = links.Where(link => this.RequireDownloading(fileNames[link], localRepository)).ToArray();
+      var urls = links.Where(link => RequireDownloading(fileNames[link], localRepository)).ToArray();
       var n = urls.Length;
       for (int index = 0; index < n; index++)
       {
@@ -59,9 +59,9 @@
           Assert.IsTrue(!FileSystem.FileSystem.Local.File.Exists(destFileName), "The {0} file already exists".FormatWith(destFileName));
           Log.Info($"Downloading {destFileName}");
 
-          if (this.TryCopyFromExternalRepository(fileName, destFileName))
+          if (TryCopyFromExternalRepository(fileName, destFileName))
           {
-            this.Controller.SetProgress(index * scale + scale);
+            Controller.SetProgress(index * Scale + Scale);
             return;
           }
 
@@ -78,7 +78,7 @@
           var done = false;
           Exception exception = null;
           var context = new DownloadContext(downloadOptions);
-          context.OnProgressChanged += (x, y, z) => this.Controller.SetProgress(index * scale + z);
+          context.OnProgressChanged += (x, y, z) => Controller.SetProgress(index * Scale + z);
           context.OnDownloadCompleted += () => done = true;
           context.OnErrorOccurred += ex => exception = ex;
           ApplicationManager.AttemptToClose += (x, y) => cancellation.Cancel(true);
@@ -96,7 +96,7 @@
         }
         catch (Exception ex)
         {
-          Log.Warn(ex, string.Format("An error occurred during downloading files"));
+          Log.Warn(ex, "An error occurred during downloading files");
 
           cancellation.Cancel();
           throw new InvalidOperationException("An unhandled exception happened during downloading '{0}' file".FormatWith(url));
@@ -166,7 +166,7 @@
                 ProfileSection.Argument("fileName", fileName);
                 ProfileSection.Argument("externalRepositoryFilePath", externalRepositoryFilePath);
 
-                WindowHelper.CopyFileUI(externalRepositoryFilePath, destFileName, Microsoft.VisualBasic.FileIO.UIOption.AllDialogs, Microsoft.VisualBasic.FileIO.UICancelOption.ThrowException);
+                WindowHelper.CopyFileUi(externalRepositoryFilePath, destFileName, Microsoft.VisualBasic.FileIO.UIOption.AllDialogs, Microsoft.VisualBasic.FileIO.UICancelOption.ThrowException);
               }
 
               Log.Info($"Copying the {fileName} file has completed");
