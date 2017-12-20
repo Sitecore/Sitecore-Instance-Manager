@@ -47,6 +47,11 @@
     {
       Assert.ArgumentNotNull(productName, nameof(productName));
       var product = Products.FirstOrDefault(p => p.ToString().EqualsIgnoreCase(productName));
+      if (product == null)
+      {
+        product = Products.FirstOrDefault(p => p.ToString().EqualsIgnoreCase(productName.Replace(".0.0", ".0")));
+      }
+
       if (product != null)
       {
         return product;
