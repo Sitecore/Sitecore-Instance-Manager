@@ -203,7 +203,7 @@ namespace SIM.Tool.Windows
 
       return new ButtonDefinition
       {                
-        Label = "Create Hotfix",
+        Label = "Create Core Patch",
         Image = "/Images/$sm/vs.png, SIM.Tool.Windows",
         Handler = new SIM.Tool.Windows.MainWindowComponents.CreateSupportPatchButton("%APPDATA%\\Sitecore\\HotfixCreator", $"http://dl.sitecore.net/updater/hc/HotfixCreator.application")
       };
