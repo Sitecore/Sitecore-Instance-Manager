@@ -132,9 +132,7 @@
       </Grid>
     </StackPanel>
 
-    <TextBlock Grid.Row="5" Grid.ColumnSpan="4" Margin="14 14 14 0" TextWrapping="Wrap" TextAlignment="Justify">Sitecore(R) is a registered trademark. All other brand and product names are the property of their respective holders. The 
-contents of this document are the property of Sitecore. <LineBreak />
-      Copyright (C) 2001-2015 Sitecore. All rights reserved.</TextBlock>
+    <TextBlock Grid.Row="5" Grid.ColumnSpan="4" Margin="14 14 14 0" TextWrapping="Wrap" TextAlignment="Justify" Name="CopyrightInformation" />
 
     <Grid Background="#FFA0A0A0" Margin="0" Grid.Row="6" Grid.ColumnSpan="4" />
 		<Grid Background="White" Margin="0" Grid.Row="7" Grid.ColumnSpan="4" />
