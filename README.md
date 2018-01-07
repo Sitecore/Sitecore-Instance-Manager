@@ -91,10 +91,14 @@ SIM will only work:
 * with `Administrator` permissions
 * with direct internet access (no proxy)
 * when **IIS is pre-configured** with all necessary features (check Sitecore installation guide for details)
-* with **local SQL Server 2012+** instance with `sa` user account with `sysadmin` permissions
+
+For `Sitecore 9.0`:
+* with **local SQL Server 2016** (not 2017) instance with `sa` user account with `sysadmin` permissions
+* with [ssdt15 chocolatey package](https://chocolatey.org/packages/ssdt15) installed 
 
 For `Sitecore 7.5, 8.0, 8.1 and 8.2`:  
 * with **local MongoDB** instance pre-configured and running as a service
+* with **local SQL Server 2012+** instance with `sa` user account with `sysadmin` permissions
 
 ### Known Issues
 
