@@ -776,6 +776,13 @@ namespace SIM.Tool.Windows
                 new ButtonDefinition(),
                 new ButtonDefinition
                 {
+                  Label = "Clear Properties of All Databases",
+                  Image = "/Images/$sm/data.png, SIM.Tool.Windows",
+                  Handler = new SIM.Tool.Windows.MainWindowComponents.ClearPropertiesButton()
+                },
+                new ButtonDefinition(),
+                new ButtonDefinition
+                {
                   Label = "Clear Event Queues of All Databases",
                   Image = "/Images/$sm/data.png, SIM.Tool.Windows",
                   Handler = new SIM.Tool.Windows.MainWindowComponents.ClearEventQueueButton()

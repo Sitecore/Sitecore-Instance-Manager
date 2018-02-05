@@ -141,7 +141,9 @@
     <Compile Include="MainWindowComponents\BackupInstanceButton.cs" />
     <Compile Include="MainWindowComponents\BrowseButton.cs" />
     <Compile Include="MainWindowComponents\CleanupInstanceButton.cs" />
+    <Compile Include="MainWindowComponents\ClearDatabasesButton.cs" />
     <Compile Include="MainWindowComponents\ClearEventQueueButton.cs" />
+    <Compile Include="MainWindowComponents\ClearPropertiesButton.cs" />
     <Compile Include="MainWindowComponents\CollectMemoryDumpButton.cs" />
     <Compile Include="MainWindowComponents\ConfigBuilderButton.cs" />
     <Compile Include="MainWindowComponents\ControlAppPoolButton.cs" />
