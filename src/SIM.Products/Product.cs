@@ -214,11 +214,21 @@
             break;
         }
 
-        release = Service.GetVersions("Sitecore CMS")?
-          .FirstOrDefault(z => z.Version.MajorMinor == ver && z.Revision == Revision);
-
-        if (release == null)
+        try
         {
+          if (ver.Split('.').Length == 2)
+          {
+            release = Service.GetRelease("Sitecore CMS", ver, Revision);
+          }
+          else
+          {
+            release = Service.GetRelease("Sitecore CMS", ver);
+          }
+        }
+        catch (Exception ex)
+        {
+          Log.Error(ex, $"Failed to find Sitecore CMS {ver} rev. {Revision}");
+
           _UnknownRelease = true;
 
           return null;
