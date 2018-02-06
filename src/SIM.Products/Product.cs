@@ -619,6 +619,12 @@
         return false;
       }
       
+      var arr = version.Split('.');
+      if (arr.Length > 2)
+      {
+        version = $"{arr[0]}.{arr[1]}";
+      }
+
       product = ProductManager.Products.FirstOrDefault(p => p.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase) && p.OriginalName.Equals(originalName) && p.ShortName.EqualsIgnoreCase(shortName) && p.Revision.EqualsIgnoreCase(revision))
                 ?? new Product
                 {
