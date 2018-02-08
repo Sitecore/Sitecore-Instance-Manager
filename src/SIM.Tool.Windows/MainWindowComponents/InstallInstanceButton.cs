@@ -58,7 +58,7 @@
             return;
           }
 
-          Analytics.TrackEvent($"install-{product.Version}");
+          Analytics.TrackEvent($"install-{product.TwoVersion}");
         }, () => new InstallWizardArgs());
       }
     }

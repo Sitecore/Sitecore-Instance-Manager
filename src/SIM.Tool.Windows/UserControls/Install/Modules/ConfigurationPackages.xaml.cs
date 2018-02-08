@@ -185,7 +185,7 @@
 
     private void Append(string folder, Product product)
     {
-      var ver = product.Version;
+      var ver = product.TwoVersion;
       IEnumerable<string> files = FileSystem.FileSystem.Local.Directory.GetFiles(folder, "*.zip", SearchOption.AllDirectories)
         .Where(f => false 
           || !f.ContainsIgnoreCase("- Sitecore") 

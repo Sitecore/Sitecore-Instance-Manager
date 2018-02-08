@@ -94,7 +94,7 @@ namespace SIM.Pipelines
 
         if (product.Name.EqualsIgnoreCase("Sitecore CMS"))
         {
-          var ver = product.Version;
+          var ver = product.TwoVersion;
           if (ver.StartsWith("6.0") || ver.StartsWith("6.1"))
           {
             appPool.Enable32BitAppOnWin64 = true;

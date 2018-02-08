@@ -41,7 +41,7 @@ namespace SIM.Tool.Windows.MainWindowComponents
       var product = instance.Product;
       Assert.IsNotNull(product, $"The {instance.ProductFullName} distributive is not available in local repository. You need to get it first.");
 
-      var version = product.Version + "." + product.Update;
+      var version = product.TwoVersion + "." + product.Update;
 
       var args = new[]
       {

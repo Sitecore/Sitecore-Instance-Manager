@@ -72,7 +72,7 @@
         return false;
       }
 
-      if (product.Version != version)
+      if (product.TwoVersion != version)
       {
         return false;
       }

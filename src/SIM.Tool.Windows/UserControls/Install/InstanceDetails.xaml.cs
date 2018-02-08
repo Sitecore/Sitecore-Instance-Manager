@@ -83,7 +83,7 @@ namespace SIM.Tool.Windows.UserControls.Install
       Product product = productRevision.SelectedValue as Product;
       Assert.IsNotNull(product, nameof(product));
 
-      if (product.Name == "Sitecore CMS" && product.Version.StartsWith("9.0"))
+      if (product.Name == "Sitecore CMS" && product.TwoVersion.StartsWith("9.0"))
       {
         var agreementAcceptedFilePath = Path.Combine(ApplicationManager.TempFolder, "sitecore9.txt");
         if (!File.Exists(agreementAcceptedFilePath))
@@ -595,7 +595,7 @@ namespace SIM.Tool.Windows.UserControls.Install
             break;
           }
 
-          if (item.First().Version.EqualsIgnoreCase(value, true))
+          if (item.First().TwoVersion.EqualsIgnoreCase(value, true))
           {
             element.SelectedItem = item;
             break;
