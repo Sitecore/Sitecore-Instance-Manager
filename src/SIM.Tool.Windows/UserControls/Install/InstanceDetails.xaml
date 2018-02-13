@@ -22,7 +22,7 @@
 		<ComboBox Grid.Row="0" Grid.Column="1" Name="ProductName" DisplayMemberPath="Name" SelectionChanged="ProductNameChanged" />
 
 		<TextBlock Grid.Row="1" Grid.Column="0" Text="Version: " />
-		<ComboBox Grid.Row="1" Grid.Column="1" Name="ProductVersion" DisplayMemberPath="Version" SelectionChanged="ProductVersionChanged" />
+		<ComboBox Grid.Row="1" Grid.Column="1" Name="ProductVersion" DisplayMemberPath="TwoVersion" SelectionChanged="ProductVersionChanged" />
 
 		<TextBlock Grid.Row="2" Grid.Column="0" Text="Revision: " />
 		<ComboBox Grid.Row="2" Grid.Column="1" Name="ProductRevision" DisplayMemberPath="RevisionAndLabel" SelectionChanged="ProductRevisionChanged" />
