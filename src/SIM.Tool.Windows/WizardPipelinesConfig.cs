@@ -220,14 +220,14 @@ By clicking 'Next' you accept the License Agreement."" />
         <action text=""Open in Browser (Sitecore Client)""
                 type=""SIM.Tool.Windows.Pipelines.Install.InstallActions, SIM.Tool.Windows"" method=""OpenSitecoreClient"" />
         <action text=""Open in Browser (Sitecore Client; Log in as Admin)""
-                type=""SIM.Tool.Windows.MainWindowComponents.LoginAdminButton, SIM.Tool.Windows"" method=""FinishAction"" />
+                type=""SIM.Tool.Windows.Pipelines.Install.InstallActions, SIM.Tool.Windows"" method=""LoginAdmin"" />
         <action text=""Open folder"" type=""SIM.Tool.Windows.Pipelines.Install.InstallActions, SIM.Tool.Windows""
                 method=""OpenWebsiteFolder"" />
         <action text=""Open Visual Studio"" type=""SIM.Tool.Windows.Pipelines.Install.InstallActions, SIM.Tool.Windows""
                 method=""OpenVisualStudio"" />
         <action text=""Make a back up"" type=""SIM.Tool.Windows.Pipelines.Install.InstallActions, SIM.Tool.Windows""
                 method=""BackupInstance"" />
-        <action text=""Publish Site"" type=""SIM.Tool.Windows.MainWindowComponents.PublishButton, SIM.Tool.Windows"" method=""PublishSite"" />
+        <action text=""Publish Site"" type=""SIM.Tool.Windows.Pipelines.Install.InstallActions, SIM.Tool.Windows"" method=""PublishSite"" />
         <hive type=""SIM.Tool.Windows.Pipelines.Install.InstallModulesFinishActionHive, SIM.Tool.Windows"" />
       </finish>
     </install>
@@ -353,19 +353,19 @@ But the confirmation will be required if the databases are attached to:
           type=""SIM.Tool.Windows.UserControls.Install.Modules.ReorderPackages, SIM.Tool.Windows"" />
       </steps>
       <finish>
-        <action text=""Open in Browser"" type=""SIM.Tool.Windows.Pipelines.Install.InstallActions, SIM.Tool.Windows""
+        <action text=""Open in Browser"" type=""SIM.Tool.Windows.Pipelines.Install.InstallModulesActions, SIM.Tool.Windows""
                 method=""OpenBrowser"" />
         <action text=""Open in Browser (Sitecore Client)""
-                type=""SIM.Tool.Windows.Pipelines.Install.InstallActions, SIM.Tool.Windows"" method=""OpenSitecoreClient"" />
+                type=""SIM.Tool.Windows.Pipelines.Install.InstallModulesActions, SIM.Tool.Windows"" method=""OpenSitecoreClient"" />
         <action text=""Open in Browser (Sitecore Client; Login as Admin)""
-                type=""SIM.Tool.Windows.MainWindowComponents.LoginAdminButton, SIM.Tool.Windows"" method=""FinishAction"" />
-        <action text=""Open folder"" type=""SIM.Tool.Windows.Pipelines.Install.InstallActions, SIM.Tool.Windows""
+                type=""SIM.Tool.Windows.Pipelines.Install.InstallModulesActions, SIM.Tool.Windows"" method=""LoginAdmin"" />
+        <action text=""Open folder"" type=""SIM.Tool.Windows.Pipelines.Install.InstallModulesActions, SIM.Tool.Windows""
                 method=""OpenWebsiteFolder"" />
-        <action text=""Open Visual Studio"" type=""SIM.Tool.Windows.Pipelines.Install.InstallActions, SIM.Tool.Windows""
+        <action text=""Open Visual Studio"" type=""SIM.Tool.Windows.Pipelines.Install.InstallModulesActions, SIM.Tool.Windows""
                 method=""OpenVisualStudio"" />
-        <action text=""Make a back up"" type=""SIM.Tool.Windows.Pipelines.Install.InstallActions, SIM.Tool.Windows""
+        <action text=""Make a back up"" type=""SIM.Tool.Windows.Pipelines.Install.InstallModulesActions, SIM.Tool.Windows""
                 method=""BackupInstance"" />
-        <action text=""Publish Site"" type=""SIM.Tool.Windows.MainWindowComponents.PublishButton, SIM.Tool.Windows"" method=""PublishSite"" />
+        <action text=""Publish Site"" type=""SIM.Tool.Windows.Pipelines.Install.InstallModulesActions, SIM.Tool.Windows"" method=""PublishSite"" />
         <hive type=""SIM.Tool.Windows.Pipelines.Install.InstallModulesFinishActionHive, SIM.Tool.Windows"" />
       </finish>
     </installmodules>

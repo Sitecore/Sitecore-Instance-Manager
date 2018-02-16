@@ -43,28 +43,6 @@
 
     #region Public methods
 
-    [UsedImplicitly]
-    public static void FinishAction([NotNull] InstallWizardArgs args)
-    {
-      Assert.ArgumentNotNull(args, nameof(args));
-
-      var instance = args.Instance;
-      Assert.IsNotNull(instance, nameof(instance));
-
-      InstanceHelperEx.OpenInBrowserAsAdmin(instance, MainWindow.Instance);
-    }
-
-    [UsedImplicitly]
-    public static void FinishAction([NotNull] InstallModulesWizardArgs args)
-    {
-      Assert.ArgumentNotNull(args, nameof(args));
-
-      var instance = args.Instance;
-      Assert.IsNotNull(instance, nameof(instance));
-
-      InstanceHelperEx.OpenInBrowserAsAdmin(instance, MainWindow.Instance);
-    }
-
     public bool IsEnabled([CanBeNull] Window mainWindow, Instance instance)
     {
       return instance != null;

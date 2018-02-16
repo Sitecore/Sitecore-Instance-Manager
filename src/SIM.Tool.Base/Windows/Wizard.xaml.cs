@@ -54,6 +54,7 @@
         ProfileSection.Argument("args", args);
         
         WizardArgs = createWizardArgs();
+        WizardArgs.WizardWindow = this;
         WizardPipeline = wizardPipeline;
         Args = args;
         InitializeComponent();
