@@ -46,12 +46,12 @@
       }
       catch (SqlException ex)
       {
-        WindowHelper.HandleError(ex.Message, false, ex);
+        WindowHelper.HandleError("Failed to process move next", false, ex);
         return false;
       }
       catch (Exception ex)
       {
-        WindowHelper.HandleError(ex.Message, true, ex);
+        WindowHelper.HandleError("Failed to process move next", true, ex);
         return false;
       }
       finally

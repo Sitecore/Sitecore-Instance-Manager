@@ -324,7 +324,7 @@
         }
         catch (Exception ex)
         {
-          WindowHelper.HandleError(ex.Message, false, ex);
+          WindowHelper.HandleError("Failed to reinstall instance", false, ex);
           return;
         }
 
@@ -397,7 +397,7 @@
         }
         catch (Exception ex)
         {
-          WindowHelper.HandleError(ex.Message, true);
+          WindowHelper.HandleError("Failed to get click handler", true, ex);
         }
       });
 
@@ -606,7 +606,7 @@
             }
             catch (Exception ex)
             {
-              WindowHelper.HandleError(ex.Message, true);
+              WindowHelper.HandleError("Failed to initialize context menu", true, ex);
             }
           };
 

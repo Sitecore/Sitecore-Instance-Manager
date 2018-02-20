@@ -54,7 +54,11 @@
         ProfileSection.Argument("args", args);
         
         WizardArgs = createWizardArgs();
-        WizardArgs.WizardWindow = this;
+        if (WizardArgs != null)
+        {
+          WizardArgs.WizardWindow = this;
+        }
+
         WizardPipeline = wizardPipeline;
         Args = args;
         InitializeComponent();
@@ -685,7 +689,7 @@
             }
             catch (Exception ex)
             {
-              WindowHelper.HandleError(ex.Message, false, ex);
+              WindowHelper.HandleError("Failed to process move next click", false, ex);
               return;
             }
           }

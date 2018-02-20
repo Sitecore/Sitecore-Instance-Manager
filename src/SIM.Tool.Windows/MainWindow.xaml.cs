@@ -78,11 +78,6 @@
       return EnvironmentHelper.CheckSqlServer();
     }
 
-    private void HandleError(Exception exception)
-    {
-      WindowHelper.HandleError(exception.Message, true, exception);
-    }
-
     private void InstanceSelected([CanBeNull] object sender, [CanBeNull] SelectionChangedEventArgs e)
     {
       try
@@ -94,7 +89,7 @@
       }
       catch (Exception ex)
       {
-        HandleError(ex);
+        WindowHelper.HandleError("Failed to handle instance selected", true, ex);
       }
     }
 
@@ -177,7 +172,7 @@
       }
       catch (Exception ex)
       {
-        HandleError(ex);
+        WindowHelper.HandleError("Failed to handle tree view key pressed", true, ex);
       }
     }
 
@@ -197,7 +192,7 @@
         }
         catch (Exception ex)
         {
-          HandleError(ex);
+          WindowHelper.HandleError("Failed to handle tree view double click", true, ex);
         }
       }
     }
@@ -214,20 +209,8 @@
         }
         catch (Exception ex)
         {
-          HandleError(ex);
+          WindowHelper.HandleError("Failed to handle tree view right click", true, ex);
         }
-      }
-    }
-
-    private void OpenProgramLogs(object sender, RoutedEventArgs e)
-    {
-      try
-      {
-        MainWindowHelper.OpenProgramLogs();
-      }
-      catch (Exception ex)
-      {
-        HandleError(ex);
       }
     }
 
@@ -239,7 +222,7 @@
       }
       catch (Exception ex)
       {
-        HandleError(ex);
+        WindowHelper.HandleError("Failed to refresh instances", true, ex);
       }
     }
 
@@ -254,7 +237,7 @@
       }
       catch (Exception ex)
       {
-        HandleError(ex);
+        WindowHelper.HandleError("Failed to search", true, ex);
       }
     }
 
@@ -319,7 +302,7 @@
       }
       catch (Exception ex)
       {
-        HandleError(ex);
+        WindowHelper.HandleError("Failed to search", true, ex);
       }
     }
 
@@ -334,7 +317,7 @@
       }
       catch (Exception ex)
       {
-        HandleError(ex);
+        WindowHelper.HandleError("Failed to handle window loaded", true, ex);
       }
     }
 
