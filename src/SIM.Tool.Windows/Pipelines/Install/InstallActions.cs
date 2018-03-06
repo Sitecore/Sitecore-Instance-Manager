@@ -15,6 +15,7 @@
   using SIM.Instances;
   using SIM.Tool.Base.Wizards;
   using SIM.Tool.Windows.UserControls.Backup;
+  using SIM.Tool.Base.Profiles;
 
   #endregion
 
@@ -28,7 +29,7 @@
     {
       var id = MainWindowHelper.GetListItemID(args.Instance.ID);
       Assert.IsTrue(id >= 0, "id ({0}) should be >= 0".FormatWith(id));
-      WizardPipelineManager.Start("backup", args.WizardWindow, new BackupArgs(args.Instance, null, true, true), null, ignore => MainWindowHelper.MakeInstanceSelected(id), () => new BackupSettingsWizardArgs(args.Instance));
+      WizardPipelineManager.Start("backup", args.WizardWindow, new BackupArgs(args.Instance, ProfileManager.GetConnectionString(), null, true, true), null, ignore => MainWindowHelper.MakeInstanceSelected(id), () => new BackupSettingsWizardArgs(args.Instance));
     }
 
     [UsedImplicitly]
@@ -36,7 +37,7 @@
     {
       var id = MainWindowHelper.GetListItemID(args.Instance.ID);
       Assert.IsTrue(id >= 0, "id ({0}) should be >= 0".FormatWith(id));
-      WizardPipelineManager.Start("backup", args.WizardWindow, new BackupArgs(args.Instance, null, true, true), null, ignore => MainWindowHelper.MakeInstanceSelected(id), () => new BackupSettingsWizardArgs(args.Instance));
+      WizardPipelineManager.Start("backup", args.WizardWindow, new BackupArgs(args.Instance, ProfileManager.GetConnectionString(), null, true, true), null, ignore => MainWindowHelper.MakeInstanceSelected(id), () => new BackupSettingsWizardArgs(args.Instance));
     }
 
     [UsedImplicitly]

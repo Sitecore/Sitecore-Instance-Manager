@@ -5,6 +5,7 @@
   using SIM.Instances;
   using SIM.Pipelines.Backup;
   using SIM.Pipelines.Processors;
+  using SIM.Tool.Base.Profiles;
   using SIM.Tool.Base.Wizards;
 
   public class BackupSettingsWizardArgs : WizardArgs
@@ -49,7 +50,7 @@
 
     public override ProcessorArgs ToProcessorArgs()
     {
-      var backupArgs = new BackupArgs(Instance, PathUtils.EscapePath(BackupName.Trim(), "."), _Files, _Databases, _ExcludeClient, _MongoDatabases);
+      var backupArgs = new BackupArgs(Instance, ProfileManager.GetConnectionString(), PathUtils.EscapePath(BackupName.Trim(), "."), _Files, _Databases, _ExcludeClient, _MongoDatabases);
 
       return backupArgs;
     }

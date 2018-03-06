@@ -4,6 +4,8 @@
   using SIM.Pipelines.Processors;
   using Sitecore.Diagnostics.Base;
   using JetBrains.Annotations;
+  using SIM.Extensions;
+  using System.Data.SqlClient;
 
   public class BackupArgs : ProcessorArgs
   {
@@ -23,15 +25,18 @@
 
     public Instance Instance { get; }
     public string _WebRootPath;
+    public SqlConnectionStringBuilder ConnectionString { get; }
+
     private string _instanceName { get; }
 
     #endregion
 
     #region Constructors
 
-    public BackupArgs([NotNull] Instance instance, string backupName = null, bool backupFiles = false, bool backupDatabases = false, bool backupClient = false, bool backupMongoDatabases = false)
+    public BackupArgs([NotNull] Instance instance, SqlConnectionStringBuilder connectionString, string backupName = null, bool backupFiles = false, bool backupDatabases = false, bool backupClient = false, bool backupMongoDatabases = false)
     {
       Assert.ArgumentNotNull(instance, nameof(instance));
+      Assert.ArgumentNotNull(connectionString, nameof(connectionString));
       BackupFiles = backupFiles;
       BackupClient = backupClient;
       BackupMongoDatabases = backupMongoDatabases;
@@ -43,6 +48,7 @@
         ? FileSystem.FileSystem.Local.Directory.Ensure(instance.GetBackupFolder(BackupName))
         : string.Empty;
       _instanceName = Instance.Name;
+      ConnectionString = connectionString;
     }
 
     #endregion
