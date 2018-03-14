@@ -28,6 +28,7 @@
   using SIM.Tool.Base.Wizards;
   using Core;
   using SIM.Extensions;
+  using SIM.Tool.Base.Pipelines;
 
   #region
 
@@ -317,19 +318,8 @@
           return;
         }
 
-        ReinstallArgs args;
-        try
-        {
-          args = new ReinstallArgs(instance, connectionString, license, SIM.Pipelines.Install.Settings.CoreInstallWebServerIdentity.Value, Settings.CoreInstallNotFoundTransfer.Value);
-        }
-        catch (Exception ex)
-        {
-          WindowHelper.HandleError("Failed to reinstall instance", false, ex);
-          return;
-        }
-
         var name = instance.Name;
-        WizardPipelineManager.Start("reinstall", owner, args, null, ignore => MakeInstanceSelected(name), () => null);
+        WizardPipelineManager.Start("reinstall", owner, null, null, ignore => MakeInstanceSelected(name), () => new ReinstallWizardArgs(instance, connectionString, license));
       }
     }
 

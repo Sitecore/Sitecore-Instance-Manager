@@ -185,6 +185,7 @@
     <Compile Include="Pipelines\Download8\Download8Args.cs" />
     <Compile Include="Pipelines\Download8\DownloadProcessor.cs" />
     <Compile Include="Pipelines\FinishActions.cs" />
+    <Compile Include="Pipelines\Install\FinishActions.cs" />
     <Compile Include="Pipelines\Install\InstallActions.cs" />
     <Compile Include="Pipelines\Install\InstallModulesActions.cs" />
     <Compile Include="Pipelines\Install\InstallModulesFinishActionHive.cs" />

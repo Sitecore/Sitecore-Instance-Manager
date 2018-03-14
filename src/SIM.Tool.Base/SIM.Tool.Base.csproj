@@ -76,6 +76,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EnvironmentHelper.cs" />
+    <Compile Include="Pipelines\ReinstallWizardArgs.cs" />
     <Compile Include="WinAppSettings.cs" />
     <Compile Include="AuthenticationHelper.cs" />
     <Compile Include="Converters\IsNotNullOrEmptyAndDirectoryExists.cs" />

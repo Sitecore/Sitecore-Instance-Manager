@@ -339,6 +339,25 @@ But the confirmation will be required if the databases are attached to:
 
 * - the SQL Server instance specified by connection string in the Settings dialog"" />
       </steps>
+      <finish>
+        <action text=""Open in Browser"" 
+                type=""SIM.Tool.Windows.Pipelines.Reinstall.FinishActions, SIM.Tool.Windows"" method=""OpenBrowser"" />
+
+        <action text=""Open in Browser (Sitecore Client)""
+                type=""SIM.Tool.Windows.Pipelines.Reinstall.FinishActions, SIM.Tool.Windows"" method=""OpenSitecoreClient"" />
+
+        <action text=""Open in Browser (Sitecore Client; Login as Admin)""
+                type=""SIM.Tool.Windows.Pipelines.Reinstall.FinishActions, SIM.Tool.Windows"" method=""LoginAdmin"" />
+
+        <action text=""Open folder"" 
+                type=""SIM.Tool.Windows.Pipelines.Reinstall.FinishActions, SIM.Tool.Windows"" method=""OpenWebsiteFolder"" />
+
+        <action text=""Open Visual Studio"" 
+                type=""SIM.Tool.Windows.Pipelines.Reinstall.FinishActions, SIM.Tool.Windows"" method=""OpenVisualStudio"" />
+
+        <action text=""Make a back up"" 
+                type=""SIM.Tool.Windows.Pipelines.Reinstall.FinishActions, SIM.Tool.Windows"" method=""BackupInstance"" />
+      </finish>
     </reinstall>
     <installmodules title=""Installing modules to the {InstanceName} instance"" startButton=""Install""
                     finishText=""The modules installation was successfully completed"">
