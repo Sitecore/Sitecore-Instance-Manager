@@ -74,6 +74,11 @@ namespace SIM.Tool
 
     protected override void OnStartup([CanBeNull] StartupEventArgs e)
     {
+      // enable TLS 1.2 by default to work around GitHub and many other websites
+      // that don't accept default .NET protocol.
+      ServicePointManager.Expect100Continue = true;
+      ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+
       InitializeLogging();
 
       base.OnStartup(e);
