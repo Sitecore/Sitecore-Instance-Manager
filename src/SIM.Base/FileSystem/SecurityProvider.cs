@@ -160,7 +160,7 @@ namespace SIM.FileSystem
       Assert.ArgumentNotNull(identity, nameof(identity));
 
       DirectoryInfo dirInfo = new DirectoryInfo(path);
-      DirectorySecurity dirSecurity = dirInfo.GetAccessControl(AccessControlSections.All);
+      DirectorySecurity dirSecurity = dirInfo.GetAccessControl(AccessControlSections.Access);
       AuthorizationRuleCollection rules = dirSecurity.GetAccessRules(true, true, typeof(NTAccount));
 
       if (!HasPermissions(rules, identity, FileSystemRights.FullControl))
@@ -174,7 +174,7 @@ namespace SIM.FileSystem
         dirSecurity.AddAccessRule(rule);
         dirInfo.SetAccessControl(dirSecurity);
 
-        dirSecurity = dirInfo.GetAccessControl(AccessControlSections.All);
+        dirSecurity = dirInfo.GetAccessControl(AccessControlSections.Access);
         rules = dirSecurity.GetAccessRules(true, true, typeof(NTAccount));
         Assert.IsTrue(HasPermissions(rules, identity, FileSystemRights.FullControl), 
           "The Full Control access to the '" + path + "' folder isn't permitted for " + identity.Value +
@@ -188,7 +188,7 @@ namespace SIM.FileSystem
       Assert.ArgumentNotNull(identity, nameof(identity));
 
       var fileInfo = new FileInfo(path);
-      var dirSecurity = fileInfo.GetAccessControl(AccessControlSections.All);
+      var dirSecurity = fileInfo.GetAccessControl(AccessControlSections.Access);
       AuthorizationRuleCollection rules = dirSecurity.GetAccessRules(true, true, typeof(NTAccount));
 
       if (!HasPermissions(rules, identity, FileSystemRights.FullControl))
@@ -200,7 +200,7 @@ namespace SIM.FileSystem
         dirSecurity.AddAccessRule(rule);
         fileInfo.SetAccessControl(dirSecurity);
 
-        dirSecurity = fileInfo.GetAccessControl(AccessControlSections.All);
+        dirSecurity = fileInfo.GetAccessControl(AccessControlSections.Access);
         rules = dirSecurity.GetAccessRules(true, true, typeof(NTAccount));
         Assert.IsTrue(HasPermissions(rules, identity, FileSystemRights.FullControl), 
           "The Full Control access to the '" + path + "' file isn't permitted for " + identity.Value +
