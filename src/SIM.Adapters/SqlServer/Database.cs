@@ -56,9 +56,9 @@
       SqlServerManager.Instance.DeleteDatabase(RealName, ConnectionString);
     }
 
-    public void Restore([CanBeNull] string backupFile)
+    public void Restore([NotNull] string backupFile, [NotNull] SqlConnectionStringBuilder managementConnectionString)
     {
-      SqlServerManager.Instance.RestoreDatabase(RealName, ConnectionString, backupFile);
+      SqlServerManager.Instance.RestoreDatabase(RealName, managementConnectionString, backupFile);
     }
 
     #endregion
