@@ -4,6 +4,7 @@
   using SIM.Pipelines.Processors;
   using Sitecore.Diagnostics.Base;
   using JetBrains.Annotations;
+  using System.Data.SqlClient;
 
   #region
 
@@ -20,13 +21,16 @@
     public string _WebRootPath;
     private string instanceName { get; }
 
+    public SqlConnectionStringBuilder ManagementConnectionString { get; }
+
     #endregion
 
     #region Constructors
 
-    public RestoreArgs([NotNull] Instance instance, InstanceBackup backup = null)
+    public RestoreArgs([NotNull] Instance instance, SqlConnectionStringBuilder managementConnectionString, InstanceBackup backup = null)
     {
       Assert.ArgumentNotNull(instance, nameof(instance));
+      Assert.ArgumentNotNull(managementConnectionString, nameof(managementConnectionString));
 
       // if(backup == null)
       // {
@@ -40,6 +44,7 @@
       _WebRootPath = instance.WebRootPath;
       _DataFolder = instance.DataFolderPath;
       instanceName = instance.Name;
+      ManagementConnectionString = managementConnectionString;
     }
 
     #endregion
