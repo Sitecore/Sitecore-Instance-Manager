@@ -229,7 +229,7 @@ namespace SIM.FileSystem
     protected virtual bool HasDirectoryPermissions(string path, IdentityReference identity, FileSystemRights permissions)
     {
       DirectoryInfo dirInfo = new DirectoryInfo(path);
-      DirectorySecurity dirSecurity = dirInfo.GetAccessControl(AccessControlSections.All);
+      DirectorySecurity dirSecurity = dirInfo.GetAccessControl(AccessControlSections.Access);
       AuthorizationRuleCollection rules = dirSecurity.GetAccessRules(true, true, typeof(NTAccount));
 
       return HasPermissions(rules, identity, permissions);
@@ -238,7 +238,7 @@ namespace SIM.FileSystem
     protected virtual bool HasFilePermissions(string path, IdentityReference identity, FileSystemRights permissions)
     {
       var dirInfo = new FileInfo(path);
-      var dirSecurity = dirInfo.GetAccessControl(AccessControlSections.All);
+      var dirSecurity = dirInfo.GetAccessControl(AccessControlSections.Access);
       AuthorizationRuleCollection rules = dirSecurity.GetAccessRules(true, true, typeof(NTAccount));
 
       return HasPermissions(rules, identity, permissions);
