@@ -50,6 +50,14 @@ namespace SIM.Pipelines
       Assert.ArgumentNotNull(rootFolderPath, nameof(rootFolderPath));
 
       var dataFolder = Path.Combine(rootFolderPath, @"Website\App_Config\Include\zzz\DataFolder.config");
+
+      // Sitecore 9 environment configuration folder
+      var envDataFolder = Path.Combine(rootFolderPath, @"Website\App_Config\Environment\DataFolder.config");
+      if (new FileInfo(envDataFolder).Directory.Exists)
+      {
+        dataFolder = envDataFolder;
+      }
+
       var dir = Path.GetDirectoryName(dataFolder);
       if (!Directory.Exists(dir))
       {
