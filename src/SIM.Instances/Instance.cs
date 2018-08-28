@@ -479,6 +479,7 @@
 
       var directories = FileSystem.FileSystem.Local.Directory.GetDirectories(root)
         .Select(x => new DirectoryInfo(x))
+        .OrderBy(x => x.CreationTimeUtc)
         .ToArray();
 
       foreach (var childInfo in directories)
