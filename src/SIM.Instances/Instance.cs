@@ -477,9 +477,12 @@
         yield break;
       }
 
-      foreach (var child in FileSystem.FileSystem.Local.Directory.GetDirectories(root))
+      var directories = FileSystem.FileSystem.Local.Directory.GetDirectories(root)
+        .Select(x => new DirectoryInfo(x))
+        .ToArray();
+
+      foreach (var childInfo in directories)
       {
-        var childInfo = new DirectoryInfo(child);
         var date = string.Format("\"{2}\", {0}, {1:hh:mm:ss tt}", childInfo.CreationTime.ToString("yyyy-MM-dd"), 
           childInfo.CreationTime, childInfo.Name);
 
@@ -488,7 +491,7 @@
           continue;
         }
 
-        var backup = new InstanceBackup(date, child);
+        var backup = new InstanceBackup(date, childInfo.FullName);
         if (!FileSystem.FileSystem.Local.Directory.Exists(backup.DatabasesFolderPath) && !FileSystem.FileSystem.Local.Directory.Exists(backup.MongoDatabasesFolderPath) && !FileSystem.FileSystem.Local.File.Exists(backup.WebRootFilePath) &&
             !FileSystem.FileSystem.Local.File.Exists(backup.WebRootNoClientFilePath))
         {
