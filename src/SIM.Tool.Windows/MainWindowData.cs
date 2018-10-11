@@ -623,7 +623,8 @@ namespace SIM.Tool.Windows
                   Image = "/Images/$sm/vs.png, SIM.Tool.Windows",
                   Handler = new SIM.Tool.Windows.MainWindowComponents.OpenVisualStudioButton()
                 },
-                GetPatchButton()
+                GetPatchButton(),
+                GetHotfixButton()
               }
             },
           }
