@@ -101,6 +101,7 @@ namespace SIM.Tool.Windows
                 },
                 new ButtonDefinition(),
                 GetPatchButton(),
+                GetHotfixButton(),
                 new ButtonDefinition(),
                 new ButtonDefinition
                 {
@@ -192,6 +193,21 @@ namespace SIM.Tool.Windows
         },
       }
     };
+
+    private static ButtonDefinition GetHotfixButton()
+    {
+      if (!File.Exists(Environment.ExpandEnvironmentVariables("%PROGRAMDATA%\\Sitecore\\Sitecore Instance Manager\\pss.txt")) && !Directory.Exists(Environment.ExpandEnvironmentVariables("%PROGRAMDATA%\\Sitecore\\NuGet")))
+      {
+        return null;
+      }
+
+      return new ButtonDefinition
+      {                
+        Label = "Create Core Patch",
+        Image = "/Images/$sm/vs.png, SIM.Tool.Windows",
+        Handler = new SIM.Tool.Windows.MainWindowComponents.CreateSupportPatchButton("%APPDATA%\\Sitecore\\HotfixCreator", $"http://dl.sitecore.net/updater/hc/HotfixCreator.application")
+      };
+    }
 
     private static ButtonDefinition GetPatchButton()
     {
