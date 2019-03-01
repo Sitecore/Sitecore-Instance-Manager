@@ -120,6 +120,11 @@ namespace SIM.Tool.Windows.UserControls.Install
         {
           return false;
         }
+        else
+        {
+          Directory.Delete(args.ScriptRoot, true);
+          Directory.CreateDirectory(args.ScriptRoot);
+        }
       }
 
       RealZipFile zip = new RealZipFile(new RealFile(new RealFileSystem(), args.Product.PackagePath));
