@@ -194,6 +194,18 @@ By clicking 'Next' you accept the License Agreement."" />
               param=""The following credentials will be used for authenticating in dev.sitecore.net and performing downloading selected Sitecore versions on behalf of you. "" />
       </steps>
     </download8>
+    <install9 title=""Installing new instance"" startButton=""Install""
+             finishText=""The installation was successfully completed"">
+      <steps>
+        <step name=""STEP 1 of 3 - DETAILS"" 
+              type=""SIM.Tool.Windows.UserControls.Install.Instance9Details, SIM.Tool.Windows"" />
+        <step name=""STEP 2 of 3 - SELECT INSTALLATION TASKS"" 
+              type=""SIM.Tool.Windows.UserControls.Install.Instance9SelectTasks, SIM.Tool.Windows"" />
+        <step name=""STEP 3 of 3 - TWEAK INSTALLATION PARAMETERS"" 
+              type=""SIM.Tool.Windows.UserControls.Install.Instance9TweakInstallParams, SIM.Tool.Windows"" />
+     </steps>   
+     
+    </install9>
     <install title=""Installing new instance"" startButton=""Install""
              finishText=""The installation was successfully completed"">
       <steps>

@@ -68,6 +68,12 @@ namespace SIM.Tool.Windows
               Image = "/Images/$lg/upload.png, SIM.Tool.Windows",
               Handler = new SIM.Tool.Windows.MainWindowComponents.ImportInstanceButton()
             },
+            new ButtonDefinition
+            {
+              Label = "Install Sitecore 9",
+              Image = "/Images/$lg/add_domain.png, SIM.Tool.Windows",
+              Handler = new SIM.Tool.Windows.MainWindowComponents.Install9InstanceButton()
+            }
           }
         },
         new GroupDefinition

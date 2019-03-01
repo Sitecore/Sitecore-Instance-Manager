@@ -156,6 +156,7 @@
     <Compile Include="MainWindowComponents\ExportInstanceButton.cs" />
     <Compile Include="MainWindowComponents\GenerateNuGetPackagesButton.cs" />
     <Compile Include="MainWindowComponents\ImportInstanceButton.cs" />
+    <Compile Include="MainWindowComponents\Install9InstanceButton.cs" />
     <Compile Include="MainWindowComponents\InstallInstanceButton.cs" />
     <Compile Include="MainWindowComponents\InstallModulesButton.cs" />
     <Compile Include="MainWindowComponents\InstallMongoDb.cs" />
@@ -241,6 +242,15 @@
     <Compile Include="UserControls\Import\ImportWizardArgs.cs" />
     <Compile Include="UserControls\Import\SetWebsiteBindings.xaml.cs">
       <DependentUpon>SetWebsiteBindings.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Install\Instance9Details.xaml.cs">
+      <DependentUpon>Instance9Details.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Install\Instance9SelectTasks.xaml.cs">
+      <DependentUpon>Instance9SelectTasks.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Install\Instance9TweakInstallParams.xaml.cs">
+      <DependentUpon>Instance9TweakInstallParams.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\Install\InstanceRole9.xaml.cs">
       <DependentUpon>InstanceRole9.xaml</DependentUpon>
@@ -552,6 +562,18 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="UserControls\Install\Instance9Details.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\Install\Instance9SelectTasks.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\Install\Instance9TweakInstallParams.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UserControls\Install\InstanceRole9.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -707,6 +729,10 @@
     <ProjectReference Include="..\SIM.Pipelines\SIM.Pipelines.csproj">
       <Project>{7A3FEDF8-DF96-4426-AA01-C2D4FD3E68C8}</Project>
       <Name>SIM.Pipelines</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SIM.Sitecore9Installer\SIM.Sitecore9Installer.csproj">
+      <Project>{5c870ab3-89f2-4e24-ae5d-3593ec816495}</Project>
+      <Name>SIM.Sitecore9Installer</Name>
     </ProjectReference>
     <ProjectReference Include="..\SIM.Tool.Base\SIM.Tool.Base.csproj">
       <Project>{EF380B2A-1171-4A9F-96D0-176ABA6CAD74}</Project>
