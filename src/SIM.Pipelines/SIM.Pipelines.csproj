@@ -99,6 +99,8 @@
     <Compile Include="Import\ImportRestoreMongoDatabases.cs" />
     <Compile Include="Import\UpdateConnectionStrings.cs" />
     <Compile Include="Import\UpdateDataFolder.cs" />
+    <Compile Include="Install\GenerateScriptProcessor.cs" />
+    <Compile Include="Install\Install9Args.cs" />
     <Compile Include="InstallHelper.cs" />
     <Compile Include="InstallModules\IPackageInstallActions.cs" />
     <Compile Include="Install\0150 GrantPermissions.cs" />
@@ -109,7 +111,10 @@
     <Compile Include="Install\Modules\CreateSolrCores.cs" />
     <Compile Include="Install\Modules\SolrInformation.cs" />
     <Compile Include="Install\Modules\SwitchConfigsToSolr.cs" />
+    <Compile Include="Install\Run9Installation.cs" />
+    <Compile Include="Install\RunSitecoreTaskProcessor.cs" />
     <Compile Include="Install\Settings.cs" />
+    <Compile Include="Install\RunSitecoreTasksProcessor.cs" />
     <Compile Include="MongoHelper.cs" />
     <Compile Include="MultipleDeletion\MultipleDeletionArgs.cs" />
     <Compile Include="MultipleDeletion\MultipleDeletionProcessor.cs" />
@@ -240,6 +245,10 @@
     <ProjectReference Include="..\SIM.Products\SIM.Products.csproj">
       <Project>{BC8B4EE5-C053-42E1-A5BA-07F8C41915A9}</Project>
       <Name>SIM.Products</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SIM.Sitecore9Installer\SIM.Sitecore9Installer.csproj">
+      <Project>{5c870ab3-89f2-4e24-ae5d-3593ec816495}</Project>
+      <Name>SIM.Sitecore9Installer</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

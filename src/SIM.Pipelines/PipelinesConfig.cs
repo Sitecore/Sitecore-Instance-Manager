@@ -3,6 +3,12 @@
   public static class PipelinesConfig
   {
     public const string Contents = @"<pipelines>
+<install9 title=""Installing the instance"">
+    <step>
+      <hive type=""SIM.Pipelines.Install.RunSitecoreTasksProcessor, SIM.Pipelines""  />
+
+    </step>
+  </install9>
   <install title=""Installing the {InstanceName} instance"">
     <step>
       <processor type=""SIM.Pipelines.Install.CheckPackageIntegrity, SIM.Pipelines"" title=""Validating install package"" />
