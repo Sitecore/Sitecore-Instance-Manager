@@ -1,0 +1,105 @@
+﻿{
+  "Parameters": {
+    //global
+    "SIFVersion": "1.2.1",
+    "SqlServer": "",
+    "SqlAdminUser": "",
+    "SqlAdminPassword": "",
+    "SqlDbPrefix": "",
+    "LicenseFile": "",
+    //solr
+    "SolrUrl": "",
+    "SolrRoot": "",
+    "SolrService": "",
+    "CorePrefix": "$SqlDbPrefix",
+    "BaseConfig": "",
+    //cert
+    "CertificateName": "$SqlDbPrefix+_xconnect_client",
+    "CertPath": "c:/certificates",
+    "RootCertFileName": "SIF121Root",
+    //xConnect
+    "XConnectCert": "$CertificateName",
+    "SqlMarketingAutomationUser": "$SqlAdminUser",
+    "SqlMarketingAutomationPassword": "$SqlAdminPassword",
+    "SqlReferenceDataUser": "$SqlAdminUser",
+    "SqlReferenceDataPassword": "$SqlAdminPassword",
+    "SqlProcessingPoolsUser": "$SqlAdminUser",
+    "SqlProcessingPoolsPassword": "$SqlAdminPassword",
+    "SqlCollectionUser": "$SqlAdminUser",
+    "SqlCollectionPassword": "$SqlAdminPassword",
+    "XConnectEnvironment": "",
+    "XConnectLogLevel": "",
+    //Sitecore
+    "SitecoreAdminPassword": "b",
+    "SolrCorePrefix": "$CorePrefix",
+    "SqlCoreUser": "$SqlAdminUser",
+    "SqlCorePassword": "$SqlAdminPassword",
+    "SqlWebUser": "$SqlAdminUser",
+    "SqlWebPassword": "$SqlAdminPassword",
+    "SqlFormsUser": "$SqlAdminUser",
+    "SqlFormsPassword": "$SqlAdminPassword",
+    "SqlMasterUser": "$SqlAdminUser",
+    "SqlMasterPassword": "$SqlAdminPassword",
+    "SqlReportingUser": "$SqlAdminUser",
+    "SqlReportingPassword": "$SqlAdminPassword",
+    "SqlProcessingTasksUser": "$SqlAdminUser",
+    "SqlProcessingTasksPassword": "$SqlAdminPassword",
+    "SqlExmMasterUser": "$SqlAdminUser",
+    "SqlExmMasterPassword": "$SqlAdminPassword",
+    "ExmEdsProvider": "",
+    "EXMCryptographicKey": "",
+    "EXMAuthenticationKey": "",
+    "SolrZookeeperUrl": "",
+    "XConnectCollectionService": "https://\"+$SqlDbPrefix+\"XConnect.local",
+    "XConnectCollectionSearchService": "https://\"+$SqlDbPrefix+\"XConnect.local",
+    "XConnectReferenceDataService": "https://\"+$SqlDbPrefix+\"XConnect.local",
+    "MarketingAutomationOperationsService": "https://\"+$SqlDbPrefix+\"XConnect.local",
+    "MarketingAutomationReportingService": "https://\"+$SqlDbPrefix+\"XConnect.local",
+    "ProcessingService": "",
+    "ReportingService": "",
+    "ReportingServiceApiKey": "",
+    "TelerikEncryptionKey": "",
+    "SqlMessagingUser": "$SqlAdminUser",
+    "SqlMessagingPassword": "$SqlAdminPassword"
+  },
+  "PackageMapping": {
+
+    "sitecore-XP0": "* (OnPrem)_single.scwdp.zip",
+    "xconnect-xp0": "* (OnPrem)_xp0xconnect.scwdp.zip",
+    "sitecore-XP1-cd": "* (OnPrem)_cd.scwdp.zip",
+    "sitecore-XP1-cm": "* (OnPrem)_cm.scwdp.zip",
+    "sitecore-XP1-prc": "* (OnPrem)_prc.scwdp.zip",
+    "sitecore-XP1-rep": "* (OnPrem)_rep.scwdp.zip",
+    "xconnect-XP1-collection": "* (onPrem)_xp1collection.scwdp.zip",
+    "xconnect-xp1-collectionsearch": "* (onPrem)_xp1collectionsearch.scwdp.zip",
+    "xconnect-xp1-MarketingAutomation": "* (onPrem)_xp1marketingautomation.scwdp.zip",
+    "xconnect-xp1-MarketingAutomationReporting": "* (onPrem)_xp1marketingautomationreporting.scwdp.zip",
+    "xconnect-xp1-ReferenceData": "* (onPrem)_xp1referencedata.scwdp.zip",
+    "sitecore-xp1-dds": "* (OnPrem)_dds.scwdp.zip",
+    "sitecore-XP1-cm-dds-patch": "Sitecore.Patch.EXM (OnPrem)_CM.zip"
+  },
+
+  "ExecSequense": {
+    "xconnect-createcert": {},
+    "xconnect-solr": {},
+    "sitecore-solr": {},
+    "xconnect-xp0": {},
+    "sitecore-XP0": {},
+    "sitecore-XP1-cd": {},
+    "sitecore-XP1-prc": {},
+    "sitecore-XP1-rep": {},
+    "sitecore-xp1-dds": {},
+    "xconnect-xp1-collection": {},
+    "xconnect-xp1-collectionsearch": {},
+    "xconnect-xp1-MarketingAutomation": {},
+    "xconnect-xp1-ReferenceData": {},
+    "xconnect-xp1-MarketingAutomationReporting": {},
+    "sitecore-XP1-cm": {},
+    "sitecore-XP1-cm-dds-patch": {}
+
+
+
+
+  }
+
+}
