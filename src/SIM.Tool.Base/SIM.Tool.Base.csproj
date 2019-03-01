@@ -76,6 +76,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EnvironmentHelper.cs" />
+    <Compile Include="Pipelines\Install9WizardArgs.cs" />
     <Compile Include="Pipelines\ReinstallWizardArgs.cs" />
     <Compile Include="WinAppSettings.cs" />
     <Compile Include="AuthenticationHelper.cs" />
@@ -178,6 +179,10 @@
     <ProjectReference Include="..\SIM.Pipelines\SIM.Pipelines.csproj">
       <Project>{7A3FEDF8-DF96-4426-AA01-C2D4FD3E68C8}</Project>
       <Name>SIM.Pipelines</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SIM.Sitecore9Installer\SIM.Sitecore9Installer.csproj">
+      <Project>{5c870ab3-89f2-4e24-ae5d-3593ec816495}</Project>
+      <Name>SIM.Sitecore9Installer</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
