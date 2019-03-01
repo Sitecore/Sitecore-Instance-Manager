@@ -18,6 +18,7 @@
 
     public readonly List<Processor> _NestedProcessors = new List<Processor>();
 
+    string title;
     #endregion
 
     #region Constructors
@@ -58,7 +59,17 @@
     {
       get
       {
-        return ProcessorDefinition.Title;
+        if (string.IsNullOrEmpty(this.title))
+        {
+          return ProcessorDefinition.Title;
+        }
+
+        return this.title;
+      }
+
+      set
+      {
+        this.title = value;
       }
     }
 
