@@ -113,25 +113,19 @@ namespace SIM.Tool.Windows.UserControls.Install
       if (!Directory.Exists(args.ScriptRoot))
       {
         Directory.CreateDirectory(args.ScriptRoot);
+        UnpackInstallationFiles(args);
       }
       else
       {
-        if (MessageBox.Show(string.Format("Path '{0}' already exists. Do you want overwrite it?", args.ScriptRoot), "Overwrite?", MessageBoxButton.YesNo) != MessageBoxResult.Yes)
-        {
-          return false;
-        }
-        else
+        if (MessageBox.Show(string.Format("Path '{0}' already exists. Do you want overwrite it?", args.ScriptRoot), "Overwrite?", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
         {
           Directory.Delete(args.ScriptRoot, true);
           Directory.CreateDirectory(args.ScriptRoot);
+          UnpackInstallationFiles(args);
         }
+       
       }
-
-      RealZipFile zip = new RealZipFile(new RealFile(new RealFileSystem(), args.Product.PackagePath));
-      zip.ExtractTo(new RealFolder(new RealFileSystem(), args.ScriptRoot));
-      string configFilesZipPath = Directory.GetFiles(args.ScriptRoot, "*Configuration files*.zip").First();
-      RealZipFile configFilesZip = new RealZipFile(new RealFile(new RealFileSystem(), configFilesZipPath));
-      configFilesZip.ExtractTo(new RealFolder(new RealFileSystem(), args.ScriptRoot));
+      
       Tasker tasker = new Tasker(args.ScriptRoot, Tasker.ResolveGlobalFile(args.Product).FullName);
       InstallParam sqlServer = tasker.GlobalParams.FirstOrDefault(p => p.Name == "SqlServer");
       if (sqlServer != null)
@@ -186,7 +180,15 @@ namespace SIM.Tool.Windows.UserControls.Install
       return true;
     }
 
-    
+    private static void UnpackInstallationFiles(Install9WizardArgs args)
+    {
+      RealZipFile zip = new RealZipFile(new RealFile(new RealFileSystem(), args.Product.PackagePath));
+      zip.ExtractTo(new RealFolder(new RealFileSystem(), args.ScriptRoot));
+      string configFilesZipPath = Directory.GetFiles(args.ScriptRoot, "*Configuration files*.zip").First();
+      RealZipFile configFilesZip = new RealZipFile(new RealFile(new RealFileSystem(), configFilesZipPath));
+      configFilesZip.ExtractTo(new RealFolder(new RealFileSystem(), args.ScriptRoot));
+    }
+
 
     private static string GetWebRootPath(string rootPath)
     {
