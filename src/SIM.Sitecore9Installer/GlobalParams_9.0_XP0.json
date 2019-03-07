@@ -14,7 +14,7 @@
     "CorePrefix": "$SqlDbPrefix",
     "BaseConfig": "",
     //cert
-    "CertificateName": "$SqlDbPrefix+_xconnect_client",
+    "CertificateName": "$SqlDbPrefix+\"xconnect_client\"",
     "CertPath": "c:/certificates",
     "RootCertFileName": "SIF121Root",
     //xConnect
@@ -81,25 +81,19 @@
 
   "ExecSequense": {
     "xconnect-createcert": {},
+   
     "xconnect-solr": {},
-    "sitecore-solr": {},
-    "xconnect-xp0": {},
-    "sitecore-XP0": {},
-    "sitecore-XP1-cd": {},
-    "sitecore-XP1-prc": {},
-    "sitecore-XP1-rep": {},
-    "sitecore-xp1-dds": {},
-    "xconnect-xp1-collection": {},
-    "xconnect-xp1-collectionsearch": {},
-    "xconnect-xp1-MarketingAutomation": {},
-    "xconnect-xp1-ReferenceData": {},
-    "xconnect-xp1-MarketingAutomationReporting": {},
-    "sitecore-XP1-cm": {},
-    "sitecore-XP1-cm-dds-patch": {}
-
-
-
-
+    "xconnect-xp0": {
+      "Parameters": {
+        "SiteName": "$SqlDbPrefix+\"XConnect.local\""
+      }
+    },  
+    "Sitecore-solr": {},
+    "Sitecore-XP0": {
+      "Parameters": {
+        "SiteName": "$SqlDbPrefix+\".local\""
+      }
+    }
   }
 
 }

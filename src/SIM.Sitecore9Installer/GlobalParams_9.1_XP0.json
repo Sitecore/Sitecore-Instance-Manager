@@ -128,74 +128,11 @@
         "SiteName": "$SqlDbPrefix+\"XConnect.local\""
       }
     },
-    "xconnect-xp1-collection": {
-      "Parameters": {
-        "SiteName": "$SqlDbPrefix+\"XColl.local\""
-      }
-    },
-    "xconnect-xp1-collectionsearch": {
-      "Parameters": {
-        "SiteName": "$SqlDbPrefix+\"XSear.local\""
-      }
-    },
-    "xconnect-xp1-referencedata": {
-      "Parameters": {
-        "SiteName": "$SqlDbPrefix+\"XRef.local\""
-      }
-    },
-    "xconnect-xp1-marketingautomation": {
-      "Parameters": {
-        "SiteName": "$SqlDbPrefix+\"XMA.local\""
-      }
-    },
-    "xconnect-xp1-marketingautomationreporting": {
-      "Parameters": {
-        "SiteName": "$SqlDbPrefix+\"XMar.local\""
-      }
-    },
-    "xconnect-xp1-cortexprocessing": {
-      "Parameters": {
-        "SiteName": "$SqlDbPrefix+\"CorPrc.local\""
-      }
-    },
-    "xconnect-xp1-cortexreporting": {
-      "Parameters": {
-        "SiteName": "$SqlDbPrefix+\"CorRep.local\""
-      }
-    },
     "Sitecore-solr": {},
     "Sitecore-XP0": {
       "Parameters": {
         "SiteName": "$SqlDbPrefix+\".local\""
       }
-
-    },
-    "Sitecore-xp1-cd": {
-      "Parameters": {
-        "SiteName": "$SqlDbPrefix+\"CD.local\""
-      }
-    },
-    "Sitecore-xp1-prc": {
-      "Parameters": {
-        "SiteName": "$SqlDbPrefix+\"Prc.local\""
-      }
-    },
-    "Sitecore-xp1-rep": {
-      "Parameters": {
-        "SiteName": "$SqlDbPrefix+\"Rep.local\""
-      }
-    },
-    "Sitecore-xp1-cm": {
-      "Parameters": {
-        "SiteName": "$SqlDbPrefix+\"CM.local\""
-      }
-    },
-    "sitecore-xp1-dds": {
-      "Parameters": {
-        "SiteName": "$SqlDbPrefix+\"DDS.local\""
-      }
-    },
-    "sitecore-XP1-cm-dds-patch": {}
-
+    }
   }
 }

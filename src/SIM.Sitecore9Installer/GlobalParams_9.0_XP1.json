@@ -14,7 +14,7 @@
     "CorePrefix": "$SqlDbPrefix",
     "BaseConfig": "",
     //cert
-    "CertificateName": "$SqlDbPrefix+_xconnect_client",
+    "CertificateName": "$SqlDbPrefix+\"xconnect_client\"",
     "CertPath": "c:/certificates",
     "RootCertFileName": "SIF121Root",
     //xConnect
@@ -32,31 +32,25 @@
     //Sitecore
     "SitecoreAdminPassword": "b",
     "SolrCorePrefix": "$CorePrefix",
-    "SqlCoreUser": "$SqlAdminUser",
+
     "SqlCorePassword": "$SqlAdminPassword",
-    "SqlWebUser": "$SqlAdminUser",
     "SqlWebPassword": "$SqlAdminPassword",
-    "SqlFormsUser": "$SqlAdminUser",
     "SqlFormsPassword": "$SqlAdminPassword",
-    "SqlMasterUser": "$SqlAdminUser",
     "SqlMasterPassword": "$SqlAdminPassword",
-    "SqlReportingUser": "$SqlAdminUser",
     "SqlReportingPassword": "$SqlAdminPassword",
-    "SqlProcessingTasksUser": "$SqlAdminUser",
     "SqlProcessingTasksPassword": "$SqlAdminPassword",
-    "SqlExmMasterUser": "$SqlAdminUser",
     "SqlExmMasterPassword": "$SqlAdminPassword",
     "ExmEdsProvider": "",
     "EXMCryptographicKey": "",
     "EXMAuthenticationKey": "",
     "SolrZookeeperUrl": "",
-    "XConnectCollectionService": "https://+\"$SqlDbPrefix+\"XColl.local",
-    "XConnectCollectionSearchService": "https://+\"$SqlDbPrefix+\"XSear.local",
-    "XConnectReferenceDataService": "https://+\"$SqlDbPrefix+\"Xref.local",
-    "MarketingAutomationOperationsService": "https://+\"$SqlDbPrefix+\"XP1XMA.local",
-    "MarketingAutomationReportingService": "https://+\"$SqlDbPrefix+\"XMAR.local",
-    "ProcessingService": "https://+\"$SqlDbPrefix+\"PRC.local",
-    "ReportingService": "https://+\"$SqlDbPrefix+\"REP.local",
+    "XConnectCollectionService": "https://\"+$SqlDbPrefix+\"XColl.local",
+    "XConnectCollectionSearchService": "https://\"+$SqlDbPrefix+\"XSear.local",
+    "XConnectReferenceDataService": "https://\"+$SqlDbPrefix+\"Xref.local",
+    "MarketingAutomationOperationsService": "https://\"+$SqlDbPrefix+\"XP1XMA.local",
+    "MarketingAutomationReportingService": "https://\"+$SqlDbPrefix+\"XMAR.local",
+    "ProcessingService": "https://\"+$SqlDbPrefix+\"PRC.local",
+    "ReportingService": "https://\"+$SqlDbPrefix+\"REP.local",
     "ReportingServiceApiKey": "abcde111112222233333444445555566",
     "TelerikEncryptionKey": "",
     "SqlMessagingUser": "$SqlAdminUser",
@@ -81,20 +75,63 @@
 
   "ExecSequense": {
     "xconnect-createcert": {},
-    "xconnect-solr": {},
-    "sitecore-solr": {},
-    "xconnect-xp0": {},
-    "sitecore-XP0": {},
-    "sitecore-XP1-cd": {},
-    "sitecore-XP1-prc": {},
-    "sitecore-XP1-rep": {},
-    "sitecore-xp1-dds": {},
-    "xconnect-xp1-collection": {},
-    "xconnect-xp1-collectionsearch": {},
-    "xconnect-xp1-MarketingAutomation": {},
-    "xconnect-xp1-ReferenceData": {},
-    "xconnect-xp1-MarketingAutomationReporting": {},
-    "sitecore-XP1-cm": {},
+     "xconnect-xp1-collection": {
+      "Parameters": {
+        "SiteName": "$SqlDbPrefix+\"XColl.local\""
+      }
+    },
+    "xconnect-xp1-collectionsearch": {
+      "Parameters": {
+        "SiteName": "$SqlDbPrefix+\"XSear.local\""
+      }
+    },
+    "xconnect-xp1-referencedata": {
+      "Parameters": {
+        "SiteName": "$SqlDbPrefix+\"XRef.local\""
+      }
+    },
+    "xconnect-xp1-marketingautomation": {
+      "Parameters": {
+        "SiteName": "$SqlDbPrefix+\"XMA.local\""
+      }
+    },
+    "xconnect-xp1-marketingautomationreporting": {
+      "Parameters": {
+        "SiteName": "$SqlDbPrefix+\"XMar.local\""
+      }
+    },    
+    "Sitecore-solr": {},
+    "Sitecore-XP0": {
+      "Parameters": {
+        "SiteName": "$SqlDbPrefix+\".local\""
+      }
+
+    },
+    "Sitecore-xp1-cd": {
+      "Parameters": {
+        "SiteName": "$SqlDbPrefix+\"CD.local\""
+      }
+    },
+    "Sitecore-xp1-prc": {
+      "Parameters": {
+        "SiteName": "$SqlDbPrefix+\"Prc.local\""
+      }
+    },
+    "Sitecore-xp1-rep": {
+      "Parameters": {
+        "SiteName": "$SqlDbPrefix+\"Rep.local\""
+      }
+    },
+    "Sitecore-xp1-cm": {
+      "Parameters": {
+        "SiteName": "$SqlDbPrefix+\"CM.local\""
+      }
+    },
+    "sitecore-xp1-dds": {
+      "Parameters": {
+        "SiteName": "$SqlDbPrefix+\"DDS.local\""
+      }
+    },
     "sitecore-XP1-cm-dds-patch": {}
 
 
