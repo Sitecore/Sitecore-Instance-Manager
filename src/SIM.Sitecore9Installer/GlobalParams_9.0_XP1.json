@@ -19,27 +19,34 @@
     "RootCertFileName": "SIF121Root",
     //xConnect
     "XConnectCert": "$CertificateName",
-    "SqlMarketingAutomationUser": "$SqlAdminUser",
-    "SqlMarketingAutomationPassword": "$SqlAdminPassword",
-    "SqlReferenceDataUser": "$SqlAdminUser",
-    "SqlReferenceDataPassword": "$SqlAdminPassword",
-    "SqlProcessingPoolsUser": "$SqlAdminUser",
-    "SqlProcessingPoolsPassword": "$SqlAdminPassword",
-    "SqlCollectionUser": "$SqlAdminUser",
-    "SqlCollectionPassword": "$SqlAdminPassword",
+    "SqlMarketingAutomationUser": "",
+    "SqlMarketingAutomationPassword": "",
+    "SqlReferenceDataUser": "",
+    "SqlReferenceDataPassword": "",
+    "SqlProcessingPoolsUser": "",
+    "SqlProcessingPoolsPassword": "",
+    "SqlCollectionUser": "",
+    "SqlCollectionPassword": "",
     "XConnectEnvironment": "",
     "XConnectLogLevel": "",
     //Sitecore
     "SitecoreAdminPassword": "b",
     "SolrCorePrefix": "$CorePrefix",
 
-    "SqlCorePassword": "$SqlAdminPassword",
-    "SqlWebPassword": "$SqlAdminPassword",
-    "SqlFormsPassword": "$SqlAdminPassword",
-    "SqlMasterPassword": "$SqlAdminPassword",
-    "SqlReportingPassword": "$SqlAdminPassword",
-    "SqlProcessingTasksPassword": "$SqlAdminPassword",
-    "SqlExmMasterPassword": "$SqlAdminPassword",
+    "SqlCoreUser": "",
+    "SqlCorePassword": "",
+    "SqlWebUser": "",
+    "SqlWebPassword": "",
+    "SqlFormsUser": "",
+    "SqlFormsPassword": "",
+    "SqlMasterUser": "",
+    "SqlMasterPassword": "",
+    "SqlReportingUser": "",
+    "SqlReportingPassword": "",
+    "SqlProcessingTasksUser": "",
+    "SqlProcessingTasksPassword": "",
+    "SqlExmMasterUser": "",
+    "SqlExmMasterPassword": "",
     "ExmEdsProvider": "",
     "EXMCryptographicKey": "",
     "EXMAuthenticationKey": "",
@@ -53,8 +60,8 @@
     "ReportingService": "https://\"+$SqlDbPrefix+\"REP.local",
     "ReportingServiceApiKey": "abcde111112222233333444445555566",
     "TelerikEncryptionKey": "",
-    "SqlMessagingUser": "$SqlAdminUser",
-    "SqlMessagingPassword": "$SqlAdminPassword"
+    "SqlMessagingUser": "",
+    "SqlMessagingPassword": ""
   },
   "PackageMapping": {
 
@@ -75,11 +82,12 @@
 
   "ExecSequense": {
     "xconnect-createcert": {},
-     "xconnect-xp1-collection": {
+    "xconnect-xp1-collection": {
       "Parameters": {
         "SiteName": "$SqlDbPrefix+\"XColl.local\""
       }
     },
+    "xconnect-solr": {},
     "xconnect-xp1-collectionsearch": {
       "Parameters": {
         "SiteName": "$SqlDbPrefix+\"XSear.local\""
@@ -99,14 +107,9 @@
       "Parameters": {
         "SiteName": "$SqlDbPrefix+\"XMar.local\""
       }
-    },    
-    "Sitecore-solr": {},
-    "Sitecore-XP0": {
-      "Parameters": {
-        "SiteName": "$SqlDbPrefix+\".local\""
-      }
-
     },
+    "Sitecore-solr": {},
+   
     "Sitecore-xp1-cd": {
       "Parameters": {
         "SiteName": "$SqlDbPrefix+\"CD.local\""

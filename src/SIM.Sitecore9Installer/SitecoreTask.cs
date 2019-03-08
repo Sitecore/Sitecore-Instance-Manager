@@ -127,9 +127,9 @@ namespace SIM.Sitecore9Installer
     {
       StringBuilder script = new StringBuilder();
       foreach (InstallParam param in this.GlobalParams)
-      {
-        string value = param.Value.StartsWith("$") ? param.Value : string.Format("\"{0}\"", param.Value);
-        script.AppendLine(string.Format("${0}={1}", param.Name, value));
+      {                
+       string value = GetParameterValue(param);
+       script.AppendLine(string.Format("${0}={1}", param.Name, value));
       }
 
       //script.AppendLine("$installParams=@{");
@@ -143,7 +143,7 @@ namespace SIM.Sitecore9Installer
         }
 
 
-        string value = param.Value.StartsWith("$") ? param.Value : string.Format("\"{0}\"", param.Value);
+        string value = this.GetParameterValue(param);
 
         installParams.AppendLine(string.Format("{0}={1}", param.Name, value));
 
@@ -167,6 +167,25 @@ namespace SIM.Sitecore9Installer
       string log = !sifVersion.StartsWith("1") ? string.Format("*>&1 | Tee-Object {0}.log", this.Name) : string.Empty;
       script.AppendLine(string.Format("Install-SitecoreConfiguration @installParams {0} -Verbose", log));
       return script.ToString();
+    }
+
+    private string GetParameterValue(InstallParam param)
+    {
+      string value = param.Value;
+      if (!value.StartsWith("$"))
+      {
+        if (value.StartsWith("[") && value.EndsWith("]"))
+        {
+          value = value.Remove(0, 1);
+          value = value.Remove(value.Length - 1, 1);
+        }
+        else
+        {
+          value = string.Format("\"{0}\"", value);
+        }
+      }
+
+      return value;
     }
   }
 }
