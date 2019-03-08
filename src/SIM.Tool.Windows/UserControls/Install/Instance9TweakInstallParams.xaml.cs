@@ -64,6 +64,16 @@ namespace SIM.Tool.Windows.UserControls.Install
       return true;
     }
 
+    private void ScrollViewer_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+    {
+      ScrollViewer scrollviewer = sender as ScrollViewer;
+      if (e.Delta > 0)
+        scrollviewer.LineLeft();
+      else
+        scrollviewer.LineRight();
+      e.Handled = true;
+    }
+
     private class TasksModel
     {
       public TasksModel(string Name, List<InstallParam> Params)
@@ -75,6 +85,8 @@ namespace SIM.Tool.Windows.UserControls.Install
       public string Name { get; }
       public List<InstallParam> Params { get; }
     }
+
+
 
     
   }
