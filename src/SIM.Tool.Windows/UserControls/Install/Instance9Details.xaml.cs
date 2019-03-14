@@ -83,11 +83,7 @@ namespace SIM.Tool.Windows.UserControls.Install
 
       Product product = productRevision.SelectedValue as Product;
       Assert.IsNotNull(product, nameof(product));
-
-      if (product.Name == "Sitecore CMS" && product.TwoVersion.StartsWith("9."))
-      {
-       //left as a sample how to check version
-      }
+           
 
       var name = GetValidWebsiteName();
       if (name == null)
@@ -113,7 +109,7 @@ namespace SIM.Tool.Windows.UserControls.Install
       if (!Directory.Exists(args.ScriptRoot))
       {
         Directory.CreateDirectory(args.ScriptRoot);
-        UnpackInstallationFiles(args);
+        WindowHelper.LongRunningTask(() => this.UnpackInstallationFiles(args), "Unpacking unstallation files.", wizardArgs.WizardWindow);
       }
       else
       {
@@ -121,7 +117,7 @@ namespace SIM.Tool.Windows.UserControls.Install
         {
           Directory.Delete(args.ScriptRoot, true);
           Directory.CreateDirectory(args.ScriptRoot);
-          UnpackInstallationFiles(args);
+          WindowHelper.LongRunningTask(()=>this.UnpackInstallationFiles(args), "Unpacking unstallation files.", wizardArgs.WizardWindow);
         }
        
       }
@@ -180,7 +176,7 @@ namespace SIM.Tool.Windows.UserControls.Install
       return true;
     }
 
-    private static void UnpackInstallationFiles(Install9WizardArgs args)
+    public void UnpackInstallationFiles(Install9WizardArgs args)
     {
       RealZipFile zip = new RealZipFile(new RealFile(new RealFileSystem(), args.Product.PackagePath));
       zip.ExtractTo(new RealFolder(new RealFileSystem(), args.ScriptRoot));
