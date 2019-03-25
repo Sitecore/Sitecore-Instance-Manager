@@ -201,7 +201,9 @@ By clicking 'Next' you accept the License Agreement."" />
               type=""SIM.Tool.Windows.UserControls.Install.Instance9Details, SIM.Tool.Windows"" />
         <step name=""STEP 2 of 3 - SELECT INSTALLATION TASKS"" 
               type=""SIM.Tool.Windows.UserControls.Install.Instance9SelectTasks, SIM.Tool.Windows"" />
-        <step name=""STEP 3 of 3 - TWEAK INSTALLATION PARAMETERS"" 
+       <step name=""STEP 3 of 4 - VALIDATE PARAMS"" 
+              type=""SIM.Tool.Windows.UserControls.Install.Instance9Validate, SIM.Tool.Windows"" />
+        <step name=""STEP 4 of 4 - TWEAK INSTALLATION PARAMETERS"" 
               type=""SIM.Tool.Windows.UserControls.Install.Instance9TweakInstallParams, SIM.Tool.Windows"" />
      </steps>   
      

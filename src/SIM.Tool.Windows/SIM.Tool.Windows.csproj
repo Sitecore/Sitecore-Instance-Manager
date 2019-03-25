@@ -243,6 +243,9 @@
     <Compile Include="UserControls\Import\SetWebsiteBindings.xaml.cs">
       <DependentUpon>SetWebsiteBindings.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\Install\Instance9Validate.xaml.cs">
+      <DependentUpon>Instance9Validate.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\Install\Instance9Details.xaml.cs">
       <DependentUpon>Instance9Details.xaml</DependentUpon>
     </Compile>
@@ -559,6 +562,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Dialogs\RestoreDatabaseDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\Install\Instance9Validate.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

@@ -74,6 +74,9 @@
     <ApplicationManifest>SIM.Sitecore9Installer.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.Web.Administration, Version=7.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Web.Administration.7.0.0.0\lib\net20\Microsoft.Web.Administration.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -98,6 +101,16 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SitecoreTask.cs" />
     <Compile Include="Tasker.cs" />
+    <Compile Include="Validation\Abstractions\IInstallValidator.cs" />
+    <Compile Include="Validation\Certificate\CertificateNameValidator.cs" />
+    <Compile Include="Validation\Factory\ValidatorFactory.cs" />
+    <Compile Include="Validation\FileSystem\ConfigValueReader.cs" />
+    <Compile Include="Validation\FileSystem\FolderChecks.cs" />
+    <Compile Include="Validation\FileSystem\SiteNameValidator.cs" />
+    <Compile Include="Validation\IIS\DnsNameValidator.cs" />
+    <Compile Include="Validation\Solr\SolrCoreAdminWrapper.cs" />
+    <Compile Include="Validation\Solr\SolrCorePrefixValidator.cs" />
+    <Compile Include="Validation\SQL\SqlDbChecker.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -121,9 +134,9 @@
     <None Include="GlobalParams_9.1_XP0.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="GlobalFilesMap.json">
+    <Content Include="GlobalFilesMap.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    </Content>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -156,5 +169,6 @@
       <Name>SIM.Products</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
