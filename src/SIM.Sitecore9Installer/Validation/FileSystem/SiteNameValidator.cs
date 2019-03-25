@@ -14,10 +14,7 @@ namespace SitecoreInstaller.Validation.FileSystem
     }
     public ValidationResult Result { get; private set; }
 
-    public async NotifyTaskCompletion<ValidationResult> ResultAsync
-    {
-      get; private set;
-    }
+
 
 
     public ValidationResult Validate(string siteName)

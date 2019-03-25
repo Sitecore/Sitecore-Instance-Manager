@@ -1,4 +1,5 @@
 using SIM.Core.Logging;
+using SIM.Sitecore9Installer.Validation.Factory;
 
 namespace SIM.Tool.Windows.UserControls.Install
 {
@@ -188,7 +189,8 @@ namespace SIM.Tool.Windows.UserControls.Install
         }
 
         var validators = ValidatorFactory.Instance.GetValidators(installParams);
-        this.ValidatorGrid.ItemsSource = validators;
+        var validatorViewModels = ValidatorViewModelGenerator.Instance.GetViewModels(validators, installParams);
+        this.ValidatorGrid.ItemsSource = validatorViewModels;
         
 
       }

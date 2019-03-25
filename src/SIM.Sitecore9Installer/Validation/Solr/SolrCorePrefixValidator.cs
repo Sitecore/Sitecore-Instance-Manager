@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Net.Http;
 using SitecoreInstaller.Validation.Abstractions;
+using SIM.Sitecore9Installer.Validation.Factory;
 using SIM.Sitecore9Installer.Validation.Solr;
 
 namespace SitecoreInstaller.Validation.Solr
@@ -88,13 +89,9 @@ namespace SitecoreInstaller.Validation.Solr
 
     public ValidationResult Result
     {
-      get
-      {
-        if (!IsValidated)
-          return this.Validate();
-        return this.Result;
-      }
-      private set=>this.Result=value; }
+      get;
+      private set;
+    }
 
 
     public ValidationResult Validate(Dictionary<string, string> installParams)
@@ -102,13 +99,14 @@ namespace SitecoreInstaller.Validation.Solr
       this.solrUrl = installParams["SolrUrl"];
       if (this.installParams != null && this.installParams.Count > 0)
         return this.Validate();
+      var solrCorePrefix = InstallParamsHelper.GetActualValue("SolrCorePrefix", installParams);
 
-      if (installParams["SolrCorePrefix"] != null)
+      if (solrCorePrefix != null)
       {
-        List<string> coreNames = this.FindCoresByPrefix(installParams["SolrCorePrefix"]);
+        List<string> coreNames = this.FindCoresByPrefix(solrCorePrefix);
         if (coreNames.Count == 0)
         {
-          this.Details = "No cores with prefix " + installParams["SolrCorePrefix"] + " found";
+          this.Details = "No cores with prefix " + solrCorePrefix + " found";
           this.Result = ValidationResult.Ok;
           return ValidationResult.Ok;
         }

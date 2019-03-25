@@ -103,7 +103,10 @@
     <Compile Include="Tasker.cs" />
     <Compile Include="Validation\Abstractions\IInstallValidator.cs" />
     <Compile Include="Validation\Certificate\CertificateNameValidator.cs" />
+    <Compile Include="Validation\Factory\InstallParamsHelper.cs" />
     <Compile Include="Validation\Factory\ValidatorFactory.cs" />
+    <Compile Include="Validation\Factory\ValidatorViewModel.cs" />
+    <Compile Include="Validation\Factory\ValidatorViewModelGenerator.cs" />
     <Compile Include="Validation\FileSystem\ConfigValueReader.cs" />
     <Compile Include="Validation\FileSystem\FolderChecks.cs" />
     <Compile Include="Validation\FileSystem\SiteNameValidator.cs" />

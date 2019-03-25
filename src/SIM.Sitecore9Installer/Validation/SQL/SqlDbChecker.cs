@@ -84,7 +84,7 @@ namespace SitecoreInstaller.Validation.SQL
       {
         if (dbList.Any(x => x.Equals(dbName.Value, StringComparison.InvariantCultureIgnoreCase)))
         {
-          this.Details += dbName.Key + " already exists;";
+          this.Details += dbName.Value + " already exists;";
           this.Result = ValidationResult.Error;
         }
       }
