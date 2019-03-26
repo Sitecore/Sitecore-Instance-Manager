@@ -96,6 +96,10 @@ namespace SitecoreInstaller.Validation.Solr
 
     public ValidationResult Validate(Dictionary<string, string> installParams)
     {
+      this.Result = ValidationResult.None;
+      this.Details = "Validator under reconstruction";
+      return this.Result;
+
       this.solrUrl = installParams["SolrUrl"];
       if (this.installParams != null && this.installParams.Count > 0)
         return this.Validate();

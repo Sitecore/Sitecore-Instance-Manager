@@ -189,8 +189,11 @@ namespace SIM.Tool.Windows.UserControls.Install
         }
 
         var validators = ValidatorFactory.Instance.GetValidators(installParams);
-        var validatorViewModels = ValidatorViewModelGenerator.Instance.GetViewModels(validators, installParams);
-        this.ValidatorGrid.ItemsSource = validatorViewModels;
+        foreach (var validator in validators)
+        {
+          validator.Validate(installParams);
+        }
+        this.ValidatorGrid.ItemsSource = validators;
         
 
       }
