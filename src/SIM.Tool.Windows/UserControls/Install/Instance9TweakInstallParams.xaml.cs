@@ -40,7 +40,7 @@ namespace SIM.Tool.Windows.UserControls.Install
       this.tasker = args.Takser;
       List<TasksModel> model = new List<TasksModel>();
       model.Add(new TasksModel("Global", args.Takser.GlobalParams));
-      foreach (SitecoreTask task in args.Takser.Tasks)
+      foreach (SitecoreTask task in args.Takser.Tasks.Where(t=>t.ShouldRun))
       {
         model.Add(new TasksModel(task.Name, task.LocalParams));
       }
