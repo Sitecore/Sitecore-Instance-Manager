@@ -36,17 +36,22 @@ namespace SitecoreInstaller.Validation.IIS
       bool appPool = AppPoolExists(installParams["DnsName"]);
       if (webSite && appPool)
       {
+        this.Result = ValidationResult.Error;
+        this.Details = "Website and application pool with the same name exist";
         return ValidationResult.Error;
       }
 
       if (webSite || appPool)
       {
-        return ValidationResult.Warning;
+        this.Result = ValidationResult.Warning;
+        this.Details = "Website or application pool with the same name exist";
       }
       else
       {
-        return ValidationResult.Ok;
+        this.Result = ValidationResult.Ok;
       }
+
+      return this.Result;
     }
 
     public ValidationResult Validate()

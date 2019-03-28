@@ -5,7 +5,7 @@ using SitecoreInstaller.Validation.Abstractions;
 
 namespace SitecoreInstaller.Validation.Certificate
 {
-    public class CertificateNameValidator: IInstallationValidator//todo: add checks if certificate exists
+    public class CertificateNameValidator//: IInstallationValidator//todo: add checks if certificate exists
     {
         public CertificateNameValidator()
         {

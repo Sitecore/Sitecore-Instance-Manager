@@ -7,7 +7,7 @@ using SIM.Sitecore9Installer.Validation.Solr;
 
 namespace SitecoreInstaller.Validation.Solr
 {
-  public class SolrCorePrefixValidator : IInstallationValidator
+  public class SolrCorePrefixValidator// : IInstallationValidator
   {
     private Dictionary<string, string> installParams;
 
