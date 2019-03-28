@@ -82,12 +82,12 @@
 
   "ExecSequense": {
     "xconnect-createcert": {},
+    "xconnect-solr": {},
     "xconnect-xp1-collection": {
       "Parameters": {
         "SiteName": "$SqlDbPrefix+\"XColl.local\""
       }
     },
-    "xconnect-solr": {},
     "xconnect-xp1-collectionsearch": {
       "Parameters": {
         "SiteName": "$SqlDbPrefix+\"XSear.local\""
@@ -109,7 +109,7 @@
       }
     },
     "Sitecore-solr": {},
-   
+
     "Sitecore-xp1-cd": {
       "Parameters": {
         "SiteName": "$SqlDbPrefix+\"CD.local\""

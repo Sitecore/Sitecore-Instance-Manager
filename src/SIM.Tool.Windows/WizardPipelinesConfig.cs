@@ -196,6 +196,7 @@ By clicking 'Next' you accept the License Agreement."" />
     </download8>
     <install9 title=""Installing new instance"" startButton=""Install""
              finishText=""The installation was successfully completed"">
+      <args type=""SIM.Tool.Base.Pipelines.Install9WizardArgs, SIM.Tool.Base""/>
       <steps>
         <step name=""STEP 1 of 3 - DETAILS"" 
               type=""SIM.Tool.Windows.UserControls.Install.Instance9Details, SIM.Tool.Windows"" />
@@ -206,7 +207,9 @@ By clicking 'Next' you accept the License Agreement."" />
         <step name=""STEP 4 of 4 - TWEAK INSTALLATION PARAMETERS"" 
               type=""SIM.Tool.Windows.UserControls.Install.Instance9TweakInstallParams, SIM.Tool.Windows"" />
      </steps>   
-     
+     <finish>
+         <hive type=""SIM.Tool.Windows.Pipelines.Install.Install9ActionsHive, SIM.Tool.Windows"" />
+     </finish>
     </install9>
     <install title=""Installing new instance"" startButton=""Install""
              finishText=""The installation was successfully completed"">
