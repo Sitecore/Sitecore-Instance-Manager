@@ -9,6 +9,11 @@
 
     </step>
   </install9>
+<delete9 title=""UnInstalling the instance"">
+    <step>
+      <hive type=""SIM.Pipelines.Install.RunSitecoreTasksProcessor, SIM.Pipelines""  />
+    </step>
+  </delete9>
   <install title=""Installing the {InstanceName} instance"">
     <step>
       <processor type=""SIM.Pipelines.Install.CheckPackageIntegrity, SIM.Pipelines"" title=""Validating install package"" />

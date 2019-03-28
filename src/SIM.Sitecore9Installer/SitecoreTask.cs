@@ -26,6 +26,7 @@ namespace SIM.Sitecore9Installer
       this.ShouldRun = true;
     }
 
+    public bool UnInstall { get; set; }
     public TaskState State { get => this.state; }
     public string Name { get => this.name; }
     public bool ShouldRun { get; set; }
@@ -165,7 +166,7 @@ namespace SIM.Sitecore9Installer
       script.AppendLine(string.Format("Import-Module SitecoreInstallFramework{0}", importParam));
       // script.AppendLine(script.ToString());
       string log = !sifVersion.StartsWith("1") ? string.Format("*>&1 | Tee-Object {0}.log", this.Name) : string.Empty;
-      script.AppendLine(string.Format("Install-SitecoreConfiguration @installParams {0} -Verbose", log));
+      script.AppendLine(string.Format("{0} @installParams {1} -Verbose",this.UnInstall? "Uninstall-SitecoreConfiguration": "Install-SitecoreConfiguration", log));
       return script.ToString();
     }
 

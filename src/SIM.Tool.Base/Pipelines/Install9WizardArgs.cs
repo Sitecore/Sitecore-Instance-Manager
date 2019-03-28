@@ -31,7 +31,6 @@ namespace SIM.Tool.Base.Pipelines
       args.ScriptsOnly = this.ScriptsOnly;
       return args;
     }
-
     public string SolrUrl { get; set; }
     public string SorlRoot { get; set; }
     public string ScriptRoot { get; set; }

@@ -222,6 +222,9 @@
     <Compile Include="UserControls\ConfirmStepUserControl.xaml.cs">
       <DependentUpon>ConfirmStepUserControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\Delete\Delete9Details.xaml.cs">
+      <DependentUpon>Delete9Details.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\Download8\Downloads.xaml.cs">
       <DependentUpon>Downloads.xaml</DependentUpon>
     </Compile>
@@ -567,7 +570,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+<<<<<<< Updated upstream
     <Page Include="UserControls\Install\Instance9Validate.xaml">
+=======
+    <Page Include="UserControls\Delete\Delete9Details.xaml">
+>>>>>>> Stashed changes
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

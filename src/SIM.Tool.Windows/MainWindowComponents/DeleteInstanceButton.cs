@@ -8,6 +8,7 @@
   using SIM.Tool.Base.Profiles;
   using JetBrains.Annotations;
   using SIM.Tool.Base.Wizards;
+  using SIM.Tool.Base.Pipelines;
 
   [UsedImplicitly]
   public class DeleteInstanceButton : IMainWindowButton
@@ -27,7 +28,16 @@
         var args = new DeleteArgs(instance, connectionString);
         args.OnCompleted += () => mainWindow.Dispatcher.Invoke(() => OnPipelineCompleted(args.RootPath));
         var index = MainWindowHelper.GetListItemID(instance.ID);
-        WizardPipelineManager.Start("delete", mainWindow, args, null, (ignore) => OnWizardCompleted(index), () => null); 
+        if (int.Parse(instance.Product.ShortVersion) < 90)
+        {
+          WizardPipelineManager.Start("delete", mainWindow, args, null, (ignore) => OnWizardCompleted(index), () => null);
+        }
+        else
+        {
+          WizardPipelineManager.Start("delete9", mainWindow, null, null, (ignore) => OnWizardCompleted(index),
+          () => new Delete9WizardArgs(instance,connectionString)
+         );
+        }
       }
     }
 

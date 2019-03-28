@@ -58,14 +58,17 @@ namespace SIM.Sitecore9Installer
       }
     }
 
+    public bool UnInstall { get; set; }
 
-    public Tasker(string root, string globalFile)
+
+    public Tasker(string root, string globalFile,bool unInstall=false)
     {
       this.filesRoot = root;
       this.globalParamsFile = globalFile;
       this.mapping = this.GetPackageMapping();
       this.doc = JObject.Parse(File.ReadAllText(this.globalParamsFile));
       this.globalParams = this.GetGlobalParams();
+      this.UnInstall = unInstall;
       this.LoadTasks();
     }
 
@@ -210,7 +213,7 @@ namespace SIM.Sitecore9Installer
             }
           }
         }
-
+        t.UnInstall = this.UnInstall;
         this.tasksToRun.Add(t);
       }
     }

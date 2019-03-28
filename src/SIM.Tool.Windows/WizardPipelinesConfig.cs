@@ -194,6 +194,20 @@ By clicking 'Next' you accept the License Agreement."" />
               param=""The following credentials will be used for authenticating in dev.sitecore.net and performing downloading selected Sitecore versions on behalf of you. "" />
       </steps>
     </download8>
+
+<delete9 title=""Deleting instances"" startButton=""Delete""
+             finishText=""The uninstallation was successfully completed"">
+      <args type=""SIM.Tool.Base.Pipelines.Install9WizardArgs, SIM.Tool.Base""/>
+      <steps>
+        <step name=""STEP 1 of 3 - DETAILS"" 
+              type=""SIM.Tool.Windows.UserControls.Install.Delete9Details, SIM.Tool.Windows"" />
+        <step name=""STEP 2 of 3 - SELECT UNINSTALLATION TASKS"" 
+              type=""SIM.Tool.Windows.UserControls.Install.Instance9SelectTasks, SIM.Tool.Windows"" />
+        <step name=""STEP 3 of 3 - TWEAK PARAMETERS"" 
+              type=""SIM.Tool.Windows.UserControls.Install.Instance9TweakInstallParams, SIM.Tool.Windows"" />
+     </steps>     
+    </delete9>
+
     <install9 title=""Installing new instance"" startButton=""Install""
              finishText=""The installation was successfully completed"">
       <args type=""SIM.Tool.Base.Pipelines.Install9WizardArgs, SIM.Tool.Base""/>
