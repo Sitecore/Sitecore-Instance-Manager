@@ -198,11 +198,11 @@ By clicking 'Next' you accept the License Agreement."" />
              finishText=""The installation was successfully completed"">
       <args type=""SIM.Tool.Base.Pipelines.Install9WizardArgs, SIM.Tool.Base""/>
       <steps>
-        <step name=""STEP 1 of 3 - DETAILS"" 
+        <step name=""STEP 1 of 4 - DETAILS"" 
               type=""SIM.Tool.Windows.UserControls.Install.Instance9Details, SIM.Tool.Windows"" />
-        <step name=""STEP 2 of 3 - SELECT INSTALLATION TASKS"" 
+        <step name=""STEP 2 of 4 - SELECT INSTALLATION TASKS"" 
               type=""SIM.Tool.Windows.UserControls.Install.Instance9SelectTasks, SIM.Tool.Windows"" />
-       <step name=""STEP 3 of 4 - VALIDATE PARAMS"" 
+       <step name=""STEP 3 of 4 - PARAMETER VALIDATION"" 
               type=""SIM.Tool.Windows.UserControls.Install.Instance9Validate, SIM.Tool.Windows"" />
         <step name=""STEP 4 of 4 - TWEAK INSTALLATION PARAMETERS"" 
               type=""SIM.Tool.Windows.UserControls.Install.Instance9TweakInstallParams, SIM.Tool.Windows"" />

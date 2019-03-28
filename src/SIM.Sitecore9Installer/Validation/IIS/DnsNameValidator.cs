@@ -5,17 +5,15 @@ using SitecoreInstaller.Validation.Abstractions;
 
 namespace SitecoreInstaller.Validation.IIS
 {
-  public class DnsNameValidator : IInstallationValidator
+  public class SiteNameValidator : IInstallationValidator
   {
     private ServerManager serverManager;
 
-    public DnsNameValidator()
+    public SiteNameValidator()
     {
       serverManager = new ServerManager();
-      Name = "DnsNameValidator";
+      Name = "SiteNameIISValidator";
     }
-
-    public static DnsNameValidator Instance => new DnsNameValidator();
 
     public bool WebSiteExists(string name)
     {
@@ -32,8 +30,8 @@ namespace SitecoreInstaller.Validation.IIS
     public ValidationResult Result { get; set; }
     public ValidationResult Validate(Dictionary<string, string> installParams)
     {
-      bool webSite = WebSiteExists(installParams["DnsName"]);
-      bool appPool = AppPoolExists(installParams["DnsName"]);
+      bool webSite = WebSiteExists(installParams["SiteName"]);
+      bool appPool = AppPoolExists(installParams["SiteName"]);
       if (webSite && appPool)
       {
         this.Result = ValidationResult.Error;
@@ -49,6 +47,7 @@ namespace SitecoreInstaller.Validation.IIS
       else
       {
         this.Result = ValidationResult.Ok;
+        this.Details = "No site or app pool with such name found locally";
       }
 
       return this.Result;
