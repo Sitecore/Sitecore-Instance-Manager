@@ -570,11 +570,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-<<<<<<< Updated upstream
     <Page Include="UserControls\Install\Instance9Validate.xaml">
-=======
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>    
     <Page Include="UserControls\Delete\Delete9Details.xaml">
->>>>>>> Stashed changes
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

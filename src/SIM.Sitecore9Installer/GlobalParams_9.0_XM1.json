@@ -1,0 +1,43 @@
+﻿{
+  "Parameters": {
+    //global
+    "DeploymentRoot": "",
+    "SIFVersion": "1.2.1",
+    "SqlServer": "",
+    "SqlAdminUser": "",
+    "SqlAdminPassword": "",
+    "SqlDbPrefix": "",
+    "LicenseFile": "",
+    "DnsName": "$installParams.SiteName",
+    //solr
+    "SolrUrl": "",
+    "SolrRoot": "",
+    "SolrService": "",
+    "CorePrefix": "$GlobalParams.SqlDbPrefix",
+    "BaseConfig": "",
+    //Sitecore
+    "SitecoreAdminPassword": "b",
+    "SolrCorePrefix": "$GlobalParams.CorePrefix",
+    "SqlCoreUser": "$GlobalParams.SqlAdminUser",
+    "SqlCorePassword": "$GlobalParams.SqlAdminPassword",
+    "SqlWebUser": "$GlobalParams.SqlAdminUser",
+    "SqlWebPassword": "$GlobalParams.SqlAdminPassword",
+    "SqlFormsUser": "$GlobalParams.SqlAdminUser",
+    "SqlFormsPassword": "$GlobalParams.SqlAdminPassword",
+    "SqlMasterUser": "$GlobalParams.SqlAdminUser",
+    "SqlMasterPassword": "$GlobalParams.SqlAdminPassword",
+    "SolrZookeeperUrl": "",
+    "TelerikEncryptionKey": ""
+  },
+
+  "PackageMapping": {
+    "sitecore-XM1-cd": "* (OnPrem)_cd.scwdp.zip",
+    "sitecore-XM1-cm": "* (OnPrem)_cm.scwdp.zip"
+  },
+
+  "ExecSequense": {
+    "sitecore-solr": {},
+    "sitecore-XM1-cd": {},
+    "sitecore-XM1-cm": {}
+  }
+}

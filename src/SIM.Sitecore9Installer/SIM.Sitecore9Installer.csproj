@@ -128,16 +128,19 @@
     <None Include="GlobalParams_9.0_XP1.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="GlobalParams90XM1.json" />
+    <None Include="GlobalParams_9.0_XM1.json" />
+    <None Include="GlobalParams_9.2_XP0.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="GlobalParams_9.1_XP1.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="GlobalParams_9.1_XP0.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <Content Include="GlobalFilesMap.json">
+    <None Include="GlobalFilesMap.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

@@ -1,8 +1,8 @@
 ﻿{
   "Parameters": {
     //global
-    "DeploymentRoot": "c:/sitecores/sc91",
-    "SIFVersion": "2.0.0",
+    "DeployRoot": "",
+    "SIFVersion": "2.1.0",
     "SqlServer": "",
     "SqlAdminUser": "",
     "SqlAdminPassword": "",
@@ -13,14 +13,14 @@
     "SolrUrl": "",
     "SolrRoot": "",
     "SolrService": "",
-    "CorePrefix": "$GlobalParams.SqlDbPrefix",
+
     "BaseConfig": "",
     //cert
-    "CertificateName": "$GlobalParams.SqlDbPrefix+\"xconnect_client\"",
+
     "CertPath": "c:/certificates",
     "RootCertFileName": "",
     //xConnect
-    "XConnectCert": "$GlobalParams.CertificateName",
+
     "SqlMarketingAutomationUser": "",
     "SqlMarketingAutomationPassword": "[Invoke-RandomStringConfigFunction -Length 20 -DisAllowSpecial -EnforceComplexity]",
     "SqlReferenceDataUser": "",
@@ -32,24 +32,21 @@
     "XConnectEnvironment": "",
     "XConnectLogLevel": "",
     //cortex
-    "XConnectSearchService": "$GlobalParams.XConnectCollectionSearchService",
-    "CortexReportingService": "https://\"+$GlobalParams.SqlDbPrefix+\"CortexRep.local",
+
     "SqlProcessingEngineUser": "",
     "SqlProcessingEnginePassword": "[Invoke-RandomStringConfigFunction -Length 20 -DisAllowSpecial -EnforceComplexity]",
     //identity
     "ClientSecret": "SIF-Default",
-    "AllowedCorsOrigins": "https://\"+$GlobalParams.SqlDbPrefix+\"CM.local",
-    "PasswordRecoveryUrl": "https://\"+$GlobalParams.SqlDbPrefix+\"CM.local",
+
     "SqlCoreDbName": "",
-    "SitecoreIdentityCert": "$GlobalParams.SqlDbPrefix+\"Id.local\"",
-    "SitecoreIdentityAuthority": "https://\"+$GlobalParams.SqlDbPrefix+\"Id.local",
+
     //Sitecore
-    "SitecoreIdentitySecret": "$GlobalParams.ClientSecret",
+
     "EXMInternalApiKey": "",
     "SqlSecurityPassword": "[Invoke-RandomStringConfigFunction -Length 20 -DisAllowSpecial -EnforceComplexity]",
     "SqlSecurityUser": "",
     "SitecoreAdminPassword": "b",
-    "SolrCorePrefix": "$GlobalParams.CorePrefix",
+
     "SqlCoreUser": "",
     "SqlCorePassword": "[Invoke-RandomStringConfigFunction -Length 20 -DisAllowSpecial -EnforceComplexity]",
     "SqlWebUser": "",
@@ -68,16 +65,30 @@
     "EXMCryptographicKey": "",
     "EXMAuthenticationKey": "",
     "SolrZookeeperUrl": "",
-    "XConnectCollectionService": "https://\"+$GlobalParams.SqlDbPrefix+\"XColl.local",
-    "XConnectCollectionSearchService": "https://\"+$GlobalParams.SqlDbPrefix+\"XSear.local",
-    "XConnectReferenceDataService": "https://\"+$GlobalParams.SqlDbPrefix+\"Xref.local",
-    "MarketingAutomationOperationsService": "https://\"+$GlobalParams.SqlDbPrefix+\"XMA.local",
-    "MarketingAutomationReportingService": "https://\"+$GlobalParams.SqlDbPrefix+\"XMAR.local",
-    "ProcessingService": "https://\"+$GlobalParams.SqlDbPrefix+\"PRC.local",
-    "ReportingService": "https://\"+$GlobalParams.SqlDbPrefix+\"REP.local",
-    "ReportingServiceApiKey": "abcde111112222233333444445555566",
+
+    "ProcessingService": "",
+    "ReportingService": "",
+    "ReportingServiceApiKey": "",
     "TelerikEncryptionKey": "",
     "SqlMessagingUser": "",
+
+    //"CertificateName": "$GlobalParams.SqlDbPrefix+\"xconnect_client\"",
+    "XConnectCert": "$GlobalParams.SqlDbPrefix+\"xconnect_client\"",
+    "XConnectCollectionSearchService": "https://\"+$GlobalParams.SqlDbPrefix+\"XConnect.local",
+    "XConnectCollectionService": "https://\"+$GlobalParams.SqlDbPrefix+\"XConnect.local",
+    "AllowedCorsOrigins": "http://\"+$GlobalParams.SqlDbPrefix+\".local",
+    "PasswordRecoveryUrl": "http://\"+$GlobalParams.SqlDbPrefix+\".local",
+    "XConnectSearchService": "https://\"+$GlobalParams.SqlDbPrefix+\"XConnect.local",
+    "CortexReportingService": "https://\"+$GlobalParams.SqlDbPrefix+\"XConnect.local",
+    "SitecoreIdentityCert": "$GlobalParams.SqlDbPrefix+\"Id.local\"",
+    "SitecoreIdentityAuthority": "https://\"+$GlobalParams.SqlDbPrefix+\"Id.local",
+    "SitecoreIdentitySecret": "$GlobalParams.ClientSecret",
+    "CorePrefix": "$GlobalParams.SqlDbPrefix",
+    "SolrCorePrefix": "$GlobalParams.SqlDbPrefix",
+    "XConnectReferenceDataService": "https://\"+$GlobalParams.SqlDbPrefix+\"XConnect.local",
+    "MarketingAutomationOperationsService": "https://\"+$GlobalParams.SqlDbPrefix+\"XConnect.local",
+    "MarketingAutomationReportingService": "https://\"+$GlobalParams.SqlDbPrefix+\"XConnect.local",
+
     "SqlMessagingPassword": "[Invoke-RandomStringConfigFunction -Length 20 -DisAllowSpecial -EnforceComplexity]"
 
   },
@@ -100,6 +111,7 @@
     "IdentityServer": "* (OnPrem)_identityserver.scwdp.zip",
     "sitecore-XP1-cm-dds-patch": "Sitecore.Patch.EXM (OnPrem)_CM.zip"
    
+
   },
 
   "ExecSequense": {
@@ -119,7 +131,7 @@
     "XConnectCertificates": {
       "Parameters": {
         "RealName": "createcert",
-        "CertificateName": "$CertificateName"
+        "CertificateName": "$XConnectCert"
       }
     },
     "xconnect-solr": {},
@@ -128,74 +140,11 @@
         "SiteName": "$SqlDbPrefix+\"XConnect.local\""
       }
     },
-    "xconnect-xp1-collection": {
-      "Parameters": {
-        "SiteName": "$SqlDbPrefix+\"XColl.local\""
-      }
-    },
-    "xconnect-xp1-collectionsearch": {
-      "Parameters": {
-        "SiteName": "$SqlDbPrefix+\"XSear.local\""
-      }
-    },
-    "xconnect-xp1-referencedata": {
-      "Parameters": {
-        "SiteName": "$SqlDbPrefix+\"XRef.local\""
-      }
-    },
-    "xconnect-xp1-marketingautomation": {
-      "Parameters": {
-        "SiteName": "$SqlDbPrefix+\"XMA.local\""
-      }
-    },
-    "xconnect-xp1-marketingautomationreporting": {
-      "Parameters": {
-        "SiteName": "$SqlDbPrefix+\"XMar.local\""
-      }
-    },
-    "xconnect-xp1-cortexprocessing": {
-      "Parameters": {
-        "SiteName": "$SqlDbPrefix+\"CorPrc.local\""
-      }
-    },
-    "xconnect-xp1-cortexreporting": {
-      "Parameters": {
-        "SiteName": "$SqlDbPrefix+\"CorRep.local\""
-      }
-    },
     "Sitecore-solr": {},
     "Sitecore-XP0": {
       "Parameters": {
         "SiteName": "$SqlDbPrefix+\".local\""
       }
-
-    },
-    "Sitecore-xp1-cd": {
-      "Parameters": {
-        "SiteName": "$SqlDbPrefix+\"CD.local\""
-      }
-    },
-    "Sitecore-xp1-prc": {
-      "Parameters": {
-        "SiteName": "$SqlDbPrefix+\"Prc.local\""
-      }
-    },
-    "Sitecore-xp1-rep": {
-      "Parameters": {
-        "SiteName": "$SqlDbPrefix+\"Rep.local\""
-      }
-    },
-    "Sitecore-xp1-cm": {
-      "Parameters": {
-        "SiteName": "$SqlDbPrefix+\"CM.local\""
-      }
-    },
-    "sitecore-xp1-dds": {
-      "Parameters": {
-        "SiteName": "$SqlDbPrefix+\"DDS.local\""
-      }
-    },
-    "sitecore-XP1-cm-dds-patch": {}
-
+    }
   }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -127,13 +128,34 @@ namespace SIM.Sitecore9Installer
     public string GetScript()
     {
       StringBuilder script = new StringBuilder();
-      foreach (InstallParam param in this.GlobalParams)
-      {                
-       string value = GetParameterValue(param);
-       script.AppendLine(string.Format("${0}={1}", param.Name, value));
-      }
+     
+
+      script.Append(GetGlobalParamsScript());
 
       //script.AppendLine("$installParams=@{");
+      string installParams = GetLocalParamsScript();
+      
+      script.Append(installParams);
+      script.Append(installParams);
+      script.AppendLine(string.Format("cd \"{0}\"", Path.GetDirectoryName(this.LocalParams.First(p => p.Name == "Path").Value)));
+      script.AppendLine("Set-ExecutionPolicy Bypass -Force");
+      script.AppendLine("Import-Module SitecoreFundamentals");
+      string sifVersion = this.GlobalParams.FirstOrDefault(p => p.Name == "SIFVersion")?.Value ?? string.Empty;
+      string importParam = string.Empty;
+      if (!string.IsNullOrEmpty(sifVersion))
+      {
+        importParam = string.Format(" -RequiredVersion {0}", sifVersion);
+      }
+
+      script.AppendLine(string.Format("Import-Module SitecoreInstallFramework{0}", importParam));
+      // script.AppendLine(script.ToString());
+      string log = !sifVersion.StartsWith("1") ? string.Format("*>&1 | Tee-Object {0}.log", this.Name) : string.Empty;
+      script.AppendLine(string.Format("{0} @installParams {1} -Verbose", this.UnInstall ? "Uninstall-SitecoreConfiguration" : "Install-SitecoreConfiguration", log));
+      return script.ToString();
+    }
+
+    private string GetLocalParamsScript()
+    {
       StringBuilder installParams = new StringBuilder();
       installParams.AppendLine("$installParams=@{");
       foreach (InstallParam param in this.LocalParams)
@@ -151,26 +173,22 @@ namespace SIM.Sitecore9Installer
       }
 
       installParams.AppendLine("}");
-      script.Append(installParams);
-      script.Append(installParams);
-      script.AppendLine(string.Format("cd \"{0}\"", Path.GetDirectoryName(this.LocalParams.First(p => p.Name == "Path").Value)));
-      script.AppendLine("Set-ExecutionPolicy Bypass -Force");
-      script.AppendLine("Import-Module SitecoreFundamentals");
-      string sifVersion = this.GlobalParams.FirstOrDefault(p => p.Name == "SIFVersion")?.Value ?? string.Empty;
-      string importParam = string.Empty;
-      if (!string.IsNullOrEmpty(sifVersion))
+      return installParams.ToString();
+    }
+
+    public string GetGlobalParamsScript(bool addPrefix=true)
+    {
+      StringBuilder script = new StringBuilder();
+      foreach (InstallParam param in this.GlobalParams)
       {
-        importParam = string.Format(" -RequiredVersion {0}", sifVersion);
+        string value = GetParameterValue(param);
+        script.AppendLine(string.Format("{0}{1}={2}",addPrefix?"$":string.Empty ,param.Name, value));
       }
 
-      script.AppendLine(string.Format("Import-Module SitecoreInstallFramework{0}", importParam));
-      // script.AppendLine(script.ToString());
-      string log = !sifVersion.StartsWith("1") ? string.Format("*>&1 | Tee-Object {0}.log", this.Name) : string.Empty;
-      script.AppendLine(string.Format("{0} @installParams {1} -Verbose",this.UnInstall? "Uninstall-SitecoreConfiguration": "Install-SitecoreConfiguration", log));
       return script.ToString();
     }
 
-    private string GetParameterValue(InstallParam param)
+    public string GetParameterValue(InstallParam param)
     {
       string value = param.Value;
       if (!value.StartsWith("$"))

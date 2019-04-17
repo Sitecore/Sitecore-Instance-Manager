@@ -2,9 +2,11 @@
 using Newtonsoft.Json.Linq;
 using SIM.Products;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Management.Automation;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -108,10 +110,47 @@ namespace SIM.Sitecore9Installer
       }
     }
 
+    public void EvaluateGlobalParams()
+    {
+      string sifVersion = this.GlobalParams.FirstOrDefault(p => p.Name == "SIFVersion")?.Value ?? string.Empty;
+      string importParam = string.Empty;
+      if (!string.IsNullOrEmpty(sifVersion))
+      {
+        importParam = string.Format(" -RequiredVersion {0}", sifVersion);
+      }
+      StringBuilder globalParamsEval = new StringBuilder();
+      globalParamsEval.AppendFormat("Import-Module SitecoreInstallFramework{0}\n", importParam);
+      globalParamsEval.AppendLine("$GlobalParams =@{");     
+      globalParamsEval.Append(this.tasksToRun.First().GetGlobalParamsScript(false));
+      globalParamsEval.Append("}\n");
+      globalParamsEval.AppendLine("$GlobalParamsSys =@{");
+      globalParamsEval.Append(this.tasksToRun.First().GetGlobalParamsScript(false));
+      globalParamsEval.Append("}\n$GlobalParamsSys");
+      //string globalParamsEval = string.Format("Import-Module SitecoreInstallFramework{0}\n$GlobalParams =@{{1}}$GlobalParams", importParam, this.tasksToRun.First().GetGlobalParamsScript());
+      Hashtable evaluatedParams = null;
+      using (PowerShell PowerShellInstance = PowerShell.Create())
+      {
+        PowerShellInstance.AddScript(globalParamsEval.ToString());
+        var res = PowerShellInstance.Invoke();
+        evaluatedParams = (Hashtable)res.First().ImmediateBaseObject;
+      }
+
+      StringBuilder evaluatedOaramsScript = new StringBuilder();
+      foreach (var param in this.GlobalParams)
+      {
+        if (evaluatedParams[param.Name] == null)
+        {
+          continue;
+        }
+
+        param.Value = (string)evaluatedParams[param.Name];
+      }
+    }
+
     public string RunAllTasks()
     {
       StringBuilder results = new StringBuilder();
-
+      this.EvaluateGlobalParams();
       foreach (SitecoreTask task in this.tasksToRun.Where(t=>t.ShouldRun))
       {
         try
