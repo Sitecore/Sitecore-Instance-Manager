@@ -167,8 +167,8 @@ namespace SIM.Sitecore9Installer
 
 
         string value = this.GetParameterValue(param);
-
-        installParams.AppendLine(string.Format("{0}={1}", param.Name, value));
+        string paramName = "{" + param.Name + "}";
+        installParams.AppendLine(string.Format("{0}={1}", paramName, value));
 
       }
 
@@ -182,7 +182,8 @@ namespace SIM.Sitecore9Installer
       foreach (InstallParam param in this.GlobalParams)
       {
         string value = GetParameterValue(param);
-        script.AppendLine(string.Format("{0}{1}={2}",addPrefix?"$":string.Empty ,param.Name, value));
+        string paramName = "{" + param.Name + "}";
+        script.AppendLine(string.Format("{0}{1}={2}",addPrefix?"$":string.Empty ,paramName, value));
       }
 
       return script.ToString();
