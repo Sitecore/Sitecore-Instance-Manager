@@ -20,6 +20,7 @@ namespace SIM.Sitecore9Installer
     List<InstallParam> mapping;
     string filesRoot;
     string globalParamsFile;
+    string deployRoot;
     JObject doc;
     List<InstallParam> globalParams;
 
@@ -27,13 +28,13 @@ namespace SIM.Sitecore9Installer
     {
       string packageName = Path.GetFileNameWithoutExtension(product.PackagePath);
       string jsonGlobalFilesMap = string.Empty;
-      using(var reader= new StreamReader(Path.Combine(Directory.GetCurrentDirectory(), "GlobalFilesMap.json")))
+      using (var reader = new StreamReader(Path.Combine(Directory.GetCurrentDirectory(), "GlobalFilesMap.json")))
       {
         jsonGlobalFilesMap = reader.ReadToEnd();
       }
 
-      Dictionary<string,string> globalFilesMap= JsonConvert.DeserializeObject<Dictionary<string, string>>(jsonGlobalFilesMap);
-      foreach(string pattern in globalFilesMap.Keys)
+      Dictionary<string, string> globalFilesMap = JsonConvert.DeserializeObject<Dictionary<string, string>>(jsonGlobalFilesMap);
+      foreach (string pattern in globalFilesMap.Keys)
       {
         if (Regex.IsMatch(packageName, pattern))
         {
@@ -63,8 +64,9 @@ namespace SIM.Sitecore9Installer
     public bool UnInstall { get; set; }
 
 
-    public Tasker(string root, string globalFile,bool unInstall=false)
+    public Tasker(string root, string globalFile, string deployRoot, bool unInstall = false)
     {
+      this.deployRoot = deployRoot;
       this.filesRoot = root;
       this.globalParamsFile = globalFile;
       this.mapping = this.GetPackageMapping();
@@ -97,6 +99,22 @@ namespace SIM.Sitecore9Installer
       return list;
     }
 
+    private void RegisterGlobalParam(InstallParam parameter)
+    {
+      InstallParam param = this.GlobalParams.FirstOrDefault(p => p.Name == parameter.Name);
+      if (param == null)
+      {
+        this.globalParams.Insert(0,parameter);
+        param = parameter;
+        param.ParamValueUpdated += this.GlobalParamValueUpdated;
+      }
+
+      if (param.Value != parameter.Value)
+      {
+        param.Value = parameter.Value;
+      }
+    }
+
     private void GlobalParamValueUpdated(object sender, ParamValueUpdatedArgs e)
     {
       InstallParam updatedParam = (InstallParam)sender;
@@ -120,7 +138,7 @@ namespace SIM.Sitecore9Installer
       }
       StringBuilder globalParamsEval = new StringBuilder();
       globalParamsEval.AppendFormat("Import-Module SitecoreInstallFramework{0}\n", importParam);
-      globalParamsEval.AppendLine("$GlobalParams =@{");     
+      globalParamsEval.AppendLine("$GlobalParams =@{");
       globalParamsEval.Append(this.tasksToRun.First().GetGlobalParamsScript(false));
       globalParamsEval.Append("}\n");
       globalParamsEval.AppendLine("$GlobalParamsSys =@{");
@@ -151,7 +169,7 @@ namespace SIM.Sitecore9Installer
     {
       StringBuilder results = new StringBuilder();
       this.EvaluateGlobalParams();
-      foreach (SitecoreTask task in this.tasksToRun.Where(t=>t.ShouldRun))
+      foreach (SitecoreTask task in this.tasksToRun.Where(t => t.ShouldRun))
       {
         try
         {
@@ -162,7 +180,7 @@ namespace SIM.Sitecore9Installer
           }
         }
         catch (Exception ex)
-        {          
+        {
           results.AppendLine(ex.ToString());
           break;
         }
@@ -175,7 +193,7 @@ namespace SIM.Sitecore9Installer
     {
       string path = Path.Combine(this.filesRoot, "generated_scripts");
       Directory.CreateDirectory(path);
-      foreach (SitecoreTask task in this.Tasks.Where(t=>t.ShouldRun))
+      foreach (SitecoreTask task in this.Tasks.Where(t => t.ShouldRun))
       {
         using (StreamWriter writer = new StreamWriter(Path.Combine(path, string.Format("{0}.ps1", task.Name))))
         {
@@ -186,7 +204,7 @@ namespace SIM.Sitecore9Installer
 
     private List<InstallParam> GetTaskParameters(string name)
     {
-      string file = Directory.GetFiles(this.filesRoot, string.Format("{0}.json", name),SearchOption.AllDirectories).First();
+      string file = Directory.GetFiles(this.filesRoot, string.Format("{0}.json", name), SearchOption.AllDirectories).First();
 
       List<InstallParam> installParams = new List<InstallParam>();
       JObject doc = JObject.Parse(File.ReadAllText(file));
@@ -226,7 +244,7 @@ namespace SIM.Sitecore9Installer
           realName = overridden["RealName"]?.ToString();
         }
 
-        string taskFile= Directory.GetFiles(this.filesRoot, string.Format("{0}.json", realName), SearchOption.AllDirectories).FirstOrDefault();
+        string taskFile = Directory.GetFiles(this.filesRoot, string.Format("{0}.json", realName), SearchOption.AllDirectories).FirstOrDefault();
         if (string.IsNullOrEmpty(taskFile))
         {
           continue;
@@ -238,6 +256,11 @@ namespace SIM.Sitecore9Installer
         //}
 
         SitecoreTask t = new SitecoreTask(param.Name);
+        if (!string.IsNullOrEmpty(this.deployRoot))
+        {
+          this.InjectLocalDeploymentRoot(taskFile);
+          this.InjectGlobalDeploymentRoot(this.deployRoot);
+        }
         t.GlobalParams = this.GlobalParams;
         t.LocalParams = this.GetTaskParameters(realName);
 
@@ -257,6 +280,40 @@ namespace SIM.Sitecore9Installer
       }
     }
 
+    private void InjectLocalDeploymentRoot(string taskFilePath)
+    {
+      JObject doc = JObject.Parse(File.ReadAllText(taskFilePath));
+      var node = doc["Variables"]["Site.PhysicalPath"];
+      if (node != null)
+      {
+        JObject deployRoot = new JObject();
+        deployRoot["Type"] = "string";
+        deployRoot["Description"] = "The path to installtion root folder.";
+        deployRoot["DefaultValue"] = "";
+        doc["Parameters"]["DeployRoot"] = deployRoot;
+
+        ((JValue)node).Value = "[joinpath(parameter('DeployRoot'), parameter('SiteName'))]";
+
+        using (StreamWriter wr = new StreamWriter(taskFilePath))
+        {
+          wr.Write(doc.ToString());
+        }
+      }
+    }
+
+    private void InjectGlobalDeploymentRoot(string path)
+    {
+      InstallParam deployRoot = this.GlobalParams.FirstOrDefault(p => p.Name == "DeployRoot");
+      if (deployRoot == null)
+      {
+        deployRoot = new InstallParam("DeployRoot", path);
+        this.RegisterGlobalParam(deployRoot);
+      }
+      else
+      {
+        deployRoot.Value = path;
+      }
+    }
 
     private List<InstallParam> GetPackageMapping()
     {

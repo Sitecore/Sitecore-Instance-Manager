@@ -75,6 +75,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Converters\InstanceNameToLocation.cs" />
     <Compile Include="EnvironmentHelper.cs" />
     <Compile Include="Pipelines\Delete9WizardArgs.cs" />
     <Compile Include="Pipelines\Install9WizardArgs.cs" />

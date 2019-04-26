@@ -41,6 +41,9 @@
         <TextBox Grid.Column="3" Grid.Row="2" TextWrapping="Wrap" Name="solrUrl"/>
         <TextBlock Grid.Column="2" Grid.Row="4" TextWrapping="Wrap" Text="Solr service:" HorizontalAlignment="Left" Width="77"/>
         <TextBox Name="SolrService" Grid.Column="3" Grid.Row="4" TextWrapping="Wrap" Text=""/>
-        <CheckBox Name="scriptsOnly" Content=":Scripts only" HorizontalAlignment="Left" Margin="0,5,0,0" Grid.Row="4" VerticalAlignment="Top" FlowDirection="RightToLeft" Grid.ColumnSpan="2" Width="93" Padding="11,-1,0,0"/>
+        <CheckBox Name="scriptsOnly" Content=":Scripts only" HorizontalAlignment="Left" Margin="0,5,0,0" Grid.Row="5" VerticalAlignment="Top" FlowDirection="RightToLeft" Grid.ColumnSpan="2" Width="93" Padding="11,-1,0,0"/>
+        <TextBlock HorizontalAlignment="Left" Margin="0,5,0,0" Grid.Row="4" TextWrapping="Wrap" Text="Location:" VerticalAlignment="Top"/>
+        <Button Name="LocationBtn" Click="LocationBtn_Click" Content="..." HorizontalAlignment="Left" Margin="48,3,0,0" Grid.Row="4" VerticalAlignment="Top" Width="24"/>
+        <TextBox Name="LocationText" Text="{Binding ElementName=InstanceName, Path=Text, Mode=OneWay, Converter={x:Static converters:InstanceNameToLocation.Instance}}" Grid.Column="1" HorizontalAlignment="Left" Height="25" Grid.Row="4" TextWrapping="Wrap" VerticalAlignment="Top" Width="236"/>
     </Grid>
 </UserControl>

@@ -96,8 +96,8 @@ namespace SIM.Tool.Windows.UserControls.Install
       Assert.IsNotNull(licensePath, @"The license file isn't set in the Settings window");
       FileSystem.FileSystem.Local.File.AssertExists(licensePath, "The {0} file is missing".FormatWith(licensePath));
 
-
-      var args = (Install9WizardArgs)wizardArgs;
+      
+      var args = (Install9WizardArgs)wizardArgs;      
       args.InstanceName = name;
       args.InstanceProduct = product;
       args.InstanceConnectionString = connectionString;
@@ -121,8 +121,28 @@ namespace SIM.Tool.Windows.UserControls.Install
         }
        
       }
-      
-      Tasker tasker = new Tasker(args.ScriptRoot, Tasker.ResolveGlobalFile(args.Product).FullName);
+
+      string rootPath = this.LocationText.Text; 
+      if (!args.ScriptsOnly)
+      {
+        if (SIM.FileSystem.FileSystem.Local.Directory.Exists(rootPath))
+        {
+          if (Directory.EnumerateFileSystemEntries(rootPath).Any())
+          {
+            if (WindowHelper.ShowMessage("The folder with the same name already exists and is not empty. Would you like to delete it?", MessageBoxButton.OKCancel, MessageBoxImage.Question, MessageBoxResult.OK) == MessageBoxResult.OK)
+            {
+              SIM.FileSystem.FileSystem.Local.Directory.DeleteIfExists(rootPath, null);
+              SIM.FileSystem.FileSystem.Local.Directory.CreateDirectory(rootPath);
+            }
+          }
+        }
+        else
+        {
+          SIM.FileSystem.FileSystem.Local.Directory.CreateDirectory(rootPath);
+        }
+      }
+
+      Tasker tasker = new Tasker(args.ScriptRoot, Tasker.ResolveGlobalFile(args.Product).FullName,rootPath);    
       InstallParam sqlServer = tasker.GlobalParams.FirstOrDefault(p => p.Name == "SqlServer");
       if (sqlServer != null)
       {
@@ -592,9 +612,9 @@ namespace SIM.Tool.Windows.UserControls.Install
       if (!string.IsNullOrEmpty(name))
       {
         InstanceName.Text = name;
-      }     
+      }
 
-         
+      //this.LocationText.Text =Path.Combine(ProfileManager.Profile.InstancesFolder,args.InstanceName);
     }
 
     bool IWizardStep.SaveChanges(WizardArgs wizardArgs)
@@ -603,5 +623,10 @@ namespace SIM.Tool.Windows.UserControls.Install
     }
 
     #endregion
+
+    private void LocationBtn_Click(object sender, RoutedEventArgs e)
+    {
+      WindowHelper.PickFolder("Choose location folder", this.LocationText, null);
+    }
   }
 }
