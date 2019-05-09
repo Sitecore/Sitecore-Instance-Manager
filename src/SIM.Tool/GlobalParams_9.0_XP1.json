@@ -25,13 +25,13 @@
     "SqlReferenceDataPassword": "",
     "SqlProcessingPoolsUser": "",
     "SqlProcessingPoolsPassword": "",
-    "SqlCollectionUser": "",
+    "SqlCollectionUser": "$GlobalParams.SqlDbPrefix+\"collectionuser\"",
     "SqlCollectionPassword": "",
     "XConnectEnvironment": "",
     "XConnectLogLevel": "",
     //Sitecore
     "SitecoreAdminPassword": "b",
-    "SolrCorePrefix": "$GlobalParams.CorePrefix",
+    "SolrCorePrefix": "$GlobalParams.SqlDbPrefix",
 
     "SqlCoreUser": "",
     "SqlCorePassword": "",

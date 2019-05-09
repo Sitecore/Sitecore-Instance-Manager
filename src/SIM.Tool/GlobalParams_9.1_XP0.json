@@ -1,7 +1,6 @@
 ﻿{
   "Parameters": {
     //global
-    "DeployRoot": "",
     "SIFVersion": "2.1.0",
     "SqlServer": "",
     "SqlAdminUser": "",
@@ -27,7 +26,7 @@
     "SqlReferenceDataPassword": "[Invoke-RandomStringConfigFunction -Length 20 -DisAllowSpecial -EnforceComplexity]",
     "SqlProcessingPoolsUser": "",
     "SqlProcessingPoolsPassword": "[Invoke-RandomStringConfigFunction -Length 20 -DisAllowSpecial -EnforceComplexity]",
-    "SqlCollectionUser": "",
+    "SqlCollectionUser": "$GlobalParams.SqlDbPrefix+\"collectionuser\"",
     "SqlCollectionPassword": "[Invoke-RandomStringConfigFunction -Length 20 -DisAllowSpecial -EnforceComplexity]",
     "XConnectEnvironment": "",
     "XConnectLogLevel": "",

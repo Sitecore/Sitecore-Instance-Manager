@@ -1,7 +1,6 @@
 ﻿{
   "Parameters": {
     //global
-    "DeploymentRoot": "",
     "SIFVersion": "1.2.1",
     "SqlServer": "",
     "SqlAdminUser": "",
@@ -17,7 +16,7 @@
     "BaseConfig": "",
     //Sitecore
     "SitecoreAdminPassword": "b",
-    "SolrCorePrefix": "$GlobalParams.CorePrefix",
+    "SolrCorePrefix": "$GlobalParams.SqlDbPrefix",
     "SqlCoreUser": "$GlobalParams.SqlAdminUser",
     "SqlCorePassword": "$GlobalParams.SqlAdminPassword",
     "SqlWebUser": "$GlobalParams.SqlAdminUser",

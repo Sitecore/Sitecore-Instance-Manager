@@ -1,7 +1,6 @@
 ﻿{
   "Parameters": {
     //global
-    "DeploymentRoot": "c:/sitecores/sc91",
     "SIFVersion": "2.0.0",
     "SqlServer": "",
     "SqlAdminUser": "",
@@ -16,18 +15,18 @@
     "CorePrefix": "$GlobalParams.SqlDbPrefix",
     "BaseConfig": "",
     //cert
-    "CertificateName": "$GlobalParams.SqlDbPrefix+\"xconnect_client\"",
+    //"CertificateName": "$GlobalParams.SqlDbPrefix+\"xconnect_client\"",
     "CertPath": "c:/certificates",
     "RootCertFileName": "",
     //xConnect
-    "XConnectCert": "$GlobalParams.CertificateName",
+    "XConnectCert": "$GlobalParams.SqlDbPrefix+\"xconnect_client\"",
     "SqlMarketingAutomationUser": "",
     "SqlMarketingAutomationPassword": "[Invoke-RandomStringConfigFunction -Length 20 -DisAllowSpecial -EnforceComplexity]",
     "SqlReferenceDataUser": "",
     "SqlReferenceDataPassword": "[Invoke-RandomStringConfigFunction -Length 20 -DisAllowSpecial -EnforceComplexity]",
     "SqlProcessingPoolsUser": "",
     "SqlProcessingPoolsPassword": "[Invoke-RandomStringConfigFunction -Length 20 -DisAllowSpecial -EnforceComplexity]",
-    "SqlCollectionUser": "",
+    "SqlCollectionUser": "$GlobalParams.SqlDbPrefix+\"collectionuser\"",
     "SqlCollectionPassword": "[Invoke-RandomStringConfigFunction -Length 20 -DisAllowSpecial -EnforceComplexity]",
     "XConnectEnvironment": "",
     "XConnectLogLevel": "",
@@ -49,7 +48,7 @@
     "SqlSecurityPassword": "[Invoke-RandomStringConfigFunction -Length 20 -DisAllowSpecial -EnforceComplexity]",
     "SqlSecurityUser": "",
     "SitecoreAdminPassword": "b",
-    "SolrCorePrefix": "$GlobalParams.CorePrefix",
+    "SolrCorePrefix": "$GlobalParams.SqlDbPrefix",
     "SqlCoreUser": "",
     "SqlCorePassword": "[Invoke-RandomStringConfigFunction -Length 20 -DisAllowSpecial -EnforceComplexity]",
     "SqlWebUser": "",
@@ -122,7 +121,7 @@
     "XConnectCertificates": {
       "Parameters": {
         "RealName": "createcert",
-        "CertificateName": "$CertificateName"
+        "CertificateName": "$XConnectCert"
       }
     },
     "xconnect-solr": {},
