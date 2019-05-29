@@ -15,6 +15,7 @@ namespace SIM.Pipelines.Install
       Install9Args arguments = (Install9Args)args;
       List<Processor> processors = new List<Processor>();
       arguments.Tasker.EvaluateGlobalParams();
+      Processor root = null;
       foreach (SitecoreTask task in arguments.Tasker.Tasks)
       {
         if (!task.ShouldRun)
@@ -29,10 +30,18 @@ namespace SIM.Pipelines.Install
         }
         else
         {
-          proc = new RunSitecoreTaskProcessor(task.Name);
+          proc = new RunSitecoreTaskProcessor(task.Name);          
         }
         proc.Title = task.Name;
-        processors.Add(proc);
+        if (root == null)
+        {          
+          processors.Add(proc);
+        }
+        else
+        {
+          root._NestedProcessors.Add(proc);
+        }
+        root = proc;
       }
 
       return processors;
