@@ -3,6 +3,9 @@
   using System;
   using Sitecore.Diagnostics.Base;
   using JetBrains.Annotations;
+  using System.Collections.Generic;
+  using System.Linq;
+  using System.Collections;
 
   #region
 
@@ -78,6 +81,22 @@
       }
     }
 
+    public List<SolrDefinition> Solrs
+    {
+      get
+      {
+        return GetValue("Solrs") as List<SolrDefinition>;
+      }
+
+      set
+      {
+        Assert.ArgumentNotNull(value, nameof(value));
+        SetValue("Solrs", value);       
+      }
+    }
+
+    public List<VersionToSolr> VersionToSolrMap { get ; set; }
+
     #endregion
 
     #region Protected methods
@@ -99,10 +118,14 @@
     {
       return new Profile
       {
-        ConnectionString = ConnectionString, 
-        InstancesFolder = InstancesFolder, 
-        License = License, 
-        LocalRepository = LocalRepository
+        ConnectionString = ConnectionString,
+        InstancesFolder = InstancesFolder,
+        License = License,
+        LocalRepository = LocalRepository,
+
+        //deep clone might be required
+        Solrs = Solrs,
+        VersionToSolrMap = VersionToSolrMap
       };
     }
 

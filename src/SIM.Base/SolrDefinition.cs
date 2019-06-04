@@ -1,0 +1,40 @@
+﻿using Sitecore.Diagnostics.Base;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace SIM
+{
+  [Serializable]
+  public class SolrDefinition
+  {
+    string url;
+    string root;
+    public string Url {
+      get
+      {
+        return url;
+      }
+      set
+      {
+        Assert.ArgumentNotNullOrEmpty(value, nameof(this.Url));
+        url = value;
+      }
+    }
+    public string Root
+    {
+      get
+      {
+        return root;
+      }
+      set
+      {
+        Assert.ArgumentNotNullOrEmpty(value, nameof(this.Root));
+        root = value;
+      }
+    }
+    public string Service { get; set; }   
+  }
+}

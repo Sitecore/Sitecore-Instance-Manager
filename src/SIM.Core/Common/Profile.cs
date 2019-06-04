@@ -5,6 +5,10 @@ namespace SIM.Core.Common
   using JetBrains.Annotations;
   using Sitecore.Diagnostics.Base;
   using SIM.IO;
+  using System;
+  using System.Collections.Generic;
+  using System.Linq;
+  using System.Collections;
 
   public class Profile : IProfile
   {
@@ -20,6 +24,15 @@ namespace SIM.Core.Common
     public string LocalRepository { get; set; }
 
     protected IO.IFileSystem FileSystem { get; private set; }
+
+    public List<SolrDefinition> Solrs { get; set; }
+
+    public List<VersionToSolr> VersionToSolrMap
+    {
+      get;
+
+      set;
+    }
 
     public void Save()
     {

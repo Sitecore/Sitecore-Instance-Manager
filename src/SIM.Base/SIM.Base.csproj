@@ -102,6 +102,8 @@
     <Compile Include="ReflectionUtil.cs" />
     <Compile Include="Services\ConnectionString.cs" />
     <Compile Include="Services\SqlConnectionString.cs" />
+    <Compile Include="SolrDefinition.cs" />
+    <Compile Include="VersionToSolr.cs" />
     <Compile Include="WebRequestHelper.cs" />
     <Compile Include="XmlBasedAdvancedSettingsStorage.cs" />
     <Compile Include="AppConfigSectionHandler.cs" />

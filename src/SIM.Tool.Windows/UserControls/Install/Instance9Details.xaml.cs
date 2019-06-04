@@ -103,8 +103,11 @@ namespace SIM.Tool.Windows.UserControls.Install
       args.InstanceConnectionString = connectionString;
       args.LicenseFileInfo = new FileInfo(licensePath);
       args.Product = product;
-      args.SolrUrl = this.solrUrl.Text;
-      args.SorlRoot = this.solrRoot.Text;
+
+      SolrDefinition solr = this.Solrs.SelectedItem as SolrDefinition;
+
+      args.SolrUrl = solr.Url; //this.solrUrl.Text;
+      args.SorlRoot = solr.Root; //this.solrRoot.Text;
       args.ScriptRoot = System.IO.Path.Combine(Directory.GetParent(args.Product.PackagePath).FullName, System.IO.Path.GetFileNameWithoutExtension(args.Product.PackagePath));
       if (!Directory.Exists(args.ScriptRoot))
       {
@@ -171,13 +174,7 @@ namespace SIM.Tool.Windows.UserControls.Install
       if (licenseFile != null)
       {
         licenseFile.Value = args.LicenseFileInfo.FullName;
-      }
-
-      InstallParam solrUrl = tasker.GlobalParams.FirstOrDefault(p => p.Name == "SolrUrl");
-      if (solrUrl != null)
-      {
-        solrUrl.Value = args.SolrUrl;
-      }
+      }     
 
       InstallParam solrRoot = tasker.GlobalParams.FirstOrDefault(p => p.Name == "SolrRoot");
       if (solrRoot != null)
@@ -188,11 +185,29 @@ namespace SIM.Tool.Windows.UserControls.Install
       InstallParam solrService = tasker.GlobalParams.FirstOrDefault(p => p.Name == "SolrService");
       if (solrService != null)
       {
-        solrService.Value = this.SolrService.Text;
+        solrService.Value = solr.Service; // this.SolrService.Text;
       }
+
+      InstallParam solrUrl = tasker.GlobalParams.FirstOrDefault(p => p.Name == "SolrUrl");
+      if (solrUrl != null)
+      {
+        solrUrl.Value = args.SolrUrl;
+      }      
 
       args.ScriptsOnly = this.scriptsOnly.IsChecked ?? false;
       args.Takser = tasker;
+      
+      VersionToSolr vts = ProfileManager.Profile.VersionToSolrMap.FirstOrDefault(s => s.Vesrion == product.ShortVersion);
+      if (vts == null)
+      {
+        vts = new VersionToSolr();
+        vts.Vesrion = product.ShortVersion;
+        ProfileManager.Profile.VersionToSolrMap.Add(vts);
+      }
+      
+      vts.Solr = solr.Url;
+      ProfileManager.SaveChanges(ProfileManager.Profile);
+
       return true;
     }
 
@@ -280,13 +295,9 @@ namespace SIM.Tool.Windows.UserControls.Install
       {
         DataContext = new Model();
         _StandaloneProducts = ProductManager.StandaloneProducts.Where(p=>int.Parse(p.ShortVersion)>=90&&!p.PackagePath.EndsWith(".scwdp.zip"));
+        this.Solrs.DataContext = ProfileManager.Profile.Solrs;
       }
-    }
-
-    private void PickLocationFolder([CanBeNull] object sender, [CanBeNull] RoutedEventArgs e)
-    {
-      WindowHelper.PickFolder("Choose location folder", this.solrRoot, null);
-    }       
+    }        
 
     private void ProductNameChanged([CanBeNull] object sender, [CanBeNull] SelectionChangedEventArgs e)
     {
@@ -369,6 +380,10 @@ namespace SIM.Tool.Windows.UserControls.Install
 
       ProductRevision.DataContext = grouping.OrderBy(p => p.Revision);
       SelectLast(ProductRevision);
+
+      var solrurl = ProfileManager.Profile.VersionToSolrMap.FirstOrDefault(s => s.Vesrion == grouping.Key)?.Solr;
+
+      this.Solrs.SelectedItem = ((List<SolrDefinition>)Solrs.DataContext).FirstOrDefault(s => s.Url== solrurl);
     }
 
     private void Select([NotNull] Selector element, [NotNull] string value)
