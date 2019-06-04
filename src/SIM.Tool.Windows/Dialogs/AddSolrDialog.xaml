@@ -1,0 +1,31 @@
+﻿<Window x:Class="SIM.Tool.Windows.Dialogs.AddSolrDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SIM.Tool.Windows.Dialogs"
+        mc:Ignorable="d"
+        Title="Add Solr" Height="159.375" Width="300"
+        ResizeMode="NoResize">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="18*"></ColumnDefinition>
+            <ColumnDefinition Width="55*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25"></RowDefinition>
+            <RowDefinition Height="25"></RowDefinition>
+            <RowDefinition Height="25"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Column="0" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Center" TextWrapping="Wrap" Text="Solr Url:" Width="82" Grid.ColumnSpan="2" Height="16" Margin="0,4,0,5"/>
+        <TextBox Name="UrlText" Grid.Column="1" Grid.Row="0"  />
+        <TextBlock Grid.Column="0" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center" TextWrapping="Wrap" Text="Solr Root:" Width="82" Grid.ColumnSpan="2" Height="16" Margin="0,5,0,4"/>
+        <TextBox Name="RootText" Grid.Column="1" Grid.Row="1"  />
+        <TextBlock Grid.Column="0" Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Center" TextWrapping="Wrap" Text="Solr Service:" Width="82" Grid.ColumnSpan="2" Height="16" Margin="0,4,0,5"/>
+        <TextBox Name="ServiceText" Grid.Column="1" Grid.Row="2"  />
+        <Button Content="Ok" Name="Ok" Click="Ok_Click"  Grid.Column="1" HorizontalAlignment="Left" Margin="25,25,0,0" Grid.Row="3" VerticalAlignment="Top" Width="75"/>
+        <Button Content="Cancel" Name="Cancel" Click="Cancel_Click" Grid.Column="1" HorizontalAlignment="Left" Margin="130,25,0,0" Grid.Row="3" VerticalAlignment="Top" Width="75"/>
+
+    </Grid>
+</Window>

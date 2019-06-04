@@ -34,7 +34,8 @@
         <TextBlock Grid.Row="0" Grid.Column="2" Text="Site Name: " VerticalAlignment="Center" HorizontalAlignment="Left" Width="77" Grid.RowSpan="2" />
         <TextBox Grid.Row="0" Grid.Column="3" Name="InstanceName" Text="{Binding ElementName=ProductRevision, Path=SelectedValue, Converter={x:Static converters:Product._DefaultInstanceName}, Mode=OneWay}" Grid.RowSpan="2"  />
 
-        <TextBlock Grid.Column="2" Grid.Row="2" TextWrapping="Wrap" Text="Solr:" VerticalAlignment="Center" HorizontalAlignment="Left" Width="77"/>
+        <TextBlock Grid.Column="2" Grid.Row="2" TextWrapping="Wrap" VerticalAlignment="Center" HorizontalAlignment="Left" Width="30" Margin="0,5"><Run Text="Solr:"/></TextBlock>
+        <Button Grid.Column="2" Grid.Row="2" Content="+" Width="23" Margin="54,3,0,2" Click="AddSolr_Click" />
         <CheckBox Name="scriptsOnly" Content=":Scripts only" HorizontalAlignment="Left" Margin="0,5,0,0" Grid.Row="5" VerticalAlignment="Top" FlowDirection="RightToLeft" Grid.ColumnSpan="2" Width="93" Padding="11,-1,0,0"/>
         <TextBlock HorizontalAlignment="Left" Grid.Row="4" TextWrapping="Wrap" Text="Location:" VerticalAlignment="Center" Height="25"/>
         <Button Name="LocationBtn" Click="LocationBtn_Click" Content="..." HorizontalAlignment="Left" Margin="48,3,0,0" Grid.Row="4" VerticalAlignment="Top" Width="24"/>

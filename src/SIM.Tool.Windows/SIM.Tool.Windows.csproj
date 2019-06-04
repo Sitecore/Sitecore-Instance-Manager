@@ -119,6 +119,9 @@
   <ItemGroup>
     <Compile Include="ButtonDefinition.cs" />
     <Compile Include="CustomConverter.cs" />
+    <Compile Include="Dialogs\AddSolrDialog.xaml.cs">
+      <DependentUpon>AddSolrDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Dialogs\DatabaseQueryExecutionDialog.xaml.cs">
       <DependentUpon>DatabaseQueryExecutionDialog.xaml</DependentUpon>
     </Compile>
@@ -554,6 +557,10 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Dialogs\AddSolrDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Dialogs\DatabaseQueryExecutionDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -573,7 +580,7 @@
     <Page Include="UserControls\Install\Instance9Validate.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>    
+    </Page>
     <Page Include="UserControls\Delete\Delete9Details.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

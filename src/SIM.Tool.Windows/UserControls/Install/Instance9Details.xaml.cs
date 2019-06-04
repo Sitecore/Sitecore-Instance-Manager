@@ -23,6 +23,7 @@ namespace SIM.Tool.Windows.UserControls.Install
   using SIM.Extensions;
   using SIM.IO.Real;
   using SIM.Sitecore9Installer;
+  using SIM.Tool.Windows.Dialogs;
 
   #region
 
@@ -42,6 +43,7 @@ namespace SIM.Tool.Windows.UserControls.Install
       "v2.0", "v4.0"
     };
 
+    private Window owner;
     private InstallWizardArgs _InstallParameters = null;
     private IEnumerable<Product> _StandaloneProducts;
 
@@ -605,7 +607,7 @@ namespace SIM.Tool.Windows.UserControls.Install
     void IWizardStep.InitializeStep(WizardArgs wizardArgs)
     {
       Init();
-
+      this.owner = wizardArgs.WizardWindow;
       ProductName.DataContext = _StandaloneProducts.GroupBy(p => p.Name);
 
       var args = (InstallWizardArgs)wizardArgs;
@@ -642,6 +644,17 @@ namespace SIM.Tool.Windows.UserControls.Install
     private void LocationBtn_Click(object sender, RoutedEventArgs e)
     {
       WindowHelper.PickFolder("Choose location folder", this.LocationText, null);
+    }
+
+    private void AddSolr_Click(object sender, RoutedEventArgs e)
+    {
+      SolrDefinition solr = WindowHelper.ShowDialog<AddSolrDialog>(ProfileManager.Profile.Solrs, this.owner) as SolrDefinition;
+      if (solr != null)
+      {
+        ProfileManager.Profile.Solrs.Add(solr);
+        ProfileManager.SaveChanges(ProfileManager.Profile);
+        this.Solrs.SelectedItem = solr;
+      }
     }
   }
 }
