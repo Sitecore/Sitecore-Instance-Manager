@@ -76,6 +76,40 @@ namespace SIM.Sitecore9Installer
       this.LoadTasks();
     }
 
+    public Tasker (string unInstallParamsPath)
+    {
+      this.UnInstall = true;
+      using (StreamReader reader = new StreamReader(Path.Combine(unInstallParamsPath, "globals.json")))
+      {
+        string data = reader.ReadToEnd();
+        this.globalParams = JsonConvert.DeserializeObject<List<InstallParam>>(data);
+      }
+
+      foreach(string paramsFile in Directory.GetFiles(unInstallParamsPath, "*.json"))
+      {
+        if (Path.GetFileName(paramsFile).Equals("globals.json", StringComparison.InvariantCultureIgnoreCase))
+        {
+          continue;
+        }
+
+        string taskName = Path.GetFileNameWithoutExtension(paramsFile);
+        SitecoreTask t = new SitecoreTask(taskName);
+        t.GlobalParams = this.globalParams;
+        using (StreamReader reader = new StreamReader(paramsFile))
+        {
+          string data = reader.ReadToEnd();
+          t.LocalParams = JsonConvert.DeserializeObject<List<InstallParam>>(data);
+          t.UnInstall = true;
+          this.tasksToRun.Add(t);
+        }
+      }
+
+      foreach(InstallParam p in this.globalParams)
+      {
+        p.ParamValueUpdated += this.GlobalParamValueUpdated;
+      }
+    }
+
     private List<InstallParam> GetGlobalParams()
     {
       List<InstallParam> list = new List<InstallParam>();
@@ -163,6 +197,11 @@ namespace SIM.Sitecore9Installer
 
         param.Value = (string)evaluatedParams[param.Name];
       }
+    }
+
+    public string GetSerializedGlobalParams()
+    {
+      return JsonConvert.SerializeObject(this.GlobalParams);
     }
 
     public string RunAllTasks()

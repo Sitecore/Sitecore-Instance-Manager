@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -205,6 +206,11 @@ namespace SIM.Sitecore9Installer
       }
 
       return value;
+    }
+
+    public string GetSerializedParameters()
+    {
+      return JsonConvert.SerializeObject(this.LocalParams);
     }
   }
 }

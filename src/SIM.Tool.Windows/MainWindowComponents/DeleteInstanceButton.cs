@@ -9,6 +9,7 @@
   using JetBrains.Annotations;
   using SIM.Tool.Base.Wizards;
   using SIM.Tool.Base.Pipelines;
+  using SIM.Tool.Base;
 
   [UsedImplicitly]
   public class DeleteInstanceButton : IMainWindowButton
@@ -34,8 +35,23 @@
         }
         else
         {
+          string uninstallPath = string.Empty;
+          foreach(string installName in Directory.GetDirectories(ApplicationManager.UnInstallParamsFolder))
+          {
+            if (instance.Name.StartsWith(Path.GetFileName(installName)))
+            {
+              uninstallPath = installName;
+              break;
+            }
+          }
+          if (string.IsNullOrEmpty(uninstallPath))
+          {
+            WindowHelper.ShowMessage("UnInstall files not found.");
+            return;
+          }
+          
           WizardPipelineManager.Start("delete9", mainWindow, null, null, (ignore) => OnWizardCompleted(index),
-          () => new Delete9WizardArgs(instance,connectionString)
+          () => new Delete9WizardArgs(instance,connectionString,uninstallPath)
          );
         }
       }

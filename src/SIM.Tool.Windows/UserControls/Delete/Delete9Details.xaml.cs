@@ -73,25 +73,10 @@ namespace SIM.Tool.Windows.UserControls.Install
 
     public bool OnMovingNext(WizardArgs wizardArgs)
     {
-      var args = (Delete9WizardArgs)wizardArgs;
-      var product = args.Product;
-      Assert.IsNotNull(product, nameof(product));
+      var args = (Delete9WizardArgs)wizardArgs;     
+      args.ScriptsOnly = this.scriptsOnly.IsChecked ?? false;
 
-      if (string.IsNullOrWhiteSpace(this.solrRoot.Text))
-      {
-        this.Alert("Solr URL cannot be empty. Please provide a value.", new object[] { });
-        return false;
-      }
-
-      if (string.IsNullOrWhiteSpace(this.solrRoot.Text))
-      {
-        this.Alert("Solr root cannot be empty. Please provide a value.", new object[] { });
-        return false;
-      }
-
-      args.SolrUrl = this.solrUrl.Text;
-      args.SorlRoot = this.solrRoot.Text;      
-      args.ScriptRoot = System.IO.Path.Combine(Directory.GetParent(args.Product.PackagePath).FullName, System.IO.Path.GetFileNameWithoutExtension(args.Product.PackagePath));
+      args.ScriptRoot = args.Takser.GlobalParams.FirstOrDefault(p => p.Name == "FilesRoot").Value;
       if (!Directory.Exists(args.ScriptRoot))
       {
         Directory.CreateDirectory(args.ScriptRoot);
@@ -103,56 +88,11 @@ namespace SIM.Tool.Windows.UserControls.Install
         {
           Directory.Delete(args.ScriptRoot, true);
           Directory.CreateDirectory(args.ScriptRoot);
-          WindowHelper.LongRunningTask(()=>this.UnpackInstallationFiles(args), "Unpacking unstallation files.", wizardArgs.WizardWindow);
+          WindowHelper.LongRunningTask(() => this.UnpackInstallationFiles(args), "Unpacking unstallation files.", wizardArgs.WizardWindow);
         }
-       
-      }
-      
-      Tasker tasker = new Tasker(args.ScriptRoot, Tasker.ResolveGlobalFile(args.Product).FullName,string.Empty,true);
-      InstallParam sqlServer = tasker.GlobalParams.FirstOrDefault(p => p.Name == "SqlServer");
-      if (sqlServer != null)
-      {
-        sqlServer.Value = args.InstanceConnectionString.DataSource;
       }
 
-      InstallParam sqlAdminUser= tasker.GlobalParams.FirstOrDefault(p => p.Name == "SqlAdminUser");
-      if (sqlAdminUser != null)
-      {
-        sqlAdminUser.Value = args.InstanceConnectionString.UserID;
-      }
-
-      InstallParam sqlAdminPass = tasker.GlobalParams.FirstOrDefault(p => p.Name == "SqlAdminPassword");
-      if (sqlAdminPass != null)
-      {
-        sqlAdminPass.Value = args.InstanceConnectionString.Password;
-      }
-
-      InstallParam sqlDbPrefix = tasker.GlobalParams.FirstOrDefault(p => p.Name == "SqlDbPrefix");
-      if (sqlDbPrefix != null)
-      {
-        sqlDbPrefix.Value = args.InstanceName.SubstringEx(0,args.InstanceName.IndexOf('.'));
-      }     
-
-      InstallParam solrUrl = tasker.GlobalParams.FirstOrDefault(p => p.Name == "SolrUrl");
-      if (solrUrl != null)
-      {
-        solrUrl.Value = args.SolrUrl;
-      }
-
-      InstallParam solrRoot = tasker.GlobalParams.FirstOrDefault(p => p.Name == "SolrRoot");
-      if (solrRoot != null)
-      {
-        solrRoot.Value = args.SorlRoot;
-      }
-
-      InstallParam solrService = tasker.GlobalParams.FirstOrDefault(p => p.Name == "SolrService");
-      if (solrService != null)
-      {
-        solrService.Value = this.SolrService.Text;
-      }
-
-      args.ScriptsOnly = this.scriptsOnly.IsChecked ?? false;      
-      args.Takser = tasker;
+      args.Takser.GlobalParams.FirstOrDefault(p => p.Name == "FilesRoot").Value = args.ScriptRoot;      
       return true;
     }
 
@@ -188,36 +128,23 @@ namespace SIM.Tool.Windows.UserControls.Install
     #region Private methods
     
 
-    private void PickLocationFolder([CanBeNull] object sender, [CanBeNull] RoutedEventArgs e)
-    {
-      WindowHelper.PickFolder("Choose location folder", this.solrRoot, null);
-    }       
+         
     #endregion
     #region IWizardStep Members
 
     void IWizardStep.InitializeStep(WizardArgs wizardArgs)
     {
       var args = (Delete9WizardArgs)wizardArgs;
-      string webConfigPath = Path.Combine(args.Instance.WebRootPath, "web.config");
-      XmlDocument doc = new XmlDocument();
-      doc.Load(webConfigPath);
-      string role = doc.SelectSingleElement("//appSettings/add[@key='role:define']").Attributes["value"].Value;
-      string rev = args.Product.Revision;
-      if (role.Equals("Standalone", StringComparison.InvariantCultureIgnoreCase))
-      {
-        rev = rev + " (WDP XP0 packages)";
-      }
-      else
-      {
-        rev = rev + " (WDP XP1 packages)";
-      }
+      args.Takser = new Tasker(args.UnInstallPath);
+      this.Solrs.DataContext = ProfileManager.Profile.Solrs;
+      string solrRoot = args.Takser.GlobalParams.FirstOrDefault(p => p.Name == "SolrRoot")?.Value;
+      string solrUrl= args.Takser.GlobalParams.FirstOrDefault(p => p.Name == "SolrUrl")?.Value;
+      string solrService = args.Takser.GlobalParams.FirstOrDefault(p => p.Name == "SolrService")?.Value;
+      SolrDefinition solr = ProfileManager.Profile.Solrs.FirstOrDefault(s => s.Root == solrRoot && s.Url == solrUrl && s.Service == solrService);
+      this.Solrs.SelectedItem = solr;
+      this.InstanceName.Text = args.Takser.GlobalParams.First(p => p.Name == "SqlDbPrefix").Value;
+      args.Takser.UnInstall = true;
 
-      args.Product = SIM.Products.ProductManager.FindProduct(ProductType.Standalone, args.Product.Name, args.Product.TwoVersion, rev);
-      ProductName.Text = args.Product.DisplayName;
-      _InstallParameters = args;
-      this.InstanceName.Text = args.InstanceName;
-      this.solrUrl.Text = args.Instance.Configuration.ConnectionStrings.FirstOrDefault(c => c.Name == "solr.search")?.Value;
-     
     }
 
     bool IWizardStep.SaveChanges(WizardArgs wizardArgs)

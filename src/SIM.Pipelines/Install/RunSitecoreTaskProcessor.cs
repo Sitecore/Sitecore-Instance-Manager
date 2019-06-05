@@ -29,7 +29,8 @@ namespace SIM.Pipelines.Install
       if (task.State == TaskState.Failed)
       {
         throw new AggregateException(string.Format("Failed to execute {0} task. \n{1}",task.Name,result));
-      }      
+      }     
+
     }
   }
 }

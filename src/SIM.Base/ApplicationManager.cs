@@ -32,7 +32,9 @@ namespace SIM
 
     #endregion
 
+    [NotNull]
     #region Fields
+    public static string UnInstallParamsFolder { get; set; }
 
     [NotNull]
     public static string AppLabel { get; }
@@ -104,7 +106,7 @@ namespace SIM
       AppVersion = GetVersion();
       AppShortVersion = GetShortVersion();
       AppLabel = GetLabel();
-
+      UnInstallParamsFolder = InitializeDataFolder("UnInstallParams");
       TempFolder = InitializeDataFolder("Temp");
     }
 
