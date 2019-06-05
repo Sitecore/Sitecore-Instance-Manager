@@ -12,6 +12,20 @@ namespace SIM
   {
     string url;
     string root;
+    string name;
+
+    public string Name {
+      get
+      {
+        return this.name;
+      }
+      set
+      {
+        Assert.ArgumentNotNullOrEmpty(value, nameof(this.Name));
+        name = value;
+      }
+    }
+    
     public string Url {
       get
       {

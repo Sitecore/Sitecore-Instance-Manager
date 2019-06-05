@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Sitecore.Diagnostics.Base;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -27,8 +28,14 @@ namespace SIM.Tool.Windows.Dialogs
     private void Ok_Click(object sender, RoutedEventArgs e)
     {
       SolrDefinition solr = new SolrDefinition();
+      solr.Name = this.NameText.Text;
       solr.Root = this.RootText.Text;
       solr.Url = this.UrlText.Text;
+      if(string.IsNullOrWhiteSpace(solr.Name)|| string.IsNullOrWhiteSpace(solr.Url)|| string.IsNullOrWhiteSpace(solr.Root))
+      {
+        MessageBox.Show("Name, Root and Url must not be empty.");
+        return;
+      }
       solr.Service = this.ServiceText.Text;
       this.DataContext = solr;
       this.DialogResult = true;

@@ -40,6 +40,6 @@
         <TextBlock HorizontalAlignment="Left" Grid.Row="4" TextWrapping="Wrap" Text="Location:" VerticalAlignment="Center" Height="25"/>
         <Button Name="LocationBtn" Click="LocationBtn_Click" Content="..." HorizontalAlignment="Left" Margin="48,3,0,0" Grid.Row="4" VerticalAlignment="Top" Width="24"/>
         <TextBox Name="LocationText" Text="{Binding ElementName=InstanceName, Path=Text, Mode=OneWay, Converter={x:Static converters:InstanceNameToLocation.Instance}}" Grid.Column="1" HorizontalAlignment="Left" Height="25" Grid.Row="4" TextWrapping="Wrap" VerticalAlignment="Top" Width="236"/>
-        <ComboBox Grid.Column="3" Name="Solrs" DisplayMemberPath="Url"   Grid.Row="2"  />
+        <ComboBox Grid.Column="3" Name="Solrs" DisplayMemberPath="Name"   Grid.Row="2"  />
     </Grid>
 </UserControl>

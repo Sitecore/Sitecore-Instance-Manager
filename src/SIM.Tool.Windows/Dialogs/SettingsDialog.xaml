@@ -83,6 +83,7 @@
                 </Grid.ColumnDefinitions>
                 <DataGrid Name="solrList" ItemsSource="{Binding Path=Solrs}" AutoGenerateColumns="False" >
                     <DataGrid.Columns>
+                        <DataGridTextColumn Header="Name" Binding="{Binding Path=Name, ValidatesOnExceptions=True}"  Width="*" />
                         <DataGridTextColumn Header="Url" Binding="{Binding Path=Url, ValidatesOnExceptions=True}"  Width="*" />
                         <DataGridTextColumn Header="Root" Binding="{Binding Path=Root}" Width="*" />
                         <DataGridTextColumn Header="Service" Binding="{Binding Path=Service}" Width="90" />

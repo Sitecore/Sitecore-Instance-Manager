@@ -383,9 +383,9 @@ namespace SIM.Tool.Windows.UserControls.Install
       ProductRevision.DataContext = grouping.OrderBy(p => p.Revision);
       SelectLast(ProductRevision);
 
-      var solrurl = ProfileManager.Profile.VersionToSolrMap.FirstOrDefault(s => s.Vesrion == grouping.Key)?.Solr;
+      var solrName = ProfileManager.Profile.VersionToSolrMap.FirstOrDefault(s => s.Vesrion == grouping.Key)?.Solr;
 
-      this.Solrs.SelectedItem = ((List<SolrDefinition>)Solrs.DataContext).FirstOrDefault(s => s.Url== solrurl);
+      this.Solrs.SelectedItem = ((List<SolrDefinition>)Solrs.DataContext).FirstOrDefault(s => s.Name== solrName);
     }
 
     private void Select([NotNull] Selector element, [NotNull] string value)
