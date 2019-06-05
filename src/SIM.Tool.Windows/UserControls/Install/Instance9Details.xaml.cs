@@ -207,7 +207,7 @@ namespace SIM.Tool.Windows.UserControls.Install
         ProfileManager.Profile.VersionToSolrMap.Add(vts);
       }
       
-      vts.Solr = solr.Url;
+      vts.Solr = solr.Name;
       ProfileManager.SaveChanges(ProfileManager.Profile);
 
       return true;
