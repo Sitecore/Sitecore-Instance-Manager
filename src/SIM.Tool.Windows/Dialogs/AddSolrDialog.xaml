@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SIM.Tool.Windows.Dialogs"
         mc:Ignorable="d"
-        Title="Add Solr" Height="159.375" Width="300"
+        Title="Add Solr" Height="167.375" Width="300"
         ResizeMode="NoResize">
     <Grid>
         <Grid.ColumnDefinitions>
@@ -17,15 +17,15 @@
             <RowDefinition Height="25"></RowDefinition>
             <RowDefinition Height="25"></RowDefinition>
             <RowDefinition Height="25"></RowDefinition>
-            <RowDefinition></RowDefinition>
+            <RowDefinition Height="25"></RowDefinition>
         </Grid.RowDefinitions>
-        <TextBlock Grid.Column="0" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Center" TextWrapping="Wrap" Text="Name:" Width="72" Height="16" Margin="0,4,0,5"/>
+        <TextBlock Grid.Column="0" Grid.Row="0" VerticalAlignment="Center" TextWrapping="Wrap" Text="Name:" Height="16" Margin="5,4,0,6"/>
         <TextBox Name="NameText" Grid.Column="1" Grid.Row="0"  />
-        <TextBlock Grid.Column="0" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center" TextWrapping="Wrap" Text="Solr Url:" Width="72" Height="16" Margin="0,4,0,5"/>
+        <TextBlock Grid.Column="0" Grid.Row="1" VerticalAlignment="Center" TextWrapping="Wrap" Text="Solr Url:" Height="16" Margin="5,4,0,6"/>
         <TextBox Name="UrlText" Grid.Column="1" Grid.Row="1"  />
-        <TextBlock Grid.Column="0" Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Center" TextWrapping="Wrap" Text="Solr Root:" Width="72" Height="16" Margin="0,5,0,4"/>
+        <TextBlock Grid.Column="0" Grid.Row="2" VerticalAlignment="Center" TextWrapping="Wrap" Text="Solr Root:" Height="16" Margin="5,6,0,4"/>
         <TextBox Name="RootText" Grid.Column="2" Grid.Row="2"  />
-        <TextBlock Grid.Column="0" Grid.Row="3" HorizontalAlignment="Left" VerticalAlignment="Center" TextWrapping="Wrap" Text="Solr Service:" Width="72" Height="16" Margin="0,4,0,5"/>
+        <TextBlock Grid.Column="0" Grid.Row="3" VerticalAlignment="Center" TextWrapping="Wrap" Text="Solr Service:" Height="16" Margin="5,4,0,6"/>
         <TextBox Name="ServiceText" Grid.Column="1" Grid.Row="3"  />
         <Button Content="Ok" Name="Ok" Click="Ok_Click"  Grid.Column="1" HorizontalAlignment="Left"  Grid.Row="4" VerticalAlignment="Top" Width="75" Margin="0,5,0,0"/>
         <Button Content="Cancel" Name="Cancel" Click="Cancel_Click" Grid.Column="1" HorizontalAlignment="Left" Margin="130,5,0,0" Grid.Row="4" VerticalAlignment="Top" Width="75"/>
