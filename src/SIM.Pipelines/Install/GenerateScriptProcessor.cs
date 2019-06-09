@@ -19,6 +19,7 @@ namespace SIM.Pipelines.Install
     {
       Assert.ArgumentNotNullOrEmpty(TaskName, nameof(TaskName));
       this.taskName = TaskName;
+      this.ProcessorDefinition = new SingleProcessorDefinition() {ProcessAlways=false };
     }
     protected override void Process([NotNull] ProcessorArgs args)
     {

@@ -32,7 +32,7 @@ namespace SIM.Pipelines.Install
         {
           proc = new RunSitecoreTaskProcessor(task.Name);          
         }
-        proc.Title = task.Name;
+        proc.ProcessorDefinition.Title = task.Name;
         if (root == null)
         {          
           processors.Add(proc);
