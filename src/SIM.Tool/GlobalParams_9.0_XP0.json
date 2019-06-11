@@ -14,11 +14,11 @@
     "CorePrefix": "$GlobalParams.SqlDbPrefix",
     "BaseConfig": "",
     //cert
-    "CertificateName": "$GlobalParams.SqlDbPrefix+\"xconnect_client\"",
+    //"CertificateName": "$GlobalParams.SqlDbPrefix+\"xconnect_client\"",
     "CertPath": "c:/certificates",
     "RootCertFileName": "SIF121Root",
     //xConnect
-    "XConnectCert": "$GlobalParams.CertificateName",
+    "XConnectCert": "$GlobalParams.SqlDbPrefix+\"xconnect_client\"",
     "SqlMarketingAutomationUser": "",
     "SqlMarketingAutomationPassword": "",
     "SqlReferenceDataUser": "",
