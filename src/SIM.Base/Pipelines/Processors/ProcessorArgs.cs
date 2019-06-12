@@ -1,5 +1,6 @@
 ﻿namespace SIM.Pipelines.Processors
 {
+  using Sitecore.Diagnostics.Base;
   using System;
 
   #region
@@ -13,6 +14,18 @@
     public event Action OnCompleted;
 
     #endregion   
+
+    public ProcessorArgs()
+    {
+
+    }
+    public ProcessorArgs(string pipelineName)
+    {
+      Assert.ArgumentNotNullOrEmpty(pipelineName, nameof(pipelineName));
+      this.PipelineName = pipelineName;
+    }
+
+    public string PipelineName { get; }
 
     #region Public Methods
 

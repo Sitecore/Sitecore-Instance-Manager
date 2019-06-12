@@ -617,7 +617,13 @@
         // the Progress Step    
         if (PageNumber == StepsCount)
         {
-          PipelineManager.StartPipeline(WizardPipeline.Name, _ProcessorArgs, this);
+          string pipelineName = WizardPipeline.Name;
+          if (!string.IsNullOrWhiteSpace(_ProcessorArgs.PipelineName))
+          {
+            pipelineName = _ProcessorArgs.PipelineName;
+          }        
+
+          PipelineManager.StartPipeline(pipelineName, _ProcessorArgs, this);
           backButton.Visibility = Visibility.Hidden;
           CancelButton.Content = "Cancel";
           NextButton.IsEnabled = false;
