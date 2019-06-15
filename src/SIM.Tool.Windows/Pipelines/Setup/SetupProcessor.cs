@@ -1,15 +1,15 @@
 ﻿namespace SIM.Tool.Windows.Pipelines.Setup
 {
-  using SIM.Pipelines.Processors;
   using SIM.Tool.Base.Profiles;
+  using SIM.Tool.Base.Wizards;
 
-  public class SetupProcessor : Processor
+  public class SetupProcessor : SaveAgreement, IAfterLastWizardPipelineStep
   {
-    #region Protected methods
-
-    protected override void Process(ProcessorArgs processorArgs)
+    public new void Execute(WizardArgs wargs)
     {
-      var args = (SetupArgs)processorArgs;
+      base.Execute(wargs);
+
+      var args = (SetupWizardArgs)wargs;
       var profile = ProfileManager.Profile ?? new Profile();
       profile.ConnectionString = args.ConnectionString;
       profile.InstancesFolder = args.InstancesRootFolderPath;
@@ -17,7 +17,5 @@
       profile.LocalRepository = args.LocalRepositoryFolderPath;
       ProfileManager.SaveChanges(profile);
     }
-
-    #endregion
   }
 }

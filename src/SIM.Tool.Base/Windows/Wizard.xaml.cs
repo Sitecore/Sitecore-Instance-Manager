@@ -474,6 +474,7 @@
 
         if (allDone)
         {
+          WizardPipeline.AfterLastStep?.Execute(this.WizardArgs);
           AddFinishActions(WizardPipeline._FinishActions);
 
           if (WizardPipeline._FinishActionHives != null)
@@ -617,8 +618,16 @@
         // the Progress Step    
         if (PageNumber == StepsCount)
         {
-          PipelineManager.StartPipeline(WizardPipeline.Name, _ProcessorArgs, this);
           backButton.Visibility = Visibility.Hidden;
+
+          if (!PipelineManager.Definitions.ContainsKey(WizardPipeline.Name))
+          {
+            Finish("Done.", true);
+
+            return;
+          }
+
+          PipelineManager.StartPipeline(WizardPipeline.Name, _ProcessorArgs, this);
           CancelButton.Content = "Cancel";
           NextButton.IsEnabled = false;
           NextButton.Content = "Retry";
