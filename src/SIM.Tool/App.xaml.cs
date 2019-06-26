@@ -467,12 +467,14 @@ namespace SIM.Tool
       {
         try
         {
+          var pipelinesConfig = XmlDocumentEx.LoadXml(PipelinesConfig.Contents);
+
           var wizardPipelinesConfig = XmlDocumentEx.LoadXml(WizardPipelinesConfig.Contents);
           var pipelinesNode = wizardPipelinesConfig.SelectSingleNode("/configuration/pipelines") as XmlElement;
-          Assert.IsNotNull(pipelinesNode, nameof(pipelinesNode));
-
-          var pipelinesConfig = XmlDocumentEx.LoadXml(PipelinesConfig.Contents);
-          pipelinesConfig.Merge(XmlDocumentEx.LoadXml(pipelinesNode.OuterXml));
+          if (pipelinesNode != null)
+          {
+            pipelinesConfig.Merge(XmlDocumentEx.LoadXml(pipelinesNode.OuterXml));
+          }
 
           var resultPipelinesNode = pipelinesConfig.SelectSingleNode("/pipelines") as XmlElement;
           Assert.IsNotNull(resultPipelinesNode, "Can't find pipelines configuration node");

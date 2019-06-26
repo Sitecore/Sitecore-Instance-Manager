@@ -177,7 +177,6 @@
     <Compile Include="MainWindowComponents\SettingsButton.cs" />
     <Compile Include="MainWindowComponents\UpdateLicenseButton.cs" />
     <Compile Include="MainWindowData.cs" />
-    <Compile Include="Pipelines\Agreement\AcceptAgreement.cs" />
     <Compile Include="Pipelines\Download8\Download8Args.cs" />
     <Compile Include="Pipelines\Download8\DownloadProcessor.cs" />
     <Compile Include="Pipelines\FinishActions.cs" />
@@ -185,7 +184,6 @@
     <Compile Include="Pipelines\Install\InstallActions.cs" />
     <Compile Include="Pipelines\Install\InstallModulesActions.cs" />
     <Compile Include="Pipelines\Install\InstallModulesFinishActionHive.cs" />
-    <Compile Include="Pipelines\Setup\SetupArgs.cs" />
     <Compile Include="Pipelines\Setup\SetupProcessor.cs" />
     <Compile Include="Pipelines\Setup\SetupWizardArgs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -202,6 +200,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="PublishMode.cs" />
+    <Compile Include="SaveAgreement.cs" />
     <Compile Include="StateToVisibility.cs" />
     <Compile Include="TabDefinition.cs" />
     <Compile Include="TreeViewItemExtensions.cs" />
@@ -711,6 +710,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Sitecore.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Pipelines\Agreement\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -211,9 +211,15 @@
             : null;
           XmlElement finish = element.SelectSingleElement("finish");
           var title = element.GetAttribute("title");
+          var stepsElement = element.SelectSingleElement("steps").IsNotNull(
+            "Can't find the steps element in the WizardPipelines.config file");
+          var afterLastStepText = stepsElement.GetAttribute("afterLastStep");
+          var afterLastStep = !string.IsNullOrWhiteSpace(afterLastStepText)
+            ? (IAfterLastWizardPipelineStep)Activator.CreateInstance(Type.GetType(afterLastStepText))
+            : null;
+
           var steps =
-            element.SelectSingleElement("steps").IsNotNull(
-              "Can't find the steps element in the WizardPipelines.config file").ChildNodes.OfType<XmlElement>().
+            stepsElement.ChildNodes.OfType<XmlElement>().
               Select(
                 step =>
                   new StepInfo(step.GetAttribute("name"), Type.GetType(step.GetAttribute("type")),
@@ -225,7 +231,7 @@
           var finishActionHives = GetFinishActionHives(finish, args);
           WizardPipeline wizardPipeline = new WizardPipeline(name1, title, steps, args, startButtonText,
             cancelButtonText, finishText, finishActions,
-            finishActionHives);
+            finishActionHives, afterLastStep);
           Definitions.Add(name1, wizardPipeline);
 
           ProfileSection.Result("Done");

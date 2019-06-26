@@ -116,6 +116,7 @@
     </Compile>
     <Compile Include="Wizards\FinishAction.cs" />
     <Compile Include="Wizards\FinishActionHive.cs" />
+    <Compile Include="Wizards\IAfterLastWizardPipelineStep.cs" />
     <Compile Include="Wizards\ICustomButtonWizardStep.cs" />
     <Compile Include="Wizards\IFlowControl.cs" />
     <Compile Include="Wizards\IWizardStep.cs" />

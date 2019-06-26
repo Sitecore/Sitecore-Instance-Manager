@@ -3,25 +3,9 @@
   public static class WizardPipelinesConfig
   {
     public const string Contents = @"<configuration>
-  <pipelines>
-    <setup title=""Configing application"">
-      <processor type=""SIM.Tool.Windows.Pipelines.Setup.SetupProcessor, SIM.Tool.Windows""
-                 title=""Configuring application"" />
-      <processor type=""SIM.Tool.Windows.Pipelines.Agreement.AcceptAgreement, SIM.Tool.Windows""
-                 title=""Saving accepted agreement"" />
-    </setup>
-    <agreement title=""License agreement"">
-      <processor type=""SIM.Tool.Windows.Pipelines.Agreement.AcceptAgreement, SIM.Tool.Windows""
-                 title=""Saving accepted agreement"" />
-    </agreement>
-    <download8 title=""Downloading Sitecore"">
-      <processor type=""SIM.Tool.Windows.Pipelines.Download8.Download8Processor, SIM.Tool.Windows""
-                 title=""Downloading packages"" />
-    </download8>
-  </pipelines>
   <wizardPipelines>
     <agreement title=""SIM License Agreement"" startButton=""Accept"" finishText=""Thank you"">
-      <steps>
+      <steps afterLastStep=""SIM.Tool.Windows.SaveAgreement, SIM.Tool.Windows"">
         <step name=""Welcome message"" type=""SIM.Tool.Windows.UserControls.ConfirmStepUserControl, SIM.Tool.Windows""
               param=""PLEASE READ IT CAREFULLY! You can see this wizard because it is the first time Sitecore Instance Manager was executed in this user account after installation or update. You should accept license agreement to use it. It was taken from http://marketplace.sitecore.net and most likely you already accepted it before downloading, but just in case please do it again here."" />
         <step name=""License agreement from marketplace.sitecore.net""
@@ -78,7 +62,7 @@ By clicking 'Accept' you accept the License Agreement."" />
     <setup title=""Initial Configuration Wizard"" startButton=""Next""
            finishText=""Congratulations! The installation was successfully completed and you can start using it out of the box. If you don't have any Sitecore zip files in the local repository then you may download them from SDN via Download Sitecores from SDN button on the Ribbon or do it manually""
            cancelButton=""Exit"">
-      <steps>
+      <steps afterLastStep=""SIM.Tool.Windows.Pipelines.Setup.SetupProcessor, SIM.Tool.Windows"">
         <step name=""Welcome message"" type=""SIM.Tool.Windows.UserControls.ConfirmStepUserControl, SIM.Tool.Windows""
               param=""PLEASE READ IT CAREFULLY! You can see this wizard because it is the first time Sitecore Instance Manager (SIM) was executed in this user account. You should accept license agreement and then set your preferences before you can use it, this wizard will help you.
               
