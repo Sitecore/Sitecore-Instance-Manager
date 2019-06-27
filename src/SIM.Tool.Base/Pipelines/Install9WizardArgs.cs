@@ -27,14 +27,14 @@ namespace SIM.Tool.Base.Pipelines
 
     public override ProcessorArgs ToProcessorArgs()
     {
-      Install9Args args= new Install9Args(this.Takser);
+      Install9Args args= new Install9Args(this.Tasker);
       args.ScriptsOnly = this.ScriptsOnly;
       return args;
     }
     public string SolrUrl { get; set; }
     public string SorlRoot { get; set; }
     public string ScriptRoot { get; set; }
-    public Tasker Takser { get; set; }
+    public Tasker Tasker { get; set; }
     public bool ScriptsOnly { get; set; }
   }
 }

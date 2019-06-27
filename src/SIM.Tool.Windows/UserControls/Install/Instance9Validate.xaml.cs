@@ -82,7 +82,7 @@ namespace SIM.Tool.Windows.UserControls.Install
     public bool OnMovingNext(WizardArgs wizardArgs)
     {
       var args = (Install9WizardArgs)wizardArgs;
-      var tasker = args.Takser;
+      var tasker = args.Tasker;
       return true;
     }
 
@@ -176,7 +176,7 @@ namespace SIM.Tool.Windows.UserControls.Install
     {
       Init();
       var args = (Install9WizardArgs)wizardArgs;
-      var tasker = args.Takser;
+      var tasker = args.Tasker;
       Dictionary<string, string> installParams = new Dictionary<string, string>(tasker.GlobalParams.ToDictionary(x => x.Name, x => x.Value));
       foreach (var task in tasker.Tasks)
       {

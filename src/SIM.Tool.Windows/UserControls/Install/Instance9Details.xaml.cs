@@ -197,7 +197,7 @@ namespace SIM.Tool.Windows.UserControls.Install
       }      
 
       args.ScriptsOnly = this.scriptsOnly.IsChecked ?? false;
-      args.Takser = tasker;
+      args.Tasker = tasker;
       
       VersionToSolr vts = ProfileManager.Profile.VersionToSolrMap.FirstOrDefault(s => s.Vesrion == product.ShortVersion);
       if (vts == null)

@@ -37,10 +37,10 @@ namespace SIM.Tool.Windows.UserControls.Install
     {
       Assert.ArgumentNotNull(wizardArgs, nameof(wizardArgs));
       Install9WizardArgs args = (Install9WizardArgs)wizardArgs;
-      this.tasker = args.Takser;
+      this.tasker = args.Tasker;
       List<TasksModel> model = new List<TasksModel>();
-      model.Add(new TasksModel("Global", args.Takser.GlobalParams));
-      foreach (SitecoreTask task in args.Takser.Tasks.Where(t=>t.ShouldRun))
+      model.Add(new TasksModel("Global", args.Tasker.GlobalParams));
+      foreach (SitecoreTask task in args.Tasker.Tasks.Where(t=>t.ShouldRun))
       {
         model.Add(new TasksModel(task.Name, task.LocalParams));
       }

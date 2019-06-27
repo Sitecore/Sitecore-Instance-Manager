@@ -40,7 +40,7 @@ namespace SIM.Tool.Windows.UserControls.Install
     {
       Assert.ArgumentNotNull(wizardArgs, nameof(wizardArgs));
       Install9WizardArgs args = (Install9WizardArgs)wizardArgs;
-      this.TasksList.DataContext = args.Takser.Tasks;            
+      this.TasksList.DataContext = args.Tasker.Tasks;            
     }    
 
     public bool OnMovingBack(WizardArgs wizardArgs)
@@ -52,7 +52,7 @@ namespace SIM.Tool.Windows.UserControls.Install
     {
       Assert.ArgumentNotNull(wizardArgs, nameof(wizardArgs));
       Install9WizardArgs args = (Install9WizardArgs)wizardArgs;
-      if (!args.Takser.Tasks.Any(t => t.ShouldRun))
+      if (!args.Tasker.Tasks.Any(t => t.ShouldRun))
       {
         MessageBox.Show("At least one task must be selected");
         return false;

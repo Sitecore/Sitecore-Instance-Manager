@@ -76,7 +76,7 @@ namespace SIM.Tool.Windows.UserControls.Install
       var args = (Delete9WizardArgs)wizardArgs;     
       args.ScriptsOnly = this.scriptsOnly.IsChecked ?? false;
 
-      args.ScriptRoot = args.Takser.GlobalParams.FirstOrDefault(p => p.Name == "FilesRoot").Value;
+      args.ScriptRoot = args.Tasker.GlobalParams.FirstOrDefault(p => p.Name == "FilesRoot").Value;
       if (!Directory.Exists(args.ScriptRoot))
       {
         Directory.CreateDirectory(args.ScriptRoot);
@@ -92,7 +92,7 @@ namespace SIM.Tool.Windows.UserControls.Install
         }
       }
 
-      args.Takser.GlobalParams.FirstOrDefault(p => p.Name == "FilesRoot").Value = args.ScriptRoot;      
+      args.Tasker.GlobalParams.FirstOrDefault(p => p.Name == "FilesRoot").Value = args.ScriptRoot;      
       return true;
     }
 
@@ -137,15 +137,15 @@ namespace SIM.Tool.Windows.UserControls.Install
     void IWizardStep.InitializeStep(WizardArgs wizardArgs)
     {
       var args = (Delete9WizardArgs)wizardArgs;
-      args.Takser = new Tasker(args.UnInstallPath);
+      args.Tasker = new Tasker(args.UnInstallPath);
       this.Solrs.DataContext = ProfileManager.Profile.Solrs;
-      string solrRoot = args.Takser.GlobalParams.FirstOrDefault(p => p.Name == "SolrRoot")?.Value;
-      string solrUrl= args.Takser.GlobalParams.FirstOrDefault(p => p.Name == "SolrUrl")?.Value;
-      string solrService = args.Takser.GlobalParams.FirstOrDefault(p => p.Name == "SolrService")?.Value;
+      string solrRoot = args.Tasker.GlobalParams.FirstOrDefault(p => p.Name == "SolrRoot")?.Value;
+      string solrUrl= args.Tasker.GlobalParams.FirstOrDefault(p => p.Name == "SolrUrl")?.Value;
+      string solrService = args.Tasker.GlobalParams.FirstOrDefault(p => p.Name == "SolrService")?.Value;
       SolrDefinition solr = ProfileManager.Profile.Solrs.FirstOrDefault(s => s.Root == solrRoot && s.Url == solrUrl && s.Service == solrService);
       this.Solrs.SelectedItem = solr;
-      this.InstanceName.Text = args.Takser.GlobalParams.First(p => p.Name == "SqlDbPrefix").Value;
-      args.Takser.UnInstall = true;
+      this.InstanceName.Text = args.Tasker.GlobalParams.First(p => p.Name == "SqlDbPrefix").Value;
+      args.Tasker.UnInstall = true;
 
     }
 
