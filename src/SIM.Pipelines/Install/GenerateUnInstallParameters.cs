@@ -20,20 +20,7 @@ namespace SIM.Pipelines.Install
         this.Skip();
         return;
       }
-      string filesPath = Path.Combine(ApplicationManager.UnInstallParamsFolder,arguments.Tasker.GlobalParams.First(p => p.Name == "SqlDbPrefix").Value);
-      Directory.CreateDirectory(filesPath);
-      using (StreamWriter wr = new StreamWriter(Path.Combine(filesPath, "globals.json")))
-      {
-        wr.Write(arguments.Tasker.GetSerializedGlobalParams());
-      }
-      foreach (SitecoreTask task in arguments.Tasker.Tasks.Where(t => t.ShouldRun))
-      {
-        string parameters = task.GetSerializedParameters();
-        using (StreamWriter wr = new StreamWriter(Path.Combine(filesPath, task.Name + ".json")))
-        {
-          wr.Write(parameters);
-        }
-      }
+      arguments.Tasker.SaveUninstallParams(ApplicationManager.UnInstallParamsFolder);
     }
   }
 }

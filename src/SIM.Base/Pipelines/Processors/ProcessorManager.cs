@@ -88,7 +88,7 @@
 
       foreach (ProcessorDefinition processorDefinition in processorDefinitions)
       {
-        foreach (Processor processor in processorDefinition.CreateProcessors(args))
+        foreach (Processor processor in processorDefinition.CreateProcessors(args,controller))
         {
           if (processor.ProcessorDefinition == null)
           {

@@ -20,12 +20,13 @@ namespace SIM.Sitecore9Installer
     TaskState state;
     string name;
     StringBuilder results = new StringBuilder();
-    public SitecoreTask(string name)
+    public SitecoreTask(string name, int executionOrder)
     {
       this.name = name;
       this.InnerTasks = new List<SitecoreTask>();
       this.state = TaskState.Pending;
       this.ShouldRun = true;
+      this.ExecutionOrder = executionOrder;
     }
 
     public bool UnInstall { get; set; }
@@ -35,64 +36,7 @@ namespace SIM.Sitecore9Installer
     public List<InstallParam> GlobalParams { get; set; }
     public List<InstallParam> LocalParams { get; set; }
     public List<SitecoreTask> InnerTasks { get; }
-    //public string Run()
-    //{
-    //  this.state = TaskState.Running;
-    //  string tabName = this.name;
-    //  StringBuilder script = new StringBuilder();
-    //  foreach (InstallParam param in this.GlobalParams)
-    //  {
-    //    string value = param.Value.StartsWith("$") ? param.Value : string.Format("\"{0}\"", param.Value);
-    //    script.AppendLine(string.Format("${0}={1}", param.Name, value));
-    //  }
-
-    //  script.AppendLine("$installParams=@{");
-    //  foreach (InstallParam param in this.LocalParams)
-    //  {
-    //    if (string.IsNullOrEmpty(param.Value))
-    //    {
-    //      continue;
-    //    }
-
-    //    string value = param.Value.StartsWith("$") ? param.Value : string.Format("\"{0}\"", param.Value);
-    //    script.AppendLine(string.Format("{0}={1}", param.Name, value));
-    //  }
-    //  script.Append("}");
-    //  using (PowerShell PowerShellInstance = PowerShell.Create())
-    //  {
-    //    PowerShellInstance.AddScript(string.Format("cd \"{0}\"", Path.GetDirectoryName(this.LocalParams.First(p => p.Name == "Path").Value)));
-    //    PowerShellInstance.AddScript("Set-ExecutionPolicy Bypass -Force");
-    //    PowerShellInstance.AddScript("Import-Module SitecoreFundamentals");
-    //    string sifVersion = this.GlobalParams.FirstOrDefault(p => p.Name == "SIFVersion")?.Value;
-    //    string importParam = string.Empty;
-    //    if (!string.IsNullOrEmpty(sifVersion))
-    //    {
-    //      importParam = string.Format(" -RequiredVersion {0}", sifVersion);
-    //    }
-
-    //    PowerShellInstance.AddScript(string.Format("Import-Module SitecoreInstallFramework{0}", importParam));
-    //    PowerShellInstance.AddScript(script.ToString());
-    //    PowerShellInstance.Invoke();
-    //    PowerShellInstance.AddScript("Install-SitecoreConfiguration @installParams -Verbose");
-    //    Collection<PSObject> PSOutput = PowerShellInstance.Invoke();
-
-    //    if (PowerShellInstance.Streams.Error.Count > 0)
-    //    {
-    //      this.state = TaskState.Failed;
-    //      foreach (var error in PowerShellInstance.Streams.Error)
-    //      {
-    //        results.AppendLine(error.ToString());
-    //      }
-    //    }
-    //    else
-    //    {
-    //      this.state = TaskState.Finished;
-    //    }
-    //  }
-
-    //  return results.ToString().Trim();
-    //}
-
+    public int ExecutionOrder { get; }
     public string Run()
     {
       this.state = TaskState.Running;

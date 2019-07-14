@@ -25,7 +25,7 @@
       this.PipelineName = pipelineName;
     }
 
-    public string PipelineName { get; }
+    public string PipelineName { get; protected set; }
 
     #region Public Methods
 

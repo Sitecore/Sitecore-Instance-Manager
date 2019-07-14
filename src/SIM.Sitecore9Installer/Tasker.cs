@@ -21,6 +21,7 @@ namespace SIM.Sitecore9Installer
     string filesRoot;
     string globalParamsFile;
     string deployRoot;
+    bool unInstall;
     JObject doc;
     List<InstallParam> globalParams;
 
@@ -43,7 +44,7 @@ namespace SIM.Sitecore9Installer
       }
 
       return null;
-    }    
+    }
 
     public List<InstallParam> GlobalParams
     {
@@ -61,7 +62,21 @@ namespace SIM.Sitecore9Installer
       }
     }
 
-    public bool UnInstall { get; set; }
+    public bool UnInstall
+    {
+      get
+      {
+        return this.unInstall;
+      }
+      set
+      {
+        this.unInstall = value;
+        foreach (var task in this.Tasks)
+        {
+          task.UnInstall = value;
+        }
+      }
+    }
 
 
     public Tasker(string root, string globalFile, string deployRoot, bool unInstall = false)
@@ -76,24 +91,28 @@ namespace SIM.Sitecore9Installer
       this.LoadTasks();
     }
 
-    public Tasker (string unInstallParamsPath)
+    public Tasker(string unInstallParamsPath)
     {
       this.UnInstall = true;
       using (StreamReader reader = new StreamReader(Path.Combine(unInstallParamsPath, "globals.json")))
       {
         string data = reader.ReadToEnd();
         this.globalParams = JsonConvert.DeserializeObject<List<InstallParam>>(data);
-      }
+      }      
 
-      foreach(string paramsFile in Directory.GetFiles(unInstallParamsPath, "*.json"))
+      foreach (string paramsFile in Directory.GetFiles(unInstallParamsPath, "*.json"))
       {
         if (Path.GetFileName(paramsFile).Equals("globals.json", StringComparison.InvariantCultureIgnoreCase))
         {
           continue;
         }
 
-        string taskName = Path.GetFileNameWithoutExtension(paramsFile);
-        SitecoreTask t = new SitecoreTask(taskName);
+        string taskNameAdnOrder=Path.GetFileNameWithoutExtension(paramsFile);
+        int index= taskNameAdnOrder.LastIndexOf('_');
+
+        string taskName = taskNameAdnOrder.Substring(0, index);
+        int order = int.Parse(taskNameAdnOrder.Substring(index + 1));
+        SitecoreTask t = new SitecoreTask(taskName,order);
         t.GlobalParams = this.globalParams;
         using (StreamReader reader = new StreamReader(paramsFile))
         {
@@ -103,8 +122,9 @@ namespace SIM.Sitecore9Installer
           this.tasksToRun.Add(t);
         }
       }
+      this.tasksToRun = this.tasksToRun.OrderBy(t => t.ExecutionOrder).ToList();
 
-      foreach(InstallParam p in this.globalParams)
+      foreach (InstallParam p in this.globalParams)
       {
         p.ParamValueUpdated += this.GlobalParamValueUpdated;
       }
@@ -138,7 +158,7 @@ namespace SIM.Sitecore9Installer
       InstallParam param = this.GlobalParams.FirstOrDefault(p => p.Name == parameter.Name);
       if (param == null)
       {
-        this.globalParams.Insert(0,parameter);
+        this.globalParams.Insert(0, parameter);
         param = parameter;
         param.ParamValueUpdated += this.GlobalParamValueUpdated;
       }
@@ -196,6 +216,24 @@ namespace SIM.Sitecore9Installer
         }
 
         param.Value = (string)evaluatedParams[param.Name];
+      }
+    }
+
+    public void SaveUninstallParams(string path)
+    {
+      string filesPath = Path.Combine(path, this.GlobalParams.First(p => p.Name == "SqlDbPrefix").Value);
+      Directory.CreateDirectory(filesPath);
+      using (StreamWriter wr = new StreamWriter(Path.Combine(filesPath, "globals.json")))
+      {
+        wr.Write(this.GetSerializedGlobalParams());
+      }
+      foreach (SitecoreTask task in this.Tasks.Where(t => t.ShouldRun))
+      {
+        string parameters = task.GetSerializedParameters();
+        using (StreamWriter wr = new StreamWriter(Path.Combine(filesPath, string.Format("{0}_{1}.json",task.Name,task.ExecutionOrder))))
+        {
+          wr.Write(parameters);
+        }
       }
     }
 
@@ -274,6 +312,7 @@ namespace SIM.Sitecore9Installer
 
     private void LoadTasks()
     {
+      int order = 0;
       foreach (JProperty param in doc["ExecSequense"].Children())
       {
         var overridden = param.Value["Parameters"];
@@ -294,7 +333,7 @@ namespace SIM.Sitecore9Installer
         //  continue;
         //}
 
-        SitecoreTask t = new SitecoreTask(param.Name);
+        SitecoreTask t = new SitecoreTask(param.Name,order);
         if (!string.IsNullOrEmpty(this.deployRoot))
         {
           this.InjectLocalDeploymentRoot(taskFile);
@@ -316,6 +355,7 @@ namespace SIM.Sitecore9Installer
         }
         t.UnInstall = this.UnInstall;
         this.tasksToRun.Add(t);
+        ++order;
       }
     }
 

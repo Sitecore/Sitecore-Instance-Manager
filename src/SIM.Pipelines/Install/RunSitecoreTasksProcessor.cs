@@ -31,7 +31,8 @@ namespace SIM.Pipelines.Install
         else
         {
           proc = new RunSitecoreTaskProcessor(task.Name);          
-        }
+        }        
+
         proc.ProcessorDefinition.Title = task.Name;
         if (root == null)
         {          

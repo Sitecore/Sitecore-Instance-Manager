@@ -287,35 +287,38 @@
 
       if (instance.IsSitecore)
       {
-        Product product = instance.Product;
-        if (string.IsNullOrEmpty(product.PackagePath))
+        if (int.Parse(instance.Product.ShortVersion) < 90)
         {
-          if (WindowHelper.ShowMessage("The {0} product isn't presented in your local repository. Would you like to choose the zip installation package?".FormatWith(instance.ProductFullName), MessageBoxButton.YesNo, MessageBoxImage.Stop) == MessageBoxResult.Yes)
+          Product product = instance.Product;
+          if (string.IsNullOrEmpty(product.PackagePath))
           {
-            var patt = instance.ProductFullName + ".zip";
-            OpenFileDialog fileBrowserDialog = new OpenFileDialog
+            if (WindowHelper.ShowMessage("The {0} product isn't presented in your local repository. Would you like to choose the zip installation package?".FormatWith(instance.ProductFullName), MessageBoxButton.YesNo, MessageBoxImage.Stop) == MessageBoxResult.Yes)
             {
-              Title = @"Choose installation package",
-              Multiselect = false,
-              CheckFileExists = true,
-              Filter = patt + '|' + patt
-            };
-
-            if (fileBrowserDialog.ShowDialog() == DialogResult.OK)
-            {
-              product = Product.Parse(fileBrowserDialog.FileName);
-              if (string.IsNullOrEmpty(product.PackagePath))
+              var patt = instance.ProductFullName + ".zip";
+              OpenFileDialog fileBrowserDialog = new OpenFileDialog
               {
-                WindowHelper.HandleError("SIM can't parse the {0} package".FormatWith(instance.ProductFullName), true, null);
-                return;
+                Title = @"Choose installation package",
+                Multiselect = false,
+                CheckFileExists = true,
+                Filter = patt + '|' + patt
+              };
+
+              if (fileBrowserDialog.ShowDialog() == DialogResult.OK)
+              {
+                product = Product.Parse(fileBrowserDialog.FileName);
+                if (string.IsNullOrEmpty(product.PackagePath))
+                {
+                  WindowHelper.HandleError("SIM can't parse the {0} package".FormatWith(instance.ProductFullName), true, null);
+                  return;
+                }
               }
             }
           }
-        }
 
-        if (string.IsNullOrEmpty(product.PackagePath))
-        {
-          return;
+          if (string.IsNullOrEmpty(product.PackagePath))
+          {
+            return;
+          }
         }
 
         var name = instance.Name;

@@ -34,7 +34,6 @@
     private ProcessorArgs Args { get; }
 
     private Brush ProgressBar1Foreground { get; }
-
     private WizardPipeline WizardPipeline { get; }
 
     private double _Maximum = double.NaN;
@@ -215,6 +214,7 @@
     public void ProcessorCrashed(string error)
     {
       Assert.ArgumentNotNull(error, nameof(error));
+      Dispatcher.Invoke(() => { this.NextButton.IsEnabled = true; });
     }
 
     public void ProcessorDone([NotNull] string title)
