@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -73,13 +74,13 @@ namespace SIM.Sitecore9Installer
     public string GetScript()
     {
       StringBuilder script = new StringBuilder();
-     
+
 
       script.Append(GetGlobalParamsScript());
 
       //script.AppendLine("$installParams=@{");
       string installParams = GetLocalParamsScript();
-      
+
       script.Append(installParams);
       script.Append(installParams);
       script.AppendLine(string.Format("cd \"{0}\"", Path.GetDirectoryName(this.LocalParams.First(p => p.Name == "Path").Value)));
@@ -120,14 +121,14 @@ namespace SIM.Sitecore9Installer
       return installParams.ToString();
     }
 
-    public string GetGlobalParamsScript(bool addPrefix=true)
+    public string GetGlobalParamsScript(bool addPrefix = true)
     {
       StringBuilder script = new StringBuilder();
       foreach (InstallParam param in this.GlobalParams)
       {
         string value = GetParameterValue(param);
         string paramName = addPrefix ? "{" + param.Name + "}" : string.Format("'{0}'", param.Name);
-        script.AppendLine(string.Format("{0}{1}={2}",addPrefix?"$":string.Empty ,paramName, value));
+        script.AppendLine(string.Format("{0}{1}={2}", addPrefix ? "$" : string.Empty, paramName, value));
       }
 
       return script.ToString();
@@ -150,6 +151,18 @@ namespace SIM.Sitecore9Installer
       }
 
       return value;
+    }
+
+    public bool SupportsUninstall()
+    {
+      InstallParam path = this.LocalParams.FirstOrDefault(p => p.Name == "Path");
+      if (path == null)
+      {
+        return false;
+      }
+
+      JObject doc = JObject.Parse(File.ReadAllText(path.Value));
+      return doc["UninstallTasks"] != null;
     }
 
     public string GetSerializedParameters()

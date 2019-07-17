@@ -18,7 +18,7 @@ namespace SIM.Pipelines.Install
       Processor root = null;
       foreach (SitecoreTask task in arguments.Tasker.Tasks)
       {
-        if (!task.ShouldRun)
+        if (!task.ShouldRun||(arguments.Tasker.UnInstall&!task.SupportsUninstall()))
         {
           continue;
         }

@@ -42,7 +42,10 @@ namespace SIM.Tool.Windows.UserControls.Install
       model.Add(new TasksModel("Global", args.Tasker.GlobalParams));
       foreach (SitecoreTask task in args.Tasker.Tasks.Where(t=>t.ShouldRun))
       {
-        model.Add(new TasksModel(task.Name, task.LocalParams));
+        if (!this.tasker.UnInstall || (this.tasker.UnInstall && task.SupportsUninstall()))
+        {
+          model.Add(new TasksModel(task.Name, task.LocalParams));
+        }
       }
 
       this.InstallationParameters.DataContext = model;

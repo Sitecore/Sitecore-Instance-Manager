@@ -25,6 +25,9 @@
     <step>
       <hive type=""SIM.Pipelines.Install.RunSitecoreTasksProcessor, SIM.Pipelines""  />
     </step>
+    <step>
+      <processor type=""SIM.Pipelines.Delete.CleanUp, SIM.Pipelines"" title=""Clean Up"" />
+    </step>
   </delete9>
   <install title=""Installing the {InstanceName} instance"">
     <step>

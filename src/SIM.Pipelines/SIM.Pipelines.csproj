@@ -92,6 +92,7 @@
     <Compile Include="Backup\BackupProcessor.cs" />
     <Compile Include="ConditionEvaluator.cs" />
     <Compile Include="ConfigurationActions.cs" />
+    <Compile Include="Delete\CleanUp.cs" />
     <Compile Include="Delete\DeleteMongoDatabases.cs" />
     <Compile Include="Delete\DeleteRegistryKey.cs" />
     <Compile Include="Export\ExportMongoDatabases.cs" />

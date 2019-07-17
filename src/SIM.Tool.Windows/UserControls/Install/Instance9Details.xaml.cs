@@ -147,7 +147,7 @@ namespace SIM.Tool.Windows.UserControls.Install
         }
       }
 
-      Tasker tasker = new Tasker(args.ScriptRoot, Tasker.ResolveGlobalFile(args.Product).FullName,rootPath);    
+      Tasker tasker = new Tasker(args.ScriptRoot, Tasker.ResolveGlobalFile(args.Product.PackagePath).FullName,rootPath);    
       InstallParam sqlServer = tasker.GlobalParams.FirstOrDefault(p => p.Name == "SqlServer");
       if (sqlServer != null)
       {

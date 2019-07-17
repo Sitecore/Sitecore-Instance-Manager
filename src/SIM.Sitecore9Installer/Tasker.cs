@@ -25,9 +25,9 @@ namespace SIM.Sitecore9Installer
     JObject doc;
     List<InstallParam> globalParams;
 
-    public static FileInfo ResolveGlobalFile(Product product)
+    public static FileInfo ResolveGlobalFile(string packagePath)
     {
-      string packageName = Path.GetFileNameWithoutExtension(product.PackagePath);
+      string packageName = Path.GetFileNameWithoutExtension(packagePath);
       string jsonGlobalFilesMap = string.Empty;
       using (var reader = new StreamReader(Path.Combine(Directory.GetCurrentDirectory(), "GlobalFilesMap.json")))
       {
@@ -78,6 +78,8 @@ namespace SIM.Sitecore9Installer
       }
     }
 
+    public string UnInstallParamsPath { get; }
+
 
     public Tasker(string root, string globalFile, string deployRoot, bool unInstall = false)
     {
@@ -94,22 +96,23 @@ namespace SIM.Sitecore9Installer
     public Tasker(string unInstallParamsPath)
     {
       this.UnInstall = true;
+      this.UnInstallParamsPath = unInstallParamsPath;
       using (StreamReader reader = new StreamReader(Path.Combine(unInstallParamsPath, "globals.json")))
       {
+        this.globalParamsFile =Path.Combine(Directory.GetCurrentDirectory(),reader.ReadLine());
+        this.doc = JObject.Parse(File.ReadAllText(this.globalParamsFile));
+        this.mapping = this.GetPackageMapping();
         string data = reader.ReadToEnd();
         this.globalParams = JsonConvert.DeserializeObject<List<InstallParam>>(data);
-      }      
-
-      foreach (string paramsFile in Directory.GetFiles(unInstallParamsPath, "*.json"))
-      {
-        if (Path.GetFileName(paramsFile).Equals("globals.json", StringComparison.InvariantCultureIgnoreCase))
-        {
-          continue;
-        }
-
+      }
+      this.filesRoot = this.GlobalParams.Single(p => p.Name == "FilesRoot").Value;
+      List<string> uninstallTasksNames = Directory.GetFiles(unInstallParamsPath, "*.json")
+        .Where(name => !Path.GetFileName(name).Equals("globals.json", StringComparison.InvariantCultureIgnoreCase))        
+        .ToList();
+      foreach (string paramsFile in uninstallTasksNames)     
+      {     
         string taskNameAdnOrder=Path.GetFileNameWithoutExtension(paramsFile);
         int index= taskNameAdnOrder.LastIndexOf('_');
-
         string taskName = taskNameAdnOrder.Substring(0, index);
         int order = int.Parse(taskNameAdnOrder.Substring(index + 1));
         SitecoreTask t = new SitecoreTask(taskName,order);
@@ -117,7 +120,22 @@ namespace SIM.Sitecore9Installer
         using (StreamReader reader = new StreamReader(paramsFile))
         {
           string data = reader.ReadToEnd();
-          t.LocalParams = JsonConvert.DeserializeObject<List<InstallParam>>(data);
+          if (!string.IsNullOrWhiteSpace(data))
+          {
+            t.LocalParams = JsonConvert.DeserializeObject<List<InstallParam>>(data);            
+          }
+          else
+          {
+            JProperty param = doc["ExecSequense"].Children().Cast<JProperty>().Single(p=>p.Name==taskName);
+            var overridden = param.Value["Parameters"];
+            string realName = param.Name;
+            if (overridden != null && overridden["RealName"] != null)
+            {
+              realName = overridden["RealName"]?.ToString();
+            }
+            t.LocalParams = this.GetTaskParameters(realName);
+          }
+
           t.UnInstall = true;
           this.tasksToRun.Add(t);
         }
@@ -225,14 +243,22 @@ namespace SIM.Sitecore9Installer
       Directory.CreateDirectory(filesPath);
       using (StreamWriter wr = new StreamWriter(Path.Combine(filesPath, "globals.json")))
       {
-        wr.Write(this.GetSerializedGlobalParams());
+        wr.WriteLine(Path.GetFileName(this.globalParamsFile));
+        wr.WriteLine(this.GetSerializedGlobalParams());
       }
       foreach (SitecoreTask task in this.Tasks.Where(t => t.ShouldRun))
       {
-        string parameters = task.GetSerializedParameters();
-        using (StreamWriter wr = new StreamWriter(Path.Combine(filesPath, string.Format("{0}_{1}.json",task.Name,task.ExecutionOrder))))
+        if (task.SupportsUninstall())
         {
-          wr.Write(parameters);
+          string parameters = task.GetSerializedParameters();
+          using (StreamWriter wr = new StreamWriter(Path.Combine(filesPath, string.Format("{0}_{1}.json", task.Name, task.ExecutionOrder))))
+          {
+            wr.Write(parameters);
+          }
+        }
+        else
+        {
+          File.Create(Path.Combine(filesPath, string.Format("{0}_{1}.json", task.Name, task.ExecutionOrder)));
         }
       }
     }
