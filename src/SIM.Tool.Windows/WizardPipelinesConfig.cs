@@ -199,12 +199,10 @@ By clicking 'Next' you accept the License Agreement."" />
              finishText=""The uninstallation was successfully completed"">
       <args type=""SIM.Tool.Base.Pipelines.Install9WizardArgs, SIM.Tool.Base""/>
       <steps>
-        <step name=""STEP 1 of 3 - DETAILS"" 
+        <step name=""STEP 1 of 2 - DETAILS"" 
               type=""SIM.Tool.Windows.UserControls.Install.Delete9Details, SIM.Tool.Windows"" />
-        <step name=""STEP 2 of 3 - SELECT UNINSTALLATION TASKS"" 
-              type=""SIM.Tool.Windows.UserControls.Install.Instance9SelectTasks, SIM.Tool.Windows"" />
-        <step name=""STEP 3 of 3 - TWEAK PARAMETERS"" 
-              type=""SIM.Tool.Windows.UserControls.Install.Instance9TweakInstallParams, SIM.Tool.Windows"" />
+        <step name=""STEP 2 of 2 - SELECT UNINSTALLATION TASKS"" 
+              type=""SIM.Tool.Windows.UserControls.Install.Instance9SelectTasks, SIM.Tool.Windows"" />        
      </steps>     
     </delete9>
 
