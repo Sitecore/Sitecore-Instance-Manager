@@ -3,6 +3,12 @@
   public static class WizardPipelinesConfig
   {
     public const string Contents = @"<configuration>
+  <pipelines>
+    <download8 title=""Downloading Sitecore"">
+      <processor type=""SIM.Tool.Windows.Pipelines.Download8.Download8Processor, SIM.Tool.Windows""
+                  title=""Downloading packages"" />
+    </download8>
+  </pipelines>
   <wizardPipelines>
     <agreement title=""SIM License Agreement"" startButton=""Accept"" finishText=""Thank you"">
       <steps afterLastStep=""SIM.Tool.Windows.SaveAgreement, SIM.Tool.Windows"">
