@@ -28,14 +28,14 @@ namespace SIM.Tool.Windows.UserControls
 
     public bool OnMovingBack(WizardArgs wizardArgs)
     {
-      throw new System.NotImplementedException();
+      return true;
     }
 
     public bool OnMovingNext(WizardArgs wizardArgs)
     {
      
-      var args = (ReinstallWizardArgs)wizardArgs;
-      if (int.Parse(args.Instance.Product.ShortVersion) < 90)
+      var args = wizardArgs as ReinstallWizardArgs;
+      if (args == null||int.Parse(args.Instance.Product.ShortVersion) < 90)
       {
         return true;
       }
