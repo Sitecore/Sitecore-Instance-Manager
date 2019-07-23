@@ -92,7 +92,25 @@ namespace SIM.Tool.Windows.UserControls.Install
         }
       }
 
-      args.Tasker.GlobalParams.FirstOrDefault(p => p.Name == "FilesRoot").Value = args.ScriptRoot;      
+      Tasker tasker = args.Tasker;
+      tasker.GlobalParams.FirstOrDefault(p => p.Name == "FilesRoot").Value = args.ScriptRoot;
+      InstallParam sqlServer = tasker.GlobalParams.FirstOrDefault(p => p.Name == "SqlServer");
+      if (sqlServer != null)
+      {
+        sqlServer.Value = args.InstanceConnectionString.DataSource;
+      }
+
+      InstallParam sqlAdminUser = tasker.GlobalParams.FirstOrDefault(p => p.Name == "SqlAdminUser");
+      if (sqlAdminUser != null)
+      {
+        sqlAdminUser.Value = args.InstanceConnectionString.UserID;
+      }
+
+      InstallParam sqlAdminPass = tasker.GlobalParams.FirstOrDefault(p => p.Name == "SqlAdminPassword");
+      if (sqlAdminPass != null)
+      {
+        sqlAdminPass.Value = args.InstanceConnectionString.Password;
+      }
       return true;
     }
 

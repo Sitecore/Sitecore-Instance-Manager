@@ -169,5 +169,10 @@ namespace SIM.Sitecore9Installer
     {
       return JsonConvert.SerializeObject(this.LocalParams);
     }
+
+    public string GetSerializedParameters(IEnumerable<string> excludeList)
+    {
+      return JsonConvert.SerializeObject(this.LocalParams.Where(p=>!excludeList.Contains(p.Name)));
+    }
   }
 }

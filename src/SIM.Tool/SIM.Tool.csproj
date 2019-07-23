@@ -434,7 +434,7 @@
     <Content Include="Configurations\Configuration - Sitecore 8.2 - Disable Xdb.zip">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="GlobalFilesMap.json">
+    <Content Include="GlobalSettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="GlobalParams_9.0_XM1.json">

@@ -23,7 +23,7 @@
 
     public string InstanceName { get; }
 
-    private SqlConnectionStringBuilder ConnectionString { get; }
+    public SqlConnectionStringBuilder ConnectionString { get; }
 
     private string License { get; }
 

@@ -56,7 +56,24 @@ namespace SIM.Tool.Windows.UserControls
         return false;
       }
 
-      Tasker tasker = new Tasker(uninstallPath);     
+      Tasker tasker = new Tasker(uninstallPath);
+      InstallParam sqlServer = tasker.GlobalParams.FirstOrDefault(p => p.Name == "SqlServer");
+      if (sqlServer != null)
+      {
+        sqlServer.Value = args.ConnectionString.DataSource;
+      }
+
+      InstallParam sqlAdminUser = tasker.GlobalParams.FirstOrDefault(p => p.Name == "SqlAdminUser");
+      if (sqlAdminUser != null)
+      {
+        sqlAdminUser.Value = args.ConnectionString.UserID;
+      }
+
+      InstallParam sqlAdminPass = tasker.GlobalParams.FirstOrDefault(p => p.Name == "SqlAdminPassword");
+      if (sqlAdminPass != null)
+      {
+        sqlAdminPass.Value = args.ConnectionString.Password;
+      }
       tasker.UnInstall = true;
       args.Tasker = tasker;
       return true;
