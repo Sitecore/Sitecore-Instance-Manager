@@ -90,10 +90,10 @@ namespace SIM.Sitecore9Installer
         globalSettings = reader.ReadToEnd();
       }
 
-      this.settingsDoc = JObject.Parse(globalSettings);      
+      this.settingsDoc = JObject.Parse(globalSettings);
     }
 
-    public Tasker(string root, string installationPackageName, string deployRoot, bool unInstall = false):this()
+    public Tasker(string root, string installationPackageName, string deployRoot, bool unInstall = false) : this()
     {
       this.deployRoot = deployRoot;
       this.filesRoot = root;
@@ -102,10 +102,10 @@ namespace SIM.Sitecore9Installer
       {
         if (Regex.IsMatch(installationPackageName, pattern))
         {
-          this.globalParamsFile= new FileInfo(Path.Combine(Directory.GetCurrentDirectory(), globalFilesMap[pattern])).FullName;
+          this.globalParamsFile = new FileInfo(Path.Combine(Directory.GetCurrentDirectory(), globalFilesMap[pattern])).FullName;
         }
-      }  
-            
+      }
+
       this.mapping = this.GetPackageMapping();
       this.doc = JObject.Parse(File.ReadAllText(this.globalParamsFile));
       this.globalParams = this.GetGlobalParams();
@@ -120,15 +120,16 @@ namespace SIM.Sitecore9Installer
       List<InstallParam> deserializedGlobalParams;
       using (StreamReader reader = new StreamReader(Path.Combine(unInstallParamsPath, "globals.json")))
       {
-        this.globalParamsFile =Path.Combine(Directory.GetCurrentDirectory(),reader.ReadLine());        
+        this.globalParamsFile = Path.Combine(Directory.GetCurrentDirectory(), reader.ReadLine());
         string data = reader.ReadToEnd();
-        deserializedGlobalParams = JsonConvert.DeserializeObject<List<InstallParam>>(data);        
+        deserializedGlobalParams = JsonConvert.DeserializeObject<List<InstallParam>>(data);
       }
 
+      this.filesRoot = deserializedGlobalParams.Single(p => p.Name == "FilesRoot").Value;
       this.doc = JObject.Parse(File.ReadAllText(this.globalParamsFile));
       this.mapping = this.GetPackageMapping();
       this.globalParams = this.GetGlobalParams();
-      for(int i=0;i<this.globalParams.Count;++i)
+      for (int i = 0; i < this.globalParams.Count; ++i)
       {
         InstallParam param = deserializedGlobalParams.FirstOrDefault(p => p.Name == this.globalParams[i].Name);
         if (param != null)
@@ -138,17 +139,16 @@ namespace SIM.Sitecore9Installer
         }
       }
 
-      this.filesRoot = this.GlobalParams.Single(p => p.Name == "FilesRoot").Value;
       List<string> uninstallTasksNames = Directory.GetFiles(unInstallParamsPath, "*.json")
-        .Where(name => !Path.GetFileName(name).Equals("globals.json", StringComparison.InvariantCultureIgnoreCase))        
+        .Where(name => !Path.GetFileName(name).Equals("globals.json", StringComparison.InvariantCultureIgnoreCase))
         .ToList();
-      foreach (string paramsFile in uninstallTasksNames)     
-      {     
-        string taskNameAdnOrder=Path.GetFileNameWithoutExtension(paramsFile);
-        int index= taskNameAdnOrder.LastIndexOf('_');
+      foreach (string paramsFile in uninstallTasksNames)
+      {
+        string taskNameAdnOrder = Path.GetFileNameWithoutExtension(paramsFile);
+        int index = taskNameAdnOrder.LastIndexOf('_');
         string taskName = taskNameAdnOrder.Substring(0, index);
         int order = int.Parse(taskNameAdnOrder.Substring(index + 1));
-        SitecoreTask t = new SitecoreTask(taskName,order);
+        SitecoreTask t = new SitecoreTask(taskName, order);
         t.GlobalParams = this.globalParams;
         using (StreamReader reader = new StreamReader(paramsFile))
         {
@@ -163,18 +163,18 @@ namespace SIM.Sitecore9Installer
 
           string data = reader.ReadToEnd();
           if (!string.IsNullOrWhiteSpace(data))
-          { 
-            List<InstallParam>deserializedLocalParams= JsonConvert.DeserializeObject<List<InstallParam>>(data);
-            for (int i = 0; i<t.LocalParams.Count; ++i)
+          {
+            List<InstallParam> deserializedLocalParams = JsonConvert.DeserializeObject<List<InstallParam>>(data);
+            for (int i = 0; i < t.LocalParams.Count; ++i)
             {
               InstallParam lParam = deserializedLocalParams.FirstOrDefault(p => p.Name == t.LocalParams[i].Name);
               if (lParam != null)
               {
                 t.LocalParams[i] = lParam;
               }
-            }                      
+            }
           }
-          
+
           t.UnInstall = true;
           this.tasksToRun.Add(t);
         }
@@ -194,7 +194,7 @@ namespace SIM.Sitecore9Installer
       foreach (JProperty param in doc["Parameters"].Children())
       {
         InstallParam p = new InstallParam(param.Name, param.Value.ToString());
-        if (p.Name == "LicenseFile")
+        if (p.Name == "LicenseFile" && !string.IsNullOrWhiteSpace(this.filesRoot))
         {
           string license = Path.Combine(this.filesRoot, "license.xml");
           if (File.Exists(license))
@@ -288,17 +288,10 @@ namespace SIM.Sitecore9Installer
       }
       foreach (SitecoreTask task in this.Tasks.Where(t => t.ShouldRun))
       {
-        if (task.SupportsUninstall())
+        string parameters = task.GetSerializedParameters(excludeParams);
+        using (StreamWriter wr = new StreamWriter(Path.Combine(filesPath, string.Format("{0}_{1}.json", task.Name, task.ExecutionOrder))))
         {
-          string parameters = task.GetSerializedParameters(excludeParams);
-          using (StreamWriter wr = new StreamWriter(Path.Combine(filesPath, string.Format("{0}_{1}.json", task.Name, task.ExecutionOrder))))
-          {
-            wr.Write(parameters);
-          }
-        }
-        else
-        {
-          File.Create(Path.Combine(filesPath, string.Format("{0}_{1}.json", task.Name, task.ExecutionOrder)));
+          wr.Write(parameters);
         }
       }
     }
@@ -310,7 +303,7 @@ namespace SIM.Sitecore9Installer
 
     public string GetSerializedGlobalParams(IEnumerable<string> excludeList)
     {
-      return JsonConvert.SerializeObject(this.GlobalParams.Where(p=>!excludeList.Contains(p.Name)));
+      return JsonConvert.SerializeObject(this.GlobalParams.Where(p => !excludeList.Contains(p.Name)));
     }
 
     public string RunAllTasks()
@@ -404,7 +397,7 @@ namespace SIM.Sitecore9Installer
         //  continue;
         //}
 
-        SitecoreTask t = new SitecoreTask(param.Name,order);
+        SitecoreTask t = new SitecoreTask(param.Name, order);
         if (!string.IsNullOrEmpty(this.deployRoot))
         {
           this.InjectLocalDeploymentRoot(taskFile);
