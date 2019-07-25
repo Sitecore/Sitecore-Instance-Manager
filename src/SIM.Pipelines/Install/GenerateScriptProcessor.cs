@@ -33,7 +33,7 @@ namespace SIM.Pipelines.Install
         throw new AggregateException(string.Format("Failed to execute {0} task. \n{1}", task.Name, result));
       }
 
-      string path = Path.Combine(arguments.Tasker.GlobalParams.First(p=>p.Name== "FilesRoot").Value , "generated_scripts");
+      string path = Path.Combine(arguments.Tasker.GlobalParams.First(p=>p.Name== "FilesRoot").Value , string.Format("generated_scripts/{0}",task.UnInstall?"Uninstall":"Install"));
       Directory.CreateDirectory(path);
       
         using (StreamWriter writer = new StreamWriter(Path.Combine(path, string.Format("{0}.ps1", task.Name))))
