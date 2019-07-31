@@ -43,18 +43,6 @@
 
     #region Public methods
 
-    public static void PublishSite(InstallWizardArgs args)
-    {
-      MainWindowHelper.RefreshInstances();
-      var instance = InstanceManager.Default.GetInstance(args.InstanceName);
-      new PublishButton().OnClick(MainWindow.Instance, instance);
-    }
-
-    public static void PublishSite(InstallModulesWizardArgs args)
-    {
-      new PublishButton().OnClick(MainWindow.Instance, args.Instance);
-    }
-
     public bool IsEnabled(Window mainWindow, Instance instance)
     {
       return instance != null;

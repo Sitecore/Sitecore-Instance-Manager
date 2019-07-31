@@ -46,7 +46,12 @@
     public static Product GetProduct([NotNull] string productName)
     {
       Assert.ArgumentNotNull(productName, nameof(productName));
-      var product = Products.FirstOrDefault(p => p.ToString().EqualsIgnoreCase(productName));
+      var product = Products.FirstOrDefault(p => p.ToString(false).EqualsIgnoreCase(productName) || p.ToString(true).EqualsIgnoreCase(productName));
+      if (product == null)
+      {
+        product = Products.FirstOrDefault(p => p.ToString().EqualsIgnoreCase(productName.Replace(".0.0", ".0")));
+      }
+
       if (product != null)
       {
         return product;
@@ -192,11 +197,11 @@
 
       if (!string.IsNullOrEmpty(version))
       {
-        products = products.Where(x => x.Version == version);
+        products = products.Where(x => x.TwoVersion == version);
       }
       else
       {
-        products = products.OrderByDescending(x => x.Version);
+        products = products.OrderByDescending(x => x.TwoVersion);
       }
 
       if (!string.IsNullOrEmpty(revision))

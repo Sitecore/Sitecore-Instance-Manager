@@ -28,7 +28,7 @@ namespace SIM.Tool.Windows.UserControls.Install
       var args = (InstallWizardArgs)wizardArgs;
       try
       {
-        var ver = args.Product.Version.Replace(".", "");
+        var ver = args.Product.TwoVersion.Replace(".", "");
         if (ver.Length <= 2)
         {
           ver += Safe.Call(() => $"{args.Product.Update}") ?? "0";

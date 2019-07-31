@@ -82,7 +82,7 @@
       }
       catch (Exception ex)
       {
-        WindowHelper.HandleError(ex.Message, true, ex);
+        WindowHelper.HandleError("Failed to search", true, ex);
       }
     }
 
@@ -181,10 +181,10 @@
 
         Product.TryParse(path, out addedProduct);
 
-        if (string.IsNullOrEmpty(addedProduct?.Name) || string.IsNullOrEmpty(addedProduct.Version) || string.IsNullOrEmpty(addedProduct.Revision))
+        if (string.IsNullOrEmpty(addedProduct?.Name) || string.IsNullOrEmpty(addedProduct.TwoVersion) || string.IsNullOrEmpty(addedProduct.Revision))
         {
           var errorMessage =
-            $"There was a problem installing a Sitecore module package. The requested package had the following properties: addedProduct is null: [{addedProduct == null}] | addedProduct name: [{addedProduct?.Name}] | addedProduct version: [{addedProduct?.Version}] | addedProduct revision: [{addedProduct?.Revision}]";
+            $"There was a problem installing a Sitecore module package. The requested package had the following properties: addedProduct is null: [{addedProduct == null}] | addedProduct name: [{addedProduct?.Name}] | addedProduct version: [{addedProduct?.TwoVersion}] | addedProduct revision: [{addedProduct?.Revision}]";
           WindowHelper.ShowMessage($"Selected file is not a Sitecore module package");
           Log.Error(errorMessage);
           return;
@@ -245,7 +245,7 @@
 
     private static Product GetProduct(ProductInCheckbox module, Product product)
     {
-      return module.Scope.FirstOrDefault(version => version.Version.Equals(product.Version, StringComparison.InvariantCultureIgnoreCase) && version.Revision.Equals(product.Revision, StringComparison.InvariantCultureIgnoreCase));
+      return module.Scope.FirstOrDefault(version => version.TwoVersion.Equals(product.TwoVersion, StringComparison.InvariantCultureIgnoreCase) && version.Revision.Equals(product.Revision, StringComparison.InvariantCultureIgnoreCase));
     }
 
     private ProductInCheckbox GetProductFamily(string originalName)

@@ -54,6 +54,11 @@
         ProfileSection.Argument("args", args);
         
         WizardArgs = createWizardArgs();
+        if (WizardArgs != null)
+        {
+          WizardArgs.WizardWindow = this;
+        }
+
         WizardPipeline = wizardPipeline;
         Args = args;
         InitializeComponent();
@@ -469,6 +474,7 @@
 
         if (allDone)
         {
+          WizardPipeline.AfterLastStep?.Execute(this.WizardArgs);
           AddFinishActions(WizardPipeline._FinishActions);
 
           if (WizardPipeline._FinishActionHives != null)
@@ -612,8 +618,16 @@
         // the Progress Step    
         if (PageNumber == StepsCount)
         {
-          PipelineManager.StartPipeline(WizardPipeline.Name, _ProcessorArgs, this);
           backButton.Visibility = Visibility.Hidden;
+
+          if (!PipelineManager.Definitions.ContainsKey(WizardPipeline.Name))
+          {
+            Finish("Done.", true);
+
+            return;
+          }
+
+          PipelineManager.StartPipeline(WizardPipeline.Name, _ProcessorArgs, this);
           CancelButton.Content = "Cancel";
           NextButton.IsEnabled = false;
           NextButton.Content = "Retry";
@@ -684,7 +698,7 @@
             }
             catch (Exception ex)
             {
-              WindowHelper.HandleError(ex.Message, false, ex);
+              WindowHelper.HandleError("Failed to process move next click", false, ex);
               return;
             }
           }

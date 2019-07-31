@@ -75,7 +75,10 @@
         Type type = args.GetType();
         foreach (var propertyName in message.Extract('{', '}', false))
         {
-          var propertyValue = type.GetProperty(propertyName, BindingFlags.Public | BindingFlags.Instance).GetValue(args, new object[0]) as string;
+          var propertyInfo = type.GetProperty(propertyName, BindingFlags.Public | BindingFlags.Instance);
+          Assert.IsNotNull(propertyInfo, $"Cannot find {propertyName} property in {type.FullName}");
+
+          var propertyValue = propertyInfo.GetValue(args, new object[0]) as string;
           if (propertyValue != null)
           {
             message = message.Replace('{' + propertyName + '}', propertyValue);

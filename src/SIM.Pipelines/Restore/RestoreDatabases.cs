@@ -59,7 +59,7 @@
           }
 
           var bak = Path.Combine(args.Backup.DatabasesFolderPath, database.BackupFilename);
-          database.Restore(bak);
+          database.Restore(bak, args.ManagementConnectionString);
           IncrementProgress();
 
           _Done.Add(value);

@@ -8,7 +8,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SIM.Tool.Windows</RootNamespace>
     <AssemblyName>SIM.Tool.Windows</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
@@ -65,10 +65,6 @@
     <Reference Include="Microsoft.Web.Administration, Version=7.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Web.Administration.7.0.0.0\lib\net20\Microsoft.Web.Administration.dll</HintPath>
       <SpecificVersion>False</SpecificVersion>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Microsoft.Web.XmlTransform, Version=2.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Web.Xdt.2.1.1\lib\net40\Microsoft.Web.XmlTransform.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
@@ -141,7 +137,9 @@
     <Compile Include="MainWindowComponents\BackupInstanceButton.cs" />
     <Compile Include="MainWindowComponents\BrowseButton.cs" />
     <Compile Include="MainWindowComponents\CleanupInstanceButton.cs" />
+    <Compile Include="MainWindowComponents\ClearDatabasesButton.cs" />
     <Compile Include="MainWindowComponents\ClearEventQueueButton.cs" />
+    <Compile Include="MainWindowComponents\ClearPropertiesButton.cs" />
     <Compile Include="MainWindowComponents\CollectMemoryDumpButton.cs" />
     <Compile Include="MainWindowComponents\ConfigBuilderButton.cs" />
     <Compile Include="MainWindowComponents\ControlAppPoolButton.cs" />
@@ -179,13 +177,13 @@
     <Compile Include="MainWindowComponents\SettingsButton.cs" />
     <Compile Include="MainWindowComponents\UpdateLicenseButton.cs" />
     <Compile Include="MainWindowData.cs" />
-    <Compile Include="Pipelines\Agreement\AcceptAgreement.cs" />
     <Compile Include="Pipelines\Download8\Download8Args.cs" />
     <Compile Include="Pipelines\Download8\DownloadProcessor.cs" />
     <Compile Include="Pipelines\FinishActions.cs" />
+    <Compile Include="Pipelines\Install\FinishActions.cs" />
     <Compile Include="Pipelines\Install\InstallActions.cs" />
+    <Compile Include="Pipelines\Install\InstallModulesActions.cs" />
     <Compile Include="Pipelines\Install\InstallModulesFinishActionHive.cs" />
-    <Compile Include="Pipelines\Setup\SetupArgs.cs" />
     <Compile Include="Pipelines\Setup\SetupProcessor.cs" />
     <Compile Include="Pipelines\Setup\SetupWizardArgs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -202,6 +200,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="PublishMode.cs" />
+    <Compile Include="SaveAgreement.cs" />
     <Compile Include="StateToVisibility.cs" />
     <Compile Include="TabDefinition.cs" />
     <Compile Include="TreeViewItemExtensions.cs" />
@@ -711,6 +710,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Sitecore.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Pipelines\Agreement\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

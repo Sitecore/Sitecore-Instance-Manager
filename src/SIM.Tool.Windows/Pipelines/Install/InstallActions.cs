@@ -2,6 +2,8 @@
 {
   #region
 
+  using System;
+
   using SIM.Pipelines.Backup;
   using SIM.Tool.Base;
   using SIM.Tool.Base.Pipelines;
@@ -10,8 +12,10 @@
   using JetBrains.Annotations;
   using SIM.Core;
   using SIM.Extensions;
+  using SIM.Instances;
   using SIM.Tool.Base.Wizards;
   using SIM.Tool.Windows.UserControls.Backup;
+  using SIM.Tool.Base.Profiles;
 
   #endregion
 
@@ -25,7 +29,7 @@
     {
       var id = MainWindowHelper.GetListItemID(args.Instance.ID);
       Assert.IsTrue(id >= 0, "id ({0}) should be >= 0".FormatWith(id));
-      WizardPipelineManager.Start("backup", args.WizardWindow, new BackupArgs(args.Instance, null, true, true), null, ignore => MainWindowHelper.MakeInstanceSelected(id), () => new BackupSettingsWizardArgs(args.Instance));
+      WizardPipelineManager.Start("backup", args.WizardWindow, new BackupArgs(args.Instance, ProfileManager.GetConnectionString(), null, true, true), null, ignore => MainWindowHelper.MakeInstanceSelected(id), () => new BackupSettingsWizardArgs(args.Instance));
     }
 
     [UsedImplicitly]
@@ -33,37 +37,19 @@
     {
       var id = MainWindowHelper.GetListItemID(args.Instance.ID);
       Assert.IsTrue(id >= 0, "id ({0}) should be >= 0".FormatWith(id));
-      WizardPipelineManager.Start("backup", args.WizardWindow, new BackupArgs(args.Instance, null, true, true), null, ignore => MainWindowHelper.MakeInstanceSelected(id), () => new BackupSettingsWizardArgs(args.Instance));
+      WizardPipelineManager.Start("backup", args.WizardWindow, new BackupArgs(args.Instance, ProfileManager.GetConnectionString(), null, true, true), null, ignore => MainWindowHelper.MakeInstanceSelected(id), () => new BackupSettingsWizardArgs(args.Instance));
     }
 
     [UsedImplicitly]
     public static void OpenBrowser(InstallWizardArgs args)
     {
-      InstanceHelperEx.BrowseInstance(args.Instance, args.WizardWindow, string.Empty, true);
-    }
-
-    [UsedImplicitly]
-    public static void OpenBrowser(InstallModulesWizardArgs args)
-    {
-      InstanceHelperEx.BrowseInstance(args.Instance, args.WizardWindow, string.Empty, true);
+      InstanceHelperEx.BrowseInstance(args.Instance, args.WizardWindow, String.Empty, true);
     }
 
     [UsedImplicitly]
     public static void OpenSitecoreClient(InstallWizardArgs args)
     {
       InstanceHelperEx.BrowseInstance(args.Instance, args.WizardWindow, "/sitecore", false);
-    }
-
-    [UsedImplicitly]
-    public static void OpenSitecoreClient(InstallModulesWizardArgs args)
-    {
-      InstanceHelperEx.BrowseInstance(args.Instance, args.WizardWindow, "/sitecore", false);
-    }
-
-    [UsedImplicitly]
-    public static void OpenVisualStudio(InstallModulesWizardArgs args)
-    {
-      new OpenVisualStudioButton().OnClick(args.WizardWindow.Owner, args.Instance);
     }
 
     [UsedImplicitly]
@@ -79,9 +65,22 @@
     }
 
     [UsedImplicitly]
-    public static void OpenWebsiteFolder(InstallModulesWizardArgs args)
+    public static void LoginAdmin([NotNull] InstallWizardArgs args)
     {
-      CoreApp.OpenFolder(args.Instance.WebRootPath);
+      Assert.ArgumentNotNull(args, nameof(args));
+
+      var instance = args.Instance;
+      Assert.IsNotNull(instance, nameof(instance));
+
+      InstanceHelperEx.OpenInBrowserAsAdmin(instance, MainWindow.Instance);
+    }
+
+    [UsedImplicitly]
+    public static void PublishSite(InstallWizardArgs args)
+    {
+      MainWindowHelper.RefreshInstances();
+      var instance = InstanceManager.Default.GetInstance(args.InstanceName);
+      new PublishButton().OnClick(MainWindow.Instance, instance);
     }
 
     #endregion

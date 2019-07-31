@@ -84,7 +84,7 @@ namespace SIM.Pipelines
         CreateSettingsIncludeFile(rootFolderPath, "MailServer.config", settings);
       }
 
-      if (product.Name == "Sitecore CMS" && product.Version.StartsWith("9.0"))
+      if (product.Name == "Sitecore CMS" && product.TwoVersion.StartsWith("9.0"))
       {
         CreateSettingsIncludeFile(rootFolderPath, "DisableXdb.config", new NameValueCollection
         {

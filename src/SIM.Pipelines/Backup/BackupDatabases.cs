@@ -6,6 +6,7 @@
   using Sitecore.Diagnostics.Base;
   using JetBrains.Annotations;
   using Sitecore.Diagnostics.Logging;
+  using System.Data.SqlClient;
 
   [UsedImplicitly]
   public class BackupDatabases : BackupProcessor
@@ -38,7 +39,7 @@
 
       foreach (Database database in instance.AttachedDatabases)
       {
-        Backup(database, backupDatabasesFolder);
+        Backup(database, backupDatabasesFolder, args.ConnectionString);
         IncrementProgress();
       }
     }
@@ -47,14 +48,13 @@
 
     #region Private methods
 
-    private void Backup([NotNull] Database database, [NotNull] string folder)
+    private void Backup([NotNull] Database database, [NotNull] string folder, [NotNull] SqlConnectionStringBuilder connectionString)
     {
       Assert.ArgumentNotNull(database, nameof(database));
       Assert.ArgumentNotNull(folder, nameof(folder));
+      Assert.ArgumentNotNull(connectionString, nameof(connectionString));
 
-      var connectionString = database.ConnectionString;
-
-      using (var connection = SqlServerManager.Instance.OpenConnection(connectionString))
+      using (var connection = SqlServerManager.Instance.OpenConnection(connectionString, true))
       {
         var databaseName = database.RealName;
         var fileName = Path.Combine(folder, database.BackupFilename);

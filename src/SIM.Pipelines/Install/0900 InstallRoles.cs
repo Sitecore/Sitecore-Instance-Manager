@@ -28,7 +28,7 @@ namespace SIM.Pipelines.Install
 
       var websiteDir = FileSystem.ParseFolder(args.WebRootPath);
       var product = args.Product;
-      var version = $"{product.Version}.{Safe.Call(() => $"{product.Update}") ?? "0"}";
+      var version = $"{product.TwoVersion}.{Safe.Call(() => $"{product.Update}") ?? "0"}";
       InstallRolesCommandHelper.Install(websiteDir, version, role);
     } 
 

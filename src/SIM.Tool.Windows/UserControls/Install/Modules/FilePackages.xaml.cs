@@ -254,7 +254,7 @@
       }
       catch (Exception ex)
       {
-        WindowHelper.HandleError(ex.Message, true, ex);
+        WindowHelper.HandleError("Failed to search", true, ex);
       }
     }
 

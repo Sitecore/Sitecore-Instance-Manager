@@ -375,7 +375,7 @@
       }
       catch (Exception ex)
       {
-        HandleError(ex.Message, true, ex);
+        HandleError("Failed to show dialog", true, ex);
       }
 
       return null;

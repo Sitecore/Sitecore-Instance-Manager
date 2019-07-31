@@ -51,8 +51,9 @@
       OriginalName = "Undefined", 
       PackagePath = string.Empty, 
       IsStandalone = true, 
-      Version = string.Empty, 
       ShortName = "undefined", 
+      TwoVersion = string.Empty,
+      TriVersion = string.Empty,
       Revision = string.Empty
     };
 
@@ -203,7 +204,7 @@
         }
 
 
-        var ver = Version;
+        var ver = TriVersion;
         switch (ver)
         {
           case "6.6.0":
@@ -214,11 +215,21 @@
             break;
         }
 
-        release = Service.GetVersions("Sitecore CMS")?
-          .FirstOrDefault(z => z.Version.MajorMinor == ver && z.Revision == Revision);
-
-        if (release == null)
+        try
         {
+          try
+          {
+            release = Service.GetRelease("Sitecore CMS", ver, Revision);
+          }
+          catch
+          {
+            release = Service.GetRelease("Sitecore CMS", ver);
+          }
+        }
+        catch (Exception ex)
+        {
+          Log.Error(ex, $"Failed to find Sitecore CMS {ver} (rev. {Revision})");
+
           _UnknownRelease = true;
 
           return null;
@@ -361,12 +372,12 @@
     {
       get
       {
-        return _ShortVersion ?? (_ShortVersion = Version.Replace(".", string.Empty));
+        return _ShortVersion ?? (_ShortVersion = TwoVersion.Replace(".", string.Empty));
       }
     }
 
     [NotNull]
-    public string Version { get; set; }
+    public string TwoVersion { get; set; }
 
     [NotNull]
     public string VersionAndRevision
@@ -374,7 +385,7 @@
       get
       {
         const string Pattern = "{0} rev. {1}";
-        var longVersion = Version.Length == "7.0".Length ? Version + ".0" : Version;
+        var longVersion = TwoVersion.Length == "7.0".Length ? TwoVersion + ".0" : TwoVersion;
         return Pattern.FormatWith(longVersion, Revision).TrimEnd(" rev. ");
       }
     }
@@ -429,8 +440,7 @@
     {
       get
       {
-        const string Pattern = "{0} {1} rev. {2}";
-        return Pattern.FormatWith(Name, Version, Revision).TrimEnd(" rev. ").TrimEnd(' ');
+        return ToString(true);
       }
     }
 
@@ -504,7 +514,14 @@
 
     public override string ToString()
     {
-      return DisplayName;
+      return ToString(false);
+    }
+
+    public virtual string ToString(bool triVersion)
+    {
+      const string Pattern = "{0} {1} rev. {2}";
+
+      return Pattern.FormatWith(Name, triVersion ? TriVersion : TwoVersion, Revision).TrimEnd(" rev. ").TrimEnd(' ');
     }
 
     #endregion
@@ -608,29 +625,30 @@
       {
         return false;
       }
-
-      var digits = version.Split('.');
-      var major = digits[0];
-      var minor = digits[1];
+      
+      var arr = version.Split('.');
 
       product = ProductManager.Products.FirstOrDefault(p => p.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase) && p.OriginalName.Equals(originalName) && p.ShortName.EqualsIgnoreCase(shortName) && p.Revision.EqualsIgnoreCase(revision))
                 ?? new Product
                 {
                   OriginalName = originalName, 
                   PackagePath = packagePath, 
-                  Version = $"{major}{'.'}{minor}", 
+                  TwoVersion = $"{arr[0]}.{arr[1]}",
+                  TriVersion = version,
                   Revision = revision
                 };
 
       return true;
     }
 
+    public string TriVersion { get; set; }
+
     [NotNull]
     private string FormatString([NotNull] string pattern)
     {
       Assert.ArgumentNotNull(pattern, nameof(pattern));
 
-      return pattern.Replace("{ShortName}", ShortName).Replace("{Name}", Name).Replace("{ShortVersion}", ShortVersion).Replace("{Version}", Version).Replace("{Revision}", Revision)
+      return pattern.Replace("{ShortName}", ShortName).Replace("{Name}", Name).Replace("{ShortVersion}", ShortVersion).Replace("{Version}", TwoVersion).Replace("{Revision}", Revision)
         .Replace("{UpdateOrRevision}", UpdateOrRevision);
     }
 
@@ -661,10 +679,10 @@
 
       if (string.IsNullOrEmpty(version))
       {
-        version = Version;
+        version = TwoVersion;
       }
 
-      var instanceVersion = instanceProduct.Version;
+      var instanceVersion = instanceProduct.TwoVersion;
       if (instanceVersion == version)
       {
         var rules = versionRule.SelectElements("revision").ToArray();

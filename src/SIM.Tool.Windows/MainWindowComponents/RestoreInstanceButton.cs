@@ -8,6 +8,8 @@
   using JetBrains.Annotations;
   using SIM.Tool.Base.Pipelines;
   using SIM.Tool.Base.Wizards;
+  using System.Data.SqlClient;
+  using SIM.IO.Real;
 
   [UsedImplicitly]
   public class RestoreInstanceButton : IMainWindowButton
@@ -25,7 +27,7 @@
 
       if (instance != null)
       {
-        var args = new RestoreArgs(instance);
+        var args = new RestoreArgs(instance, new SqlConnectionStringBuilder(Profile.Read(new RealFileSystem()).ConnectionString));
         var id = MainWindowHelper.GetListItemID(instance.ID);
         WizardPipelineManager.Start("restore", mainWindow, args, null, ignore => MainWindowHelper.MakeInstanceSelected(id), () => new RestoreWizardArgs(instance));
       }
