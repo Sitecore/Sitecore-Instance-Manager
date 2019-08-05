@@ -248,6 +248,7 @@ namespace SIM.Sitecore9Installer
         importParam = string.Format(" -RequiredVersion {0}", sifVersion);
       }
       StringBuilder globalParamsEval = new StringBuilder();
+      globalParamsEval.Append("Set-ExecutionPolicy Bypass -Force\n");
       globalParamsEval.AppendFormat("Import-Module SitecoreInstallFramework{0}\n", importParam);
       globalParamsEval.AppendLine("$GlobalParams =@{");
       globalParamsEval.Append(this.tasksToRun.First().GetGlobalParamsScript(false));
