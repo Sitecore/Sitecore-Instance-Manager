@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace SIM
 {
   [Serializable]
-  public class SolrDefinition
+  public class SolrDefinition: ICloneable
   {
     string url;
     string root;
@@ -49,6 +49,17 @@ namespace SIM
         root = value;
       }
     }
-    public string Service { get; set; }   
+    public string Service { get; set; }
+
+    public object Clone()
+    {
+      return new SolrDefinition()
+      {
+        root = Root,
+        name = Name,
+        url = Url,
+        Service = Service
+      };
+    }
   }
 }

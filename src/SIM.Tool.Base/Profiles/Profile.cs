@@ -116,17 +116,23 @@
 
     public object Clone()
     {
-      return new Profile
+      Profile p= new Profile
       {
         ConnectionString = ConnectionString,
         InstancesFolder = InstancesFolder,
         License = License,
         LocalRepository = LocalRepository,
-
-        //deep clone might be required
-        Solrs = Solrs,
+        //deep clone might be required       
         VersionToSolrMap = VersionToSolrMap
       };
+
+      p.Solrs = new List<SolrDefinition>();
+      foreach(SolrDefinition s in this.Solrs)
+      {
+        p.Solrs.Add((SolrDefinition)s.Clone());
+      }
+
+      return p;
     }
 
     #endregion

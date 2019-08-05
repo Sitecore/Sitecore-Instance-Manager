@@ -131,6 +131,10 @@
     <Compile Include="Dialogs\DatabasesOperationsDialog.xaml.cs">
       <DependentUpon>DatabasesOperationsDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Dialogs\GridEditor.xaml.cs">
+      <DependentUpon>GridEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\GridEditorContext.cs" />
     <Compile Include="Dialogs\RestoreDatabaseDialog.xaml.cs">
       <DependentUpon>RestoreDatabaseDialog.xaml</DependentUpon>
     </Compile>
@@ -572,6 +576,10 @@
     <Page Include="Dialogs\DatabasesOperationsDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Dialogs\GridEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Dialogs\RestoreDatabaseDialog.xaml">
       <Generator>MSBuild:Compile</Generator>

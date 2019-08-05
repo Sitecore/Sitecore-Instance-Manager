@@ -9,6 +9,7 @@
   using Sitecore.Diagnostics.Base;
   using JetBrains.Annotations;
   using System;
+  using System.Linq;
 
   #region
 
@@ -28,7 +29,7 @@
         HeaderDetails.Text = "We are very sorry, but you have to perform this boring initial configuration in order to use this tool out of the box";
         CancelButton.Visibility = Visibility.Collapsed;
         Profile.InstancesFolder = "C:\\inetpub\\wwwroot";
-      }
+      }     
     }
 
     #endregion
@@ -157,8 +158,43 @@
       WindowHelper.ShowDialog(new AboutDialog(), this);
     }
 
+
     #endregion
 
-    
+    private void EditSolrs_Click(object sender, RoutedEventArgs e)
+    {
+      GridEditorContext context = new GridEditorContext(this.Profile.Solrs, "List of available solr servers (Url+root+service name).");
+      object result=WindowHelper.ShowDialog<GridEditor>(context, this);
+      bool? dialogresult = result as bool?;
+      if ((result!=null&&dialogresult==null)||(dialogresult.HasValue && dialogresult.Value))
+      { 
+        this.RefreshSolrText();
+      }     
+    }
+
+    private void Window_Loaded(object sender, RoutedEventArgs e)
+    {
+      RefreshSolrText();
+    }
+
+    private void RefreshSolrText()
+    {
+      if (this.Profile.Solrs.Count > 1)
+      {
+        this.SolrsText.Text = "multiple instances";
+      }
+      else
+      {
+        SolrDefinition solr = this.Profile.Solrs.FirstOrDefault();
+        if (solr != null)
+        {
+          this.SolrsText.Text = string.Join(";", solr.Name, solr.Url, solr.Root, solr.Service);
+        }
+        else
+        {
+          this.SolrsText.Text = "No solrs configured. Click '...' to add one.";
+        }
+      }
+    }
   }
 }

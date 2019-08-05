@@ -1,4 +1,5 @@
-﻿using Sitecore.Diagnostics.Base;
+﻿using SIM.Tool.Base;
+using Sitecore.Diagnostics.Base;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -46,6 +47,11 @@ namespace SIM.Tool.Windows.Dialogs
     {
       this.DialogResult = false;
       this.Close();
+    }   
+
+    private void Browse_Click(object sender, RoutedEventArgs e)
+    {
+      WindowHelper.PickFolder("Select solr root folder", this.RootText, null, null);
     }
   }
 }
