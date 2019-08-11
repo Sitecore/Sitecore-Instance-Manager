@@ -85,7 +85,7 @@ namespace SIM.Sitecore9Installer
     private Tasker()
     {
       string globalSettings = string.Empty;
-      using (var reader = new StreamReader(Path.Combine(Directory.GetCurrentDirectory(), "GlobalSettings.json")))
+      using (var reader = new StreamReader(Path.Combine(Directory.GetCurrentDirectory(), "GlobalParamsConfig/GlobalSettings.json")))
       {
         globalSettings = reader.ReadToEnd();
       }
@@ -102,7 +102,9 @@ namespace SIM.Sitecore9Installer
       {
         if (Regex.IsMatch(installationPackageName, pattern))
         {
-          this.globalParamsFile = new FileInfo(Path.Combine(Directory.GetCurrentDirectory(), globalFilesMap[pattern])).FullName;
+          string path = Path.Combine(Directory.GetCurrentDirectory(), "GlobalParamsConfig");
+          string fileName= Directory.GetFiles(path, globalFilesMap[pattern], SearchOption.AllDirectories).Single();
+          this.globalParamsFile =fileName;
         }
       }
 
@@ -120,7 +122,8 @@ namespace SIM.Sitecore9Installer
       List<InstallParam> deserializedGlobalParams;
       using (StreamReader reader = new StreamReader(Path.Combine(unInstallParamsPath, "globals.json")))
       {
-        this.globalParamsFile = Path.Combine(Directory.GetCurrentDirectory(), reader.ReadLine());
+        string filePath=Directory.GetFiles(Path.Combine(Directory.GetCurrentDirectory(), "GlobalParamsConfig"), reader.ReadLine(), SearchOption.AllDirectories).Single();
+        this.globalParamsFile = filePath;
         string data = reader.ReadToEnd();
         deserializedGlobalParams = JsonConvert.DeserializeObject<List<InstallParam>>(data);
       }

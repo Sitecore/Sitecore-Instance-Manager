@@ -122,7 +122,7 @@ namespace SIM.Tool.Windows.UserControls.Install
         {
           Directory.Delete(args.ScriptRoot, true);
           Directory.CreateDirectory(args.ScriptRoot);
-          WindowHelper.LongRunningTask(()=>this.UnpackInstallationFiles(args), "Unpacking unstallation files.", wizardArgs.WizardWindow);
+          WindowHelper.LongRunningTask(()=>this.UnpackInstallationFiles(args), "Unpacking installation files.", wizardArgs.WizardWindow);
         }
        
       }

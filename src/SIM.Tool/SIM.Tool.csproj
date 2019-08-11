@@ -434,34 +434,43 @@
     <Content Include="Configurations\Configuration - Sitecore 8.2 - Disable Xdb.zip">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="GlobalSettings.json">
+    <Content Include="GlobalParamsConfig\GlobalSettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="GlobalParams_9.0_XM1.json">
+    <Content Include="GlobalParamsConfig\XM\GlobalParams_9.0_XM1.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="GlobalParams_9.0_XP0.json">
+    <Content Include="GlobalParamsConfig\XP\GlobalParams_9.0_XP0.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="GlobalParams_9.0_XP1.json">
+    <Content Include="GlobalParamsConfig\XP\GlobalParams_9.0_XP1.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="GlobalParams_9.1.0_XP0.json">
+    <Content Include="GlobalParamsConfig\XP\GlobalParams_9.1.0_XP0.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="GlobalParams_9.1.0_XP1.json">
+    <Content Include="GlobalParamsConfig\XP\GlobalParams_9.1.0_XP1.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="GlobalParams_9.1_XP0.json">
+    <Content Include="GlobalParamsConfig\XP\GlobalParams_9.1_XP0.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="GlobalParams_9.1_XP1.json">
+    <Content Include="GlobalParamsConfig\XP\GlobalParams_9.1_XP1.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="GlobalParams_9.2_XP1.json">
+    <Content Include="GlobalParamsConfig\XP\GlobalParams_9.2_XP1.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <None Include="GlobalParams_9.2_XP0.json">
+    <Content Include="GlobalParamsConfig\XM\GlobalParams_9.1.0_XM1.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="GlobalParamsConfig\XM\GlobalParams_9.1_XM1.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="GlobalParamsConfig\XM\GlobalParams_9.2_XM1.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <None Include="GlobalParamsConfig\XP\GlobalParams_9.2_XP0.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="packages.config" />
