@@ -11,7 +11,7 @@ namespace SIM.Tool.Windows.UserControls
   /// <summary>
   ///   The confirm step user control.
   /// </summary>
-  public partial class ConfirmStepUserControl: IWizardStep, IFlowControl
+  public partial class ConfirmStepUserControl
   {
     #region Constructors
 
@@ -19,75 +19,7 @@ namespace SIM.Tool.Windows.UserControls
     {
       InitializeComponent();
       TextBlock.Text = param;
-    }
-
-    public void InitializeStep(WizardArgs wizardArgs)
-    {
-      
-    }
-
-    public bool OnMovingBack(WizardArgs wizardArgs)
-    {
-      return true;
-    }
-
-    public bool OnMovingNext(WizardArgs wizardArgs)
-    {
-     
-      var args = wizardArgs as ReinstallWizardArgs;
-      if (args == null||int.Parse(args.Instance.Product.ShortVersion) < 90)
-      {
-        return true;
-      }
-
-      string uninstallPath = string.Empty;
-      foreach (string installName in Directory.GetDirectories(ApplicationManager.UnInstallParamsFolder))
-      {
-        if (args.Instance.Name.StartsWith(Path.GetFileName(installName)))
-        {
-          uninstallPath = installName;
-          break;
-        }
-      }
-
-      if (string.IsNullOrEmpty(uninstallPath))
-      {
-        WindowHelper.ShowMessage("UnInstall files not found.");
-        return false;
-      }
-
-      Tasker tasker = new Tasker(uninstallPath);
-      InstallParam sqlServer = tasker.GlobalParams.FirstOrDefault(p => p.Name == "SqlServer");
-      if (sqlServer != null)
-      {
-        sqlServer.Value = args.ConnectionString.DataSource;
-      }
-
-      InstallParam sqlAdminUser = tasker.GlobalParams.FirstOrDefault(p => p.Name == "SqlAdminUser");
-      if (sqlAdminUser != null)
-      {
-        sqlAdminUser.Value = args.ConnectionString.UserID;
-      }
-
-      InstallParam sqlAdminPass = tasker.GlobalParams.FirstOrDefault(p => p.Name == "SqlAdminPassword");
-      if (sqlAdminPass != null)
-      {
-        sqlAdminPass.Value = args.ConnectionString.Password;
-      }
-      tasker.UnInstall = true;
-      args.Tasker = tasker;
-      return true;
-    }
-
-    
-
-    public bool SaveChanges(WizardArgs wizardArgs)
-    {
-      return true;
-    }
-
-
-
+    } 
     #endregion
   }
 }

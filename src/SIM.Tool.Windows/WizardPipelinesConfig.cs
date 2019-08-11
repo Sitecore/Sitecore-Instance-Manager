@@ -205,7 +205,14 @@ By clicking 'Next' you accept the License Agreement."" />
               type=""SIM.Tool.Windows.UserControls.Install.Instance9SelectTasks, SIM.Tool.Windows"" />        
      </steps>     
     </delete9>
-
+    <reinstall9 title=""Reinstalling {InstanceName}"" startButton=""Reinstall""
+             finishText=""The re-installation was successfully completed"">    
+      <args type=""SIM.Tool.Base.Pipelines.ReinstallWizardArgs, SIM.Tool.Base""/>
+      <steps>
+        <step name=""Confirmation"" 
+              type=""SIM.Tool.Windows.UserControls.Reinstall.Reinstall9Confirmation, SIM.Tool.Windows"" />       
+     </steps>  
+    </reinstall9>
     <install9 title=""Installing new instance"" startButton=""Install""
              finishText=""The installation was successfully completed"">
       <args type=""SIM.Tool.Base.Pipelines.Install9WizardArgs, SIM.Tool.Base""/>

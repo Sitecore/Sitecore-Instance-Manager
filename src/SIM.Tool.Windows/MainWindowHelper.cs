@@ -326,6 +326,19 @@
       }
     }
 
+    public static void Reinstall9Instance([NotNull] Instance instance, Window owner, [NotNull] string license, [NotNull] SqlConnectionStringBuilder connectionString)
+    {
+      Assert.ArgumentNotNull(instance, nameof(instance));
+      Assert.ArgumentNotNull(license, nameof(license));
+      Assert.ArgumentNotNull(connectionString, nameof(connectionString));
+
+      if (instance.IsSitecore)
+      {       
+        var name = instance.Name;
+        WizardPipelineManager.Start("reinstall9", owner, null, null, ignore => MakeInstanceSelected(name), () => new ReinstallWizardArgs(instance, connectionString, license));
+      }
+    }
+
     public static void SoftlyRefreshInstances()
     {
       using (new ProfileSection("Refresh instances (softly)"))

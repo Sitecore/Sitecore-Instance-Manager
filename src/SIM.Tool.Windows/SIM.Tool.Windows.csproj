@@ -296,6 +296,9 @@
     <Compile Include="UserControls\MultipleDeletion\SelectInstances.xaml.cs">
       <DependentUpon>SelectInstances.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\Reinstall\Reinstall9Confirmation.xaml.cs">
+      <DependentUpon>Reinstall9Confirmation.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\Setup\ConnectionString.xaml.cs">
       <DependentUpon>ConnectionString.xaml</DependentUpon>
     </Compile>
@@ -618,6 +621,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="UserControls\Install\Modules\ConfigurationPackages.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\Reinstall\Reinstall9Confirmation.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

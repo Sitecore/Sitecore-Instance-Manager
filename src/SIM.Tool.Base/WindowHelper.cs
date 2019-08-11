@@ -100,7 +100,7 @@
       return result as string;
     }
 
-    public static void HandleError([NotNull] string fullmessage, bool isError, [CanBeNull] Exception ex = null, [CanBeNull] object typeOwner = null)
+    public static void HandleError([NotNull] string fullmessage, bool isError, [CanBeNull] Exception ex = null, [CanBeNull] object typeOwner = null, string customLogLocation=null)
     {
       Assert.ArgumentNotNull(fullmessage, nameof(fullmessage));
 
@@ -118,7 +118,14 @@
         var message = ex != null ? fullmessage.TrimEnd(".".ToCharArray()) + ". " + ex.Message : fullmessage;
         if (ShowMessage(message + "\n\nYou can find details in the log file. Would you like to open it?", MessageBoxButton.OKCancel, MessageBoxImage.Error, MessageBoxResult.Cancel) == MessageBoxResult.OK)
         {
-          CoreApp.OpenFile(ApplicationManager.LogsFolder);
+          if (string.IsNullOrWhiteSpace(customLogLocation))
+          {
+            CoreApp.OpenFile(ApplicationManager.LogsFolder);
+          }
+          else
+          {
+            CoreApp.OpenFile(customLogLocation);
+          }
         }
       }
       else

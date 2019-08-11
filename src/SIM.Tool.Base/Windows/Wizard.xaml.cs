@@ -22,6 +22,7 @@
   using SIM.Pipelines.Processors;
   using SIM.Tool.Base;
   using SIM.Tool.Base.Wizards;
+  using SIM.Pipelines.Install;
 
   #endregion
 
@@ -455,7 +456,8 @@
                 message = Skipped;
               }
 
-              WindowHelper.HandleError(message, true, null);
+              
+              WindowHelper.HandleError(message, true, null,null,null);
               break;
             }
           }
