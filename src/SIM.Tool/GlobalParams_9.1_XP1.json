@@ -197,7 +197,11 @@
         "SiteName": "$SqlDbPrefix+\"DDS.local\""
       }
     },
-    "sitecore-XP1-cm-dds-patch": {}
+    "sitecore-XP1-cm-dds-patch": {
+      "Parameters": {
+        "SiteName": "$SqlDbPrefix+\"CM.local\"",
+        "DedicatedServerHostName": "$SqlDbPrefix+\"CM.local\""
+      }
 
-  }
+    }
 }

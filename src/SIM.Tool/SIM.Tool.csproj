@@ -458,6 +458,9 @@
     <Content Include="GlobalParams_9.1_XP1.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="GlobalParams_9.2_XP1.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="GlobalParams_9.2_XP0.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
