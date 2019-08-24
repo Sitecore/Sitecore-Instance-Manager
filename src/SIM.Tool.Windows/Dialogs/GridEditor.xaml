@@ -13,8 +13,30 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
-        <TextBlock Name="DescriptionText" Grid.Row="0" Margin="10,10,10,0"   VerticalAlignment="Center"/>
-        <DataGrid Name="DataGrid" Grid.Row="1" />
-        <Button Name="Ok" Grid.Row="2"  Margin="0,0,10,10"  Content="Ok" Click="Ok_Click" HorizontalAlignment="Right" Width="72" Height="23" VerticalAlignment="Bottom" />
+        
+        <TextBlock Name="DescriptionText" Grid.Row="0" Margin="10,10,10,0"   VerticalAlignment="Center" />
+        
+        <DataGrid Name="DataGrid" Grid.Row="1">
+            <DataGrid.RowValidationErrorTemplate>
+                <ControlTemplate>
+                    <Grid Margin="0,-2,0,-2"
+                          ToolTip="{Binding RelativeSource={RelativeSource
+      FindAncestor, AncestorType={x:Type DataGridRow}},
+      Path=(Validation.Errors)[0].ErrorContent}">
+                        <Ellipse StrokeThickness="0" Fill="Red" 
+                                 Width="{TemplateBinding FontSize}" 
+                                 Height="{TemplateBinding FontSize}" />
+                        <TextBlock Text="!" FontSize="{TemplateBinding FontSize}" 
+                                   FontWeight="Bold" Foreground="White" 
+                                   HorizontalAlignment="Center"  />
+                    </Grid>
+                </ControlTemplate>
+            </DataGrid.RowValidationErrorTemplate>
+            <DataGrid.RowValidationRules >
+                <local:GridObjectValidationRule ValidationStep="UpdatedValue"/>
+            </DataGrid.RowValidationRules>
+        </DataGrid>
+        <Button Name="Ok"  Grid.Row="2"  Margin="0,0,10,10"  Content="Ok" Click="Ok_Click" HorizontalAlignment="Right" Width="72" Height="23" VerticalAlignment="Bottom" >
+        </Button>
     </Grid>
 </Window>

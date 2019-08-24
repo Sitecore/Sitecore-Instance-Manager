@@ -1,6 +1,7 @@
 ﻿using Sitecore.Diagnostics.Base;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,7 +23,7 @@ namespace SIM.Tool.Windows.Dialogs
   {
     public GridEditor()
     {
-      InitializeComponent();     
+      InitializeComponent();
     }
 
     private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -31,12 +32,38 @@ namespace SIM.Tool.Windows.Dialogs
       Assert.ArgumentNotNull(editContext, nameof(editContext));
       this.DataGrid.ItemsSource = editContext.GridItems;
       this.DescriptionText.Text = editContext.Description;
-    }   
+    }
 
     private void Ok_Click(object sender, RoutedEventArgs e)
     {
-      this.DialogResult = true;
+      var errors = (from c in
+            (from object i in DataGrid.ItemsSource
+              select DataGrid.ItemContainerGenerator.ContainerFromItem(i))
+          where c != null
+          select Validation.GetHasError(c))
+        .FirstOrDefault(x => x);
+      this.DialogResult = !errors;
       this.Close();
+    }
+  }
+
+  internal class GridObjectValidationRule : ValidationRule
+  {
+    public override ValidationResult Validate(object value, CultureInfo cultureInfo)
+    {
+      IValidateable entry = (value as BindingGroup).Items[0] as IValidateable;
+      if (entry == null)
+      {
+        return ValidationResult.ValidResult;
+      }
+
+      string error = entry.ValidateAndGetError();
+      if (string.IsNullOrEmpty(error))
+      {
+        return ValidationResult.ValidResult;
+      }
+
+      return new ValidationResult(false, error);
     }
   }
 }

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace SIM
 {
   [Serializable]
-  public class SolrDefinition: ICloneable
+  public class SolrDefinition: ICloneable, IValidateable
   {
     string url;
     string root;
@@ -21,7 +21,6 @@ namespace SIM
       }
       set
       {
-        Assert.ArgumentNotNullOrEmpty(value, nameof(this.Name));
         name = value;
       }
     }
@@ -33,7 +32,6 @@ namespace SIM
       }
       set
       {
-        Assert.ArgumentNotNullOrEmpty(value, nameof(this.Url));
         url = value;
       }
     }
@@ -45,7 +43,6 @@ namespace SIM
       }
       set
       {
-        Assert.ArgumentNotNullOrEmpty(value, nameof(this.Root));
         root = value;
       }
     }
@@ -60,6 +57,17 @@ namespace SIM
         url = Url,
         Service = Service
       };
+    }
+
+    public string ValidateAndGetError()
+    {
+      if (string.IsNullOrWhiteSpace(this.Name) || string.IsNullOrWhiteSpace(this.Url) ||
+          string.IsNullOrWhiteSpace(this.Root))
+      {
+        return "Name, Root and Url must not be empty.";
+      }
+
+      return string.Empty;
     }
   }
 }

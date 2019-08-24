@@ -28,15 +28,16 @@ namespace SIM.Tool.Windows.Dialogs
 
     private void Ok_Click(object sender, RoutedEventArgs e)
     {
-      SolrDefinition solr = new SolrDefinition();
-      solr.Name = this.NameText.Text;
-      solr.Root = this.RootText.Text;
-      solr.Url = this.UrlText.Text;
-      if(string.IsNullOrWhiteSpace(solr.Name)|| string.IsNullOrWhiteSpace(solr.Url)|| string.IsNullOrWhiteSpace(solr.Root))
+      if (string.IsNullOrWhiteSpace(NameText.Text) || string.IsNullOrWhiteSpace(UrlText.Text) || string.IsNullOrWhiteSpace(RootText.Text))
       {
         MessageBox.Show("Name, Root and Url must not be empty.");
         return;
       }
+
+      SolrDefinition solr = new SolrDefinition();
+      solr.Name = this.NameText.Text;
+      solr.Root = this.RootText.Text;
+      solr.Url = this.UrlText.Text;
       solr.Service = this.ServiceText.Text;
       this.DataContext = solr;
       this.DialogResult = true;

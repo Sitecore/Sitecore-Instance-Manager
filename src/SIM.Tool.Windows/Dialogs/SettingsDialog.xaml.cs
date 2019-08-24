@@ -1,4 +1,6 @@
-﻿namespace SIM.Tool.Windows.Dialogs
+﻿using System.Collections.Generic;
+
+namespace SIM.Tool.Windows.Dialogs
 {
   using System.Windows;
   using System.Windows.Controls;
@@ -163,11 +165,18 @@
 
     private void EditSolrs_Click(object sender, RoutedEventArgs e)
     {
-      GridEditorContext context = new GridEditorContext(this.Profile.Solrs, "List of available solr servers (Url+root+service name).");
+      List<SolrDefinition> editCollection = new List<SolrDefinition>();
+      foreach (var solr in this.Profile.Solrs)
+      {
+        editCollection.Add((SolrDefinition)solr.Clone());
+      }
+
+      GridEditorContext context = new GridEditorContext(editCollection, "List of available solr servers (Url+root+service name).");
       object result=WindowHelper.ShowDialog<GridEditor>(context, this);
       bool? dialogresult = result as bool?;
       if ((result!=null&&dialogresult==null)||(dialogresult.HasValue && dialogresult.Value))
-      { 
+      {
+        this.Profile.Solrs = editCollection;
         this.RefreshSolrText();
       }     
     }
