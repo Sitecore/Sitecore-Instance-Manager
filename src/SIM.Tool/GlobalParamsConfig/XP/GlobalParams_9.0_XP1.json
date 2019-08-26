@@ -141,5 +141,5 @@
         "DedicatedServerHostName": "$SqlDbPrefix+\"CM.local\""
       }
     }
-
+  }
 }
