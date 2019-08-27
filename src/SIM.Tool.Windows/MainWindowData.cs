@@ -58,21 +58,30 @@ namespace SIM.Tool.Windows
           {
             new ButtonDefinition
             {
-              Label = "Install Instance",
+              Label = "Install SC XP 9",
               Image = "/Images/$lg/add_domain.png, SIM.Tool.Windows",
-              Handler = new SIM.Tool.Windows.MainWindowComponents.InstallInstanceButton()
+              Handler = new SIM.Tool.Windows.MainWindowComponents.Install9InstanceButton(),
+              Buttons = new[]
+              {
+                new ButtonDefinition
+                {
+                  Label = "Install Sitecore XP 9 and later",
+                  Image = "/Images/$lg/add_domain.png, SIM.Tool.Windows",
+                  Handler = new SIM.Tool.Windows.MainWindowComponents.Install9InstanceButton()
+                },
+                new ButtonDefinition
+                {
+                  Label = "Install Sitecore XP 8.2 and earlier",
+                  Image = "/Images/$lg/add_domain.png, SIM.Tool.Windows",
+                  Handler = new SIM.Tool.Windows.MainWindowComponents.InstallInstanceButton()
+                },
+              }
             },
             new ButtonDefinition
             {
               Label = "Import Solution",
               Image = "/Images/$lg/upload.png, SIM.Tool.Windows",
               Handler = new SIM.Tool.Windows.MainWindowComponents.ImportInstanceButton()
-            },
-            new ButtonDefinition
-            {
-              Label = "Install Sitecore 9",
-              Image = "/Images/$lg/add_domain.png, SIM.Tool.Windows",
-              Handler = new SIM.Tool.Windows.MainWindowComponents.Install9InstanceButton()
             }
           }
         },
