@@ -25,7 +25,7 @@ namespace SIM.Pipelines.Install
     protected override void Process([NotNull] ProcessorArgs args)
     {
       Install9Args arguments = (Install9Args)args;
-      SitecoreTask task = arguments.Tasker.Tasks.FirstOrDefault(t => t.Name == this.taskName);
+      PowerShellTask task = arguments.Tasker.Tasks.FirstOrDefault(t => t.Name == this.taskName);
       Assert.ArgumentNotNull(task, nameof(task));
       string result = task.GetScript();
       if (task.State == TaskState.Failed)

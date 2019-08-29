@@ -29,8 +29,7 @@ namespace SIM.Tool.Windows.UserControls.Install.ParametersEditor
     {
       var tasker = this.DataContext as Tasker;
       List<TasksModel> model = new List<TasksModel>();
-      model.Add(new TasksModel("Global", tasker.GlobalParams));
-      foreach (SitecoreTask task in tasker.Tasks.Where(t => t.ShouldRun))
+      model.Add(new TasksModel("Global", args.Tasker.GlobalParams));
       {
         if (!tasker.UnInstall || (tasker.UnInstall && task.SupportsUninstall()))
         {

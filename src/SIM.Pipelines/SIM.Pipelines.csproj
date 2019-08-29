@@ -114,9 +114,9 @@
     <Compile Include="Install\Modules\SolrInformation.cs" />
     <Compile Include="Install\Modules\SwitchConfigsToSolr.cs" />
     <Compile Include="Install\Run9Installation.cs" />
-    <Compile Include="Install\RunSitecoreTaskProcessor.cs" />
+    <Compile Include="Install\RunPSTaskProcessor.cs" />
     <Compile Include="Install\Settings.cs" />
-    <Compile Include="Install\RunSitecoreTasksProcessor.cs" />
+    <Compile Include="Install\RunPSTasksProcessor.cs" />
     <Compile Include="MongoHelper.cs" />
     <Compile Include="MultipleDeletion\MultipleDeletionArgs.cs" />
     <Compile Include="MultipleDeletion\MultipleDeletionProcessor.cs" />

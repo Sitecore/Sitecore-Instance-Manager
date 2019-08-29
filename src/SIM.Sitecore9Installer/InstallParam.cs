@@ -37,6 +37,24 @@ namespace SIM.Sitecore9Installer
       }
     }
     public string Description { get; set; }
+    public virtual string GetParameterValue()
+    {
+      string value = this.Value;
+      if (!value.StartsWith("$"))
+      {
+        if (value.StartsWith("[") && value.EndsWith("]"))
+        {
+          value = value.Remove(0, 1);
+          value = value.Remove(value.Length - 1, 1);
+        }
+        else
+        {
+          value = string.Format("\"{0}\"", value);
+        }
+      }
+
+      return value;
+    }
   }
 
   public class ParamValueUpdatedArgs : EventArgs

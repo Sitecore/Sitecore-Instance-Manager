@@ -98,6 +98,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="InstallParam.cs" />
+    <Compile Include="InstallSIFTask.cs" />
+    <Compile Include="PowerShellTask.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SitecoreTask.cs" />
     <Compile Include="Tasker.cs" />

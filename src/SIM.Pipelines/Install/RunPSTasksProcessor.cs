@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SIM.Pipelines.Install
 {
-  public class RunSitecoreTasksProcessor : ProcessorHive
+  public class RunPSTasksProcessor : ProcessorHive
   {
     public override IEnumerable<Processor> CreateProcessors(ProcessorArgs args)
     {
@@ -16,7 +16,7 @@ namespace SIM.Pipelines.Install
       List<Processor> processors = new List<Processor>();
       arguments.Tasker.EvaluateGlobalParams();
       Processor root = null;
-      foreach (SitecoreTask task in arguments.Tasker.Tasks)
+      foreach (PowerShellTask task in arguments.Tasker.Tasks)
       {
         if (!task.ShouldRun)
         {
@@ -30,7 +30,7 @@ namespace SIM.Pipelines.Install
         }
         else
         {
-          proc = new RunSitecoreTaskProcessor(task.Name);          
+          proc = new RunPSTaskProcessor(task.Name);          
         }        
 
         proc.ProcessorDefinition.Title = task.Name;
