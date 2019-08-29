@@ -30,7 +30,7 @@ namespace SIM.Tool.Windows.UserControls.Install.ParametersEditor
       var tasker = this.DataContext as Tasker;
       List<TasksModel> model = new List<TasksModel>();
       model.Add(new TasksModel("Global", tasker.GlobalParams));
-      foreach (PowerShellTask task in tasker.Tasks.Where(t=>t.ShouldRun))
+      foreach (PowerShellTask task in tasker.Tasks.Where(t=>t.ShouldRun&&t.LocalParams.Any()))
       {
         if (!tasker.UnInstall || (tasker.UnInstall && task.SupportsUninstall()))
         {
