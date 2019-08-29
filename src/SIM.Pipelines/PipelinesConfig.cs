@@ -5,25 +5,25 @@
     public const string Contents = @"<pipelines>
 <reinstall9 title=""Reinstalling the instance"">
     <step>
-      <hive type=""SIM.Pipelines.Install.RunSitecoreTasksProcessor, SIM.Pipelines""  />
+      <hive type=""SIM.Pipelines.Install.RunPSTasksProcessor, SIM.Pipelines""  />
     </step>
     <step>
        <processor type=""SIM.Pipelines.Reinstall.Reinstall9SwitchMode, SIM.Pipelines"" title=""Switch mode to install"" />
     </step>
     <step>
-      <hive type=""SIM.Pipelines.Install.RunSitecoreTasksProcessor, SIM.Pipelines""  />
+      <hive type=""SIM.Pipelines.Install.RunPSTasksProcessor, SIM.Pipelines""  />
     </step>
 </reinstall9>
 
 <install9 title=""Installing the instance"">
     <step>
-      <hive type=""SIM.Pipelines.Install.RunSitecoreTasksProcessor, SIM.Pipelines""  />
+      <hive type=""SIM.Pipelines.Install.RunPSTasksProcessor, SIM.Pipelines""  />
       <processor type=""SIM.Pipelines.Install.GenerateUnInstallParameters, SIM.Pipelines"" title=""Generate Uninstall data"" />
     </step>
   </install9>
 <delete9 title=""UnInstalling the instance"">
     <step>
-      <hive type=""SIM.Pipelines.Install.RunSitecoreTasksProcessor, SIM.Pipelines""  />
+      <hive type=""SIM.Pipelines.Install.RunPSTasksProcessor, SIM.Pipelines""  />
     </step>
     <step>
       <processor type=""SIM.Pipelines.Delete.CleanUp, SIM.Pipelines"" title=""Clean Up"" />

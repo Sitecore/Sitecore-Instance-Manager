@@ -16,7 +16,7 @@ namespace SIM.Sitecore9Installer
   public class Tasker
   {
 
-    List<SitecoreTask> tasksToRun = new List<SitecoreTask>();
+    List<PowerShellTask> tasksToRun = new List<PowerShellTask>();
     List<InstallParam> mapping;
     string filesRoot;
     string globalParamsFile;
@@ -56,7 +56,7 @@ namespace SIM.Sitecore9Installer
       }
     }
 
-    public List<SitecoreTask> Tasks
+    public List<PowerShellTask> Tasks
     {
       get
       {
@@ -112,6 +112,7 @@ namespace SIM.Sitecore9Installer
       this.doc = JObject.Parse(File.ReadAllText(this.globalParamsFile));
       this.globalParams = this.GetGlobalParams();
       this.UnInstall = unInstall;
+      this.AddInstallSifTask();
       this.LoadTasks();
     }
 
@@ -151,7 +152,7 @@ namespace SIM.Sitecore9Installer
         int index = taskNameAdnOrder.LastIndexOf('_');
         string taskName = taskNameAdnOrder.Substring(0, index);
         int order = int.Parse(taskNameAdnOrder.Substring(index + 1));
-        SitecoreTask t = new SitecoreTask(taskName, order);
+        SitecoreTask t = new SitecoreTask(taskName, order, this);
         t.GlobalParams = this.globalParams;
         using (StreamReader reader = new StreamReader(paramsFile))
         {
@@ -182,12 +183,19 @@ namespace SIM.Sitecore9Installer
           this.tasksToRun.Add(t);
         }
       }
+      AddInstallSifTask();
       this.tasksToRun = this.tasksToRun.OrderBy(t => t.ExecutionOrder).ToList();
-
       foreach (InstallParam p in this.globalParams)
       {
         p.ParamValueUpdated += this.GlobalParamValueUpdated;
       }
+    }
+
+    private void AddInstallSifTask()
+    {
+      string sifVersion = this.globalParams.First(p => p.Name == "SIFVersion").Value;
+      var installSifTask = new InstallSIFTask(sifVersion, "https://sitecore.myget.org/F/sc-powershell/api/v2");
+      this.tasksToRun.Add(installSifTask);
     }
 
     private List<InstallParam> GetGlobalParams()
@@ -232,7 +240,7 @@ namespace SIM.Sitecore9Installer
     private void GlobalParamValueUpdated(object sender, ParamValueUpdatedArgs e)
     {
       InstallParam updatedParam = (InstallParam)sender;
-      foreach (SitecoreTask task in this.Tasks)
+      foreach (PowerShellTask task in this.Tasks)
       {
         InstallParam param = task.LocalParams.FirstOrDefault(p => p.Name == updatedParam.Name);
         if (param != null)
@@ -240,6 +248,19 @@ namespace SIM.Sitecore9Installer
           param.Value = updatedParam.Value;
         }
       }
+    }
+
+    public string GetGlobalParamsScript(bool addPrefix = true)
+    {
+      StringBuilder script = new StringBuilder();
+      foreach (InstallParam param in this.GlobalParams)
+      {
+        string value = param.GetParameterValue();
+        string paramName = addPrefix ? "{" + param.Name + "}" : string.Format("'{0}'", param.Name);
+        script.AppendLine(string.Format("{0}{1}={2}", addPrefix ? "$" : string.Empty, paramName, value));
+      }
+
+      return script.ToString();
     }
 
     public void EvaluateGlobalParams()
@@ -254,10 +275,10 @@ namespace SIM.Sitecore9Installer
       globalParamsEval.Append("Set-ExecutionPolicy Bypass -Force\n");
       globalParamsEval.AppendFormat("Import-Module SitecoreInstallFramework{0}\n", importParam);
       globalParamsEval.AppendLine("$GlobalParams =@{");
-      globalParamsEval.Append(this.tasksToRun.First().GetGlobalParamsScript(false));
+      globalParamsEval.Append(this.GetGlobalParamsScript(false));
       globalParamsEval.Append("}\n");
       globalParamsEval.AppendLine("$GlobalParamsSys =@{");
-      globalParamsEval.Append(this.tasksToRun.First().GetGlobalParamsScript(false));
+      globalParamsEval.Append(this.GetGlobalParamsScript(false));
       globalParamsEval.Append("}\n$GlobalParamsSys");
       //string globalParamsEval = string.Format("Import-Module SitecoreInstallFramework{0}\n$GlobalParams =@{{1}}$GlobalParams", importParam, this.tasksToRun.First().GetGlobalParamsScript());
       Hashtable evaluatedParams = null;
@@ -290,7 +311,7 @@ namespace SIM.Sitecore9Installer
         wr.WriteLine(Path.GetFileName(this.globalParamsFile));
         wr.WriteLine(this.GetSerializedGlobalParams(excludeParams));
       }
-      foreach (SitecoreTask task in this.Tasks.Where(t => t.ShouldRun))
+      foreach (PowerShellTask task in this.Tasks.Where(t => t.ShouldRun))
       {
         string parameters = task.GetSerializedParameters(excludeParams);
         using (StreamWriter wr = new StreamWriter(Path.Combine(filesPath, string.Format("{0}_{1}.json", task.Name, task.ExecutionOrder))))
@@ -401,7 +422,7 @@ namespace SIM.Sitecore9Installer
         //  continue;
         //}
 
-        SitecoreTask t = new SitecoreTask(param.Name, order);
+        SitecoreTask t = new SitecoreTask(param.Name, order, this);
         if (!string.IsNullOrEmpty(this.deployRoot))
         {
           this.InjectLocalDeploymentRoot(taskFile);

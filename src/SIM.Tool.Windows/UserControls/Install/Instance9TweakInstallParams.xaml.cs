@@ -40,7 +40,7 @@ namespace SIM.Tool.Windows.UserControls.Install
       this.tasker = args.Tasker;
       List<TasksModel> model = new List<TasksModel>();
       model.Add(new TasksModel("Global", args.Tasker.GlobalParams));
-      foreach (SitecoreTask task in args.Tasker.Tasks.Where(t=>t.ShouldRun))
+      foreach (PowerShellTask task in args.Tasker.Tasks.Where(t=>t.ShouldRun))
       {
         if (!this.tasker.UnInstall || (this.tasker.UnInstall && task.SupportsUninstall()))
         {

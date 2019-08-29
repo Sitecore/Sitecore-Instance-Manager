@@ -11,10 +11,10 @@ using System.Threading.Tasks;
 
 namespace SIM.Pipelines.Install
 {
-  public class RunSitecoreTaskProcessor : Processor
+  public class RunPSTaskProcessor : Processor
   {
     string taskName;
-    public RunSitecoreTaskProcessor(string TaskName)
+    public RunPSTaskProcessor(string TaskName)
     {
       Assert.ArgumentNotNullOrEmpty(TaskName, nameof(TaskName));
       this.taskName = TaskName;
@@ -24,7 +24,7 @@ namespace SIM.Pipelines.Install
     protected override void Process([NotNull] ProcessorArgs args)
     {
       Install9Args arguments = (Install9Args)args;
-      SitecoreTask task=arguments.Tasker.Tasks.FirstOrDefault(t => t.Name == this.taskName);
+      PowerShellTask task=arguments.Tasker.Tasks.FirstOrDefault(t => t.Name == this.taskName);
       Assert.ArgumentNotNull(task, nameof(task));
       string result= task.Run();
       if (task.State == TaskState.Failed)
