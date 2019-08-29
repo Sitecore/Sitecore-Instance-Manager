@@ -23,14 +23,17 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using SIM.Tool.Windows.UserControls.Install.ParametersEditor;
 
 namespace SIM.Tool.Windows.UserControls.Install
 {
   /// <summary>
   /// Interaction logic for Instance9SelectTasks.xaml
   /// </summary>
-  public partial class Instance9SelectTasks : IWizardStep, IFlowControl
+  public partial class Instance9SelectTasks : IWizardStep, IFlowControl, ICustomButton
   {
+    private Window owner;
+    private Tasker tasker;
     public Instance9SelectTasks()
     {
       InitializeComponent();
@@ -40,6 +43,8 @@ namespace SIM.Tool.Windows.UserControls.Install
     {
       Assert.ArgumentNotNull(wizardArgs, nameof(wizardArgs));
       Install9WizardArgs args = (Install9WizardArgs)wizardArgs;
+      this.owner = args.WizardWindow;
+      this.tasker = args.Tasker;
       this.TasksList.DataContext = args.Tasker.Tasks;
     }    
 
@@ -64,6 +69,12 @@ namespace SIM.Tool.Windows.UserControls.Install
     public bool SaveChanges(WizardArgs wizardArgs)
     {
       return true;
+    }
+
+    public string CustomButtonText { get=>"Advanced..."; }
+    public void CustomButtonClick()
+    {
+      WindowHelper.ShowDialog<Install9ParametersEditor>(this.tasker, this.owner);
     }
   }
 }

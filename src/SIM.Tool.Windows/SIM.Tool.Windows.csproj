@@ -264,9 +264,6 @@
     <Compile Include="UserControls\Install\Instance9SelectTasks.xaml.cs">
       <DependentUpon>Instance9SelectTasks.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\Install\Instance9TweakInstallParams.xaml.cs">
-      <DependentUpon>Instance9TweakInstallParams.xaml</DependentUpon>
-    </Compile>
     <Compile Include="UserControls\Install\InstanceRole9.xaml.cs">
       <DependentUpon>InstanceRole9.xaml</DependentUpon>
     </Compile>
@@ -291,6 +288,9 @@
     <Compile Include="UserControls\Install\Modules\ProductInCheckbox.cs" />
     <Compile Include="UserControls\Install\Modules\ReorderPackages.xaml.cs">
       <DependentUpon>ReorderPackages.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Install\ParametersEditor\Install9ParametersEditor.xaml.cs">
+      <DependentUpon>Install9ParametersEditor.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\MultipleDeletion\MultipleDeletionWizardArgs.cs" />
     <Compile Include="UserControls\MultipleDeletion\SelectInstances.xaml.cs">
@@ -604,10 +604,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UserControls\Install\Instance9TweakInstallParams.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="UserControls\Install\InstanceRole9.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -623,6 +619,10 @@
     <Page Include="UserControls\Install\Modules\ConfigurationPackages.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\Install\ParametersEditor\Install9ParametersEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\Reinstall\Reinstall9Confirmation.xaml">
       <Generator>MSBuild:Compile</Generator>

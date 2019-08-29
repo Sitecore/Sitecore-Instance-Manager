@@ -1,9 +1,4 @@
-﻿using SIM.Pipelines;
-using SIM.Pipelines.Processors;
-using SIM.Tool.Base.Pipelines;
-using SIM.Tool.Base.Wizards;
-using Sitecore.Diagnostics.Base;
-using SIM.Sitecore9Installer;
+﻿using SIM.Sitecore9Installer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,55 +11,35 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace SIM.Tool.Windows.UserControls.Install
+namespace SIM.Tool.Windows.UserControls.Install.ParametersEditor
 {
   /// <summary>
-  /// Interaction logic for Instance9TweakInstallParams.xaml
+  /// Interaction logic for Install9ParametersEditor.xaml
   /// </summary>
-  public partial class Instance9TweakInstallParams : IWizardStep, IFlowControl
+  public partial class Install9ParametersEditor : Window
   {
-    public Instance9TweakInstallParams()
+    public Install9ParametersEditor()
     {
       InitializeComponent();
     }
 
-    private Tasker tasker;
-
-    public void InitializeStep(WizardArgs wizardArgs)
+    private void Window_Loaded(object sender, RoutedEventArgs e)
     {
-      Assert.ArgumentNotNull(wizardArgs, nameof(wizardArgs));
-      Install9WizardArgs args = (Install9WizardArgs)wizardArgs;
-      this.tasker = args.Tasker;
+      var tasker = this.DataContext as Tasker;
       List<TasksModel> model = new List<TasksModel>();
-      model.Add(new TasksModel("Global", args.Tasker.GlobalParams));
-      foreach (SitecoreTask task in args.Tasker.Tasks.Where(t=>t.ShouldRun))
+      model.Add(new TasksModel("Global", tasker.GlobalParams));
+      foreach (SitecoreTask task in tasker.Tasks.Where(t => t.ShouldRun))
       {
-        if (!this.tasker.UnInstall || (this.tasker.UnInstall && task.SupportsUninstall()))
+        if (!tasker.UnInstall || (tasker.UnInstall && task.SupportsUninstall()))
         {
           model.Add(new TasksModel(task.Name, task.LocalParams));
         }
       }
 
       this.InstallationParameters.DataContext = model;
-    }
-
-    public bool OnMovingBack(WizardArgs wizardArgs)
-    {
-      return true;
-    }
-
-    public bool OnMovingNext(WizardArgs wizardArgs)
-    {
-     
-      return true;
-    }
-
-    public bool SaveChanges(WizardArgs wizardArgs)
-    {
-      return true;
+      this.InstallationParameters.SelectedIndex = 0;
     }
 
     private void ScrollViewer_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
@@ -89,8 +64,9 @@ namespace SIM.Tool.Windows.UserControls.Install
       public List<InstallParam> Params { get; }
     }
 
-
-
-    
+    private void Btn_Close_Click(object sender, RoutedEventArgs e)
+    {
+      this.Close();
+    }
   }
 }
