@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SIM.Tool.Windows.UserControls.Install.ParametersEditor"
         mc:Ignorable="d"
-        Title="Install9ParametersEditor" Height="450" Width="800" Loaded="Window_Loaded">
+        Title="Advanced installation parameters" Height="450" Width="800" Loaded="Window_Loaded">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="40" />
