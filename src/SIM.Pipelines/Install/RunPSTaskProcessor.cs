@@ -27,11 +27,10 @@ namespace SIM.Pipelines.Install
       PowerShellTask task=arguments.Tasker.Tasks.FirstOrDefault(t => t.Name == this.taskName);
       Assert.ArgumentNotNull(task, nameof(task));
       string result= task.Run();
-      if (task.State == TaskState.Failed)
+      if (task.State != TaskState.Finished)
       {
         throw new AggregateException(string.Format("Failed to execute {0} task. \n{1}",task.Name,result));
-      }     
-
+      }   
     }
   }
 }

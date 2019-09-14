@@ -11,7 +11,7 @@ namespace SIM.Sitecore9Installer
   {
     private string sifVersion;
     private string repo;
-    private string scriptTemaplate = "if (Get-Module -Name SitecoreInstallFramework -ListAvailable | Where-Object { $_.Version -eq $sifVersion }) {" +
+    private string scriptTemaplate = "if (Get-Module -Name SitecoreInstallFramework -ListAvailable | Where-Object { $_.Version -eq \"$sifVersion\" }) {" +
                                      "\r\n" +
                                      "                return" +
                                      "\r\n" +
@@ -25,9 +25,9 @@ namespace SIM.Sitecore9Installer
                                      "{\r\n " +
                                      "               if (!$repository) {" +
                                      "\r\n" +
-                                     "                    Register-PSRepository -Name $tempRepositoryName -SourceLocation $repo -InstallationPolicy Trusted" +
+                                     "                    Register-PSRepository -Name $tempRepositoryName -SourceLocation \"$repoAddress\" -InstallationPolicy Trusted" +
                                      "\r\n" +
-                                     "                    $repository = Get-PSRepository | Where-Object { $_.SourceLocation -eq $repo }" +
+                                     "                    $repository = Get-PSRepository | Where-Object { $_.SourceLocation -eq \"$repoAddress\" }" +
                                      "\r\n" +
                                      "                }" +
                                      "\r\n" +
