@@ -311,7 +311,7 @@ namespace SIM.Sitecore9Installer
         wr.WriteLine(Path.GetFileName(this.globalParamsFile));
         wr.WriteLine(this.GetSerializedGlobalParams(excludeParams));
       }
-      foreach (PowerShellTask task in this.Tasks.Where(t => t.ShouldRun))
+      foreach (PowerShellTask task in this.Tasks.Where(t => t.ShouldRun&&t.SupportsUninstall()))
       {
         string parameters = task.GetSerializedParameters(excludeParams);
         using (StreamWriter wr = new StreamWriter(Path.Combine(filesPath, string.Format("{0}_{1}.json", task.Name, task.ExecutionOrder))))

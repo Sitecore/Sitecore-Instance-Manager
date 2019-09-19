@@ -80,14 +80,7 @@ namespace SIM.Sitecore9Installer
 
     public override bool SupportsUninstall()
     {
-      InstallParam path = this.LocalParams.FirstOrDefault(p => p.Name == "Path");
-      if (path == null)
-      {
-        return false;
-      }
-
-      JObject doc = JObject.Parse(File.ReadAllText(path.Value));
-      return doc["UninstallTasks"] != null;
+      return true;
     }
   }
 }
