@@ -248,6 +248,7 @@
     </Compile>
     <Compile Include="UserControls\Export\ExportWizardArgs.cs" />
     <Compile Include="UserControls\Export\FinishActions.cs" />
+    <Compile Include="UserControls\Helpers\UninstallTasksHelper.cs" />
     <Compile Include="UserControls\Import\ImportWebsite.xaml.cs">
       <DependentUpon>ImportWebsite.xaml</DependentUpon>
     </Compile>

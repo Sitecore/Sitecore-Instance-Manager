@@ -24,6 +24,7 @@ namespace SIM.Tool.Windows.UserControls.Install
   using SIM.IO.Real;
   using SIM.Sitecore9Installer;
   using SIM.Tool.Windows.Dialogs;
+  using SIM.Tool.Windows.UserControls.Helpers;
 
   #region
 
@@ -115,6 +116,7 @@ namespace SIM.Tool.Windows.UserControls.Install
       {
         Directory.CreateDirectory(args.ScriptRoot);
         WindowHelper.LongRunningTask(() => this.UnpackInstallationFiles(args), "Unpacking unstallation files.", wizardArgs.WizardWindow);
+        WindowHelper.LongRunningTask(() => UninstallTasksHelper.AddUninstallTasks(args), "Add Uninstall tasks to the OOB config files.", wizardArgs.WizardWindow);
       }
       else
       {
@@ -123,6 +125,7 @@ namespace SIM.Tool.Windows.UserControls.Install
           Directory.Delete(args.ScriptRoot, true);
           Directory.CreateDirectory(args.ScriptRoot);
           WindowHelper.LongRunningTask(()=>this.UnpackInstallationFiles(args), "Unpacking installation files.", wizardArgs.WizardWindow);
+          WindowHelper.LongRunningTask(() => UninstallTasksHelper.AddUninstallTasks(args), "Add Uninstall tasks to the OOB config files.", wizardArgs.WizardWindow);
         }
        
       }

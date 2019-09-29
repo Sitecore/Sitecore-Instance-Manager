@@ -477,6 +477,63 @@
     <Content Include="Packages\Visual Studio 2015 Website Project.manifest.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="SC90UninstallTasks\XM1\sitecore-solr.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SC90UninstallTasks\XM1\sitecore-XM1-cd.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SC90UninstallTasks\XM1\sitecore-XM1-cm.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SC90UninstallTasks\XP0\sitecore-solr.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SC90UninstallTasks\XP0\sitecore-XP0.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SC90UninstallTasks\XP0\xconnect-solr.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SC90UninstallTasks\XP0\xconnect-xp0.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SC90UninstallTasks\XP1\sitecore-solr.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SC90UninstallTasks\XP1\sitecore-XP1-cd.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SC90UninstallTasks\XP1\sitecore-XP1-cm.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SC90UninstallTasks\XP1\sitecore-xp1-dds.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SC90UninstallTasks\XP1\sitecore-XP1-prc.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SC90UninstallTasks\XP1\sitecore-XP1-rep.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SC90UninstallTasks\XP1\xconnect-solr.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SC90UninstallTasks\XP1\xconnect-xp1-collection.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SC90UninstallTasks\XP1\xconnect-xp1-collectionsearch.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SC90UninstallTasks\XP1\xconnect-xp1-MarketingAutomation.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SC90UninstallTasks\XP1\xconnect-xp1-MarketingAutomationReporting.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SC90UninstallTasks\XP1\xconnect-xp1-ReferenceData.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Page Include="ExpressionLight.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

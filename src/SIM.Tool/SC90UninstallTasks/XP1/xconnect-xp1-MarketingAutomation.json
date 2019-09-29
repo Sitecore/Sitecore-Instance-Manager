@@ -1,0 +1,82 @@
+﻿{
+  "Variables": {
+    "SqlMarketingAutomation.Password": "[parameter('SqlMarketingAutomationPassword')]",
+    "SqlMessaging.Password": "[parameter('SqlMessagingPassword')]",
+    "SqlProcessingPools.Password": "[parameter('SqlProcessingPoolsPassword')]",
+    "SqlCollection.Password": "[parameter('SqlCollectionPassword')]",
+    "SqlReferenceData.Password": "[parameter('SqlReferenceDataPassword')]",
+    "SqlCollection.User": "[parameter('SqlCollectionUser')]"
+  },
+  "Register": {
+    "Tasks": {
+      "RemoveItem": "Remove-Item"
+    }
+  },
+  "UninstallTasks": {
+    "StopService": {
+      "Description": "Stops the service if it is running.",
+      "Type": "ManageService",
+      "Params": {
+        "Name": "[variable('Services.MarketingAutomationEngine.Name')]",
+        "Status": "Stopped",
+        "PostDelay": 3000
+      }
+    },
+    "RemoveService": {
+      "Description": "Removes the current service.",
+      "Type": "RemoveService",
+      "Params": {
+        "Name": "[variable('Services.MarketingAutomationEngine.Name')]"
+      }
+    },
+    "StopWebsite": {
+      "Description": "Stops the website if it is running.",
+      "Type": "ManageWebsite",
+      "Params": {
+        "Name": "[parameter('SiteName')]",
+        "Action": "Stop",
+        "ErrorAction": "SilentlyContinue"
+      }
+    },
+    "StopAppPool": {
+      "Description": "Stops the app pool if it is running.",
+      "Type": "ManageAppPool",
+      "Params": {
+        "Name": "[parameter('SiteName')]",
+        "Action": "Stop",
+        "ErrorAction": "SilentlyContinue"
+      }
+    },
+    "RemoveWebsite": {
+      "Description": "Removes the IIS website.",
+      "Type": "RemoveWebsite",
+      "Params": {
+        "Name": "[parameter('SiteName')]"
+      }
+    },
+    "RemoveAppPool": {
+      "Description": "Removes the IIS application pool.",
+      "Type": "RemoveAppPool",
+      "Params": {
+        "Name": "[parameter('SiteName')]"
+      }
+    },
+    "RemoveContent": {
+      "Description": "Removes website content.",
+      "Type": "RemoveItem",
+      "Params": {
+        "Path": "[variable('Site.PhysicalPath')]",
+        "Recurse": true,
+        "ErrorAction": "SilentlyContinue"
+      }
+    },
+    "RemoveHostHeader": {
+      "Description": "Removes the website host name.",
+      "Type": "HostHeader",
+      "Params": {
+        "HostName": "[parameter('SiteName')]",
+        "Action": "Remove"
+      }
+    }
+  }
+}
