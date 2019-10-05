@@ -734,6 +734,8 @@
       }
     }
 
+    [CanBeNull] public static Instance PreviouslySelectedInstance;
+
     #endregion
 
     #region Methods
@@ -808,9 +810,58 @@
     {
       using (new ProfileSection("Main window instance selected handler"))
       {
-        if (SelectedInstance != null && MainWindow.Instance.HomeTab.IsSelected)
+        if (SelectedInstance != null)
         {
-          MainWindow.Instance.OpenTab.IsSelected = true;
+          if (MainWindow.Instance.HomeTab.IsSelected)
+          {
+            MainWindow.Instance.OpenTab.IsSelected = true;
+          }
+
+          CheckInstanceVersion(SelectedInstance);
+          PreviouslySelectedInstance = SelectedInstance;
+        }
+      }
+    }
+
+    private static void CheckInstanceVersion(Instance currentlySelectedInstance)
+    {
+      if (PreviouslySelectedInstance != null && 
+          (PreviouslySelectedInstance.Product.Release.Version.MajorMinorInt >= 91 && currentlySelectedInstance.Product.Release.Version.MajorMinorInt >= 91 || 
+           PreviouslySelectedInstance.Product.Release.Version.MajorMinorInt < 91 && currentlySelectedInstance.Product.Release.Version.MajorMinorInt < 91))
+      {
+        return;
+      }
+
+      if (currentlySelectedInstance.Product.Release.Version.MajorMinorInt >= 91)
+      {
+        ShowHideButtons(Visibility.Collapsed);
+      }
+      else
+      {
+        ShowHideButtons(Visibility.Visible);
+      }
+    }
+
+    private static void ShowHideButtons(Visibility visibility)
+    {
+      foreach (var group in MainWindow.Instance.OpenTab.Groups)
+      {
+        if (group.Header == "Apps")
+        {
+          foreach (var splitButton in group.Items)
+          {
+            if ((splitButton as Fluent.SplitButton).Header == "Visual Studio")
+            {
+              foreach (var menuItem in (splitButton as Fluent.SplitButton).Items)
+              {
+                if ((menuItem as Fluent.MenuItem).Header == "Create Support Patch" ||
+                    (menuItem as Fluent.MenuItem).Header == "Create Core Patch")
+                {
+                  (menuItem as Fluent.MenuItem).Visibility = visibility;
+                }
+              }
+            }
+          }
         }
       }
     }
