@@ -36,7 +36,15 @@
 
   "ExecSequense": {
     "sitecore-solr": {},
-    "sitecore-XM1-cd": {},
-    "sitecore-XM1-cm": {}
+    "sitecore-XM1-cd": {
+      "Parameters": {
+        "SiteName": "$SqlDbPrefix+\"CD.local\""
+      }
+    },
+    "sitecore-XM1-cm": {
+      "Parameters": {
+        "SiteName": "$SqlDbPrefix+\"CM.local\""
+      }
+    }  
   }
 }
