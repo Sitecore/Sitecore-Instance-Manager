@@ -215,7 +215,6 @@
     public void ProcessorCrashed(string error)
     {
       Assert.ArgumentNotNull(error, nameof(error));
-      Dispatcher.Invoke(() => { this.NextButton.IsEnabled = true; });
     }
 
     public void ProcessorDone([NotNull] string title)

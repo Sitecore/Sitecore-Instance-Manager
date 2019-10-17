@@ -34,6 +34,7 @@ namespace SIM.Pipelines.Install
         }        
 
         proc.ProcessorDefinition.Title = task.Name;
+        proc.ProcessorDefinition.Type = proc.GetType();
         if (root == null)
         {          
           processors.Add(proc);
