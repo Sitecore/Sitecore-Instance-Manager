@@ -48,11 +48,59 @@
       <TextBlock Text="{Binding ElementName=InstanceList, Path=SelectedItem.ModulesNames}" Padding="4,4,4,0" />
     </StackPanel>
     <ListBox Margin="0 1 0 1" Name="InstanceList" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" ItemsSource="{Binding}" BorderThickness="0" MouseRightButtonUp="ItemsTreeViewMouseRightClick" MouseDoubleClick="ItemsTreeViewMouseDoubleClick" KeyUp="ItemsTreeViewKeyPressed" SelectionChanged="InstanceSelected" SelectionMode="Single">
-      <ListBox.ItemTemplate>
+        <ListBox.GroupStyle>
+            <GroupStyle>
+                <GroupStyle.ContainerStyle>
+                        <Style TargetType="{x:Type GroupItem}">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate>
+                                        <Grid>
+                                            <Expander IsExpanded="False" Padding="1">
+                                                <Expander.Style>
+                                                    <Style TargetType="Expander">
+                                                        <Setter Property="Visibility" Value="Visible"></Setter>
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding ItemCount}" Value="1">
+                                                                <Setter Property="Visibility" Value="Collapsed"></Setter>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Expander.Style>
+                                                <Expander.Header>
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <TextBlock TextOptions.TextFormattingMode="Ideal" VerticalAlignment="Center" FontSize="13" Text="{Binding Name}" />
+                                                    </StackPanel>
+                                                </Expander.Header>
+                                                <Border Margin="18,0,0,0">
+                                                    <ItemsPresenter />
+                                                </Border>
+                                            </Expander>
+                                            <ItemsPresenter>
+                                                <ItemsPresenter.Style>
+                                                    <Style TargetType="ItemsPresenter">
+                                                        <Setter Property="Visibility" Value="Collapsed"></Setter>
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding ItemCount}" Value="1">
+                                                                <Setter Property="Visibility" Value="Visible"></Setter>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </ItemsPresenter.Style>
+                                            </ItemsPresenter>
+                                        </Grid>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </GroupStyle.ContainerStyle>
+            </GroupStyle>
+            </ListBox.GroupStyle>
+            <ListBox.ItemTemplate>
             <DataTemplate>
-          <Border BorderThickness="1" Margin="2" CornerRadius="10,0,10,0">
-            <TextBlock TextOptions.TextFormattingMode="Ideal" VerticalAlignment="Center" FontSize="13" Margin="4,0,0,0" Text="{Binding Path=Name}" />
-          </Border>
+              <Border BorderThickness="1" Margin="2" CornerRadius="10,0,10,0">
+                <TextBlock TextOptions.TextFormattingMode="Ideal" VerticalAlignment="Center" FontSize="13" Margin="18,0,0,0" Text="{Binding Name}" />
+              </Border>
             </DataTemplate>
       </ListBox.ItemTemplate>
       <ListBox.ContextMenu>

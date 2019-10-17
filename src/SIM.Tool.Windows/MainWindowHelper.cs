@@ -30,6 +30,9 @@
   using SIM.Extensions;
   using SIM.Tool.Base.Pipelines;
 
+  using System.ComponentModel;
+  using System.Windows.Data;
+
   #region
 
   #endregion
@@ -921,8 +924,12 @@
           source = source.Where(instance => IsInstanceMatch(instance, searchPhrase));
         }
 
-        source = source.OrderBy(instance => instance.Name);
-        MainWindow.Instance.InstanceList.DataContext = source;
+        ICollectionView view = CollectionViewSource.GetDefaultView(source);
+        view.GroupDescriptions.Add(new PropertyGroupDescription("ProductFullName"));
+        view.SortDescriptions.Add(new SortDescription("ProductFullName", ListSortDirection.Ascending));
+        view.SortDescriptions.Add(new SortDescription("Name", ListSortDirection.Ascending));
+
+        MainWindow.Instance.InstanceList.DataContext = view;
         MainWindow.Instance.SearchTextBox.Focus();
       }
     }
