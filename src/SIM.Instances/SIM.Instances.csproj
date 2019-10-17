@@ -76,6 +76,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="SitecoreEnvironment.cs" />
+    <Compile Include="SitecoreEnvironmentHelper.cs" />
+    <Compile Include="SitecoreEnvironmentMember.cs" />
     <Compile Include="InstanceHelper.cs" />
     <Compile Include="InstanceState.cs" />
     <Compile Include="PartiallyCachedInstance.cs" />

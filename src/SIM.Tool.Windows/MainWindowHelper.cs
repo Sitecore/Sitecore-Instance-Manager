@@ -925,8 +925,8 @@
         }
 
         ICollectionView view = CollectionViewSource.GetDefaultView(source);
-        view.GroupDescriptions.Add(new PropertyGroupDescription("ProductFullName"));
-        view.SortDescriptions.Add(new SortDescription("ProductFullName", ListSortDirection.Ascending));
+        view.GroupDescriptions.Add(new PropertyGroupDescription("SitecoreEnvironment.Name"));
+        view.SortDescriptions.Add(new SortDescription("SitecoreEnvironment.Name", ListSortDirection.Ascending));
         view.SortDescriptions.Add(new SortDescription("Name", ListSortDirection.Ascending));
 
         MainWindow.Instance.InstanceList.DataContext = view;

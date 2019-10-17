@@ -217,6 +217,16 @@
       }
     }
 
+
+    [NotNull]
+    public virtual SitecoreEnvironment SitecoreEnvironment
+    {
+      get
+      {
+        return new SitecoreEnvironment(this.Name, SitecoreEnvironmentHelper.SitecoreEnvironments);
+      }
+    }
+
     [NotNull]
     public virtual Product Product
     {
