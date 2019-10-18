@@ -113,6 +113,8 @@
 
     public void Initialize([CanBeNull] string defaultRootFolder = null)
     {
+      SitecoreEnvironmentHelper.SitecoreEnvironments = SitecoreEnvironmentHelper.GetEnvironmentData();
+
       using (WebServerManager.WebServerContext context = WebServerManager.CreateContext())
       {
         ProfileSection.Argument("defaultRootFolder", defaultRootFolder);
