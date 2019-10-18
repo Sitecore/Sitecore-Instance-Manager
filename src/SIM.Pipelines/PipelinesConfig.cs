@@ -17,8 +17,8 @@
 
 <install9 title=""Installing the instance"">
     <step>
-      <hive type=""SIM.Pipelines.Install.RunPSTasksProcessor, SIM.Pipelines""  />
       <processor type=""SIM.Pipelines.Install.GenerateUnInstallParameters, SIM.Pipelines"" title=""Generate Uninstall data"" />
+      <hive type=""SIM.Pipelines.Install.RunPSTasksProcessor, SIM.Pipelines""  />
     </step>
   </install9>
 <delete9 title=""UnInstalling the instance"">
