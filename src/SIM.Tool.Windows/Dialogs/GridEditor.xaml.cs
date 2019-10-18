@@ -30,8 +30,8 @@ namespace SIM.Tool.Windows.Dialogs
     {
       GridEditorContext editContext = this.DataContext as GridEditorContext;
       Assert.ArgumentNotNull(editContext, nameof(editContext));
-      this.DataGrid.ItemsSource = editContext.GridItems;
       this.DescriptionText.Text = editContext.Description;
+      
     }
 
     private void Ok_Click(object sender, RoutedEventArgs e)
@@ -44,6 +44,15 @@ namespace SIM.Tool.Windows.Dialogs
         .FirstOrDefault(x => x);
       this.DialogResult = !errors;
       this.Close();
+    }
+
+    private void Button_Click(object sender, RoutedEventArgs e)
+    {
+      Button b = sender as Button;
+      GridEditorContext editContext = this.DataContext as GridEditorContext;
+      editContext.GridItems.Remove(b.DataContext);
+      this.DataGrid.DataContext = null;
+      this.DataGrid.DataContext = editContext;
     }
   }
 

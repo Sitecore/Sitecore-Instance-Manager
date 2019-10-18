@@ -15,8 +15,8 @@
         </Grid.RowDefinitions>
         
         <TextBlock Name="DescriptionText" Grid.Row="0" Margin="10,10,10,0"   VerticalAlignment="Center" />
-        
-        <DataGrid Name="DataGrid" Grid.Row="1">
+
+        <DataGrid Name="DataGrid" Grid.Row="1" ItemsSource="{Binding GridItems}" >
             <DataGrid.RowValidationErrorTemplate>
                 <ControlTemplate>
                     <Grid Margin="0,-2,0,-2"
@@ -35,6 +35,15 @@
             <DataGrid.RowValidationRules >
                 <local:GridObjectValidationRule ValidationStep="UpdatedValue"/>
             </DataGrid.RowValidationRules>
+            <DataGrid.Columns>
+                <DataGridTemplateColumn>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Content="-" Height="20" Width="20" IsEnabled="True" Click="Button_Click"  />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
         </DataGrid>
         <Button Name="Ok"  Grid.Row="2"  Margin="0,0,10,10"  Content="Ok" Click="Ok_Click" HorizontalAlignment="Right" Width="72" Height="23" VerticalAlignment="Bottom" >
         </Button>
