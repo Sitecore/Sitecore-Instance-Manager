@@ -17,6 +17,7 @@
   using JetBrains.Annotations;
   using Sitecore.Diagnostics.Logging;
   using SIM.Extensions;
+  using SIM.SitecoreEnvironments;
 
   [Serializable]
   public class Instance : Website, IXmlSerializable

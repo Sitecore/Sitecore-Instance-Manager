@@ -1,4 +1,4 @@
-﻿namespace SIM.Instances
+﻿namespace SIM.SitecoreEnvironments
 {
   using System;
   using System.Collections.Generic;

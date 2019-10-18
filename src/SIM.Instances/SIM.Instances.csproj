@@ -76,9 +76,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="SitecoreEnvironment.cs" />
-    <Compile Include="SitecoreEnvironmentHelper.cs" />
-    <Compile Include="SitecoreEnvironmentMember.cs" />
     <Compile Include="InstanceHelper.cs" />
     <Compile Include="InstanceState.cs" />
     <Compile Include="PartiallyCachedInstance.cs" />
@@ -104,6 +101,10 @@
     <ProjectReference Include="..\SIM.Products\SIM.Products.csproj">
       <Project>{BC8B4EE5-C053-42E1-A5BA-07F8C41915A9}</Project>
       <Name>SIM.Products</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SIM.SitecoreEnvironments\SIM.SitecoreEnvironments.csproj">
+      <Project>{8a60bf81-02d6-4449-8b9f-572ba4051c82}</Project>
+      <Name>SIM.SitecoreEnvironments</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
