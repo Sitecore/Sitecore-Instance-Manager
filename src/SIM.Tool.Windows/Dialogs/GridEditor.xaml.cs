@@ -42,6 +42,14 @@ namespace SIM.Tool.Windows.Dialogs
           where c != null
           select Validation.GetHasError(c))
         .FirstOrDefault(x => x);
+      if (errors)
+      {
+        if (MessageBox.Show("There are validation errors. Data will not be saved.\nProceed anyway?", "Invalid data",
+              MessageBoxButton.YesNo) == MessageBoxResult.No)
+        {
+          return;
+        }
+      }
       this.DialogResult = !errors;
       this.Close();
     }
