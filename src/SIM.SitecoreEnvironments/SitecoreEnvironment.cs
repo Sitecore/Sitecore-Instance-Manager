@@ -7,6 +7,12 @@
   {
     public SitecoreEnvironment() { }
 
+    public SitecoreEnvironment(string instanceName)
+    {
+      ID = Guid.NewGuid();
+      Name = instanceName;
+    }
+
     public SitecoreEnvironment(string instanceName, List<SitecoreEnvironment> sitecoreEnvironments)
     {
       if (sitecoreEnvironments != null)

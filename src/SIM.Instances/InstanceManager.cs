@@ -114,7 +114,7 @@
 
     public void Initialize([CanBeNull] string defaultRootFolder = null)
     {
-      SitecoreEnvironmentHelper.SitecoreEnvironments = SitecoreEnvironmentHelper.GetEnvironmentData();
+      SitecoreEnvironmentHelper.SitecoreEnvironments = SitecoreEnvironmentHelper.GetSitecoreEnvironmentData();
 
       using (WebServerManager.WebServerContext context = WebServerManager.CreateContext())
       {

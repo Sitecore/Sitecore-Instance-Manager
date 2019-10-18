@@ -18,6 +18,7 @@
 <install9 title=""Installing the instance"">
     <step>
       <processor type=""SIM.Pipelines.Install.GenerateUnInstallParameters, SIM.Pipelines"" title=""Generate Uninstall data"" />
+      <processor type=""SIM.Pipelines.Install.GenerateSitecoreEnvironmentData, SIM.Pipelines"" title=""Generate Sitecore environment data"" />
       <hive type=""SIM.Pipelines.Install.RunPSTasksProcessor, SIM.Pipelines""  />
     </step>
   </install9>
