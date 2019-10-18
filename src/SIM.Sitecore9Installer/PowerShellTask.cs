@@ -48,11 +48,22 @@ namespace SIM.Sitecore9Installer
 
         if (PowerShellInstance.Streams.Error.Count > 0)
         {
-          this.State = TaskState.Warning;
-          foreach (var error in PowerShellInstance.Streams.Error)
+          foreach (ErrorRecord error in PowerShellInstance.Streams.Error)
           {
+            var target = error.TargetObject as System.Management.Automation.PSCmdlet;
+            if (target != null)
+            {
+              ActionPreference param = (ActionPreference) target.MyInvocation.BoundParameters["ErrorAction"];
+              if (param == ActionPreference.Continue)
+              {
+                continue;
+              }
+            }
+
             results.AppendLine(error.ToString());
           }
+
+          this.State = results.Length > 0 ? TaskState.Warning : TaskState.Finished;
         }
         else
         {
