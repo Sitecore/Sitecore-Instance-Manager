@@ -74,7 +74,8 @@
           "[variable('Sql.Database.Web')]",
           "[variable('Sql.Database.Forms')]",
           "[variable('Sql.Database.Tasks')]",
-          "[variable('Sql.Database.EXM.Master')]"
+          "[variable('Sql.Database.EXM.Master')]",
+          "[variable('Sql.Database.Reporting')]"
         ]
       }
     }
