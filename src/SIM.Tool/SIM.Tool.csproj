@@ -470,6 +470,9 @@
     <Content Include="GlobalParamsConfig\XM\GlobalParams_9.2_XM1.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="CustomSifConfig\XP1\900\xconnect-createcert.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="GlobalParamsConfig\XP\GlobalParams_9.2_XP0.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -532,6 +535,18 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="SC90UninstallTasks\XP1\xconnect-xp1-ReferenceData.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SC90UninstallTasks\XP0\900\xconnect-xp0.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SC90UninstallTasks\XP0\900\sitecore-XP0.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SC90UninstallTasks\XP1\900\xconnect-xp1-collection.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SC90UninstallTasks\XP1\900\sitecore-XP1-cm.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Page Include="ExpressionLight.xaml">

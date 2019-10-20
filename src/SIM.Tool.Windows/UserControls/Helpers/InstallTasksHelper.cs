@@ -2,14 +2,14 @@
 {
   using Newtonsoft.Json.Linq;
   using SIM.Tool.Base.Pipelines;
+  using SIM.Tool.Windows.UserControls.Install;
   using Sitecore.Diagnostics.Base;
   using Sitecore.Diagnostics.Logging;
   using System;
   using System.Collections.Generic;
   using System.IO;
 
-  public enum Topology { Undefined, XP0, XP1, XM1 }
-  public static class UninstallTasksHelper
+  public static class InstallTasksHelper
   {
     public static void AddUninstallTasks(Install9WizardArgs args)
     {
@@ -25,11 +25,7 @@
         return;
       }
 
-      Topology topology = Topology.Undefined;
-
-      if (args.Product.Revision.Contains(Topology.XP0.ToString())) { topology = Topology.XP0; }
-      else if (args.Product.Revision.Contains(Topology.XP1.ToString())) { topology = Topology.XP1; }
-      else if (args.Product.Revision.Contains(Topology.XM1.ToString())) { topology = Topology.XM1; }
+      var topology = GetTopology(args.Product.Revision);
 
       if (topology == Topology.Undefined)
       {
@@ -40,7 +36,7 @@
       // Try to load Uninstall Tasks files
       var uninstallTasksFolder = "SC90UninstallTasks";
       var path = Path.Combine(Directory.GetCurrentDirectory(), uninstallTasksFolder, topology.ToString());
-      var fileNames = Directory.GetFiles(path, "*.json", SearchOption.AllDirectories);
+      var fileNames = Directory.GetFiles(path, "*.json", SearchOption.TopDirectoryOnly);
 
       if (fileNames.Length == 0)
       {
@@ -50,6 +46,14 @@
 
       var uninstallTasksPatches = new Dictionary<string, JObject>();
       ReadUninstallTasksToDict(fileNames, uninstallTasksPatches);
+
+      // Load version specific Uninstall Tasks files
+      if (Directory.Exists(Path.Combine(path, scVersionInt.ToString())))
+      {
+        var versionSpecificFiles = Directory.GetFiles(Path.Combine(path, scVersionInt.ToString()), "*.json", SearchOption.TopDirectoryOnly);
+
+        ReadUninstallTasksToDict(versionSpecificFiles, uninstallTasksPatches);
+      }
 
       var listConfigFilesToPatch = GetConfigFilesToPatch(args);
 
@@ -113,8 +117,62 @@
       {
         var uninstallTask = JObject.Parse(File.ReadAllText(fileName));
         var key = Path.GetFileName(fileName).ToLower();
-        uninstallPatches.Add(key, uninstallTask);
+        uninstallPatches[key] = uninstallTask;
       }
+    }
+
+    public static Topology GetTopology(string revision)
+    {
+      Topology topology = Topology.Undefined;
+
+      if (revision.Contains(Topology.XP0.ToString())) { topology = Topology.XP0; }
+      else if (revision.Contains(Topology.XP1.ToString())) { topology = Topology.XP1; }
+      else if (revision.Contains(Topology.XM1.ToString())) { topology = Topology.XM1; }
+
+      return topology;
+    }
+
+    public static void CopyCustomSifConfig(Install9WizardArgs args)
+    {
+      var customConfigFolderName = "CustomSifConfig";
+
+      var customConfigFolderPath = Path.Combine(Directory.GetCurrentDirectory(), customConfigFolderName);
+
+      var topology = GetTopology(args.Product.Revision);
+
+      if (topology == Topology.Undefined)
+      {
+        Log.Warn($"SC topology could not be recognized. Revision: {args.Product.Revision}");
+
+        return;
+      }
+
+      var sourcePath = Path.Combine(customConfigFolderPath, topology.ToString(), args.InstanceProduct.Release.Version.MajorMinorUpdateInt.ToString());
+
+      if (!Directory.Exists(sourcePath))
+      {
+        Log.Debug($"Custom SIF config folder does not exist. Topology: {topology.ToString()}, Path: {sourcePath}");
+
+        return;
+      }
+
+      var targetDir = args.ScriptRoot;
+
+      if (!Directory.Exists(targetDir))
+      {
+        Log.Debug($"Custom SIF config could not be copied to target folder. Folder does not exist: {targetDir}");
+
+        return;
+      }
+
+      var files = Directory.GetFiles(sourcePath, "*.json", SearchOption.TopDirectoryOnly);
+
+      foreach (string s in files)
+      {        
+        var fileName = Path.GetFileName(s);
+        var destFile = Path.Combine(targetDir, fileName);
+        File.Copy(s, destFile, true);
+      }        
     }
   }
 }

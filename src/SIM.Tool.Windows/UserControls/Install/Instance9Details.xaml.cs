@@ -116,7 +116,8 @@ namespace SIM.Tool.Windows.UserControls.Install
       {
         Directory.CreateDirectory(args.ScriptRoot);
         WindowHelper.LongRunningTask(() => this.UnpackInstallationFiles(args), "Unpacking unstallation files.", wizardArgs.WizardWindow);
-        WindowHelper.LongRunningTask(() => UninstallTasksHelper.AddUninstallTasks(args), "Add Uninstall tasks to the OOB config files.", wizardArgs.WizardWindow);
+        WindowHelper.LongRunningTask(() => InstallTasksHelper.CopyCustomSifConfig(args), "Copying custom SIF configuration files to the install folder.", wizardArgs.WizardWindow);
+        WindowHelper.LongRunningTask(() => InstallTasksHelper.AddUninstallTasks(args), "Add Uninstall tasks to the OOB config files.", wizardArgs.WizardWindow);
       }
       else
       {
@@ -125,7 +126,8 @@ namespace SIM.Tool.Windows.UserControls.Install
           Directory.Delete(args.ScriptRoot, true);
           Directory.CreateDirectory(args.ScriptRoot);
           WindowHelper.LongRunningTask(()=>this.UnpackInstallationFiles(args), "Unpacking installation files.", wizardArgs.WizardWindow);
-          WindowHelper.LongRunningTask(() => UninstallTasksHelper.AddUninstallTasks(args), "Add Uninstall tasks to the OOB config files.", wizardArgs.WizardWindow);
+          WindowHelper.LongRunningTask(() => InstallTasksHelper.CopyCustomSifConfig(args), "Copying custom SIF configuration files to the install folder.", wizardArgs.WizardWindow);
+          WindowHelper.LongRunningTask(() => InstallTasksHelper.AddUninstallTasks(args), "Add Uninstall tasks to the OOB config files.", wizardArgs.WizardWindow);
         }
        
       }
