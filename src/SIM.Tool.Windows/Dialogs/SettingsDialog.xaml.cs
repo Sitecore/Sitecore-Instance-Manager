@@ -176,7 +176,7 @@ namespace SIM.Tool.Windows.Dialogs
       bool? dialogresult = result as bool?;
       if ((result!=null&&dialogresult==null)||(dialogresult.HasValue && dialogresult.Value))
       {
-        this.Profile.Solrs = editCollection;
+        this.Profile.Solrs = context.GridItems.Cast<SolrDefinition>().ToList();
         this.RefreshSolrText();
       }     
     }
