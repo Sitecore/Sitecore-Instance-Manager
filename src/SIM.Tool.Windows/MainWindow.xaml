@@ -75,7 +75,7 @@
                                                                                                         <ColumnDefinition Width="15"/>
                                                                                                         <ColumnDefinition Width="*"/>
                                                                                                     </Grid.ColumnDefinitions>
-                                                                                                    <Image x:Name="ToggleImage" Source="C:\GitHub\Sitecore-Instance-Manager\src\SIM.Tool.Windows\Images\9\plus.png" Width="9" Height="9" Margin="0,2,0,0"/>
+                                                                                                    <Image x:Name="ToggleImage" Source="pack://application:,,,/SIM.Tool.Windows;component/Images/9/plus.png" Width="9" Height="9" Margin="0,2,0,0"/>
                                                                                                     <ContentPresenter Grid.Column="1" HorizontalAlignment="Left" Margin="4,0,0,0" RecognizesAccessKey="True" SnapsToDevicePixels="True" VerticalAlignment="Center"/>
                                                                                                 </Grid>
                                                                                             </Border>
@@ -86,21 +86,21 @@
                                                                                                         <Condition Property="IsChecked" Value="true" />
                                                                                                         <Condition Property="IsMouseOver" Value="false" />
                                                                                                     </MultiTrigger.Conditions>
-                                                                                                    <Setter Property="Source" TargetName="ToggleImage" Value="C:\GitHub\Sitecore-Instance-Manager\src\SIM.Tool.Windows\Images\9\minus.png"/>
+                                                                                                    <Setter Property="Source" TargetName="ToggleImage" Value="pack://application:,,,/SIM.Tool.Windows;component/Images/9/minus.png"/>
                                                                                                 </MultiTrigger>
                                                                                                 <MultiTrigger>
                                                                                                     <MultiTrigger.Conditions>
                                                                                                         <Condition Property="IsChecked" Value="true" />
                                                                                                         <Condition Property="IsMouseOver" Value="true" />
                                                                                                     </MultiTrigger.Conditions>
-                                                                                                    <Setter Property="Source" TargetName="ToggleImage" Value="C:\GitHub\Sitecore-Instance-Manager\src\SIM.Tool.Windows\Images\9\minus_on_hover.png"/>
+                                                                                                    <Setter Property="Source" TargetName="ToggleImage" Value="pack://application:,,,/SIM.Tool.Windows;component/Images/9/minus_on_hover.png"/>
                                                                                                 </MultiTrigger>
                                                                                                 <MultiTrigger>
                                                                                                     <MultiTrigger.Conditions>
                                                                                                         <Condition Property="IsChecked" Value="false" />
                                                                                                         <Condition Property="IsMouseOver" Value="true" />
                                                                                                     </MultiTrigger.Conditions>
-                                                                                                    <Setter Property="Source" TargetName="ToggleImage" Value="C:\GitHub\Sitecore-Instance-Manager\src\SIM.Tool.Windows\Images\9\plus_on_hover.png"/>
+                                                                                                    <Setter Property="Source" TargetName="ToggleImage" Value="pack://application:,,,/SIM.Tool.Windows;component/Images/9/plus_on_hover.png"/>
                                                                                                 </MultiTrigger>
                                                                                             </ControlTemplate.Triggers>
                                                                                         </ControlTemplate>
