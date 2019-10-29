@@ -28,6 +28,7 @@
     </step>
     <step>
       <processor type=""SIM.Pipelines.Delete.CleanUp, SIM.Pipelines"" title=""Clean Up"" />
+      <processor type=""SIM.Pipelines.Delete.UpdateSitecoreEnvironmentData, SIM.Pipelines"" title=""Delete Sitecore environment data"" />
     </step>
   </delete9>
   <install title=""Installing the {InstanceName} instance"">

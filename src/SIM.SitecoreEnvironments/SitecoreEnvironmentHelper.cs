@@ -1,22 +1,31 @@
 ﻿using System.Linq;
 using SIM.Sitecore9Installer;
+using System.Collections.Generic;
+using System.IO;
+using Newtonsoft.Json;
 
 namespace SIM.SitecoreEnvironments
 {
-  using System.Collections.Generic;
-  using System.IO;
-  using Newtonsoft.Json;
-
   public static class SitecoreEnvironmentHelper
   {
+    private const string FileName = "Environments.json";
+
+    public static string FilePath
+    {
+      get { return Path.Combine(ApplicationManager.ProfilesFolder, FileName); }
+    }
+
     public static List<SitecoreEnvironment> SitecoreEnvironments;
 
     public static List<SitecoreEnvironment> GetSitecoreEnvironmentData()
     {
       List<SitecoreEnvironment> sitecoreEnvironments;
-      using (StreamReader reader = new StreamReader(Path.Combine(ApplicationManager.ProfilesFolder, "Environments.json")))
+
+      CreateEnvironmentsFileIfNeeded();
+
+      using (StreamReader streamReader = new StreamReader(FilePath))
       {
-        string data = reader.ReadToEnd();
+        string data = streamReader.ReadToEnd();
         sitecoreEnvironments = JsonConvert.DeserializeObject<List<SitecoreEnvironment>>(data);
       }
 
@@ -35,11 +44,11 @@ namespace SIM.SitecoreEnvironments
         {
           if (installParam.Value.StartsWith("$SqlDbPrefix+"))
           {
-            sitecoreEnvironment.Members.Add(new SitecoreEnvironmentMember(installParam.Value.Replace("$SqlDbPrefix+", prefix).Replace("\"", string.Empty), powerShellTask.Name));
+            sitecoreEnvironment.Members.Add(new SitecoreEnvironmentMember(installParam.Value.Replace("$SqlDbPrefix+", prefix).Replace("\"", string.Empty), SitecoreEnvironmentMember.Types.Site.ToString()));
           }
           else
           {
-            sitecoreEnvironment.Members.Add(new SitecoreEnvironmentMember(installParam.Value, powerShellTask.Name));
+            sitecoreEnvironment.Members.Add(new SitecoreEnvironmentMember(installParam.Value, SitecoreEnvironmentMember.Types.Site.ToString()));
           }
         }
       }
@@ -54,9 +63,19 @@ namespace SIM.SitecoreEnvironments
 
     public static void SaveSitecoreEnvironmentData(List<SitecoreEnvironment> sitecoreEnvironments)
     {
-      using (StreamWriter wr = new StreamWriter(Path.Combine(ApplicationManager.ProfilesFolder, "Environments.json")))
+      CreateEnvironmentsFileIfNeeded();
+
+      using (StreamWriter streamWriter = new StreamWriter(FilePath))
       {
-        wr.WriteLine(GetSerializedSitecoreEnvironmentData(sitecoreEnvironments));
+        streamWriter.WriteLine(GetSerializedSitecoreEnvironmentData(sitecoreEnvironments));
+      }
+    }
+
+    public static void CreateEnvironmentsFileIfNeeded()
+    {
+      if (!File.Exists(FilePath))
+      {
+        File.Create(FilePath).Close();
       }
     }
   }

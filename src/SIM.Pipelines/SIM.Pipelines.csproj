@@ -95,6 +95,7 @@
     <Compile Include="Delete\CleanUp.cs" />
     <Compile Include="Delete\DeleteMongoDatabases.cs" />
     <Compile Include="Delete\DeleteRegistryKey.cs" />
+    <Compile Include="Delete\UpdateSitecoreEnvironmentData.cs" />
     <Compile Include="Export\ExportMongoDatabases.cs" />
     <Compile Include="Import\ImportHostNames.cs" />
     <Compile Include="Import\ImportRestoreMongoDatabases.cs" />

@@ -11,5 +11,11 @@
     public string Name { get; set; }
 
     public string Type { get; set; }
+
+    public enum Types
+    {
+      Site,
+      Service
+    }
   }
 }
