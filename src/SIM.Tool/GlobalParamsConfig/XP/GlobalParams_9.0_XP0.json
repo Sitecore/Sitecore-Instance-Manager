@@ -2,6 +2,7 @@
   "Parameters": {
     //global
     "SIFVersion": "1.2.1",
+    "SIFVersionUninstall": "2.1.0",
     "SqlServer": "",
     "SqlAdminUser": "",
     "SqlAdminPassword": "",

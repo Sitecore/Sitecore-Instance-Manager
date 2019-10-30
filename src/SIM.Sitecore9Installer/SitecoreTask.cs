@@ -43,7 +43,8 @@ namespace SIM.Sitecore9Installer
       script.AppendLine(string.Format("cd \"{0}\"", Path.GetDirectoryName(this.LocalParams.First(p => p.Name == "Path").Value)));
       script.AppendLine("Set-ExecutionPolicy Bypass -Force");
       script.AppendLine("Import-Module SitecoreFundamentals");
-      string sifVersion = this.GlobalParams.FirstOrDefault(p => p.Name == "SIFVersion")?.Value ?? string.Empty;
+      string sifVersion = GetSifVersion(this.UnInstall, this.GlobalParams);
+
       string importParam = string.Empty;
       if (!string.IsNullOrEmpty(sifVersion))
       {
@@ -55,6 +56,25 @@ namespace SIM.Sitecore9Installer
       string log = !sifVersion.StartsWith("1") ? string.Format("*>&1 | Tee-Object {0}.log", this.Name) : string.Empty;
       script.AppendLine(string.Format("{0} @installParams {1} -Verbose", this.UnInstall ? "Uninstall-SitecoreConfiguration" : "Install-SitecoreConfiguration", log));
       return script.ToString();
+    }
+
+    private string GetSifVersion(bool unInstall, List<InstallParam> globalParams)
+    {
+      var sifVersion = string.Empty;
+
+      if (unInstall)
+      {
+        sifVersion = globalParams.FirstOrDefault(p => p.Name == "SIFVersionUninstall")?.Value ?? string.Empty;
+      }
+
+      if (!string.IsNullOrEmpty(sifVersion))
+      {
+        return sifVersion;
+      }
+      else
+      {
+        return globalParams.FirstOrDefault(p => p.Name == "SIFVersion")?.Value ?? string.Empty;
+      }
     }
 
     private string GetLocalParamsScript()
