@@ -73,6 +73,9 @@
       }
     }
 
+    [CanBeNull]
+    public string CustomLogLocation { get; set; }
+
     #endregion
 
     #region Properties
