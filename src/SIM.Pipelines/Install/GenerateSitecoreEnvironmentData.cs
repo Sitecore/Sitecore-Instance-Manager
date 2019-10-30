@@ -16,7 +16,7 @@ namespace SIM.Pipelines.Install
     protected override void Process([NotNull] ProcessorArgs args)
     {
       Install9Args arguments = (Install9Args)args;
-      if (arguments.Tasker.UnInstall)// || arguments.ScriptsOnly)
+      if (arguments.Tasker.UnInstall || arguments.ScriptsOnly)
       {
         this.Skip();
         return;

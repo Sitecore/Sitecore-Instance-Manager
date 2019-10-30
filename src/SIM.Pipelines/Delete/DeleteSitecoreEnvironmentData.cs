@@ -8,7 +8,7 @@ using SIM.SitecoreEnvironments;
 
 namespace SIM.Pipelines.Delete
 {
-  public class UpdateSitecoreEnvironmentData : Processor
+  public class DeleteSitecoreEnvironmentData : Processor
   {
     protected override void Process([NotNull] ProcessorArgs args)
     {
