@@ -252,12 +252,35 @@ namespace SIM.Sitecore9Installer
 
     public string GetGlobalParamsScript(bool addPrefix = true)
     {
+      return GetParamsScript(this.GlobalParams, addPrefix);
+    }
+
+    public string GetParamsScript(List<InstallParam> installParams, bool addPrefix = true)
+    {
       StringBuilder script = new StringBuilder();
-      foreach (InstallParam param in this.GlobalParams)
+      foreach (InstallParam param in installParams)
       {
-        string value = param.GetParameterValue();
-        string paramName = addPrefix ? "{" + param.Name + "}" : string.Format("'{0}'", param.Name);
-        script.AppendLine(string.Format("{0}{1}={2}", addPrefix ? "$" : string.Empty, paramName, value));
+        if (param.Value != null)
+        {
+          string value = param.GetParameterValue();
+          string paramName = addPrefix ? "{" + param.Name + "}" : string.Format("'{0}'", param.Name);
+          script.AppendLine(string.Format("{0}{1}={2}", addPrefix ? "$" : string.Empty, paramName, value));
+        }
+      }
+
+      return script.ToString();
+    }
+
+    public string GetParamsScript(List<InstallParam> installParams)
+    {
+      StringBuilder script = new StringBuilder();
+      foreach (InstallParam param in installParams)
+      {
+        if (param.Value != null)
+        {
+          string value = param.GetParameterValue();
+          script.AppendLine(string.Format("${0}={1}", param.Name, value));
+        }
       }
 
       return script.ToString();
@@ -299,6 +322,38 @@ namespace SIM.Sitecore9Installer
 
         param.Value = (string)evaluatedParams[param.Name];
       }
+    }
+
+    public Hashtable EvaluateLocalParams(PowerShellTask powerShellTask, List<InstallParam> globalParams)
+    {
+      string sifVersion = powerShellTask.GlobalParams.FirstOrDefault(p => p.Name == "SIFVersion")?.Value ?? string.Empty;
+      string importParam = string.Empty;
+      if (!string.IsNullOrEmpty(sifVersion))
+      {
+        importParam = string.Format(" -RequiredVersion {0}", sifVersion);
+      }
+      StringBuilder localParamsEval = new StringBuilder();
+      localParamsEval.Append("Set-ExecutionPolicy Bypass -Force\n");
+      localParamsEval.AppendFormat("Import-Module SitecoreInstallFramework{0}\n", importParam);
+      localParamsEval.AppendFormat(GetParamsScript(globalParams));
+      localParamsEval.AppendLine("$LocalParams =@{");
+      localParamsEval.Append(GetParamsScript(powerShellTask.LocalParams, false));
+      localParamsEval.Append("}\n");
+      localParamsEval.AppendLine("$LocalParamsSys =@{");
+      localParamsEval.Append(GetParamsScript(powerShellTask.LocalParams, false));
+      localParamsEval.Append("}\n$LocalParamsSys");
+      Hashtable evaluatedParams = null;
+      using (PowerShell PowerShellInstance = PowerShell.Create())
+      {
+        PowerShellInstance.AddScript(localParamsEval.ToString());
+        var res = PowerShellInstance.Invoke();
+        if (res != null && res.Count > 0)
+        {
+          evaluatedParams = (Hashtable)res.First().ImmediateBaseObject;
+        }
+      }
+
+      return evaluatedParams;
     }
 
     public void SaveUninstallParams(string path)

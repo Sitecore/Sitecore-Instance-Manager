@@ -1,6 +1,4 @@
-﻿using System.Linq;
-using SIM.Sitecore9Installer;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using Newtonsoft.Json;
 
@@ -31,31 +29,7 @@ namespace SIM.SitecoreEnvironments
 
       return sitecoreEnvironments;
     }
-
-    public static SitecoreEnvironment CreateSitecoreEnvironment(string prefix, List<PowerShellTask> tasks)
-    {
-      SitecoreEnvironment sitecoreEnvironment = new SitecoreEnvironment(prefix);
-      sitecoreEnvironment.Members = new List<SitecoreEnvironmentMember>();
-
-      foreach (PowerShellTask powerShellTask in tasks)
-      {
-        InstallParam installParam = powerShellTask.LocalParams.FirstOrDefault(x => x.Name == "SiteName");
-        if (installParam != null && !string.IsNullOrEmpty(installParam.Value))
-        {
-          if (installParam.Value.StartsWith("$SqlDbPrefix+"))
-          {
-            sitecoreEnvironment.Members.Add(new SitecoreEnvironmentMember(installParam.Value.Replace("$SqlDbPrefix+", prefix).Replace("\"", string.Empty), SitecoreEnvironmentMember.Types.Site.ToString()));
-          }
-          else
-          {
-            sitecoreEnvironment.Members.Add(new SitecoreEnvironmentMember(installParam.Value, SitecoreEnvironmentMember.Types.Site.ToString()));
-          }
-        }
-      }
-
-      return sitecoreEnvironment;
-    }
-
+    
     public static string GetSerializedSitecoreEnvironmentData(List<SitecoreEnvironment> sitecoreEnvironments)
     {
       return JsonConvert.SerializeObject(sitecoreEnvironments);
@@ -77,6 +51,6 @@ namespace SIM.SitecoreEnvironments
       {
         File.Create(FilePath).Close();
       }
-    }
+    } 
   }
 }
