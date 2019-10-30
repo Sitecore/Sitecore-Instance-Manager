@@ -215,7 +215,7 @@
 
     private bool IsSitecore([CanBeNull] Instance instance)
     {
-      return instance != null && instance.IsSitecore;
+      return instance != null && (instance.IsSitecore || instance.IsSitecoreEnvironmentMember);
     }
 
     private bool IsNotHidden([CanBeNull] Instance instance)

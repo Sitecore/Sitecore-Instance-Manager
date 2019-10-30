@@ -138,6 +138,14 @@
       }
     }
 
+    public virtual bool IsSitecoreEnvironmentMember
+    {
+      get
+      {
+        return GetIsSitecoreEnvironmentMember();
+      }
+    }
+
     public virtual bool IsHidden
     {
       get
@@ -553,7 +561,21 @@
       }
       catch (Exception ex)
       {
-        Log.Warn(ex, "An error occurred during checking if it is sitecore");
+        Log.Warn(ex, "An error occurred during checking if it is Sitecore");
+
+        return false;
+      }
+    }
+
+    protected virtual bool GetIsSitecoreEnvironmentMember()
+    {
+      try
+      {
+        return FileSystem.FileSystem.Local.File.Exists(ProductHelper.GetWebConfigPath(WebRootPath));
+      }
+      catch (Exception ex)
+      {
+        Log.Warn(ex, "An error occurred during checking if it is Sitecore environment member");
 
         return false;
       }

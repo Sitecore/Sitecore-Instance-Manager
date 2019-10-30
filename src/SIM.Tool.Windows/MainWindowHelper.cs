@@ -285,7 +285,7 @@
       Assert.ArgumentNotNull(license, nameof(license));
       Assert.ArgumentNotNull(connectionString, nameof(connectionString));
 
-      if (instance.IsSitecore)
+      if (instance.IsSitecore || instance.IsSitecoreEnvironmentMember)
       {
         if (int.Parse(instance.Product.ShortVersion) < 90)
         {
@@ -332,7 +332,7 @@
       Assert.ArgumentNotNull(license, nameof(license));
       Assert.ArgumentNotNull(connectionString, nameof(connectionString));
 
-      if (instance.IsSitecore)
+      if (instance.IsSitecore || instance.IsSitecoreEnvironmentMember)
       {       
         var name = instance.Name;
         WizardPipelineManager.Start("reinstall9", owner, null, null, ignore => MakeInstanceSelected(name), () => new ReinstallWizardArgs(instance, connectionString, license));
@@ -734,7 +734,15 @@
       }
     }
 
-    [CanBeNull] public static Instance PreviouslySelectedInstance;
+    public static List<string> GroupsToBeHiddenForSitecore9
+    {
+      get { return new List<string>() {"Install", "Backup"}; }
+    }
+
+    public static List<string> GroupsToBeHiddenForSitecore9EnvironmentMember
+    {
+      get { return new List<string>() { "Page", "Apps" }; }
+    }
 
     #endregion
 
@@ -817,56 +825,49 @@
             MainWindow.Instance.OpenTab.IsSelected = true;
           }
 
-          CheckInstanceVersion(SelectedInstance);
-          PreviouslySelectedInstance = SelectedInstance;
+          ShowControls(SelectedInstance);
+          HideControls(SelectedInstance);
         }
       }
     }
 
-    private static void CheckInstanceVersion(Instance currentlySelectedInstance)
+    private static void ShowControls(Instance currentlySelectedInstance)
     {
-      if (IsInstanceVersionChanged(currentlySelectedInstance, 91))
-      {
-        if (currentlySelectedInstance.Product.Release.Version.MajorMinorInt >= 91)
-        {
-          ShowHideButtons(Visibility.Collapsed);
-        }
-        else
-        {
-          ShowHideButtons(Visibility.Visible);
-        }
-      }
-
-      if (IsInstanceVersionChanged(currentlySelectedInstance, 90))
-      {
-        if (currentlySelectedInstance.Product.Release.Version.MajorMinorInt >= 90)
-        {
-          ShowHideGroups(Visibility.Collapsed);
-          ShowHideContextMenuItems(Visibility.Collapsed);
-        }
-        else
-        {
-          ShowHideGroups(Visibility.Visible);
-          ShowHideContextMenuItems(Visibility.Visible);
-        }
-      }
+      ShowHideGroups(MainWindow.Instance.EditTab, GroupsToBeHiddenForSitecore9, Visibility.Visible);
+      ShowHideGroups(MainWindow.Instance.OpenTab, GroupsToBeHiddenForSitecore9EnvironmentMember, Visibility.Visible);
+      ShowHideVisualStudioButtons(Visibility.Visible);
+      ShowHideFileSystemButtons(Visibility.Visible);
+      ShowHideContextMenuItemsForSitecore9(Visibility.Visible);
+      ShowHideContextMenuItemsForSitecore9EnvironmentMember(Visibility.Visible);
+      ShowHideAppStateButtons(Visibility.Visible);
     }
 
-    private static bool IsInstanceVersionChanged(Instance currentlySelectedInstance, int comparedInstanceVersion)
+    private static void HideControls(Instance currentlySelectedInstance)
     {
-      if (PreviouslySelectedInstance != null &&
-          (PreviouslySelectedInstance.Product.Release.Version.MajorMinorInt >= comparedInstanceVersion && 
-           currentlySelectedInstance.Product.Release.Version.MajorMinorInt >= comparedInstanceVersion ||
-           PreviouslySelectedInstance.Product.Release.Version.MajorMinorInt < comparedInstanceVersion && 
-           currentlySelectedInstance.Product.Release.Version.MajorMinorInt < comparedInstanceVersion))
+      if (currentlySelectedInstance.Product == Product.Undefined || currentlySelectedInstance.Product.Release == null)
       {
-        return false;
+        ShowHideGroups(MainWindow.Instance.EditTab, GroupsToBeHiddenForSitecore9, Visibility.Collapsed);
+        ShowHideGroups(MainWindow.Instance.OpenTab, GroupsToBeHiddenForSitecore9EnvironmentMember, Visibility.Collapsed);
+        ShowHideContextMenuItemsForSitecore9(Visibility.Collapsed);
+        ShowHideContextMenuItemsForSitecore9EnvironmentMember(Visibility.Collapsed);
+        ShowHideFileSystemButtons(Visibility.Collapsed);
+        ShowHideAppStateButtons(Visibility.Collapsed);
+        return;
       }
 
-      return true;
+      if (currentlySelectedInstance.Product.Release.Version.MajorMinorInt >= 90)
+      {
+        ShowHideGroups(MainWindow.Instance.EditTab, GroupsToBeHiddenForSitecore9, Visibility.Collapsed);
+        ShowHideContextMenuItemsForSitecore9(Visibility.Collapsed);
+      }
+
+      if (currentlySelectedInstance.Product.Release.Version.MajorMinorInt >= 91)
+      {
+        ShowHideVisualStudioButtons(Visibility.Collapsed);
+      }
     }
 
-    private static void ShowHideButtons(Visibility visibility)
+    private static void ShowHideVisualStudioButtons(Visibility visibility)
     {
       foreach (var group in MainWindow.Instance.OpenTab.Groups)
       {
@@ -874,9 +875,9 @@
         {
           foreach (var splitButton in group.Items)
           {
-            if ((splitButton as Fluent.SplitButton).Header == "Visual Studio")
+            if ((splitButton as SplitButton).Header == "Visual Studio")
             {
-              foreach (var menuItem in (splitButton as Fluent.SplitButton).Items)
+              foreach (var menuItem in (splitButton as SplitButton).Items)
               {
                 if ((menuItem as Fluent.MenuItem).Header == "Create Support Patch" ||
                     (menuItem as Fluent.MenuItem).Header == "Create Core Patch")
@@ -890,18 +891,56 @@
       }
     }
 
-    private static void ShowHideGroups(Visibility visibility)
+    private static void ShowHideFileSystemButtons(Visibility visibility)
     {
-      foreach (var group in MainWindow.Instance.EditTab.Groups)
+      foreach (var group in MainWindow.Instance.OpenTab.Groups)
       {
-        if (group.Header == "Install" || group.Header == "Backup")
+        if (group.Header == "File System")
         {
-          group.Visibility = visibility;
+          foreach (var splitButton in group.Items)
+          {
+            if ((splitButton as SplitButton).Header == "Config Files" ||
+                (splitButton as SplitButton).Header == "Log Files")
+            {
+              (splitButton as SplitButton).Visibility = visibility;
+            }
+          }
         }
       }
     }
 
-    private static void ShowHideContextMenuItems(Visibility visibility)
+    private static void ShowHideAppStateButtons(Visibility visibility)
+    {
+      foreach (var group in MainWindow.Instance.EditTab.Groups)
+      {
+        if (group.Header == "Manage")
+        {
+          foreach (var splitButton in group.Items)
+          {
+            if ((splitButton as SplitButton).Header == "App State")
+            {
+              (splitButton as SplitButton).Visibility = visibility;
+            }
+          }
+        }
+      }
+    }
+
+    private static void ShowHideGroups(RibbonTabItem tab, List<string> groupNames, Visibility visibility)
+    {
+      foreach (var group in tab.Groups)
+      {
+        foreach (string groupName in groupNames)
+        {
+          if (group.Header == groupName)
+          {
+            group.Visibility = visibility;
+          }
+        }
+      }
+    }
+
+    private static void ShowHideContextMenuItemsForSitecore9(Visibility visibility)
     {
       for (int i = 0; i < MainWindow.Instance.ContextMenu.Items.Count; i++)
       {
@@ -915,6 +954,28 @@
           if (MainWindow.Instance.ContextMenu.Items[i+1] is System.Windows.Controls.Separator)
           {
             (MainWindow.Instance.ContextMenu.Items[i+1] as System.Windows.Controls.Separator).Visibility = visibility;
+          }
+        }
+      }
+    }
+
+    private static void ShowHideContextMenuItemsForSitecore9EnvironmentMember(Visibility visibility)
+    {
+      for (int i = 0; i < MainWindow.Instance.ContextMenu.Items.Count; i++)
+      {
+        if (MainWindow.Instance.ContextMenu.Items[i] is System.Windows.Controls.MenuItem &&
+            ((MainWindow.Instance.ContextMenu.Items[i] as System.Windows.Controls.MenuItem).Header == "Browse Sitecore Client" ||
+             (MainWindow.Instance.ContextMenu.Items[i] as System.Windows.Controls.MenuItem).Header == "Log in admin" ||
+             (MainWindow.Instance.ContextMenu.Items[i] as System.Windows.Controls.MenuItem).Header == "Sitecore Admin" ||
+             (MainWindow.Instance.ContextMenu.Items[i] as System.Windows.Controls.MenuItem).Header == "Open Visual Studio" ||
+             (MainWindow.Instance.ContextMenu.Items[i] as System.Windows.Controls.MenuItem).Header == "Analyze log files" ||
+             (MainWindow.Instance.ContextMenu.Items[i] as System.Windows.Controls.MenuItem).Header == "Open log file" ||
+             (MainWindow.Instance.ContextMenu.Items[i] as System.Windows.Controls.MenuItem).Header == "Publish Site"))
+        {
+          (MainWindow.Instance.ContextMenu.Items[i] as System.Windows.Controls.MenuItem).Visibility = visibility;
+          if (MainWindow.Instance.ContextMenu.Items[i + 1] is System.Windows.Controls.Separator)
+          {
+            (MainWindow.Instance.ContextMenu.Items[i + 1] as System.Windows.Controls.Separator).Visibility = visibility;
           }
         }
       }
