@@ -571,7 +571,12 @@
     {
       try
       {
-        return FileSystem.FileSystem.Local.File.Exists(ProductHelper.GetWebConfigPath(WebRootPath));
+        if (!IsSitecore && File.Exists(Path.Combine(ApplicationManager.ProfilesFolder, "Environments.json")))
+        {
+          return true;
+        }
+
+        return false;
       }
       catch (Exception ex)
       {

@@ -97,14 +97,6 @@
       return Path.Combine(webRootPath, "bin\\Sitecore.Kernel.dll");
     }
 
-    [NotNull]
-    public static string GetWebConfigPath([NotNull] string webRootPath)
-    {
-      Assert.ArgumentNotNullOrEmpty(webRootPath, nameof(webRootPath));
-
-      return Path.Combine(webRootPath, "Web.config");
-    }
-
     #endregion
 
     #region Methods
