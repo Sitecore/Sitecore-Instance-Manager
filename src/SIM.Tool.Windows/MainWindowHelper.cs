@@ -825,21 +825,45 @@
 
     private static void CheckInstanceVersion(Instance currentlySelectedInstance)
     {
-      if (PreviouslySelectedInstance != null && 
-          (PreviouslySelectedInstance.Product.Release.Version.MajorMinorInt >= 91 && currentlySelectedInstance.Product.Release.Version.MajorMinorInt >= 91 || 
-           PreviouslySelectedInstance.Product.Release.Version.MajorMinorInt < 91 && currentlySelectedInstance.Product.Release.Version.MajorMinorInt < 91))
+      if (IsInstanceVersionChanged(currentlySelectedInstance, 91))
       {
-        return;
+        if (currentlySelectedInstance.Product.Release.Version.MajorMinorInt >= 91)
+        {
+          ShowHideButtons(Visibility.Collapsed);
+        }
+        else
+        {
+          ShowHideButtons(Visibility.Visible);
+        }
       }
 
-      if (currentlySelectedInstance.Product.Release.Version.MajorMinorInt >= 91)
+      if (IsInstanceVersionChanged(currentlySelectedInstance, 90))
       {
-        ShowHideButtons(Visibility.Collapsed);
+        if (currentlySelectedInstance.Product.Release.Version.MajorMinorInt >= 90)
+        {
+          ShowHideGroups(Visibility.Collapsed);
+          ShowHideContextMenuItems(Visibility.Collapsed);
+        }
+        else
+        {
+          ShowHideGroups(Visibility.Visible);
+          ShowHideContextMenuItems(Visibility.Visible);
+        }
       }
-      else
+    }
+
+    private static bool IsInstanceVersionChanged(Instance currentlySelectedInstance, int comparedInstanceVersion)
+    {
+      if (PreviouslySelectedInstance != null &&
+          (PreviouslySelectedInstance.Product.Release.Version.MajorMinorInt >= comparedInstanceVersion && 
+           currentlySelectedInstance.Product.Release.Version.MajorMinorInt >= comparedInstanceVersion ||
+           PreviouslySelectedInstance.Product.Release.Version.MajorMinorInt < comparedInstanceVersion && 
+           currentlySelectedInstance.Product.Release.Version.MajorMinorInt < comparedInstanceVersion))
       {
-        ShowHideButtons(Visibility.Visible);
+        return false;
       }
+
+      return true;
     }
 
     private static void ShowHideButtons(Visibility visibility)
@@ -866,6 +890,35 @@
       }
     }
 
+    private static void ShowHideGroups(Visibility visibility)
+    {
+      foreach (var group in MainWindow.Instance.EditTab.Groups)
+      {
+        if (group.Header == "Install" || group.Header == "Backup")
+        {
+          group.Visibility = visibility;
+        }
+      }
+    }
+
+    private static void ShowHideContextMenuItems(Visibility visibility)
+    {
+      for (int i = 0; i < MainWindow.Instance.ContextMenu.Items.Count; i++)
+      {
+        if (MainWindow.Instance.ContextMenu.Items[i] is System.Windows.Controls.MenuItem &&
+            ((MainWindow.Instance.ContextMenu.Items[i] as System.Windows.Controls.MenuItem).Header == "Backup" ||
+            (MainWindow.Instance.ContextMenu.Items[i] as System.Windows.Controls.MenuItem).Header == "Restore" ||
+            (MainWindow.Instance.ContextMenu.Items[i] as System.Windows.Controls.MenuItem).Header == "Export" ||
+            (MainWindow.Instance.ContextMenu.Items[i] as System.Windows.Controls.MenuItem).Header == "Install modules"))
+        {
+          (MainWindow.Instance.ContextMenu.Items[i] as System.Windows.Controls.MenuItem).Visibility = visibility;
+          if (MainWindow.Instance.ContextMenu.Items[i+1] is System.Windows.Controls.Separator)
+          {
+            (MainWindow.Instance.ContextMenu.Items[i+1] as System.Windows.Controls.Separator).Visibility = visibility;
+          }
+        }
+      }
+    }
     // private static void SetupInstanceRestoreButton(string webRootPath)
     // {
     // using (new ProfileSection("MainWindowHelper:SetupInstanceRestoreButton()"))
