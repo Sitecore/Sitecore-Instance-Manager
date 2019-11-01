@@ -8,14 +8,18 @@ namespace SIM.SitecoreEnvironments
   {
     private const string FileName = "Environments.json";
 
-    public static string FilePath
+    public static List<SitecoreEnvironment> SitecoreEnvironments
+    {
+      get;
+      private set;
+    }
+
+    private static string FilePath
     {
       get { return Path.Combine(ApplicationManager.ProfilesFolder, FileName); }
     }
 
-    public static List<SitecoreEnvironment> SitecoreEnvironments;
-
-    public static List<SitecoreEnvironment> GetSitecoreEnvironmentData()
+    private static List<SitecoreEnvironment> GetSitecoreEnvironmentData()
     {
       List<SitecoreEnvironment> sitecoreEnvironments;
 
@@ -30,7 +34,7 @@ namespace SIM.SitecoreEnvironments
       return sitecoreEnvironments;
     }
     
-    public static string GetSerializedSitecoreEnvironmentData(List<SitecoreEnvironment> sitecoreEnvironments)
+    private static string GetSerializedSitecoreEnvironmentData(List<SitecoreEnvironment> sitecoreEnvironments)
     {
       return JsonConvert.SerializeObject(sitecoreEnvironments);
     }
@@ -45,12 +49,17 @@ namespace SIM.SitecoreEnvironments
       }
     }
 
-    public static void CreateEnvironmentsFileIfNeeded()
+    private static void CreateEnvironmentsFileIfNeeded()
     {
       if (!File.Exists(FilePath))
       {
         File.Create(FilePath).Close();
       }
-    } 
+    }
+
+    public static void RefreshEnvironments()
+    {
+      SitecoreEnvironments = GetSitecoreEnvironmentData();
+    }
   }
 }

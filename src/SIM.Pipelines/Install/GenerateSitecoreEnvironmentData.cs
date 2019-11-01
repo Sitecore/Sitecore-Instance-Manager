@@ -42,23 +42,20 @@ namespace SIM.Pipelines.Install
           Hashtable evaluatedLocalParams = tasker.EvaluateLocalParams(powerShellTask.LocalParams, tasker.GlobalParams);
           if (evaluatedLocalParams != null && evaluatedLocalParams[SiteName] != null)
           {
-            SitecoreEnvironmentMember sitecoreEnvironmentMember =
-              new SitecoreEnvironmentMember(evaluatedLocalParams[SiteName].ToString(),
-                SitecoreEnvironmentMember.Types.Site.ToString());
-            if (!sitecoreEnvironment.Members.Contains(sitecoreEnvironmentMember))
-            {
-              sitecoreEnvironment.Members.Add(sitecoreEnvironmentMember);
-            }
+            sitecoreEnvironment.Members.Add(new SitecoreEnvironmentMember(evaluatedLocalParams[SiteName].ToString(),
+              SitecoreEnvironmentMember.Types.Site.ToString()));
           }
         }
       }
+
+      sitecoreEnvironment.Members = sitecoreEnvironment.Members.Distinct(new SitecoreEnvironmentMemberComparer()).ToList();
 
       return sitecoreEnvironment;
     }
 
     private void AddSitecoreEnvironment(SitecoreEnvironment sitecoreEnvironment)
     {
-      List<SitecoreEnvironment> sitecoreEnvironments = SitecoreEnvironmentHelper.GetSitecoreEnvironmentData();
+      List<SitecoreEnvironment> sitecoreEnvironments = SitecoreEnvironmentHelper.SitecoreEnvironments;
       if (sitecoreEnvironments == null)
       {
         sitecoreEnvironments = new List<SitecoreEnvironment>();

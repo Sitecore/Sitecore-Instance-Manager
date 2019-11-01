@@ -48,6 +48,7 @@
     <Compile Include="SitecoreEnvironment.cs" />
     <Compile Include="SitecoreEnvironmentHelper.cs" />
     <Compile Include="SitecoreEnvironmentMember.cs" />
+    <Compile Include="SitecoreEnvironmentMemberComparer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

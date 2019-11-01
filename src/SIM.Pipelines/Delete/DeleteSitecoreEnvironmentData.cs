@@ -22,15 +22,14 @@ namespace SIM.Pipelines.Delete
       InstallParam sqlDbPrefixParam = arguments.Tasker.GlobalParams.FirstOrDefault(p => p.Name == "SqlDbPrefix");
       if (sqlDbPrefixParam != null && !string.IsNullOrEmpty(sqlDbPrefixParam.Value))
       {
-        List<SitecoreEnvironment> sitecoreEnvironments = SitecoreEnvironmentHelper.GetSitecoreEnvironmentData();
-        if (sitecoreEnvironments != null)
+        if (SitecoreEnvironmentHelper.SitecoreEnvironments != null)
         {
-          foreach (SitecoreEnvironment sitecoreEnvironment in sitecoreEnvironments)
+          foreach (SitecoreEnvironment sitecoreEnvironment in SitecoreEnvironmentHelper.SitecoreEnvironments)
           {
             if (sitecoreEnvironment.Name == sqlDbPrefixParam.Value)
             {
-              sitecoreEnvironments.Remove(sitecoreEnvironment);
-              SitecoreEnvironmentHelper.SaveSitecoreEnvironmentData(sitecoreEnvironments);
+              SitecoreEnvironmentHelper.SitecoreEnvironments.Remove(sitecoreEnvironment);
+              SitecoreEnvironmentHelper.SaveSitecoreEnvironmentData(SitecoreEnvironmentHelper.SitecoreEnvironments);
               return;
             }
           }

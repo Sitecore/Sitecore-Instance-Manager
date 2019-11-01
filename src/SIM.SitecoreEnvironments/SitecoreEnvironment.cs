@@ -25,6 +25,7 @@
             {
               ID = sitecoreEnvironment.ID;
               Name = sitecoreEnvironment.Name;
+              Members = sitecoreEnvironment.Members;
               return;
             }
           }

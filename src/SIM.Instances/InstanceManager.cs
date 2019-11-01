@@ -114,7 +114,7 @@
 
     public void Initialize([CanBeNull] string defaultRootFolder = null)
     {
-      SitecoreEnvironmentHelper.SitecoreEnvironments = SitecoreEnvironmentHelper.GetSitecoreEnvironmentData();
+      SitecoreEnvironmentHelper.RefreshEnvironments();
 
       using (WebServerManager.WebServerContext context = WebServerManager.CreateContext())
       {
@@ -128,6 +128,8 @@
     
     public void InitializeWithSoftListRefresh([CanBeNull] string defaultRootFolder = null)
     {
+      SitecoreEnvironmentHelper.RefreshEnvironments();
+
       using (new ProfileSection("Initialize with soft list refresh"))
       {
         // Add check that this isn't an initial initialization
