@@ -69,6 +69,7 @@ namespace SIM.Tool.Windows.UserControls.Reinstall
       }
 
       this.TextBlock.Text = displayText.ToString();
+      args.InstanceName = args.Tasker.GlobalParams.First(p => p.Name == "SqlDbPrefix").Value;
     }
 
     public bool OnMovingBack(WizardArgs wizardArgs)
