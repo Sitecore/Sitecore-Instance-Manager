@@ -10,8 +10,9 @@ namespace SIM.Sitecore9Installer
   public class InstallSIFTask:PowerShellTask
   {
     private string sifVersion;
+    private string fundamentalsVersion;
     private string repo;
-    private string scriptTemaplate = "if (Get-Module -Name SitecoreInstallFramework -ListAvailable | Where-Object { $_.Version -eq \"$sifVersion\" }) {" +
+    private string scriptTemaplate = "if ((Get-Module -Name SitecoreInstallFramework -ListAvailable | Where-Object { $_.Version -eq \"$sifVersion\" }) -And !(\"$sifVersion\" -eq \"1.2.1\" -And !(Get-Module -Name SitecoreFundamentals -ListAvailable | Where-Object { $_.Version -eq \"$fundamentalsVersion\" }))) {" +
                                      "\r\n" +
                                      "                return" +
                                      "\r\n" +
@@ -33,6 +34,8 @@ namespace SIM.Sitecore9Installer
                                      "\r\n" +
                                      "                Install-Module -Name SitecoreInstallFramework -RequiredVersion $sifVersion -Repository $repository.Name -AllowClobber -Force -ErrorAction \"Stop\"" +
                                      "\r\n" +
+                                     "                Install-Module -Name SitecoreFundamentals -RequiredVersion $fundamentalsVersion -Repository $repository.Name -AllowClobber -Force -ErrorAction \"Stop\"" +
+                                     "\r\n" +
                                      "            }" +
                                      "\r\n " +
                                      "           finally {" +
@@ -48,6 +51,7 @@ namespace SIM.Sitecore9Installer
     public InstallSIFTask(string sifVersion, string repo)
     {
       this.sifVersion = sifVersion;
+      this.fundamentalsVersion = "1.1.0";
       this.repo = repo;
       this.Name=string.Format("Install SIF {0}",sifVersion);
       this.ExecutionOrder = int.MinValue;
@@ -56,7 +60,7 @@ namespace SIM.Sitecore9Installer
 
     public override string GetScript()
     {
-      return this.scriptTemaplate.Replace("$sifVersion", this.sifVersion).Replace("$repoAddress", this.repo);
+      return this.scriptTemaplate.Replace("$sifVersion", this.sifVersion).Replace("$repoAddress", this.repo).Replace("$fundamentalsVersion", this.fundamentalsVersion);
     }
   }
 }
