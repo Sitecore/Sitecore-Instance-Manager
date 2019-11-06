@@ -23,7 +23,8 @@
         </Grid.RowDefinitions>
         <TextBlock Grid.Row="1" Text="Site Name: " HorizontalAlignment="Left" Width="72" />
         <TextBox IsReadOnly="True" Grid.Row="1" Grid.Column="1" Name="InstanceName" Margin="0,0,10,0"   />
-        <CheckBox Name="scriptsOnly" Content=":Scripts only" HorizontalAlignment="Left" Margin="0,5,0,0" Grid.Row="2" VerticalAlignment="Top" FlowDirection="RightToLeft" Grid.ColumnSpan="2" Width="93" Padding="11,-1,0,0"/>
+        <TextBlock Grid.Row="2" Grid.Column="0" Text="Scripts only:" VerticalAlignment="Center" />
+        <CheckBox Name="scriptsOnly" Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" Margin="1"  />
         <ComboBox Grid.Column="3" Name="Solrs" DisplayMemberPath="Name" DataContext="{Binding}" Grid.Row="1"  />
         <TextBlock Grid.Column="2" VerticalAlignment="Center" Grid.RowSpan="2" TextWrapping="Wrap" Text="Solr:" Margin="0,6,48,6"/>
     </Grid>

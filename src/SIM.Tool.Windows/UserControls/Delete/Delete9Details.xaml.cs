@@ -89,7 +89,7 @@ namespace SIM.Tool.Windows.UserControls.Install
       }
       else
       {
-        if (MessageBox.Show(string.Format("Path '{0}' already exists. Do you want overwrite it?", args.ScriptRoot), "Overwrite?", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+        if (MessageBox.Show(string.Format("Path '{0}' already exists. Do you want to overwrite it?", args.ScriptRoot), "Overwrite?", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
         {
           Directory.Delete(args.ScriptRoot, true);
           Directory.CreateDirectory(args.ScriptRoot);
