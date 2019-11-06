@@ -5,13 +5,13 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:converters="clr-namespace:SIM.Tool.Base.Converters;assembly=SIM.Tool.Base"
              xmlns:install="clr-namespace:SIM.Tool.Windows.UserControls.Install"
-             mc:Ignorable="d" d:DesignWidth="623.837" Background="#FFF5F3F3" Height="133.662">
+             mc:Ignorable="d" d:DesignWidth="615.837" Height="133.662">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="72" />
-            <ColumnDefinition Width="60*" />
-            <ColumnDefinition Width="77" />
-            <ColumnDefinition Width="61*" />
+            <ColumnDefinition Width="80" />
+            <ColumnDefinition Width="229*" />
+            <ColumnDefinition Width="68" />
+            <ColumnDefinition Width="239*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="0" />
@@ -21,11 +21,11 @@
             <RowDefinition Height="5*"/>
             <RowDefinition Height="6*"/>
         </Grid.RowDefinitions>
-        <TextBlock Grid.Row="1" Text="Site Name: " HorizontalAlignment="Left" Width="72" />
-        <TextBox IsReadOnly="True" Grid.Row="1" Grid.Column="1" Name="InstanceName" Margin="0,0,10,0"   />
-        <TextBlock Grid.Row="2" Grid.Column="0" Text="Scripts only:" VerticalAlignment="Center" />
-        <CheckBox Name="scriptsOnly" Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" Margin="1"  />
-        <ComboBox Grid.Column="3" Name="Solrs" DisplayMemberPath="Name" DataContext="{Binding}" Grid.Row="1"  />
-        <TextBlock Grid.Column="2" VerticalAlignment="Center" Grid.RowSpan="2" TextWrapping="Wrap" Text="Solr:" Margin="0,6,48,6"/>
+        <TextBlock Grid.Row="1" Grid.Column="0" Text="Site Name: " VerticalAlignment="Center" HorizontalAlignment="Left" Width="72" Margin="5,0,0,0" />
+        <TextBox IsReadOnly="True" Grid.Row="1"  Grid.Column="1" Name="InstanceName" Margin="0,0,10,0"   />
+        <TextBlock Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Left"  TextWrapping="Wrap" Text="Solr:" Margin="5,0,0,0" Height="16"/>
+        <ComboBox Grid.Row="2" Grid.Column="1" Name="Solrs" DisplayMemberPath="Name" DataContext="{Binding}" Margin="0,0,10,0"   />
+        <TextBlock Grid.Row="3" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Left" Text="Scripts only:" Height="16" Margin="5,0,0,0" />
+        <CheckBox Name="scriptsOnly" Grid.Row="3" Grid.Column="1"  VerticalAlignment="Center" Height="15"  />
     </Grid>
 </UserControl>
