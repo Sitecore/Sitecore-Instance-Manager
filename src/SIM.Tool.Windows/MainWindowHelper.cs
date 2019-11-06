@@ -492,7 +492,8 @@
           var menuButton = new Fluent.MenuItem()
           {
             Header = menuHeader,
-            IsEnabled = menuHandler?.IsEnabled(window, SelectedInstance) ?? true
+            IsEnabled = menuHandler?.IsEnabled(window, SelectedInstance) ?? true,
+            Visibility = menuHandler != null && menuHandler.IsEnabled(window, SelectedInstance) ? Visibility.Visible : Visibility.Collapsed
           };
 
           if (menuIcon != null)
@@ -502,8 +503,9 @@
 
           if (menuHandler != null)
           {
-            // bind IsEnabled event
+            // bind IsEnabled and IsVisible events
             SetIsEnabledProperty(menuButton, menuHandler);
+            SetIsVisibleProperty(menuButton, menuHandler);
 
             menuButton.Click += delegate
           {
@@ -617,6 +619,7 @@
           };
 
           SetIsEnabledProperty(menuItem, mainWindowButton);
+          SetIsVisibleProperty(menuItem, mainWindowButton);
         }
 
         foreach (var childElement in menuItemElement.Buttons ?? new ButtonDefinition[0])
@@ -663,12 +666,14 @@
             ribbonButton.Width = d;
           }
 
-          // bind IsEnabled event
+          // bind IsEnabled and IsVisible events
           if (mainWindowButton != null)
           {
             ribbonButton.Tag = mainWindowButton;
             ribbonButton.IsEnabled = mainWindowButton.IsEnabled(window, SelectedInstance);
+            ribbonButton.Visibility = mainWindowButton.IsVisible(window, SelectedInstance) ? Visibility.Visible : Visibility.Collapsed;
             SetIsEnabledProperty(ribbonButton, mainWindowButton);
+            SetIsVisibleProperty(ribbonButton, mainWindowButton);
           }
         }
         catch (Exception ex)
@@ -716,7 +721,16 @@
     {
       ribbonButton.SetBinding(UIElement.IsEnabledProperty, new System.Windows.Data.Binding("SelectedItem")
       {
-        Converter = new CustomConverter(mainWindowButton),
+        Converter = new CustomEnabledConverter(mainWindowButton),
+        ElementName = "InstanceList"
+      });
+    }
+
+    private static void SetIsVisibleProperty(FrameworkElement ribbonButton, IMainWindowButton mainWindowButton)
+    {
+      ribbonButton.SetBinding(UIElement.VisibilityProperty, new System.Windows.Data.Binding("SelectedItem")
+      {
+        Converter = new CustomVisibilityConverter(mainWindowButton),
         ElementName = "InstanceList"
       });
     }
@@ -818,17 +832,41 @@
     {
       using (new ProfileSection("Main window instance selected handler"))
       {
-        if (SelectedInstance != null)
+        if (SelectedInstance != null && MainWindow.Instance.HomeTab.IsSelected)
         {
-          if (MainWindow.Instance.HomeTab.IsSelected)
-          {
-            MainWindow.Instance.OpenTab.IsSelected = true;
-          }
-
-          ShowControls(SelectedInstance);
-          HideControls(SelectedInstance);
+          MainWindow.Instance.OpenTab.IsSelected = true;
         }
       }
+    }
+
+    public static bool IsSitecoreMember(Instance selectedInstance)
+    {
+      if (selectedInstance.Product == Product.Undefined || selectedInstance.Product.Release == null)
+      {
+        return true;
+      }
+
+      return false;
+    }
+
+    public static bool IsSitecore9(Instance selectedInstance)
+    {
+      if (selectedInstance.Product.Release.Version.MajorMinorInt >= 90)
+      {
+        return true;
+      }
+
+      return false;
+    }
+
+    public static bool IsSitecore91(Instance selectedInstance)
+    {
+      if (selectedInstance.Product.Release.Version.MajorMinorInt >= 91)
+      {
+        return true;
+      }
+
+      return false;
     }
 
     private static void ShowControls(Instance currentlySelectedInstance)

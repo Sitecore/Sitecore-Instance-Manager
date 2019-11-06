@@ -20,6 +20,12 @@
       return true;
     }
 
+    public bool IsVisible(Window mainWindow, Instance instance)
+    {
+      return true;
+    }
+
+
     public void OnClick(Window mainWindow, Instance instance)
     {
       WizardPipelineManager.Start("multipleDeletion", mainWindow, new MultipleDeletionArgs(new List<string>()), null, ignore => OnWizardCompleted(), () => new MultipleDeletionWizardArgs());

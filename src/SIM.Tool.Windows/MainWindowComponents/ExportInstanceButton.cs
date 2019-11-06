@@ -19,6 +19,16 @@
       return instance != null;
     }
 
+    public bool IsVisible(Window mainWindow, Instance instance)
+    {
+      if (instance != null && (MainWindowHelper.IsSitecoreMember(instance) || MainWindowHelper.IsSitecore9(instance)))
+      {
+        return false;
+      }
+
+      return true;
+    }
+
     public void OnClick(Window mainWindow, Instance instance)
     {
       Analytics.TrackEvent("Export");

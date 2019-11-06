@@ -48,6 +48,16 @@
       return instance != null;
     }
 
+    public bool IsVisible([CanBeNull] Window mainWindow, Instance instance)
+    {
+      if (instance != null && MainWindowHelper.IsSitecoreMember(instance))
+      {
+        return false;
+      }
+
+      return true;
+    }
+
     public void OnClick(Window mainWindow, Instance instance)
     {
       Assert.ArgumentNotNull(mainWindow, nameof(mainWindow));

@@ -118,7 +118,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ButtonDefinition.cs" />
-    <Compile Include="CustomConverter.cs" />
+    <Compile Include="CustomVisibilityConverter.cs" />
+    <Compile Include="CustomEnabledConverter.cs" />
     <Compile Include="Dialogs\AddSolrDialog.xaml.cs">
       <DependentUpon>AddSolrDialog.xaml</DependentUpon>
     </Compile>
