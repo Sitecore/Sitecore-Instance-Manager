@@ -26,11 +26,6 @@
 
     public bool IsVisible([CanBeNull] Window mainWindow, Instance instance)
     {
-      if (instance != null && (MainWindowHelper.IsSitecoreMember(instance) || MainWindowHelper.IsSitecore9(instance)))
-      {
-        return false;
-      }
-
       return true;
     }
 

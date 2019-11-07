@@ -162,6 +162,8 @@
     <Compile Include="MainWindowComponents\Download8Button.cs" />
     <Compile Include="MainWindowComponents\AbstractDownloadAndRunButton.cs" />
     <Compile Include="MainWindowComponents\ExportInstanceButton.cs" />
+    <Compile Include="MainWindowComponents\BackupButton.cs" />
+    <Compile Include="MainWindowComponents\ExtraActionsButton.cs" />
     <Compile Include="MainWindowComponents\GenerateNuGetPackagesButton.cs" />
     <Compile Include="MainWindowComponents\ImportInstanceButton.cs" />
     <Compile Include="MainWindowComponents\Install9InstanceButton.cs" />
@@ -169,6 +171,7 @@
     <Compile Include="MainWindowComponents\InstallModulesButton.cs" />
     <Compile Include="MainWindowComponents\InstallMongoDb.cs" />
     <Compile Include="MainWindowComponents\KillAllButThisButton.cs" />
+    <Compile Include="MainWindowComponents\SitecoreMemberButton.cs" />
     <Compile Include="MainWindowComponents\LoginAdminButton.cs" />
     <Compile Include="MainWindowComponents\ManagedArgsTracerButton.cs" />
     <Compile Include="MainWindowComponents\MultipleDeletionButton.cs" />

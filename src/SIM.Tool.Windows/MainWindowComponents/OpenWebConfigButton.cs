@@ -21,6 +21,11 @@
 
     public bool IsVisible(Window mainWindow, Instance instance)
     {
+      if (instance != null && MainWindowHelper.IsSitecoreMember(instance))
+      {
+        return false;
+      }
+
       return true;
     }
 

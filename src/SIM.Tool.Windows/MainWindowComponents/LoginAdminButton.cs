@@ -45,16 +45,16 @@
 
     public bool IsEnabled([CanBeNull] Window mainWindow, Instance instance)
     {
-      return instance != null;
-    }
-
-    public bool IsVisible([CanBeNull] Window mainWindow, Instance instance)
-    {
       if (instance != null && MainWindowHelper.IsSitecoreMember(instance))
       {
         return false;
       }
 
+      return true;
+    }
+
+    public bool IsVisible([CanBeNull] Window mainWindow, Instance instance)
+    {
       return true;
     }
 
