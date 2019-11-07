@@ -511,7 +511,7 @@
           {
             try
             {
-              if (menuHandler.IsEnabled(MainWindow.Instance, SelectedInstance))
+              if (menuHandler.IsEnabled(MainWindow.Instance, SelectedInstance) && menuHandler.IsVisible(MainWindow.Instance, SelectedInstance))
               {
                 menuHandler.OnClick(MainWindow.Instance, SelectedInstance);
                 RefreshInstances();
@@ -597,6 +597,7 @@
             Height = 16
           },
           IsEnabled = mainWindowButton == null || mainWindowButton.IsEnabled(window, SelectedInstance),
+          Visibility = mainWindowButton != null && mainWindowButton.IsVisible(window, SelectedInstance) ? Visibility.Visible : Visibility.Collapsed,
           Tag = mainWindowButton
         };
 
@@ -606,7 +607,7 @@
           {
             try
             {
-              if (mainWindowButton.IsEnabled(MainWindow.Instance, SelectedInstance))
+              if (mainWindowButton.IsEnabled(MainWindow.Instance, SelectedInstance) && mainWindowButton.IsVisible(MainWindow.Instance, SelectedInstance))
               {
                 mainWindowButton.OnClick(MainWindow.Instance, SelectedInstance);
                 RefreshInstances();
@@ -822,9 +823,15 @@
     {
       using (new ProfileSection("Main window instance selected handler"))
       {
-        if (SelectedInstance != null && MainWindow.Instance.HomeTab.IsSelected)
+        if (SelectedInstance != null)
         {
-          MainWindow.Instance.OpenTab.IsSelected = true;
+          if (MainWindow.Instance.HomeTab.IsSelected)
+          {
+            MainWindow.Instance.OpenTab.IsSelected = true;
+          }
+
+          ShowContextMenuItems(SelectedInstance);
+          HideContextMenuItems(SelectedInstance);
         }
       }
     }
@@ -859,107 +866,25 @@
       return false;
     }
 
-    private static void ShowControls(Instance currentlySelectedInstance)
+    private static void ShowContextMenuItems(Instance selectedInstance)
     {
-      ShowHideVisualStudioButtons(Visibility.Visible);
-      ShowHideFileSystemButtons(Visibility.Visible);
       ShowHideContextMenuItemsForSitecore9(Visibility.Visible);
       ShowHideContextMenuItemsForSitecore9EnvironmentMember(Visibility.Visible);
-      ShowHideAppStateButtons(Visibility.Visible);
     }
 
-    private static void HideControls(Instance currentlySelectedInstance)
+    private static void HideContextMenuItems(Instance selectedInstance)
     {
-      if (currentlySelectedInstance.Product == Product.Undefined || currentlySelectedInstance.Product.Release == null)
+      if (IsSitecoreMember(selectedInstance))
       {
         ShowHideContextMenuItemsForSitecore9(Visibility.Collapsed);
         ShowHideContextMenuItemsForSitecore9EnvironmentMember(Visibility.Collapsed);
-        ShowHideFileSystemButtons(Visibility.Collapsed);
-        ShowHideAppStateButtons(Visibility.Collapsed);
+
         return;
       }
 
-      if (currentlySelectedInstance.Product.Release.Version.MajorMinorInt >= 90)
+      if (IsSitecore9(selectedInstance))
       {
         ShowHideContextMenuItemsForSitecore9(Visibility.Collapsed);
-      }
-
-      if (currentlySelectedInstance.Product.Release.Version.MajorMinorInt >= 91)
-      {
-        ShowHideVisualStudioButtons(Visibility.Collapsed);
-      }
-    }
-
-    private static void ShowHideVisualStudioButtons(Visibility visibility)
-    {
-      foreach (var group in MainWindow.Instance.OpenTab.Groups)
-      {
-        if (group.Header == "Apps")
-        {
-          foreach (var splitButton in group.Items)
-          {
-            if ((splitButton as SplitButton).Header == "Visual Studio")
-            {
-              foreach (var menuItem in (splitButton as SplitButton).Items)
-              {
-                if ((menuItem as Fluent.MenuItem).Header == "Create Support Patch" ||
-                    (menuItem as Fluent.MenuItem).Header == "Create Core Patch")
-                {
-                  (menuItem as Fluent.MenuItem).Visibility = visibility;
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-
-    private static void ShowHideFileSystemButtons(Visibility visibility)
-    {
-      foreach (var group in MainWindow.Instance.OpenTab.Groups)
-      {
-        if (group.Header == "File System")
-        {
-          foreach (var splitButton in group.Items)
-          {
-            if ((splitButton as SplitButton).Header == "Config Files" ||
-                (splitButton as SplitButton).Header == "Log Files")
-            {
-              (splitButton as SplitButton).Visibility = visibility;
-            }
-          }
-        }
-      }
-    }
-
-    private static void ShowHideAppStateButtons(Visibility visibility)
-    {
-      foreach (var group in MainWindow.Instance.EditTab.Groups)
-      {
-        if (group.Header == "Manage")
-        {
-          foreach (var splitButton in group.Items)
-          {
-            if ((splitButton as SplitButton).Header == "App State")
-            {
-              (splitButton as SplitButton).Visibility = visibility;
-            }
-          }
-        }
-      }
-    }
-
-    private static void ShowHideGroups(RibbonTabItem tab, List<string> groupNames, Visibility visibility)
-    {
-      foreach (var group in tab.Groups)
-      {
-        foreach (string groupName in groupNames)
-        {
-          if (group.Header == groupName)
-          {
-            group.Visibility = visibility;
-          }
-        }
       }
     }
 
