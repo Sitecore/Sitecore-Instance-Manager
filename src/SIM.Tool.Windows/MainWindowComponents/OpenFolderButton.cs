@@ -37,7 +37,7 @@
       return instance != null || !RequiresInstance(Folder);
     }
 
-    public bool IsVisible(Window mainWindow, Instance instance)
+    public virtual bool IsVisible(Window mainWindow, Instance instance)
     {
       return true;
     }

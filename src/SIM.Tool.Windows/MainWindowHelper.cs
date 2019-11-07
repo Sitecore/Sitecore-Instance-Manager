@@ -748,16 +748,6 @@
       }
     }
 
-    public static List<string> GroupsToBeHiddenForSitecore9
-    {
-      get { return new List<string>() {"Install", "Backup"}; }
-    }
-
-    public static List<string> GroupsToBeHiddenForSitecore9EnvironmentMember
-    {
-      get { return new List<string>() { "Page", "Apps" }; }
-    }
-
     #endregion
 
     #region Methods
@@ -871,8 +861,6 @@
 
     private static void ShowControls(Instance currentlySelectedInstance)
     {
-      ShowHideGroups(MainWindow.Instance.EditTab, GroupsToBeHiddenForSitecore9, Visibility.Visible);
-      ShowHideGroups(MainWindow.Instance.OpenTab, GroupsToBeHiddenForSitecore9EnvironmentMember, Visibility.Visible);
       ShowHideVisualStudioButtons(Visibility.Visible);
       ShowHideFileSystemButtons(Visibility.Visible);
       ShowHideContextMenuItemsForSitecore9(Visibility.Visible);
@@ -884,8 +872,6 @@
     {
       if (currentlySelectedInstance.Product == Product.Undefined || currentlySelectedInstance.Product.Release == null)
       {
-        ShowHideGroups(MainWindow.Instance.EditTab, GroupsToBeHiddenForSitecore9, Visibility.Collapsed);
-        ShowHideGroups(MainWindow.Instance.OpenTab, GroupsToBeHiddenForSitecore9EnvironmentMember, Visibility.Collapsed);
         ShowHideContextMenuItemsForSitecore9(Visibility.Collapsed);
         ShowHideContextMenuItemsForSitecore9EnvironmentMember(Visibility.Collapsed);
         ShowHideFileSystemButtons(Visibility.Collapsed);
@@ -895,7 +881,6 @@
 
       if (currentlySelectedInstance.Product.Release.Version.MajorMinorInt >= 90)
       {
-        ShowHideGroups(MainWindow.Instance.EditTab, GroupsToBeHiddenForSitecore9, Visibility.Collapsed);
         ShowHideContextMenuItemsForSitecore9(Visibility.Collapsed);
       }
 

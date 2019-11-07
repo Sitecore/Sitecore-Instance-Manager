@@ -469,13 +469,13 @@ namespace SIM.Tool.Windows
                 {
                   Label = "Data Folder",
                   Image = "/Images/$sm/folders.png, SIM.Tool.Windows",
-                  Handler = new SIM.Tool.Windows.MainWindowComponents.OpenFolderButton("$(data)")
+                  Handler = new SIM.Tool.Windows.MainWindowComponents.SitecoreMemberOpenFolderButton("$(data)")
                 },
                 new ButtonDefinition
                 {
                   Label = "Databases Folder",
                   Image = "/Images/$sm/folders.png, SIM.Tool.Windows",
-                  Handler = new SIM.Tool.Windows.MainWindowComponents.OpenFolderButton("$(root)/Databases")
+                  Handler = new SIM.Tool.Windows.MainWindowComponents.SitecoreMemberOpenFolderButton("$(root)/Databases")
                 },
                 new ButtonDefinition(),
                 new ButtonDefinition
@@ -488,13 +488,13 @@ namespace SIM.Tool.Windows
                 {
                   Label = "Include Folder",
                   Image = "/Images/$sm/folder_open.png, SIM.Tool.Windows",
-                  Handler = new SIM.Tool.Windows.MainWindowComponents.OpenFolderButton("$(website)/App_Config/Include")
+                  Handler = new SIM.Tool.Windows.MainWindowComponents.SitecoreMemberOpenFolderButton("$(website)/App_Config/Include")
                 },
                 new ButtonDefinition
                 {
                   Label = "zzz Folder",
                   Image = "/Images/$sm/folder_open.png, SIM.Tool.Windows",
-                  Handler = new SIM.Tool.Windows.MainWindowComponents.OpenFolderButton("$(website)/App_Config/Include/zzz")
+                  Handler = new SIM.Tool.Windows.MainWindowComponents.SitecoreMemberOpenFolderButton("$(website)/App_Config/Include/zzz")
                 },
               }
             },

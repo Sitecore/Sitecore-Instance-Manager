@@ -171,6 +171,7 @@
     <Compile Include="MainWindowComponents\InstallModulesButton.cs" />
     <Compile Include="MainWindowComponents\InstallMongoDb.cs" />
     <Compile Include="MainWindowComponents\KillAllButThisButton.cs" />
+    <Compile Include="MainWindowComponents\SitecoreMemberOpenFolderButton.cs" />
     <Compile Include="MainWindowComponents\SitecoreMemberButton.cs" />
     <Compile Include="MainWindowComponents\LoginAdminButton.cs" />
     <Compile Include="MainWindowComponents\ManagedArgsTracerButton.cs" />
