@@ -836,7 +836,7 @@
       }
     }
 
-    public static bool IsSitecoreMember(Instance selectedInstance)
+    private static bool IsSitecoreMember(Instance selectedInstance)
     {
       if (selectedInstance.Product == Product.Undefined || selectedInstance.Product.Release == null)
       {
@@ -846,7 +846,7 @@
       return false;
     }
 
-    public static bool IsSitecore9(Instance selectedInstance)
+    private static bool IsSitecore9(Instance selectedInstance)
     {
       if (selectedInstance.Product.Release.Version.MajorMinorInt >= 90)
       {
@@ -856,7 +856,7 @@
       return false;
     }
 
-    public static bool IsSitecore91(Instance selectedInstance)
+    private static bool IsSitecore91(Instance selectedInstance)
     {
       if (selectedInstance.Product.Release.Version.MajorMinorInt >= 91)
       {
@@ -864,6 +864,36 @@
       }
 
       return false;
+    }
+
+    public static bool IsEnabledOrVisibleButtonForSitecore91AndMember(Instance selectedInstance)
+    {
+      if (selectedInstance != null && (IsSitecoreMember(selectedInstance) || IsSitecore91(selectedInstance)))
+      {
+        return false;
+      }
+
+      return true;
+    }
+
+    public static bool IsEnabledOrVisibleButtonForSitecore9AndMember(Instance selectedInstance)
+    {
+      if (selectedInstance != null && (IsSitecoreMember(selectedInstance) || IsSitecore9(selectedInstance)))
+      {
+        return false;
+      }
+
+      return true;
+    }
+
+    public static bool IsEnabledOrVisibleButtonForSitecoreMember(Instance selectedInstance)
+    {
+      if (selectedInstance != null && IsSitecoreMember(selectedInstance))
+      {
+        return false;
+      }
+
+      return true;
     }
 
     private static void ShowContextMenuItems(Instance selectedInstance)

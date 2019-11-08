@@ -21,12 +21,7 @@
 
     public bool IsVisible(Window mainWindow, Instance instance)
     {
-      if (instance != null && MainWindowHelper.IsSitecoreMember(instance))
-      {
-        return false;
-      }
-
-      return true;
+      return MainWindowHelper.IsEnabledOrVisibleButtonForSitecoreMember(instance);
     }
 
     public void OnClick(Window mainWindow, Instance instance)

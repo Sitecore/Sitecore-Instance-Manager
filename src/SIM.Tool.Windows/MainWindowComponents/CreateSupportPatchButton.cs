@@ -31,12 +31,7 @@ namespace SIM.Tool.Windows.MainWindowComponents
 
     public bool IsVisible(Window mainWindow, Instance instance)
     {
-      if (instance != null && (MainWindowHelper.IsSitecoreMember(instance) || MainWindowHelper.IsSitecore91(instance)))
-      {
-        return false;
-      }
-
-      return true;
+      return MainWindowHelper.IsEnabledOrVisibleButtonForSitecore91AndMember(instance);
     }
 
     public void OnClick(Window mainWindow, Instance instance)
