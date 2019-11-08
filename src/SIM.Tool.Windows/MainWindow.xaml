@@ -69,14 +69,14 @@
                                                                                 <Setter Property="Template">
                                                                                     <Setter.Value>
                                                                                         <ControlTemplate TargetType="{x:Type ToggleButton}">
-                                                                                            <Border Padding="{TemplateBinding Padding}">
+                                                                                            <Border Margin="4,0,0,0" Padding="0,4,0,4" BorderThickness="1" CornerRadius="10,0,10,0">
                                                                                                 <Grid Background="Transparent" SnapsToDevicePixels="False">
                                                                                                     <Grid.ColumnDefinitions>
                                                                                                         <ColumnDefinition Width="15"/>
                                                                                                         <ColumnDefinition Width="*"/>
                                                                                                     </Grid.ColumnDefinitions>
                                                                                                     <Image x:Name="ToggleImage" Source="pack://application:,,,/SIM.Tool.Windows;component/Images/9/plus.png" Width="9" Height="9" Margin="0,2,0,0"/>
-                                                                                                    <ContentPresenter Grid.Column="1" HorizontalAlignment="Left" Margin="4,0,0,0" RecognizesAccessKey="True" SnapsToDevicePixels="True" VerticalAlignment="Center"/>
+                                                                                                    <ContentPresenter Grid.Column="1" HorizontalAlignment="Left" RecognizesAccessKey="True" SnapsToDevicePixels="True" VerticalAlignment="Center"/>
                                                                                                 </Grid>
                                                                                             </Border>
 
