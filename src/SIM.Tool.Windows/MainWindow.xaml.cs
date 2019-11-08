@@ -355,6 +355,12 @@
       }
     }
 
+    // Prevent context menu opening on toggle button
+    private void ToggleButton_OnContextMenuOpening(object sender, ContextMenuEventArgs e)
+    {
+      e.Handled = true;
+    }
+
     #endregion
   }
 }
