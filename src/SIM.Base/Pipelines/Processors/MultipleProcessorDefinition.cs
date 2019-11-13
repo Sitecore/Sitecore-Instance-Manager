@@ -8,7 +8,7 @@ namespace SIM.Pipelines.Processors
 
     public override IEnumerable<Processor> CreateProcessors(ProcessorArgs args, IPipelineController controller)
     {
-      var hive = (ProcessorHive)ReflectionUtil.CreateObject(Type);
+      var hive = (ProcessorHive)ReflectionUtil.CreateObject(Type,this);
       IEnumerable<Processor> proc=hive.CreateProcessors(args);
       if (controller != null)
       {

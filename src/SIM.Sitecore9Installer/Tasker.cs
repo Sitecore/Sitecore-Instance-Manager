@@ -337,7 +337,7 @@ namespace SIM.Sitecore9Installer
     {
       StringBuilder results = new StringBuilder();
       this.EvaluateGlobalParams();
-      foreach (SitecoreTask task in this.tasksToRun.Where(t => t.ShouldRun))
+      foreach (SitecoreTask task in this.tasksToRun.Where(t => t.ShouldRun&&((this.unInstall&&t.SupportsUninstall())||(!this.unInstall))))
       {
         try
         {
