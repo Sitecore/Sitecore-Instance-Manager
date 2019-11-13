@@ -12,6 +12,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using SIM.Sitecore9Installer.Tasks;
 
 namespace SIM.Tool.Windows.UserControls.Install.ParametersEditor
 {
