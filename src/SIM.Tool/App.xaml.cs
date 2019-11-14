@@ -37,6 +37,9 @@ namespace SIM.Tool
   using File = System.IO.File;
   using SIM.IO.Real;
   using SIM.Tool.Windows.Pipelines.Setup;
+  using SIM.Telemetry;
+  using SIM.Telemetry.Models;
+  using SIM.Telemetry.Providers;
 
   public partial class App
   {
@@ -254,7 +257,10 @@ namespace SIM.Tool
       CoreApp.DeleteTempFolders();
 
       LoadIocResourcesForSolr();
-      Analytics.Start();
+      SIM.Core.Common.Analytics.Start();
+
+      InitializeTelemetry();
+      Telemetry.Analytics.Track(TelemetryEvent.AppRun);
 
       // Show main window
       try
@@ -270,9 +276,40 @@ namespace SIM.Tool
 
       CoreApp.Exit();
 
-      Analytics.Flush();
+      SIM.Core.Common.Analytics.Flush();
 
       Environment.Exit(0);
+    }
+
+    private void InitializeTelemetry()
+    {
+      var kbProviderConfiguration = new KBProviderConfiguration() { BaseAddress = Constants.KBProviderBaseAddress };
+      var kbTelemetryProvider = new KnowledgeBaseProvider(kbProviderConfiguration, enabled: true);
+
+      Telemetry.Analytics.RegisterProvider(kbTelemetryProvider);
+
+      var telemetryEventContext = new TelemetryEventContext();
+
+      try
+      {
+        telemetryEventContext.ApplicationID = Guid.Parse(Constants.SitecoreInstanceManagerAppId);
+        telemetryEventContext.DeviceId = AnalyticsHelper.GetDeviceId(ApplicationManager.TempFolder);
+        telemetryEventContext.AppVersion = string.IsNullOrEmpty(ApplicationManager.AppVersion) ? "0.0.0.0" : ApplicationManager.AppVersion;
+        telemetryEventContext.OperatingSystem = Environment.OSVersion.ToString();
+        telemetryEventContext.Language = AnalyticsHelper.GetCurrentUICulture();
+        telemetryEventContext.ScreenWidth = AnalyticsHelper.GetScreenWidth();
+        telemetryEventContext.ScreenHeight = AnalyticsHelper.GetScreenHeight();
+      }
+      catch (Exception ex)
+      {
+        Log.Error($"'TelemetryEventContext' error occurred.{Environment.NewLine}" +
+          $"Message: {ex.Message}{Environment.NewLine}," +
+          $"{ex.StackTrace}");
+
+        return;
+      }
+
+      Telemetry.Analytics.Initialize(telemetryEventContext, trackingEnabled: WindowsSettings.AppTelemetryEnabled.Value);
     }
 
     private void InitializeLogging()
