@@ -92,6 +92,11 @@
       "Type": "SIM.Sitecore9Installer.Tasks.xConnectTaskWithPostSteps, SIM.Sitecore9Installer",
       "Parameters": {
         "SiteName": "$SqlDbPrefix+\"XColl.local\""
+      },
+      "TaskOptions": {
+        "ShardMapManagerDatabaseNameSuffix": "_Xdb.Collection.ShardMapManager",
+        "Shard0DatabaseNameSuffix": "_Xdb.Collection.Shard0",
+        "Shard1DatabaseNameSuffix": "_Xdb.Collection.Shard1"
       }
     },
     "xconnect-xp1-collectionsearch": {
