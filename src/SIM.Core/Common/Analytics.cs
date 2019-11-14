@@ -10,7 +10,7 @@ namespace SIM.Core.Common
   using Sitecore.Diagnostics.Logging;
   using SIM.Extensions;
   using SIM.FileSystem;
-
+  [Obsolete]
   public static class Analytics
   {
     [CanBeNull]

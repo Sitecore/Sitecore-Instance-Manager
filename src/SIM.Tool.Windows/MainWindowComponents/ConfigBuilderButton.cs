@@ -68,8 +68,6 @@
                      
     public override void OnClick(Window mainWindow, Instance instance)
     {
-      Analytics.TrackEvent("RunConfigBuilder");
-
       if (!Showconfig && !WebConfigResult)
       {
         var param = instance != null ? Path.Combine(instance.WebRootPath, "web.config") : null;

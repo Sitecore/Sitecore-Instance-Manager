@@ -257,7 +257,6 @@ namespace SIM.Tool
       CoreApp.DeleteTempFolders();
 
       LoadIocResourcesForSolr();
-      SIM.Core.Common.Analytics.Start();
 
       InitializeTelemetry();
       Telemetry.Analytics.Track(TelemetryEvent.AppRun);
@@ -275,8 +274,6 @@ namespace SIM.Tool
 
 
       CoreApp.Exit();
-
-      SIM.Core.Common.Analytics.Flush();
 
       Environment.Exit(0);
     }

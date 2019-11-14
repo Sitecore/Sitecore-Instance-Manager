@@ -37,8 +37,6 @@ namespace SIM.Tool.Windows.MainWindowComponents
 
     public virtual void OnClick(Window mainWindow, Instance instance)
     {
-      Analytics.TrackEvent(AppName);             
-
       RunApp(mainWindow);
     }
 
