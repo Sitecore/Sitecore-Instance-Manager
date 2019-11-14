@@ -48,6 +48,8 @@ namespace SIM.Sitecore9Installer
     //  return null;
     //}
 
+    public string FilesRoot { get=>this.filesRoot; }
+
     public List<InstallParam> GlobalParams
     {
       get

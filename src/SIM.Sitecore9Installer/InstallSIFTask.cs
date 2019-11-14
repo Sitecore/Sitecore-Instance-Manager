@@ -11,7 +11,7 @@ namespace SIM.Sitecore9Installer
   {
     private string sifVersion;
     private string repo;
-    private string scriptTemaplate = "if (Get-Module -Name SitecoreInstallFramework -ListAvailable | Where-Object { $_.Version -eq \"$sifVersion\" }) {" +
+    private string scriptTemaplate = "if ((Get-Module -Name SitecoreInstallFramework -ListAvailable | Where-Object { $_.Version -eq \"$sifVersion\" }) -And !(\"$sifVersion\" -eq \"1.2.1\" -And !(Get-Module -Name SitecoreFundamentals -ListAvailable))) {" +
                                      "\r\n" +
                                      "                return" +
                                      "\r\n" +
@@ -31,7 +31,17 @@ namespace SIM.Sitecore9Installer
                                      "\r\n" +
                                      "                }" +
                                      "\r\n" +
+                                     "                if (!(Get-Module -Name SitecoreInstallFramework -ListAvailable | Where-Object { $_.Version -eq \"$sifVersion\" })) {" +
+                                     "\r\n" +
                                      "                Install-Module -Name SitecoreInstallFramework -RequiredVersion $sifVersion -Repository $repository.Name -AllowClobber -Force -ErrorAction \"Stop\"" +
+                                     "\r\n" +
+                                     "                }" +
+                                     "\r\n" +
+                                     "                if (\"$sifVersion\" -eq \"1.2.1\" -And !(Get-Module -Name SitecoreFundamentals -ListAvailable)) {" +
+                                     "\r\n" +
+                                     "                Install-Module -Name SitecoreFundamentals -Repository $repository.Name -AllowClobber -Force -ErrorAction \"Stop\"" +
+                                     "\r\n" +
+                                     "                }" + 
                                      "\r\n" +
                                      "            }" +
                                      "\r\n " +
