@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
@@ -588,6 +588,10 @@
     <ProjectReference Include="..\SIM.Pipelines\SIM.Pipelines.csproj">
       <Project>{7a3fedf8-df96-4426-aa01-c2d4fd3e68c8}</Project>
       <Name>SIM.Pipelines</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SIM.Telemetry\SIM.Telemetry.csproj">
+      <Project>{b91b2024-3f75-4df7-8dcc-111fb5ccaf5d}</Project>
+      <Name>SIM.Telemetry</Name>
     </ProjectReference>
     <ProjectReference Include="..\SIM.Tool.Windows\SIM.Tool.Windows.csproj">
       <Project>{221FB0E1-56C0-499C-82F3-BA4060D6ED0C}</Project>
