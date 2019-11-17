@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("SIM.Telemetry")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("'SIM.Telemetry' is used to track Sitecore Instance Manager utilisation statistics")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("SIM.Telemetry")]
