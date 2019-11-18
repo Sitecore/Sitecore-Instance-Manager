@@ -55,7 +55,7 @@ namespace SIM.Sitecore9Installer.Tasks
 
     private string GetSifVersion(bool unInstall, List<InstallParam> globalParams)
     {
-      var sifVersion = string.Empty;
+      string sifVersion = string.Empty;
 
       if (unInstall)
       {

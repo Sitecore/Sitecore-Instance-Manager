@@ -26,9 +26,9 @@ namespace SIM.Sitecore9Installer.Tasks
 
     public override string Run()
     {
-      var results = new StringBuilder();
+      StringBuilder results = new StringBuilder();
       State = TaskState.Running;
-      using (var PowerShellInstance = PowerShell.Create())
+      using (PowerShell PowerShellInstance = PowerShell.Create())
       {
         PowerShellInstance.AddScript(GetScript());
         try
@@ -43,12 +43,12 @@ namespace SIM.Sitecore9Installer.Tasks
 
         if (PowerShellInstance.Streams.Error.Count > 0)
         {
-          foreach (var error in PowerShellInstance.Streams.Error)
+          foreach (ErrorRecord error in PowerShellInstance.Streams.Error)
           {
-            var target = error.TargetObject as PSCmdlet;
+            PSCmdlet target = error.TargetObject as PSCmdlet;
             if (target != null)
             {
-              var param = (ActionPreference) target.MyInvocation.BoundParameters["ErrorAction"];
+              ActionPreference param = (ActionPreference) target.MyInvocation.BoundParameters["ErrorAction"];
               if (param == ActionPreference.Continue) continue;
             }
 

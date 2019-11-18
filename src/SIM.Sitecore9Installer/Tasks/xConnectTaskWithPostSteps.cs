@@ -37,7 +37,7 @@ namespace SIM.Sitecore9Installer.Tasks
       SqlAdminUser = GlobalParams.FirstOrDefault(p => p.Name == "SqlAdminUser")?.Value;
       SqlAdminPassword = GlobalParams.FirstOrDefault(p => p.Name == "SqlAdminPassword")?.Value;
 
-      var baseScript = base.GetScript();
+      string baseScript = base.GetScript();
       if (UnInstall) return baseScript;
 
       //This script isn't invoked during uninstall. It's Ok.

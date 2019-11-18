@@ -28,7 +28,7 @@ namespace SIM.Tool.Windows.UserControls.Install.ParametersEditor
 
     private void Window_Loaded(object sender, RoutedEventArgs e)
     {
-      var tasker = this.DataContext as Tasker;
+      Tasker tasker = this.DataContext as Tasker;
       List<TasksModel> model = new List<TasksModel>();
       model.Add(new TasksModel("Global", tasker.GlobalParams));
       foreach (PowerShellTask task in tasker.Tasks.Where(t=>t.ShouldRun&&t.LocalParams.Any()))

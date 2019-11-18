@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Management.Automation;
@@ -24,8 +25,8 @@ namespace SIM.Sitecore9Installer
 
     private Tasker()
     {
-      var globalSettings = string.Empty;
-      using (var reader =
+      string globalSettings = string.Empty;
+      using (StreamReader reader =
         new StreamReader(Path.Combine(Directory.GetCurrentDirectory(), "GlobalParamsConfig/GlobalSettings.json")))
       {
         globalSettings = reader.ReadToEnd();
@@ -38,12 +39,12 @@ namespace SIM.Sitecore9Installer
     {
       this.deployRoot = deployRoot;
       FilesRoot = root;
-      var globalFilesMap = settingsDoc["GlobalFilesMap"].ToObject<Dictionary<string, string>>();
-      foreach (var pattern in globalFilesMap.Keys)
+      Dictionary<string, string> globalFilesMap = settingsDoc["GlobalFilesMap"].ToObject<Dictionary<string, string>>();
+      foreach (string pattern in globalFilesMap.Keys)
         if (Regex.IsMatch(installationPackageName, pattern))
         {
-          var path = Path.Combine(Directory.GetCurrentDirectory(), "GlobalParamsConfig");
-          var fileName = Directory.GetFiles(path, globalFilesMap[pattern], SearchOption.AllDirectories).Single();
+          string path = Path.Combine(Directory.GetCurrentDirectory(), "GlobalParamsConfig");
+          string fileName = Directory.GetFiles(path, globalFilesMap[pattern], SearchOption.AllDirectories).Single();
           globalParamsFile = fileName;
           break;
         }
@@ -61,12 +62,12 @@ namespace SIM.Sitecore9Installer
       UnInstall = true;
       UnInstallParamsPath = unInstallParamsPath;
       List<InstallParam> deserializedGlobalParams;
-      using (var reader = new StreamReader(Path.Combine(unInstallParamsPath, "globals.json")))
+      using (StreamReader reader = new StreamReader(Path.Combine(unInstallParamsPath, "globals.json")))
       {
-        var filePath = Directory.GetFiles(Path.Combine(Directory.GetCurrentDirectory(), "GlobalParamsConfig"),
+        string filePath = Directory.GetFiles(Path.Combine(Directory.GetCurrentDirectory(), "GlobalParamsConfig"),
           reader.ReadLine(), SearchOption.AllDirectories).Single();
         globalParamsFile = filePath;
-        var data = reader.ReadToEnd();
+        string data = reader.ReadToEnd();
         deserializedGlobalParams = JsonConvert.DeserializeObject<List<InstallParam>>(data);
       }
 
@@ -74,9 +75,9 @@ namespace SIM.Sitecore9Installer
       doc = JObject.Parse(File.ReadAllText(globalParamsFile));
       mapping = GetPackageMapping();
       GlobalParams = GetGlobalParams();
-      for (var i = 0; i < GlobalParams.Count; ++i)
+      for (int i = 0; i < GlobalParams.Count; ++i)
       {
-        var param = deserializedGlobalParams.FirstOrDefault(p => p.Name == GlobalParams[i].Name);
+        InstallParam param = deserializedGlobalParams.FirstOrDefault(p => p.Name == GlobalParams[i].Name);
         if (param != null)
         {
           param.ParamValueUpdated += GlobalParamValueUpdated;
@@ -84,32 +85,32 @@ namespace SIM.Sitecore9Installer
         }
       }
 
-      var uninstallTasksNames = Directory.GetFiles(unInstallParamsPath, "*.json")
+      List<string> uninstallTasksNames = Directory.GetFiles(unInstallParamsPath, "*.json")
         .Where(name => !Path.GetFileName(name).Equals("globals.json", StringComparison.InvariantCultureIgnoreCase))
         .ToList();
-      foreach (var paramsFile in uninstallTasksNames)
+      foreach (string paramsFile in uninstallTasksNames)
       {
-        var taskNameAdnOrder = Path.GetFileNameWithoutExtension(paramsFile);
-        var index = taskNameAdnOrder.LastIndexOf('_');
-        var taskName = taskNameAdnOrder.Substring(0, index);
-        var order = int.Parse(taskNameAdnOrder.Substring(index + 1));
-        var t = new SitecoreTask(taskName, order, this);
+        string taskNameAdnOrder = Path.GetFileNameWithoutExtension(paramsFile);
+        int index = taskNameAdnOrder.LastIndexOf('_');
+        string taskName = taskNameAdnOrder.Substring(0, index);
+        int order = int.Parse(taskNameAdnOrder.Substring(index + 1));
+        SitecoreTask t = new SitecoreTask(taskName, order, this);
         //t.GlobalParams = this.globalParams;
-        using (var reader = new StreamReader(paramsFile))
+        using (StreamReader reader = new StreamReader(paramsFile))
         {
-          var param = doc["ExecSequense"].Children().Cast<JProperty>().Single(p => p.Name == taskName);
-          var overridden = param.Value["Parameters"];
-          var realName = param.Name;
+          JProperty param = doc["ExecSequense"].Children().Cast<JProperty>().Single(p => p.Name == taskName);
+          JToken overridden = param.Value["Parameters"];
+          string realName = param.Name;
           if (overridden != null && overridden["RealName"] != null) realName = overridden["RealName"]?.ToString();
           t.LocalParams = GetTaskParameters(realName);
 
-          var data = reader.ReadToEnd();
+          string data = reader.ReadToEnd();
           if (!string.IsNullOrWhiteSpace(data))
           {
-            var deserializedLocalParams = JsonConvert.DeserializeObject<List<InstallParam>>(data);
-            for (var i = 0; i < t.LocalParams.Count; ++i)
+            List<InstallParam> deserializedLocalParams = JsonConvert.DeserializeObject<List<InstallParam>>(data);
+            for (int i = 0; i < t.LocalParams.Count; ++i)
             {
-              var lParam = deserializedLocalParams.FirstOrDefault(p => p.Name == t.LocalParams[i].Name);
+              InstallParam lParam = deserializedLocalParams.FirstOrDefault(p => p.Name == t.LocalParams[i].Name);
               if (lParam != null) t.LocalParams[i] = lParam;
             }
           }
@@ -121,7 +122,7 @@ namespace SIM.Sitecore9Installer
 
       AddInstallSifTask();
       Tasks = Tasks.OrderBy(t => t.ExecutionOrder).ToList();
-      foreach (var p in GlobalParams) p.ParamValueUpdated += GlobalParamValueUpdated;
+      foreach (InstallParam p in GlobalParams) p.ParamValueUpdated += GlobalParamValueUpdated;
     }
 
     //public static FileInfo ResolveGlobalFile(string packagePath)
@@ -158,7 +159,7 @@ namespace SIM.Sitecore9Installer
       set
       {
         unInstall = value;
-        foreach (var task in Tasks) task.UnInstall = value;
+        foreach (Task task in Tasks) task.UnInstall = value;
       }
     }
 
@@ -167,21 +168,21 @@ namespace SIM.Sitecore9Installer
     //TO DO Move InstallSiffTask to JSON with the parameters and remove this method.
     private void AddInstallSifTask()
     {
-      var sifVersion = GlobalParams.First(p => p.Name == "SIFVersion").Value;
-      var installSifTask = new InstallSIFTask(sifVersion, "https://sitecore.myget.org/F/sc-powershell/api/v2", this);
+      string sifVersion = GlobalParams.First(p => p.Name == "SIFVersion").Value;
+      InstallSIFTask installSifTask = new InstallSIFTask(sifVersion, "https://sitecore.myget.org/F/sc-powershell/api/v2", this);
       Tasks.Add(installSifTask);
     }
 
     private List<InstallParam> GetGlobalParams()
     {
-      var list = new List<InstallParam>();
+      List<InstallParam> list = new List<InstallParam>();
       list.Add(new InstallParam("FilesRoot", FilesRoot));
       foreach (JProperty param in doc["Parameters"].Children())
       {
-        var p = new InstallParam(param.Name, param.Value.ToString());
+        InstallParam p = new InstallParam(param.Name, param.Value.ToString());
         if (p.Name == "LicenseFile" && !string.IsNullOrWhiteSpace(FilesRoot))
         {
-          var license = Path.Combine(FilesRoot, "license.xml");
+          string license = Path.Combine(FilesRoot, "license.xml");
           if (File.Exists(license)) p.Value = license;
         }
 
@@ -194,7 +195,7 @@ namespace SIM.Sitecore9Installer
 
     private void RegisterGlobalParam(InstallParam parameter)
     {
-      var param = GlobalParams.FirstOrDefault(p => p.Name == parameter.Name);
+      InstallParam param = GlobalParams.FirstOrDefault(p => p.Name == parameter.Name);
       if (param == null)
       {
         GlobalParams.Insert(0, parameter);
@@ -207,10 +208,10 @@ namespace SIM.Sitecore9Installer
 
     private void GlobalParamValueUpdated(object sender, ParamValueUpdatedArgs e)
     {
-      var updatedParam = (InstallParam) sender;
+      InstallParam updatedParam = (InstallParam) sender;
       foreach (PowerShellTask task in Tasks)
       {
-        var param = task.LocalParams.FirstOrDefault(p => p.Name == updatedParam.Name);
+        InstallParam param = task.LocalParams.FirstOrDefault(p => p.Name == updatedParam.Name);
         if (param != null) param.Value = updatedParam.Value;
       }
     }
@@ -234,11 +235,11 @@ namespace SIM.Sitecore9Installer
 
     public string GetGlobalParamsScript(bool addPrefix = true)
     {
-      var script = new StringBuilder();
-      foreach (var param in GlobalParams)
+      StringBuilder script = new StringBuilder();
+      foreach (InstallParam param in GlobalParams)
       {
-        var value = param.GetParameterValue();
-        var paramName = addPrefix ? "{" + param.Name + "}" : string.Format("'{0}'", param.Name);
+        string value = param.GetParameterValue();
+        string paramName = addPrefix ? "{" + param.Name + "}" : string.Format("'{0}'", param.Name);
         script.AppendLine(string.Format("{0}{1}={2}", addPrefix ? "$" : string.Empty, paramName, value));
       }
 
@@ -247,10 +248,10 @@ namespace SIM.Sitecore9Installer
 
     public void EvaluateGlobalParams()
     {
-      var sifVersion = GlobalParams.FirstOrDefault(p => p.Name == "SIFVersion")?.Value ?? string.Empty;
-      var importParam = string.Empty;
+      string sifVersion = GlobalParams.FirstOrDefault(p => p.Name == "SIFVersion")?.Value ?? string.Empty;
+      string importParam = string.Empty;
       if (!string.IsNullOrEmpty(sifVersion)) importParam = string.Format(" -RequiredVersion {0}", sifVersion);
-      var globalParamsEval = new StringBuilder();
+      StringBuilder globalParamsEval = new StringBuilder();
       globalParamsEval.Append("Set-ExecutionPolicy Bypass -Force\n");
       globalParamsEval.AppendFormat("Import-Module SitecoreInstallFramework{0}\n", importParam);
       globalParamsEval.AppendLine("$GlobalParams =@{");
@@ -261,15 +262,15 @@ namespace SIM.Sitecore9Installer
       globalParamsEval.Append("}\n$GlobalParamsSys");
       //string globalParamsEval = string.Format("Import-Module SitecoreInstallFramework{0}\n$GlobalParams =@{{1}}$GlobalParams", importParam, this.tasksToRun.First().GetGlobalParamsScript());
       Hashtable evaluatedParams = null;
-      using (var PowerShellInstance = PowerShell.Create())
+      using (PowerShell PowerShellInstance = PowerShell.Create())
       {
         PowerShellInstance.AddScript(globalParamsEval.ToString());
-        var res = PowerShellInstance.Invoke();
+        Collection<PSObject> res = PowerShellInstance.Invoke();
         evaluatedParams = (Hashtable) res.First().ImmediateBaseObject;
       }
 
-      var evaluatedOaramsScript = new StringBuilder();
-      foreach (var param in GlobalParams)
+      StringBuilder evaluatedOaramsScript = new StringBuilder();
+      foreach (InstallParam param in GlobalParams)
       {
         if (evaluatedParams[param.Name] == null || param.Value == evaluatedParams[param.Name].ToString()) continue;
 
@@ -279,10 +280,10 @@ namespace SIM.Sitecore9Installer
 
     public void SaveUninstallParams(string path)
     {
-      var filesPath = Path.Combine(path, GlobalParams.First(p => p.Name == "SqlDbPrefix").Value);
+      string filesPath = Path.Combine(path, GlobalParams.First(p => p.Name == "SqlDbPrefix").Value);
       Directory.CreateDirectory(filesPath);
-      var excludeParams = settingsDoc["ExcludeUninstallParams"].Values<string>();
-      using (var wr = new StreamWriter(Path.Combine(filesPath, "globals.json")))
+      IEnumerable<string> excludeParams = settingsDoc["ExcludeUninstallParams"].Values<string>();
+      using (StreamWriter wr = new StreamWriter(Path.Combine(filesPath, "globals.json")))
       {
         wr.WriteLine(Path.GetFileName(globalParamsFile));
         wr.WriteLine(GetSerializedGlobalParams(excludeParams));
@@ -290,8 +291,8 @@ namespace SIM.Sitecore9Installer
 
       foreach (PowerShellTask task in Tasks.Where(t => t.ShouldRun && t.SupportsUninstall()))
       {
-        var parameters = task.GetSerializedParameters(excludeParams);
-        using (var wr =
+        string parameters = task.GetSerializedParameters(excludeParams);
+        using (StreamWriter wr =
           new StreamWriter(Path.Combine(filesPath, string.Format("{0}_{1}.json", task.Name, task.ExecutionOrder))))
         {
           wr.Write(parameters);
@@ -311,7 +312,7 @@ namespace SIM.Sitecore9Installer
 
     public string RunAllTasks()
     {
-      var results = new StringBuilder();
+      StringBuilder results = new StringBuilder();
       EvaluateGlobalParams();
       foreach (SitecoreTask task in Tasks.Where(t => t.ShouldRun))
         try
@@ -330,10 +331,10 @@ namespace SIM.Sitecore9Installer
 
     public void GenerateScripts()
     {
-      var path = Path.Combine(FilesRoot, "generated_scripts");
+      string path = Path.Combine(FilesRoot, "generated_scripts");
       Directory.CreateDirectory(path);
       foreach (SitecoreTask task in Tasks.Where(t => t.ShouldRun))
-        using (var writer = new StreamWriter(Path.Combine(path, string.Format("{0}.ps1", task.Name))))
+        using (StreamWriter writer = new StreamWriter(Path.Combine(path, string.Format("{0}.ps1", task.Name))))
         {
           writer.Write(task.GetScript());
         }
@@ -341,18 +342,18 @@ namespace SIM.Sitecore9Installer
 
     private List<InstallParam> GetTaskParameters(string name)
     {
-      var file = Directory.GetFiles(FilesRoot, string.Format("{0}.json", name), SearchOption.AllDirectories)
+      string file = Directory.GetFiles(FilesRoot, string.Format("{0}.json", name), SearchOption.AllDirectories)
         .FirstOrDefault();
 
       if (string.IsNullOrEmpty(file)) return new List<InstallParam>();
 
-      var installParams = new List<InstallParam>();
-      var doc = JObject.Parse(File.ReadAllText(file));
+      List<InstallParam> installParams = new List<InstallParam>();
+      JObject doc = JObject.Parse(File.ReadAllText(file));
       foreach (JProperty param in doc["Parameters"].Children())
       {
-        var dafultValue = param.Value["DefaultValue"]?.ToString();
+        string dafultValue = param.Value["DefaultValue"]?.ToString();
 
-        var p = new InstallParam(param.Name, dafultValue);
+        InstallParam p = new InstallParam(param.Name, dafultValue);
         p.Description = param.Value["Description"]?.ToString();
         if (GlobalParams.Any(g => g.Name == p.Name && !string.IsNullOrEmpty(g.Value)))
           p.Value = GlobalParams.First(g => g.Name == p.Name).Value;
@@ -360,7 +361,7 @@ namespace SIM.Sitecore9Installer
 
         if (p.Name == "Package")
         {
-          var pack = mapping.FirstOrDefault(g => g.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase));
+          InstallParam pack = mapping.FirstOrDefault(g => g.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase));
           if (!string.IsNullOrEmpty(pack?.Value)) p.Value = Directory.GetFiles(FilesRoot, pack.Value).FirstOrDefault();
         }
       }
@@ -371,14 +372,14 @@ namespace SIM.Sitecore9Installer
 
     private void LoadTasks()
     {
-      var order = 0;
+      int order = 0;
       foreach (JProperty param in doc["ExecSequense"].Children())
       {
-        var overridden = param.Value["Parameters"];
-        var realName = param.Name;
+        JToken overridden = param.Value["Parameters"];
+        string realName = param.Name;
         if (overridden != null && overridden["RealName"] != null) realName = overridden["RealName"]?.ToString();
 
-        var taskFile = Directory.GetFiles(FilesRoot, string.Format("{0}.json", realName), SearchOption.AllDirectories)
+        string taskFile = Directory.GetFiles(FilesRoot, string.Format("{0}.json", realName), SearchOption.AllDirectories)
           .FirstOrDefault();
         if (!string.IsNullOrEmpty(taskFile))
           if (!string.IsNullOrEmpty(deployRoot))
@@ -388,22 +389,22 @@ namespace SIM.Sitecore9Installer
           }
 
         //Resolves local parameters
-        var localParams = GetTaskParameters(realName);
+        List<InstallParam> localParams = GetTaskParameters(realName);
         if (overridden != null)
           foreach (JProperty newJParam in overridden.Children())
           {
-            var newParam = localParams.FirstOrDefault(p => p.Name == newJParam.Name);
+            InstallParam newParam = localParams.FirstOrDefault(p => p.Name == newJParam.Name);
             if (newParam != null) newParam.Value = newJParam.Value.ToString();
           }
 
         //Resolves task options for the task
-        var taskOptions = GetTaskOptions(param);
+        Dictionary<string, string> taskOptions = GetTaskOptions(param);
 
         //Creates a task based on type which is defined in the json
-        var taskType = param.Value["Type"]?.ToString() ?? typeof(SitecoreTask).FullName;
+        string taskType = param.Value["Type"]?.ToString() ?? typeof(SitecoreTask).FullName;
 
         //Each task should have the same ctor (TaskName(string),Order(int),Tasker,LocalParams(List<InstallParams>),TaskOptions(Dictionary<string,string>))
-        var t = (Task) Activator.CreateInstance(Type.GetType(taskType), param.Name, order, this, localParams,
+        Task t = (Task) Activator.CreateInstance(Type.GetType(taskType), param.Name, order, this, localParams,
           taskOptions);
 
         t.UnInstall = UnInstall;
@@ -414,11 +415,11 @@ namespace SIM.Sitecore9Installer
 
     private void InjectLocalDeploymentRoot(string taskFilePath)
     {
-      var doc = JObject.Parse(File.ReadAllText(taskFilePath));
-      var node = doc["Variables"]["Site.PhysicalPath"];
+      JObject doc = JObject.Parse(File.ReadAllText(taskFilePath));
+      JToken node = doc["Variables"]["Site.PhysicalPath"];
       if (node != null)
       {
-        var deployRoot = new JObject();
+        JObject deployRoot = new JObject();
         deployRoot["Type"] = "string";
         deployRoot["Description"] = "The path to installtion root folder.";
         deployRoot["DefaultValue"] = "";
@@ -426,7 +427,7 @@ namespace SIM.Sitecore9Installer
 
         ((JValue) node).Value = "[joinpath(parameter('DeployRoot'), parameter('SiteName'))]";
 
-        using (var wr = new StreamWriter(taskFilePath))
+        using (StreamWriter wr = new StreamWriter(taskFilePath))
         {
           wr.Write(doc.ToString());
         }
@@ -435,7 +436,7 @@ namespace SIM.Sitecore9Installer
 
     private void InjectGlobalDeploymentRoot(string path)
     {
-      var deployRoot = GlobalParams.FirstOrDefault(p => p.Name == "DeployRoot");
+      InstallParam deployRoot = GlobalParams.FirstOrDefault(p => p.Name == "DeployRoot");
       if (deployRoot == null)
       {
         deployRoot = new InstallParam("DeployRoot", path);
@@ -449,13 +450,13 @@ namespace SIM.Sitecore9Installer
 
     private List<InstallParam> GetPackageMapping()
     {
-      var list = new List<InstallParam>();
+      List<InstallParam> list = new List<InstallParam>();
 
-      var file = globalParamsFile;
-      var doc = JObject.Parse(File.ReadAllText(file));
+      string file = globalParamsFile;
+      JObject doc = JObject.Parse(File.ReadAllText(file));
       foreach (JProperty param in doc["PackageMapping"].Children())
       {
-        var p = new InstallParam(param.Name, param.Value.ToString());
+        InstallParam p = new InstallParam(param.Name, param.Value.ToString());
         list.Add(p);
       }
 

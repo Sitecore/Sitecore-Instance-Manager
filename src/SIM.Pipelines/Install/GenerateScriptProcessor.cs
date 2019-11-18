@@ -28,7 +28,7 @@ namespace SIM.Pipelines.Install
     {
       Install9Args arguments = (Install9Args)args;
       Task task = arguments.Tasker.Tasks.FirstOrDefault(t => t.Name == this.taskName);
-      var powershellTask = task as PowerShellTask;
+      PowerShellTask powershellTask = task as PowerShellTask;
       if (powershellTask!=null)
       {
         string result = powershellTask.GetScript();
