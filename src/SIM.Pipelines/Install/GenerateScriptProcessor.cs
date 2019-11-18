@@ -31,7 +31,6 @@ namespace SIM.Pipelines.Install
       var powershellTask = task as PowerShellTask;
       if (powershellTask!=null)
       {
-        Assert.ArgumentNotNull(task, nameof(task));
         string result = powershellTask.GetScript();
         if (task.State == TaskState.Failed)
         {
