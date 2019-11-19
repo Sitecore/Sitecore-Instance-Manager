@@ -1,13 +1,13 @@
 ﻿{
   "Parameters": {
     //global
-    "SIFVersion": "2.1.0",
+    "SIFVersion": "1.2.1",
+    "SIFVersionUninstall": "2.1.0",
     "SqlServer": "",
     "SqlAdminUser": "",
     "SqlAdminPassword": "",
     "SqlDbPrefix": "",
     "LicenseFile": "",
-    "DnsName": "$installParams.SiteName",
     //solr
     "SolrUrl": "",
     "SolrRoot": "",
@@ -15,54 +15,39 @@
     "CorePrefix": "$GlobalParams.SqlDbPrefix",
     "BaseConfig": "",
     //cert
-    //"CertificateName": "$GlobalParams.SqlDbPrefix+\"xconnect_client\"",
+    "CertificateName": "$GlobalParams.SqlDbPrefix+\"xconnect_client\"",
     "CertPath": "c:/certificates",
-    "RootCertFileName": "",
+    "RootCertFileName": "SIF121Root",
     //xConnect
     "XConnectCert": "$GlobalParams.SqlDbPrefix+\"xconnect_client\"",
     "SqlMarketingAutomationUser": "",
-    "SqlMarketingAutomationPassword": "[Invoke-RandomStringConfigFunction -Length 20 -DisAllowSpecial -EnforceComplexity]",
+    "SqlMarketingAutomationPassword": "",
     "SqlReferenceDataUser": "",
-    "SqlReferenceDataPassword": "[Invoke-RandomStringConfigFunction -Length 20 -DisAllowSpecial -EnforceComplexity]",
+    "SqlReferenceDataPassword": "",
     "SqlProcessingPoolsUser": "",
-    "SqlProcessingPoolsPassword": "[Invoke-RandomStringConfigFunction -Length 20 -DisAllowSpecial -EnforceComplexity]",
+    "SqlProcessingPoolsPassword": "",
     "SqlCollectionUser": "$GlobalParams.SqlDbPrefix+\"collectionuser\"",
-    "SqlCollectionPassword": "[Invoke-RandomStringConfigFunction -Length 20 -DisAllowSpecial -EnforceComplexity]",
+    "SqlCollectionPassword": "",
     "XConnectEnvironment": "",
     "XConnectLogLevel": "",
-    //cortex
-    "XConnectSearchService": "$GlobalParams.XConnectCollectionSearchService",
-    "CortexReportingService": "https://\"+$GlobalParams.SqlDbPrefix+\"CortexRep.local",
-    "SqlProcessingEngineUser": "",
-    "SqlProcessingEnginePassword": "[Invoke-RandomStringConfigFunction -Length 20 -DisAllowSpecial -EnforceComplexity]",
-    //identity
-    "ClientSecret": "SIF-Default",
-    "AllowedCorsOrigins": "https://\"+$GlobalParams.SqlDbPrefix+\"CM.local",
-    "PasswordRecoveryUrl": "https://\"+$GlobalParams.SqlDbPrefix+\"CM.local",
-    "SqlCoreDbName": "",
-    "SitecoreIdentityCert": "$GlobalParams.SqlDbPrefix+\"Id.local\"",
-    "SitecoreIdentityAuthority": "https://\"+$GlobalParams.SqlDbPrefix+\"Id.local",
     //Sitecore
-    "SitecoreIdentitySecret": "$GlobalParams.ClientSecret",
-    "EXMInternalApiKey": "",
-    "SqlSecurityPassword": "[Invoke-RandomStringConfigFunction -Length 20 -DisAllowSpecial -EnforceComplexity]",
-    "SqlSecurityUser": "",
     "SitecoreAdminPassword": "b",
     "SolrCorePrefix": "$GlobalParams.SqlDbPrefix",
+
     "SqlCoreUser": "",
-    "SqlCorePassword": "[Invoke-RandomStringConfigFunction -Length 20 -DisAllowSpecial -EnforceComplexity]",
+    "SqlCorePassword": "",
     "SqlWebUser": "",
-    "SqlWebPassword": "[Invoke-RandomStringConfigFunction -Length 20 -DisAllowSpecial -EnforceComplexity]",
+    "SqlWebPassword": "",
     "SqlFormsUser": "",
-    "SqlFormsPassword": "[Invoke-RandomStringConfigFunction -Length 20 -DisAllowSpecial -EnforceComplexity]",
+    "SqlFormsPassword": "",
     "SqlMasterUser": "",
-    "SqlMasterPassword": "[Invoke-RandomStringConfigFunction -Length 20 -DisAllowSpecial -EnforceComplexity]",
+    "SqlMasterPassword": "",
     "SqlReportingUser": "",
-    "SqlReportingPassword": "[Invoke-RandomStringConfigFunction -Length 20 -DisAllowSpecial -EnforceComplexity]",
+    "SqlReportingPassword": "",
     "SqlProcessingTasksUser": "",
-    "SqlProcessingTasksPassword": "[Invoke-RandomStringConfigFunction -Length 20 -DisAllowSpecial -EnforceComplexity]",
+    "SqlProcessingTasksPassword": "",
     "SqlExmMasterUser": "",
-    "SqlExmMasterPassword": "[Invoke-RandomStringConfigFunction -Length 20 -DisAllowSpecial -EnforceComplexity]",
+    "SqlExmMasterPassword": "",
     "ExmEdsProvider": "",
     "EXMCryptographicKey": "",
     "EXMAuthenticationKey": "",
@@ -70,15 +55,14 @@
     "XConnectCollectionService": "https://\"+$GlobalParams.SqlDbPrefix+\"XColl.local",
     "XConnectCollectionSearchService": "https://\"+$GlobalParams.SqlDbPrefix+\"XSear.local",
     "XConnectReferenceDataService": "https://\"+$GlobalParams.SqlDbPrefix+\"Xref.local",
-    "MarketingAutomationOperationsService": "https://\"+$GlobalParams.SqlDbPrefix+\"XMA.local",
+    "MarketingAutomationOperationsService": "https://\"+$GlobalParams.SqlDbPrefix+\"XP1XMA.local",
     "MarketingAutomationReportingService": "https://\"+$GlobalParams.SqlDbPrefix+\"XMAR.local",
     "ProcessingService": "https://\"+$GlobalParams.SqlDbPrefix+\"PRC.local",
     "ReportingService": "https://\"+$GlobalParams.SqlDbPrefix+\"REP.local",
     "ReportingServiceApiKey": "abcde111112222233333444445555566",
     "TelerikEncryptionKey": "",
     "SqlMessagingUser": "",
-    "SqlMessagingPassword": "[Invoke-RandomStringConfigFunction -Length 20 -DisAllowSpecial -EnforceComplexity]"
-
+    "SqlMessagingPassword": ""
   },
   "PackageMapping": {
 
@@ -94,52 +78,25 @@
     "xconnect-xp1-MarketingAutomationReporting": "* (onPrem)_xp1marketingautomationreporting.scwdp.zip",
     "xconnect-xp1-ReferenceData": "* (onPrem)_xp1referencedata.scwdp.zip",
     "sitecore-xp1-dds": "* (OnPrem)_dds.scwdp.zip",
-    "xconnect-xp1-CortexProcessing": "* (OnPrem)_xp1cortexprocessing.scwdp.zip",
-    "xconnect-xp1-CortexReporting": "* (OnPrem)_xp1cortexreporting.scwdp.zip",
-    "IdentityServer": "* (OnPrem)_identityserver.scwdp.zip",
     "sitecore-XP1-cm-dds-patch": "Sitecore.Patch.EXM (OnPrem)_CM.zip"
-   
   },
 
   "ExecSequense": {
-    "Prerequisites": {
+    "xconnect-createcert": {
       "Type": "SIM.Sitecore9Installer.Tasks.SitecoreTask, SIM.Sitecore9Installer"
-    },
-
-    "IdentityServerCertificates": {
-      "Type": "SIM.Sitecore9Installer.Tasks.SitecoreTask, SIM.Sitecore9Installer",
-      "Parameters": {
-        "RealName": "createcert",
-        "CertificateName": "$SitecoreIdentityCert"
-
-      }
-    },
-    "IdentityServer": {
-      "Type": "SIM.Sitecore9Installer.Tasks.SitecoreTask, SIM.Sitecore9Installer",
-      "Parameters": {
-        "SiteName": "$SqlDbPrefix+\"Id.local\""
-      }
-    },
-    "XConnectCertificates": {
-      "Type": "SIM.Sitecore9Installer.Tasks.SitecoreTask, SIM.Sitecore9Installer",
-      "Parameters": {
-        "RealName": "createcert",
-        "CertificateName": "$XConnectCert"
-      }
     },
     "xconnect-solr": {
       "Type": "SIM.Sitecore9Installer.Tasks.SitecoreTask, SIM.Sitecore9Installer"
     },
-    "xconnect-xp0": {
-      "Type": "SIM.Sitecore9Installer.Tasks.SitecoreTask, SIM.Sitecore9Installer",
-      "Parameters": {
-        "SiteName": "$SqlDbPrefix+\"XConnect.local\""
-      }
-    },
     "xconnect-xp1-collection": {
-      "Type": "SIM.Sitecore9Installer.Tasks.SitecoreTask, SIM.Sitecore9Installer",
+      "Type": "SIM.Sitecore9Installer.Tasks.xConnectTaskWithPostSteps, SIM.Sitecore9Installer",
       "Parameters": {
         "SiteName": "$SqlDbPrefix+\"XColl.local\""
+      },
+      "TaskOptions": {
+        "ShardMapManagerDatabaseNameSuffix": "_Xdb.Collection.ShardMapManager",
+        "Shard0DatabaseNameSuffix": "_Xdb.Collection.Shard0",
+        "Shard1DatabaseNameSuffix": "_Xdb.Collection.Shard1"
       }
     },
     "xconnect-xp1-collectionsearch": {
@@ -166,28 +123,10 @@
         "SiteName": "$SqlDbPrefix+\"XMar.local\""
       }
     },
-    "xconnect-xp1-cortexprocessing": {
-      "Type": "SIM.Sitecore9Installer.Tasks.SitecoreTask, SIM.Sitecore9Installer",
-      "Parameters": {
-        "SiteName": "$SqlDbPrefix+\"CorPrc.local\""
-      }
-    },
-    "xconnect-xp1-cortexreporting": {
-      "Type": "SIM.Sitecore9Installer.Tasks.SitecoreTask, SIM.Sitecore9Installer",
-      "Parameters": {
-        "SiteName": "$SqlDbPrefix+\"CorRep.local\""
-      }
-    },
     "Sitecore-solr": {
       "Type": "SIM.Sitecore9Installer.Tasks.SitecoreTask, SIM.Sitecore9Installer"
     },
-    "Sitecore-XP0": {
-      "Type": "SIM.Sitecore9Installer.Tasks.SitecoreTask, SIM.Sitecore9Installer",
-      "Parameters": {
-        "SiteName": "$SqlDbPrefix+\".local\""
-      }
 
-    },
     "Sitecore-xp1-cd": {
       "Type": "SIM.Sitecore9Installer.Tasks.SitecoreTask, SIM.Sitecore9Installer",
       "Parameters": {

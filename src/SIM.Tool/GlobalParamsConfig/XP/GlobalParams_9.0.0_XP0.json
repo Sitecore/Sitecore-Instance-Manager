@@ -89,20 +89,25 @@
       "Type": "SIM.Sitecore9Installer.Tasks.SitecoreTask, SIM.Sitecore9Installer"
     },
     "xconnect-xp0": {
-      "Type": "SIM.Sitecore9Installer.Tasks.SitecoreTask, SIM.Sitecore9Installer",
+      "Type": "SIM.Sitecore9Installer.Tasks.xConnectTaskWithPostSteps, SIM.Sitecore9Installer",
       "Parameters": {
         "SiteName": "$SqlDbPrefix+\"XConnect.local\""
+      },
+      "TaskOptions": {
+        "ShardMapManagerDatabaseNameSuffix": "_Xdb.Collection.ShardMapManager",
+        "Shard0DatabaseNameSuffix": "_Xdb.Collection.Shard0",
+        "Shard1DatabaseNameSuffix": "_Xdb.Collection.Shard1"
       }
-    },
-    "Sitecore-solr": {
-      "Type": "SIM.Sitecore9Installer.Tasks.SitecoreTask, SIM.Sitecore9Installer"
-    },
-    "Sitecore-XP0": {
-      "Type": "SIM.Sitecore9Installer.Tasks.SitecoreTask, SIM.Sitecore9Installer",
-      "Parameters": {
-        "SiteName": "$SqlDbPrefix+\".local\""
+     },
+      "Sitecore-solr": {
+        "Type": "SIM.Sitecore9Installer.Tasks.SitecoreTask, SIM.Sitecore9Installer"
+      },
+      "Sitecore-XP0": {
+        "Type": "SIM.Sitecore9Installer.Tasks.SitecoreTask, SIM.Sitecore9Installer",
+        "Parameters": {
+          "SiteName": "$SqlDbPrefix+\".local\""
+        }
       }
     }
-  }
 
 }
