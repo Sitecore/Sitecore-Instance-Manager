@@ -61,5 +61,25 @@ namespace SIM.SitecoreEnvironments
     {
       SitecoreEnvironments = GetSitecoreEnvironmentData();
     }
+
+
+    public static SitecoreEnvironment GetExistingOrNewSitecoreEnvironment(string instanceName)
+    {
+      if (SitecoreEnvironments != null)
+      {
+        foreach (SitecoreEnvironment sitecoreEnvironment in SitecoreEnvironments)
+        {
+          foreach (SitecoreEnvironmentMember sitecoreEnvironmentMember in sitecoreEnvironment.Members)
+          {
+            if (sitecoreEnvironmentMember.Name == instanceName)
+            {
+              return sitecoreEnvironment;
+            }
+          }
+        }
+      }
+
+      return new SitecoreEnvironment(instanceName);
+    }
   }
 }

@@ -28,7 +28,6 @@
     private InstanceConfiguration _Configuration;
 
     private Product _Product;
-    private SitecoreEnvironment _SitecoreEnvironment;
 
     #endregion
 
@@ -37,7 +36,6 @@
     public Instance([NotNull] int id)
       : base(id)
     {
-      _SitecoreEnvironment = new SitecoreEnvironment(this.Name, SitecoreEnvironmentHelper.SitecoreEnvironments);
     }
 
 
@@ -224,7 +222,7 @@
     [NotNull]
     public virtual SitecoreEnvironment SitecoreEnvironment
     {
-      get { return _SitecoreEnvironment; }
+      get { return SitecoreEnvironmentHelper.GetExistingOrNewSitecoreEnvironment(this.Name); }
     }
 
     [NotNull]
