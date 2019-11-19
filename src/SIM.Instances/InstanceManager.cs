@@ -140,7 +140,7 @@
           // The trick is in reused PartiallyCachedInstances. We use site ID as identificator that cached instance may be reused. If we can't fetch instance from cache, we create new.
           PartiallyCachedInstances = sites
             .Select(site => PartiallyCachedInstances.FirstOrDefault(cachedInst => cachedInst.ID == site.Id) ?? GetPartiallyCachedInstance(site))
-            .Where(IsSitecore)
+            .Where(IsSitecoreOrSitecoreEnvironmentMember)
             .Where(IsNotHidden)
             .ToArray();
 
@@ -170,7 +170,7 @@
         ProfileSection.Argument("sites", sites);
 
         var array = sites.Select(GetPartiallyCachedInstance)
-          .Where(IsSitecore)
+          .Where(IsSitecoreOrSitecoreEnvironmentMember)
           .Where(IsNotHidden)
           .ToArray();
 
@@ -213,7 +213,7 @@
       return new PartiallyCachedInstance(id);
     }
 
-    private bool IsSitecore([CanBeNull] Instance instance)
+    private bool IsSitecoreOrSitecoreEnvironmentMember([CanBeNull] Instance instance)
     {
       return instance != null && (instance.IsSitecore || instance.IsSitecoreEnvironmentMember);
     }

@@ -134,7 +134,16 @@
     {
       get
       {
-        return GetIsSitecore();
+        try
+        {
+          return FileSystem.FileSystem.Local.File.Exists(ProductHelper.GetKernelPath(WebRootPath));
+        }
+        catch (Exception ex)
+        {
+          Log.Warn(ex, "An error occurred during checking if it is Sitecore");
+
+          return false;
+        }
       }
     }
 
@@ -142,7 +151,21 @@
     {
       get
       {
-        return GetIsSitecoreEnvironmentMember();
+        try
+        {
+          if (!IsSitecore && File.Exists(Path.Combine(ApplicationManager.ProfilesFolder, "Environments.json")))
+          {
+            return true;
+          }
+
+          return false;
+        }
+        catch (Exception ex)
+        {
+          Log.Warn(ex, "An error occurred during checking if it is Sitecore environment member");
+
+          return false;
+        }
       }
     }
 
@@ -550,39 +573,6 @@
 
           throw new InvalidOperationException($"Cannot get data folder of {WebRootPath}");
         }
-      }
-    }
-
-    protected virtual bool GetIsSitecore()
-    {
-      try
-      {
-        return FileSystem.FileSystem.Local.File.Exists(ProductHelper.GetKernelPath(WebRootPath));
-      }
-      catch (Exception ex)
-      {
-        Log.Warn(ex, "An error occurred during checking if it is Sitecore");
-
-        return false;
-      }
-    }
-
-    protected virtual bool GetIsSitecoreEnvironmentMember()
-    {
-      try
-      {
-        if (!IsSitecore && File.Exists(Path.Combine(ApplicationManager.ProfilesFolder, "Environments.json")))
-        {
-          return true;
-        }
-
-        return false;
-      }
-      catch (Exception ex)
-      {
-        Log.Warn(ex, "An error occurred during checking if it is Sitecore environment member");
-
-        return false;
       }
     }
 
