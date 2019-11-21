@@ -10,24 +10,19 @@ using System.Management.Automation;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SIM.Sitecore9Installer
+namespace SIM.Sitecore9Installer.Tasks
 {
-  public class SitecoreTask: PowerShellTask
+  public class SitecoreTask: SIM.Sitecore9Installer.Tasks.PowerShellTask
   {
-    TaskState state;
-    
-    public SitecoreTask(string name, int executionOrder, Tasker owner)
+    //TO DO It's still used by uninstallation task.
+    public SitecoreTask(string name, int executionOrder, Tasker owner) : base(name, executionOrder, owner, new List<InstallParam>(), new Dictionary<string, string>())
     {
-      this.Name = name;
-      this.InnerTasks = new List<SitecoreTask>();
-      this.state = TaskState.Pending;
-      this.ShouldRun = true;
-      this.ExecutionOrder = executionOrder;
-      this.Owner = owner;
     }
-    
-    public List<SitecoreTask> InnerTasks { get; }
-    public Tasker Owner { get; }
+
+    public SitecoreTask(string taskName, int executionOrder, Tasker owner, List<InstallParam> localParams, Dictionary<string, string> taskOptions) : base(taskName, executionOrder, owner, localParams, taskOptions)
+    {
+    }
+
     public override string GetScript()
     {
       StringBuilder script = new StringBuilder();
@@ -60,7 +55,7 @@ namespace SIM.Sitecore9Installer
 
     private string GetSifVersion(bool unInstall, List<InstallParam> globalParams)
     {
-      var sifVersion = string.Empty;
+      string sifVersion = string.Empty;
 
       if (unInstall)
       {

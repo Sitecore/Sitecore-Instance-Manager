@@ -15,13 +15,16 @@
 
     public bool IsEnabled(Window mainWindow, Instance instance)
     {
-      return instance != null;
+      return MainWindowHelper.IsEnabledOrVisibleButtonForSitecore9AndMember(instance);
+    }
+
+    public bool IsVisible(Window mainWindow, Instance instance)
+    {
+      return true;
     }
 
     public void OnClick(Window mainWindow, Instance instance)
     {
-      Analytics.TrackEvent("InstallModules");
-
       if (instance != null)
       {
         var id = MainWindowHelper.GetListItemID(instance.ID);

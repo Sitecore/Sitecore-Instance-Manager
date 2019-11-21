@@ -17,8 +17,9 @@
 
 <install9 title=""Installing the instance"">
     <step>
-      <hive type=""SIM.Pipelines.Install.RunPSTasksProcessor, SIM.Pipelines""  />
       <processor type=""SIM.Pipelines.Install.GenerateUnInstallParameters, SIM.Pipelines"" title=""Generate Uninstall data"" />
+      <processor type=""SIM.Pipelines.Install.GenerateSitecoreEnvironmentData, SIM.Pipelines"" title=""Generate Sitecore environment data"" />
+      <hive type=""SIM.Pipelines.Install.RunPSTasksProcessor, SIM.Pipelines""  />
     </step>
   </install9>
 <delete9 title=""UnInstalling the instance"">
@@ -27,6 +28,7 @@
     </step>
     <step>
       <processor type=""SIM.Pipelines.Delete.CleanUp, SIM.Pipelines"" title=""Clean Up"" />
+      <processor type=""SIM.Pipelines.Delete.DeleteSitecoreEnvironmentData, SIM.Pipelines"" title=""Delete Sitecore environment data"" />
     </step>
   </delete9>
   <install title=""Installing the {InstanceName} instance"">

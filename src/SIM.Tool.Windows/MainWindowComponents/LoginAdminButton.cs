@@ -45,15 +45,18 @@
 
     public bool IsEnabled([CanBeNull] Window mainWindow, Instance instance)
     {
-      return instance != null;
+      return MainWindowHelper.IsEnabledOrVisibleButtonForSitecoreMember(instance);
+    }
+
+    public bool IsVisible([CanBeNull] Window mainWindow, Instance instance)
+    {
+      return true;
     }
 
     public void OnClick(Window mainWindow, Instance instance)
     {
       Assert.ArgumentNotNull(mainWindow, nameof(mainWindow));
       Assert.IsNotNull(instance, nameof(instance));
-
-      Analytics.TrackEvent("LogInAdmin");
 
       InstanceHelperEx.OpenInBrowserAsAdmin(instance, mainWindow, VirtualPath, Browser, _Params);
     }

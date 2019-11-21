@@ -118,7 +118,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ButtonDefinition.cs" />
-    <Compile Include="CustomConverter.cs" />
+    <Compile Include="CustomVisibilityConverter.cs" />
+    <Compile Include="CustomEnabledConverter.cs" />
     <Compile Include="Dialogs\AddSolrDialog.xaml.cs">
       <DependentUpon>AddSolrDialog.xaml</DependentUpon>
     </Compile>
@@ -161,6 +162,8 @@
     <Compile Include="MainWindowComponents\Download8Button.cs" />
     <Compile Include="MainWindowComponents\AbstractDownloadAndRunButton.cs" />
     <Compile Include="MainWindowComponents\ExportInstanceButton.cs" />
+    <Compile Include="MainWindowComponents\BackupButton.cs" />
+    <Compile Include="MainWindowComponents\ExtraActionsButton.cs" />
     <Compile Include="MainWindowComponents\GenerateNuGetPackagesButton.cs" />
     <Compile Include="MainWindowComponents\ImportInstanceButton.cs" />
     <Compile Include="MainWindowComponents\Install9InstanceButton.cs" />
@@ -168,6 +171,8 @@
     <Compile Include="MainWindowComponents\InstallModulesButton.cs" />
     <Compile Include="MainWindowComponents\InstallMongoDb.cs" />
     <Compile Include="MainWindowComponents\KillAllButThisButton.cs" />
+    <Compile Include="MainWindowComponents\SitecoreMemberOpenFolderButton.cs" />
+    <Compile Include="MainWindowComponents\SitecoreMemberButton.cs" />
     <Compile Include="MainWindowComponents\LoginAdminButton.cs" />
     <Compile Include="MainWindowComponents\ManagedArgsTracerButton.cs" />
     <Compile Include="MainWindowComponents\MultipleDeletionButton.cs" />
@@ -556,6 +561,10 @@
     <Resource Include="Images\48\upload.png" />
     <Resource Include="Images\48\wrench.png" />
     <Resource Include="Images\48\zoom_vertical.png" />
+    <Resource Include="Images\9\minus.png" />
+    <Resource Include="Images\9\minus_on_hover.png" />
+    <Resource Include="Images\9\plus.png" />
+    <Resource Include="Images\9\plus_on_hover.png" />
     <Content Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

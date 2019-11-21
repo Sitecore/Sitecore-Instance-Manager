@@ -21,6 +21,11 @@
     public static string DetectProductFullName([NotNull] string webRootPath)
     {
       Assert.ArgumentNotNull(webRootPath, nameof(webRootPath));
+      string kernelPath = GetKernelPath(webRootPath);
+      if (!File.Exists(kernelPath))
+      {
+        return string.Empty;
+      }
 
       var jetstreamAssemblies = FileSystem.FileSystem.Local.Directory.GetFiles(Path.Combine(webRootPath, "bin"), "Jetstream.*.dll");
       if (jetstreamAssemblies.Any())
@@ -81,7 +86,7 @@
         }
       }
 
-      return GetProductFullName(GetKernelPath(webRootPath));
+      return GetProductFullName(kernelPath);
     }
 
     [NotNull]

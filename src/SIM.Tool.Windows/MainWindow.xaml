@@ -37,28 +37,139 @@
       </Button>
     </Grid>
     <StackPanel DockPanel.Dock="Bottom" Height="64">
-      <StackPanel.Background>
-        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-          <GradientStop Color="#FFCCD9EA" Offset="0.0" />
-          <GradientStop Color="#FFF1F5FB" Offset="0.1" />
-        </LinearGradientBrush>
-      </StackPanel.Background>
-      <TextBlock Text="{Binding ElementName=InstanceList, Path=SelectedItem}" Padding="4,4,4,2" />
-      <TextBlock Text="{Binding ElementName=InstanceList, Path=SelectedItem.BindingsNames}" Padding="4,4,4,2"/>
-      <TextBlock Text="{Binding ElementName=InstanceList, Path=SelectedItem.ModulesNames}" Padding="4,4,4,0" />
+        <StackPanel.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                <GradientStop Color="#FFCCD9EA" Offset="0.0" />
+                <GradientStop Color="#FFF1F5FB" Offset="0.1" />
+            </LinearGradientBrush>
+        </StackPanel.Background>
+        <TextBlock Text="{Binding ElementName=InstanceList, Path=SelectedItem}" Padding="4,4,4,2" />
+        <TextBlock Text="{Binding ElementName=InstanceList, Path=SelectedItem.BindingsNames}" Padding="4,4,4,2"/>
+        <TextBlock Text="{Binding ElementName=InstanceList, Path=SelectedItem.ModulesNames}" Padding="4,4,4,0" />
     </StackPanel>
     <ListBox Margin="0 1 0 1" Name="InstanceList" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" ItemsSource="{Binding}" BorderThickness="0" MouseRightButtonUp="ItemsTreeViewMouseRightClick" MouseDoubleClick="ItemsTreeViewMouseDoubleClick" KeyUp="ItemsTreeViewKeyPressed" SelectionChanged="InstanceSelected" SelectionMode="Single">
-      <ListBox.ItemTemplate>
+    <ListBox.GroupStyle>
+        <GroupStyle>
+            <GroupStyle.ContainerStyle>
+                    <Style TargetType="{x:Type GroupItem}">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate>
+                                    <Grid>
+                                        <Expander IsExpanded="False" Padding="1">
+                                            <Expander.Style>
+                                                <Style TargetType="Expander">
+                                                    <Setter Property="Template">
+                                                        <Setter.Value>
+                                                            <ControlTemplate TargetType="{x:Type Expander}">
+                                                                <DockPanel>
+                                                                    <ToggleButton DockPanel.Dock="Top" Content="{TemplateBinding Header}" Foreground="{TemplateBinding Foreground}" FontWeight="{TemplateBinding FontWeight}" FontStyle="{TemplateBinding FontStyle}" FontStretch="{TemplateBinding FontStretch}" FontSize="{TemplateBinding FontSize}" FontFamily="{TemplateBinding FontFamily}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" IsChecked="{Binding IsExpanded, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" Padding="{TemplateBinding Padding}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}">
+                                                                        <ToggleButton.Style>
+                                                                            <Style TargetType="{x:Type ToggleButton}">
+                                                                                <Setter Property="Template">
+                                                                                    <Setter.Value>
+                                                                                        <ControlTemplate TargetType="{x:Type ToggleButton}">
+                                                                                            <Border Margin="4,0,0,0" Padding="0,4,0,4" BorderThickness="1" CornerRadius="10,0,10,0" ContextMenuOpening="ToggleButton_OnContextMenuOpening">
+                                                                                                <Grid Background="Transparent" SnapsToDevicePixels="False">
+                                                                                                    <Grid.ColumnDefinitions>
+                                                                                                        <ColumnDefinition Width="15"/>
+                                                                                                        <ColumnDefinition Width="*"/>
+                                                                                                    </Grid.ColumnDefinitions>
+                                                                                                    <Image x:Name="ToggleImage" Source="pack://application:,,,/SIM.Tool.Windows;component/Images/9/plus.png" Width="9" Height="9" Margin="0,2,0,0"/>
+                                                                                                    <ContentPresenter Grid.Column="1" HorizontalAlignment="Left" RecognizesAccessKey="True" SnapsToDevicePixels="True" VerticalAlignment="Center"/>
+                                                                                                </Grid>
+                                                                                            </Border>
+
+                                                                                            <ControlTemplate.Triggers>
+                                                                                                <MultiTrigger>
+                                                                                                    <MultiTrigger.Conditions>
+                                                                                                        <Condition Property="IsChecked" Value="true" />
+                                                                                                        <Condition Property="IsMouseOver" Value="false" />
+                                                                                                    </MultiTrigger.Conditions>
+                                                                                                    <Setter Property="Source" TargetName="ToggleImage" Value="pack://application:,,,/SIM.Tool.Windows;component/Images/9/minus.png"/>
+                                                                                                </MultiTrigger>
+                                                                                                <MultiTrigger>
+                                                                                                    <MultiTrigger.Conditions>
+                                                                                                        <Condition Property="IsChecked" Value="true" />
+                                                                                                        <Condition Property="IsMouseOver" Value="true" />
+                                                                                                    </MultiTrigger.Conditions>
+                                                                                                    <Setter Property="Source" TargetName="ToggleImage" Value="pack://application:,,,/SIM.Tool.Windows;component/Images/9/minus_on_hover.png"/>
+                                                                                                </MultiTrigger>
+                                                                                                <MultiTrigger>
+                                                                                                    <MultiTrigger.Conditions>
+                                                                                                        <Condition Property="IsChecked" Value="false" />
+                                                                                                        <Condition Property="IsMouseOver" Value="true" />
+                                                                                                    </MultiTrigger.Conditions>
+                                                                                                    <Setter Property="Source" TargetName="ToggleImage" Value="pack://application:,,,/SIM.Tool.Windows;component/Images/9/plus_on_hover.png"/>
+                                                                                                </MultiTrigger>
+                                                                                            </ControlTemplate.Triggers>
+                                                                                        </ControlTemplate>
+                                                                                    </Setter.Value>
+                                                                                </Setter>
+                                                                            </Style>
+                                                                        </ToggleButton.Style>
+                                                                    </ToggleButton>
+
+                                                                    <ContentPresenter x:Name="InstanceListExpander" Visibility="Collapsed" />
+                                                                </DockPanel>
+
+                                                                <ControlTemplate.Triggers>
+                                                                    <Trigger Property="IsExpanded" Value="true">
+                                                                        <Setter Property="Visibility" TargetName="InstanceListExpander" Value="Visible"/>
+                                                                    </Trigger>
+                                                                </ControlTemplate.Triggers>
+                                                            </ControlTemplate>
+                                                        </Setter.Value>
+                                                    </Setter>
+
+                                                    <Setter Property="Visibility" Value="Visible"></Setter>
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding ItemCount}" Value="1">
+                                                            <Setter Property="Visibility" Value="Collapsed"></Setter>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Expander.Style>
+                                            <Expander.Header>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock TextOptions.TextFormattingMode="Ideal" VerticalAlignment="Center" FontSize="13" Text="{Binding Name}" />
+                                                </StackPanel>
+                                            </Expander.Header>
+                                            <Border Margin="12,0,0,0" BorderThickness="1" CornerRadius="10,0,10,0">
+                                                <ItemsPresenter />
+                                            </Border>
+                                        </Expander>
+                                        <ItemsPresenter>
+                                            <ItemsPresenter.Style>
+                                                <Style TargetType="ItemsPresenter">
+                                                    <Setter Property="Visibility" Value="Collapsed"></Setter>
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding ItemCount}" Value="1">
+                                                            <Setter Property="Visibility" Value="Visible"></Setter>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </ItemsPresenter.Style>
+                                        </ItemsPresenter>
+                                    </Grid>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </GroupStyle.ContainerStyle>
+        </GroupStyle>
+        </ListBox.GroupStyle>
+        <ListBox.ItemTemplate>
             <DataTemplate>
-          <Border BorderThickness="1" Margin="2" CornerRadius="10,0,10,0">
-            <TextBlock TextOptions.TextFormattingMode="Ideal" VerticalAlignment="Center" FontSize="13" Margin="4,0,0,0" Text="{Binding Path=Name}" />
-          </Border>
+              <Border BorderThickness="1" Margin="2" CornerRadius="10,0,10,0">
+                <TextBlock TextOptions.TextFormattingMode="Ideal" VerticalAlignment="Center" FontSize="13" Margin="12,0,0,0" Text="{Binding Name}" />
+              </Border>
             </DataTemplate>
-      </ListBox.ItemTemplate>
-      <ListBox.ContextMenu>
-        <ContextMenu Name="ContextMenu"/>
-      </ListBox.ContextMenu>
+        </ListBox.ItemTemplate>
+        <ListBox.ContextMenu>
+            <ContextMenu Name="ContextMenu" />
+        </ListBox.ContextMenu>
     </ListBox>
-  </DockPanel>
+</DockPanel>
 </r:RibbonWindow>
 

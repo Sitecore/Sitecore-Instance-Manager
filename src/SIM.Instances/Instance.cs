@@ -17,6 +17,7 @@
   using JetBrains.Annotations;
   using Sitecore.Diagnostics.Logging;
   using SIM.Extensions;
+  using SIM.SitecoreEnvironments;
 
   [Serializable]
   public class Instance : Website, IXmlSerializable
@@ -134,7 +135,38 @@
     {
       get
       {
-        return GetIsSitecore();
+        try
+        {
+          return FileSystem.FileSystem.Local.File.Exists(ProductHelper.GetKernelPath(WebRootPath));
+        }
+        catch (Exception ex)
+        {
+          Log.Warn(ex, "An error occurred during checking if it is Sitecore");
+
+          return false;
+        }
+      }
+    }
+
+    public virtual bool IsSitecoreEnvironmentMember
+    {
+      get
+      {
+        try
+        {
+          if (!IsSitecore && File.Exists(Path.Combine(ApplicationManager.ProfilesFolder, "Environments.json")))
+          {
+            return true;
+          }
+
+          return false;
+        }
+        catch (Exception ex)
+        {
+          Log.Warn(ex, "An error occurred during checking if it is Sitecore environment member");
+
+          return false;
+        }
       }
     }
 
@@ -215,6 +247,13 @@
           throw new InvalidOperationException($"Cannot get packages folder of {WebRootPath}");
         }
       }
+    }
+
+
+    [NotNull]
+    public virtual SitecoreEnvironment SitecoreEnvironment
+    {
+      get { return SitecoreEnvironmentHelper.GetExistingOrNewSitecoreEnvironment(this.Name); }
     }
 
     [NotNull]
@@ -542,20 +581,6 @@
 
           throw new InvalidOperationException($"Cannot get data folder of {WebRootPath}");
         }
-      }
-    }
-
-    protected virtual bool GetIsSitecore()
-    {
-      try
-      {
-        return FileSystem.FileSystem.Local.File.Exists(ProductHelper.GetKernelPath(WebRootPath));
-      }
-      catch (Exception ex)
-      {
-        Log.Warn(ex, "An error occurred during checking if it is sitecore");
-
-        return false;
       }
     }
 

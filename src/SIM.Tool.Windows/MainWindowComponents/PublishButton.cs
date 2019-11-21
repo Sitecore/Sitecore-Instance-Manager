@@ -48,6 +48,12 @@
       return instance != null;
     }
 
+    public bool IsVisible(Window mainWindow, Instance instance)
+    {
+      return true;
+    }
+
+
     public void OnClick(Window mainWindow, Instance instance)
     {
       using (new ProfileSection("Publish", this))

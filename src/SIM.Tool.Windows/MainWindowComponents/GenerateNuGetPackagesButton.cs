@@ -23,6 +23,11 @@
       return true;
     }
 
+    public bool IsVisible([CanBeNull] Window mainWindow, Instance instance)
+    {
+      return true;
+    }
+
     public void OnClick(Window mainWindow, Instance instance)
     {
       WindowHelper.ShowMessage("This function is no longer available. Use PatchCreator to generate NuGet packages for Sitecore CMS and Sitecore Modules.");

@@ -18,13 +18,16 @@
 
     public bool IsEnabled(Window mainWindow, Instance instance)
     {
-      return instance != null;
+      return MainWindowHelper.IsEnabledOrVisibleButtonForSitecore9AndMember(instance);
+    }
+
+    public bool IsVisible(Window mainWindow, Instance instance)
+    {
+      return true;
     }
 
     public void OnClick(Window mainWindow, Instance instance)
     {
-      Analytics.TrackEvent("Restore");
-
       if (instance != null)
       {
         var args = new RestoreArgs(instance, new SqlConnectionStringBuilder(Profile.Read(new RealFileSystem()).ConnectionString));

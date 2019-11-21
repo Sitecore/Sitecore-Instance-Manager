@@ -16,6 +16,11 @@ namespace SIM.Tool.Windows.MainWindowComponents
       return true;
     }
 
+    public bool IsVisible(Window mainWindow, Instance instance)
+    {
+      return true;
+    }
+
     public void OnClick(Window mainWindow, Instance instance)
     {
       CoreApp.RunApp("iexplore", "http://dl.sitecore.net/updater/sspg/SSPG.application");
