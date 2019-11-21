@@ -19,6 +19,11 @@
       return true;
     }
 
+    public bool IsVisible(Window mainWindow, Instance instance)
+    {
+      return true;
+    }
+
     public void OnClick(Window mainWindow, Instance instance)
     {
       if (FileSystem.FileSystem.Local.Directory.Exists(ProfileManager.Profile.LocalRepository))

@@ -72,6 +72,11 @@
       return true;
     }
 
+    public bool IsVisible(Window mainWindow, Instance instance)
+    {
+      return true;
+    }
+
     public void OnClick(Window mainWindow, Instance instance)
     {
       using (new ProfileSection("Refresh main window instances", this))

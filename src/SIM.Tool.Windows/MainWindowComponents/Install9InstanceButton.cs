@@ -19,6 +19,11 @@ namespace SIM.Tool.Windows.MainWindowComponents
       return true;
     }
 
+    public bool IsVisible([NotNull] Window mainWindow, [CanBeNull] Instance instance)
+    {
+      return true;
+    }
+
     public void OnClick([NotNull] Window mainWindow, [CanBeNull] Instance instance)
     {
       WizardPipelineManager.Start("install9", mainWindow, null, null, (args) =>

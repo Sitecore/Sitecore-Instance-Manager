@@ -23,6 +23,11 @@
       return true;
     }
 
+    public bool IsVisible(Window mainWindow, Instance instance)
+    {
+      return true;
+    }
+
     public void OnClick(Window mainWindow, Instance instance)
     {
       Assert.IsTrue(ProfileManager.IsValid, "Some of configuration settings are invalid - please fix them in Settings dialog and try again");

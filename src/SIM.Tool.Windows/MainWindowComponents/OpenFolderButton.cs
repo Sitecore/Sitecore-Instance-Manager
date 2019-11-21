@@ -37,6 +37,11 @@
       return instance != null || !RequiresInstance(Folder);
     }
 
+    public virtual bool IsVisible(Window mainWindow, Instance instance)
+    {
+      return true;
+    }
+
     public void OnClick(Window mainWindow, Instance instance)
     {
       var path = ExpandPath(instance).Replace("/", "\\");

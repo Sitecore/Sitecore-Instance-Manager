@@ -18,6 +18,11 @@
       return true;
     }
 
+    public bool IsVisible(Window mainWindow, Instance instance)
+    {
+      return true;
+    }
+
     public void OnClick(Window mainWindow, Instance instance)
     {
       WindowHelper.ShowDialog(new HostsDialog(), mainWindow);

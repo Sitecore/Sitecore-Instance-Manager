@@ -11,6 +11,11 @@ namespace SIM.Tool.Windows.MainWindowComponents
     {
       return instance != null;
     }
+    
+    public virtual bool IsVisible([CanBeNull] Window mainWindow, Instance instance)
+    {
+      return true;
+    }
 
     public void OnClick([CanBeNull] Window mainWindow, Instance instance)
     {
