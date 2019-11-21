@@ -25,8 +25,6 @@
 
     public void OnClick(Window mainWindow, Instance instance)
     {
-      Analytics.TrackEvent("InstallModules");
-
       if (instance != null)
       {
         var id = MainWindowHelper.GetListItemID(instance.ID);

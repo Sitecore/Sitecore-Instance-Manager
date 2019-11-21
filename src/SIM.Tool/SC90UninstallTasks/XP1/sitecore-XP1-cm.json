@@ -1,0 +1,82 @@
+﻿{
+  "Variables": {
+    "Sql.Secure.Password": "[ConvertToSecureString(String:parameter('SqlAdminPassword'),AsPlainText:true,Force:true)]"
+  },
+  "Register": {
+    "Tasks": {
+      "RemoveItem": "Remove-Item",
+      "WriteInformation": "Write-Information"
+    },
+    "ConfigFunction": {
+      "ConvertToSecureString": "ConvertTo-SecureString"
+    }
+  },
+  "UninstallTasks": {
+    "StopWebsite": {
+      "Description": "Stops the website if it is running.",
+      "Type": "ManageWebsite",
+      "Params": {
+        "Name": "[parameter('SiteName')]",
+        "Action": "Stop",
+        "ErrorAction": "SilentlyContinue"
+      }
+    },
+    "StopAppPool": {
+      "Description": "Stops the app pool if it is running.",
+      "Type": "ManageAppPool",
+      "Params": {
+        "Name": "[parameter('SiteName')]",
+        "Action": "Stop",
+        "ErrorAction": "SilentlyContinue"
+      }
+    },
+    "RemoveWebsite": {
+      "Description": "Removes the IIS website.",
+      "Type": "RemoveWebsite",
+      "Params": {
+        "Name": "[parameter('SiteName')]"
+      }
+    },
+    "RemoveAppPool": {
+      "Description": "Removes the IIS application pool.",
+      "Type": "RemoveAppPool",
+      "Params": {
+        "Name": "[parameter('SiteName')]"
+      }
+    },
+    "RemoveContent": {
+      "Description": "Removes website content.",
+      "Type": "RemoveItem",
+      "Params": {
+        "Path": "[variable('Site.PhysicalPath')]",
+        "Recurse": true,
+        "ErrorAction": "SilentlyContinue"
+      }
+    },
+    "RemoveHostHeader": {
+      "Description": "Removes the website host name.",
+      "Type": "HostHeader",
+      "Params": {
+        "HostName": "[parameter('SiteName')]",
+        "Action": "Remove"
+      }
+    },
+    "RemoveDatabases": {
+      "Description": "Removes the databases.",
+      "Type": "RemoveSQLDatabase",
+      "Params": {
+        "ServerName": "[parameter('SqlServer')]",
+        "Username": "[parameter('SqlAdminUser')]",
+        "Password": "[variable('Sql.Secure.Password')]",
+        "DatabaseName": [
+          "[variable('Sql.Database.Core')]",
+          "[variable('Sql.Database.Master')]",
+          "[variable('Sql.Database.Web')]",
+          "[variable('Sql.Database.Forms')]",
+          "[variable('Sql.Database.EXM.Master')]",
+          "[variable('Sql.Database.Reporting')]"
+        ]
+      }
+    }
+  }
+}

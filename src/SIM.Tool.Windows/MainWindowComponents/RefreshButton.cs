@@ -79,8 +79,6 @@
 
     public void OnClick(Window mainWindow, Instance instance)
     {
-      Analytics.TrackEvent("Refresh");
-
       using (new ProfileSection("Refresh main window instances", this))
       {
         ProfileSection.Argument("mainWindow", mainWindow);

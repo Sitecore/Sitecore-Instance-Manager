@@ -33,8 +33,6 @@
     {
       Assert.ArgumentNotNull(mainWindow, nameof(mainWindow));
 
-      Analytics.TrackEvent("Import");
-
       var fileDialog = new OpenFileDialog
       {
         Title = "Select zip file of exported solution",

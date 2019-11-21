@@ -27,8 +27,6 @@
 
     public void OnClick(Window mainWindow, Instance instance)
     {
-      Analytics.TrackEvent("Backup");
-
       if (instance != null)
       {
         var id = MainWindowHelper.GetListItemID(instance.ID);

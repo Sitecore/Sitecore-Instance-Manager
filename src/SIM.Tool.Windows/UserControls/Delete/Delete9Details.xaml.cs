@@ -23,6 +23,9 @@ namespace SIM.Tool.Windows.UserControls.Install
   using SIM.Extensions;
   using SIM.IO.Real;
   using SIM.Sitecore9Installer;
+  using SIM.Tool.Windows.UserControls.Helpers;
+
+  public enum Topology { Undefined, XP0, XP1, XM1 }
 
   [UsedImplicitly]
   public partial class Delete9Details : IWizardStep, IFlowControl
@@ -81,14 +84,18 @@ namespace SIM.Tool.Windows.UserControls.Install
       {
         Directory.CreateDirectory(args.ScriptRoot);
         WindowHelper.LongRunningTask(() => this.UnpackInstallationFiles(args), "Unpacking unstallation files.", wizardArgs.WizardWindow);
+        WindowHelper.LongRunningTask(() => InstallTasksHelper.CopyCustomSifConfig(args), "Copying custom SIF configuration files to the install folder.", wizardArgs.WizardWindow);
+        WindowHelper.LongRunningTask(() => InstallTasksHelper.AddUninstallTasks(args), "Add Uninstall tasks to the OOB config files.", wizardArgs.WizardWindow);
       }
       else
       {
-        if (MessageBox.Show(string.Format("Path '{0}' already exists. Do you want overwrite it?", args.ScriptRoot), "Overwrite?", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+        if (MessageBox.Show(string.Format("Path '{0}' already exists. Do you want to overwrite it?", args.ScriptRoot), "Overwrite?", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
         {
           Directory.Delete(args.ScriptRoot, true);
           Directory.CreateDirectory(args.ScriptRoot);
           WindowHelper.LongRunningTask(() => this.UnpackInstallationFiles(args), "Unpacking unstallation files.", wizardArgs.WizardWindow);
+          WindowHelper.LongRunningTask(() => InstallTasksHelper.CopyCustomSifConfig(args), "Copying custom SIF configuration files to the install folder.", wizardArgs.WizardWindow);
+          WindowHelper.LongRunningTask(() => InstallTasksHelper.AddUninstallTasks(args), "Add Uninstall tasks to the OOB config files.", wizardArgs.WizardWindow);
         }
       }
 

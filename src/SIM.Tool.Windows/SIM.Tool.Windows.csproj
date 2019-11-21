@@ -253,6 +253,7 @@
     </Compile>
     <Compile Include="UserControls\Export\ExportWizardArgs.cs" />
     <Compile Include="UserControls\Export\FinishActions.cs" />
+    <Compile Include="UserControls\Helpers\InstallTasksHelper.cs" />
     <Compile Include="UserControls\Import\ImportWebsite.xaml.cs">
       <DependentUpon>ImportWebsite.xaml</DependentUpon>
     </Compile>
@@ -560,6 +561,10 @@
     <Resource Include="Images\48\upload.png" />
     <Resource Include="Images\48\wrench.png" />
     <Resource Include="Images\48\zoom_vertical.png" />
+    <Resource Include="Images\9\minus.png" />
+    <Resource Include="Images\9\minus_on_hover.png" />
+    <Resource Include="Images\9\plus.png" />
+    <Resource Include="Images\9\plus_on_hover.png" />
     <Content Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

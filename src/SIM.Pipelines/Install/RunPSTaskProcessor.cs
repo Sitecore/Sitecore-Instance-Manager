@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using SIM.Sitecore9Installer.Tasks;
 
 namespace SIM.Pipelines.Install
 {
@@ -24,14 +25,34 @@ namespace SIM.Pipelines.Install
     protected override void Process([NotNull] ProcessorArgs args)
     {
       Install9Args arguments = (Install9Args)args;
-      PowerShellTask task=arguments.Tasker.Tasks.FirstOrDefault(t => t.Name == this.taskName);
+      Sitecore9Installer.Tasks.Task task =arguments.Tasker.Tasks.FirstOrDefault(t => t.Name == this.taskName);
       Assert.ArgumentNotNull(task, nameof(task));
-      string result= task.Run();
-      if (task.State == TaskState.Failed)
-      {
-        throw new AggregateException(string.Format("Failed to execute {0} task. \n{1}",task.Name,result));
-      }     
 
+      string result = string.Empty;
+      try
+      {
+        result = task.Run();
+      }
+      catch (Exception ex)
+      {
+        SetLogLocation(task);
+      }
+
+      if (task.State != TaskState.Finished)
+      {
+        SetLogLocation(task);
+        throw new AggregateException(string.Format("Failed to execute {0} task. \n{1}",task.Name,result));
+      }   
+    }
+
+    private void SetLogLocation(Sitecore9Installer.Tasks.Task task)
+    {
+      SitecoreTask sTask = task as SitecoreTask;
+
+      if (sTask != null)
+      {
+        this.CustomLogLocation = sTask.Owner.FilesRoot;
+      }
     }
   }
 }

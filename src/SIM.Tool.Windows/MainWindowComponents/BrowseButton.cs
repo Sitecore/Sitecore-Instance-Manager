@@ -57,8 +57,6 @@
 
     public void OnClick(Window mainWindow, Instance instance)
     {
-      Analytics.TrackEvent("Browse");
-
       if (instance != null)
       {
         if (!InstanceHelperEx.PreheatInstance(instance, mainWindow))

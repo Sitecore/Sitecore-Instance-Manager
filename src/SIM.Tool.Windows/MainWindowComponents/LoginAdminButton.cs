@@ -58,8 +58,6 @@
       Assert.ArgumentNotNull(mainWindow, nameof(mainWindow));
       Assert.IsNotNull(instance, nameof(instance));
 
-      Analytics.TrackEvent("LogInAdmin");
-
       InstanceHelperEx.OpenInBrowserAsAdmin(instance, mainWindow, VirtualPath, Browser, _Params);
     }
 

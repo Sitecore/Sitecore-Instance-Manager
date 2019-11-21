@@ -10,6 +10,7 @@
   using SIM.Tool.Base.Wizards;
   using SIM.Tool.Base.Pipelines;
   using SIM.Tool.Base;
+  using System.Linq;
 
   [UsedImplicitly]
   public class DeleteInstanceButton : IMainWindowButton
@@ -41,7 +42,7 @@
         else
         {
           string uninstallPath = string.Empty;
-          foreach(string installName in Directory.GetDirectories(ApplicationManager.UnInstallParamsFolder))
+          foreach(string installName in Directory.GetDirectories(ApplicationManager.UnInstallParamsFolder).OrderByDescending(s=>s.Length))
           {
             if (instance.Name.StartsWith(Path.GetFileName(installName)))
             {

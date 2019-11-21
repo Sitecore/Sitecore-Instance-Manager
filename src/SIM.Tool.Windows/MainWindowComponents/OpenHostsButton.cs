@@ -25,8 +25,6 @@
 
     public void OnClick(Window mainWindow, Instance instance)
     {
-      Analytics.TrackEvent("OpenHosts");
-
       WindowHelper.ShowDialog(new HostsDialog(), mainWindow);
     }
 

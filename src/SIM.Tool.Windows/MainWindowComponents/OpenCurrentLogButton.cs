@@ -51,8 +51,6 @@
     {
       Assert.ArgumentNotNull(mainWindow, nameof(mainWindow));
 
-      Analytics.TrackEvent("OpenLog");
-
       if (instance != null)
       {
         InstanceHelperEx.OpenCurrentLogFile(instance, mainWindow, LogFileType);

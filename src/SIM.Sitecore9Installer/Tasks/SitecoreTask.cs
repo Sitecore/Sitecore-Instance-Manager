@@ -10,24 +10,19 @@ using System.Management.Automation;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SIM.Sitecore9Installer
+namespace SIM.Sitecore9Installer.Tasks
 {
-  public class SitecoreTask: PowerShellTask
+  public class SitecoreTask: SIM.Sitecore9Installer.Tasks.PowerShellTask
   {
-    TaskState state;
-    
-    public SitecoreTask(string name, int executionOrder, Tasker owner)
+    //TO DO It's still used by uninstallation task.
+    public SitecoreTask(string name, int executionOrder, Tasker owner) : base(name, executionOrder, owner, new List<InstallParam>(), new Dictionary<string, string>())
     {
-      this.Name = name;
-      this.InnerTasks = new List<SitecoreTask>();
-      this.state = TaskState.Pending;
-      this.ShouldRun = true;
-      this.ExecutionOrder = executionOrder;
-      this.Owner = owner;
     }
-    
-    public List<SitecoreTask> InnerTasks { get; }
-    public Tasker Owner { get; }
+
+    public SitecoreTask(string taskName, int executionOrder, Tasker owner, List<InstallParam> localParams, Dictionary<string, string> taskOptions) : base(taskName, executionOrder, owner, localParams, taskOptions)
+    {
+    }
+
     public override string GetScript()
     {
       StringBuilder script = new StringBuilder();
@@ -42,19 +37,39 @@ namespace SIM.Sitecore9Installer
       script.Append(installParams);
       script.AppendLine(string.Format("cd \"{0}\"", Path.GetDirectoryName(this.LocalParams.First(p => p.Name == "Path").Value)));
       script.AppendLine("Set-ExecutionPolicy Bypass -Force");
-      script.AppendLine("Import-Module SitecoreFundamentals");
-      string sifVersion = this.GlobalParams.FirstOrDefault(p => p.Name == "SIFVersion")?.Value ?? string.Empty;
+
+      string sifVersion = GetSifVersion(this.UnInstall, this.GlobalParams);
+
       string importParam = string.Empty;
       if (!string.IsNullOrEmpty(sifVersion))
       {
         importParam = string.Format(" -RequiredVersion {0}", sifVersion);
       }
 
-      script.AppendLine(string.Format("Import-Module SitecoreInstallFramework{0}", importParam));
+      script.AppendLine(string.Format("Import-Module SitecoreInstallFramework{0} -ErrorAction Stop", importParam));
       // script.AppendLine(script.ToString());
       string log = !sifVersion.StartsWith("1") ? string.Format("*>&1 | Tee-Object {0}.log", this.Name) : string.Empty;
       script.AppendLine(string.Format("{0} @installParams {1} -Verbose", this.UnInstall ? "Uninstall-SitecoreConfiguration" : "Install-SitecoreConfiguration", log));
       return script.ToString();
+    }
+
+    private string GetSifVersion(bool unInstall, List<InstallParam> globalParams)
+    {
+      string sifVersion = string.Empty;
+
+      if (unInstall)
+      {
+        sifVersion = globalParams.FirstOrDefault(p => p.Name == "SIFVersionUninstall")?.Value ?? string.Empty;
+      }
+
+      if (!string.IsNullOrEmpty(sifVersion))
+      {
+        return sifVersion;
+      }
+      else
+      {
+        return globalParams.FirstOrDefault(p => p.Name == "SIFVersion")?.Value ?? string.Empty;
+      }
     }
 
     private string GetLocalParamsScript()
@@ -80,14 +95,7 @@ namespace SIM.Sitecore9Installer
 
     public override bool SupportsUninstall()
     {
-      InstallParam path = this.LocalParams.FirstOrDefault(p => p.Name == "Path");
-      if (path == null)
-      {
-        return false;
-      }
-
-      JObject doc = JObject.Parse(File.ReadAllText(path.Value));
-      return doc["UninstallTasks"] != null;
+      return true;
     }
   }
 }

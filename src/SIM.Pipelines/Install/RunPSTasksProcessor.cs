@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SIM.Sitecore9Installer.Tasks;
 
 namespace SIM.Pipelines.Install
 {
@@ -34,6 +35,7 @@ namespace SIM.Pipelines.Install
         }        
 
         proc.ProcessorDefinition.Title = task.Name;
+        proc.ProcessorDefinition.Type = proc.GetType();
         if (root == null)
         {          
           processors.Add(proc);

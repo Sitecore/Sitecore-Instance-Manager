@@ -49,8 +49,6 @@
 
     public override void OnClick(Window mainWindow, Instance instance)
     {
-      Analytics.TrackEvent("OpenLogAnalyzer");
-      
       if (instance != null)
       {
         var dataFolderPath = instance.DataFolderPath;
