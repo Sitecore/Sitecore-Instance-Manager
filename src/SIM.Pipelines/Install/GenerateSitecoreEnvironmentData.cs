@@ -4,6 +4,7 @@ using System.Linq;
 using JetBrains.Annotations;
 using SIM.Pipelines.Processors;
 using SIM.Sitecore9Installer;
+using SIM.Sitecore9Installer.Tasks;
 using SIM.SitecoreEnvironments;
 
 namespace SIM.Pipelines.Install
