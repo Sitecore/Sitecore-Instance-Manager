@@ -3,6 +3,7 @@
   using System;
   using System.Net.Http;
   using System.Text;
+  using KB.Telemetry;
   using Newtonsoft.Json;
   using SIM.Telemetry.Models;
   using Sitecore.Diagnostics.Logging;
@@ -30,7 +31,7 @@
     #region Public Methods
     public override void TrackEvent(TelemetryEvent telemetryEvent, TelemetryEventContext eventContext)
     {
-      var appUtilizationModel = AppUtilizationModel.GetInstance(telemetryEvent, eventContext);
+      var appUtilizationModel = eventContext.ToAppUtilizationModel(telemetryEvent);
 
       try
       {
