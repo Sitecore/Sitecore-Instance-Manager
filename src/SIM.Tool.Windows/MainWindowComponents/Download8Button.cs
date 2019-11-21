@@ -21,8 +21,6 @@
 
     public void OnClick(Window mainWindow, Instance instance)
     {
-      Analytics.TrackEvent("Download8");
-
       if (FileSystem.FileSystem.Local.Directory.Exists(ProfileManager.Profile.LocalRepository))
       {
         WizardPipelineManager.Start("download8", mainWindow, null, null, ignore => MainWindowHelper.RefreshInstaller(), () => new DownloadWizardArgs(WindowsSettings.AppDownloaderSdnUserName.Value, WindowsSettings.AppDownloaderSdnPassword.Value));

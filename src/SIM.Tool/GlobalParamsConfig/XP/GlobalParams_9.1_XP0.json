@@ -115,10 +115,11 @@
 
   "ExecSequense": {
     "Prerequisites": {
-
+      "Type": "SIM.Sitecore9Installer.Tasks.SitecoreTask, SIM.Sitecore9Installer"
     },
 
     "IdentityServerCertificates": {
+      "Type": "SIM.Sitecore9Installer.Tasks.SitecoreTask, SIM.Sitecore9Installer",
       "Parameters": {
         "RealName": "createcert",
         "CertificateName": "$SitecoreIdentityCert"
@@ -126,24 +127,32 @@
       }
     },
     "IdentityServer": {
+      "Type": "SIM.Sitecore9Installer.Tasks.SitecoreTask, SIM.Sitecore9Installer",
       "Parameters": {
         "SiteName": "$SqlDbPrefix+\"Id.local\""
       }
     },
     "XConnectCertificates": {
+      "Type": "SIM.Sitecore9Installer.Tasks.SitecoreTask, SIM.Sitecore9Installer",
       "Parameters": {
         "RealName": "createcert",
         "CertificateName": "$XConnectCert"
       }
     },
-    "xconnect-solr": {},
+    "xconnect-solr": {
+      "Type": "SIM.Sitecore9Installer.Tasks.SitecoreTask, SIM.Sitecore9Installer"
+    },
     "xconnect-xp0": {
+      "Type": "SIM.Sitecore9Installer.Tasks.SitecoreTask, SIM.Sitecore9Installer",
       "Parameters": {
         "SiteName": "$SqlDbPrefix+\"XConnect.local\""
       }
     },
-    "Sitecore-solr": {},
+    "Sitecore-solr": {
+      "Type": "SIM.Sitecore9Installer.Tasks.SitecoreTask, SIM.Sitecore9Installer"
+    },
     "Sitecore-XP0": {
+      "Type": "SIM.Sitecore9Installer.Tasks.SitecoreTask, SIM.Sitecore9Installer",
       "Parameters": {
         "SiteName": "$SqlDbPrefix+\".local\""
       }

@@ -21,8 +21,6 @@
 
     public void OnClick(Window mainWindow, Instance instance)
     {
-      Analytics.TrackEvent("Export");
-
       if (instance != null)
       {
         var id = MainWindowHelper.GetListItemID(instance.ID);

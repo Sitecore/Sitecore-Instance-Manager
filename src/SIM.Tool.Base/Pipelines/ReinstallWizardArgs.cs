@@ -21,7 +21,7 @@
 
     public Instance Instance { get; }
 
-    public string InstanceName { get; }
+    public string InstanceName { get; set; }
 
     public SqlConnectionStringBuilder ConnectionString { get; }
 

@@ -2,6 +2,7 @@
   "Parameters": {
     //global
     "SIFVersion": "1.2.1",
+    "SIFVersionUninstall": "2.1.0",
     "SqlServer": "",
     "SqlAdminUser": "",
     "SqlAdminPassword": "",
@@ -35,13 +36,17 @@
   },
 
   "ExecSequense": {
-    "sitecore-solr": {},
+    "sitecore-solr": {
+      "Type": "SIM.Sitecore9Installer.Tasks.SitecoreTask, SIM.Sitecore9Installer"
+    },
     "sitecore-XM1-cd": {
+      "Type": "SIM.Sitecore9Installer.Tasks.SitecoreTask, SIM.Sitecore9Installer",
       "Parameters": {
         "SiteName": "$SqlDbPrefix+\"CD.local\""
       }
     },
     "sitecore-XM1-cm": {
+      "Type": "SIM.Sitecore9Installer.Tasks.SitecoreTask, SIM.Sitecore9Installer",
       "Parameters": {
         "SiteName": "$SqlDbPrefix+\"CM.local\""
       }

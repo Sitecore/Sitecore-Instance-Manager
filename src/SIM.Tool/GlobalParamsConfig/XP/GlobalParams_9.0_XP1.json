@@ -2,6 +2,7 @@
   "Parameters": {
     //global
     "SIFVersion": "1.2.1",
+    "SIFVersionUninstall": "2.1.0",
     "SqlServer": "",
     "SqlAdminUser": "",
     "SqlAdminPassword": "",
@@ -81,61 +82,78 @@
   },
 
   "ExecSequense": {
-    "xconnect-createcert": {},
-    "xconnect-solr": {},
+    "xconnect-createcert": {
+      "Type": "SIM.Sitecore9Installer.Tasks.SitecoreTask, SIM.Sitecore9Installer"
+    },
+    "xconnect-solr": {
+      "Type": "SIM.Sitecore9Installer.Tasks.SitecoreTask, SIM.Sitecore9Installer"
+    },
     "xconnect-xp1-collection": {
+      "Type": "SIM.Sitecore9Installer.Tasks.SitecoreTask, SIM.Sitecore9Installer",
       "Parameters": {
         "SiteName": "$SqlDbPrefix+\"XColl.local\""
       }
     },
     "xconnect-xp1-collectionsearch": {
+      "Type": "SIM.Sitecore9Installer.Tasks.SitecoreTask, SIM.Sitecore9Installer",
       "Parameters": {
         "SiteName": "$SqlDbPrefix+\"XSear.local\""
       }
     },
     "xconnect-xp1-referencedata": {
+      "Type": "SIM.Sitecore9Installer.Tasks.SitecoreTask, SIM.Sitecore9Installer",
       "Parameters": {
         "SiteName": "$SqlDbPrefix+\"XRef.local\""
       }
     },
     "xconnect-xp1-marketingautomation": {
+      "Type": "SIM.Sitecore9Installer.Tasks.SitecoreTask, SIM.Sitecore9Installer",
       "Parameters": {
         "SiteName": "$SqlDbPrefix+\"XMA.local\""
       }
     },
     "xconnect-xp1-marketingautomationreporting": {
+      "Type": "SIM.Sitecore9Installer.Tasks.SitecoreTask, SIM.Sitecore9Installer",
       "Parameters": {
         "SiteName": "$SqlDbPrefix+\"XMar.local\""
       }
     },
-    "Sitecore-solr": {},
+    "Sitecore-solr": {
+      "Type": "SIM.Sitecore9Installer.Tasks.SitecoreTask, SIM.Sitecore9Installer"
+    },
 
     "Sitecore-xp1-cd": {
+      "Type": "SIM.Sitecore9Installer.Tasks.SitecoreTask, SIM.Sitecore9Installer",
       "Parameters": {
         "SiteName": "$SqlDbPrefix+\"CD.local\""
       }
     },
     "Sitecore-xp1-prc": {
+      "Type": "SIM.Sitecore9Installer.Tasks.SitecoreTask, SIM.Sitecore9Installer",
       "Parameters": {
         "SiteName": "$SqlDbPrefix+\"Prc.local\""
       }
     },
     "Sitecore-xp1-rep": {
+      "Type": "SIM.Sitecore9Installer.Tasks.SitecoreTask, SIM.Sitecore9Installer",
       "Parameters": {
         "SiteName": "$SqlDbPrefix+\"Rep.local\""
       }
     },
     "Sitecore-xp1-cm": {
+      "Type": "SIM.Sitecore9Installer.Tasks.SitecoreTask, SIM.Sitecore9Installer",
       "Parameters": {
         "SiteName": "$SqlDbPrefix+\"CM.local\""
       }
     },
     "sitecore-xp1-dds": {
+      "Type": "SIM.Sitecore9Installer.Tasks.SitecoreTask, SIM.Sitecore9Installer",
       "Parameters": {
         "SiteName": "$SqlDbPrefix+\"DDS.local\""
       }
     },
     "sitecore-XP1-cm-dds-patch": {
+      "Type": "SIM.Sitecore9Installer.Tasks.SitecoreTask, SIM.Sitecore9Installer",
       "Parameters": {
         "SiteName": "$SqlDbPrefix+\"CM.local\"",
         "DedicatedServerHostName": "$SqlDbPrefix+\"DDS.local\""

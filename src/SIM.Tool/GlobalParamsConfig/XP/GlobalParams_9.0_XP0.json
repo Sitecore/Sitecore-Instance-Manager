@@ -2,6 +2,7 @@
   "Parameters": {
     //global
     "SIFVersion": "1.2.1",
+    "SIFVersionUninstall": "2.1.0",
     "SqlServer": "",
     "SqlAdminUser": "",
     "SqlAdminPassword": "",
@@ -80,16 +81,24 @@
   },
 
   "ExecSequense": {
-    "xconnect-createcert": {},
-   
-    "xconnect-solr": {},
+    "xconnect-createcert": {
+      "Type": "SIM.Sitecore9Installer.Tasks.SitecoreTask, SIM.Sitecore9Installer"
+    },
+
+    "xconnect-solr": {
+      "Type": "SIM.Sitecore9Installer.Tasks.SitecoreTask, SIM.Sitecore9Installer"
+    },
     "xconnect-xp0": {
+      "Type": "SIM.Sitecore9Installer.Tasks.SitecoreTask, SIM.Sitecore9Installer",
       "Parameters": {
         "SiteName": "$SqlDbPrefix+\"XConnect.local\""
       }
-    },  
-    "Sitecore-solr": {},
+    },
+    "Sitecore-solr": {
+      "Type": "SIM.Sitecore9Installer.Tasks.SitecoreTask, SIM.Sitecore9Installer"
+    },
     "Sitecore-XP0": {
+      "Type": "SIM.Sitecore9Installer.Tasks.SitecoreTask, SIM.Sitecore9Installer",
       "Parameters": {
         "SiteName": "$SqlDbPrefix+\".local\""
       }

@@ -456,7 +456,7 @@
               }
 
               
-              WindowHelper.HandleError(message, true, null,null,null);
+              WindowHelper.HandleError(message, true, null,null,processor.CustomLogLocation);
               break;
             }
           }

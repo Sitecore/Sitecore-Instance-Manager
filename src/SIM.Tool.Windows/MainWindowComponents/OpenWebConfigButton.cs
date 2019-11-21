@@ -21,8 +21,6 @@
 
     public void OnClick(Window mainWindow, Instance instance)
     {
-      Analytics.TrackEvent("OpenWebConfig");
-
       if (instance != null)
       {
         var webConfigPath = WebConfig.GetWebConfigPath(instance.WebRootPath);

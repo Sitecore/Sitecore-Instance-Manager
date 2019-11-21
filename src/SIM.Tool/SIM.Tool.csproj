@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
@@ -470,11 +470,89 @@
     <Content Include="GlobalParamsConfig\XM\GlobalParams_9.2_XM1.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="CustomSifConfig\XP1\900\xconnect-createcert.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="GlobalParamsConfig\XP\GlobalParams_9.0.0_XP0.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="GlobalParamsConfig\XP\GlobalParams_9.0.0_XP1.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="GlobalParamsConfig\XP\GlobalParams_9.2_XP0.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="packages.config" />
     <Content Include="Packages\Visual Studio 2015 Website Project.manifest.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SC90UninstallTasks\XM1\sitecore-solr.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SC90UninstallTasks\XM1\sitecore-XM1-cd.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SC90UninstallTasks\XM1\sitecore-XM1-cm.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SC90UninstallTasks\XP0\sitecore-solr.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SC90UninstallTasks\XP0\sitecore-XP0.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SC90UninstallTasks\XP0\xconnect-solr.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SC90UninstallTasks\XP0\xconnect-xp0.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SC90UninstallTasks\XP1\sitecore-solr.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SC90UninstallTasks\XP1\sitecore-XP1-cd.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SC90UninstallTasks\XP1\sitecore-XP1-cm.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SC90UninstallTasks\XP1\sitecore-xp1-dds.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SC90UninstallTasks\XP1\sitecore-XP1-prc.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SC90UninstallTasks\XP1\sitecore-XP1-rep.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SC90UninstallTasks\XP1\xconnect-solr.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SC90UninstallTasks\XP1\xconnect-xp1-collection.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SC90UninstallTasks\XP1\xconnect-xp1-collectionsearch.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SC90UninstallTasks\XP1\xconnect-xp1-MarketingAutomation.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SC90UninstallTasks\XP1\xconnect-xp1-MarketingAutomationReporting.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SC90UninstallTasks\XP1\xconnect-xp1-ReferenceData.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SC90UninstallTasks\XP0\900\xconnect-xp0.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SC90UninstallTasks\XP0\900\sitecore-XP0.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SC90UninstallTasks\XP1\900\xconnect-xp1-collection.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SC90UninstallTasks\XP1\900\sitecore-XP1-cm.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Page Include="ExpressionLight.xaml">
@@ -516,6 +594,10 @@
     <ProjectReference Include="..\SIM.Pipelines\SIM.Pipelines.csproj">
       <Project>{7a3fedf8-df96-4426-aa01-c2d4fd3e68c8}</Project>
       <Name>SIM.Pipelines</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SIM.Telemetry\SIM.Telemetry.csproj">
+      <Project>{b91b2024-3f75-4df7-8dcc-111fb5ccaf5d}</Project>
+      <Name>SIM.Telemetry</Name>
     </ProjectReference>
     <ProjectReference Include="..\SIM.Tool.Windows\SIM.Tool.Windows.csproj">
       <Project>{221FB0E1-56C0-499C-82F3-BA4060D6ED0C}</Project>
