@@ -9,6 +9,7 @@
   using JetBrains.Annotations;
   using Sitecore.Diagnostics.Logging;
   using SIM.Extensions;
+  using SIM.SitecoreEnvironments;
 
   #region
 
@@ -113,6 +114,8 @@
 
     public void Initialize([CanBeNull] string defaultRootFolder = null)
     {
+      SitecoreEnvironmentHelper.RefreshEnvironments();
+
       using (WebServerManager.WebServerContext context = WebServerManager.CreateContext())
       {
         ProfileSection.Argument("defaultRootFolder", defaultRootFolder);
@@ -125,6 +128,8 @@
     
     public void InitializeWithSoftListRefresh([CanBeNull] string defaultRootFolder = null)
     {
+      SitecoreEnvironmentHelper.RefreshEnvironments();
+
       using (new ProfileSection("Initialize with soft list refresh"))
       {
         // Add check that this isn't an initial initialization

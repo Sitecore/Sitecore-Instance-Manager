@@ -17,6 +17,7 @@
   using JetBrains.Annotations;
   using Sitecore.Diagnostics.Logging;
   using SIM.Extensions;
+  using SIM.SitecoreEnvironments;
 
   [Serializable]
   public class Instance : Website, IXmlSerializable
@@ -215,6 +216,13 @@
           throw new InvalidOperationException($"Cannot get packages folder of {WebRootPath}");
         }
       }
+    }
+
+
+    [NotNull]
+    public virtual SitecoreEnvironment SitecoreEnvironment
+    {
+      get { return SitecoreEnvironmentHelper.GetExistingOrNewSitecoreEnvironment(this.Name); }
     }
 
     [NotNull]

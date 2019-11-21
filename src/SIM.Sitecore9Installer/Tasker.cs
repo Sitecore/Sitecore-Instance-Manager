@@ -235,12 +235,35 @@ namespace SIM.Sitecore9Installer
 
     public string GetGlobalParamsScript(bool addPrefix = true)
     {
+      return GetParamsScript(this.GlobalParams, addPrefix);
+    }
+
+    public string GetParamsScript(List<InstallParam> installParams, bool addPrefix = true)
+    {
       StringBuilder script = new StringBuilder();
       foreach (InstallParam param in GlobalParams)
       {
-        string value = param.GetParameterValue();
-        string paramName = addPrefix ? "{" + param.Name + "}" : string.Format("'{0}'", param.Name);
-        script.AppendLine(string.Format("{0}{1}={2}", addPrefix ? "$" : string.Empty, paramName, value));
+        if (param.Value != null)
+        {
+          string value = param.GetParameterValue();
+          string paramName = addPrefix ? "{" + param.Name + "}" : string.Format("'{0}'", param.Name);
+          script.AppendLine(string.Format("{0}{1}={2}", addPrefix ? "$" : string.Empty, paramName, value));
+        }
+      }
+
+      return script.ToString();
+    }
+
+    public string GetParamsScript(List<InstallParam> installParams)
+    {
+      StringBuilder script = new StringBuilder();
+      foreach (InstallParam param in installParams)
+      {
+        if (param.Value != null)
+        {
+          string value = param.GetParameterValue();
+          script.AppendLine(string.Format("${0}={1}", param.Name, value));
+        }
       }
 
       return script.ToString();
@@ -248,34 +271,64 @@ namespace SIM.Sitecore9Installer
 
     public void EvaluateGlobalParams()
     {
-      string sifVersion = GlobalParams.FirstOrDefault(p => p.Name == "SIFVersion")?.Value ?? string.Empty;
-      string importParam = string.Empty;
-      if (!string.IsNullOrEmpty(sifVersion)) importParam = string.Format(" -RequiredVersion {0}", sifVersion);
       StringBuilder globalParamsEval = new StringBuilder();
       globalParamsEval.Append("Set-ExecutionPolicy Bypass -Force\n");
-      globalParamsEval.AppendFormat("Import-Module SitecoreInstallFramework{0}\n", importParam);
+      globalParamsEval.AppendFormat("Import-Module SitecoreInstallFramework{0}\n", this.GetSifVersionParam());
       globalParamsEval.AppendLine("$GlobalParams =@{");
       globalParamsEval.Append(GetGlobalParamsScript(false));
       globalParamsEval.Append("}\n");
       globalParamsEval.AppendLine("$GlobalParamsSys =@{");
       globalParamsEval.Append(GetGlobalParamsScript(false));
       globalParamsEval.Append("}\n$GlobalParamsSys");
-      //string globalParamsEval = string.Format("Import-Module SitecoreInstallFramework{0}\n$GlobalParams =@{{1}}$GlobalParams", importParam, this.tasksToRun.First().GetGlobalParamsScript());
-      Hashtable evaluatedParams = null;
-      using (PowerShell PowerShellInstance = PowerShell.Create())
-      {
-        PowerShellInstance.AddScript(globalParamsEval.ToString());
-        Collection<PSObject> res = PowerShellInstance.Invoke();
-        evaluatedParams = (Hashtable) res.First().ImmediateBaseObject;
-      }
+      Hashtable evaluatedParams = this.GetEvaluatedParams(globalParamsEval.ToString());
 
-      StringBuilder evaluatedOaramsScript = new StringBuilder();
-      foreach (InstallParam param in GlobalParams)
+      foreach (var param in this.GlobalParams)
       {
         if (evaluatedParams[param.Name] == null || param.Value == evaluatedParams[param.Name].ToString()) continue;
 
         param.Value = (string) evaluatedParams[param.Name];
       }
+    }
+
+    public Hashtable EvaluateLocalParams(List<InstallParam> localParams, List<InstallParam> globalParams)
+    {
+      StringBuilder localParamsEval = new StringBuilder();
+      localParamsEval.Append("Set-ExecutionPolicy Bypass -Force\n");
+      localParamsEval.AppendFormat("Import-Module SitecoreInstallFramework{0}\n", GetSifVersionParam());
+      localParamsEval.AppendFormat(this.GetParamsScript(globalParams));
+      localParamsEval.AppendLine("$LocalParams =@{");
+      localParamsEval.Append(this.GetParamsScript(localParams, false));
+      localParamsEval.Append("}\n");
+      localParamsEval.AppendLine("$LocalParamsSys =@{");
+      localParamsEval.Append(this.GetParamsScript(localParams, false));
+      localParamsEval.Append("}\n$LocalParamsSys");
+
+      return this.GetEvaluatedParams(localParamsEval.ToString());
+    }
+
+    public string GetSifVersionParam()
+    {
+      string sifVersion = this.GlobalParams.FirstOrDefault(p => p.Name == "SIFVersion")?.Value ?? string.Empty;
+      if (!string.IsNullOrEmpty(sifVersion))
+      {
+        return string.Format(" -RequiredVersion {0}", sifVersion);
+      }
+      return string.Empty;
+    }
+
+    public Hashtable GetEvaluatedParams(string script)
+    {
+      using (PowerShell PowerShellInstance = PowerShell.Create())
+      {
+        PowerShellInstance.AddScript(script);
+        var res = PowerShellInstance.Invoke();
+        if (res != null && res.Count > 0)
+        {
+          return (Hashtable)res.First().ImmediateBaseObject;
+        }
+      }
+
+      return null;
     }
 
     public void SaveUninstallParams(string path)
