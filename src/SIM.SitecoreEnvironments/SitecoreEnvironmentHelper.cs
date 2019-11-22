@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using Newtonsoft.Json;
+using Sitecore.Diagnostics.Logging;
 
 namespace SIM.SitecoreEnvironments
 {
@@ -8,10 +10,23 @@ namespace SIM.SitecoreEnvironments
   {
     private const string FileName = "Environments.json";
 
+    private static List<SitecoreEnvironment> sitecoreEnvironments;
+
     public static List<SitecoreEnvironment> SitecoreEnvironments
     {
-      get;
-      private set;
+      get
+      {
+        if (sitecoreEnvironments == null)
+        {
+          return new List<SitecoreEnvironment>();
+        }
+
+        return sitecoreEnvironments;
+      }
+      private set
+      {
+        sitecoreEnvironments = value;
+      }
     }
 
     private static string FilePath
@@ -21,17 +36,22 @@ namespace SIM.SitecoreEnvironments
 
     private static List<SitecoreEnvironment> GetSitecoreEnvironmentData()
     {
-      List<SitecoreEnvironment> sitecoreEnvironments;
-
-      CreateEnvironmentsFileIfNeeded();
-
-      using (StreamReader streamReader = new StreamReader(FilePath))
+      try
       {
-        string data = streamReader.ReadToEnd();
-        sitecoreEnvironments = JsonConvert.DeserializeObject<List<SitecoreEnvironment>>(data);
-      }
+        CreateEnvironmentsFileIfNeeded();
 
-      return sitecoreEnvironments;
+        using (StreamReader streamReader = new StreamReader(FilePath))
+        {
+          string data = streamReader.ReadToEnd();
+          return JsonConvert.DeserializeObject<List<SitecoreEnvironment>>(data);
+        }
+      }
+      catch (Exception ex)
+      {
+        Log.Warn(ex, "An error occurred during getting the list of Sitecore environments");
+
+        return new List<SitecoreEnvironment>();
+      }
     }
     
     private static string GetSerializedSitecoreEnvironmentData(List<SitecoreEnvironment> sitecoreEnvironments)
@@ -65,16 +85,13 @@ namespace SIM.SitecoreEnvironments
 
     public static SitecoreEnvironment GetExistingOrNewSitecoreEnvironment(string instanceName)
     {
-      if (SitecoreEnvironments != null)
+      foreach (SitecoreEnvironment sitecoreEnvironment in SitecoreEnvironments)
       {
-        foreach (SitecoreEnvironment sitecoreEnvironment in SitecoreEnvironments)
+        foreach (SitecoreEnvironmentMember sitecoreEnvironmentMember in sitecoreEnvironment.Members)
         {
-          foreach (SitecoreEnvironmentMember sitecoreEnvironmentMember in sitecoreEnvironment.Members)
+          if (sitecoreEnvironmentMember.Name == instanceName)
           {
-            if (sitecoreEnvironmentMember.Name == instanceName)
-            {
-              return sitecoreEnvironment;
-            }
+            return sitecoreEnvironment;
           }
         }
       }

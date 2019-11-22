@@ -154,7 +154,7 @@
       {
         try
         {
-          if (!IsSitecore && File.Exists(Path.Combine(ApplicationManager.ProfilesFolder, "Environments.json")))
+          if (!IsSitecore)
           {
             foreach (SitecoreEnvironment sitecoreEnvironment in SitecoreEnvironmentHelper.SitecoreEnvironments)
             {

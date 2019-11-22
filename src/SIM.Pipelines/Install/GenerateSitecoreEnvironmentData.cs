@@ -56,14 +56,8 @@ namespace SIM.Pipelines.Install
 
     private void AddSitecoreEnvironment(SitecoreEnvironment sitecoreEnvironment)
     {
-      List<SitecoreEnvironment> sitecoreEnvironments = SitecoreEnvironmentHelper.SitecoreEnvironments;
-      if (sitecoreEnvironments == null)
-      {
-        sitecoreEnvironments = new List<SitecoreEnvironment>();
-      }
-
       // Do not add new Sitecore environment if its name already exists in the Environments.json file
-      foreach (SitecoreEnvironment se in sitecoreEnvironments)
+      foreach (SitecoreEnvironment se in SitecoreEnvironmentHelper.SitecoreEnvironments)
       {
         if (se.Name == sitecoreEnvironment.Name)
         {
@@ -71,8 +65,8 @@ namespace SIM.Pipelines.Install
         }
       }
 
-      sitecoreEnvironments.Add(sitecoreEnvironment);
-      SitecoreEnvironmentHelper.SaveSitecoreEnvironmentData(sitecoreEnvironments);
+      SitecoreEnvironmentHelper.SitecoreEnvironments.Add(sitecoreEnvironment);
+      SitecoreEnvironmentHelper.SaveSitecoreEnvironmentData(SitecoreEnvironmentHelper.SitecoreEnvironments);
     }
   }
 }
