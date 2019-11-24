@@ -241,7 +241,7 @@ namespace SIM.Sitecore9Installer
     public string GetParamsScript(List<InstallParam> installParams, bool addPrefix = true)
     {
       StringBuilder script = new StringBuilder();
-      foreach (InstallParam param in GlobalParams)
+      foreach (InstallParam param in installParams)
       {
         if (param.Value != null)
         {
