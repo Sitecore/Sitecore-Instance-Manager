@@ -126,25 +126,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <None Include="GlobalParams_9.0_XP0.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="GlobalParams_9.0_XP1.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="GlobalParams_9.0_XM1.json" />
-    <None Include="GlobalParams_9.2_XP0.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="GlobalParams_9.1_XP1.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="GlobalParams_9.1_XP0.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="GlobalFilesMap.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
