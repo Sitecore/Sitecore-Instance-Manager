@@ -18,7 +18,7 @@ namespace SIM.SitecoreEnvironments
       {
         if (sitecoreEnvironments == null)
         {
-          return new List<SitecoreEnvironment>();
+          sitecoreEnvironments = new List<SitecoreEnvironment>();
         }
 
         return sitecoreEnvironments;
