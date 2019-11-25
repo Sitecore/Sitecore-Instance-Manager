@@ -16,14 +16,16 @@
       // Uninstallation tasks should be added only to SC90x parameter files (*.json).      
       var versions = new List<int>() { 900, 901, 902 };
 
-      var scVersionInt = args.InstanceProduct.Release.Version.MajorMinorUpdateInt;
-      Log.Debug($"AddUnInstallationTasks: scVersionInt '{scVersionInt}'");
+      var scVersion = args.Product?.Release?.Version;
+      Log.Debug($"AddUnInstallationTasks: scVersion '{scVersion}'");
 
-      if (!versions.Contains(scVersionInt))
+      if (scVersion == null || !versions.Contains(scVersion.MajorMinorUpdateInt))
       {
         // Starting from SC910 the uninstall tasks are included OOB.
         return;
       }
+
+      var scVersionInt = scVersion.MajorMinorUpdateInt;
 
       var topology = GetTopology(args.Product.Revision);
 
