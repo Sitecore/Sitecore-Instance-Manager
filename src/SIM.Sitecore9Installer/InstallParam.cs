@@ -6,14 +6,32 @@ using System.Threading.Tasks;
 
 namespace SIM.Sitecore9Installer
 {
+  public enum InstallParamType { String, Bool }
+
   public class InstallParam
   {
     public event EventHandler<ParamValueUpdatedArgs> ParamValueUpdated;
     string value;
-    public InstallParam(string name, string value)
+    public InstallParam(string name, string value, string type = "string")
     {
       this.name = name;
       this.Value = value;
+      this.Type = ParseInstallParamType(type);
+    }
+
+    private InstallParamType ParseInstallParamType(string type)
+    {
+      switch (type.ToLower())
+      {
+        case "bool":
+          {
+            return InstallParamType.Bool;
+          }
+        default:
+          {
+            return InstallParamType.String;
+          }
+      }
     }
 
     private string name;
@@ -36,10 +54,35 @@ namespace SIM.Sitecore9Installer
         }
       }
     }
+
+    public InstallParamType Type { get; private set; }
     public string Description { get; set; }
     public virtual string GetParameterValue()
     {
-      string value = this.Value;
+      if (Type == InstallParamType.Bool)
+      {
+        return GetBoolValue(Value);
+      }
+      else
+      {
+        return GetStringValue(Value);
+      }     
+    }
+
+    private string GetBoolValue(string value)
+    {
+      if (value.Equals("true", StringComparison.InvariantCultureIgnoreCase))
+      {
+        return "$true";
+      }
+      else
+      {
+        return "$false";
+      }
+    }
+
+    private string GetStringValue(string value)
+    {
       if (!value.StartsWith("$"))
       {
         if (value.StartsWith("[") && value.EndsWith("]"))
