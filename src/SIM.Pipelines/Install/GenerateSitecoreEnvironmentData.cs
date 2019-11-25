@@ -35,7 +35,7 @@ namespace SIM.Pipelines.Install
       SitecoreEnvironment sitecoreEnvironment = new SitecoreEnvironment(sqlDbPrefix);
       sitecoreEnvironment.Members = new List<SitecoreEnvironmentMember>();
 
-      foreach (PowerShellTask powerShellTask in tasker.Tasks)
+      foreach (Task powerShellTask in tasker.Tasks)
       {
         InstallParam installParam = powerShellTask.LocalParams.FirstOrDefault(x => x.Name == SiteName);
         if (installParam != null && !string.IsNullOrEmpty(installParam.Value))
