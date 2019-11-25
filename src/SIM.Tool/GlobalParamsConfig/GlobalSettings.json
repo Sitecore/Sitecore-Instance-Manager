@@ -1,5 +1,6 @@
 ﻿{
   "GlobalFilesMap": {
+    "9.3.\\d.* XM1": "GlobalParams_9.3_XM1.json",
     "9.2.\\d.* XM1": "GlobalParams_9.2_XM1.json",
     "9.1.0.* XM1": "GlobalParams_9.1.0_XM1.json",
     "9.1.\\d.* XM1": "GlobalParams_9.1_XM1.json",
