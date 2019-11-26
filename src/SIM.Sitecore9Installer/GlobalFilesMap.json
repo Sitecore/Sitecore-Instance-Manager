@@ -1,7 +1,0 @@
-﻿{
-  "9.2.\\d.* XP0": "GlobalParams_9.2_XP0.json",
-  "9.1.\\d.* XP0": "GlobalParams_9.1_XP0.json",
-  "9.1.\\d.* XP1": "GlobalParams_9.1_XP1.json",
-  "9.0.\\d.* XP1": "GlobalParams_9.0_XP1.json",
-  "9.0.\\d.* XP0": "GlobalParams_9.0_XP0.json"
-}
