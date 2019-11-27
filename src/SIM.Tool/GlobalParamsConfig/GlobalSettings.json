@@ -37,6 +37,7 @@
     "SqlExmMasterPassword",
     "SqlMessagingPassword",
     "SitecoreAdminPassword",
-    "SqlAdminPassword"
+    "SqlAdminPassword",
+    "Path"
   ]
 }
