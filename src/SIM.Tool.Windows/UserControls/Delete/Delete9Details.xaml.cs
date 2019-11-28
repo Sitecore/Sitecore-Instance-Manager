@@ -124,7 +124,7 @@ namespace SIM.Tool.Windows.UserControls.Install
     public void UnpackInstallationFiles(Install9WizardArgs args)
     {
       string packagename = Path.GetFileName(args.ScriptRoot)+".zip";
-      string packagepath = Path.Combine(ProfileManager.Profile.LocalRepository, packagename);
+      string packagepath = Directory.GetFiles(ProfileManager.Profile.LocalRepository, Path.GetFileName(packagename), SearchOption.AllDirectories).FirstOrDefault();
       RealZipFile zip = new RealZipFile(new RealFile(new RealFileSystem(), packagepath));
       zip.ExtractTo(new RealFolder(new RealFileSystem(), args.ScriptRoot));
       string configFilesZipPath = Directory.GetFiles(args.ScriptRoot, "*Configuration files*.zip").First();
