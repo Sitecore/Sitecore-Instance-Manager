@@ -25,7 +25,7 @@ namespace SIM.Tool.Windows.UserControls.Reinstall
     {
       var args = wizardArgs as ReinstallWizardArgs;
       string uninstallPath = string.Empty;
-      foreach (string installName in Directory.GetDirectories(ApplicationManager.UnInstallParamsFolder))
+      foreach (string installName in Directory.GetDirectories(ApplicationManager.UnInstallParamsFolder).OrderByDescending(s=>s.Length))
       {
         if (args.Instance.Name.StartsWith(Path.GetFileName(installName)))
         {
@@ -63,7 +63,7 @@ namespace SIM.Tool.Windows.UserControls.Reinstall
       args.Tasker = tasker;
       StringBuilder displayText = new StringBuilder();
       displayText.AppendLine("Reinstall:");
-      foreach (var task in tasker.Tasks)
+      foreach (var task in tasker.Tasks.Where(t=>t.SupportsUninstall()))
       {
         displayText.AppendLine(string.Format(" -{0}",task.Name));
       }

@@ -45,7 +45,7 @@ namespace SIM.Tool.Windows.UserControls.Install
       Install9WizardArgs args = (Install9WizardArgs)wizardArgs;
       this.owner = args.WizardWindow;
       this.tasker = args.Tasker;
-      this.TasksList.DataContext = args.Tasker.Tasks;
+      this.TasksList.DataContext = args.Tasker.Tasks.Where(t=>(t.SupportsUninstall()&&t.UnInstall)||!t.UnInstall);
     }    
 
     public bool OnMovingBack(WizardArgs wizardArgs)

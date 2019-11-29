@@ -16,6 +16,7 @@ namespace SIM.Tool.Base.Pipelines
       this.InstanceConnectionString = connectionString;
       this.Product = instance.Product;
       this.UnInstallPath = uninstallPath;
+      this.InstanceProduct = instance.Product;
     }
 
    public string UnInstallPath { get; }
