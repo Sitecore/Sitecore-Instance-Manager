@@ -20,7 +20,7 @@ namespace SIM.Pipelines.Install
         this.Skip();
         return;
       }
-      arguments.Tasker.SaveUninstallParams(ApplicationManager.UnInstallParamsFolder);
+      arguments.Tasker.SaveUninstallData(ApplicationManager.UnInstallParamsFolder);
     }
   }
 }
