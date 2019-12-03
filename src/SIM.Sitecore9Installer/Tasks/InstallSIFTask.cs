@@ -59,7 +59,15 @@ namespace SIM.Sitecore9Installer.Tasks
       : base(taskName, executionOrder, owner, localParams, taskOptions)
     {
       this.sifVersionInstall = this.TaskOptions["InstallVersion"];
-      this.sifVersionUnInstall = this.TaskOptions["UninstallVersion"];
+      if (this.TaskOptions.ContainsKey("UninstallVersion"))
+      {
+        this.sifVersionUnInstall = this.TaskOptions["UninstallVersion"];
+      }
+      else
+      {
+        this.sifVersionUnInstall = this.sifVersionInstall;
+      }
+
       this.repo = this.TaskOptions["Repository"];
       this.Name = taskName;
       this.ExecutionOrder = int.MinValue;

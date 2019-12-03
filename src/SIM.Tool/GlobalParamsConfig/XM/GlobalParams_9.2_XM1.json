@@ -53,7 +53,6 @@
       "Type": "SIM.Sitecore9Installer.Tasks.InstallSIFTask, SIM.Sitecore9Installer",
       "TaskOptions": {
         "InstallVersion": "2.1.0",
-        "UninstallVersion": "2.1.0",
         "Repository": "https://sitecore.myget.org/F/sc-powershell/api/v2"
       }
     },
