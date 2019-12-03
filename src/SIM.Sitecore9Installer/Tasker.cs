@@ -401,7 +401,9 @@ namespace SIM.Sitecore9Installer
       {
         string dafultValue = param.Value["DefaultValue"]?.ToString();
 
-        InstallParam p = new InstallParam(param.Name, dafultValue);
+        string type = param.Value["Type"]?.ToString();
+
+        InstallParam p = new InstallParam(param.Name, dafultValue, type);
         p.Description = param.Value["Description"]?.ToString();
         if (GlobalParams.Any(g => g.Name == p.Name && !string.IsNullOrEmpty(g.Value)))
           p.Value = GlobalParams.First(g => g.Name == p.Name).Value;

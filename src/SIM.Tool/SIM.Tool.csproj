@@ -479,9 +479,14 @@
     <Content Include="GlobalParamsConfig\XP\GlobalParams_9.0.0_XP1.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="GlobalParamsConfig\XM\GlobalParams_9.3_XM1.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="GlobalParamsConfig\XP\GlobalParams_9.2_XP0.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="GlobalParamsConfig\XP\GlobalParams_9.3_XP0.json" />
+    <None Include="GlobalParamsConfig\XP\GlobalParams_9.3_XP1.json" />
     <None Include="packages.config" />
     <Content Include="Packages\Visual Studio 2015 Website Project.manifest.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
