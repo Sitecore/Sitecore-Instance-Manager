@@ -289,7 +289,7 @@ namespace SIM.Tool
 
       try
       {
-        telemetryEventContext.ApplicationID = Guid.Parse(Constants.SitecoreInstanceManagerAppId);
+        telemetryEventContext.ApplicationID = Constants.SitecoreInstanceManagerAppId;
         telemetryEventContext.DeviceId = AnalyticsHelper.GetDeviceId(ApplicationManager.TempFolder);
         telemetryEventContext.AppVersion = string.IsNullOrEmpty(ApplicationManager.AppVersion) ? "0.0.0.0" : ApplicationManager.AppVersion;
         telemetryEventContext.OperatingSystem = Environment.OSVersion.ToString();
