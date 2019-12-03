@@ -1017,9 +1017,16 @@
         }
 
         ICollectionView view = CollectionViewSource.GetDefaultView(source);
-        view.GroupDescriptions.Add(new PropertyGroupDescription("SitecoreEnvironment.Name"));
-        view.SortDescriptions.Add(new SortDescription("SitecoreEnvironment.Name", ListSortDirection.Ascending));
-        view.SortDescriptions.Add(new SortDescription("Name", ListSortDirection.Ascending));
+        if (!view.GroupDescriptions.Any())
+        {
+          view.GroupDescriptions.Add(new PropertyGroupDescription("SitecoreEnvironment.Name"));
+        }
+
+        if (!view.SortDescriptions.Any())
+        {
+          view.SortDescriptions.Add(new SortDescription("SitecoreEnvironment.Name", ListSortDirection.Ascending));
+          view.SortDescriptions.Add(new SortDescription("Name", ListSortDirection.Ascending));
+        }
 
         MainWindow.Instance.InstanceList.DataContext = view;
         MainWindow.Instance.SearchTextBox.Focus();
