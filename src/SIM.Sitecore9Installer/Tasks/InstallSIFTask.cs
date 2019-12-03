@@ -51,31 +51,31 @@ namespace SIM.Sitecore9Installer.Tasks
       "\r\n" +
       "            }";
 
-    private readonly string sifVersion;
-
-    //TO DO This ctor should be removed.
-    public InstallSIFTask(string sifVersion, string repo, Tasker owner) : base("Install SIF " + sifVersion,
-      int.MinValue, owner, new List<InstallParam>(), new Dictionary<string, string>())
-    {
-      this.sifVersion = sifVersion;
-      this.repo = repo;
-      ShouldRun = true;
-    }
-
-    //TO DO Add SIF task to json. sifversion and repo should be passed in the taskOptions. This ctor is not used currently.
+    private readonly string sifVersionInstall;
+    private readonly string sifVersionUnInstall;
+    
     public InstallSIFTask(string taskName, int executionOrder, Tasker owner, List<InstallParam> localParams,
       Dictionary<string, string> taskOptions)
       : base(taskName, executionOrder, owner, localParams, taskOptions)
     {
-      sifVersion = sifVersion;
-      repo = repo;
-      Name = string.Format("Install SIF {0}", sifVersion);
-      ExecutionOrder = int.MinValue;
+      this.sifVersionInstall = this.TaskOptions["InstallVersion"];
+      if (this.TaskOptions.ContainsKey("UninstallVersion"))
+      {
+        this.sifVersionUnInstall = this.TaskOptions["UninstallVersion"];
+      }
+      else
+      {
+        this.sifVersionUnInstall = this.sifVersionInstall;
+      }
+
+      this.repo = this.TaskOptions["Repository"];
+      this.Name = taskName;
+      this.ExecutionOrder = int.MinValue;
     }
 
     public override string GetScript()
     {
-      return scriptTemaplate.Replace("$sifVersion", sifVersion).Replace("$repoAddress", repo);
+      return scriptTemaplate.Replace("$sifVersion", this.UnInstall?this.sifVersionUnInstall:this.sifVersionInstall).Replace("$repoAddress", repo);
     }
   }
 }

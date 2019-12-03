@@ -5,13 +5,13 @@
     public const string Contents = @"<pipelines>
 <reinstall9 title=""Reinstalling the instance"">
     <step>
-      <hive type=""SIM.Pipelines.Install.RunPSTasksProcessor, SIM.Pipelines""  />
+      <hive type=""SIM.Pipelines.Install.RunPSTasksProcessor, SIM.Pipelines"" param=""uninstall"" />
     </step>
     <step>
        <processor type=""SIM.Pipelines.Reinstall.Reinstall9SwitchMode, SIM.Pipelines"" title=""Switch mode to install"" />
     </step>
     <step>
-      <hive type=""SIM.Pipelines.Install.RunPSTasksProcessor, SIM.Pipelines""  />
+      <hive type=""SIM.Pipelines.Install.RunPSTasksProcessor, SIM.Pipelines"" param=""install"" />
     </step>
 </reinstall9>
 
@@ -24,7 +24,7 @@
   </install9>
 <delete9 title=""UnInstalling the instance"">
     <step>
-      <hive type=""SIM.Pipelines.Install.RunPSTasksProcessor, SIM.Pipelines""  />
+      <hive type=""SIM.Pipelines.Install.RunPSTasksProcessor, SIM.Pipelines"" param=""uninstall"" />
     </step>
     <step>
       <processor type=""SIM.Pipelines.Delete.CleanUp, SIM.Pipelines"" title=""Clean Up"" />

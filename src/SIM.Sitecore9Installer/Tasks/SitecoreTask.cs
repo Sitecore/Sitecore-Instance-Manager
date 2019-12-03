@@ -92,10 +92,5 @@ namespace SIM.Sitecore9Installer.Tasks
       installParams.AppendLine("}");
       return installParams.ToString();
     }
-
-    public override bool SupportsUninstall()
-    {
-      return true;
-    }
   }
 }

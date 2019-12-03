@@ -31,7 +31,12 @@ namespace SIM.Sitecore9Installer.Tasks
     public abstract string Run();
     public virtual bool SupportsUninstall()
     {
-      return false;
+      if (this.TaskOptions.TryGetValue("SupportsUninstall", out var value))
+      {
+        return bool.Parse(value);
+      }
+
+      return true;
     }
   }
 }

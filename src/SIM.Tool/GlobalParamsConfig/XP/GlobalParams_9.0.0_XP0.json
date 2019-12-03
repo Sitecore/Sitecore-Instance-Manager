@@ -81,6 +81,15 @@
   },
 
   "ExecSequense": {
+    "InstallSIF": {
+      "Type": "SIM.Sitecore9Installer.Tasks.InstallSIFTask, SIM.Sitecore9Installer",
+      "TaskOptions": {
+        "InstallVersion": "1.2.1",
+        "UninstallVersion": "2.1.0",
+        "Repository": "https://sitecore.myget.org/F/sc-powershell/api/v2"
+      }
+    },
+
     "xconnect-createcert": {
       "Type": "SIM.Sitecore9Installer.Tasks.SitecoreTask, SIM.Sitecore9Installer"
     },
@@ -98,16 +107,16 @@
         "Shard0DatabaseNameSuffix": "_Xdb.Collection.Shard0",
         "Shard1DatabaseNameSuffix": "_Xdb.Collection.Shard1"
       }
-     },
-      "Sitecore-solr": {
-        "Type": "SIM.Sitecore9Installer.Tasks.SitecoreTask, SIM.Sitecore9Installer"
-      },
-      "Sitecore-XP0": {
-        "Type": "SIM.Sitecore9Installer.Tasks.SitecoreTask, SIM.Sitecore9Installer",
-        "Parameters": {
-          "SiteName": "$SqlDbPrefix+\".local\""
-        }
+    },
+    "Sitecore-solr": {
+      "Type": "SIM.Sitecore9Installer.Tasks.SitecoreTask, SIM.Sitecore9Installer"
+    },
+    "Sitecore-XP0": {
+      "Type": "SIM.Sitecore9Installer.Tasks.SitecoreTask, SIM.Sitecore9Installer",
+      "Parameters": {
+        "SiteName": "$SqlDbPrefix+\".local\""
       }
     }
+  }
 
 }

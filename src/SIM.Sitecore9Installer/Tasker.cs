@@ -54,7 +54,6 @@ namespace SIM.Sitecore9Installer
       doc = JObject.Parse(File.ReadAllText(globalParamsFile));
       GlobalParams = GetGlobalParams();
       UnInstall = unInstall;
-      AddInstallSifTask();
       LoadTasks();
     }
 
@@ -96,16 +95,18 @@ namespace SIM.Sitecore9Installer
         int index = taskNameAdnOrder.LastIndexOf('_');
         string taskName = taskNameAdnOrder.Substring(0, index);
         int order = int.Parse(taskNameAdnOrder.Substring(index + 1));
-        SitecoreTask t = new SitecoreTask(taskName, order, this);
-        //t.GlobalParams = this.globalParams;
         using (StreamReader reader = new StreamReader(paramsFile))
         {
           JProperty param = doc["ExecSequense"].Children().Cast<JProperty>().Single(p => p.Name == taskName);
+          string taskType = param.Value["Type"]?.ToString() ?? typeof(SitecoreTask).FullName;
           JToken overridden = param.Value["Parameters"];
           string realName = param.Name;
           if (overridden != null && overridden["RealName"] != null) realName = overridden["RealName"]?.ToString();
-          t.LocalParams = GetTaskParameters(unInstallTasksPath, realName);
+          List<InstallParam> localParams = GetTaskParameters(realName);
+          Dictionary<string, string> taskOptions = GetTaskOptions(param);
 
+          //Each task should have the same ctor (TaskName(string),Order(int),Tasker,LocalParams(List<InstallParams>),TaskOptions(Dictionary<string,string>))
+          Task t = (Task)Activator.CreateInstance(Type.GetType(taskType), param.Name, order, this, localParams, taskOptions);
           string data = reader.ReadToEnd();
           if (!string.IsNullOrWhiteSpace(data))
           {
@@ -122,32 +123,10 @@ namespace SIM.Sitecore9Installer
         }
       }
 
-      AddInstallSifTask();
       Tasks = Tasks.OrderBy(t => t.ExecutionOrder).ToList();
       foreach (InstallParam p in GlobalParams) p.ParamValueUpdated += GlobalParamValueUpdated;
     }
 
-    //public static FileInfo ResolveGlobalFile(string packagePath)
-    //{
-    //  string packageName = Path.GetFileNameWithoutExtension(packagePath);
-    //  string globalSettings = string.Empty;
-    //  using (var reader = new StreamReader(Path.Combine(Directory.GetCurrentDirectory(), "GlobalSettings.json")))
-    //  {
-    //    globalSettings = reader.ReadToEnd();
-    //  }
-
-    //  JObject settingsDoc = JObject.Parse(globalSettings);
-    //  Dictionary<string, string> globalFilesMap = settingsDoc["GlobalFilesMap"].ToObject<Dictionary<string, string>>();
-    //  foreach (string pattern in globalFilesMap.Keys)
-    //  {
-    //    if (Regex.IsMatch(packageName, pattern))
-    //    {
-    //      return new FileInfo(Path.Combine(Directory.GetCurrentDirectory(), globalFilesMap[pattern]));
-    //    }
-    //  }
-
-    //  return null;
-    //}
 
     public string FilesRoot { get; }
 
@@ -166,14 +145,6 @@ namespace SIM.Sitecore9Installer
     }
 
     public string UnInstallParamsPath { get; }
-
-    //TO DO Move InstallSiffTask to JSON with the parameters and remove this method.
-    private void AddInstallSifTask()
-    {
-      string sifVersion = GlobalParams.First(p => p.Name == "SIFVersion").Value;
-      InstallSIFTask installSifTask = new InstallSIFTask(sifVersion, "https://sitecore.myget.org/F/sc-powershell/api/v2", this);
-      Tasks.Add(installSifTask);
-    }
 
     private List<InstallParam> GetGlobalParams()
     {
@@ -387,8 +358,10 @@ namespace SIM.Sitecore9Installer
     public string RunAllTasks()
     {
       StringBuilder results = new StringBuilder();
-      EvaluateGlobalParams();
-      foreach (SitecoreTask task in Tasks.Where(t => t.ShouldRun))
+      this.EvaluateGlobalParams();
+      foreach (SitecoreTask task in this.Tasks.Where(t =>
+        t.ShouldRun && ((this.unInstall && t.SupportsUninstall()) || (!this.unInstall))))
+      {
         try
         {
           results.AppendLine(task.Run());
@@ -399,6 +372,7 @@ namespace SIM.Sitecore9Installer
           results.AppendLine(ex.ToString());
           break;
         }
+      }
 
       return results.ToString().Trim();
     }

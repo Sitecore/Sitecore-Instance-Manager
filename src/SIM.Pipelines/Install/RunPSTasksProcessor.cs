@@ -17,9 +17,10 @@ namespace SIM.Pipelines.Install
       List<Processor> processors = new List<Processor>();
       arguments.Tasker.EvaluateGlobalParams();
       Processor root = null;
+      bool uninstall = this.ParentDefinition.Param.Equals("uninstall", StringComparison.InvariantCultureIgnoreCase);
       foreach (PowerShellTask task in arguments.Tasker.Tasks)
       {
-        if (!task.ShouldRun)
+        if (!task.ShouldRun||(!task.SupportsUninstall()&&uninstall))
         {
           continue;
         }
@@ -48,6 +49,10 @@ namespace SIM.Pipelines.Install
       }
 
       return processors;
+    }
+
+    public RunPSTasksProcessor(ProcessorDefinition parentDefinition) : base(parentDefinition)
+    {
     }
   }
 }
