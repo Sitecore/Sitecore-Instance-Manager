@@ -154,9 +154,18 @@
       {
         try
         {
-          if (!IsSitecore && File.Exists(Path.Combine(ApplicationManager.ProfilesFolder, "Environments.json")))
+          if (!IsSitecore)
           {
-            return true;
+            foreach (SitecoreEnvironment sitecoreEnvironment in SitecoreEnvironmentHelper.SitecoreEnvironments)
+            {
+              foreach (SitecoreEnvironmentMember sitecoreEnvironmentMember in sitecoreEnvironment.Members)
+              {
+                if (sitecoreEnvironmentMember.Name == Name)
+                {
+                  return true;
+                }
+              }
+            }
           }
 
           return false;

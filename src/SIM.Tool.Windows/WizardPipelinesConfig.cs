@@ -204,6 +204,9 @@ By clicking 'Next' you accept the License Agreement."" />
         <step name=""STEP 2 of 2 - SELECT UNINSTALLATION TASKS"" 
               type=""SIM.Tool.Windows.UserControls.Install.Instance9SelectTasks, SIM.Tool.Windows"" />        
      </steps>     
+     <finish>
+         <hive type=""SIM.Tool.Windows.Pipelines.Install.Install9ActionsHive, SIM.Tool.Windows"" />
+     </finish>
     </delete9>
     <reinstall9 title=""Reinstalling {InstanceName}"" startButton=""Reinstall""
              finishText=""The re-installation was successfully completed"">    

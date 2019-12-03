@@ -80,25 +80,7 @@ namespace SIM.Tool.Windows.UserControls.Install
       args.ScriptsOnly = this.scriptsOnly.IsChecked ?? false;
 
       args.ScriptRoot = args.Tasker.GlobalParams.FirstOrDefault(p => p.Name == "FilesRoot").Value;
-      if (!Directory.Exists(args.ScriptRoot))
-      {
-        Directory.CreateDirectory(args.ScriptRoot);
-        WindowHelper.LongRunningTask(() => this.UnpackInstallationFiles(args), "Unpacking unstallation files.", wizardArgs.WizardWindow);
-        WindowHelper.LongRunningTask(() => InstallTasksHelper.CopyCustomSifConfig(args), "Copying custom SIF configuration files to the install folder.", wizardArgs.WizardWindow);
-        WindowHelper.LongRunningTask(() => InstallTasksHelper.AddUninstallTasks(args), "Add Uninstall tasks to the OOB config files.", wizardArgs.WizardWindow);
-      }
-      else
-      {
-        if (MessageBox.Show(string.Format("Path '{0}' already exists. Do you want to overwrite it?", args.ScriptRoot), "Overwrite?", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
-        {
-          Directory.Delete(args.ScriptRoot, true);
-          Directory.CreateDirectory(args.ScriptRoot);
-          WindowHelper.LongRunningTask(() => this.UnpackInstallationFiles(args), "Unpacking unstallation files.", wizardArgs.WizardWindow);
-          WindowHelper.LongRunningTask(() => InstallTasksHelper.CopyCustomSifConfig(args), "Copying custom SIF configuration files to the install folder.", wizardArgs.WizardWindow);
-          WindowHelper.LongRunningTask(() => InstallTasksHelper.AddUninstallTasks(args), "Add Uninstall tasks to the OOB config files.", wizardArgs.WizardWindow);
-        }
-      }
-
+      
       Tasker tasker = args.Tasker;
       tasker.GlobalParams.FirstOrDefault(p => p.Name == "FilesRoot").Value = args.ScriptRoot;
       InstallParam sqlServer = tasker.GlobalParams.FirstOrDefault(p => p.Name == "SqlServer");

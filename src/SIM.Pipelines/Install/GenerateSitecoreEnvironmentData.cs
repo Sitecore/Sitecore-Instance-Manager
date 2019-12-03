@@ -35,7 +35,7 @@ namespace SIM.Pipelines.Install
       SitecoreEnvironment sitecoreEnvironment = new SitecoreEnvironment(sqlDbPrefix);
       sitecoreEnvironment.Members = new List<SitecoreEnvironmentMember>();
 
-      foreach (PowerShellTask powerShellTask in tasker.Tasks)
+      foreach (Task powerShellTask in tasker.Tasks)
       {
         InstallParam installParam = powerShellTask.LocalParams.FirstOrDefault(x => x.Name == SiteName);
         if (installParam != null && !string.IsNullOrEmpty(installParam.Value))
@@ -56,14 +56,8 @@ namespace SIM.Pipelines.Install
 
     private void AddSitecoreEnvironment(SitecoreEnvironment sitecoreEnvironment)
     {
-      List<SitecoreEnvironment> sitecoreEnvironments = SitecoreEnvironmentHelper.SitecoreEnvironments;
-      if (sitecoreEnvironments == null)
-      {
-        sitecoreEnvironments = new List<SitecoreEnvironment>();
-      }
-
       // Do not add new Sitecore environment if its name already exists in the Environments.json file
-      foreach (SitecoreEnvironment se in sitecoreEnvironments)
+      foreach (SitecoreEnvironment se in SitecoreEnvironmentHelper.SitecoreEnvironments)
       {
         if (se.Name == sitecoreEnvironment.Name)
         {
@@ -71,8 +65,8 @@ namespace SIM.Pipelines.Install
         }
       }
 
-      sitecoreEnvironments.Add(sitecoreEnvironment);
-      SitecoreEnvironmentHelper.SaveSitecoreEnvironmentData(sitecoreEnvironments);
+      SitecoreEnvironmentHelper.SitecoreEnvironments.Add(sitecoreEnvironment);
+      SitecoreEnvironmentHelper.SaveSitecoreEnvironmentData(SitecoreEnvironmentHelper.SitecoreEnvironments);
     }
   }
 }

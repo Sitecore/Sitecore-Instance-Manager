@@ -16,20 +16,22 @@
       // Uninstallation tasks should be added only to SC90x parameter files (*.json).      
       var versions = new List<int>() { 900, 901, 902 };
 
-      var scVersionInt = args.InstanceProduct.Release.Version.MajorMinorUpdateInt;
-      Log.Debug($"AddUnInstallationTasks: scVersionInt '{scVersionInt}'");
+      var scVersion = args.Product?.Release?.Version;
+      Log.Debug($"AddUnInstallationTasks: scVersion '{scVersion}'");
 
-      if (!versions.Contains(scVersionInt))
+      if (scVersion == null || !versions.Contains(scVersion.MajorMinorUpdateInt))
       {
         // Starting from SC910 the uninstall tasks are included OOB.
         return;
       }
 
-      var topology = GetTopology(args.Product.Revision);
+      var scVersionInt = scVersion.MajorMinorUpdateInt;
+
+      var topology = GetTopology(args);
 
       if (topology == Topology.Undefined)
       {
-        Log.Warn($"SC topology was not recognized. Revision: {args.Product.Revision}");
+        Log.Warn($"Topology was not recognized.");
         return;
       }
 
@@ -121,13 +123,20 @@
       }
     }
 
-    public static Topology GetTopology(string revision)
+    public static Topology GetTopology(Install9WizardArgs args)
     {
       Topology topology = Topology.Undefined;
 
-      if (revision.Contains(Topology.XP0.ToString())) { topology = Topology.XP0; }
-      else if (revision.Contains(Topology.XP1.ToString())) { topology = Topology.XP1; }
-      else if (revision.Contains(Topology.XM1.ToString())) { topology = Topology.XM1; }
+      var filesToPatch = GetConfigFilesToPatch(args);
+
+      foreach (var fileToPatch in filesToPatch)
+      {
+        var fileName = Path.GetFileNameWithoutExtension(fileToPatch);
+
+        if (fileName.IndexOf(Topology.XP0.ToString(), StringComparison.InvariantCultureIgnoreCase) >= 0) { return Topology.XP0; }
+        else if (fileName.IndexOf(Topology.XP1.ToString(), StringComparison.InvariantCultureIgnoreCase) >= 0) { return Topology.XP1; }
+        else if (fileName.IndexOf(Topology.XM1.ToString(), StringComparison.InvariantCultureIgnoreCase) >= 0) { return Topology.XM1; }
+      }
 
       return topology;
     }
@@ -138,16 +147,20 @@
 
       var customConfigFolderPath = Path.Combine(Directory.GetCurrentDirectory(), customConfigFolderName);
 
-      var topology = GetTopology(args.Product.Revision);
+      var topology = GetTopology(args);
 
       if (topology == Topology.Undefined)
       {
-        Log.Warn($"SC topology could not be recognized. Revision: {args.Product.Revision}");
+        Log.Warn($"SC topology could not be recognized.");
 
         return;
       }
 
-      var sourcePath = Path.Combine(customConfigFolderPath, topology.ToString(), args.InstanceProduct.Release.Version.MajorMinorUpdateInt.ToString());
+      var version = args.Product?.Release?.Version;
+
+      if (version == null) { return; }
+
+      var sourcePath = Path.Combine(customConfigFolderPath, topology.ToString(), version.MajorMinorUpdateInt.ToString());
 
       if (!Directory.Exists(sourcePath))
       {

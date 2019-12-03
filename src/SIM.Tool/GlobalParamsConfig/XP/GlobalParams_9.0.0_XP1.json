@@ -76,9 +76,7 @@
     "xconnect-xp1-collectionsearch": "* (onPrem)_xp1collectionsearch.scwdp.zip",
     "xconnect-xp1-MarketingAutomation": "* (onPrem)_xp1marketingautomation.scwdp.zip",
     "xconnect-xp1-MarketingAutomationReporting": "* (onPrem)_xp1marketingautomationreporting.scwdp.zip",
-    "xconnect-xp1-ReferenceData": "* (onPrem)_xp1referencedata.scwdp.zip",
-    "sitecore-xp1-dds": "* (OnPrem)_dds.scwdp.zip",
-    "sitecore-XP1-cm-dds-patch": "Sitecore.Patch.EXM (OnPrem)_CM.zip"
+    "xconnect-xp1-ReferenceData": "* (onPrem)_xp1referencedata.scwdp.zip"
   },
 
   "ExecSequense": {
@@ -158,19 +156,6 @@
       "Type": "SIM.Sitecore9Installer.Tasks.SitecoreTask, SIM.Sitecore9Installer",
       "Parameters": {
         "SiteName": "$SqlDbPrefix+\"CM.local\""
-      }
-    },
-    "sitecore-xp1-dds": {
-      "Type": "SIM.Sitecore9Installer.Tasks.SitecoreTask, SIM.Sitecore9Installer",
-      "Parameters": {
-        "SiteName": "$SqlDbPrefix+\"DDS.local\""
-      }
-    },
-    "sitecore-XP1-cm-dds-patch": {
-      "Type": "SIM.Sitecore9Installer.Tasks.SitecoreTask, SIM.Sitecore9Installer",
-      "Parameters": {
-        "SiteName": "$SqlDbPrefix+\"CM.local\"",
-        "DedicatedServerHostName": "$SqlDbPrefix+\"DDS.local\""
       }
     }
   }
