@@ -102,7 +102,7 @@ namespace SIM.Sitecore9Installer
           JToken overridden = param.Value["Parameters"];
           string realName = param.Name;
           if (overridden != null && overridden["RealName"] != null) realName = overridden["RealName"]?.ToString();
-          List<InstallParam> localParams = GetTaskParameters(realName);
+          List<InstallParam> localParams = GetTaskParameters(unInstallTasksPath, realName);
           Dictionary<string, string> taskOptions = GetTaskOptions(param);
 
           //Each task should have the same ctor (TaskName(string),Order(int),Tasker,LocalParams(List<InstallParams>),TaskOptions(Dictionary<string,string>))
