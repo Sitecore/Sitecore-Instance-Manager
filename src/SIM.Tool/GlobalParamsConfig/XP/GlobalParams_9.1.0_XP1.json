@@ -141,12 +141,6 @@
     "xconnect-solr": {
       "Type": "SIM.Sitecore9Installer.Tasks.SitecoreTask, SIM.Sitecore9Installer"
     },
-    "xconnect-xp0": {
-      "Type": "SIM.Sitecore9Installer.Tasks.SitecoreTask, SIM.Sitecore9Installer",
-      "Parameters": {
-        "SiteName": "$SqlDbPrefix+\"XConnect.local\""
-      }
-    },
     "xconnect-xp1-collection": {
       "Type": "SIM.Sitecore9Installer.Tasks.SitecoreTask, SIM.Sitecore9Installer",
       "Parameters": {
@@ -191,13 +185,6 @@
     },
     "Sitecore-solr": {
       "Type": "SIM.Sitecore9Installer.Tasks.SitecoreTask, SIM.Sitecore9Installer"
-    },
-    "Sitecore-XP0": {
-      "Type": "SIM.Sitecore9Installer.Tasks.SitecoreTask, SIM.Sitecore9Installer",
-      "Parameters": {
-        "SiteName": "$SqlDbPrefix+\".local\""
-      }
-
     },
     "Sitecore-xp1-cd": {
       "Type": "SIM.Sitecore9Installer.Tasks.SitecoreTask, SIM.Sitecore9Installer",
