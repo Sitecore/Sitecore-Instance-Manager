@@ -1017,9 +1017,20 @@
         }
 
         ICollectionView view = CollectionViewSource.GetDefaultView(source);
-        view.GroupDescriptions.Add(new PropertyGroupDescription("SitecoreEnvironment.Name"));
-        view.SortDescriptions.Add(new SortDescription("SitecoreEnvironment.Name", ListSortDirection.Ascending));
-        view.SortDescriptions.Add(new SortDescription("Name", ListSortDirection.Ascending));
+        if (!view.GroupDescriptions.OfType<PropertyGroupDescription>().Any(x=>x.PropertyName=="SitecoreEnvironment.Name"))
+        {
+          view.GroupDescriptions.Add(new PropertyGroupDescription("SitecoreEnvironment.Name"));
+        }
+
+        if (!view.SortDescriptions.OfType<SortDescription>().Any(x => x.PropertyName == "SitecoreEnvironment.Name"))
+        {
+          view.SortDescriptions.Add(new SortDescription("SitecoreEnvironment.Name", ListSortDirection.Ascending));
+        }
+
+        if (!view.SortDescriptions.OfType<SortDescription>().Any(x => x.PropertyName == "Name"))
+        {
+          view.SortDescriptions.Add(new SortDescription("Name", ListSortDirection.Ascending));
+        }
 
         MainWindow.Instance.InstanceList.DataContext = view;
         MainWindow.Instance.SearchTextBox.Focus();
