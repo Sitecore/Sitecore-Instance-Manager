@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SIM.Sitecore9Installer;
 
 namespace SIM.Pipelines.Delete
 {
@@ -24,6 +25,11 @@ namespace SIM.Pipelines.Delete
       }
 
       Directory.Delete(arguments.Tasker.UnInstallParamsPath, true);
+      InstallParam param = arguments.Tasker.GlobalParams.FirstOrDefault(p => p.Name == "DeployRoot");
+      if (param!=null&&!Directory.GetFileSystemEntries(param.Value).Any())
+      {
+        Directory.Delete(param.Value, true);
+      }
     }
   }
 }

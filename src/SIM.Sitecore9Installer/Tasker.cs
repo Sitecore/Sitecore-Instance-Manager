@@ -76,6 +76,12 @@ namespace SIM.Sitecore9Installer
       doc = JObject.Parse(File.ReadAllText(globalParamsFile));
       mapping = GetPackageMapping();
       GlobalParams = GetGlobalParams();
+      string deployRoot = deserializedGlobalParams.Single(p => p.Name == "DeployRoot")?.Value;
+      if (deployRoot != null)
+      {
+        this.InjectGlobalDeploymentRoot(deployRoot);
+      }
+
       for (int i = 0; i < GlobalParams.Count; ++i)
       {
         InstallParam param = deserializedGlobalParams.FirstOrDefault(p => p.Name == GlobalParams[i].Name);
