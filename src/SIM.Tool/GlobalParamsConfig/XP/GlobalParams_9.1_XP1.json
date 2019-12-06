@@ -220,7 +220,7 @@
       "Type": "SIM.Sitecore9Installer.Tasks.SitecoreTask, SIM.Sitecore9Installer",
       "Parameters": {
         "SiteName": "$SqlDbPrefix+\"CM.local\"",
-        "DedicatedServerHostName": "$SqlDbPrefix+\"DDS.local\""
+        "DedicatedServerHostName": "https://\"+$SqlDbPrefix+\"DDS.local"
       },
       "TaskOptions": {
         "SupportsUninstall": "false"
