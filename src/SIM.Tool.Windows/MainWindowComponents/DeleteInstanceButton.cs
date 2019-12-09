@@ -34,6 +34,7 @@
         var connectionString = ProfileManager.GetConnectionString();
         var args = new DeleteArgs(instance, connectionString);
         args.OnCompleted += () => mainWindow.Dispatcher.Invoke(() => OnPipelineCompleted(args.RootPath));
+
         var index = MainWindowHelper.GetListItemID(instance.ID);
         if (int.Parse(instance.Product.ShortVersion) < 90)
         {

@@ -23,12 +23,12 @@
 
     public Instance Instance { get; }
 
-    public readonly IEnumerable<Database> _InstanceDatabases;
+    public IEnumerable<Database> _InstanceDatabases { get; private set; }
 
-    public long InstanceID { get; }
+    public long InstanceID { get; private set; }
 
-    public readonly ICollection<MongoDbDatabase> _MongoDatabases;
-    private string instanceName { get; }
+    public ICollection<MongoDbDatabase> _MongoDatabases { get; private set; }
+    private string instanceName { get; set; }
 
     #endregion
 
@@ -38,16 +38,21 @@
     {
       Instance = instance;
       Assert.ArgumentNotNull(instance, nameof(instance));
-
       ConnectionString = connectionString.IsNotNull("ConnectionString");
-      InstanceID = instance.ID;
-      _InstanceDatabases = instance.AttachedDatabases;
-      _MongoDatabases = instance.MongoDatabases;
-      InstanceDataFolderPath = instance.DataFolderPath;
-      InstanceBackupsFolder = instance.BackupsFolder;
-      InstanceStop = () => instance.Stop(true);
-      InstanceHostNames = instance.HostNames;
-      instanceName = instance.Name;
+    }
+
+    public void Initialize()
+    {
+      InstanceID = Instance.ID;
+      _InstanceDatabases = Instance.AttachedDatabases;
+      _MongoDatabases = Instance.MongoDatabases;
+      InstanceDataFolderPath = Instance.DataFolderPath;
+      InstanceBackupsFolder = Instance.BackupsFolder;
+      InstanceStop = () => Instance.Stop(true);
+      InstanceHostNames = Instance.HostNames;
+      instanceName = Instance.Name;
+      WebRootPath = Instance.WebRootPath;
+      RootPath = Instance.RootPath;
     }
 
     #endregion

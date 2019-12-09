@@ -146,7 +146,7 @@
     <Compile Include="InstallModules\InstallModulesProcessor.cs" />
     <Compile Include="InstallModules\InstallActions.cs" />
     <Compile Include="InstallModules\StartInstance.cs" />
-    <Compile Include="Delete\CollectData.cs" />
+    <Compile Include="Delete\InitializeArgs.cs" />
     <Compile Include="Delete\DeleteArgs.cs" />
     <Compile Include="Delete\DeleteDatabases.cs" />
     <Compile Include="Delete\DeleteDataFolder.cs" />
