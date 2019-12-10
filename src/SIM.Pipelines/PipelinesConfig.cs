@@ -91,7 +91,7 @@
   </multipleDeletion>
   <delete title=""Deleting the {InstanceName} instance"">
     <step>
-      <processor type=""SIM.Pipelines.Delete.CollectData, SIM.Pipelines"" title=""Collecting data"" />
+      <processor type=""SIM.Pipelines.Delete.InitializeArgs, SIM.Pipelines"" title=""Initializing arguments"" />
     </step>
     <step>
       <processor type=""SIM.Pipelines.Delete.DeleteRegistryKey, SIM.Pipelines"" title=""Deleting registry key"" />

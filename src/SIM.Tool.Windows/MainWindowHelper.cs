@@ -613,7 +613,6 @@
               if (mainWindowButton.IsEnabled(MainWindow.Instance, SelectedInstance) && mainWindowButton.IsVisible(MainWindow.Instance, SelectedInstance))
               {
                 mainWindowButton.OnClick(MainWindow.Instance, SelectedInstance);
-                RefreshInstances();
               }
             }
             catch (Exception ex)
