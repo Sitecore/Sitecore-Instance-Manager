@@ -23,13 +23,6 @@
 
     public Instance Instance { get; }
 
-    public IEnumerable<Database> _InstanceDatabases { get; private set; }
-
-    public long InstanceID { get; private set; }
-
-    public ICollection<MongoDbDatabase> _MongoDatabases { get; private set; }
-    private string instanceName { get; set; }
-
     #endregion
 
     #region Constructors
@@ -44,13 +37,13 @@
     public void Initialize()
     {
       InstanceID = Instance.ID;
-      _InstanceDatabases = Instance.AttachedDatabases;
-      _MongoDatabases = Instance.MongoDatabases;
+      InstanceDatabases = Instance.AttachedDatabases;
+      MongoDatabases = Instance.MongoDatabases;
       InstanceDataFolderPath = Instance.DataFolderPath;
       InstanceBackupsFolder = Instance.BackupsFolder;
       InstanceStop = () => Instance.Stop(true);
       InstanceHostNames = Instance.HostNames;
-      instanceName = Instance.Name;
+      InstanceName = Instance.Name;
       WebRootPath = Instance.WebRootPath;
       RootPath = Instance.RootPath;
     }
@@ -74,15 +67,15 @@
 
     public IEnumerable<string> InstanceHostNames { get; set; }
 
-    public string InstanceName
-    {
-      get
-      {
-        return instanceName;
-      }
-    }
+    public string InstanceName { get; private set; }
 
     public Action InstanceStop { get; set; }
+
+    public IEnumerable<Database> InstanceDatabases { get; private set; }
+
+    public long InstanceID { get; private set; }
+
+    public ICollection<MongoDbDatabase> MongoDatabases { get; private set; }
 
     #endregion
   }
