@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -55,7 +57,8 @@ namespace SIM.Sitecore9Installer
       }
     }
 
-    public InstallParamType Type { get; private set; }
+    [JsonConverter(typeof(StringEnumConverter))]
+    public InstallParamType Type { get; set; }
     public string Description { get; set; }
     public virtual string GetParameterValue()
     {
