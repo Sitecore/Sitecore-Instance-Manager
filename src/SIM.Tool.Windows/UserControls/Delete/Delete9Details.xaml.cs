@@ -1,3 +1,5 @@
+using System.Text;
+
 namespace SIM.Tool.Windows.UserControls.Install
 {
   using System;
@@ -145,15 +147,13 @@ namespace SIM.Tool.Windows.UserControls.Install
     {
       var args = (Delete9WizardArgs)wizardArgs;
       args.Tasker = new Tasker(args.UnInstallPath);
-      this.Solrs.DataContext = ProfileManager.Profile.Solrs;
-      string solrRoot = args.Tasker.GlobalParams.FirstOrDefault(p => p.Name == "SolrRoot")?.Value;
-      string solrUrl= args.Tasker.GlobalParams.FirstOrDefault(p => p.Name == "SolrUrl")?.Value;
-      string solrService = args.Tasker.GlobalParams.FirstOrDefault(p => p.Name == "SolrService")?.Value;
-      SolrDefinition solr = ProfileManager.Profile.Solrs.FirstOrDefault(s => s.Root == solrRoot && s.Url == solrUrl && s.Service == solrService);
-      this.Solrs.SelectedItem = solr;
-      this.InstanceName.Text = args.Tasker.GlobalParams.First(p => p.Name == "SqlDbPrefix").Value;
-      args.Tasker.UnInstall = true;
+      StringBuilder displayText = new StringBuilder();
+      foreach (var task in args.Tasker.Tasks.Where(t => t.SupportsUninstall()))
+      {
+        displayText.AppendLine(string.Format(" -{0}", task.Name));
+      }
 
+      this.TextBlock.Text = displayText.ToString();
     }
 
     bool IWizardStep.SaveChanges(WizardArgs wizardArgs)
