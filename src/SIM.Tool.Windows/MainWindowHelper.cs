@@ -401,7 +401,6 @@
           if (mainWindowButton != null && mainWindowButton.IsEnabled(MainWindow.Instance, SelectedInstance))
           {
             mainWindowButton.OnClick(MainWindow.Instance, SelectedInstance);
-            RefreshInstances();
           }
         }
         catch (Exception ex)
@@ -517,7 +516,6 @@
               if (menuHandler.IsEnabled(MainWindow.Instance, SelectedInstance) && menuHandler.IsVisible(MainWindow.Instance, SelectedInstance))
               {
                 menuHandler.OnClick(MainWindow.Instance, SelectedInstance);
-                RefreshInstances();
               }
             }
             catch (Exception ex)

@@ -69,6 +69,8 @@
           ResizeMode = ResizeMode.CanMinimize;
         }
       }
+
+      Initialize();
     }
 
     #endregion
@@ -313,6 +315,29 @@
     #endregion
 
     #region Private methods
+    private void Initialize()
+    {
+      try
+      {
+        StepInfo[] sis = WizardPipeline._StepInfos;
+        foreach (StepInfo stepInfo in sis)
+        {
+          AddStepToWizard(stepInfo);
+        }
+
+        PageNumber = 0;
+
+        InitializeStep();
+        var title = ReplaceVariables(WizardPipeline.Title);
+        Title = title;
+        Header.Text = title;
+      }
+      catch (Exception ex)
+      {
+        WindowHelper.HandleError("Error occured while wizard loading", true, ex);
+        Close();
+      }
+    }
 
     private static IEnumerable<T> FindVisualChildren<T>(DependencyObject depObj) where T : DependencyObject
     {
@@ -871,26 +896,6 @@
 
     private void WindowLoaded(object sender, RoutedEventArgs e)
     {
-      try
-      {
-        StepInfo[] sis = WizardPipeline._StepInfos;
-        foreach (StepInfo stepInfo in sis)
-        {
-          AddStepToWizard(stepInfo);
-        }
-
-        PageNumber = 0;
-
-        InitializeStep();
-        var title = ReplaceVariables(WizardPipeline.Title);
-        Title = title;
-        Header.Text = title;
-      }
-      catch (Exception ex)
-      {
-        WindowHelper.HandleError("Error occured while wizard loading", true, ex);
-        Close();
-      }
     }
 
     #endregion
