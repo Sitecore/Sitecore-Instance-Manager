@@ -30,6 +30,7 @@
     public DeleteArgs([NotNull] Instance instance, [NotNull] SqlConnectionStringBuilder connectionString)
     {
       Instance = instance;
+      InstanceName = Instance.Name;
       Assert.ArgumentNotNull(instance, nameof(instance));
       ConnectionString = connectionString.IsNotNull("ConnectionString");
     }
@@ -43,7 +44,6 @@
       InstanceBackupsFolder = Instance.BackupsFolder;
       InstanceStop = () => Instance.Stop(true);
       InstanceHostNames = Instance.HostNames;
-      InstanceName = Instance.Name;
       WebRootPath = Instance.WebRootPath;
       RootPath = Instance.RootPath;
     }
