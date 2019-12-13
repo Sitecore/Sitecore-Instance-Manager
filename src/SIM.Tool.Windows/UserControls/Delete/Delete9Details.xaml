@@ -13,7 +13,7 @@
             <RowDefinition Height="10"></RowDefinition>
             <RowDefinition Height="20"></RowDefinition>
         </Grid.RowDefinitions>
-        <TextBlock Grid.Row="0" Text="Deleting:" HorizontalAlignment="Left" Height="16" VerticalAlignment="Center"></TextBlock>
+        <TextBlock Grid.Row="0" Name="ListHeader"  HorizontalAlignment="Left" Height="16" VerticalAlignment="Center"></TextBlock>
         <TextBox Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Top" Name="TextBlock" TextWrapping="Wrap" 
                  VerticalScrollBarVisibility="Auto" IsReadOnly="True" BorderThickness="0" Background="Transparent" />
         <TextBlock  VerticalAlignment="Center" HorizontalAlignment="Left" Text="Scripts only:" Height="16"  Grid.Row="3" />

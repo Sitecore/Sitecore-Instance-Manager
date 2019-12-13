@@ -775,6 +775,10 @@
       <Project>{5c870ab3-89f2-4e24-ae5d-3593ec816495}</Project>
       <Name>SIM.Sitecore9Installer</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SIM.SitecoreEnvironments\SIM.SitecoreEnvironments.csproj">
+      <Project>{8A60BF81-02D6-4449-8B9F-572BA4051C82}</Project>
+      <Name>SIM.SitecoreEnvironments</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SIM.Tool.Base\SIM.Tool.Base.csproj">
       <Project>{EF380B2A-1171-4A9F-96D0-176ABA6CAD74}</Project>
       <Name>SIM.Tool.Base</Name>
