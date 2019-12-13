@@ -108,6 +108,11 @@ namespace SIM.Tool.Windows.UserControls.Install
       args.Product = product;
 
       SolrDefinition solr = this.Solrs.SelectedItem as SolrDefinition;
+      if (solr == null)
+      {
+        WindowHelper.ShowMessage("Please provide solr");
+        return false;
+      }
 
       args.SolrUrl = solr.Url; //this.solrUrl.Text;
       args.SorlRoot = solr.Root; //this.solrRoot.Text;
@@ -135,6 +140,12 @@ namespace SIM.Tool.Windows.UserControls.Install
       string rootPath = this.LocationText.Text; 
       if (!args.ScriptsOnly)
       {
+        if (string.IsNullOrWhiteSpace(rootPath))
+        {
+          WindowHelper.ShowMessage("Please specify location.");
+          return false;
+        }
+
         if (SIM.FileSystem.FileSystem.Local.Directory.Exists(rootPath))
         {
           if (Directory.EnumerateFileSystemEntries(rootPath).Any())
