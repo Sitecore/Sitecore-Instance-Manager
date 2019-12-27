@@ -110,7 +110,7 @@ namespace SIM.Tool.Windows.UserControls.Install
       SolrDefinition solr = this.Solrs.SelectedItem as SolrDefinition;
       if (solr == null)
       {
-        WindowHelper.ShowMessage("Please provide solr");
+        WindowHelper.ShowMessage("Please provide solr.");
         return false;
       }
 
