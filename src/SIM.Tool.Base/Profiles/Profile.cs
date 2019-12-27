@@ -13,6 +13,16 @@
 
   public class Profile : DataObject, IProfile, ICloneable
   {
+    #region Constructors
+
+    public Profile()
+    {
+      Solrs = new List<SolrDefinition>();
+      VersionToSolrMap = new List<VersionToSolr>();
+    }
+
+    #endregion
+
     #region Properties
 
     #region Public properties

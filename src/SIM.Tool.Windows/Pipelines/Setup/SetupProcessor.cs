@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-
+﻿
 namespace SIM.Tool.Windows.Pipelines.Setup
 {
   using SIM.Pipelines.Processors;
@@ -17,8 +16,6 @@ namespace SIM.Tool.Windows.Pipelines.Setup
       profile.InstancesFolder = args.InstancesRootFolderPath;
       profile.License = args.LicenseFilePath;
       profile.LocalRepository = args.LocalRepositoryFolderPath;
-      profile.Solrs=new List<SolrDefinition>();
-      profile.VersionToSolrMap=new List<VersionToSolr>();
       ProfileManager.SaveChanges(profile);
     }
 
