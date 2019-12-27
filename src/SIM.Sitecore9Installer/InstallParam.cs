@@ -23,7 +23,7 @@ namespace SIM.Sitecore9Installer
 
     private InstallParamType ParseInstallParamType(string type)
     {
-      switch (type.ToLower())
+      switch (type?.ToLower())
       {
         case "bool":
           {
