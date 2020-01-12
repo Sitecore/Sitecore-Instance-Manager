@@ -19,7 +19,7 @@ namespace SIM.Pipelines.Delete
     {
       Assert.ArgumentNotNull(args, nameof(args));
 
-      var detectedDatabases = args._MongoDatabases;
+      var detectedDatabases = args.MongoDatabases;
 
       DeleteDatabasesHelper.Process(detectedDatabases, _Done);
     }

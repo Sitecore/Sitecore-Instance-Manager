@@ -6,7 +6,7 @@
   {
     #region Public Methods and Operators
 
-    public override IEnumerable<Processor> CreateProcessors(ProcessorArgs args)
+    public override IEnumerable<Processor> CreateProcessors(ProcessorArgs args, IPipelineController controller)
     {
       return new[]
       {

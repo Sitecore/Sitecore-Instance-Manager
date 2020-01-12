@@ -24,11 +24,14 @@
       return true;
     }
 
+    public bool IsVisible([CanBeNull] Window mainWindow, Instance instance)
+    {
+      return true;
+    }
+
     public void OnClick(Window mainWindow, Instance instance)
     {
       Assert.ArgumentNotNull(mainWindow, nameof(mainWindow));
-
-      Analytics.TrackEvent("Import");
 
       var fileDialog = new OpenFileDialog
       {

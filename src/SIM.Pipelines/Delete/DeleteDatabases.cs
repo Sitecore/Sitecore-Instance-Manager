@@ -24,7 +24,7 @@
     {
       Assert.ArgumentNotNull(args, nameof(args));
 
-      IEnumerable<Database> detectedDatabases = args._InstanceDatabases;
+      IEnumerable<Database> detectedDatabases = args.InstanceDatabases;
       var rootPath = args.RootPath.ToLower();
       var connectionString = args.ConnectionString;
       var instanceName = args.InstanceName;

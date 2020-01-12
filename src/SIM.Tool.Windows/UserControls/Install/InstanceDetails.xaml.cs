@@ -42,6 +42,7 @@ namespace SIM.Tool.Windows.UserControls.Install
 
     private InstallWizardArgs _InstallParameters = null;
     private IEnumerable<Product> _StandaloneProducts;
+    private string maximumAllowedVersion = "8.2.7";
 
     #endregion
 
@@ -306,8 +307,24 @@ namespace SIM.Tool.Windows.UserControls.Install
       using (new ProfileSection("Initializing InstanceDetails", this))
       {
         DataContext = new Model();
-        _StandaloneProducts = ProductManager.StandaloneProducts;
+        _StandaloneProducts = ProductManager.StandaloneProducts.Where(p=> IsAllowedProductVersion(p)).ToArray();
       }
+    }
+
+    private bool IsAllowedProductVersion([NotNull] Product product)
+    {
+      Version productVersion;
+
+      if (!Version.TryParse(product.TriVersion, out productVersion))
+      {
+        Log.Warn($"'{product.TriVersion}' cannot be parsed to System.Version.");
+
+        return false;
+      }
+
+      var maxAllowedVersion = Version.Parse(this.maximumAllowedVersion);
+
+      return productVersion <= maxAllowedVersion;
     }
 
     private void InstanceNameTextChanged([CanBeNull] object sender, [CanBeNull] TextChangedEventArgs e)

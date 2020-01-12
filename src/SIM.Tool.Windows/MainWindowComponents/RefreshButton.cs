@@ -72,10 +72,13 @@
       return true;
     }
 
+    public bool IsVisible(Window mainWindow, Instance instance)
+    {
+      return true;
+    }
+
     public void OnClick(Window mainWindow, Instance instance)
     {
-      Analytics.TrackEvent("Refresh");
-
       using (new ProfileSection("Refresh main window instances", this))
       {
         ProfileSection.Argument("mainWindow", mainWindow);

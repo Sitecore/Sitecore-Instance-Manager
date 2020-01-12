@@ -30,6 +30,9 @@
   using SIM.Extensions;
   using SIM.Tool.Base.Pipelines;
 
+  using System.ComponentModel;
+  using System.Windows.Data;
+
   #region
 
   #endregion
@@ -285,41 +288,57 @@
       Assert.ArgumentNotNull(license, nameof(license));
       Assert.ArgumentNotNull(connectionString, nameof(connectionString));
 
-      if (instance.IsSitecore)
+      if (instance.IsSitecore || instance.IsSitecoreEnvironmentMember)
       {
-        Product product = instance.Product;
-        if (string.IsNullOrEmpty(product.PackagePath))
+        if (int.Parse(instance.Product.ShortVersion) < 90)
         {
-          if (WindowHelper.ShowMessage("The {0} product isn't presented in your local repository. Would you like to choose the zip installation package?".FormatWith(instance.ProductFullName), MessageBoxButton.YesNo, MessageBoxImage.Stop) == MessageBoxResult.Yes)
+          Product product = instance.Product;
+          if (string.IsNullOrEmpty(product.PackagePath))
           {
-            var patt = instance.ProductFullName + ".zip";
-            OpenFileDialog fileBrowserDialog = new OpenFileDialog
+            if (WindowHelper.ShowMessage("The {0} product isn't presented in your local repository. Would you like to choose the zip installation package?".FormatWith(instance.ProductFullName), MessageBoxButton.YesNo, MessageBoxImage.Stop) == MessageBoxResult.Yes)
             {
-              Title = @"Choose installation package",
-              Multiselect = false,
-              CheckFileExists = true,
-              Filter = patt + '|' + patt
-            };
-
-            if (fileBrowserDialog.ShowDialog() == DialogResult.OK)
-            {
-              product = Product.Parse(fileBrowserDialog.FileName);
-              if (string.IsNullOrEmpty(product.PackagePath))
+              var patt = instance.ProductFullName + ".zip";
+              OpenFileDialog fileBrowserDialog = new OpenFileDialog
               {
-                WindowHelper.HandleError("SIM can't parse the {0} package".FormatWith(instance.ProductFullName), true, null);
-                return;
+                Title = @"Choose installation package",
+                Multiselect = false,
+                CheckFileExists = true,
+                Filter = patt + '|' + patt
+              };
+
+              if (fileBrowserDialog.ShowDialog() == DialogResult.OK)
+              {
+                product = Product.Parse(fileBrowserDialog.FileName);
+                if (string.IsNullOrEmpty(product.PackagePath))
+                {
+                  WindowHelper.HandleError("SIM can't parse the {0} package".FormatWith(instance.ProductFullName), true, null);
+                  return;
+                }
               }
             }
           }
-        }
 
-        if (string.IsNullOrEmpty(product.PackagePath))
-        {
-          return;
+          if (string.IsNullOrEmpty(product.PackagePath))
+          {
+            return;
+          }
         }
 
         var name = instance.Name;
         WizardPipelineManager.Start("reinstall", owner, null, null, ignore => MakeInstanceSelected(name), () => new ReinstallWizardArgs(instance, connectionString, license));
+      }
+    }
+
+    public static void Reinstall9Instance([NotNull] Instance instance, Window owner, [NotNull] string license, [NotNull] SqlConnectionStringBuilder connectionString)
+    {
+      Assert.ArgumentNotNull(instance, nameof(instance));
+      Assert.ArgumentNotNull(license, nameof(license));
+      Assert.ArgumentNotNull(connectionString, nameof(connectionString));
+
+      if (instance.IsSitecore || instance.IsSitecoreEnvironmentMember)
+      {       
+        var name = instance.Name;
+        WizardPipelineManager.Start("reinstall9", owner, null, null, ignore => MakeInstanceSelected(name), () => new ReinstallWizardArgs(instance, connectionString, license));
       }
     }
 
@@ -382,7 +401,6 @@
           if (mainWindowButton != null && mainWindowButton.IsEnabled(MainWindow.Instance, SelectedInstance))
           {
             mainWindowButton.OnClick(MainWindow.Instance, SelectedInstance);
-            RefreshInstances();
           }
         }
         catch (Exception ex)
@@ -476,7 +494,8 @@
           var menuButton = new Fluent.MenuItem()
           {
             Header = menuHeader,
-            IsEnabled = menuHandler?.IsEnabled(window, SelectedInstance) ?? true
+            IsEnabled = menuHandler?.IsEnabled(window, SelectedInstance) ?? true,
+            Visibility = menuHandler != null && menuHandler.IsEnabled(window, SelectedInstance) ? Visibility.Visible : Visibility.Collapsed
           };
 
           if (menuIcon != null)
@@ -486,17 +505,17 @@
 
           if (menuHandler != null)
           {
-            // bind IsEnabled event
+            // bind IsEnabled and IsVisible events
             SetIsEnabledProperty(menuButton, menuHandler);
+            SetIsVisibleProperty(menuButton, menuHandler);
 
             menuButton.Click += delegate
           {
             try
             {
-              if (menuHandler.IsEnabled(MainWindow.Instance, SelectedInstance))
+              if (menuHandler.IsEnabled(MainWindow.Instance, SelectedInstance) && menuHandler.IsVisible(MainWindow.Instance, SelectedInstance))
               {
                 menuHandler.OnClick(MainWindow.Instance, SelectedInstance);
-                RefreshInstances();
               }
             }
             catch (Exception ex)
@@ -579,6 +598,7 @@
             Height = 16
           },
           IsEnabled = mainWindowButton == null || mainWindowButton.IsEnabled(window, SelectedInstance),
+          Visibility = mainWindowButton != null && mainWindowButton.IsVisible(window, SelectedInstance) ? Visibility.Visible : Visibility.Collapsed,
           Tag = mainWindowButton
         };
 
@@ -588,10 +608,9 @@
           {
             try
             {
-              if (mainWindowButton.IsEnabled(MainWindow.Instance, SelectedInstance))
+              if (mainWindowButton.IsEnabled(MainWindow.Instance, SelectedInstance) && mainWindowButton.IsVisible(MainWindow.Instance, SelectedInstance))
               {
                 mainWindowButton.OnClick(MainWindow.Instance, SelectedInstance);
-                RefreshInstances();
               }
             }
             catch (Exception ex)
@@ -601,6 +620,7 @@
           };
 
           SetIsEnabledProperty(menuItem, mainWindowButton);
+          SetIsVisibleProperty(menuItem, mainWindowButton);
         }
 
         foreach (var childElement in menuItemElement.Buttons ?? new ButtonDefinition[0])
@@ -647,12 +667,14 @@
             ribbonButton.Width = d;
           }
 
-          // bind IsEnabled event
+          // bind IsEnabled and IsVisible events
           if (mainWindowButton != null)
           {
             ribbonButton.Tag = mainWindowButton;
             ribbonButton.IsEnabled = mainWindowButton.IsEnabled(window, SelectedInstance);
+            ribbonButton.Visibility = mainWindowButton.IsVisible(window, SelectedInstance) ? Visibility.Visible : Visibility.Collapsed;
             SetIsEnabledProperty(ribbonButton, mainWindowButton);
+            SetIsVisibleProperty(ribbonButton, mainWindowButton);
           }
         }
         catch (Exception ex)
@@ -700,7 +722,16 @@
     {
       ribbonButton.SetBinding(UIElement.IsEnabledProperty, new System.Windows.Data.Binding("SelectedItem")
       {
-        Converter = new CustomConverter(mainWindowButton),
+        Converter = new CustomEnabledConverter(mainWindowButton),
+        ElementName = "InstanceList"
+      });
+    }
+
+    private static void SetIsVisibleProperty(FrameworkElement ribbonButton, IMainWindowButton mainWindowButton)
+    {
+      ribbonButton.SetBinding(UIElement.VisibilityProperty, new System.Windows.Data.Binding("SelectedItem")
+      {
+        Converter = new CustomVisibilityConverter(mainWindowButton),
         ElementName = "InstanceList"
       });
     }
@@ -792,13 +823,141 @@
     {
       using (new ProfileSection("Main window instance selected handler"))
       {
-        if (SelectedInstance != null && MainWindow.Instance.HomeTab.IsSelected)
+        if (SelectedInstance != null)
         {
-          MainWindow.Instance.OpenTab.IsSelected = true;
+          if (MainWindow.Instance.HomeTab.IsSelected)
+          {
+            MainWindow.Instance.OpenTab.IsSelected = true;
+          }
+
+          ShowContextMenuItems(SelectedInstance);
+          HideContextMenuItems(SelectedInstance);
         }
       }
     }
 
+    private static bool IsSitecoreMember(Instance selectedInstance)
+    {
+      if (selectedInstance.Product == Product.Undefined || selectedInstance.Product.Release == null)
+      {
+        return true;
+      }
+
+      return false;
+    }
+
+    private static bool IsSitecore9(Instance selectedInstance)
+    {
+      if (selectedInstance.Product.Release.Version.MajorMinorInt >= 90)
+      {
+        return true;
+      }
+
+      return false;
+    }
+
+    private static bool IsSitecore91(Instance selectedInstance)
+    {
+      if (selectedInstance.Product.Release.Version.MajorMinorInt >= 91)
+      {
+        return true;
+      }
+
+      return false;
+    }
+
+    public static bool IsEnabledOrVisibleButtonForSitecore91AndMember(Instance selectedInstance)
+    {
+      if (selectedInstance != null && (IsSitecoreMember(selectedInstance) || IsSitecore91(selectedInstance)))
+      {
+        return false;
+      }
+
+      return true;
+    }
+
+    public static bool IsEnabledOrVisibleButtonForSitecore9AndMember(Instance selectedInstance)
+    {
+      if (selectedInstance != null && (IsSitecoreMember(selectedInstance) || IsSitecore9(selectedInstance)))
+      {
+        return false;
+      }
+
+      return true;
+    }
+
+    public static bool IsEnabledOrVisibleButtonForSitecoreMember(Instance selectedInstance)
+    {
+      if (selectedInstance != null && IsSitecoreMember(selectedInstance))
+      {
+        return false;
+      }
+
+      return true;
+    }
+
+    private static void ShowContextMenuItems(Instance selectedInstance)
+    {
+      ShowHideContextMenuItemsForSitecore9(Visibility.Visible);
+      ShowHideContextMenuItemsForSitecore9EnvironmentMember(Visibility.Visible);
+    }
+
+    private static void HideContextMenuItems(Instance selectedInstance)
+    {
+      if (IsSitecoreMember(selectedInstance))
+      {
+        ShowHideContextMenuItemsForSitecore9(Visibility.Collapsed);
+        ShowHideContextMenuItemsForSitecore9EnvironmentMember(Visibility.Collapsed);
+
+        return;
+      }
+
+      if (IsSitecore9(selectedInstance))
+      {
+        ShowHideContextMenuItemsForSitecore9(Visibility.Collapsed);
+      }
+    }
+
+    private static void ShowHideContextMenuItemsForSitecore9(Visibility visibility)
+    {
+      for (int i = 0; i < MainWindow.Instance.ContextMenu.Items.Count; i++)
+      {
+        if (MainWindow.Instance.ContextMenu.Items[i] is System.Windows.Controls.MenuItem &&
+            ((MainWindow.Instance.ContextMenu.Items[i] as System.Windows.Controls.MenuItem).Header == "Backup" ||
+            (MainWindow.Instance.ContextMenu.Items[i] as System.Windows.Controls.MenuItem).Header == "Restore" ||
+            (MainWindow.Instance.ContextMenu.Items[i] as System.Windows.Controls.MenuItem).Header == "Export" ||
+            (MainWindow.Instance.ContextMenu.Items[i] as System.Windows.Controls.MenuItem).Header == "Install modules"))
+        {
+          (MainWindow.Instance.ContextMenu.Items[i] as System.Windows.Controls.MenuItem).Visibility = visibility;
+          if (MainWindow.Instance.ContextMenu.Items[i+1] is System.Windows.Controls.Separator)
+          {
+            (MainWindow.Instance.ContextMenu.Items[i+1] as System.Windows.Controls.Separator).Visibility = visibility;
+          }
+        }
+      }
+    }
+
+    private static void ShowHideContextMenuItemsForSitecore9EnvironmentMember(Visibility visibility)
+    {
+      for (int i = 0; i < MainWindow.Instance.ContextMenu.Items.Count; i++)
+      {
+        if (MainWindow.Instance.ContextMenu.Items[i] is System.Windows.Controls.MenuItem &&
+            ((MainWindow.Instance.ContextMenu.Items[i] as System.Windows.Controls.MenuItem).Header == "Browse Sitecore Client" ||
+             (MainWindow.Instance.ContextMenu.Items[i] as System.Windows.Controls.MenuItem).Header == "Log in admin" ||
+             (MainWindow.Instance.ContextMenu.Items[i] as System.Windows.Controls.MenuItem).Header == "Sitecore Admin" ||
+             (MainWindow.Instance.ContextMenu.Items[i] as System.Windows.Controls.MenuItem).Header == "Open Visual Studio" ||
+             (MainWindow.Instance.ContextMenu.Items[i] as System.Windows.Controls.MenuItem).Header == "Analyze log files" ||
+             (MainWindow.Instance.ContextMenu.Items[i] as System.Windows.Controls.MenuItem).Header == "Open log file" ||
+             (MainWindow.Instance.ContextMenu.Items[i] as System.Windows.Controls.MenuItem).Header == "Publish Site"))
+        {
+          (MainWindow.Instance.ContextMenu.Items[i] as System.Windows.Controls.MenuItem).Visibility = visibility;
+          if (MainWindow.Instance.ContextMenu.Items[i + 1] is System.Windows.Controls.Separator)
+          {
+            (MainWindow.Instance.ContextMenu.Items[i + 1] as System.Windows.Controls.Separator).Visibility = visibility;
+          }
+        }
+      }
+    }
     // private static void SetupInstanceRestoreButton(string webRootPath)
     // {
     // using (new ProfileSection("MainWindowHelper:SetupInstanceRestoreButton()"))
@@ -854,8 +1013,23 @@
           source = source.Where(instance => IsInstanceMatch(instance, searchPhrase));
         }
 
-        source = source.OrderBy(instance => instance.Name);
-        MainWindow.Instance.InstanceList.DataContext = source;
+        ICollectionView view = CollectionViewSource.GetDefaultView(source);
+        if (!view.GroupDescriptions.OfType<PropertyGroupDescription>().Any(x=>x.PropertyName=="SitecoreEnvironment.Name"))
+        {
+          view.GroupDescriptions.Add(new PropertyGroupDescription("SitecoreEnvironment.Name"));
+        }
+
+        if (!view.SortDescriptions.OfType<SortDescription>().Any(x => x.PropertyName == "SitecoreEnvironment.Name"))
+        {
+          view.SortDescriptions.Add(new SortDescription("SitecoreEnvironment.Name", ListSortDirection.Ascending));
+        }
+
+        if (!view.SortDescriptions.OfType<SortDescription>().Any(x => x.PropertyName == "Name"))
+        {
+          view.SortDescriptions.Add(new SortDescription("Name", ListSortDirection.Ascending));
+        }
+
+        MainWindow.Instance.InstanceList.DataContext = view;
         MainWindow.Instance.SearchTextBox.Focus();
       }
     }
