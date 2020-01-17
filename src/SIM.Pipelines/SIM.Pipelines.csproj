@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{B7B4C7A0-1ED3-4F96-8630-2F9FDC55CD51}</ProjectGuid>
+    <ProjectGuid>{7A3FEDF8-DF96-4426-AA01-C2D4FD3E68C8}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SIM.Pipelines</RootNamespace>
@@ -16,38 +16,38 @@
     <LangVersion>6</LangVersion>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE;JETBRAINS_ANNOTATIONS</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
+  <PropertyGroup>
+    <StartupObject />
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <LangVersion>6</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE;JETBRAINS_ANNOTATIONS</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <LangVersion>6</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Ionic.Zip.Reduced, Version=1.9.1.8, Culture=neutral, PublicKeyToken=edbe51ad942a3f5c, processorArchitecture=MSIL">
       <HintPath>..\packages\DotNetZip.Reduced.1.9.1.8\lib\net20\Ionic.Zip.Reduced.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="JetBrains.Annotations, Version=2019.1.1.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
-      <HintPath>..\packages\JetBrains.Annotations.2019.1.1\lib\net20\JetBrains.Annotations.dll</HintPath>
+    <Reference Include="JetBrains.Annotations, Version=11.1.0.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
+      <HintPath>..\packages\JetBrains.Annotations.11.1.0\lib\net20\JetBrains.Annotations.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Web.Administration, Version=7.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+    <Reference Include="Microsoft.Web.Administration, Version=7.9.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Web.Administration.7.0.0.0\lib\net20\Microsoft.Web.Administration.dll</HintPath>
       <SpecificVersion>False</SpecificVersion>
       <Private>True</Private>
@@ -60,11 +60,11 @@
       <HintPath>..\packages\mongocsharpdriver.1.10.1\lib\net35\MongoDB.Driver.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Sitecore.Diagnostics.Base, Version=2.0.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Sitecore.Diagnostics.Base.2.0.2.0\lib\Sitecore.Diagnostics.Base.dll</HintPath>
+    <Reference Include="Sitecore.Diagnostics.Base, Version=2.0.1.171, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Sitecore.Diagnostics.Base.2.0.1.171\lib\Sitecore.Diagnostics.Base.dll</HintPath>
     </Reference>
-    <Reference Include="Sitecore.Diagnostics.Logging, Version=2.0.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Sitecore.Diagnostics.Logging.2.0.2.0\lib\Sitecore.Diagnostics.Logging.dll</HintPath>
+    <Reference Include="Sitecore.Diagnostics.Logging, Version=2.0.1.171, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Sitecore.Diagnostics.Logging.2.0.1.171\lib\Sitecore.Diagnostics.Logging.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -91,13 +91,19 @@
     <Compile Include="Backup\BackupProcessor.cs" />
     <Compile Include="ConditionEvaluator.cs" />
     <Compile Include="ConfigurationActions.cs" />
+    <Compile Include="Delete\CleanUp.cs" />
     <Compile Include="Delete\DeleteMongoDatabases.cs" />
     <Compile Include="Delete\DeleteRegistryKey.cs" />
+    <Compile Include="Delete\DeleteSitecoreEnvironmentData.cs" />
     <Compile Include="Export\ExportMongoDatabases.cs" />
     <Compile Include="Import\ImportHostNames.cs" />
     <Compile Include="Import\ImportRestoreMongoDatabases.cs" />
     <Compile Include="Import\UpdateConnectionStrings.cs" />
     <Compile Include="Import\UpdateDataFolder.cs" />
+    <Compile Include="Install\GenerateScriptProcessor.cs" />
+    <Compile Include="Install\GenerateSitecoreEnvironmentData.cs" />
+    <Compile Include="Install\GenerateUnInstallParameters.cs" />
+    <Compile Include="Install\Install9Args.cs" />
     <Compile Include="InstallHelper.cs" />
     <Compile Include="InstallModules\IPackageInstallActions.cs" />
     <Compile Include="Install\0150 GrantPermissions.cs" />
@@ -108,7 +114,10 @@
     <Compile Include="Install\Modules\CreateSolrCores.cs" />
     <Compile Include="Install\Modules\SolrInformation.cs" />
     <Compile Include="Install\Modules\SwitchConfigsToSolr.cs" />
+    <Compile Include="Install\Run9Installation.cs" />
+    <Compile Include="Install\RunPSTaskProcessor.cs" />
     <Compile Include="Install\Settings.cs" />
+    <Compile Include="Install\RunPSTasksProcessor.cs" />
     <Compile Include="MongoHelper.cs" />
     <Compile Include="MultipleDeletion\MultipleDeletionArgs.cs" />
     <Compile Include="MultipleDeletion\MultipleDeletionProcessor.cs" />
@@ -136,7 +145,7 @@
     <Compile Include="InstallModules\InstallModulesProcessor.cs" />
     <Compile Include="InstallModules\InstallActions.cs" />
     <Compile Include="InstallModules\StartInstance.cs" />
-    <Compile Include="Delete\CollectData.cs" />
+    <Compile Include="Delete\InitializeArgs.cs" />
     <Compile Include="Delete\DeleteArgs.cs" />
     <Compile Include="Delete\DeleteDatabases.cs" />
     <Compile Include="Delete\DeleteDataFolder.cs" />
@@ -153,6 +162,8 @@
     <Compile Include="Reinstall\1200 Install.UpdateWebConfig.cs" />
     <Compile Include="Reinstall\1500 Install.StartInstance.cs" />
     <Compile Include="Reinstall\1250 Install.AddServerTxt.cs" />
+    <Compile Include="Reinstall\Reinstall9Args.cs" />
+    <Compile Include="Reinstall\Reinstall9SwitchMode.cs" />
     <Compile Include="Restore\RestoreMongoDatabases.cs" />
     <Compile Include="SetupWebsiteHelper.cs" />
     <Compile Include="Install\InstallArgs.cs" />
@@ -239,6 +250,14 @@
     <ProjectReference Include="..\SIM.Products\SIM.Products.csproj">
       <Project>{BC8B4EE5-C053-42E1-A5BA-07F8C41915A9}</Project>
       <Name>SIM.Products</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SIM.Sitecore9Installer\SIM.Sitecore9Installer.csproj">
+      <Project>{5c870ab3-89f2-4e24-ae5d-3593ec816495}</Project>
+      <Name>SIM.Sitecore9Installer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SIM.SitecoreEnvironments\SIM.SitecoreEnvironments.csproj">
+      <Project>{8a60bf81-02d6-4449-8b9f-572ba4051c82}</Project>
+      <Name>SIM.SitecoreEnvironments</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

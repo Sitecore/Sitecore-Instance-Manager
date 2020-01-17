@@ -1,0 +1,28 @@
+{
+  "UninstallTasks": {
+    "RemoveCores": {
+      "Description": "Removes the cores and instance folders.",
+      "Type": "ManageSolrCore",
+      "Params": [
+        {
+          "Action": "Unload",
+          "Address": "[parameter('SolrUrl')]",
+          "Arguments": {
+            "core": "[variable('Xdb.Name')]",
+            "deleteInstanceDir": "true"
+          },
+          "ErrorAction": "SilentlyContinue"
+        },
+        {
+          "Action": "Unload",
+          "Address": "[parameter('SolrUrl')]",
+          "Arguments": {
+            "core": "[variable('Xdb.Rebuild.Name')]",
+            "deleteInstanceDir": "true"
+          },
+          "ErrorAction": "SilentlyContinue"
+        }
+      ]
+    }
+  }
+}

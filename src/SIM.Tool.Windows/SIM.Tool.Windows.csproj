@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -13,6 +13,7 @@
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -67,26 +68,30 @@
       <SpecificVersion>False</SpecificVersion>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Microsoft.Web.XmlTransform, Version=2.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Web.Xdt.2.1.1\lib\net40\Microsoft.Web.XmlTransform.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="Sitecore.Diagnostics.Base, Version=2.0.1.65, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Sitecore.Diagnostics.Base.2.0.1.65\lib\Sitecore.Diagnostics.Base.dll</HintPath>
+    <Reference Include="Sitecore.Diagnostics.Base, Version=2.0.1.171, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Sitecore.Diagnostics.Base.2.0.1.171\lib\Sitecore.Diagnostics.Base.dll</HintPath>
     </Reference>
-    <Reference Include="Sitecore.Diagnostics.FileSystem, Version=2.0.1.65, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Sitecore.Diagnostics.FileSystem.2.0.1.65\lib\Sitecore.Diagnostics.FileSystem.dll</HintPath>
+    <Reference Include="Sitecore.Diagnostics.FileSystem, Version=2.0.1.171, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Sitecore.Diagnostics.FileSystem.2.0.1.171\lib\Sitecore.Diagnostics.FileSystem.dll</HintPath>
     </Reference>
-    <Reference Include="Sitecore.Diagnostics.InfoService.Client.Core, Version=2.0.1.65, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Sitecore.Diagnostics.InfoService.Client.Core.2.0.1.65\lib\Sitecore.Diagnostics.InfoService.Client.Core.dll</HintPath>
+    <Reference Include="Sitecore.Diagnostics.InfoService.Client.Core, Version=2.0.1.171, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Sitecore.Diagnostics.InfoService.Client.Core.2.0.1.171\lib\Sitecore.Diagnostics.InfoService.Client.Core.dll</HintPath>
     </Reference>
-    <Reference Include="Sitecore.Diagnostics.Logging, Version=2.0.1.65, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Sitecore.Diagnostics.Logging.2.0.1.65\lib\Sitecore.Diagnostics.Logging.dll</HintPath>
+    <Reference Include="Sitecore.Diagnostics.Logging, Version=2.0.1.171, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Sitecore.Diagnostics.Logging.2.0.1.171\lib\Sitecore.Diagnostics.Logging.dll</HintPath>
     </Reference>
-    <Reference Include="Sitecore.Diagnostics.Net, Version=2.0.1.65, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Sitecore.Diagnostics.Net.2.0.1.65\lib\Sitecore.Diagnostics.Net.dll</HintPath>
+    <Reference Include="Sitecore.Diagnostics.Net, Version=2.0.1.171, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Sitecore.Diagnostics.Net.2.0.1.171\lib\Sitecore.Diagnostics.Net.dll</HintPath>
     </Reference>
-    <Reference Include="Sitecore.Diagnostics.Objects, Version=2.0.1.65, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Sitecore.Diagnostics.Objects.2.0.1.65\lib\Sitecore.Diagnostics.Objects.dll</HintPath>
+    <Reference Include="Sitecore.Diagnostics.Objects, Version=2.0.1.171, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Sitecore.Diagnostics.Objects.2.0.1.171\lib\Sitecore.Diagnostics.Objects.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -114,7 +119,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ButtonDefinition.cs" />
-    <Compile Include="CustomConverter.cs" />
+    <Compile Include="CustomVisibilityConverter.cs" />
+    <Compile Include="CustomEnabledConverter.cs" />
+    <Compile Include="Dialogs\AddSolrDialog.xaml.cs">
+      <DependentUpon>AddSolrDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Dialogs\DatabaseQueryExecutionDialog.xaml.cs">
       <DependentUpon>DatabaseQueryExecutionDialog.xaml</DependentUpon>
     </Compile>
@@ -124,6 +133,10 @@
     <Compile Include="Dialogs\DatabasesOperationsDialog.xaml.cs">
       <DependentUpon>DatabasesOperationsDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Dialogs\GridEditor.xaml.cs">
+      <DependentUpon>GridEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\GridEditorContext.cs" />
     <Compile Include="Dialogs\RestoreDatabaseDialog.xaml.cs">
       <DependentUpon>RestoreDatabaseDialog.xaml</DependentUpon>
     </Compile>
@@ -150,12 +163,17 @@
     <Compile Include="MainWindowComponents\Download8Button.cs" />
     <Compile Include="MainWindowComponents\AbstractDownloadAndRunButton.cs" />
     <Compile Include="MainWindowComponents\ExportInstanceButton.cs" />
+    <Compile Include="MainWindowComponents\BackupButton.cs" />
+    <Compile Include="MainWindowComponents\ExtraActionsButton.cs" />
     <Compile Include="MainWindowComponents\GenerateNuGetPackagesButton.cs" />
     <Compile Include="MainWindowComponents\ImportInstanceButton.cs" />
+    <Compile Include="MainWindowComponents\Install9InstanceButton.cs" />
     <Compile Include="MainWindowComponents\InstallInstanceButton.cs" />
     <Compile Include="MainWindowComponents\InstallModulesButton.cs" />
     <Compile Include="MainWindowComponents\InstallMongoDb.cs" />
     <Compile Include="MainWindowComponents\KillAllButThisButton.cs" />
+    <Compile Include="MainWindowComponents\SitecoreMemberOpenFolderButton.cs" />
+    <Compile Include="MainWindowComponents\SitecoreMemberButton.cs" />
     <Compile Include="MainWindowComponents\LoginAdminButton.cs" />
     <Compile Include="MainWindowComponents\ManagedArgsTracerButton.cs" />
     <Compile Include="MainWindowComponents\MultipleDeletionButton.cs" />
@@ -181,9 +199,11 @@
     <Compile Include="Pipelines\Download8\DownloadProcessor.cs" />
     <Compile Include="Pipelines\FinishActions.cs" />
     <Compile Include="Pipelines\Install\FinishActions.cs" />
+    <Compile Include="Pipelines\Install\Install9ActionsHive.cs" />
     <Compile Include="Pipelines\Install\InstallActions.cs" />
     <Compile Include="Pipelines\Install\InstallModulesActions.cs" />
     <Compile Include="Pipelines\Install\InstallModulesFinishActionHive.cs" />
+    <Compile Include="Pipelines\Install\OpenScriptsFolderFinishAction.cs" />
     <Compile Include="Pipelines\Setup\SetupProcessor.cs" />
     <Compile Include="Pipelines\Setup\SetupWizardArgs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -214,6 +234,9 @@
     <Compile Include="UserControls\ConfirmStepUserControl.xaml.cs">
       <DependentUpon>ConfirmStepUserControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\Delete\Delete9Details.xaml.cs">
+      <DependentUpon>Delete9Details.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\Download8\Downloads.xaml.cs">
       <DependentUpon>Downloads.xaml</DependentUpon>
     </Compile>
@@ -230,12 +253,19 @@
     </Compile>
     <Compile Include="UserControls\Export\ExportWizardArgs.cs" />
     <Compile Include="UserControls\Export\FinishActions.cs" />
+    <Compile Include="UserControls\Helpers\InstallTasksHelper.cs" />
     <Compile Include="UserControls\Import\ImportWebsite.xaml.cs">
       <DependentUpon>ImportWebsite.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\Import\ImportWizardArgs.cs" />
     <Compile Include="UserControls\Import\SetWebsiteBindings.xaml.cs">
       <DependentUpon>SetWebsiteBindings.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Install\Instance9Details.xaml.cs">
+      <DependentUpon>Instance9Details.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Install\Instance9SelectTasks.xaml.cs">
+      <DependentUpon>Instance9SelectTasks.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\Install\InstanceRole9.xaml.cs">
       <DependentUpon>InstanceRole9.xaml</DependentUpon>
@@ -262,9 +292,15 @@
     <Compile Include="UserControls\Install\Modules\ReorderPackages.xaml.cs">
       <DependentUpon>ReorderPackages.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\Install\ParametersEditor\Install9ParametersEditor.xaml.cs">
+      <DependentUpon>Install9ParametersEditor.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\MultipleDeletion\MultipleDeletionWizardArgs.cs" />
     <Compile Include="UserControls\MultipleDeletion\SelectInstances.xaml.cs">
       <DependentUpon>SelectInstances.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Reinstall\Reinstall9Confirmation.xaml.cs">
+      <DependentUpon>Reinstall9Confirmation.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\Setup\ConnectionString.xaml.cs">
       <DependentUpon>ConnectionString.xaml</DependentUpon>
@@ -525,12 +561,20 @@
     <Resource Include="Images\48\upload.png" />
     <Resource Include="Images\48\wrench.png" />
     <Resource Include="Images\48\zoom_vertical.png" />
+    <Resource Include="Images\9\minus.png" />
+    <Resource Include="Images\9\minus_on_hover.png" />
+    <Resource Include="Images\9\plus.png" />
+    <Resource Include="Images\9\plus_on_hover.png" />
     <Content Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Dialogs\AddSolrDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Dialogs\DatabaseQueryExecutionDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -543,9 +587,25 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Dialogs\GridEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Dialogs\RestoreDatabaseDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\Delete\Delete9Details.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\Install\Instance9Details.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\Install\Instance9SelectTasks.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\Install\InstanceRole9.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -560,6 +620,14 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="UserControls\Install\Modules\ConfigurationPackages.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\Install\ParametersEditor\Install9ParametersEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\Reinstall\Reinstall9Confirmation.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -703,6 +771,14 @@
       <Project>{7A3FEDF8-DF96-4426-AA01-C2D4FD3E68C8}</Project>
       <Name>SIM.Pipelines</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SIM.Sitecore9Installer\SIM.Sitecore9Installer.csproj">
+      <Project>{5c870ab3-89f2-4e24-ae5d-3593ec816495}</Project>
+      <Name>SIM.Sitecore9Installer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SIM.SitecoreEnvironments\SIM.SitecoreEnvironments.csproj">
+      <Project>{8A60BF81-02D6-4449-8B9F-572BA4051C82}</Project>
+      <Name>SIM.SitecoreEnvironments</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SIM.Tool.Base\SIM.Tool.Base.csproj">
       <Project>{EF380B2A-1171-4A9F-96D0-176ABA6CAD74}</Project>
       <Name>SIM.Tool.Base</Name>
@@ -710,9 +786,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Sitecore.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Pipelines\Agreement\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

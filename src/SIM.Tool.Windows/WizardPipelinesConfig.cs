@@ -184,6 +184,41 @@ By clicking 'Next' you accept the License Agreement."" />
               param=""The following credentials will be used for authenticating in dev.sitecore.net and performing downloading selected Sitecore versions on behalf of you. "" />
       </steps>
     </download8>
+
+<delete9 title=""Deleting instances"" startButton=""Delete""
+             finishText=""The uninstallation was successfully completed"">
+      <args type=""SIM.Tool.Base.Pipelines.Install9WizardArgs, SIM.Tool.Base""/>
+      <steps>
+        <step name=""STEP 1 of 2 - DETAILS"" 
+              type=""SIM.Tool.Windows.UserControls.Install.Delete9Details, SIM.Tool.Windows"" />
+        <step name=""STEP 2 of 2 - SELECT UNINSTALLATION TASKS"" 
+              type=""SIM.Tool.Windows.UserControls.Install.Instance9SelectTasks, SIM.Tool.Windows"" />        
+     </steps>     
+     <finish>
+         <hive type=""SIM.Tool.Windows.Pipelines.Install.Install9ActionsHive, SIM.Tool.Windows"" />
+     </finish>
+    </delete9>
+    <reinstall9 title=""Reinstalling {InstanceName}"" startButton=""Reinstall""
+             finishText=""The re-installation was successfully completed"">    
+      <args type=""SIM.Tool.Base.Pipelines.ReinstallWizardArgs, SIM.Tool.Base""/>
+      <steps>
+        <step name=""Confirmation"" 
+              type=""SIM.Tool.Windows.UserControls.Reinstall.Reinstall9Confirmation, SIM.Tool.Windows"" />       
+     </steps>  
+    </reinstall9>
+    <install9 title=""Installing new instance"" startButton=""Install""
+             finishText=""The installation was successfully completed"">
+      <args type=""SIM.Tool.Base.Pipelines.Install9WizardArgs, SIM.Tool.Base""/>
+      <steps>
+        <step name=""STEP 1 of 2 - DETAILS"" 
+              type=""SIM.Tool.Windows.UserControls.Install.Instance9Details, SIM.Tool.Windows"" />
+        <step name=""STEP 2 of 2 - SELECT INSTALLATION TASKS"" 
+              type=""SIM.Tool.Windows.UserControls.Install.Instance9SelectTasks, SIM.Tool.Windows"" />   
+     </steps>   
+     <finish>
+         <hive type=""SIM.Tool.Windows.Pipelines.Install.Install9ActionsHive, SIM.Tool.Windows"" />
+     </finish>
+    </install9>
     <install title=""Installing new instance"" startButton=""Install""
              finishText=""The installation was successfully completed"">
       <steps>

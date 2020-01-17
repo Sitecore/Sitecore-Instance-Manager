@@ -1,6 +1,10 @@
 namespace SIM
 {
   using JetBrains.Annotations;
+  using System;
+  using System.Collections;
+  using System.Collections.Generic;
+  using System.Linq;
 
   public interface IProfile
   {
@@ -15,6 +19,11 @@ namespace SIM
 
     [CanBeNull]
     string LocalRepository { get; set; }
+
+    [CanBeNull]
+    List<SolrDefinition> Solrs { get; set; }
+
+    List<VersionToSolr> VersionToSolrMap { get; set; }
 
     void Save();
   }

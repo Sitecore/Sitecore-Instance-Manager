@@ -37,10 +37,13 @@
       return instance != null || !RequiresInstance(Folder);
     }
 
+    public virtual bool IsVisible(Window mainWindow, Instance instance)
+    {
+      return true;
+    }
+
     public void OnClick(Window mainWindow, Instance instance)
     {
-      Analytics.TrackEvent("OpenFolder");
-
       var path = ExpandPath(instance).Replace("/", "\\");
       if (!FileSystem.FileSystem.Local.Directory.Exists(path))
       {

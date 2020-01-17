@@ -8,6 +8,9 @@
   using SIM.Tool.Base.Profiles;
   using JetBrains.Annotations;
   using SIM.Tool.Base.Wizards;
+  using SIM.Tool.Base.Pipelines;
+  using SIM.Tool.Base;
+  using System.Linq;
 
   [UsedImplicitly]
   public class DeleteInstanceButton : IMainWindowButton
@@ -19,6 +22,11 @@
       return instance != null;
     }
 
+    public bool IsVisible(Window mainWindow, Instance instance)
+    {
+      return true;
+    }
+
     public void OnClick(Window mainWindow, Instance instance)
     {
       if (instance != null)
@@ -27,7 +35,31 @@
         var args = new DeleteArgs(instance, connectionString);
         args.OnCompleted += () => mainWindow.Dispatcher.Invoke(() => OnPipelineCompleted(args.RootPath));
         var index = MainWindowHelper.GetListItemID(instance.ID);
-        WizardPipelineManager.Start("delete", mainWindow, args, null, (ignore) => OnWizardCompleted(index), () => null); 
+        if (int.Parse(instance.Product.ShortVersion) < 90)
+        {
+          WizardPipelineManager.Start("delete", mainWindow, args, null, (ignore) => OnWizardCompleted(index), () => null);
+        }
+        else
+        {
+          string uninstallPath = string.Empty;
+          foreach(string installName in Directory.GetDirectories(ApplicationManager.UnInstallParamsFolder).OrderByDescending(s=>s.Length))
+          {
+            if (instance.Name.StartsWith(Path.GetFileName(installName)))
+            {
+              uninstallPath = installName;
+              break;
+            }
+          }
+          if (string.IsNullOrEmpty(uninstallPath))
+          {
+            WindowHelper.ShowMessage("UnInstall files not found.");
+            return;
+          }
+          
+          WizardPipelineManager.Start("delete9", mainWindow, null, null, (ignore) => OnWizardCompleted(index),
+          () => new Delete9WizardArgs(instance,connectionString,uninstallPath)
+         );
+        }
       }
     }
 
