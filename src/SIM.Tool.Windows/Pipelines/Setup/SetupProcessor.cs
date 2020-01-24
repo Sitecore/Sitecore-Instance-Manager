@@ -1,4 +1,5 @@
-﻿namespace SIM.Tool.Windows.Pipelines.Setup
+﻿
+namespace SIM.Tool.Windows.Pipelines.Setup
 {
   using SIM.Tool.Base.Profiles;
   using SIM.Tool.Base.Wizards;

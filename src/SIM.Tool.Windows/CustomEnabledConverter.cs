@@ -9,7 +9,7 @@ namespace SIM.Tool.Windows
   using JetBrains.Annotations;
   using Sitecore.Diagnostics.Logging;
 
-  public class CustomConverter : IValueConverter
+  public class CustomEnabledConverter : IValueConverter
   {
     #region Fields
 
@@ -20,7 +20,7 @@ namespace SIM.Tool.Windows
 
     #region Constructors
 
-    public CustomConverter([NotNull] IMainWindowButton mainWindowButton)
+    public CustomEnabledConverter([NotNull] IMainWindowButton mainWindowButton)
     {
       Assert.ArgumentNotNull(mainWindowButton, nameof(mainWindowButton));
 

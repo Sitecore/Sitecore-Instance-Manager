@@ -20,10 +20,13 @@
       return instance != null;
     }
 
+    public bool IsVisible(Window mainWindow, Instance instance)
+    {
+      return true;
+    }
+
     public void OnClick(Window mainWindow, Instance instance)
     {
-      Analytics.TrackEvent("Reinstall");
-
       if (instance != null)
       {
         if (!MainWindowHelper.IsInstallerReady())
@@ -35,8 +38,14 @@
         var license = ProfileManager.Profile.License;
         Assert.IsNotNull(license, @"The license file isn't set in the Settings window");
         FileSystem.FileSystem.Local.File.AssertExists(license, "The {0} file is missing".FormatWith(license));
-
-        MainWindowHelper.ReinstallInstance(instance, mainWindow, license, ProfileManager.GetConnectionString());
+        if (int.Parse(instance.Product.ShortVersion) < 90)
+        {
+          MainWindowHelper.ReinstallInstance(instance, mainWindow, license, ProfileManager.GetConnectionString());
+        }
+        else
+        {
+          MainWindowHelper.Reinstall9Instance(instance, mainWindow, license, ProfileManager.GetConnectionString());
+        }
       }
     }
 

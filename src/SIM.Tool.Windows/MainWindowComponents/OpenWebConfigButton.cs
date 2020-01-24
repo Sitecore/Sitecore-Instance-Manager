@@ -19,10 +19,13 @@
       return instance != null;
     }
 
+    public bool IsVisible(Window mainWindow, Instance instance)
+    {
+      return MainWindowHelper.IsEnabledOrVisibleButtonForSitecoreMember(instance);
+    }
+
     public void OnClick(Window mainWindow, Instance instance)
     {
-      Analytics.TrackEvent("OpenWebConfig");
-
       if (instance != null)
       {
         var webConfigPath = WebConfig.GetWebConfigPath(instance.WebRootPath);

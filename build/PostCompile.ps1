@@ -56,8 +56,8 @@ Get-Content stdout.txt | Write-Host
 Get-Content stderr.txt | Write-Host
 
 # create manifest
-Write-Host "> tools\mage.exe -New Application -IconFile `"$Icon`" -ToFile `"$ManifestFile`" -FromDirectory `"$ReleaseFolder`" -Name `"$Name`" -Version `"$Version`" -Processor x86"
-Start-Process -FilePath "tools\mage.exe" -ArgumentList "-New Application -IconFile `"$Icon`" -ToFile `"$ManifestFile`" -FromDirectory `"$ReleaseFolder`" -Name `"$Name`" -Version `"$Version`" -Processor x86" -Wait -RedirectStandardOutput stdout.txt -RedirectStandardError stderr.txt
+Write-Host "> tools\mage.exe -New Application -IconFile `"$Icon`" -ToFile `"$ManifestFile`" -FromDirectory `"$ReleaseFolder`" -Name `"$Name`" -Version `"$Version`" -Processor msil"
+Start-Process -FilePath "tools\mage.exe" -ArgumentList "-New Application -IconFile `"$Icon`" -ToFile `"$ManifestFile`" -FromDirectory `"$ReleaseFolder`" -Name `"$Name`" -Version `"$Version`" -Processor msil" -Wait -RedirectStandardOutput stdout.txt -RedirectStandardError stderr.txt
 Get-Content stdout.txt | Write-Host
 Get-Content stderr.txt | Write-Host
 
@@ -68,8 +68,8 @@ Get-Content stdout.txt | Write-Host
 Get-Content stderr.txt | Write-Host
 
 # create application file
-Write-Host "> tools\mage.exe -New Deployment -AppManifest `"$ManifestFile`" -ToFile `"$ApplicationFile`" -Processor x86 -Install true -Publisher `"$PublisherName`" -ProviderUrl `"$URL`""
-Start-Process -FilePath "tools\mage.exe" -ArgumentList "-New Deployment -AppManifest `"$ManifestFile`" -ToFile `"$ApplicationFile`" -Processor x86 -Install true -Publisher `"$PublisherName`" -ProviderUrl `"$URL`"" -Wait -RedirectStandardOutput stdout.txt -RedirectStandardError stderr.txt
+Write-Host "> tools\mage.exe -New Deployment -AppManifest `"$ManifestFile`" -ToFile `"$ApplicationFile`" -Processor msil -Install true -Publisher `"$PublisherName`" -ProviderUrl `"$URL`""
+Start-Process -FilePath "tools\mage.exe" -ArgumentList "-New Deployment -AppManifest `"$ManifestFile`" -ToFile `"$ApplicationFile`" -Processor msil -Install true -Publisher `"$PublisherName`" -ProviderUrl `"$URL`"" -Wait -RedirectStandardOutput stdout.txt -RedirectStandardError stderr.txt
 Get-Content stdout.txt | Write-Host
 Get-Content stderr.txt | Write-Host
 

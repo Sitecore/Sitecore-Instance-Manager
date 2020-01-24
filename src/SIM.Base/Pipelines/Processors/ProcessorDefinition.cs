@@ -36,7 +36,7 @@
 
     #region Public Methods and Operators
 
-    public abstract IEnumerable<Processor> CreateProcessors(ProcessorArgs args);
+    public abstract IEnumerable<Processor> CreateProcessors(ProcessorArgs args, IPipelineController controller);
 
     public override string ToString()
     {

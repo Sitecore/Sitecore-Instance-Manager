@@ -58,16 +58,31 @@ namespace SIM.Tool.Windows
           {
             new ButtonDefinition
             {
-              Label = "Install Instance",
+              Label = "Install SC XP 9",
               Image = "/Images/$lg/add_domain.png, SIM.Tool.Windows",
-              Handler = new SIM.Tool.Windows.MainWindowComponents.InstallInstanceButton()
+              Handler = new SIM.Tool.Windows.MainWindowComponents.Install9InstanceButton(),
+              Buttons = new[]
+              {
+                new ButtonDefinition
+                {
+                  Label = "Install Sitecore XP 9 and later",
+                  Image = "/Images/$lg/add_domain.png, SIM.Tool.Windows",
+                  Handler = new SIM.Tool.Windows.MainWindowComponents.Install9InstanceButton()
+                },
+                new ButtonDefinition
+                {
+                  Label = "Install Sitecore XP 8.2 and earlier",
+                  Image = "/Images/$lg/add_domain.png, SIM.Tool.Windows",
+                  Handler = new SIM.Tool.Windows.MainWindowComponents.InstallInstanceButton()
+                },
+              }
             },
             new ButtonDefinition
             {
               Label = "Import Solution",
               Image = "/Images/$lg/upload.png, SIM.Tool.Windows",
               Handler = new SIM.Tool.Windows.MainWindowComponents.ImportInstanceButton()
-            },
+            }
           }
         },
         new GroupDefinition
@@ -454,13 +469,13 @@ namespace SIM.Tool.Windows
                 {
                   Label = "Data Folder",
                   Image = "/Images/$sm/folders.png, SIM.Tool.Windows",
-                  Handler = new SIM.Tool.Windows.MainWindowComponents.OpenFolderButton("$(data)")
+                  Handler = new SIM.Tool.Windows.MainWindowComponents.SitecoreMemberOpenFolderButton("$(data)")
                 },
                 new ButtonDefinition
                 {
                   Label = "Databases Folder",
                   Image = "/Images/$sm/folders.png, SIM.Tool.Windows",
-                  Handler = new SIM.Tool.Windows.MainWindowComponents.OpenFolderButton("$(root)/Databases")
+                  Handler = new SIM.Tool.Windows.MainWindowComponents.SitecoreMemberOpenFolderButton("$(root)/Databases")
                 },
                 new ButtonDefinition(),
                 new ButtonDefinition
@@ -473,13 +488,13 @@ namespace SIM.Tool.Windows
                 {
                   Label = "Include Folder",
                   Image = "/Images/$sm/folder_open.png, SIM.Tool.Windows",
-                  Handler = new SIM.Tool.Windows.MainWindowComponents.OpenFolderButton("$(website)/App_Config/Include")
+                  Handler = new SIM.Tool.Windows.MainWindowComponents.SitecoreMemberOpenFolderButton("$(website)/App_Config/Include")
                 },
                 new ButtonDefinition
                 {
                   Label = "zzz Folder",
                   Image = "/Images/$sm/folder_open.png, SIM.Tool.Windows",
-                  Handler = new SIM.Tool.Windows.MainWindowComponents.OpenFolderButton("$(website)/App_Config/Include/zzz")
+                  Handler = new SIM.Tool.Windows.MainWindowComponents.SitecoreMemberOpenFolderButton("$(website)/App_Config/Include/zzz")
                 },
               }
             },
@@ -547,6 +562,7 @@ namespace SIM.Tool.Windows
             {
               Label = "Log Files",
               Image = "/Images/$lg/history2.png, SIM.Tool.Windows",
+              Handler = new SIM.Tool.Windows.MainWindowComponents.SitecoreMemberButton(),
               Buttons = new[]
               {
                 new ButtonDefinition
@@ -650,7 +666,50 @@ namespace SIM.Tool.Windows
             },
           }
         },
+        GetManageGroupDefinition(),
         new GroupDefinition
+        {
+          Name = "Backup",
+          Buttons = new[]
+          {
+            new ButtonDefinition
+            {
+              Label = "Backup",
+              Image = "/Images/$lg/floppy_disks.png, SIM.Tool.Windows",
+              Handler = new SIM.Tool.Windows.MainWindowComponents.BackupButton(),
+              Buttons = new[]
+              {
+                new ButtonDefinition
+                {
+                  Label = "Backup",
+                  Image = "/Images/$sm/box_into.png, SIM.Tool.Windows",
+                  Handler = new SIM.Tool.Windows.MainWindowComponents.BackupInstanceButton()
+                },
+                new ButtonDefinition
+                {
+                  Label = "Export",
+                  Image = "/Images/$lg/download.png, SIM.Tool.Windows",
+                  Handler = new SIM.Tool.Windows.MainWindowComponents.ExportInstanceButton()
+                },
+              }
+            },
+            new ButtonDefinition
+            {
+              Label = "Restore",
+              Image = "/Images/$lg/box_out.png, SIM.Tool.Windows",
+              Handler = new SIM.Tool.Windows.MainWindowComponents.RestoreInstanceButton()
+            },
+          }
+        },
+      }
+    };
+
+    private static GroupDefinition GetManageGroupDefinition()
+    {
+      if (!File.Exists(
+        Environment.ExpandEnvironmentVariables("%PROGRAMDATA%\\Sitecore\\Sitecore Instance Manager\\extra.txt")))
+      {
+        return new GroupDefinition
         {
           Name = "Manage",
           Buttons = new[]
@@ -659,6 +718,7 @@ namespace SIM.Tool.Windows
             {
               Label = "App State",
               Image = "/Images/$lg/gearwheels.png, SIM.Tool.Windows",
+              Handler = new SIM.Tool.Windows.MainWindowComponents.SitecoreMemberButton(),
               Buttons = new[]
               {
                 new ButtonDefinition
@@ -720,6 +780,7 @@ namespace SIM.Tool.Windows
             {
               Label = "Extra Actions",
               Image = "/Images/$lg/atom2.png, SIM.Tool.Windows",
+              Handler = new SIM.Tool.Windows.MainWindowComponents.ExtraActionsButton(),
               Buttons = new[]
               {
                 new ButtonDefinition
@@ -840,42 +901,202 @@ namespace SIM.Tool.Windows
               }
             },
           }
-        },
-        new GroupDefinition
-        {
-          Name = "Backup",
-          Buttons = new[]
-          {
-            new ButtonDefinition
-            {
-              Label = "Backup",
-              Image = "/Images/$lg/floppy_disks.png, SIM.Tool.Windows",
-              Buttons = new[]
-              {
-                new ButtonDefinition
-                {
-                  Label = "Backup",
-                  Image = "/Images/$sm/box_into.png, SIM.Tool.Windows",
-                  Handler = new SIM.Tool.Windows.MainWindowComponents.BackupInstanceButton()
-                },
-                new ButtonDefinition
-                {
-                  Label = "Export",
-                  Image = "/Images/$lg/download.png, SIM.Tool.Windows",
-                  Handler = new SIM.Tool.Windows.MainWindowComponents.ExportInstanceButton()
-                },
-              }
-            },
-            new ButtonDefinition
-            {
-              Label = "Restore",
-              Image = "/Images/$lg/box_out.png, SIM.Tool.Windows",
-              Handler = new SIM.Tool.Windows.MainWindowComponents.RestoreInstanceButton()
-            },
-          }
-        },
+        };
       }
-    };
+
+      return new GroupDefinition
+      {
+        Name = "Manage",
+        Buttons = new[]
+        {
+          new ButtonDefinition
+          {
+            Label = "App State",
+            Image = "/Images/$lg/gearwheels.png, SIM.Tool.Windows",
+            Handler = new SIM.Tool.Windows.MainWindowComponents.SitecoreMemberButton(),
+            Buttons = new[]
+            {
+              new ButtonDefinition
+              {
+                Label = "Start",
+                Image = "/Images/$sm/media_play.png, SIM.Tool.Windows",
+                Handler = new SIM.Tool.Windows.MainWindowComponents.ControlAppPoolButton("start")
+              },
+              new ButtonDefinition
+              {
+                Label = "Stop",
+                Image = "/Images/$sm/media_stop.png, SIM.Tool.Windows",
+                Handler = new SIM.Tool.Windows.MainWindowComponents.ControlAppPoolButton("stop")
+              },
+              new ButtonDefinition(),
+              new ButtonDefinition
+              {
+                Label = "Recycle",
+                Image = "/Images/$sm/garbage.png, SIM.Tool.Windows",
+                Handler = new SIM.Tool.Windows.MainWindowComponents.ControlAppPoolButton("recycle")
+              },
+              new ButtonDefinition
+              {
+                Label = "Kill process",
+                Image = "/Images/$sm/cpu.png, SIM.Tool.Windows",
+                Handler = new SIM.Tool.Windows.MainWindowComponents.ControlAppPoolButton("kill")
+              },
+              new ButtonDefinition(),
+              new ButtonDefinition
+              {
+                Label = "Change mode",
+                Image = "/Images/$sm/cpu.png, SIM.Tool.Windows",
+                Handler = new SIM.Tool.Windows.MainWindowComponents.ControlAppPoolButton("mode")
+              },
+            }
+          },
+          new ButtonDefinition
+          {
+            Label = "Delete",
+            Image = "/Images/$lg/uninstall.png, SIM.Tool.Windows",
+            Handler = new SIM.Tool.Windows.MainWindowComponents.DeleteInstanceButton(),
+            Buttons = new[]
+            {
+              new ButtonDefinition
+              {
+                Label = "Delete",
+                Image = "/Images/$sm/uninstall.png, SIM.Tool.Windows",
+                Handler = new SIM.Tool.Windows.MainWindowComponents.DeleteInstanceButton()
+              },
+              new ButtonDefinition
+              {
+                Label = "Reinstall",
+                Image = "/Images/$sm/redo.png, SIM.Tool.Windows",
+                Handler = new SIM.Tool.Windows.MainWindowComponents.ReinstallInstanceButton()
+              },
+            }
+          },
+          new ButtonDefinition
+          {
+            Label = "Extra Actions",
+            Image = "/Images/$lg/atom2.png, SIM.Tool.Windows",
+            Buttons = new[]
+            {
+              new ButtonDefinition
+              {
+                Label = "Publish (Incremental)",
+                Image = "/Images/$sm/publish.png, SIM.Tool.Windows",
+                Handler = new SIM.Tool.Windows.MainWindowComponents.PublishButton("incremental")
+              },
+              new ButtonDefinition
+              {
+                Label = "Publish (Smart)",
+                Image = "/Images/$sm/publish.png, SIM.Tool.Windows",
+                Handler = new SIM.Tool.Windows.MainWindowComponents.PublishButton("smart")
+              },
+              new ButtonDefinition
+              {
+                Label = "Publish (Republish)",
+                Image = "/Images/$sm/publish.png, SIM.Tool.Windows",
+                Handler = new SIM.Tool.Windows.MainWindowComponents.PublishButton("republish")
+              },
+              new ButtonDefinition(),
+              new ButtonDefinition
+              {
+                Label = "Cleanup logs and temp folder",
+                Image = "/Images/$sm/uninstall.png, SIM.Tool.Windows",
+                Handler = new SIM.Tool.Windows.MainWindowComponents.CleanupInstanceButton()
+              },
+              new ButtonDefinition(),
+              new ButtonDefinition
+              {
+                Label = "Attach Reporting database",
+                Image = "/Images/$sm/data.png, SIM.Tool.Windows",
+                Handler = new SIM.Tool.Windows.MainWindowComponents.AttachReportingDatabaseButton()
+              },
+              new ButtonDefinition(),
+              new ButtonDefinition
+              {
+                Label = "Attach Reporting.Secondary database",
+                Image = "/Images/$sm/data.png, SIM.Tool.Windows",
+                Handler = new SIM.Tool.Windows.MainWindowComponents.AttachReportingSecondaryDatabaseButton()
+              },
+              new ButtonDefinition
+              {
+                Label = "Copy marketing definition tables",
+                Image = "/Images/$sm/data.png, SIM.Tool.Windows",
+                Handler = new SIM.Tool.Windows.MainWindowComponents.CopyMarketingDefinitionTablesButton()
+              },
+              new ButtonDefinition
+              {
+                Label = "Replace Reporting database with Reporting.Secondary",
+                Image = "/Images/$sm/data.png, SIM.Tool.Windows",
+                Handler = new SIM.Tool.Windows.MainWindowComponents.ReplaceReportingDatabaseWithSecondaryButton()
+              },
+              new ButtonDefinition(),
+              new ButtonDefinition
+              {
+                Label = "Clear Properties of All Databases",
+                Image = "/Images/$sm/data.png, SIM.Tool.Windows",
+                Handler = new SIM.Tool.Windows.MainWindowComponents.ClearPropertiesButton()
+              },
+              new ButtonDefinition(),
+              new ButtonDefinition
+              {
+                Label = "Clear Event Queues of All Databases",
+                Image = "/Images/$sm/data.png, SIM.Tool.Windows",
+                Handler = new SIM.Tool.Windows.MainWindowComponents.ClearEventQueueButton()
+              },
+              new ButtonDefinition
+              {
+                Label = "Clear Event Queues of Core Database",
+                Image = "/Images/$sm/data.png, SIM.Tool.Windows",
+                Handler = new SIM.Tool.Windows.MainWindowComponents.ClearEventQueueButton("core")
+              },
+              new ButtonDefinition
+              {
+                Label = "Clear Event Queues of Master Database",
+                Image = "/Images/$sm/data.png, SIM.Tool.Windows",
+                Handler = new SIM.Tool.Windows.MainWindowComponents.ClearEventQueueButton("master")
+              },
+              new ButtonDefinition
+              {
+                Label = "Clear Event Queues of Web Database",
+                Image = "/Images/$sm/data.png, SIM.Tool.Windows",
+                Handler = new SIM.Tool.Windows.MainWindowComponents.ClearEventQueueButton("web")
+              },
+              new ButtonDefinition(),
+              new ButtonDefinition
+              {
+                Label = "Recycle All But This",
+                Image = "/Images/$sm/data.png, SIM.Tool.Windows",
+                Handler = new SIM.Tool.Windows.MainWindowComponents.RecycleAllButThisButton()
+              },
+              new ButtonDefinition
+              {
+                Label = "Kill All w3wp But This",
+                Image = "/Images/$sm/data.png, SIM.Tool.Windows",
+                Handler = new SIM.Tool.Windows.MainWindowComponents.KillAllButThisButton()
+              },
+              new ButtonDefinition(),
+              new ButtonDefinition
+              {
+                Label = "Attach debugger to process",
+                Image = "/Images/$lg/wrench.png, SIM.Tool.Windows",
+                Handler = new SIM.Tool.Windows.MainWindowComponents.AttachDebuggerButton()
+              },
+              new ButtonDefinition
+              {
+                Label = "Collect Memory Dump with MGAD",
+                Image = "/Images/$lg/wrench.png, SIM.Tool.Windows",
+                Handler = new SIM.Tool.Windows.MainWindowComponents.CollectMemoryDumpButton()
+              },
+              new ButtonDefinition
+              {
+                Label = "Trace method call with MAT",
+                Image = "/Images/$lg/wrench.png, SIM.Tool.Windows",
+                Handler = new SIM.Tool.Windows.MainWindowComponents.ManagedArgsTracerButton()
+              }
+            }
+          }
+        }
+      };
+    }
 
     internal static ButtonDefinition[] MenuItems { get; } = 
     {
