@@ -194,6 +194,9 @@ namespace SIM.Tool
 
       CoreApp.LogMainInfo();
 
+      // show startup message from 'startup-notification.txt' file if it exists
+      ShowStartUpNotification();
+
       if (!CheckIis())
       {
         WindowHelper.ShowMessage("Cannot connect to IIS. Make sure it is installed and running.", MessageBoxButton.OK, MessageBoxImage.Exclamation);
@@ -273,6 +276,30 @@ namespace SIM.Tool
       Analytics.Flush();
 
       Environment.Exit(0);
+    }
+
+    private void ShowStartUpNotification()
+    {
+      var notification = CoreApp.GetStartUpNotification();
+
+      if (string.IsNullOrWhiteSpace(notification))
+      {
+        return;
+      }
+
+      var supressMessageQuestion = "Would you like to see the notification next time?";
+
+      var message = $"{notification}" +
+        $"{System.Environment.NewLine}" +
+        $"{System.Environment.NewLine}" +
+        $"{supressMessageQuestion}";
+
+       var messageBoxResult = WindowHelper.ShowMessage(message, MessageBoxButton.YesNo, MessageBoxImage.Information);
+
+      if (messageBoxResult == MessageBoxResult.No)
+      {
+        CoreApp.SuppressStartUpNotification();
+      }
     }
 
     private void InitializeLogging()

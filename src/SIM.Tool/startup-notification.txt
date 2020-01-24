@@ -1,0 +1,1 @@
+﻿A new version of Sitecore Instance Manager has been released. Please visit 'https://github.com/Sitecore/Sitecore-Instance-Manager/releases' page to get information on how to upgrade your version the newer one.

@@ -16,6 +16,7 @@
   {
     private const string FirstRunFileName = "first-run.txt";
     private const string LastRunFileName = "last-run.txt";
+    private const string StartUpNotificationFileName = "startup-notification.txt";
 
     public static bool IsVeryFirstRun
     {
@@ -153,6 +154,46 @@
     public static Process RunApp(ProcessStartInfo startInfo)
     {
       return Process.Start(startInfo);
+    }
+
+    public static void SuppressStartUpNotification()
+    {
+      if (!File.Exists(StartUpNotificationFileName))
+      {
+        return;
+      }
+
+      try
+      {
+        File.Delete(StartUpNotificationFileName);
+      }
+      catch (Exception ex)
+      {
+        var errorMessage = $"Deleting '{StartUpNotificationFileName}' file cuased an exception";
+
+        Log.Error(ex, errorMessage);
+      }
+    }
+
+    public static string GetStartUpNotification()
+    {
+      if (!File.Exists(StartUpNotificationFileName))
+      {
+        return string.Empty;
+      }
+
+      try
+      {
+        return File.ReadAllText(StartUpNotificationFileName).Trim(" \r\n".ToCharArray());
+      }
+      catch (Exception ex)
+      {
+        var errorMessage = $"Reading '{StartUpNotificationFileName}' file cuased an exception";
+
+        Log.Error(ex, errorMessage);
+
+        return string.Empty;
+      }      
     }
   }
 }
