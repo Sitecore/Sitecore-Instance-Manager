@@ -104,6 +104,11 @@
     <Compile Include="Tasks\SitecoreTask.cs" />
     <Compile Include="Tasker.cs" />
     <Compile Include="Tasks\Task.cs" />
+    <Compile Include="Validation\IValidator.cs" />
+    <Compile Include="Validation\ValidationFactory.cs" />
+    <Compile Include="Validation\ValidationResult.cs" />
+    <Compile Include="Validation\ValidatorDefinition.cs" />
+    <Compile Include="Validation\Validators\HostNameValidator.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -146,5 +151,6 @@
       <Name>SIM.Products</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
