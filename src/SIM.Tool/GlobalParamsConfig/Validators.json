@@ -25,5 +25,8 @@
       "val4",
       "val5"
     ]*/
+    "Basic": [
+      "HostNameValidator"
+    ] 
   }
 }

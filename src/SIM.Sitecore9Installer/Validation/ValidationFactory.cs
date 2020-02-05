@@ -35,7 +35,7 @@ namespace SIM.Sitecore9Installer.Validation
       {
         if (name.StartsWith("list:"))
         {
-          string listName = name.Split(':')[1];
+          string listName = name.Split('|')[1];
           if (validatorLists.ContainsKey(listName))
           {
             foreach (string validatorName in validatorLists[listName])
