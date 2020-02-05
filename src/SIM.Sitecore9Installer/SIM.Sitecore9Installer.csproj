@@ -104,17 +104,6 @@
     <Compile Include="Tasks\SitecoreTask.cs" />
     <Compile Include="Tasker.cs" />
     <Compile Include="Tasks\Task.cs" />
-    <Compile Include="Validation\Abstractions\IInstallValidator.cs" />
-    <Compile Include="Validation\Certificate\CertificateNameValidator.cs" />
-    <Compile Include="Validation\Factory\InstallParamsHelper.cs" />
-    <Compile Include="Validation\Factory\ValidatorFactory.cs" />
-    <Compile Include="Validation\FileSystem\ConfigValueReader.cs" />
-    <Compile Include="Validation\FileSystem\FolderChecks.cs" />
-    <Compile Include="Validation\FileSystem\SiteNameValidator.cs" />
-    <Compile Include="Validation\IIS\DnsNameValidator.cs" />
-    <Compile Include="Validation\Solr\SolrCoreAdminWrapper.cs" />
-    <Compile Include="Validation\Solr\SolrCorePrefixValidator.cs" />
-    <Compile Include="Validation\SQL\SqlDbChecker.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
