@@ -500,6 +500,7 @@
 
         if (allDone)
         {
+          WizardPipeline.AfterLastStep?.Execute(this.WizardArgs);
           AddFinishActions(WizardPipeline._FinishActions);
 
           if (WizardPipeline._FinishActionHives != null)
@@ -648,6 +649,13 @@
           {
             pipelineName = _ProcessorArgs.PipelineName;
           }        
+            
+          if (!PipelineManager.Definitions.ContainsKey(WizardPipeline.Name))
+          {
+            Finish("Done.", true);
+
+            return;
+          }
 
           PipelineManager.StartPipeline(pipelineName, _ProcessorArgs, this);
           backButton.Visibility = Visibility.Hidden;
