@@ -17,8 +17,7 @@ namespace SIM.Sitecore9Installer.Validation.Validators
         InstallParam dns = task.LocalParams.FirstOrDefault(p => p.Name == "DnsName");
         if (dns != null)
         {
-          Uri uri;
-          if (!Uri.TryCreate(dns.Value, UriKind.Absolute, out uri))
+          if (Uri.CheckHostName(dns.Value)!=UriHostNameType.Dns)
           {
             ValidationResult r = new ValidationResult(ValidatorState.Error,
               string.Format("Invalid host in '{0}' of '{1}'", dns.Name, task.Name), null);

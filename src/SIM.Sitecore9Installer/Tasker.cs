@@ -7,10 +7,12 @@ using System.Linq;
 using System.Management.Automation;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using SIM.Sitecore9Installer.Tasks;
 using SIM.Sitecore9Installer.Validation;
+using Task = SIM.Sitecore9Installer.Tasks.Task;
 
 namespace SIM.Sitecore9Installer
 {
@@ -152,8 +154,8 @@ namespace SIM.Sitecore9Installer
 
     public IEnumerable<ValidationResult> GetValidationErrors()
     {
-      //this.EvaluateGlobalParams();
-      //this.EvaluateLocalParams();
+      this.EvaluateGlobalParams();
+      this.EvaluateLocalParams();
       List<ValidationResult> nonSuccsess = new List<ValidationResult>();
       foreach (IValidator validator in ValidationFactory.GetValidators(this.Validators))
       {
@@ -302,7 +304,7 @@ namespace SIM.Sitecore9Installer
 
     public void EvaluateLocalParams()
     {
-      foreach (Task task in this.Tasks.Where(t=>t.ShouldRun))
+      Parallel.ForEach(this.Tasks.Where(t => t.ShouldRun),new ParallelOptions(){MaxDegreeOfParallelism=Environment.ProcessorCount*2}, (task) =>
       {
         Hashtable evaluatedParams = this.GetEvaluatedLocalParams(task.LocalParams, task.GlobalParams);
         foreach (InstallParam param in task.LocalParams)
@@ -312,9 +314,9 @@ namespace SIM.Sitecore9Installer
             continue;
           }
 
-          param.Value = (string)evaluatedParams[param.Name];
+          param.Value = (string) evaluatedParams[param.Name];
         }
-      }
+      });
     }
     public Hashtable GetEvaluatedLocalParams(List<InstallParam> localParams, List<InstallParam> globalParams)
     {
@@ -322,12 +324,12 @@ namespace SIM.Sitecore9Installer
       localParamsEval.Append("Set-ExecutionPolicy Bypass -Force\n");
       localParamsEval.AppendFormat("Import-Module SitecoreInstallFramework{0}\n", GetSifVersionParam());
       localParamsEval.AppendFormat(this.GetParamsScript(globalParams));
-      localParamsEval.AppendLine("$LocalParams =@{");
+      localParamsEval.AppendLine("$installParams =@{");
       localParamsEval.Append(this.GetParamsScript(localParams, false));
       localParamsEval.Append("}\n");
-      localParamsEval.AppendLine("$LocalParamsSys =@{");
+      localParamsEval.AppendLine("$installParamsSys =@{");
       localParamsEval.Append(this.GetParamsScript(localParams, false));
-      localParamsEval.Append("}\n$LocalParamsSys");
+      localParamsEval.Append("}\n$installParamsSys");
 
       return this.GetEvaluatedParams(localParamsEval.ToString());
     }
