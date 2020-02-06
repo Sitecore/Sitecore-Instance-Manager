@@ -33,7 +33,7 @@ namespace SIM.Sitecore9Installer.Validation
       List<IValidator> result = new List<IValidator>();
       foreach (string name in names)
       {
-        if (name.StartsWith("list:"))
+        if (name.StartsWith("list|"))
         {
           string listName = name.Split('|')[1];
           if (validatorLists.ContainsKey(listName))

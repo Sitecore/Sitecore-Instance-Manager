@@ -9,9 +9,9 @@ namespace SIM.Sitecore9Installer.Validation.Validators
 {
   public class HostNameValidator:IValidator
   {
-    public ValidationResult Evaluate(IEnumerable<Task> tasks)
+    public IEnumerable<ValidationResult> Evaluate(IEnumerable<Task> tasks)
     {
-      StringBuilder errorMessage = new StringBuilder();
+      List<ValidationResult> results = new List<ValidationResult>();
       foreach (Task task in tasks)
       {
         InstallParam dns = task.LocalParams.FirstOrDefault(p => p.Name == "DnsName");
@@ -20,18 +20,19 @@ namespace SIM.Sitecore9Installer.Validation.Validators
           Uri uri;
           if (!Uri.TryCreate(dns.Value, UriKind.Absolute, out uri))
           {
-            errorMessage.AppendFormat("Invalid host in '{0}' of '{1}'", dns.Name, task.Name);
-            errorMessage.AppendLine();
+            ValidationResult r = new ValidationResult(ValidatorState.Error,
+              string.Format("Invalid host in '{0}' of '{1}'", dns.Name, task.Name), null);
+            results.Add(r);
           }
         }
       }
 
-      if (errorMessage.Length > 0)
+      if (!results.Any())
       {
-        return new ValidationResult(ValidatorState.Error, errorMessage.ToString(), null);
+        results.Add(new ValidationResult(ValidatorState.Succsess, string.Empty, null));
       }
 
-      return new ValidationResult(ValidatorState.Succsess, string.Empty, null);
+      return results;
     }
   }
 }

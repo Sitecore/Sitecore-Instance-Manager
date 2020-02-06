@@ -8,6 +8,6 @@ namespace SIM.Sitecore9Installer.Validation
 {
   public interface IValidator
   {
-    ValidationResult Evaluate(IEnumerable<Task> tasks);
+    IEnumerable<ValidationResult> Evaluate(IEnumerable<Task> tasks);
   }
 }

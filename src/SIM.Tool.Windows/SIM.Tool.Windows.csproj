@@ -264,6 +264,9 @@
     <Compile Include="UserControls\Install\Instance9Details.xaml.cs">
       <DependentUpon>Instance9Details.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\Install\Instance9Validation.xaml.cs">
+      <DependentUpon>Instance9Validation.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\Install\Instance9SelectTasks.xaml.cs">
       <DependentUpon>Instance9SelectTasks.xaml</DependentUpon>
     </Compile>
@@ -600,6 +603,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="UserControls\Install\Instance9Details.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\Install\Instance9Validation.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

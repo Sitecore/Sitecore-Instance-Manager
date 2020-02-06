@@ -10,6 +10,7 @@ using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using SIM.Sitecore9Installer.Tasks;
+using SIM.Sitecore9Installer.Validation;
 
 namespace SIM.Sitecore9Installer
 {
@@ -25,6 +26,7 @@ namespace SIM.Sitecore9Installer
 
     private Tasker()
     {
+      this.Validators = new List<string>();
       string globalSettings = string.Empty;
       using (StreamReader reader =
         new StreamReader(Path.Combine(Directory.GetCurrentDirectory(), "GlobalParamsConfig/GlobalSettings.json")))
@@ -52,6 +54,7 @@ namespace SIM.Sitecore9Installer
 
       mapping = GetPackageMapping();
       doc = JObject.Parse(File.ReadAllText(globalParamsFile));
+      this.LoadValidators();
       GlobalParams = GetGlobalParams();
       UnInstall = unInstall;
       LoadTasks();
@@ -74,6 +77,7 @@ namespace SIM.Sitecore9Installer
 
       FilesRoot = deserializedGlobalParams.Single(p => p.Name == "FilesRoot").Value;
       doc = JObject.Parse(File.ReadAllText(globalParamsFile));
+      this.LoadValidators();
       mapping = GetPackageMapping();
       GlobalParams = GetGlobalParams();
       string deployRoot = deserializedGlobalParams.Single(p => p.Name == "DeployRoot")?.Value;
@@ -133,7 +137,34 @@ namespace SIM.Sitecore9Installer
       foreach (InstallParam p in GlobalParams) p.ParamValueUpdated += GlobalParamValueUpdated;
     }
 
+    private void LoadValidators()
+    {
+      JToken vals = doc["Validators"];
+      if (vals != null)
+      {
+        this.Validators = JsonConvert.DeserializeObject<List<string>>(vals.ToString());
+      }
+      else
+      {
+        this.Validators = new List<string>();
+      }
+    }
 
+    public IEnumerable<ValidationResult> GetValidationErrors()
+    {
+      //this.EvaluateGlobalParams();
+      //this.EvaluateLocalParams();
+      List<ValidationResult> nonSuccsess = new List<ValidationResult>();
+      foreach (IValidator validator in ValidationFactory.GetValidators(this.Validators))
+      {
+        IEnumerable<ValidationResult> result= validator.Evaluate(this.Tasks.Where(t => t.ShouldRun));
+        nonSuccsess.AddRange(result.Where(r => r.State != ValidatorState.Succsess));
+      }
+
+      return nonSuccsess;
+    }
+
+    public List<string> Validators { get; private set; }
     public string FilesRoot { get; }
 
     public List<InstallParam> GlobalParams { get; }
@@ -269,7 +300,23 @@ namespace SIM.Sitecore9Installer
       }
     }
 
-    public Hashtable EvaluateLocalParams(List<InstallParam> localParams, List<InstallParam> globalParams)
+    public void EvaluateLocalParams()
+    {
+      foreach (Task task in this.Tasks.Where(t=>t.ShouldRun))
+      {
+        Hashtable evaluatedParams = this.GetEvaluatedLocalParams(task.LocalParams, task.GlobalParams);
+        foreach (InstallParam param in task.LocalParams)
+        {
+          if (evaluatedParams[param.Name] == null || param.Value == evaluatedParams[param.Name].ToString())
+          {
+            continue;
+          }
+
+          param.Value = (string)evaluatedParams[param.Name];
+        }
+      }
+    }
+    public Hashtable GetEvaluatedLocalParams(List<InstallParam> localParams, List<InstallParam> globalParams)
     {
       StringBuilder localParamsEval = new StringBuilder();
       localParamsEval.Append("Set-ExecutionPolicy Bypass -Force\n");
