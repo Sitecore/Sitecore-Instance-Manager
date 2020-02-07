@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -156,12 +157,16 @@ namespace SIM.Sitecore9Installer
     {
       this.EvaluateGlobalParams();
       this.EvaluateLocalParams();
-      List<ValidationResult> nonSuccsess = new List<ValidationResult>();
-      foreach (IValidator validator in ValidationFactory.GetValidators(this.Validators))
+      ConcurrentBag<ValidationResult> nonSuccsess = new ConcurrentBag<ValidationResult>();
+      IEnumerable<IValidator> vals = ValidationFactory.GetValidators(this.Validators);
+      Parallel.ForEach(vals,new ParallelOptions(){MaxDegreeOfParallelism=Environment.ProcessorCount*2}, (validator) =>
       {
-        IEnumerable<ValidationResult> result= validator.Evaluate(this.Tasks.Where(t => t.ShouldRun));
-        nonSuccsess.AddRange(result.Where(r => r.State != ValidatorState.Succsess));
-      }
+        IEnumerable<ValidationResult> result = validator.Evaluate(this.Tasks.Where(t => t.ShouldRun));
+        foreach (ValidationResult r in result.Where(r => r.State != ValidatorState.Success))
+        {
+          nonSuccsess.Add(r);
+        }
+      });
 
       return nonSuccsess;
     }

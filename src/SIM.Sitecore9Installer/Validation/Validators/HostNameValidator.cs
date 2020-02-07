@@ -28,7 +28,7 @@ namespace SIM.Sitecore9Installer.Validation.Validators
 
       if (!results.Any())
       {
-        results.Add(new ValidationResult(ValidatorState.Succsess, string.Empty, null));
+        results.Add(new ValidationResult(ValidatorState.Success, string.Empty, null));
       }
 
       return results;

@@ -11,7 +11,7 @@ namespace SIM.Sitecore9Installer.Validation
     Pending,
     Error,
     Warning,
-    Succsess
+    Success
   };
   public class ValidationResult
   {
