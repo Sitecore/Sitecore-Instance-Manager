@@ -10,9 +10,11 @@ namespace SIM.Sitecore9Installer.Validation
 {
   public class ValidationFactory
   {
-    private static Dictionary<string, IValidator> validators=new Dictionary<string, IValidator>();
-    private static Dictionary<string, List<string>> validatorLists;
-    static ValidationFactory()
+    private  Dictionary<string, IValidator> validators=new Dictionary<string, IValidator>();
+    private  Dictionary<string, List<string>> validatorLists;
+    private static ValidationFactory _instance;
+
+    internal ValidationFactory()
     {
       JObject doc =
         JObject.Parse(File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(),
@@ -28,7 +30,21 @@ namespace SIM.Sitecore9Installer.Validation
       validatorLists = doc["ValidatorLists"].ToObject<Dictionary<string, List<string>>>();
     }
 
-    public static IEnumerable<IValidator> GetValidators(IEnumerable<string> names)
+    public static ValidationFactory Instance
+    {
+      get
+      {
+        if (_instance == null)
+        {
+          _instance = new ValidationFactory();
+        }
+
+        return _instance;
+      }
+    }
+
+
+    public  IEnumerable<IValidator> GetValidators(IEnumerable<string> names)
     {
       List<IValidator> result = new List<IValidator>();
       foreach (string name in names)

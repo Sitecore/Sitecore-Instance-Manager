@@ -158,7 +158,7 @@ namespace SIM.Sitecore9Installer
       this.EvaluateGlobalParams();
       this.EvaluateLocalParams();
       ConcurrentBag<ValidationResult> nonSuccsess = new ConcurrentBag<ValidationResult>();
-      IEnumerable<IValidator> vals = ValidationFactory.GetValidators(this.Validators);
+      IEnumerable<IValidator> vals = ValidationFactory.Instance.GetValidators(this.Validators);
       Parallel.ForEach(vals,new ParallelOptions(){MaxDegreeOfParallelism=Environment.ProcessorCount*2}, (validator) =>
       {
         try
