@@ -45,6 +45,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SIM.SitecoreEnvironments", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SIM.Telemetry", "SIM.Telemetry\SIM.Telemetry.csproj", "{B91B2024-3F75-4DF7-8DCC-111FB5CCAF5D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SIM.Sitecore9Installer.Tests", "SIM.Sitecore9Installer.Tests\SIM.Sitecore9Installer.Tests.csproj", "{4BA57663-92B2-43DF-9505-759B0C28EEB1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -321,6 +323,22 @@ Global
 		{B91B2024-3F75-4DF7-8DCC-111FB5CCAF5D}.Release|x64.Build.0 = Release|Any CPU
 		{B91B2024-3F75-4DF7-8DCC-111FB5CCAF5D}.Release|x86.ActiveCfg = Release|Any CPU
 		{B91B2024-3F75-4DF7-8DCC-111FB5CCAF5D}.Release|x86.Build.0 = Release|Any CPU
+		{4BA57663-92B2-43DF-9505-759B0C28EEB1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4BA57663-92B2-43DF-9505-759B0C28EEB1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4BA57663-92B2-43DF-9505-759B0C28EEB1}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{4BA57663-92B2-43DF-9505-759B0C28EEB1}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{4BA57663-92B2-43DF-9505-759B0C28EEB1}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{4BA57663-92B2-43DF-9505-759B0C28EEB1}.Debug|x64.Build.0 = Debug|Any CPU
+		{4BA57663-92B2-43DF-9505-759B0C28EEB1}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{4BA57663-92B2-43DF-9505-759B0C28EEB1}.Debug|x86.Build.0 = Debug|Any CPU
+		{4BA57663-92B2-43DF-9505-759B0C28EEB1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4BA57663-92B2-43DF-9505-759B0C28EEB1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4BA57663-92B2-43DF-9505-759B0C28EEB1}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{4BA57663-92B2-43DF-9505-759B0C28EEB1}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{4BA57663-92B2-43DF-9505-759B0C28EEB1}.Release|x64.ActiveCfg = Release|Any CPU
+		{4BA57663-92B2-43DF-9505-759B0C28EEB1}.Release|x64.Build.0 = Release|Any CPU
+		{4BA57663-92B2-43DF-9505-759B0C28EEB1}.Release|x86.ActiveCfg = Release|Any CPU
+		{4BA57663-92B2-43DF-9505-759B0C28EEB1}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -344,6 +362,7 @@ Global
 		{5C870AB3-89F2-4E24-AE5D-3593EC816495} = {9285A641-C759-471D-A4FE-9C92C529128C}
 		{8A60BF81-02D6-4449-8B9F-572BA4051C82} = {9285A641-C759-471D-A4FE-9C92C529128C}
 		{B91B2024-3F75-4DF7-8DCC-111FB5CCAF5D} = {9285A641-C759-471D-A4FE-9C92C529128C}
+		{4BA57663-92B2-43DF-9505-759B0C28EEB1} = {27597389-98A2-4AF7-8629-DC761E20EEDC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5F97C0C4-9F5F-48C7-ACB3-983A4AEF8C84}
