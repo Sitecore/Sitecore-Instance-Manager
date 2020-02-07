@@ -161,10 +161,17 @@ namespace SIM.Sitecore9Installer
       IEnumerable<IValidator> vals = ValidationFactory.GetValidators(this.Validators);
       Parallel.ForEach(vals,new ParallelOptions(){MaxDegreeOfParallelism=Environment.ProcessorCount*2}, (validator) =>
       {
-        IEnumerable<ValidationResult> result = validator.Evaluate(this.Tasks.Where(t => t.ShouldRun));
-        foreach (ValidationResult r in result.Where(r => r.State != ValidatorState.Success))
+        try
         {
-          nonSuccsess.Add(r);
+          IEnumerable<ValidationResult> result = validator.Evaluate(this.Tasks.Where(t => t.ShouldRun));
+          foreach (ValidationResult r in result.Where(r => r.State != ValidatorState.Success))
+          {
+            nonSuccsess.Add(r);
+          }
+        }
+        catch (Exception e)
+        {
+          nonSuccsess.Add(new ValidationResult(ValidatorState.Error, "Validation Error", e));
         }
       });
 
