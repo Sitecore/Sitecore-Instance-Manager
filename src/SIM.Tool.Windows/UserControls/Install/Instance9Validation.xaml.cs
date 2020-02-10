@@ -31,7 +31,7 @@ namespace SIM.Tool.Windows.UserControls.Install
   /// <summary>
   /// Interaction logic for Instance9SelectTasks.xaml
   /// </summary>
-  public partial class Instance9Validation : IWizardStep, IFlowControl
+  public partial class Instance9Validation : IWizardStep, IFlowControl, ICustomButton
   {
     private Window owner;
     private Tasker tasker;
@@ -46,7 +46,7 @@ namespace SIM.Tool.Windows.UserControls.Install
       Install9WizardArgs args = (Install9WizardArgs)wizardArgs;
       this.owner = args.WizardWindow;
       this.tasker = args.Tasker;
-      WindowHelper.LongRunningTask(() => this.RunValidation(), "Running validation",owner);
+      
     }
 
     public IEnumerable<Sitecore9Installer.Validation.ValidationResult> Messages
@@ -72,7 +72,7 @@ namespace SIM.Tool.Windows.UserControls.Install
           }
 
           this.Messages = results;
-        }), DispatcherPriority.Background);
+        }), DispatcherPriority.Background).Wait();
     }
 
     public bool OnMovingBack(WizardArgs wizardArgs)
@@ -84,10 +84,13 @@ namespace SIM.Tool.Windows.UserControls.Install
     {
       Assert.ArgumentNotNull(wizardArgs, nameof(wizardArgs));
       Install9WizardArgs args = (Install9WizardArgs)wizardArgs;
-      if (this.Messages.Any())
+      if (this.Validate.IsChecked.HasValue && this.Validate.IsChecked.Value)
       {
-        return WindowHelper.ShowMessage("There are validation errors. Do you want to run install anyway?",
-                 MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes;
+        WindowHelper.LongRunningTask(() => this.RunValidation(), "Running validation", owner);
+        if (this.Messages.Any())
+        {
+          return false;
+        }
       }
 
       return true;
@@ -96,6 +99,12 @@ namespace SIM.Tool.Windows.UserControls.Install
     public bool SaveChanges(WizardArgs wizardArgs)
     {
       return true;
+    }
+
+    public string CustomButtonText { get => "Advanced..."; }
+    public void CustomButtonClick()
+    {
+      WindowHelper.ShowDialog<Install9ParametersEditor>(this.tasker, this.owner);
     }
   }
 }

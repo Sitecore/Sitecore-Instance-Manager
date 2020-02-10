@@ -9,11 +9,13 @@
              Name="ValidationResultsControl">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="25"/>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="20"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <TextBlock Name="Caption" HorizontalAlignment="Left" Grid.Row="0"/>
-        <DataGrid Grid.Row="1" IsEnabled="True" HorizontalAlignment="Left" Name="MessagesList" ItemsSource="{Binding}" 
+        <CheckBox Name="Validate" IsChecked="True" Grid.Row="0" >Perform installation parameters validation</CheckBox>
+        <TextBlock Name="Caption" HorizontalAlignment="Left" Grid.Row="1"/>
+        <DataGrid Grid.Row="2" Visibility="Hidden" IsEnabled="True" HorizontalAlignment="Left" Name="MessagesList" ItemsSource="{Binding}" 
                   Margin="10,10,0,0" VerticalAlignment="Top" Width="407" >
            
         </DataGrid>
