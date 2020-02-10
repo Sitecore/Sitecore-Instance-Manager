@@ -58,25 +58,21 @@ namespace SIM.Tool.Windows.UserControls.Install
     private void RunValidation()
     {
       IEnumerable<Sitecore9Installer.Validation.ValidationResult> results = this.tasker.GetValidationErrors();
-      
-      if (results.Any())
-      {
-        Dispatcher.BeginInvoke(new Action(() =>
+      Dispatcher.BeginInvoke(new Action(() =>
         {
-          this.Caption.Text = "Validation results:";
+          if (results.Any())
+          {
+            this.Caption.Text = "Validation results:";
+            this.MessagesList.Visibility = Visibility.Visible;
+          }
+          else
+          {
+            this.Caption.Text = "Validation is successful.";
+            this.MessagesList.Visibility = Visibility.Hidden;
+          }
+
           this.Messages = results;
-          this.MessagesList.Visibility = Visibility.Visible;
         }), DispatcherPriority.Background);
-       
-      }
-      else
-      {
-        Dispatcher.BeginInvoke(new Action(() =>
-        {
-          this.Caption.Text = "Validation is successful.";
-          this.MessagesList.Visibility = Visibility.Hidden;
-        }), DispatcherPriority.Background);
-      }
     }
 
     public bool OnMovingBack(WizardArgs wizardArgs)
