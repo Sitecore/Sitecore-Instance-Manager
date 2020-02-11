@@ -9,5 +9,6 @@ namespace SIM
   public interface IValidateable
   {
     string ValidateAndGetError();
+    bool HasAnyValuesInTheFields();
   }
 }

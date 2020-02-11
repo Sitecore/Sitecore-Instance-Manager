@@ -171,7 +171,7 @@ namespace SIM.Tool.Windows.Dialogs
         editCollection.Add((SolrDefinition)solr.Clone());
       }
 
-      GridEditorContext context = new GridEditorContext(editCollection, "List of available solr servers (Url+root+service name).");
+      GridEditorContext context = new GridEditorContext(typeof(SolrDefinition), editCollection, "List of available solr servers (Url+root+service name).");
       object result=WindowHelper.ShowDialog<GridEditor>(context, this);
       bool? dialogresult = result as bool?;
       if ((result!=null&&dialogresult==null)||(dialogresult.HasValue && dialogresult.Value))
