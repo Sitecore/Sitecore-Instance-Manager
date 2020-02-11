@@ -1,0 +1,35 @@
+{
+  "ValidatorDefinitions": [
+    /*example
+    {
+      "Name": "name",
+      "Type": "type",
+      "Data": { "ParamNames": "param1" }
+    },
+    {
+      "Name": "name2",
+      "Type": "type2",
+      "Data": { "ParamNames": "param2,param3" }
+    }*/
+    {
+      "Name": "HostNameValidator",
+      "Type": "SIM.Sitecore9Installer.Validation.Validators.HostNameValidator",
+      "Data": { "ParamNames": "DnsName" }
+    }
+  ],
+  "ValidatorLists": {
+    /*example
+    "List1": [
+      "val1",
+      "val2"
+    ],
+    "List2": [
+      "val3",
+      "val4",
+      "val5"
+    ]*/
+    "Basic": [
+      "HostNameValidator"
+    ] 
+  }
+}

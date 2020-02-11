@@ -477,6 +477,9 @@
     <Content Include="GlobalParamsConfig\XM\GlobalParams_9.3_XM1.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="GlobalParamsConfig\Validators.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="GlobalParamsConfig\XP\GlobalParams_9.2_XP0.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
