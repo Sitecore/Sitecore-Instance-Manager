@@ -9,19 +9,32 @@ namespace SIM.Sitecore9Installer.Validation.Validators
 {
   public class HostNameValidator:IValidator
   {
+    public HostNameValidator()
+    {
+      this.Data = new Dictionary<string, string>();
+    }
+
+    public Dictionary<string, string> Data { get; set; }
+
     public IEnumerable<ValidationResult> Evaluate(IEnumerable<Task> tasks)
     {
       List<ValidationResult> results = new List<ValidationResult>();
-      foreach (Task task in tasks)
+      if (this.Data.ContainsKey("ParamNames"))
       {
-        InstallParam dns = task.LocalParams.FirstOrDefault(p => p.Name == "DnsName");
-        if (dns != null)
+        foreach (Task task in tasks)
         {
-          if (Uri.CheckHostName(dns.Value)!=UriHostNameType.Dns)
+          foreach (string paramName in this.Data["ParamNames"].Split(','))
           {
-            ValidationResult r = new ValidationResult(ValidatorState.Error,
-              string.Format("Invalid host in '{0}' of '{1}'", dns.Name, task.Name), null);
-            results.Add(r);
+            InstallParam dns = task.LocalParams.FirstOrDefault(p => p.Name == paramName);
+            if (dns != null)
+            {
+              if (Uri.CheckHostName(dns.Value) != UriHostNameType.Dns)
+              {
+                ValidationResult r = new ValidationResult(ValidatorState.Error,
+                  string.Format("Invalid host in '{0}' of '{1}'", dns.Name, task.Name), null);
+                results.Add(r);
+              }
+            }
           }
         }
       }

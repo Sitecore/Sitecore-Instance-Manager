@@ -13,5 +13,7 @@ namespace SIM.Sitecore9Installer.Validation
     public string Name { get; private set; }
     [JsonProperty]
     public string Type { get; private set; }
+    [JsonProperty]
+    public Dictionary<string,string> Data { get; private set; }
   }
 }

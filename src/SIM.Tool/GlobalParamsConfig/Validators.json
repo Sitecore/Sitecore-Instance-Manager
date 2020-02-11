@@ -3,15 +3,18 @@
     /*example
     {
       "Name": "name",
-      "Type": "type"
+      "Type": "type",
+      "Data": { "ParamNames": "param1" }
     },
     {
       "Name": "name2",
-      "Type": "type2"
+      "Type": "type2",
+      "Data": { "ParamNames": "param2,param3" }
     }*/
     {
       "Name": "HostNameValidator",
-      "Type": "SIM.Sitecore9Installer.Validation.Validators.HostNameValidator"
+      "Type": "SIM.Sitecore9Installer.Validation.Validators.HostNameValidator",
+      "Data": { "ParamNames": "DnsName" }
     }
   ],
   "ValidatorLists": {
