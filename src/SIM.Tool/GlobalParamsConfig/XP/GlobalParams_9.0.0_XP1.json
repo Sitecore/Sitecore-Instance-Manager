@@ -79,6 +79,10 @@
     "xconnect-xp1-ReferenceData": "* (onPrem)_xp1referencedata.scwdp.zip"
   },
 
+  "Validators": [
+    "list|Basic"
+  ],
+
   "ExecSequense": {
     "InstallSIF": {
       "Type": "SIM.Sitecore9Installer.Tasks.InstallSIFTask, SIM.Sitecore9Installer",
