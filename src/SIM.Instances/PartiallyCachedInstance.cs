@@ -1,11 +1,15 @@
-﻿namespace SIM.Instances
+﻿using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
+
+namespace SIM.Instances
 {
   using System;
   using System.IO;
   using System.Xml;
   using JetBrains.Annotations;
 
-  public sealed class PartiallyCachedInstance : Instance, IDisposable
+  public sealed class PartiallyCachedInstance : Instance, IDisposable, INotifyPropertyChanged
   {
     #region Instance fields
 
@@ -28,6 +32,8 @@
 
     private string _WebRootPath;
     private string _BindingsNames;
+
+    public event PropertyChangedEventHandler PropertyChanged;
 
     #endregion
 
@@ -107,7 +113,13 @@
     {
       get
       {
-        return _ModulesNamesCache ?? (_ModulesNamesCache = base.ModulesNames);
+        if (_ModulesNamesCache == null)
+        {
+          Task.Run(() => { this._ModulesNamesCache = base.ModulesNames; OnPropertyChanged(); });
+          return string.Empty;
+        }
+
+        return _ModulesNamesCache;
       }
     }
 
@@ -152,5 +164,13 @@
     }
 
     #endregion
+
+    #region Protected methods
+    protected void OnPropertyChanged([CallerMemberName] string name = null)
+    {
+      PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+    }
+    #endregion
+
   }
 }
