@@ -1,4 +1,7 @@
-﻿namespace SIM.Tool.Windows
+﻿using System.Linq;
+using SIM.Instances;
+
+namespace SIM.Tool.Windows
 {
   using System;
   using System.ComponentModel;
@@ -355,10 +358,40 @@
       }
     }
 
-    // Prevent context menu opening on toggle button
     private void ToggleButton_OnContextMenuOpening(object sender, ContextMenuEventArgs e)
     {
+      if ((sender as System.Windows.Controls.Border).DataContext != null)
+      {
+        string name = (sender as System.Windows.Controls.Border).DataContext.ToString();
+        MainWindow.Instance.InstanceList.SelectedItem = MainWindow.Instance.InstanceList.Items.Cast<PartiallyCachedInstance>().FirstOrDefault(item => item.Name.StartsWith(name) && item.IsSitecore);
+
+        if (MainWindow.Instance.InstanceList.SelectedItem != null)
+        {
+          for (int i = 0; i < MainWindow.Instance.ContextMenu.Items.Count; i++)
+          {
+            if (MainWindow.Instance.ContextMenu.Items[i] is System.Windows.Controls.MenuItem)
+            {
+              if ((MainWindow.Instance.ContextMenu.Items[i] as System.Windows.Controls.MenuItem).Header == "Reinstall instance" ||
+                  (MainWindow.Instance.ContextMenu.Items[i] as System.Windows.Controls.MenuItem).Header == "Delete")
+              {
+                (MainWindow.Instance.ContextMenu.Items[i] as System.Windows.Controls.MenuItem).Visibility = Visibility.Visible;
+              }
+              else
+              {
+                (MainWindow.Instance.ContextMenu.Items[i] as System.Windows.Controls.MenuItem).Visibility = Visibility.Collapsed;
+              }
+            }
+            else if (MainWindow.Instance.ContextMenu.Items[i] is System.Windows.Controls.Separator)
+            {
+              (MainWindow.Instance.ContextMenu.Items[i] as System.Windows.Controls.Separator).Visibility = Visibility.Collapsed;
+            }
+          }
+          return;
+        }
+      }
+      // Prevent context menu opening on toggle button if there is no matching Sitecore instance
       e.Handled = true;
+      
     }
 
     #endregion

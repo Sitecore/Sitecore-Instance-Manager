@@ -926,10 +926,12 @@
             ((MainWindow.Instance.ContextMenu.Items[i] as System.Windows.Controls.MenuItem).Header == "Backup" ||
             (MainWindow.Instance.ContextMenu.Items[i] as System.Windows.Controls.MenuItem).Header == "Restore" ||
             (MainWindow.Instance.ContextMenu.Items[i] as System.Windows.Controls.MenuItem).Header == "Export" ||
-            (MainWindow.Instance.ContextMenu.Items[i] as System.Windows.Controls.MenuItem).Header == "Install modules"))
+            (MainWindow.Instance.ContextMenu.Items[i] as System.Windows.Controls.MenuItem).Header == "Install modules" ||
+            (MainWindow.Instance.ContextMenu.Items[i] as System.Windows.Controls.MenuItem).Header == "Reinstall instance" ||
+            (MainWindow.Instance.ContextMenu.Items[i] as System.Windows.Controls.MenuItem).Header == "Delete"))
         {
           (MainWindow.Instance.ContextMenu.Items[i] as System.Windows.Controls.MenuItem).Visibility = visibility;
-          if (MainWindow.Instance.ContextMenu.Items[i+1] is System.Windows.Controls.Separator)
+          if (i + 1 < MainWindow.Instance.ContextMenu.Items.Count && MainWindow.Instance.ContextMenu.Items[i+1] is System.Windows.Controls.Separator)
           {
             (MainWindow.Instance.ContextMenu.Items[i+1] as System.Windows.Controls.Separator).Visibility = visibility;
           }
