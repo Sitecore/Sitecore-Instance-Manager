@@ -2,7 +2,7 @@
 
 Simple validator allows checks in a context of a single task. For example check that dns name is valid.
 1. Create a new class derived from the `SIM.Sitecore9Installer.Validation.Validators.BaseValidator`
-2. Implement `IEnumerable<ValidationResult> GetErrorsForTask(Task task, IEnumerable<InstallParam> paramsToValidate)` method. Implemenattions details are explained later.
+2. Implement `IEnumerable<ValidationResult> GetErrorsForTask(Task task, IEnumerable<InstallParam> paramsToValidate)` method. Implementation details are explained later.
 3. Add validator definition to the `GlobalParamsConfig\Validators.json` file:
 ```
     "ValidatorDefinitions": [   
