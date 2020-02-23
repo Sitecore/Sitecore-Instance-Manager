@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<package >
+	<metadata>
+		<id>SIM.Telemetry</id>
+		<version>1.0.2-alpha</version>
+		<title>SIM.Telemetry</title>
+		<authors>AndreyFilchenkov</authors>
+		<projectUrl>https://github.com/Sitecore/Sitecore-Instance-Manager/tree/master/src</projectUrl>
+		<requireLicenseAcceptance>false</requireLicenseAcceptance>
+		<description>'SIM.Telemetry' is used to track Sitecore Instance Manager utilisation statistics</description>
+		<releaseNotes>1.0.2-alpha</releaseNotes>
+		<dependencies>
+			<dependency id="KB.Telemetry" version="1.0.2-alpha" />
+		</dependencies>
+		<copyright>Copyright 2020</copyright>
+		<tags>Sitecore Support</tags>
+	</metadata>
+	<files>
+		<file src="bin\Release\SIM.Telemetry*.dll" target="lib" />
+		<file src="bin\Release\SIM.Telemetry*.pdb" target="lib" />
+	</files>
+</package>
