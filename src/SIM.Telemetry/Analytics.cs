@@ -39,8 +39,10 @@
     #endregion
 
     #region Public Methods
-    public static void Initialize([NotNull] TelemetryEventContext telemetryEventContext, bool trackingEnabled)
+    public static void Initialize([CanBeNull] TelemetryEventContext telemetryEventContext, bool trackingEnabled)
     {
+      Assert.ArgumentNotNull(telemetryEventContext, "telemetryEventContext");
+
       EventContext = telemetryEventContext;
       IsTrackingEnabled = trackingEnabled;
 
@@ -58,16 +60,31 @@
 
     public static void Track(TelemetryEvent tEvent)
     {
+      Track(tEvent.ToString(), new Dictionary<string, string>());
+    }
+
+    public static void Track(string tEvent)
+    {
+      Track(tEvent, new Dictionary<string, string>());
+    }
+
+    public static void Track(TelemetryEvent tEvent, Dictionary<string, string> eventCustomData)
+    {
+      Track(tEvent.ToString(), eventCustomData);
+    }
+
+    public static void Track(string tEvent, Dictionary<string, string> eventCustomData)
+    {
       if (!IsInitialized)
       {
-        Log.Debug($"'Analytics' manager has not been initialized. Telemetry event '{tEvent.ToString()}' will not be processed.");
+        Log.Debug($"'Analytics' manager has not been initialized. Telemetry event '{tEvent}' will not be processed.");
 
         return;
       }
 
       if (!IsTrackingEnabled)
       {
-        Log.Debug($"Analytics is disabled. Telemetry event '{tEvent.ToString()}' will not be processed.");
+        Log.Debug($"Analytics is disabled. Telemetry event '{tEvent}' will not be processed.");
 
         return;
       }
@@ -79,7 +96,7 @@
         return;
       }
 
-      Task.Run(() => DoTrackEvent(tEvent));
+      Task.Run(() => DoTrackEvent(tEvent, eventCustomData));
     }
 
     public static void RegisterProvider(TelemetryProviderBase telemetryProvider)
@@ -91,7 +108,7 @@
     #endregion
 
     #region Private Methods
-    private static void DoTrackEvent(TelemetryEvent telemetryEvent)
+    private static void DoTrackEvent(string telemetryEvent, Dictionary<string, string> eventCustomData)
     {
       var providers = TelemetryProviders.ToArray();
 
@@ -99,7 +116,7 @@
       {
         try
         {
-          provider.TrackEvent(telemetryEvent, EventContext);
+          provider.TrackEvent(telemetryEvent, eventCustomData, EventContext);
         }
         catch (Exception ex)
         {
