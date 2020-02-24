@@ -201,7 +201,7 @@ namespace SIM.Tool.Windows.UserControls.Install
       }
 
       InstallParam solrService = tasker.GlobalParams.FirstOrDefault(p => p.Name == "SolrService");
-      if (solrService != null)
+      if (solrService != null&&!string.IsNullOrEmpty(solr.Service))
       {
         solrService.Value = solr.Service; // this.SolrService.Text;
       }

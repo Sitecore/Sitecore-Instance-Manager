@@ -40,7 +40,7 @@ namespace SIM.Pipelines.Install
         InstallParam installParam = powerShellTask.LocalParams.FirstOrDefault(x => x.Name == SiteName);
         if (installParam != null && !string.IsNullOrEmpty(installParam.Value))
         {
-          Hashtable evaluatedLocalParams = tasker.EvaluateLocalParams(powerShellTask.LocalParams, tasker.GlobalParams);
+          Hashtable evaluatedLocalParams = tasker.GetEvaluatedLocalParams(powerShellTask.LocalParams, tasker.GlobalParams);
           if (evaluatedLocalParams != null && evaluatedLocalParams[SiteName] != null)
           {
             sitecoreEnvironment.Members.Add(new SitecoreEnvironmentMember(evaluatedLocalParams[SiteName].ToString(),

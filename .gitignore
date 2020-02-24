@@ -55,3 +55,4 @@ src/SIM.Telemetry/bin/
 src/SIM.Telemetry.Tests/bin/
 src/SIM.SitecoreEnvironments/bin/
 /.vs
+src/SIM.Sitecore9Installer.Tests/bin/
