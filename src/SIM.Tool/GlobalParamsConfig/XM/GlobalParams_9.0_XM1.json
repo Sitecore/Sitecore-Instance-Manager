@@ -35,6 +35,10 @@
     "sitecore-XM1-cm": "* (OnPrem)_cm.scwdp.zip"
   },
 
+  "Validators": [
+    "list|Basic"
+  ],
+
   "ExecSequense": {
     "InstallSIF": {
       "Type": "SIM.Sitecore9Installer.Tasks.InstallSIFTask, SIM.Sitecore9Installer",

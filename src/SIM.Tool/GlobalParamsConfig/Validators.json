@@ -15,6 +15,11 @@
       "Name": "HostNameValidator",
       "Type": "SIM.Sitecore9Installer.Validation.Validators.HostNameValidator",
       "Data": { "ParamNames": "DnsName" }
+    },
+    {
+      "Name": "SolrServiceValidator",
+      "Type": "SIM.Sitecore9Installer.Validation.Validators.SolrServiceValidator",
+      "Data": { "ParamNames": "SolrService" }
     }
   ],
   "ValidatorLists": {
@@ -29,7 +34,8 @@
       "val5"
     ]*/
     "Basic": [
-      "HostNameValidator"
+      "HostNameValidator",
+      "SolrServiceValidator"
     ] 
   }
 }

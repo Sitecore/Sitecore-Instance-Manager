@@ -93,6 +93,11 @@
     "xconnect-xp0": "* (OnPrem)_xp0xconnect.scwdp.zip",
     "IdentityServer": "* (OnPrem)_identityserver.scwdp.zip"
   },
+
+  "Validators": [
+    "list|Basic"
+  ],
+
   "ExecSequense": {
     "InstallSIF": {
       "Type": "SIM.Sitecore9Installer.Tasks.InstallSIFTask, SIM.Sitecore9Installer",
