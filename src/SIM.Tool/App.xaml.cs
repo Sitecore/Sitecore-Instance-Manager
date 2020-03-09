@@ -285,17 +285,17 @@ namespace SIM.Tool
 
       Telemetry.Analytics.RegisterProvider(kbTelemetryProvider);
 
-      var telemetryEventContext = new TelemetryEventContext();
-
       try
       {
-        telemetryEventContext.ApplicationID = Constants.SitecoreInstanceManagerAppId;
-        telemetryEventContext.DeviceId = AnalyticsHelper.GetDeviceId(ApplicationManager.TempFolder);
-        telemetryEventContext.AppVersion = string.IsNullOrEmpty(ApplicationManager.AppVersion) ? "0.0.0.0" : ApplicationManager.AppVersion;
-        telemetryEventContext.OperatingSystem = Environment.OSVersion.ToString();
-        telemetryEventContext.Language = AnalyticsHelper.GetCurrentUICulture();
-        telemetryEventContext.ScreenWidth = AnalyticsHelper.GetScreenWidth();
-        telemetryEventContext.ScreenHeight = AnalyticsHelper.GetScreenHeight();
+        string appVersion = string.IsNullOrEmpty(ApplicationManager.AppVersion) ? "0.0.0.0" : ApplicationManager.AppVersion;
+
+        var telemetryEventContext = new TelemetryEventContext(
+          Constants.SitecoreInstanceManagerAppId,
+          AnalyticsHelper.GetDeviceId(ApplicationManager.TempFolder),
+          appVersion
+          );
+
+        Telemetry.Analytics.Initialize(telemetryEventContext, trackingEnabled: WindowsSettings.AppTelemetryEnabled.Value);
       }
       catch (Exception ex)
       {
@@ -306,7 +306,7 @@ namespace SIM.Tool
         return;
       }
 
-      Telemetry.Analytics.Initialize(telemetryEventContext, trackingEnabled: WindowsSettings.AppTelemetryEnabled.Value);
+
     }
 
     private void InitializeLogging()

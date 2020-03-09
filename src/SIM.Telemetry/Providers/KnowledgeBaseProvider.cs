@@ -1,9 +1,9 @@
 ﻿namespace SIM.Telemetry.Providers
 {
   using System;
+  using System.Collections.Generic;
   using System.Net.Http;
   using System.Text;
-  using KB.Telemetry;
   using Newtonsoft.Json;
   using SIM.Telemetry.Models;
   using Sitecore.Diagnostics.Logging;
@@ -29,9 +29,9 @@
     #endregion
 
     #region Public Methods
-    public override void TrackEvent(TelemetryEvent telemetryEvent, TelemetryEventContext eventContext)
+    public override void TrackEvent(string telemetryEvent, Dictionary<string, string> customEventData, TelemetryEventContext eventContext)
     {
-      var appUtilizationModel = eventContext.ToAppUtilizationModel(telemetryEvent);
+      var appUtilizationModel = eventContext.ToAppUtilizationModel(telemetryEvent, customEventData);
 
       try
       {
