@@ -96,7 +96,8 @@
   },
 
   "Validators": [
-    "list|Basic"
+    "list|Basic",
+    "list|DDS"
   ],
 
   "ExecSequense": {

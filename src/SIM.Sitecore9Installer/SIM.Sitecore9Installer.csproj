@@ -111,6 +111,7 @@
     <Compile Include="Validation\ValidatorDefinition.cs" />
     <Compile Include="Validation\Validators\BaseValidator.cs" />
     <Compile Include="Validation\Validators\HostNameValidator.cs" />
+    <Compile Include="Validation\Validators\NugetToolPresenceValidator.cs" />
     <Compile Include="Validation\Validators\SolrServiceValidator.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

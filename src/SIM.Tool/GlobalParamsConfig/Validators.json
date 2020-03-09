@@ -20,6 +20,10 @@
       "Name": "SolrServiceValidator",
       "Type": "SIM.Sitecore9Installer.Validation.Validators.SolrServiceValidator",
       "Data": { "ParamNames": "SolrService" }
+    },
+    {
+      "Name": "NugetToolPresenceValidator",
+      "Type": "SIM.Sitecore9Installer.Validation.Validators.NugetToolPresenceValidator"
     }
   ],
   "ValidatorLists": {
@@ -36,6 +40,9 @@
     "Basic": [
       "HostNameValidator",
       "SolrServiceValidator"
-    ] 
+    ],
+    "DDS": [
+      "NugetToolPresenceValidator"
+    ]
   }
 }
