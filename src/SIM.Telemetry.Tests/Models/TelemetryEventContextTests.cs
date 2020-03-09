@@ -2,6 +2,8 @@
 using System;
 using Xunit;
 using Sitecore.Diagnostics.Base.Exceptions;
+using Microsoft.Extensions.Logging;
+using NSubstitute;
 
 namespace SIM.Telemetry.Tests.Models
 {
@@ -15,9 +17,10 @@ namespace SIM.Telemetry.Tests.Models
       // Arrange
       var app = Guid.NewGuid();
       var device = Guid.NewGuid();
+      ILogger logger = Substitute.For<ILogger>();
 
       // Act
-      Action action = () => new TelemetryEventContext(app, device, version);
+      Action action = () => new TelemetryEventContext(app, device, version, logger);
 
       // Assert
       Assert.Throws<ArgumentNullOrEmptyException>(action);
@@ -30,9 +33,11 @@ namespace SIM.Telemetry.Tests.Models
       // Arrange
       var app = Guid.NewGuid();
       var device = Guid.NewGuid();
+      ILogger logger = Substitute.For<ILogger>();
+
 
       // Act
-      var context = new TelemetryEventContext(app, device, version);
+      var context = new TelemetryEventContext(app, device, version, logger);
 
       // Assert
       Assert.NotNull(context);

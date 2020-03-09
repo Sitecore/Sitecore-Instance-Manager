@@ -280,8 +280,11 @@ namespace SIM.Tool
 
     private void InitializeTelemetry()
     {
+      var _logger = new SIM.Core.Logging.SitecoreLogger(Microsoft.Extensions.Logging.LogLevel.Debug);
+
       var kbProviderConfiguration = new KBProviderConfiguration() { BaseAddress = Constants.KBProviderBaseAddress };
-      var kbTelemetryProvider = new KnowledgeBaseProvider(kbProviderConfiguration, enabled: true);
+
+      var kbTelemetryProvider = new KnowledgeBaseProvider(kbProviderConfiguration, true, _logger);
 
       Telemetry.Analytics.RegisterProvider(kbTelemetryProvider);
 
@@ -291,11 +294,12 @@ namespace SIM.Tool
 
         var telemetryEventContext = new TelemetryEventContext(
           Constants.SitecoreInstanceManagerAppId,
-          AnalyticsHelper.GetDeviceId(ApplicationManager.TempFolder),
-          appVersion
+          AnalyticsHelper.GetDeviceId(ApplicationManager.TempFolder, _logger),
+          appVersion,
+          _logger
           );
 
-        Telemetry.Analytics.Initialize(telemetryEventContext, trackingEnabled: WindowsSettings.AppTelemetryEnabled.Value);
+        Telemetry.Analytics.Initialize(telemetryEventContext, WindowsSettings.AppTelemetryEnabled.Value, _logger);
       }
       catch (Exception ex)
       {
