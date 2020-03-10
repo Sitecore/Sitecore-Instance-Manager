@@ -2,13 +2,13 @@
 <package >
 	<metadata>
 		<id>SIM.Telemetry</id>
-		<version>1.0.2-alpha</version>
+		<version>1.1.0-alpha</version>
 		<title>SIM.Telemetry</title>
 		<authors>AndreyFilchenkov</authors>
 		<projectUrl>https://github.com/Sitecore/Sitecore-Instance-Manager/tree/master/src</projectUrl>
 		<requireLicenseAcceptance>false</requireLicenseAcceptance>
 		<description>'SIM.Telemetry' is used to track Sitecore Instance Manager utilisation statistics</description>
-		<releaseNotes>1.0.2-alpha</releaseNotes>
+		<releaseNotes>1.1.0-alpha</releaseNotes>
 		<dependencies>
 			<dependency id="KB.Telemetry" version="1.0.2-alpha" />
 		</dependencies>
