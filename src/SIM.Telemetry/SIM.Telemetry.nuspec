@@ -16,7 +16,7 @@
 		<tags>Sitecore Support</tags>
 	</metadata>
 	<files>
-		<file src="bin\Release\SIM.Telemetry*.dll" target="lib" />
-		<file src="bin\Release\SIM.Telemetry*.pdb" target="lib" />
+		<file src="bin\Release\SIM.Telemetry*.dll" target="lib/net461" />
+		<file src="bin\Release\SIM.Telemetry*.pdb" target="lib/net461" />
 	</files>
 </package>
