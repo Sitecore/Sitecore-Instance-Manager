@@ -1,7 +1,7 @@
 ﻿namespace SIM.Telemetry.Models
 {
   using JetBrains.Annotations;
-  using Sitecore.Diagnostics.Base;
+  using Microsoft.Extensions.Logging;
   using System;
 
   public class TelemetryEventContext
@@ -20,16 +20,23 @@
 
     public int ScreenHeight { get; set; }
 
-    public TelemetryEventContext(Guid applicationId, Guid deviceId, [CanBeNull]string appVersion)
-    {
-      Assert.ArgumentNotNullOrEmpty(appVersion, "appVersion");
+    protected readonly ILogger _logger;
 
+    public TelemetryEventContext(Guid applicationId, 
+      Guid deviceId, 
+      [CanBeNull] string appVersion, 
+      [CanBeNull] ILogger logger)
+    {
+      if (string.IsNullOrWhiteSpace(appVersion)) throw new ArgumentNullException(nameof(appVersion));
+      if (logger == null) throw new ArgumentNullException(nameof(logger));
+
+      _logger = logger;
       ApplicationID = applicationId;
       DeviceId = deviceId;
       AppVersion = appVersion;
 
       OperatingSystem = Environment.OSVersion.ToString();
-      Language = AnalyticsHelper.GetCurrentUICulture();
+      Language = AnalyticsHelper.GetCurrentUICulture(this._logger);
       ScreenWidth = AnalyticsHelper.GetScreenWidth();
       ScreenHeight = AnalyticsHelper.GetScreenHeight();
     }
