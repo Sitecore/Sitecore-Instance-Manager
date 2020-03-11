@@ -8,7 +8,7 @@ namespace SIM.Sitecore9Installer.Validation.Validators
   {
     protected virtual string TaskName => "sitecore-XP1-cm-dds-patch";
 
-    protected virtual string CommandToEvaluate => "nuget.exe";
+    public virtual string CommandToEvaluate => "nuget.exe";
 
     protected override IEnumerable<ValidationResult> GetErrorsForTask(Task task, IEnumerable<InstallParam> paramsToValidate)
     {
@@ -22,21 +22,9 @@ namespace SIM.Sitecore9Installer.Validation.Validators
       return new ValidationResult[0];
     }
 
-    protected virtual string GetScript(string command)
+    private IEnumerable<ValidationResult> GetValidationResults()
     {
-      // Try to run 'nuget.exe' tool without any parameters.
-      // In case the tool is absent the CommandNotFoundException is thrown.
-
-      string script = command;
-
-      return script;
-    }
-
-    protected virtual IEnumerable<ValidationResult> GetValidationResults()
-    {
-      string script = GetScript(CommandToEvaluate);
-
-      string psError = GetScriptError(script);
+      string psError = GetScriptError(CommandToEvaluate);
 
       if (psError.Equals("CommandNotFoundException", System.StringComparison.InvariantCultureIgnoreCase))
       {
@@ -58,7 +46,7 @@ namespace SIM.Sitecore9Installer.Validation.Validators
       }
     }
 
-    protected virtual string GetScriptError(string script)
+    private string GetScriptError(string script)
     {
       using (PowerShell PowerShellInstance = PowerShell.Create())
       {
