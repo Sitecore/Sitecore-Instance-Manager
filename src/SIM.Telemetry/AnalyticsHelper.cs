@@ -1,16 +1,18 @@
 ﻿namespace SIM.Telemetry
 {
   using JetBrains.Annotations;
-  using Sitecore.Diagnostics.Logging;
+  using Microsoft.Extensions.Logging;
   using System;
   using System.Globalization;
   using System.IO;
   using System.Windows.Forms;
 
   public static class AnalyticsHelper
-  {    
-    public static Guid GetDeviceId(string temporaryFolder)
+  {
+    public static Guid GetDeviceId(string temporaryFolder, [CanBeNull] ILogger logger)
     {
+      if (logger == null) throw new ArgumentNullException(nameof(logger));
+
       var fileName = "deviceid.txt";
 
       var tempFolder = temporaryFolder;
@@ -33,8 +35,7 @@
           }
           catch (Exception ex)
           {
-            Log.Error(ex, $"Cannot delete '{fileName}' file");
-            Log.Debug($"Message:{ex.Message}{Environment.NewLine}{ex.StackTrace}");
+            logger.LogDebug(ex, $"Cannot delete '{fileName}' file");
           }
         }
       }
@@ -51,16 +52,17 @@
       }
       catch (Exception ex)
       {
-        Log.Error(ex, $"Cannot write device id to '{fileName}' file");
-        Log.Debug($"Message:{ex.Message}{Environment.NewLine}{ex.StackTrace}");
+        logger.LogDebug(ex, $"Cannot write device ID to '{fileName}' file");
       }
 
       return newDeviceId;
     }
 
     [NotNull]
-    public static string GetCurrentUICulture()
+    public static string GetCurrentUICulture([CanBeNull] ILogger logger)
     {
+      if (logger == null) throw new ArgumentNullException(nameof(logger));
+
       var defaultUICulture = "en";
 
       CultureInfo currentUICulture;
@@ -73,7 +75,7 @@
       }
       catch (Exception ex)
       {
-        Log.Debug($"CurrentUICulture cannot be retrieved. The {defaultUICulture} culture will be used instead.{Environment.NewLine}Message:{ex.Message}{Environment.NewLine}{ex.StackTrace}");
+        logger.LogDebug(ex, $"CurrentUICulture cannot be retrieved. The {defaultUICulture} culture will be used instead.");
 
         return defaultUICulture;
       }
