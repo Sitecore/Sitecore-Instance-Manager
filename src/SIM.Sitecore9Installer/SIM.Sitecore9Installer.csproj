@@ -110,6 +110,7 @@
     <Compile Include="Validation\ValidationResult.cs" />
     <Compile Include="Validation\ValidatorDefinition.cs" />
     <Compile Include="Validation\Validators\BaseValidator.cs" />
+    <Compile Include="Validation\Validators\CertificateValidator.cs" />
     <Compile Include="Validation\Validators\HostNameValidator.cs" />
     <Compile Include="Validation\Validators\SolrServiceValidator.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">

@@ -20,6 +20,23 @@
       "Name": "SolrServiceValidator",
       "Type": "SIM.Sitecore9Installer.Validation.Validators.SolrServiceValidator",
       "Data": { "ParamNames": "SolrService" }
+    },
+    {
+      "Name": "RootCertificateValidator",
+      "Type": "SIM.Sitecore9Installer.Validation.Validators.CertificateValidator",
+      "Data": {
+        "ParamNames": "RootCertFileName",
+        "StoreName": "Root",
+        "Prefix": "DO_NOT_TRUST_"
+      }
+    },
+    {
+      "Name": "CertificateValidator",
+      "Type": "SIM.Sitecore9Installer.Validation.Validators.CertificateValidator",
+      "Data": {
+        "ParamNames": "CertificateName",
+        "StoreName": "MY"
+      }
     }
   ],
   "ValidatorLists": {
@@ -35,7 +52,9 @@
     ]*/
     "Basic": [
       "HostNameValidator",
-      "SolrServiceValidator"
+      "SolrServiceValidator",
+      "RootCertificateValidator",
+      "CertificateValidator"
     ] 
   }
 }
