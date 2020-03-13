@@ -9,9 +9,6 @@ namespace SIM.Sitecore9Installer.Validation.Validators
   {
     protected override IEnumerable<ValidationResult> GetErrorsForTask(Task task, IEnumerable<InstallParam> paramsToValidate)
     {
-      X509Store store = new X509Store(this.Data["StoreName"], StoreLocation.LocalMachine);
-      store.Open(OpenFlags.ReadOnly | OpenFlags.OpenExistingOnly);
-      X509Certificate2Collection collection = store.Certificates;
       string prefix = string.Empty;
       if (this.Data.ContainsKey("Prefix"))
       {
@@ -21,20 +18,18 @@ namespace SIM.Sitecore9Installer.Validation.Validators
       foreach (InstallParam p in paramsToValidate)
       {
         string search = prefix + p.Value;
-        X509Certificate2Collection fcollection = this.FindCertificates(collection,search);
+        X509Certificate2Collection fcollection = this.FindCertificates(search);
 
         foreach (X509Certificate2 x509 in fcollection)
         {
           bool isValid = this.ValidateCertificate(x509);
           if (!isValid)
           {
-            yield return new ValidationResult(ValidatorState.Error, string.Format("Certificate {0} - {1} is not valid", x509.SubjectName, x509.Thumbprint), null);
+            yield return new ValidationResult(ValidatorState.Error, string.Format("Certificate {0} - {1} is not valid", x509.SubjectName.Name, x509.Thumbprint), null);
           }
           x509.Reset();
         }
       }
-
-      store.Close();
     }
 
     protected internal virtual bool ValidateCertificate(X509Certificate2 x509)
@@ -61,17 +56,40 @@ namespace SIM.Sitecore9Installer.Validation.Validators
       return chain;
     }
 
-    protected internal virtual X509Certificate2Collection FindCertificates(X509Certificate2Collection collection, object searchValue)
+    protected internal virtual X509Certificate2Collection FindCertificates(object searchValue)
     {
-      X509Certificate2Collection fcollection = collection.Find(X509FindType.FindByIssuerName, searchValue, false);
+      X509Certificate2Collection fcollection= FindInLocation(searchValue, StoreLocation.LocalMachine);
       if (fcollection.Count == 0)
       {
-        fcollection = collection.Find(X509FindType.FindByThumbprint, searchValue, false);
+        fcollection = FindInLocation(searchValue, StoreLocation.CurrentUser);
       }
 
-      if (fcollection.Count == 0)
+      return fcollection;
+    }
+
+    private X509Certificate2Collection FindInLocation(object searchValue, StoreLocation location)
+    {
+      X509Certificate2Collection fcollection=new X509Certificate2Collection();
+      X509Store store = new X509Store(this.Data["StoreName"], location);
+      try
       {
-        fcollection = collection.Find(X509FindType.FindBySubjectName, searchValue, false);
+        store.Open(OpenFlags.ReadOnly | OpenFlags.OpenExistingOnly);
+        X509Certificate2Collection collection = store.Certificates;
+
+        fcollection = collection.Find(X509FindType.FindByIssuerName, searchValue, false);
+        if (fcollection.Count == 0)
+        {
+          fcollection = collection.Find(X509FindType.FindByThumbprint, searchValue, false);
+        }
+
+        if (fcollection.Count == 0)
+        {
+          fcollection = collection.Find(X509FindType.FindBySubjectName, searchValue, false);
+        }
+      }
+      finally
+      {
+        store.Close();
       }
 
       return fcollection;
