@@ -11,6 +11,10 @@ namespace SIM.Sitecore9Installer.Validation.Validators
 {
   public class SqlVersionValidator:IValidator
   {
+    public SqlVersionValidator()
+    {
+      this.Data = new Dictionary<string, string>();
+    }
     public IEnumerable<ValidationResult> Evaluate(IEnumerable<Task> tasks)
     {
       string server = this.Data["Server"];
@@ -18,26 +22,30 @@ namespace SIM.Sitecore9Installer.Validation.Validators
       string pass = this.Data["Password"];
       foreach (Task task in tasks.Where(t => t.LocalParams.Any(p => p.Name == user)))
       {
-        SqlConnection conn =
-          new SqlConnection($"Data Source={task.LocalParams.Single(p=>p.Name==server).Value};" +
-                            $"Initial Catalog=master;User ID={task.LocalParams.Single(p => p.Name == user).Value};" +
-                            $"Password={task.LocalParams.Single(p => p.Name == pass).Value}");
-        conn.Open();
-        try
-        {
-          string[] versions= Data["Versions"].Split(',');
-          if (!versions.Any(v => Regex.Match(conn.ServerVersion, v).Success))
+        string sereverVersion= this.GetSqlVersion(task.LocalParams.Single(p => p.Name == server).Value,
+          task.LocalParams.Single(p => p.Name == user).Value,
+          task.LocalParams.Single(p => p.Name == pass).Value);
+
+        string[] versions= Data["Versions"].Split(',');
+          if (!versions.Any(v => Regex.Match(sereverVersion, v).Success))
           {
             yield return new ValidationResult(ValidatorState.Error, "SQL server version is not compatible", null);
           }
-        }
-        finally
-        {
-          conn.Close();
-        }
       }
 
       yield return new ValidationResult(ValidatorState.Success, null, null);
+    }
+
+    protected internal virtual string GetSqlVersion(string server, string user, string password)
+    {
+      SqlConnection conn =
+        new SqlConnection($"Data Source={server};" +
+                          $"Initial Catalog=master;User ID={user};" +
+                          $"Password={password}");
+      conn.Open();
+      string version = conn.ServerVersion;
+      conn.Close();
+      return version;
     }
 
     public Dictionary<string, string> Data { get; set; }
