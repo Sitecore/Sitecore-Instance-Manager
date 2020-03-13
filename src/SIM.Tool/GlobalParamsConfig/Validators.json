@@ -24,6 +24,16 @@
     {
       "Name": "NugetToolPresenceValidator",
       "Type": "SIM.Sitecore9Installer.Validation.Validators.NugetToolPresenceValidator"
+    },
+    {
+      "Name": "SqlCompatibilityValidator",
+      "Type": "SIM.Sitecore9Installer.Validation.Validators.SqlVersionValidator",
+      "Data": {
+        "Server": "SqlServer",
+        "User": "SqlAdminUser",
+        "Password": "SqlAdminPassword",
+        "Versions": "14.0.*,13.0.5*,13.2.5*"
+      } 
     }
   ],
   "ValidatorLists": {
@@ -39,7 +49,8 @@
     ]*/
     "Basic": [
       "HostNameValidator",
-      "SolrServiceValidator"
+      "SolrServiceValidator",
+      "SqlCompatibilityValidator"
     ],
     "DDS": [
       "NugetToolPresenceValidator"
