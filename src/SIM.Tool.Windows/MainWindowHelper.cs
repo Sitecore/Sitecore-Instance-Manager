@@ -896,29 +896,28 @@
       return true;
     }
 
-    private static void ShowContextMenuItems(Instance selectedInstance)
+    public static void ShowContextMenuItems(Instance selectedInstance)
     {
-      ShowHideContextMenuItemsForSitecore9(Visibility.Visible);
-      ShowHideContextMenuItemsForSitecore9EnvironmentMember(Visibility.Visible);
+      foreach (System.Windows.Controls.Control contextMenuItem in MainWindow.Instance.ContextMenu.Items)
+      {
+        contextMenuItem.Visibility = Visibility.Visible;
+      }
     }
 
-    private static void HideContextMenuItems(Instance selectedInstance)
+    public static void HideContextMenuItems(Instance selectedInstance)
     {
       if (IsSitecoreMember(selectedInstance))
       {
-        ShowHideContextMenuItemsForSitecore9(Visibility.Collapsed);
-        ShowHideContextMenuItemsForSitecore9EnvironmentMember(Visibility.Collapsed);
-
-        return;
+        HideContextMenuItemsForSitecore9();
+        HideContextMenuItemsForSitecore9EnvironmentMember();
       }
-
-      if (IsSitecore9(selectedInstance))
+      else if (IsSitecore9(selectedInstance))
       {
-        ShowHideContextMenuItemsForSitecore9(Visibility.Collapsed);
+        HideContextMenuItemsForSitecore9();
       }
     }
 
-    private static void ShowHideContextMenuItemsForSitecore9(Visibility visibility)
+    private static void HideContextMenuItemsForSitecore9()
     {
       for (int i = 0; i < MainWindow.Instance.ContextMenu.Items.Count; i++)
       {
@@ -930,16 +929,16 @@
             (MainWindow.Instance.ContextMenu.Items[i] as System.Windows.Controls.MenuItem).Header == "Reinstall instance" ||
             (MainWindow.Instance.ContextMenu.Items[i] as System.Windows.Controls.MenuItem).Header == "Delete"))
         {
-          (MainWindow.Instance.ContextMenu.Items[i] as System.Windows.Controls.MenuItem).Visibility = visibility;
+          (MainWindow.Instance.ContextMenu.Items[i] as System.Windows.Controls.MenuItem).Visibility = Visibility.Collapsed;
           if (i + 1 < MainWindow.Instance.ContextMenu.Items.Count && MainWindow.Instance.ContextMenu.Items[i+1] is System.Windows.Controls.Separator)
           {
-            (MainWindow.Instance.ContextMenu.Items[i+1] as System.Windows.Controls.Separator).Visibility = visibility;
+            (MainWindow.Instance.ContextMenu.Items[i+1] as System.Windows.Controls.Separator).Visibility = Visibility.Collapsed;
           }
         }
       }
     }
 
-    private static void ShowHideContextMenuItemsForSitecore9EnvironmentMember(Visibility visibility)
+    private static void HideContextMenuItemsForSitecore9EnvironmentMember()
     {
       for (int i = 0; i < MainWindow.Instance.ContextMenu.Items.Count; i++)
       {
@@ -952,11 +951,34 @@
              (MainWindow.Instance.ContextMenu.Items[i] as System.Windows.Controls.MenuItem).Header == "Open log file" ||
              (MainWindow.Instance.ContextMenu.Items[i] as System.Windows.Controls.MenuItem).Header == "Publish Site"))
         {
-          (MainWindow.Instance.ContextMenu.Items[i] as System.Windows.Controls.MenuItem).Visibility = visibility;
-          if (MainWindow.Instance.ContextMenu.Items[i + 1] is System.Windows.Controls.Separator)
+          (MainWindow.Instance.ContextMenu.Items[i] as System.Windows.Controls.MenuItem).Visibility = Visibility.Collapsed;
+          if (i + 1 < MainWindow.Instance.ContextMenu.Items.Count && MainWindow.Instance.ContextMenu.Items[i+1] is System.Windows.Controls.Separator)
           {
-            (MainWindow.Instance.ContextMenu.Items[i + 1] as System.Windows.Controls.Separator).Visibility = visibility;
+            (MainWindow.Instance.ContextMenu.Items[i+1] as System.Windows.Controls.Separator).Visibility = Visibility.Collapsed;
           }
+        }
+      }
+    }
+
+    public static void ShowHideContextMenuItemsForSitecore9Header()
+    {
+      for (int i = 0; i < MainWindow.Instance.ContextMenu.Items.Count; i++)
+      {
+        if (MainWindow.Instance.ContextMenu.Items[i] is System.Windows.Controls.MenuItem)
+        {
+          if ((MainWindow.Instance.ContextMenu.Items[i] as System.Windows.Controls.MenuItem).Header == "Reinstall instance" ||
+              (MainWindow.Instance.ContextMenu.Items[i] as System.Windows.Controls.MenuItem).Header == "Delete")
+          {
+            (MainWindow.Instance.ContextMenu.Items[i] as System.Windows.Controls.MenuItem).Visibility = Visibility.Visible;
+          }
+          else
+          {
+            (MainWindow.Instance.ContextMenu.Items[i] as System.Windows.Controls.MenuItem).Visibility = Visibility.Collapsed;
+          }
+        }
+        else if (MainWindow.Instance.ContextMenu.Items[i] is System.Windows.Controls.Separator)
+        {
+          (MainWindow.Instance.ContextMenu.Items[i] as System.Windows.Controls.Separator).Visibility = Visibility.Collapsed;
         }
       }
     }

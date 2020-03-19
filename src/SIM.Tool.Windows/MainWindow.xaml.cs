@@ -1,10 +1,8 @@
-﻿using System.Linq;
-using SIM.Instances;
-
-namespace SIM.Tool.Windows
+﻿namespace SIM.Tool.Windows
 {
   using System;
   using System.ComponentModel;
+  using System.Linq;
   using System.Threading;
   using System.Windows;
   using System.Windows.Controls;
@@ -17,6 +15,7 @@ namespace SIM.Tool.Windows
   using JetBrains.Annotations;
   using Sitecore.Diagnostics.Logging;
   using SIM.Extensions;
+  using SIM.Instances;
 
   #region
 
@@ -363,35 +362,26 @@ namespace SIM.Tool.Windows
       if ((sender as System.Windows.Controls.Border).DataContext != null)
       {
         string name = (sender as System.Windows.Controls.Border).DataContext.ToString();
-        MainWindow.Instance.InstanceList.SelectedItem = MainWindow.Instance.InstanceList.Items.Cast<PartiallyCachedInstance>().FirstOrDefault(item => item.Name.StartsWith(name) && item.IsSitecore);
+        MainWindow.Instance.InstanceList.SelectedValue = MainWindow.Instance.InstanceList.Items.Cast<PartiallyCachedInstance>().FirstOrDefault(item => item.Name.StartsWith(name) && item.IsSitecore);
 
-        if (MainWindow.Instance.InstanceList.SelectedItem != null)
+        if (MainWindow.Instance.InstanceList.SelectedValue != null)
         {
-          for (int i = 0; i < MainWindow.Instance.ContextMenu.Items.Count; i++)
-          {
-            if (MainWindow.Instance.ContextMenu.Items[i] is System.Windows.Controls.MenuItem)
-            {
-              if ((MainWindow.Instance.ContextMenu.Items[i] as System.Windows.Controls.MenuItem).Header == "Reinstall instance" ||
-                  (MainWindow.Instance.ContextMenu.Items[i] as System.Windows.Controls.MenuItem).Header == "Delete")
-              {
-                (MainWindow.Instance.ContextMenu.Items[i] as System.Windows.Controls.MenuItem).Visibility = Visibility.Visible;
-              }
-              else
-              {
-                (MainWindow.Instance.ContextMenu.Items[i] as System.Windows.Controls.MenuItem).Visibility = Visibility.Collapsed;
-              }
-            }
-            else if (MainWindow.Instance.ContextMenu.Items[i] is System.Windows.Controls.Separator)
-            {
-              (MainWindow.Instance.ContextMenu.Items[i] as System.Windows.Controls.Separator).Visibility = Visibility.Collapsed;
-            }
-          }
+          MainWindowHelper.ShowHideContextMenuItemsForSitecore9Header();
           return;
         }
       }
       // Prevent context menu opening on toggle button if there is no matching Sitecore instance
       e.Handled = true;
-      
+      WindowHelper.ShowMessage("Selected Sitecore environment is not valid to be reinstalled or deleted");
+    }
+
+    private void InstanceList_OnContextMenuClosing(object sender, ContextMenuEventArgs e)
+    {
+      if (MainWindow.Instance.InstanceList.SelectedValue != null)
+      {
+        MainWindowHelper.ShowContextMenuItems(MainWindow.Instance.InstanceList.SelectedValue as Instance);
+        MainWindowHelper.HideContextMenuItems(MainWindow.Instance.InstanceList.SelectedValue as Instance);
+      }
     }
 
     #endregion

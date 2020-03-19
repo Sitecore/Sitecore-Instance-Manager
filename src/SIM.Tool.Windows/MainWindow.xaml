@@ -47,7 +47,7 @@
         <TextBlock Text="{Binding ElementName=InstanceList, Path=SelectedItem.BindingsNames}" Padding="4,4,4,2"/>
         <TextBlock Text="{Binding ElementName=InstanceList, Path=SelectedItem.ModulesNames}" Padding="4,4,4,0" />
     </StackPanel>
-    <ListBox Margin="0 1 0 1" Name="InstanceList" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" ItemsSource="{Binding}" BorderThickness="0" MouseRightButtonUp="ItemsTreeViewMouseRightClick" MouseDoubleClick="ItemsTreeViewMouseDoubleClick" KeyUp="ItemsTreeViewKeyPressed" SelectionChanged="InstanceSelected" SelectionMode="Single">
+    <ListBox Margin="0 1 0 1" Name="InstanceList" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" ItemsSource="{Binding}" BorderThickness="0" MouseRightButtonUp="ItemsTreeViewMouseRightClick" MouseDoubleClick="ItemsTreeViewMouseDoubleClick" KeyUp="ItemsTreeViewKeyPressed" SelectionChanged="InstanceSelected" SelectionMode="Single" ContextMenuClosing="InstanceList_OnContextMenuClosing">
     <ListBox.GroupStyle>
         <GroupStyle>
             <GroupStyle.ContainerStyle>
@@ -69,7 +69,7 @@
                                                                                 <Setter Property="Template">
                                                                                     <Setter.Value>
                                                                                         <ControlTemplate TargetType="{x:Type ToggleButton}">
-                                                                                                <Border Margin="4,0,0,0" Padding="0,4,0,4" BorderThickness="1" CornerRadius="10,0,10,0" ContextMenuOpening="ToggleButton_OnContextMenuOpening" DataContext="{Binding Name}">
+                                                                                            <Border Margin="4,0,0,0" Padding="0,4,0,4" BorderThickness="1" CornerRadius="10,0,10,0" ContextMenuOpening="ToggleButton_OnContextMenuOpening" DataContext="{Binding Name}">
                                                                                                 <Grid Background="Transparent" SnapsToDevicePixels="False">
                                                                                                     <Grid.ColumnDefinitions>
                                                                                                         <ColumnDefinition Width="15"/>
