@@ -825,13 +825,14 @@
       {
         if (SelectedInstance != null)
         {
-          if (MainWindow.Instance.HomeTab.IsSelected)
+          ShowHideEditTab(SelectedInstance);
+          ShowContextMenuItems(SelectedInstance);
+          HideContextMenuItems(SelectedInstance);
+
+          if (MainWindow.Instance.HomeTab.IsSelected || MainWindow.Instance.EditTab.Visibility == Visibility.Collapsed)
           {
             MainWindow.Instance.OpenTab.IsSelected = true;
           }
-
-          ShowContextMenuItems(SelectedInstance);
-          HideContextMenuItems(SelectedInstance);
         }
       }
     }
@@ -980,6 +981,18 @@
         {
           (MainWindow.Instance.ContextMenu.Items[i] as System.Windows.Controls.Separator).Visibility = Visibility.Collapsed;
         }
+      }
+    }
+
+    private static void ShowHideEditTab(Instance selectedInstance)
+    {
+      if (selectedInstance.IsSitecoreEnvironmentMember)
+      {
+        MainWindow.Instance.EditTab.Visibility = Visibility.Collapsed;
+      }
+      else
+      {
+        MainWindow.Instance.EditTab.Visibility = Visibility.Visible;
       }
     }
     // private static void SetupInstanceRestoreButton(string webRootPath)

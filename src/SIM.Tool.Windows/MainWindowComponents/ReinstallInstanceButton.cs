@@ -17,7 +17,12 @@
 
     public bool IsEnabled(Window mainWindow, Instance instance)
     {
-      return instance != null;
+      if (instance != null && instance.IsSitecore)
+      {
+        return true;
+      }
+
+      return false;
     }
 
     public bool IsVisible(Window mainWindow, Instance instance)
