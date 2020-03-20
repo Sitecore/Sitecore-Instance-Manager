@@ -127,7 +127,6 @@ namespace SIM.Tool.Windows.UserControls.Install
       string packageFullPath = args.ScriptRoot + ".zip";
       if (File.Exists(packageFullPath))
       {
-
         int maxFileFullPathLength = MaxFileSystemPathLength - args.ScriptRoot.Length;
         using (ZipArchive zipArchive = ZipFile.OpenRead(packageFullPath))
         {
