@@ -97,7 +97,8 @@
 
   "Validators": [
     "list|Basic",
-    "list|DDS"
+    "list|DDS",
+    "list|Sitecore_9.3"
   ],
 
   "ExecSequense": {

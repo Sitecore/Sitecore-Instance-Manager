@@ -81,7 +81,8 @@
   },
 
   "Validators": [
-    "list|Basic"
+    "list|Basic",
+    "list|Sitecore_9.0"
   ],
 
   "ExecSequense": {
