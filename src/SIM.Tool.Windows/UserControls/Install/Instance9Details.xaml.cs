@@ -124,11 +124,10 @@ namespace SIM.Tool.Windows.UserControls.Install
       args.SorlRoot = solr.Root; //this.solrRoot.Text;
       args.ScriptRoot = System.IO.Path.Combine(Directory.GetParent(args.Product.PackagePath).FullName, System.IO.Path.GetFileNameWithoutExtension(args.Product.PackagePath));
 
-      string packageFullPath = args.ScriptRoot + ".zip";
-      if (File.Exists(packageFullPath))
+      if (File.Exists(args.Product.PackagePath))
       {
         int maxFileFullPathLength = MaxFileSystemPathLength - args.ScriptRoot.Length;
-        using (ZipArchive zipArchive = ZipFile.OpenRead(packageFullPath))
+        using (ZipArchive zipArchive = ZipFile.OpenRead(args.Product.PackagePath))
         {
           foreach (ZipArchiveEntry entry in zipArchive.Entries)
           {
@@ -142,7 +141,7 @@ namespace SIM.Tool.Windows.UserControls.Install
       }
       else
       {
-        WindowHelper.ShowMessage(string.Format("Please make sure that the \"{0}\" package exists.", packageFullPath));
+        WindowHelper.ShowMessage(string.Format("Please make sure that the \"{0}\" package exists.", args.Product.PackagePath));
         return false;
       }
 
