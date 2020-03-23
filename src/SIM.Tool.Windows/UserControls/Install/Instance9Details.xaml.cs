@@ -124,24 +124,8 @@ namespace SIM.Tool.Windows.UserControls.Install
       args.SorlRoot = solr.Root; //this.solrRoot.Text;
       args.ScriptRoot = System.IO.Path.Combine(Directory.GetParent(args.Product.PackagePath).FullName, System.IO.Path.GetFileNameWithoutExtension(args.Product.PackagePath));
 
-      if (File.Exists(args.Product.PackagePath))
+      if (!this.IsFilePathLengthValidInPackage(args.Product.PackagePath, args.ScriptRoot))
       {
-        int maxFileFullPathLength = MaxFileSystemPathLength - args.ScriptRoot.Length;
-        using (ZipArchive zipArchive = ZipFile.OpenRead(args.Product.PackagePath))
-        {
-          foreach (ZipArchiveEntry entry in zipArchive.Entries)
-          {
-            if (maxFileFullPathLength + entry.FullName.Length > MaxFileSystemPathLength)
-            {
-              WindowHelper.ShowMessage("The full path length of some files in the package after unzipping is too long! Please change the path of the Local Repository folder in Settings, so it contains less path length.");
-              return false;
-            }
-          }
-        }
-      }
-      else
-      {
-        WindowHelper.ShowMessage(string.Format("Please make sure that the \"{0}\" package exists.", args.Product.PackagePath));
         return false;
       }
 
@@ -599,6 +583,32 @@ namespace SIM.Tool.Windows.UserControls.Install
         SelectProductByValue(ProductVersion, WindowsSettings.AppInstallationDefaultProductVersion.Value);
         SelectByValue(ProductRevision, WindowsSettings.AppInstallationDefaultProductRevision.Value);       
       }
+    }
+
+    private bool IsFilePathLengthValidInPackage(string packagePath, string scriptRoot)
+    {
+      if (File.Exists(packagePath))
+      {
+        int maxAllowedFilePathLength = MaxFileSystemPathLength - scriptRoot.Length;
+        using (ZipArchive zipArchive = ZipFile.OpenRead(packagePath))
+        {
+          foreach (ZipArchiveEntry entry in zipArchive.Entries)
+          {
+            if (!(maxAllowedFilePathLength > entry.FullName.Length))
+            {
+              WindowHelper.ShowMessage("The full path length of some files in the package after unzipping is too long! Please change the path of the Local Repository folder in Settings, so it contains less path length.");
+              return false;
+            }
+          }
+        }
+      }
+      else
+      {
+        WindowHelper.ShowMessage(string.Format("Please make sure that the \"{0}\" package exists.", packagePath));
+        return false;
+      }
+
+      return true;
     }
 
     #endregion
