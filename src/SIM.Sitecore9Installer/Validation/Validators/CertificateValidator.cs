@@ -59,11 +59,7 @@ namespace SIM.Sitecore9Installer.Validation.Validators
     protected internal virtual X509Certificate2Collection FindCertificates(object searchValue)
     {
       X509Certificate2Collection fcollection= FindInLocation(searchValue, StoreLocation.LocalMachine);
-      if (fcollection.Count == 0)
-      {
-        fcollection = FindInLocation(searchValue, StoreLocation.CurrentUser);
-      }
-
+      fcollection.AddRange(FindInLocation(searchValue, StoreLocation.CurrentUser));     
       return fcollection;
     }
 
