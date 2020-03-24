@@ -596,7 +596,7 @@ namespace SIM.Tool.Windows.UserControls.Install
           {
             if (!(maxAllowedFilePathLength > entry.FullName.Length))
             {
-              WindowHelper.ShowMessage("The full path length of some files in the package after unzipping is too long! Please change the path of the Local Repository folder in Settings, so it contains less path length.");
+              WindowHelper.ShowMessage("The full path length of some files in the package after unzipping is too long! Please change the path of the Local Repository folder in Settings, so it has less path length.");
               return false;
             }
           }
