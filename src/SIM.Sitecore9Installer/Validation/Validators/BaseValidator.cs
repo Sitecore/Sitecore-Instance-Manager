@@ -19,7 +19,11 @@ namespace SIM.Sitecore9Installer.Validation.Validators
       List<ValidationResult> results = new List<ValidationResult>();
       foreach (Task task in tasks)
       {
-        results.AddRange(this.GetErrorsForTask(task,task.LocalParams.Where(p=>this.GetParamNames().Contains(p.Name))));
+        IEnumerable<InstallParam> tParams = task.LocalParams.Where(p => !this.GetParamNames().Any()|| this.GetParamNames().Contains(p.Name));
+        if (tParams.Any()||!task.LocalParams.Any())
+        {
+          results.AddRange(this.GetErrorsForTask(task,tParams));
+        }
       }
 
       if (!results.Any())

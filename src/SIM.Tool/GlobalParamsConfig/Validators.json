@@ -24,6 +24,32 @@
     {
       "Name": "NugetToolPresenceValidator",
       "Type": "SIM.Sitecore9Installer.Validation.Validators.NugetToolPresenceValidator"
+    },
+    {
+      "Name": "RootCertificateValidatorRoot",
+      "Type": "SIM.Sitecore9Installer.Validation.Validators.CertificateValidator",
+      "Data": {
+        "ParamNames": "RootCertFileName",
+        "StoreName": "Root",
+        "Prefix": "DO_NOT_TRUST_"
+      }
+    },
+    {
+      "Name": "RootCertificateValidatorMy",
+      "Type": "SIM.Sitecore9Installer.Validation.Validators.CertificateValidator",
+      "Data": {
+        "ParamNames": "RootCertFileName",
+        "StoreName": "My",
+        "Prefix": "DO_NOT_TRUST_"
+      }
+    },
+    {
+      "Name": "CertificateValidator",
+      "Type": "SIM.Sitecore9Installer.Validation.Validators.CertificateValidator",
+      "Data": {
+        "ParamNames": "CertificateName",
+        "StoreName": "MY"
+      }
     }
   ],
   "ValidatorLists": {
@@ -38,8 +64,9 @@
       "val5"
     ]*/
     "Basic": [
-      "HostNameValidator",
-      "SolrServiceValidator"
+      "SolrServiceValidator",
+      "RootCertificateValidator",
+      "CertificateValidator"
     ],
     "DDS": [
       "NugetToolPresenceValidator"
