@@ -47,7 +47,6 @@
       {
         WizardPipelineManager.Start("install", mainWindow, null, null, (args) =>
         {
-          MainWindowHelper.SoftlyRefreshInstances();
 
           if (args == null)
           {
@@ -59,6 +58,11 @@
           if (product == null)
           {
             return;
+          }
+
+          if (install.HasInstallationBeenCompleted)
+          {
+            MainWindowHelper.SoftlyRefreshInstances();
           }
         }, () => new InstallWizardArgs());
       }
