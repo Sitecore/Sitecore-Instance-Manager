@@ -12,11 +12,14 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="46"/>
         </Grid.RowDefinitions>
-        <TextBlock Grid.Row="0">
-            <Bold FontSize="15">All changes are applied immediately.</Bold>
-            <LineBreak/>
-            Updating a parameter on Global tab propagates the change to all other tabs.
+        <StackPanel Grid.Row="0">
+        <TextBlock Margin="4">
+            <Bold FontSize="15">All changes are applied immediately.</Bold>         
         </TextBlock>
+            <TextBlock Margin="16,-3,0,18">                        
+            Updating a parameter on Global tab propagates the change to all other tabs.
+            </TextBlock>
+        </StackPanel>
         <TabControl Grid.Row="1" Name="InstallationParameters" Margin="-1,3,0,0" ItemsSource="{Binding}">
             <TabControl.ItemTemplate>
                 <DataTemplate>
