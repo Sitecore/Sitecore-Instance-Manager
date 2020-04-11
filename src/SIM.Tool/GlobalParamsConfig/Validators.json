@@ -91,6 +91,16 @@
         "StoreName": "MY"
 
       }
+    },
+    {
+      "Name": "DatabaseNameValidator",
+      "Type": "SIM.Sitecore9Installer.Validation.Validators.SqlPefixValidator",
+      "Data": {
+        "Server": "SqlServer",
+        "User": "SqlAdminUser",
+        "Password": "SqlAdminPassword",
+        "Prefix": "SqlDbPrefix"
+      }
     }
   ],
   "ValidatorLists": {
@@ -108,7 +118,8 @@
       "SolrServiceValidator",
       "RootCertificateValidator",
       "RootCertificateValidatorRoot",
-      "RootCertificateValidatorMy"
+      "RootCertificateValidatorMy",
+      "DatabaseNameValidator"
     ],
     "DDS": [
       "NugetToolPresenceValidator"
