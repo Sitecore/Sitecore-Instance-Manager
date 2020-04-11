@@ -63,7 +63,9 @@
         "User": "SqlAdminUser",
         "Password": "SqlAdminPassword",
         "Versions": "13.0.5*,14.0.*,15.0.*"
-
+      }
+    },
+    {
       "Name": "RootCertificateValidatorRoot",
       "Type": "SIM.Sitecore9Installer.Validation.Validators.CertificateValidator",
       "Data": {
