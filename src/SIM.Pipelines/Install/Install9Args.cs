@@ -24,6 +24,7 @@ namespace SIM.Pipelines.Install
 
     public bool ScriptsOnly { get; set; }
     public Tasker Tasker { get; }
+    public string UnInstallDataPath { get; set; }
     
   }
 }
