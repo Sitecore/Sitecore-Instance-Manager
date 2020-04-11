@@ -26,6 +26,44 @@
       "Type": "SIM.Sitecore9Installer.Validation.Validators.NugetToolPresenceValidator"
     },
     {
+      "Name": "9.0_SqlCompatibilityValidator",
+      "Type": "SIM.Sitecore9Installer.Validation.Validators.SqlVersionValidator",
+      "Data": {
+        "Server": "SqlServer",
+        "User": "SqlAdminUser",
+        "Password": "SqlAdminPassword",
+        "Versions": "13.0.4*"
+      }
+    },
+    {
+      "Name": "9.1_SqlCompatibilityValidator",
+      "Type": "SIM.Sitecore9Installer.Validation.Validators.SqlVersionValidator",
+      "Data": {
+        "Server": "SqlServer",
+        "User": "SqlAdminUser",
+        "Password": "SqlAdminPassword",
+        "Versions": "13.0.5*,14.0.*"
+      }
+    },
+    {
+      "Name": "9.2_SqlCompatibilityValidator",
+      "Type": "SIM.Sitecore9Installer.Validation.Validators.SqlVersionValidator",
+      "Data": {
+        "Server": "SqlServer",
+        "User": "SqlAdminUser",
+        "Password": "SqlAdminPassword",
+        "Versions": "13.0.5*,14.0.*"
+      }
+    },
+    {
+      "Name": "9.3_SqlCompatibilityValidator",
+      "Type": "SIM.Sitecore9Installer.Validation.Validators.SqlVersionValidator",
+      "Data": {
+        "Server": "SqlServer",
+        "User": "SqlAdminUser",
+        "Password": "SqlAdminPassword",
+        "Versions": "13.0.5*,14.0.*,15.0.*"
+
       "Name": "RootCertificateValidatorRoot",
       "Type": "SIM.Sitecore9Installer.Validation.Validators.CertificateValidator",
       "Data": {
@@ -49,6 +87,7 @@
       "Data": {
         "ParamNames": "CertificateName",
         "StoreName": "MY"
+
       }
     }
   ],
@@ -71,6 +110,18 @@
     ],
     "DDS": [
       "NugetToolPresenceValidator"
+    ],
+    "Sitecore_9.0": [
+      "9.0_SqlCompatibilityValidator"
+    ],
+    "Sitecore_9.1": [
+      "9.1_SqlCompatibilityValidator"
+    ],
+    "Sitecore_9.2": [
+      "9.2_SqlCompatibilityValidator"
+    ],
+    "Sitecore_9.3": [
+      "9.3_SqlCompatibilityValidator"
     ]
   }
 }

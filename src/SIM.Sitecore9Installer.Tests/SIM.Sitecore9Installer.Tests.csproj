@@ -85,6 +85,7 @@
     <Compile Include="Validation\Validators\HostNameValidatorTests.cs" />
     <Compile Include="Validation\Validators\NugetToolPresenceValidatorTests.cs" />
     <Compile Include="Validation\Validators\SolrServiceValidatorTests.cs" />
+    <Compile Include="Validation\Validators\SqlVersionValidatorTests.cs" />
     <Compile Include="Validation\Validators\ValidatorTestSetup.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -83,7 +83,8 @@
 
   "Validators": [
     "list|Basic",
-    "list|DDS"
+    "list|DDS",
+    "list|Sitecore_9.0"
   ],
 
   "ExecSequense": {
