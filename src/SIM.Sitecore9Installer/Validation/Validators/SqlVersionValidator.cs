@@ -22,22 +22,9 @@ namespace SIM.Sitecore9Installer.Validation.Validators
       {
         string sereverVersion = string.Empty;
         Exception error = null;
-        try
-        {
-          sereverVersion = this.GetSqlVersion(task.LocalParams.Single(p => p.Name == server).Value,
-            task.LocalParams.Single(p => p.Name == user).Value,
-            task.LocalParams.Single(p => p.Name == pass).Value);
-        }
-        catch (SqlConnectionException e)
-        {
-          error = e;
-        }
-
-        if (error != null)
-        {
-          yield return new ValidationResult(ValidatorState.Error, error.Message, error);
-        }
-
+        sereverVersion = this.GetSqlVersion(task.LocalParams.Single(p => p.Name == server).Value,
+        task.LocalParams.Single(p => p.Name == user).Value,
+        task.LocalParams.Single(p => p.Name == pass).Value);        
         string[] versions= Data["Versions"].Split(',');
           if (!versions.Any(v => Regex.Match(sereverVersion, v).Success))
           {
@@ -54,14 +41,7 @@ namespace SIM.Sitecore9Installer.Validation.Validators
                           $"Initial Catalog=master;User ID={user};" +
                           $"Password={password}";
       SqlConnection conn = new SqlConnection(connectionstring);
-      try
-      {
-        conn.Open();
-      }
-      catch(Exception e)
-      {
-        throw new SqlConnectionException($"Unable to connect to {server}",e);
-      }
+      conn.Open();
       string version = conn.ServerVersion;
       conn.Close();
       return version;

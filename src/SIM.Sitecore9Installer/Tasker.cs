@@ -171,7 +171,7 @@ namespace SIM.Sitecore9Installer
         }
         catch (Exception e)
         {
-          nonSuccsess.Add(new ValidationResult(ValidatorState.Error, "Validation Error", e));
+          nonSuccsess.Add(new ValidationResult(ValidatorState.Error, e.Message, e));
         }
       });
 
