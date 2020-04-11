@@ -260,7 +260,12 @@
         var instance = SelectedInstance;
         var name = instance != null ? instance.Name : null;
         var instancesFolder = !CoreAppSettings.CoreInstancesDetectEverywhere.Value ? ProfileManager.Profile.InstancesFolder : null;
-        InstanceManager.Default.Initialize(instancesFolder);
+      
+        WindowHelper.LongRunningTask(() =>
+        {
+            InstanceManager.Default.Initialize(instancesFolder);
+        }, "Refresh Sitecore web sites", mainWindow, "Scanning IIS applications to find Sitecore web sites", "", true);
+
         Search();
         if (string.IsNullOrEmpty(name))
         {

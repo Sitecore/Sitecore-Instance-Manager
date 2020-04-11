@@ -28,8 +28,6 @@ namespace SIM.Tool.Windows.MainWindowComponents
     {
       WizardPipelineManager.Start("install9", mainWindow, null, null, (args) =>
       {
-       MainWindowHelper.SoftlyRefreshInstances();
-
         if (args == null)
         {
           return;
@@ -37,6 +35,11 @@ namespace SIM.Tool.Windows.MainWindowComponents
 
         var install = (InstallWizardArgs)args;
         var product = install.Product;
+
+        if (install.HasInstallationBeenCompleted)
+        {
+          MainWindowHelper.SoftlyRefreshInstances();
+        }
         
       }, () => new Install9WizardArgs());
     }

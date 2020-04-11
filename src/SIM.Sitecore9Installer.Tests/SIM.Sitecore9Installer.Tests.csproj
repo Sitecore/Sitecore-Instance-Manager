@@ -81,6 +81,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Validation\Validators\CertificateValidatorTests.cs" />
     <Compile Include="Validation\Validators\HostNameValidatorTests.cs" />
     <Compile Include="Validation\Validators\NugetToolPresenceValidatorTests.cs" />
     <Compile Include="Validation\Validators\SolrServiceValidatorTests.cs" />

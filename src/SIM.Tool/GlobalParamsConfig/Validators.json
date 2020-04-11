@@ -63,6 +63,31 @@
         "User": "SqlAdminUser",
         "Password": "SqlAdminPassword",
         "Versions": "13.0.5*,14.0.*,15.0.*"
+
+      "Name": "RootCertificateValidatorRoot",
+      "Type": "SIM.Sitecore9Installer.Validation.Validators.CertificateValidator",
+      "Data": {
+        "ParamNames": "RootCertFileName",
+        "StoreName": "Root",
+        "Prefix": "DO_NOT_TRUST_"
+      }
+    },
+    {
+      "Name": "RootCertificateValidatorMy",
+      "Type": "SIM.Sitecore9Installer.Validation.Validators.CertificateValidator",
+      "Data": {
+        "ParamNames": "RootCertFileName",
+        "StoreName": "My",
+        "Prefix": "DO_NOT_TRUST_"
+      }
+    },
+    {
+      "Name": "CertificateValidator",
+      "Type": "SIM.Sitecore9Installer.Validation.Validators.CertificateValidator",
+      "Data": {
+        "ParamNames": "CertificateName",
+        "StoreName": "MY"
+
       }
     }
   ],
@@ -78,8 +103,10 @@
       "val5"
     ]*/
     "Basic": [
-      "HostNameValidator",
-      "SolrServiceValidator"
+      "SolrServiceValidator",
+      "RootCertificateValidator",
+      "RootCertificateValidatorRoot",
+      "RootCertificateValidatorMy"
     ],
     "DDS": [
       "NugetToolPresenceValidator"
