@@ -153,6 +153,16 @@
 
     public new void Close()
     {
+      if (Pipeline != null && !Pipeline.IsFinished)
+      {
+        MessageBoxResult messageBoxResult = MessageBox.Show("Are you going to abort the process?", "Abort Confirmation", MessageBoxButton.YesNo);
+        if (messageBoxResult == MessageBoxResult.No)
+        {
+          return;
+          
+        }
+      }
+
       using (new ProfileSection("Close wizard", this))
       {
         AbortPipeline();

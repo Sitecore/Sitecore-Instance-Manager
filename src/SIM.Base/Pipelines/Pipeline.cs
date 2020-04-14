@@ -40,6 +40,12 @@
 
     #endregion
 
+    #region Properties
+    
+    public bool IsFinished;
+
+    #endregion
+
     #region Constructors
 
     public Pipeline([NotNull] PipelineDefinition pipelineDefinition, [NotNull] ProcessorArgs args, [CanBeNull] IPipelineController controller = null, bool isAsync = true)
@@ -146,14 +152,14 @@
 
     #region Private methods
 
-    private static void Execute([NotNull] object obj)
+    private void Execute([NotNull] object obj)
     {
       Assert.ArgumentNotNull(obj, nameof(obj));
 
       Execute((PipelineStartInfo)obj);
     }
 
-    private static void Execute([NotNull] PipelineStartInfo info)
+    private void Execute([NotNull] PipelineStartInfo info)
     {
       using (new ProfileSection("Execute pipeline processors"))
       {
@@ -183,6 +189,10 @@
         {
           Log.Warn(ex, "An error occurred during executing a pipeline");
           info.ProcessorArgs.Dispose();
+        }
+        finally
+        {
+          IsFinished = true;
         }
       }
     }
