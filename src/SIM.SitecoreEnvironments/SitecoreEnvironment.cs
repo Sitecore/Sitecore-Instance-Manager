@@ -18,5 +18,7 @@
     public string Name { get; set; }
 
     public List<SitecoreEnvironmentMember> Members { get; set; }
+
+    public string UnInstallDataPath { get; set; }
   }
 }
