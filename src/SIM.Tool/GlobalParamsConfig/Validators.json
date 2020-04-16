@@ -91,6 +91,15 @@
         "StoreName": "MY"
 
       }
+    },
+    {
+      "Name": "DiskSpaceValidator",
+      "Type": "SIM.Sitecore9Installer.Validation.Validators.DiskSpaceValidator",
+      "Data": {
+        "HardDriveWarningLimit": "5368709120",
+        "HardDriveErrorLimit": "3221225472"
+
+      }
     }
   ],
   "ValidatorLists": {
@@ -108,7 +117,8 @@
       "SolrServiceValidator",
       "RootCertificateValidator",
       "RootCertificateValidatorRoot",
-      "RootCertificateValidatorMy"
+      "RootCertificateValidatorMy",
+      "DiskSpaceValidator"
     ],
     "DDS": [
       "NugetToolPresenceValidator"
