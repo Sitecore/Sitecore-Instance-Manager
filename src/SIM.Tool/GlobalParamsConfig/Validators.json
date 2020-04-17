@@ -91,6 +91,14 @@
         "StoreName": "MY"
 
       }
+    },
+    {
+      "Name": "CmDdsPatchSiteNameValidator",
+      "Type": "SIM.Sitecore9Installer.Validation.Validators.CmDdsPatchSiteNameValidator"
+    },
+    {
+      "Name": "CmIdentityServerSiteNameValidator",
+      "Type": "SIM.Sitecore9Installer.Validation.Validators.CmIdentityServerSiteNameValidator"
     }
   ],
   "ValidatorLists": {
@@ -113,17 +121,23 @@
     "DDS": [
       "NugetToolPresenceValidator"
     ],
+    "DDS_Patch": [
+      "CmDdsPatchSiteNameValidator"
+    ],
     "Sitecore_9.0": [
       "9.0_SqlCompatibilityValidator"
     ],
     "Sitecore_9.1": [
-      "9.1_SqlCompatibilityValidator"
+      "9.1_SqlCompatibilityValidator",
+      "CmIdentityServerSiteNameValidator"
     ],
     "Sitecore_9.2": [
-      "9.2_SqlCompatibilityValidator"
+      "9.2_SqlCompatibilityValidator",
+      "CmIdentityServerSiteNameValidator"
     ],
     "Sitecore_9.3": [
-      "9.3_SqlCompatibilityValidator"
+      "9.3_SqlCompatibilityValidator",
+      "CmIdentityServerSiteNameValidator"
     ]
   }
 }
