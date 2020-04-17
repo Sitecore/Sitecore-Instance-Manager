@@ -37,7 +37,7 @@ namespace SIM.Sitecore9Installer.Validation.Validators
 
       foreach(Tuple<string, string, string, string> set in servers)
       {
-        if (this.GetDbList(set.Item1, set.Item2, set.Item3).Any(name => name.StartsWith(set.Item4, StringComparison.InvariantCultureIgnoreCase)))
+        if (this.GetDbList(set.Item1, set.Item2, set.Item3, set.Item4).Any())
         {
           yield return new ValidationResult(ValidatorState.Error, $"Database with prefix {set.Item4} already exists on server {set.Item1}",null);
         }
@@ -46,7 +46,7 @@ namespace SIM.Sitecore9Installer.Validation.Validators
       yield return new ValidationResult(ValidatorState.Success, string.Empty, null);
     }
     
-    protected internal virtual IEnumerable<string> GetDbList(string server, string user, string password)
+    protected internal virtual IEnumerable<string> GetDbList(string server, string user, string password, string prefix)
     {
       string connectionstring = $"Data Source={server};" +
                          $"Initial Catalog=master;User ID={user};" +
@@ -56,7 +56,9 @@ namespace SIM.Sitecore9Installer.Validation.Validators
       {
         conn.Open();
         SqlCommand cmd = conn.CreateCommand();
-        cmd.CommandText = "SELECT name FROM master.dbo.sysdatabases";
+        cmd.CommandText = "SELECT [name] FROM master.dbo.sysdatabases where [name] like @name";
+       
+        cmd.Parameters.AddWithValue("@name",prefix + "%");
         SqlDataReader reader = cmd.ExecuteReader();
         while (reader.Read())
         {
