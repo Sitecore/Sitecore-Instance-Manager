@@ -91,6 +91,10 @@
         "StoreName": "MY"
 
       }
+    },
+    {
+      "Name": "AppPoolSiteValidator",
+      "Type": "SIM.Sitecore9Installer.Validation.Validators.AppPoolSiteValidator"
     }
   ],
   "ValidatorLists": {
@@ -108,7 +112,8 @@
       "SolrServiceValidator",
       "RootCertificateValidator",
       "RootCertificateValidatorRoot",
-      "RootCertificateValidatorMy"
+      "RootCertificateValidatorMy",
+      "AppPoolSiteValidator"
     ],
     "DDS": [
       "NugetToolPresenceValidator"
