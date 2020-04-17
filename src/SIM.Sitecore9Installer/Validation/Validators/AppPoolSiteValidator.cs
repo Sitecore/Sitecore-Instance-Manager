@@ -16,9 +16,18 @@ namespace SIM.Sitecore9Installer.Validation.Validators
 
     public Dictionary<string, string> Data { get; set; }
 
+    public List<ApplicationPool> AppPools { get; set; }
+
+    public List<Site> Sites { get; set; }
+
     public AppPoolSiteValidator()
     {
       this.Data = new Dictionary<string, string>();
+      using (ServerManager manager = new ServerManager())
+      {
+        AppPools = manager.ApplicationPools.ToList();
+        Sites = manager.Sites.ToList();
+      }
     }
 
     public IEnumerable<ValidationResult> Evaluate(IEnumerable<Task> tasks)
@@ -43,18 +52,12 @@ namespace SIM.Sitecore9Installer.Validation.Validators
 
     protected internal virtual bool AppPoolExists(string name)
     {
-      using (ServerManager manager = new ServerManager())
-      {
-        return manager.ApplicationPools.Any(t => t.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase));
-      }
+      return this.AppPools.Any(t => t.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase));
     }
 
     protected internal virtual bool SiteExists(string name)
     {
-      using (ServerManager manager = new ServerManager())
-      {
-        return manager.Sites.Any(t => t.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase));
-      }
+      return this.Sites.Any(t => t.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase));
     }
   }
 }
