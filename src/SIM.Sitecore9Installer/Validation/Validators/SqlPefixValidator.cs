@@ -8,7 +8,7 @@ using SIM.Sitecore9Installer.Tasks;
 
 namespace SIM.Sitecore9Installer.Validation.Validators
 {
-  class SqlPefixValidator : IValidator
+  public class SqlPefixValidator : IValidator
   {
     public SqlPefixValidator()
     {
