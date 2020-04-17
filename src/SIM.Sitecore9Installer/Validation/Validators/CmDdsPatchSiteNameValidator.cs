@@ -7,13 +7,13 @@ namespace SIM.Sitecore9Installer.Validation.Validators
 {
   public class CmDdsPatchSiteNameValidator : IValidator
   {
-    private const string SitecoreXp1Cm = "sitecore-xp1-cm";
+    protected virtual string SitecoreXp1Cm => "sitecore-xp1-cm";
 
-    private const string SitecoreXp1CmDdsPatch = "sitecore-XP1-cm-dds-patch";
+    protected virtual string SitecoreXp1CmDdsPatch => "sitecore-XP1-cm-dds-patch";
 
-    private const string SiteName = "SiteName";
+    protected virtual string SiteName => "SiteName";
 
-    private const string DdsPatchValidationResultMessage =
+    protected virtual string DdsPatchValidationResultMessage =>
       "Value of the '{0}' parameter differs in the '{1}' and '{2}' tasks. To fix: set the same value for each mentioned task in Advanced installation parameters.";
 
     public Dictionary<string, string> Data { get; set; }

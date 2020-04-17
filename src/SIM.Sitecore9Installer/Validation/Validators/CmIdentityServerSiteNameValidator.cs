@@ -7,21 +7,21 @@ namespace SIM.Sitecore9Installer.Validation.Validators
 {
   public class CmIdentityServerSiteNameValidator : IValidator
   {
-    private const string SitecoreXp1Cm = "sitecore-xp1-cm";
+    protected virtual string SitecoreXp1Cm => "sitecore-xp1-cm";
 
-    private const string SitecoreXm1Cm = "Sitecore-xm1-cm";
+    protected virtual string SitecoreXm1Cm => "Sitecore-xm1-cm";
 
-    private const string SitecoreXm0 = "Sitecore-XP0";
+    protected virtual string SitecoreXm0 => "Sitecore-XP0";
 
-    private const string SiteName = "SiteName";
+    protected virtual string SiteName => "SiteName";
 
-    private const string IdentityServer = "IdentityServer";
+    protected virtual string IdentityServer => "IdentityServer";
 
-    private const string AllowedCorsOrigins = "AllowedCorsOrigins";
+    protected virtual string AllowedCorsOrigins => "AllowedCorsOrigins";
 
-    private const string PasswordRecoveryUrl = "PasswordRecoveryUrl";
+    protected virtual string PasswordRecoveryUrl => "PasswordRecoveryUrl";
 
-    private const string IdentityServerValidationResultMessage =
+    protected virtual string IdentityServerValidationResultMessage =>
       "The '{0}' parameter of the '{1}' task doesn't match the '{2}' parameter of the '{3}' task. To fix: set the correct value of the mentioned parameter in Advanced installation parameters.";
 
 
