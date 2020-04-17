@@ -34,7 +34,7 @@ namespace SIM.Sitecore9Installer.Validation.Validators
 
     public IEnumerable<ValidationResult> Evaluate(IEnumerable<Task> tasks)
     {
-      Task cmTask = tasks.Single(t => (t.Name.Equals(SitecoreXp1Cm, StringComparison.InvariantCultureIgnoreCase) || 
+      Task cmTask = tasks.FirstOrDefault(t => (t.Name.Equals(SitecoreXp1Cm, StringComparison.InvariantCultureIgnoreCase) || 
                                        t.Name.Equals(SitecoreXm1Cm, StringComparison.InvariantCultureIgnoreCase) ||
                                        t.Name.Equals(SitecoreXm0, StringComparison.InvariantCultureIgnoreCase)) && 
                                       t.LocalParams.Any(p => p.Name.Equals(SiteName, StringComparison.InvariantCultureIgnoreCase)));
@@ -43,7 +43,7 @@ namespace SIM.Sitecore9Installer.Validation.Validators
       {
         string cmSiteName = cmTask.LocalParams.Single(p => p.Name.Equals(SiteName, StringComparison.InvariantCultureIgnoreCase)).Value;
 
-        Task identityServerTask = tasks.Single(t => t.Name.Equals(IdentityServer, StringComparison.InvariantCultureIgnoreCase) &&
+        Task identityServerTask = tasks.FirstOrDefault(t => t.Name.Equals(IdentityServer, StringComparison.InvariantCultureIgnoreCase) &&
                                                     t.LocalParams.Any(p => p.Name.Equals(AllowedCorsOrigins, StringComparison.InvariantCultureIgnoreCase)) &&
                                                     t.LocalParams.Any(p => p.Name.Equals(PasswordRecoveryUrl, StringComparison.InvariantCultureIgnoreCase)));
 
@@ -52,14 +52,14 @@ namespace SIM.Sitecore9Installer.Validation.Validators
           Uri allowedCorsOriginsUri = new Uri(identityServerTask.LocalParams.Single(p => p.Name.Equals(AllowedCorsOrigins, StringComparison.InvariantCultureIgnoreCase)).Value);
           Uri passwordRecoveryUrlUri = new Uri(identityServerTask.LocalParams.Single(p => p.Name.Equals(PasswordRecoveryUrl, StringComparison.InvariantCultureIgnoreCase)).Value);
 
-          if (cmSiteName != allowedCorsOriginsUri.Host)
+          if (!cmSiteName.Equals(allowedCorsOriginsUri.Host, StringComparison.InvariantCultureIgnoreCase))
           {
             yield return new ValidationResult(ValidatorState.Warning,
               string.Format(IdentityServerValidationResultMessage, AllowedCorsOrigins, identityServerTask.Name, SiteName, cmTask.Name), null);
           }
 
 
-          if (cmSiteName != passwordRecoveryUrlUri.Host)
+          if (!cmSiteName.Equals(passwordRecoveryUrlUri.Host, StringComparison.InvariantCultureIgnoreCase))
           {
             yield return new ValidationResult(ValidatorState.Warning,
               string.Format(IdentityServerValidationResultMessage, PasswordRecoveryUrl, identityServerTask.Name, SiteName, cmTask.Name), null);

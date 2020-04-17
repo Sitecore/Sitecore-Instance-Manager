@@ -25,18 +25,20 @@ namespace SIM.Sitecore9Installer.Validation.Validators
 
     public IEnumerable<ValidationResult> Evaluate(IEnumerable<Task> tasks)
     {
-      Task cmTask = tasks.Single(t => t.Name.Equals(SitecoreXp1Cm, StringComparison.InvariantCultureIgnoreCase) && 
+      Task cmTask = tasks.FirstOrDefault(t => t.Name.Equals(SitecoreXp1Cm, StringComparison.InvariantCultureIgnoreCase) && 
                                       t.LocalParams.Any(p => p.Name.Equals(SiteName, StringComparison.InvariantCultureIgnoreCase)));
 
       if (cmTask != null)
       {
-        Task ddsPatchTask = tasks.Single(t => t.Name.Equals(SitecoreXp1CmDdsPatch, StringComparison.InvariantCultureIgnoreCase) &&
+        Task ddsPatchTask = tasks.FirstOrDefault(t => t.Name.Equals(SitecoreXp1CmDdsPatch, StringComparison.InvariantCultureIgnoreCase) &&
                                               t.LocalParams.Any(p => p.Name.Equals(SiteName, StringComparison.InvariantCultureIgnoreCase)));
 
         if (ddsPatchTask != null)
         {
-          if (cmTask.LocalParams.Single(p => p.Name.Equals(SiteName, StringComparison.InvariantCultureIgnoreCase)).Value != 
-              ddsPatchTask.LocalParams.Single(p => p.Name.Equals(SiteName, StringComparison.InvariantCultureIgnoreCase)).Value)
+          string cmSiteName = cmTask.LocalParams.Single(p => p.Name.Equals(SiteName, StringComparison.InvariantCultureIgnoreCase)).Value;
+          string ddsPatchSiteName = ddsPatchTask.LocalParams.Single(p => p.Name.Equals(SiteName, StringComparison.InvariantCultureIgnoreCase)).Value;
+
+          if (!cmSiteName.Equals(ddsPatchSiteName, StringComparison.InvariantCultureIgnoreCase))
           {
             yield return new ValidationResult(ValidatorState.Error,
               string.Format(DdsPatchValidationResultMessage, SiteName, cmTask.Name, ddsPatchTask.Name), null);
