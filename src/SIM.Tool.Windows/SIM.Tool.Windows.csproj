@@ -160,7 +160,7 @@
     <Compile Include="MainWindowComponents\CreateSupportPatchButton.cs" />
     <Compile Include="MainWindowComponents\DatabaseManagerButton.cs" />
     <Compile Include="MainWindowComponents\DeleteInstanceButton.cs" />
-    <Compile Include="MainWindowComponents\Download8Button.cs" />
+    <Compile Include="MainWindowComponents\DownloadButton.cs" />
     <Compile Include="MainWindowComponents\AbstractDownloadAndRunButton.cs" />
     <Compile Include="MainWindowComponents\ExportInstanceButton.cs" />
     <Compile Include="MainWindowComponents\BackupButton.cs" />
@@ -195,7 +195,7 @@
     <Compile Include="MainWindowComponents\SettingsButton.cs" />
     <Compile Include="MainWindowComponents\UpdateLicenseButton.cs" />
     <Compile Include="MainWindowData.cs" />
-    <Compile Include="Pipelines\Download8\Download8Args.cs" />
+    <Compile Include="Pipelines\Download8\DownloadArgs.cs" />
     <Compile Include="Pipelines\Download8\DownloadProcessor.cs" />
     <Compile Include="Pipelines\FinishActions.cs" />
     <Compile Include="Pipelines\Install\FinishActions.cs" />
@@ -237,14 +237,18 @@
     <Compile Include="UserControls\Delete\Delete9Details.xaml.cs">
       <DependentUpon>Delete9Details.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\Download8\ICheckBoxCreator.cs" />
+    <Compile Include="UserControls\Download8\CheckBoxCreatorSC8.cs" />
+    <Compile Include="UserControls\Download8\CheckBoxCreatorSC9.cs" />
     <Compile Include="UserControls\Download8\Downloads.xaml.cs">
       <DependentUpon>Downloads.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\Download8\DownloadWizardArgs.xaml.cs" />
+    <Compile Include="UserControls\Download8\IProductDownloadCheckBox.cs" />
     <Compile Include="UserControls\Download8\Login.xaml.cs">
       <DependentUpon>Login.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\Download8\ProductDownload8InCheckbox.cs" />
+    <Compile Include="UserControls\Download8\ProductDownloadCheckbox.cs" />
     <Compile Include="UserControls\Export\ExportDatabases.xaml.cs">
       <DependentUpon>ExportDatabases.xaml</DependentUpon>
     </Compile>

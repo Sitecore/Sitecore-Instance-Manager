@@ -8,7 +8,7 @@
   using Sitecore.Diagnostics.Base;
   using JetBrains.Annotations;
 
-  public class Download8Args : ProcessorArgs
+  public class DownloadArgs : ProcessorArgs
   {
     #region Fields
 
@@ -28,7 +28,7 @@
 
     #region Constructors
 
-    public Download8Args([NotNull] string cookies, [NotNull] ReadOnlyCollection<Uri> links, [NotNull] string localRepository)
+    public DownloadArgs([NotNull] string cookies, [NotNull] ReadOnlyCollection<Uri> links, [NotNull] string localRepository)
     {
       Assert.ArgumentNotNull(cookies, nameof(cookies));
       Assert.ArgumentNotNull(links, nameof(links));

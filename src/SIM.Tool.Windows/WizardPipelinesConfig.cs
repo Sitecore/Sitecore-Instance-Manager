@@ -5,7 +5,7 @@
     public const string Contents = @"<configuration>
   <pipelines>
     <download8 title=""Downloading Sitecore"">
-      <processor type=""SIM.Tool.Windows.Pipelines.Download8.Download8Processor, SIM.Tool.Windows""
+      <processor type=""SIM.Tool.Windows.Pipelines.Download8.DownloadProcessor, SIM.Tool.Windows""
                   title=""Downloading packages"" />
     </download8>
   </pipelines>

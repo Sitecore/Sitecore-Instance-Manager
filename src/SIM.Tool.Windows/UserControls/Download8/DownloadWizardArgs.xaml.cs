@@ -12,14 +12,13 @@
   using JetBrains.Annotations;
   using Sitecore.Diagnostics.InfoService.Client;
   using Sitecore.Diagnostics.InfoService.Client.Model;
-  using SIM.Extensions;
 
   public class DownloadWizardArgs : WizardArgs
   {
     #region Fields
 
     [NotNull]
-    private readonly List<ProductDownload8InCheckbox> _Products = new List<ProductDownload8InCheckbox>();
+    private readonly List<IProductDownloadCheckBox> _Products = new List<IProductDownloadCheckBox>();
 
     #endregion
 
@@ -49,7 +48,7 @@
     public string Password { get; set; }
 
     [NotNull]
-    public List<ProductDownload8InCheckbox> Products
+    public List<IProductDownloadCheckBox> Products
     {
       get
       {
@@ -69,7 +68,7 @@
     [NotNull]
     public override ProcessorArgs ToProcessorArgs()
     {
-      return new Download8Args(Cookies, Links, ProfileManager.Profile.LocalRepository);
+      return new DownloadArgs(Cookies, Links, ProfileManager.Profile.LocalRepository);
     }
 
     #endregion
