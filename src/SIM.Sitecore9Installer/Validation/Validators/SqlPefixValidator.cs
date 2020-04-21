@@ -58,7 +58,7 @@ namespace SIM.Sitecore9Installer.Validation.Validators
         SqlCommand cmd = conn.CreateCommand();
         cmd.CommandText = "SELECT [name] FROM master.dbo.sysdatabases where [name] like @name";
        
-        cmd.Parameters.AddWithValue("@name",prefix + "%");
+        cmd.Parameters.AddWithValue("@name",prefix + "_%");
         SqlDataReader reader = cmd.ExecuteReader();
         while (reader.Read())
         {
