@@ -11,9 +11,9 @@ namespace SIM.Sitecore9Installer.Tests.Validation.Validators
 {
   public class AppPoolSiteValidatorTests
   {
-    private const string SiteName = "SiteName";
-
     private const string TaskName = "Sitecore-XP0";
+
+    private const string SiteName = "SiteName";
 
     [Theory]
     [InlineData("sc.local", true, true, 2)]
@@ -36,6 +36,7 @@ namespace SIM.Sitecore9Installer.Tests.Validation.Validators
       var validator = Substitute.ForPartsOf<AppPoolSiteValidator>();
       validator.AppPoolExists(taskSiteName).Returns(appPoolExists);
       validator.SiteExists(taskSiteName).Returns(siteExists);
+      validator.Data["SiteName"] = SiteName;
 
       // Act
       IEnumerable<ValidationResult> result = validator.Evaluate(new Task[] { task });

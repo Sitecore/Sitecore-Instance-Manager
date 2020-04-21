@@ -94,7 +94,8 @@
     },
     {
       "Name": "AppPoolSiteValidator",
-      "Type": "SIM.Sitecore9Installer.Validation.Validators.AppPoolSiteValidator"
+      "Type": "SIM.Sitecore9Installer.Validation.Validators.AppPoolSiteValidator",
+      "Data": { "SiteName": "SiteName" }
     }
   ],
   "ValidatorLists": {
