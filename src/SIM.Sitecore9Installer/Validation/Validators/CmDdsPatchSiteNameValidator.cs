@@ -7,12 +7,6 @@ namespace SIM.Sitecore9Installer.Validation.Validators
 {
   public class CmDdsPatchSiteNameValidator : IValidator
   {
-    protected virtual string SitecoreXp1Cm => "sitecore-xp1-cm";
-
-    protected virtual string SitecoreXp1CmDdsPatch => "sitecore-XP1-cm-dds-patch";
-
-    protected virtual string SiteName => "SiteName";
-
     protected virtual string DdsPatchValidationResultMessage =>
       "Value of the '{0}' parameter differs in the '{1}' and '{2}' tasks. To fix: set the same value for each mentioned task in Advanced installation parameters.";
 
@@ -25,23 +19,27 @@ namespace SIM.Sitecore9Installer.Validation.Validators
 
     public IEnumerable<ValidationResult> Evaluate(IEnumerable<Task> tasks)
     {
-      Task cmTask = tasks.FirstOrDefault(t => t.Name.Equals(SitecoreXp1Cm, StringComparison.InvariantCultureIgnoreCase) && 
-                                      t.LocalParams.Any(p => p.Name.Equals(SiteName, StringComparison.InvariantCultureIgnoreCase)));
+      string sitecoreXp1Cm = this.Data["SitecoreXp1Cm"];
+      string sitecoreXp1CmDdsPatch = this.Data["SitecoreXp1CmDdsPatch"];
+      string siteName = this.Data["SiteName"];
+
+      Task cmTask = tasks.FirstOrDefault(t => t.Name.Equals(sitecoreXp1Cm, StringComparison.InvariantCultureIgnoreCase) && 
+                                      t.LocalParams.Any(p => p.Name.Equals(siteName, StringComparison.InvariantCultureIgnoreCase)));
 
       if (cmTask != null)
       {
-        Task ddsPatchTask = tasks.FirstOrDefault(t => t.Name.Equals(SitecoreXp1CmDdsPatch, StringComparison.InvariantCultureIgnoreCase) &&
-                                              t.LocalParams.Any(p => p.Name.Equals(SiteName, StringComparison.InvariantCultureIgnoreCase)));
+        Task ddsPatchTask = tasks.FirstOrDefault(t => t.Name.Equals(sitecoreXp1CmDdsPatch, StringComparison.InvariantCultureIgnoreCase) &&
+                                              t.LocalParams.Any(p => p.Name.Equals(siteName, StringComparison.InvariantCultureIgnoreCase)));
 
         if (ddsPatchTask != null)
         {
-          string cmSiteName = cmTask.LocalParams.Single(p => p.Name.Equals(SiteName, StringComparison.InvariantCultureIgnoreCase)).Value;
-          string ddsPatchSiteName = ddsPatchTask.LocalParams.Single(p => p.Name.Equals(SiteName, StringComparison.InvariantCultureIgnoreCase)).Value;
+          string cmSiteName = cmTask.LocalParams.Single(p => p.Name.Equals(siteName, StringComparison.InvariantCultureIgnoreCase)).Value;
+          string ddsPatchSiteName = ddsPatchTask.LocalParams.Single(p => p.Name.Equals(siteName, StringComparison.InvariantCultureIgnoreCase)).Value;
 
           if (!cmSiteName.Equals(ddsPatchSiteName, StringComparison.InvariantCultureIgnoreCase))
           {
             yield return new ValidationResult(ValidatorState.Error,
-              string.Format(DdsPatchValidationResultMessage, SiteName, cmTask.Name, ddsPatchTask.Name), null);
+              string.Format(DdsPatchValidationResultMessage, siteName, cmTask.Name, ddsPatchTask.Name), null);
           }
         }
       }

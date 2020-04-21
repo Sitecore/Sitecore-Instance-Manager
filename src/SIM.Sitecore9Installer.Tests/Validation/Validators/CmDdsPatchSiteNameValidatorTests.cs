@@ -46,6 +46,9 @@ namespace SIM.Sitecore9Installer.Tests.Validation.Validators
       ddsPatchTask.LocalParams.Returns(paramList);
 
       var validator = Substitute.ForPartsOf<CmDdsPatchSiteNameValidator>();
+      validator.Data["SitecoreXp1Cm"] = SitecoreXp1Cm;
+      validator.Data["SitecoreXp1CmDdsPatch"] = SitecoreXp1CmDdsPatch;
+      validator.Data["SiteName"] = SiteName;
 
       // Act
       IEnumerable<ValidationResult> result = validator.Evaluate(new Task[] { cmTask, ddsPatchTask });

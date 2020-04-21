@@ -94,11 +94,25 @@
     },
     {
       "Name": "CmDdsPatchSiteNameValidator",
-      "Type": "SIM.Sitecore9Installer.Validation.Validators.CmDdsPatchSiteNameValidator"
+      "Type": "SIM.Sitecore9Installer.Validation.Validators.CmDdsPatchSiteNameValidator",
+      "Data": {
+        "SitecoreXp1Cm": "sitecore-xp1-cm",
+        "SitecoreXp1CmDdsPatch": "sitecore-XP1-cm-dds-patch",
+        "SiteName": "SiteName"
+      }
     },
     {
       "Name": "CmIdentityServerSiteNameValidator",
-      "Type": "SIM.Sitecore9Installer.Validation.Validators.CmIdentityServerSiteNameValidator"
+      "Type": "SIM.Sitecore9Installer.Validation.Validators.CmIdentityServerSiteNameValidator",
+      "Data": {
+        "SitecoreXp1Cm": "sitecore-xp1-cm",
+        "SitecoreXm1Cm": "Sitecore-xm1-cm",
+        "SitecoreXp0": "Sitecore-XP0",
+        "SiteName": "SiteName",
+        "IdentityServer": "IdentityServer",
+        "AllowedCorsOrigins": "AllowedCorsOrigins",
+        "PasswordRecoveryUrl": "PasswordRecoveryUrl"
+      }
     }
   ],
   "ValidatorLists": {

@@ -15,7 +15,7 @@ namespace SIM.Sitecore9Installer.Tests.Validation.Validators
 
     private const string SitecoreXm1Cm = "Sitecore-xm1-cm";
 
-    private const string SitecoreXm0 = "Sitecore-XP0";
+    private const string SitecoreXp0 = "Sitecore-XP0";
 
     private const string SiteName = "SiteName";
 
@@ -28,7 +28,7 @@ namespace SIM.Sitecore9Installer.Tests.Validation.Validators
     [Theory]
     [InlineData(SitecoreXp1Cm, "test", IdentityServer, "https://test", "http://test", 0)]
     [InlineData(SitecoreXm1Cm, "CM.local", IdentityServer, "https://CM.local", "https://CM.local", 0)]
-    [InlineData(SitecoreXm0, "new", IdentityServer, "http://new", "https://new", 0)]
+    [InlineData(SitecoreXp0, "new", IdentityServer, "http://new", "https://new", 0)]
     [InlineData("unknown", "CM.local", IdentityServer, "https://cm.local", "https://CM.LOCAL", 0)]
     [InlineData(SitecoreXp1Cm, "test", "unknown", "https://CM.local", "https://CM.local", 0)]
     [InlineData(SitecoreXm1Cm, "test", IdentityServer, "https://test", "https://CM.local", 1)]
@@ -58,6 +58,13 @@ namespace SIM.Sitecore9Installer.Tests.Validation.Validators
       identityServerTask.LocalParams.Returns(paramList);
 
       var validator = Substitute.ForPartsOf<CmIdentityServerSiteNameValidator>();
+      validator.Data["SitecoreXp1Cm"] = SitecoreXp1Cm;
+      validator.Data["SitecoreXm1Cm"] = SitecoreXm1Cm;
+      validator.Data["SitecoreXp0"] = SitecoreXp0;
+      validator.Data["SiteName"] = SiteName;
+      validator.Data["IdentityServer"] = IdentityServer;
+      validator.Data["AllowedCorsOrigins"] = AllowedCorsOrigins;
+      validator.Data["PasswordRecoveryUrl"] = PasswordRecoveryUrl;
 
       // Act
       IEnumerable<ValidationResult> result = validator.Evaluate(new Task[] { cmTask, identityServerTask });
