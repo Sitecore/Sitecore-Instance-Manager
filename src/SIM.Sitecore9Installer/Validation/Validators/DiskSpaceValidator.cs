@@ -19,7 +19,7 @@ namespace SIM.Sitecore9Installer.Validation.Validators
 
     public IEnumerable<ValidationResult> Evaluate(IEnumerable<Task> tasks)
     {
-      IEnumerable<InstallParam> deployRoots = tasks.Select(t => t.LocalParams.FirstOrDefault(l => l.Name == "DeployRoot"))
+      IEnumerable<InstallParam> deployRoots = tasks.Select(t => t.LocalParams.FirstOrDefault(l => l.Name == this.Data["DeployRoot"]))
         .Where(p => p != null);
       IEnumerable<string> uniqueDeployRoots = deployRoots.Select(x => x.Value).Distinct();
       IEnumerable<string> uniqueDrives = uniqueDeployRoots.Select(d => Path.GetPathRoot(d)).Distinct();

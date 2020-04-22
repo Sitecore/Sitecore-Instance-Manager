@@ -36,7 +36,7 @@ namespace SIM.Sitecore9Installer.Tests.Validation.Validators
 
       val.Data["HardDriveWarningLimit"] = "5368709120";
       val.Data["HardDriveErrorLimit"] = "3221225472";
-
+      val.Data["DeployRoot"] = "DeployRoot";
       //Act
       IEnumerable<ValidationResult> results = val.Evaluate(tasks);
 
