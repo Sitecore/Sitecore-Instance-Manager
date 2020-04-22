@@ -27,21 +27,16 @@ namespace SIM.Sitecore9Installer.Validation.Validators
 
     protected override IEnumerable<ValidationResult> GetErrorsForTask(Task task, IEnumerable<InstallParam> paramsToValidate)
     {
-      string siteName = this.Data["SiteName"];
-
       foreach (InstallParam param in paramsToValidate)
       {
-        if (param.Name.Equals(siteName, StringComparison.InvariantCultureIgnoreCase))
+        if (this.AppPoolExists(param.Value))
         {
-          if (this.AppPoolExists(param.Value))
-          {
-            yield return new ValidationResult(ValidatorState.Error, string.Format(this.AppPoolValidationMessage, param.Value, siteName, task.Name), null);
-          }
+          yield return new ValidationResult(ValidatorState.Error, string.Format(this.AppPoolValidationMessage, param.Value, param.Name, task.Name), null);
+        }
 
-          if (this.SiteExists(param.Value))
-          {
-            yield return new ValidationResult(ValidatorState.Error, string.Format(this.SiteValidationMessage, param.Value, siteName, task.Name), null);
-          }
+        if (this.SiteExists(param.Value))
+        {
+          yield return new ValidationResult(ValidatorState.Error, string.Format(this.SiteValidationMessage, param.Value, param.Name, task.Name), null);
         }
       }
     }
