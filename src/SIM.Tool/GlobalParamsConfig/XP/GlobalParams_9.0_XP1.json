@@ -84,6 +84,7 @@
   "Validators": [
     "list|Basic",
     "list|DDS",
+    "list|DDS_Patch",
     "list|Sitecore_9.0"
   ],
 
