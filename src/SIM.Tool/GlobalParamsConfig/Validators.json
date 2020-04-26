@@ -96,7 +96,7 @@
       "Name": "DiskSpaceValidator",
       "Type": "SIM.Sitecore9Installer.Validation.Validators.DiskSpaceValidator",
       "Data": {
-        "DeployRoot ": "DeployRoot",
+        "DeployRoot": "DeployRoot",
         "HardDriveWarningLimit": "5368709120",
         "HardDriveErrorLimit": "3221225472"
       }
