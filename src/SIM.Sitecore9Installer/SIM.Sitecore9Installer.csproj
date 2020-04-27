@@ -109,6 +109,7 @@
     <Compile Include="Validation\ValidatorDefinition.cs" />
     <Compile Include="Validation\Validators\BaseValidator.cs" />
     <Compile Include="Validation\Validators\CertificateValidator.cs" />
+    <Compile Include="Validation\Validators\DiskSpaceValidator.cs" />
     <Compile Include="Validation\Validators\CmIdentityServerSiteNameValidator.cs" />
     <Compile Include="Validation\Validators\HostNameValidator.cs" />
     <Compile Include="Validation\Validators\NugetToolPresenceValidator.cs" />
