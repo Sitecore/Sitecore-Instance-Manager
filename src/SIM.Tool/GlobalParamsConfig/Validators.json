@@ -93,6 +93,11 @@
       }
     },
     {
+      "Name": "AppPoolSiteValidator",
+      "Type": "SIM.Sitecore9Installer.Validation.Validators.AppPoolSiteValidator",
+      "Data": { "ParamNames": "SiteName" }
+    },
+    {
       "Name": "DiskSpaceValidator",
       "Type": "SIM.Sitecore9Installer.Validation.Validators.DiskSpaceValidator",
       "Data": {
@@ -101,6 +106,7 @@
         "HardDriveErrorLimit": "3221225472"
       }
     },
+    {
       "Name": "CmDdsPatchSiteNameValidator",
       "Type": "SIM.Sitecore9Installer.Validation.Validators.CmDdsPatchSiteNameValidator",
       "Data": {
@@ -139,6 +145,7 @@
       "RootCertificateValidator",
       "RootCertificateValidatorRoot",
       "RootCertificateValidatorMy",
+      "AppPoolSiteValidator",
       "DiskSpaceValidator"
     ],
     "DDS": [

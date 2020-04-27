@@ -81,6 +81,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Validation\Validators\AppPoolSiteValidatorTests.cs" />
     <Compile Include="Validation\Validators\CertificateValidatorTests.cs" />
     <Compile Include="Validation\Validators\DiskSpaceValidatorTests.cs" />
     <Compile Include="Validation\Validators\CmDdsPatchSiteNameValidatorTests.cs" />
