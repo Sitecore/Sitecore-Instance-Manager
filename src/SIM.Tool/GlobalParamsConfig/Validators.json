@@ -100,6 +100,27 @@
         "HardDriveWarningLimit": "5368709120",
         "HardDriveErrorLimit": "3221225472"
       }
+    },
+      "Name": "CmDdsPatchSiteNameValidator",
+      "Type": "SIM.Sitecore9Installer.Validation.Validators.CmDdsPatchSiteNameValidator",
+      "Data": {
+        "SitecoreXp1Cm": "sitecore-xp1-cm",
+        "SitecoreXp1CmDdsPatch": "sitecore-XP1-cm-dds-patch",
+        "SiteName": "SiteName"
+      }
+    },
+    {
+      "Name": "CmIdentityServerSiteNameValidator",
+      "Type": "SIM.Sitecore9Installer.Validation.Validators.CmIdentityServerSiteNameValidator",
+      "Data": {
+        "SitecoreXp1Cm": "sitecore-xp1-cm",
+        "SitecoreXm1Cm": "Sitecore-xm1-cm",
+        "SitecoreXp0": "Sitecore-XP0",
+        "SiteName": "SiteName",
+        "IdentityServer": "IdentityServer",
+        "AllowedCorsOrigins": "AllowedCorsOrigins",
+        "PasswordRecoveryUrl": "PasswordRecoveryUrl"
+      }
     }
   ],
   "ValidatorLists": {
@@ -123,17 +144,23 @@
     "DDS": [
       "NugetToolPresenceValidator"
     ],
+    "DDS_Patch": [
+      "CmDdsPatchSiteNameValidator"
+    ],
     "Sitecore_9.0": [
       "9.0_SqlCompatibilityValidator"
     ],
     "Sitecore_9.1": [
-      "9.1_SqlCompatibilityValidator"
+      "9.1_SqlCompatibilityValidator",
+      "CmIdentityServerSiteNameValidator"
     ],
     "Sitecore_9.2": [
-      "9.2_SqlCompatibilityValidator"
+      "9.2_SqlCompatibilityValidator",
+      "CmIdentityServerSiteNameValidator"
     ],
     "Sitecore_9.3": [
-      "9.3_SqlCompatibilityValidator"
+      "9.3_SqlCompatibilityValidator",
+      "CmIdentityServerSiteNameValidator"
     ]
   }
 }
