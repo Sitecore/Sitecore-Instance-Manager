@@ -113,6 +113,13 @@
         "AllowedCorsOrigins": "AllowedCorsOrigins",
         "PasswordRecoveryUrl": "PasswordRecoveryUrl"
       }
+    },
+    {
+      "Name": "LicenseFileValidator",
+      "Type": "SIM.Sitecore9Installer.Validation.Validators.LicenseFileValidator",
+      "Data": {
+        "LicenseFileVariable": "LicenseFile"
+      }
     }
   ],
   "ValidatorLists": {
@@ -130,7 +137,8 @@
       "SolrServiceValidator",
       "RootCertificateValidator",
       "RootCertificateValidatorRoot",
-      "RootCertificateValidatorMy"
+      "RootCertificateValidatorMy",
+      "LicenseFileValidator"
     ],
     "DDS": [
       "NugetToolPresenceValidator"
