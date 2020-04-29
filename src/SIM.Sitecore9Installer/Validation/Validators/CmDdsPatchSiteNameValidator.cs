@@ -22,7 +22,7 @@ namespace SIM.Sitecore9Installer.Validation.Validators
       string sitecoreXp1Cm = this.Data["SitecoreXp1Cm"];
       string sitecoreXp1CmDdsPatch = this.Data["SitecoreXp1CmDdsPatch"];
       string siteName = this.Data["SiteName"];
-
+      bool errors = false;
       Task cmTask = tasks.FirstOrDefault(t => t.Name.Equals(sitecoreXp1Cm, StringComparison.InvariantCultureIgnoreCase) && 
                                       t.LocalParams.Any(p => p.Name.Equals(siteName, StringComparison.InvariantCultureIgnoreCase)));
 
@@ -38,13 +38,17 @@ namespace SIM.Sitecore9Installer.Validation.Validators
 
           if (!cmSiteName.Equals(ddsPatchSiteName, StringComparison.InvariantCultureIgnoreCase))
           {
+            errors = true;
             yield return new ValidationResult(ValidatorState.Error,
               string.Format(DdsPatchValidationResultMessage, siteName, cmTask.Name, ddsPatchTask.Name), null);
           }
         }
       }
 
-      yield return new ValidationResult(ValidatorState.Success, null, null);
+      if (!errors)
+      {
+        yield return new ValidationResult(ValidatorState.Success, null, null);
+      }
     }
   }
 }

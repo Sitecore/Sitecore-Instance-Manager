@@ -23,7 +23,7 @@ namespace SIM.Sitecore9Installer.Validation.Validators
         .Where(p => p != null);
       IEnumerable<string> uniqueDeployRoots = deployRoots.Select(x => x.Value).Distinct();
       IEnumerable<string> uniqueDrives = uniqueDeployRoots.Select(d => Path.GetPathRoot(d)).Distinct();
-
+      bool errors = false;
       long hardDriveWarningLimit = long.Parse(this.Data["HardDriveWarningLimit"]);
       long hardDriveErrorLimit = long.Parse(this.Data["HardDriveErrorLimit"]); ;
 
@@ -32,21 +32,27 @@ namespace SIM.Sitecore9Installer.Validation.Validators
         long freeSpace = GetHardDriveFreeSpace(drive);
         if (freeSpace == -1)
         {
+          errors = true;
           yield return new ValidationResult(ValidatorState.Error, $"Hard disk '{drive}' has not been found.", null);
         }
         else
          if (freeSpace < hardDriveErrorLimit)
         {
+          errors = true;
           yield return new ValidationResult(ValidatorState.Error, $"Hard disk '{drive}' does not have enough free space to continue installation.", null);
         }
         else
          if (freeSpace < hardDriveWarningLimit)
         {
+          errors = true;
           yield return new ValidationResult(ValidatorState.Warning, $"Hard disk '{drive}' has a little free space.", null);
         }
       }
 
-      yield return new ValidationResult(ValidatorState.Success, null, null);
+      if (!errors)
+      {
+        yield return new ValidationResult(ValidatorState.Success, null, null);
+      }
     }
 
     protected internal virtual long GetHardDriveFreeSpace(string driveName)
