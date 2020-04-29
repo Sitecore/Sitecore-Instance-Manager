@@ -16,7 +16,7 @@
     "BaseConfig": "",
     //cert
     "CertPath": "c:/certificates",
-    "RootCertFileName": "",
+    "RootCertFileName": "SIM_SIF220Root",
     //xConnect
     "XConnectCert": "$GlobalParams.SqlDbPrefix+\"xconnect_client\"",
     "SqlMarketingAutomationUser": "",
