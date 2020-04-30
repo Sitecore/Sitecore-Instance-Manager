@@ -39,6 +39,7 @@ namespace SIM.Sitecore9Installer.Validation.Validators
         IEnumerable<string> coreNames = this.GetCores(item.Item1);
         if (coreNames.Any(cn => cn.StartsWith(item.Item2, StringComparison.InvariantCultureIgnoreCase)))
         {
+          errors = true;
           yield return new ValidationResult(ValidatorState.Error, $"Core with prefix {item.Item2} already exists in solr {item.Item1}",null);
         }
       }
