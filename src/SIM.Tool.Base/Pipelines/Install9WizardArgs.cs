@@ -36,5 +36,6 @@ namespace SIM.Tool.Base.Pipelines
     public string ScriptRoot { get; set; }
     public Tasker Tasker { get; set; }
     public bool ScriptsOnly { get; set; }
+    public bool Validate { get; set; }
   }
 }

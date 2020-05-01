@@ -298,6 +298,10 @@
     <Compile Include="UserControls\Install\ParametersEditor\Install9ParametersEditor.xaml.cs">
       <DependentUpon>Install9ParametersEditor.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\Install\Validation\ValidationDetails.xaml.cs">
+      <DependentUpon>ValidationDetails.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Install\Validation\ValidationStatsItem.cs" />
     <Compile Include="UserControls\MultipleDeletion\MultipleDeletionWizardArgs.cs" />
     <Compile Include="UserControls\MultipleDeletion\SelectInstances.xaml.cs">
       <DependentUpon>SelectInstances.xaml</DependentUpon>
@@ -634,6 +638,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="UserControls\Install\Validation\ValidationDetails.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="UserControls\Reinstall\Reinstall9Confirmation.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -794,6 +802,7 @@
   <ItemGroup>
     <Resource Include="Images\Sitecore.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

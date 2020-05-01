@@ -22,7 +22,11 @@ namespace SIM.Sitecore9Installer.Validation
       foreach (ValidatorDefinition definition in validatorDefinitions)
       {
         IValidator validator = (IValidator)Activator.CreateInstance(Type.GetType(definition.Type));
-        validator.Data = definition.Data;
+        if (definition.Data != null)
+        {
+          validator.Data = definition.Data;
+        }
+
         validators.Add(definition.Name, validator);
       }
 

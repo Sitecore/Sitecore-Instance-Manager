@@ -15,6 +15,7 @@ namespace SIM.Sitecore9Installer.Validation.Validators
     {
       this.Data = new Dictionary<string, string>();
     }
+
     public Dictionary<string, string> Data { get; set; }
 
     public IEnumerable<ValidationResult> Evaluate(IEnumerable<Task> tasks)

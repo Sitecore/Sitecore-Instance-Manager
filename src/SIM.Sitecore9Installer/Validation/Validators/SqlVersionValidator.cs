@@ -13,6 +13,8 @@ namespace SIM.Sitecore9Installer.Validation.Validators
     {
       this.Data = new Dictionary<string, string>();
     }
+
+    public string Name { get; set; }
     public IEnumerable<ValidationResult> Evaluate(IEnumerable<Task> tasks)
     {
       string server = this.Data["Server"];

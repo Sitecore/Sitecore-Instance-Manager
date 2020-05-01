@@ -10,14 +10,20 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="20"/>
-            <RowDefinition Height="20"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <CheckBox Name="Validate" IsChecked="True" Grid.Row="0" >Perform installation parameters validation</CheckBox>
-        <TextBlock Name="Caption" HorizontalAlignment="Left" Grid.Row="1"/>
-        <DataGrid Grid.Row="2" Visibility="Hidden" IsEnabled="True" HorizontalAlignment="Left" Name="MessagesList" ItemsSource="{Binding}" 
-                  Margin="10,10,0,0" VerticalAlignment="Top" Width="407" >
-           
-        </DataGrid>
+        <TextBlock Name="Caption" HorizontalAlignment="Left" Grid.Row="0"/>
+        <ItemsControl Name="Stats" Margin="10,0,0,0" ItemsSource="{Binding}" Grid.Row="1">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <BulletDecorator>
+                        <BulletDecorator.Bullet>
+                            <Ellipse Height="10" Width="10" Fill="{Binding Color}"/>
+                        </BulletDecorator.Bullet>
+                        <TextBlock Margin="3,0,0,0" Text="{Binding Text, Mode=OneWay}" />
+                    </BulletDecorator>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
     </Grid>
 </UserControl>
