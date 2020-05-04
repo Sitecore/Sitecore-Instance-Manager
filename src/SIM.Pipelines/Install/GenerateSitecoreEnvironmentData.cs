@@ -26,13 +26,14 @@ namespace SIM.Pipelines.Install
       InstallParam sqlDbPrefixParam = arguments.Tasker.GlobalParams.FirstOrDefault(p => p.Name == SqlDbPrefix);
       if (sqlDbPrefixParam != null && !string.IsNullOrEmpty(sqlDbPrefixParam.Value))
       {
-        this.AddSitecoreEnvironment(this.CreateSitecoreEnvironment(arguments.Tasker, sqlDbPrefixParam.Value));
+        this.AddSitecoreEnvironment(this.CreateSitecoreEnvironment(arguments.Tasker, sqlDbPrefixParam.Value,arguments.UnInstallDataPath));
       }
     }
 
-    private SitecoreEnvironment CreateSitecoreEnvironment(Tasker tasker, string sqlDbPrefix)
+    private SitecoreEnvironment CreateSitecoreEnvironment(Tasker tasker, string sqlDbPrefix, string uninstallDataPath)
     {
       SitecoreEnvironment sitecoreEnvironment = new SitecoreEnvironment(sqlDbPrefix);
+      sitecoreEnvironment.UnInstallDataPath = uninstallDataPath;
       sitecoreEnvironment.Members = new List<SitecoreEnvironmentMember>();
 
       foreach (Task powerShellTask in tasker.Tasks)

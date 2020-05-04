@@ -84,6 +84,11 @@ namespace SIM.SitecoreEnvironments
 
 
     public static SitecoreEnvironment GetExistingOrNewSitecoreEnvironment(string instanceName)
+    {    
+      return GetExistingSitecoreEnvironment(instanceName)?? new SitecoreEnvironment(instanceName);
+    }
+
+    public static SitecoreEnvironment GetExistingSitecoreEnvironment(string instanceName)
     {
       foreach (SitecoreEnvironment sitecoreEnvironment in SitecoreEnvironments)
       {
@@ -96,7 +101,7 @@ namespace SIM.SitecoreEnvironments
         }
       }
 
-      return new SitecoreEnvironment(instanceName);
+      return null;
     }
   }
 }

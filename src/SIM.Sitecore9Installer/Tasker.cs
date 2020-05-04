@@ -371,7 +371,7 @@ namespace SIM.Sitecore9Installer
       return null;
     }
 
-    public void SaveUninstallData(string path)
+    public string SaveUninstallData(string path)
     {
       string filesPath = Path.Combine(path, GlobalParams.First(p => p.Name == "SqlDbPrefix").Value);
       string unstallTasksPath = Path.Combine(filesPath, uninstallTasksFolderName);
@@ -379,6 +379,7 @@ namespace SIM.Sitecore9Installer
       Directory.CreateDirectory(unstallTasksPath);
       SaveUninstallParams(filesPath);
       SaveUninstallTasks(unstallTasksPath);
+      return filesPath;
     }
 
     public void SaveUninstallParams(string path)
