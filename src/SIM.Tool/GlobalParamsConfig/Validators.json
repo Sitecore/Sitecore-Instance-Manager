@@ -93,6 +93,16 @@
       }
     },
     {
+      "Name": "DatabaseNameValidator",
+      "Type": "SIM.Sitecore9Installer.Validation.Validators.SqlPefixValidator",
+      "Data": {
+        "Server": "SqlServer",
+        "User": "SqlAdminUser",
+        "Password": "SqlAdminPassword",
+        "Prefix": "SqlDbPrefix"
+      }
+    },
+    {
       "Name": "AppPoolSiteValidator",
       "Type": "SIM.Sitecore9Installer.Validation.Validators.AppPoolSiteValidator",
       "Data": { "ParamNames": "SiteName" }
@@ -145,6 +155,7 @@
       "RootCertificateValidator",
       "RootCertificateValidatorRoot",
       "RootCertificateValidatorMy",
+      "DatabaseNameValidator",
       "AppPoolSiteValidator",
       "DiskSpaceValidator"
     ],
