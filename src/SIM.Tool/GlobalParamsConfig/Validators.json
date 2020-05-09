@@ -137,6 +137,13 @@
         "AllowedCorsOrigins": "AllowedCorsOrigins",
         "PasswordRecoveryUrl": "PasswordRecoveryUrl"
       }
+    },
+    {
+      "Name": "LicenseFileValidator",
+      "Type": "SIM.Sitecore9Installer.Validation.Validators.LicenseFileValidator",
+      "Data": {
+        "LicenseFileVariable": "LicenseFile"
+      }
     }
   ],
   "ValidatorLists": {
@@ -155,6 +162,7 @@
       "RootCertificateValidator",
       "RootCertificateValidatorRoot",
       "RootCertificateValidatorMy",
+      "LicenseFileValidator",
       "DatabaseNameValidator",
       "AppPoolSiteValidator",
       "DiskSpaceValidator"

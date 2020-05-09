@@ -112,6 +112,7 @@
     <Compile Include="Validation\Validators\DiskSpaceValidator.cs" />
     <Compile Include="Validation\Validators\CmIdentityServerSiteNameValidator.cs" />
     <Compile Include="Validation\Validators\HostNameValidator.cs" />
+    <Compile Include="Validation\Validators\LicenseFileValidator.cs" />
     <Compile Include="Validation\Validators\NugetToolPresenceValidator.cs" />
     <Compile Include="Validation\Validators\AppPoolSiteValidator.cs" />
     <Compile Include="Validation\Validators\CmDdsPatchSiteNameValidator.cs" />
