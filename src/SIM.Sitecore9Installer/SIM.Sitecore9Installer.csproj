@@ -109,12 +109,15 @@
     <Compile Include="Validation\ValidatorDefinition.cs" />
     <Compile Include="Validation\Validators\BaseValidator.cs" />
     <Compile Include="Validation\Validators\CertificateValidator.cs" />
+    <Compile Include="Validation\Validators\DiskSpaceValidator.cs" />
     <Compile Include="Validation\Validators\CmIdentityServerSiteNameValidator.cs" />
     <Compile Include="Validation\Validators\HostNameValidator.cs" />
     <Compile Include="Validation\Validators\LicenseFileValidator.cs" />
     <Compile Include="Validation\Validators\NugetToolPresenceValidator.cs" />
+    <Compile Include="Validation\Validators\AppPoolSiteValidator.cs" />
     <Compile Include="Validation\Validators\CmDdsPatchSiteNameValidator.cs" />
     <Compile Include="Validation\Validators\SolrServiceValidator.cs" />
+    <Compile Include="Validation\Validators\SqlPefixValidator.cs" />
     <Compile Include="Validation\Validators\SqlVersionValidator.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

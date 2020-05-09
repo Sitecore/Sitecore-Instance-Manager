@@ -18,6 +18,7 @@ namespace SIM.Sitecore9Installer.Validation.Validators
       string server = this.Data["Server"];
       string user = this.Data["User"];
       string pass = this.Data["Password"];
+      bool errors = false;
       foreach (Task task in tasks.Where(t => t.LocalParams.Any(p => p.Name == user)))
       {
         string sereverVersion = string.Empty;
@@ -28,11 +29,15 @@ namespace SIM.Sitecore9Installer.Validation.Validators
         string[] versions= Data["Versions"].Split(',');
           if (!versions.Any(v => Regex.Match(sereverVersion, v).Success))
           {
+          errors = true;
             yield return new ValidationResult(ValidatorState.Error, "SQL server version is not compatible", null);
           }
       }
 
-      yield return new ValidationResult(ValidatorState.Success, null, null);
+      if (!errors)
+      {
+        yield return new ValidationResult(ValidatorState.Success, null, null);
+      }
     }
 
     protected internal virtual string GetSqlVersion(string server, string user, string password)

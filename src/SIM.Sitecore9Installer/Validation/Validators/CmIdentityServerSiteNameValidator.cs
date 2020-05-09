@@ -26,7 +26,7 @@ namespace SIM.Sitecore9Installer.Validation.Validators
       string identityServer = this.Data["IdentityServer"];
       string allowedCorsOrigins = this.Data["AllowedCorsOrigins"];
       string passwordRecoveryUrl = this.Data["PasswordRecoveryUrl"];
-
+      bool errors = false;
       Task cmTask = tasks.FirstOrDefault(t => (t.Name.Equals(sitecoreXp1Cm, StringComparison.InvariantCultureIgnoreCase) || 
                                        t.Name.Equals(sitecoreXm1Cm, StringComparison.InvariantCultureIgnoreCase) ||
                                        t.Name.Equals(sitecoreXp0, StringComparison.InvariantCultureIgnoreCase)) && 
@@ -47,6 +47,7 @@ namespace SIM.Sitecore9Installer.Validation.Validators
 
           if (!cmSiteName.Equals(allowedCorsOriginsUri.Host, StringComparison.InvariantCultureIgnoreCase))
           {
+            errors = true;
             yield return new ValidationResult(ValidatorState.Warning,
               string.Format(IdentityServerValidationResultMessage, allowedCorsOrigins, identityServerTask.Name, siteName, cmTask.Name), null);
           }
@@ -54,13 +55,17 @@ namespace SIM.Sitecore9Installer.Validation.Validators
 
           if (!cmSiteName.Equals(passwordRecoveryUrlUri.Host, StringComparison.InvariantCultureIgnoreCase))
           {
+            errors = true;
             yield return new ValidationResult(ValidatorState.Warning,
               string.Format(IdentityServerValidationResultMessage, passwordRecoveryUrl, identityServerTask.Name, siteName, cmTask.Name), null);
           }
         }
       }
 
-      yield return new ValidationResult(ValidatorState.Success, null, null);
+      if (!errors)
+      {
+        yield return new ValidationResult(ValidatorState.Success, null, null);
+      }
     }
   }
 }

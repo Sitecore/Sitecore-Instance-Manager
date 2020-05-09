@@ -93,6 +93,30 @@
       }
     },
     {
+      "Name": "DatabaseNameValidator",
+      "Type": "SIM.Sitecore9Installer.Validation.Validators.SqlPefixValidator",
+      "Data": {
+        "Server": "SqlServer",
+        "User": "SqlAdminUser",
+        "Password": "SqlAdminPassword",
+        "Prefix": "SqlDbPrefix"
+      }
+    },
+    {
+      "Name": "AppPoolSiteValidator",
+      "Type": "SIM.Sitecore9Installer.Validation.Validators.AppPoolSiteValidator",
+      "Data": { "ParamNames": "SiteName" }
+    },
+    {
+      "Name": "DiskSpaceValidator",
+      "Type": "SIM.Sitecore9Installer.Validation.Validators.DiskSpaceValidator",
+      "Data": {
+        "DeployRoot": "DeployRoot",
+        "HardDriveWarningLimit": "5368709120",
+        "HardDriveErrorLimit": "3221225472"
+      }
+    },
+    {
       "Name": "CmDdsPatchSiteNameValidator",
       "Type": "SIM.Sitecore9Installer.Validation.Validators.CmDdsPatchSiteNameValidator",
       "Data": {
@@ -138,7 +162,10 @@
       "RootCertificateValidator",
       "RootCertificateValidatorRoot",
       "RootCertificateValidatorMy",
-      "LicenseFileValidator"
+      "LicenseFileValidator",
+      "DatabaseNameValidator",
+      "AppPoolSiteValidator",
+      "DiskSpaceValidator"
     ],
     "DDS": [
       "NugetToolPresenceValidator"
