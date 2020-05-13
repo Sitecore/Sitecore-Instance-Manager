@@ -12,6 +12,8 @@ namespace SIM.Sitecore9Installer.Validation.Validators
 
     public Dictionary<string, string> Data { get; set; }
 
+    public virtual string SuccessMessage => "'SiteName' value was set properly for 'cm-dds-patch' installation task.";
+
     public CmDdsPatchSiteNameValidator()
     {
       this.Data = new Dictionary<string, string>();
@@ -23,7 +25,7 @@ namespace SIM.Sitecore9Installer.Validation.Validators
       string sitecoreXp1CmDdsPatch = this.Data["SitecoreXp1CmDdsPatch"];
       string siteName = this.Data["SiteName"];
       bool errors = false;
-      Task cmTask = tasks.FirstOrDefault(t => t.Name.Equals(sitecoreXp1Cm, StringComparison.InvariantCultureIgnoreCase) && 
+      Task cmTask = tasks.FirstOrDefault(t => t.Name.Equals(sitecoreXp1Cm, StringComparison.InvariantCultureIgnoreCase) &&
                                       t.LocalParams.Any(p => p.Name.Equals(siteName, StringComparison.InvariantCultureIgnoreCase)));
 
       if (cmTask != null)
@@ -47,7 +49,7 @@ namespace SIM.Sitecore9Installer.Validation.Validators
 
       if (!errors)
       {
-        yield return new ValidationResult(ValidatorState.Success, null, null);
+        yield return new ValidationResult(ValidatorState.Success, this.SuccessMessage, null);
       }
     }
   }

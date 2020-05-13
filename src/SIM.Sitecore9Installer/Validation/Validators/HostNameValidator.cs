@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using SIM.Sitecore9Installer.Tasks;
-
 
 namespace SIM.Sitecore9Installer.Validation.Validators
 {
   public class HostNameValidator : BaseValidator
   {
+    public override string SuccessMessage => "'Uri.CheckHostName()' validation has been finished successfully.";
     protected override IEnumerable<ValidationResult> GetErrorsForTask(Task task, IEnumerable<InstallParam> paramsToValidate)
     {
       foreach (InstallParam param in paramsToValidate)

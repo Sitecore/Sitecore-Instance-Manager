@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SIM.Sitecore9Installer.Tasks;
 
 namespace SIM.Sitecore9Installer.Validation.Validators
 {
@@ -15,6 +11,8 @@ namespace SIM.Sitecore9Installer.Validation.Validators
       this.Data = new Dictionary<string, string>();
     }
     public Dictionary<string, string> Data { get; set; }
+
+    public virtual string SuccessMessage => "The license file has been located successfully.";
 
     public IEnumerable<ValidationResult> Evaluate(IEnumerable<Tasks.Task> tasks)
     {
@@ -34,7 +32,7 @@ namespace SIM.Sitecore9Installer.Validation.Validators
 
       if (!hasErrors)
       {
-        yield return new ValidationResult(ValidatorState.Success, null, null);
+        yield return new ValidationResult(ValidatorState.Success, this.SuccessMessage, null);
       }
     }
 

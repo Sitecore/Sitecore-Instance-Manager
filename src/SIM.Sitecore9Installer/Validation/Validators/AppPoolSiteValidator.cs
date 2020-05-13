@@ -12,6 +12,8 @@ namespace SIM.Sitecore9Installer.Validation.Validators
 
     protected virtual string SiteValidationMessage => "The '{0}' site already exists in IIS. To fix: change the '{1}' field's value of the '{2}' task in Advanced installation parameters.";
 
+    public override string SuccessMessage => "IIS contains neither 'site' nor 'app pool' with the given name.";
+
     public List<ApplicationPool> AppPools { get; set; }
 
     public List<Site> Sites { get; set; }

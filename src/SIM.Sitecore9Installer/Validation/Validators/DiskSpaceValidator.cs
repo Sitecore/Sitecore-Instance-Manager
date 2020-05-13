@@ -17,6 +17,8 @@ namespace SIM.Sitecore9Installer.Validation.Validators
     }
     public Dictionary<string, string> Data { get; set; }
 
+    public virtual string SuccessMessage => "Hard disk has enough free space to continue the installation.";
+
     public IEnumerable<ValidationResult> Evaluate(IEnumerable<Task> tasks)
     {
       IEnumerable<InstallParam> deployRoots = tasks.Select(t => t.LocalParams.FirstOrDefault(l => l.Name == this.Data["DeployRoot"]))
@@ -51,7 +53,7 @@ namespace SIM.Sitecore9Installer.Validation.Validators
 
       if (!errors)
       {
-        yield return new ValidationResult(ValidatorState.Success, null, null);
+        yield return new ValidationResult(ValidatorState.Success, this.SuccessMessage, null);
       }
     }
 
