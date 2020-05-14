@@ -12,7 +12,7 @@ namespace SIM.Sitecore9Installer.Validation.Validators
 
     public Dictionary<string, string> Data { get; set; }
 
-    public virtual string SuccessMessage => "'SiteName' value was set properly for 'cm-dds-patch' installation task.";
+    public virtual string SuccessMessage => "'SiteName' value was set properly for 'sitecore-xp1-cm' and 'sitecore-XP1-cm-dds-patch' installation tasks.";
 
     public CmDdsPatchSiteNameValidator()
     {
