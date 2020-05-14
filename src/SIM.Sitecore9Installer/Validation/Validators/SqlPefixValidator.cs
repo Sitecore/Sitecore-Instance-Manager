@@ -16,6 +16,8 @@ namespace SIM.Sitecore9Installer.Validation.Validators
     }
     public Dictionary<string, string> Data { get; set; }
 
+    public virtual string SuccessMessage => "The SQL server does not contain the database with the given prefix.";
+
     public IEnumerable<ValidationResult> Evaluate(IEnumerable<Tasks.Task> tasks)
     {
       string server = this.Data["Server"];
@@ -43,7 +45,7 @@ namespace SIM.Sitecore9Installer.Validation.Validators
         }
       }
 
-      yield return new ValidationResult(ValidatorState.Success, string.Empty, null);
+      yield return new ValidationResult(ValidatorState.Success, this.SuccessMessage, null);
     }
     
     protected internal virtual IEnumerable<string> GetDbList(string server, string user, string password, string prefix)

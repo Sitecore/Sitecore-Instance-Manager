@@ -6,6 +6,8 @@ namespace SIM.Sitecore9Installer.Validation.Validators
 {
   public class NugetToolPresenceValidator : BaseValidator
   {
+    public override string SuccessMessage => "The 'nuget.exe' tool has been located successfully.";
+
     protected virtual string TaskName => "sitecore-XP1-cm-dds-patch";
 
     public virtual string CommandToEvaluate => "nuget.exe";

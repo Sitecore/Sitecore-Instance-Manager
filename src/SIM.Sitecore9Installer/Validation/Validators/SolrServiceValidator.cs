@@ -1,15 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.ServiceProcess;
-using System.Text;
-using System.Threading.Tasks;
 using Task = SIM.Sitecore9Installer.Tasks.Task;
 
 namespace SIM.Sitecore9Installer.Validation.Validators
 {
   public class SolrServiceValidator : BaseValidator
   {
+    public override string SuccessMessage => "The 'Solr' service validation has been passed successfully.";
+
     protected override IEnumerable<ValidationResult> GetErrorsForTask(Task task,
       IEnumerable<InstallParam> paramsToValidate)
     {

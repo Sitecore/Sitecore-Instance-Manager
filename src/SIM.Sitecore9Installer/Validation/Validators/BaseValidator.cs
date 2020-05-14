@@ -7,8 +7,10 @@ using Task = SIM.Sitecore9Installer.Tasks.Task;
 
 namespace SIM.Sitecore9Installer.Validation.Validators
 {
-  public abstract class BaseValidator:IValidator
+  public abstract class BaseValidator : IValidator
   {
+    public virtual string SuccessMessage { get; }
+
     public BaseValidator()
     {
       this.Data = new Dictionary<string, string>();
@@ -19,16 +21,16 @@ namespace SIM.Sitecore9Installer.Validation.Validators
       List<ValidationResult> results = new List<ValidationResult>();
       foreach (Task task in tasks)
       {
-        IEnumerable<InstallParam> tParams = task.LocalParams.Where(p => !this.GetParamNames().Any()|| this.GetParamNames().Contains(p.Name));
-        if (tParams.Any()||!task.LocalParams.Any())
+        IEnumerable<InstallParam> tParams = task.LocalParams.Where(p => !this.GetParamNames().Any() || this.GetParamNames().Contains(p.Name));
+        if (tParams.Any() || !task.LocalParams.Any())
         {
-          results.AddRange(this.GetErrorsForTask(task,tParams));
+          results.AddRange(this.GetErrorsForTask(task, tParams));
         }
       }
 
       if (!results.Any())
       {
-        results.Add(new ValidationResult(ValidatorState.Success, string.Empty, null));
+        results.Add(new ValidationResult(ValidatorState.Success, this.SuccessMessage, null));
       }
 
       return results;

@@ -7,7 +7,7 @@ using Task = SIM.Sitecore9Installer.Tasks.Task;
 
 namespace SIM.Sitecore9Installer.Validation.Validators
 {
-  public class SqlVersionValidator:IValidator
+  public class SqlVersionValidator : IValidator
   {
     public SqlVersionValidator()
     {
@@ -25,18 +25,18 @@ namespace SIM.Sitecore9Installer.Validation.Validators
         Exception error = null;
         sereverVersion = this.GetSqlVersion(task.LocalParams.Single(p => p.Name == server).Value,
         task.LocalParams.Single(p => p.Name == user).Value,
-        task.LocalParams.Single(p => p.Name == pass).Value);        
-        string[] versions= Data["Versions"].Split(',');
-          if (!versions.Any(v => Regex.Match(sereverVersion, v).Success))
-          {
+        task.LocalParams.Single(p => p.Name == pass).Value);
+        string[] versions = Data["Versions"].Split(',');
+        if (!versions.Any(v => Regex.Match(sereverVersion, v).Success))
+        {
           errors = true;
-            yield return new ValidationResult(ValidatorState.Error, "SQL server version is not compatible", null);
-          }
+          yield return new ValidationResult(ValidatorState.Error, "SQL server version is not compatible", null);
+        }
       }
 
       if (!errors)
       {
-        yield return new ValidationResult(ValidatorState.Success, null, null);
+        yield return new ValidationResult(ValidatorState.Success, this.SuccessMessage, null);
       }
     }
 
@@ -53,5 +53,7 @@ namespace SIM.Sitecore9Installer.Validation.Validators
     }
 
     public Dictionary<string, string> Data { get; set; }
+
+    public virtual string SuccessMessage => "The SQL server version is compatible.";
   }
 }
