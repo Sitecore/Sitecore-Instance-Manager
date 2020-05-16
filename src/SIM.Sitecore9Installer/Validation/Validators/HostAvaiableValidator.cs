@@ -10,6 +10,8 @@ namespace SIM.Sitecore9Installer.Validation.Validators
 {
   public class HostAvaiableValidator : BaseValidator
   {
+    public override string SuccessMessage => "Host response is 200";
+
     protected override IEnumerable<ValidationResult> GetErrorsForTask(Tasks.Task task, IEnumerable<InstallParam> paramsToValidate)
     {
       foreach (InstallParam p in paramsToValidate)

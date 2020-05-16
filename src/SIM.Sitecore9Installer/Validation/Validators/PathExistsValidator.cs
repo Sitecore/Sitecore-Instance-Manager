@@ -5,6 +5,8 @@ namespace SIM.Sitecore9Installer.Validation.Validators
 {
   public class PathExistsValidator : BaseValidator
   {
+    public override string SuccessMessage => "Path exists on file system.";
+
     protected override IEnumerable<ValidationResult> GetErrorsForTask(Tasks.Task task, IEnumerable<InstallParam> paramsToValidate)
     {
       foreach(InstallParam p in paramsToValidate)
