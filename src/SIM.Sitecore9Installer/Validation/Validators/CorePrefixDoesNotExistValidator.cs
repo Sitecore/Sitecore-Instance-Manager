@@ -36,7 +36,23 @@ namespace SIM.Sitecore9Installer.Validation.Validators
 
       foreach (Tuple<string, string> item in checkList)
       {
-        IEnumerable<string> coreNames = this.GetCores(item.Item1);
+        WebException errorGetcores = null;
+        IEnumerable<string> coreNames = null;
+        try
+        {
+          coreNames=this.GetCores(item.Item1);
+        }
+        catch(WebException ex)
+        {
+          errorGetcores = ex;
+        }
+
+        if (errorGetcores != null)
+        {
+          yield return new ValidationResult(ValidatorState.Error, $"Unable to get cores from solr {item.Item1}", errorGetcores);
+          continue;
+        }
+
         if (coreNames.Any(cn => cn.StartsWith(item.Item2, StringComparison.InvariantCultureIgnoreCase)))
         {
           errors = true;

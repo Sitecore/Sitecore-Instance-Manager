@@ -14,7 +14,23 @@ namespace SIM.Sitecore9Installer.Validation.Validators
     {
       foreach (InstallParam p in paramsToValidate)
       {
-        HttpWebResponse resp = this.GetResponse(p.Value);
+        WebException error = null;
+        HttpWebResponse resp = null;
+        try
+        {
+          resp = this.GetResponse(p.Value);
+        }
+        catch(WebException ex)
+        {
+          error = ex;
+        }
+
+        if (error != null)
+        {
+          yield return new ValidationResult(ValidatorState.Error, $"Unable to connect to host {p.Value}", error);
+          yield break;
+        }
+
         if (resp.StatusCode != HttpStatusCode.OK)
         {
           yield return new ValidationResult(ValidatorState.Error, $"Host {p.Value} did not return 200.",null);
