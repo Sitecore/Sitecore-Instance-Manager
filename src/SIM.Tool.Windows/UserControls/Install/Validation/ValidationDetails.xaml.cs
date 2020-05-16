@@ -25,12 +25,7 @@ namespace SIM.Tool.Windows.UserControls.Install.Validation
     {
       InitializeComponent();
     }
-
-    private void Window_Loaded(object sender, RoutedEventArgs e)
-    {
-      
-    }
-
+    
     private void ScrollViewer_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
     {
       ScrollViewer scrollviewer = sender as ScrollViewer;
