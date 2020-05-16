@@ -15,6 +15,7 @@ namespace SIM.Sitecore9Installer.Validation.Validators
     {
       this.Data = new Dictionary<string, string>();
     }
+
     public Dictionary<string, string> Data { get; set; }
 
     public virtual string SuccessMessage => "Hard disk has enough free space to continue the installation.";

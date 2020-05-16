@@ -106,7 +106,8 @@ namespace SIM.Tool.Windows.UserControls.Install
       FileSystem.FileSystem.Local.File.AssertExists(licensePath, "The {0} file is missing".FormatWith(licensePath));
 
       
-      var args = (Install9WizardArgs)wizardArgs;      
+      var args = (Install9WizardArgs)wizardArgs;
+      args.Validate = this.runValidation.IsChecked.Value;
       args.InstanceName = name;
       args.InstanceProduct = product;
       args.InstanceConnectionString = connectionString;

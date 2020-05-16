@@ -73,16 +73,11 @@ namespace SIM.Sitecore9Installer.Validation.Validators
         store.Open(OpenFlags.ReadOnly | OpenFlags.OpenExistingOnly);
         X509Certificate2Collection collection = store.Certificates;
 
-        fcollection = collection.Find(X509FindType.FindByIssuerName, searchValue, false);
+        fcollection = collection.Find(X509FindType.FindBySubjectName, searchValue, false);
         if (fcollection.Count == 0)
         {
           fcollection = collection.Find(X509FindType.FindByThumbprint, searchValue, false);
-        }
-
-        if (fcollection.Count == 0)
-        {
-          fcollection = collection.Find(X509FindType.FindBySubjectName, searchValue, false);
-        }
+        }        
       }
       finally
       {

@@ -24,5 +24,6 @@ namespace SIM.Sitecore9Installer.Validation
     public ValidatorState State { get; }
     public string Message { get; }
     public Exception Error { get; }
+   
   }
 }

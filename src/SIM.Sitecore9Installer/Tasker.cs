@@ -153,29 +153,29 @@ namespace SIM.Sitecore9Installer
       }
     }
 
-    public IEnumerable<ValidationResult> GetValidationErrors()
+    public IEnumerable<ValidationResult> GetValidationResults()
     {
       this.EvaluateGlobalParams();
       this.EvaluateLocalParams();
-      ConcurrentBag<ValidationResult> nonSuccsess = new ConcurrentBag<ValidationResult>();
+      ConcurrentBag<ValidationResult> results = new ConcurrentBag<ValidationResult>();
       IEnumerable<IValidator> vals = ValidationFactory.Instance.GetValidators(this.Validators);
       Parallel.ForEach(vals,new ParallelOptions(){MaxDegreeOfParallelism=Environment.ProcessorCount*2}, (validator) =>
       {
         try
         {
           IEnumerable<ValidationResult> result = validator.Evaluate(this.Tasks.Where(t => t.ShouldRun));
-          foreach (ValidationResult r in result.Where(r => r.State != ValidatorState.Success))
+          foreach (ValidationResult r in result)
           {
-            nonSuccsess.Add(r);
+            results.Add(r);
           }
         }
         catch (Exception e)
         {
-          nonSuccsess.Add(new ValidationResult(ValidatorState.Error, e.Message, e));
+          results.Add(new ValidationResult(ValidatorState.Error, e.Message, e));
         }
       });
 
-      return nonSuccsess;
+      return results;
     }
 
     public List<string> Validators { get; private set; }

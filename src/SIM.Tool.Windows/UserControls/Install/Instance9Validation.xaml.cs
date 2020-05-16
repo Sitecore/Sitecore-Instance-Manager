@@ -25,6 +25,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using SIM.Tool.Windows.UserControls.Install.ParametersEditor;
 using System.Windows.Threading;
+using SIM.Tool.Windows.UserControls.Install.Validation;
 
 namespace SIM.Tool.Windows.UserControls.Install
 {
@@ -46,32 +47,71 @@ namespace SIM.Tool.Windows.UserControls.Install
       Install9WizardArgs args = (Install9WizardArgs)wizardArgs;
       this.owner = args.WizardWindow;
       this.tasker = args.Tasker;
-      
+      if (args.Validate)
+      {
+        WindowHelper.LongRunningTask(() => this.RunValidation(), "Running validation", owner);
+      }
+      else
+      {
+        this.Caption.Text = "Validation skipped by user.";
+      }
+
     }
 
     public IEnumerable<Sitecore9Installer.Validation.ValidationResult> Messages
     {
-      get { return this.MessagesList.DataContext as IEnumerable<Sitecore9Installer.Validation.ValidationResult>; }
-      set { this.MessagesList.DataContext = value; }
+      get;set;
     }
 
+    public string CustomButtonText => "Details...";
+
+    private ValidationStatsItem GetStatsItemForLevel(Sitecore9Installer.Validation.ValidatorState level, Brush brush)
+    {
+      int count = this.Messages.Count(m => m.State == level);
+      if (count > 0)
+      {
+        ValidationStatsItem item = new ValidationStatsItem();
+        item.Color = brush;
+        item.Text = $"{level}: {count}";
+        return item;
+      }
+
+      return null;
+    }
     private void RunValidation()
     {
-      IEnumerable<Sitecore9Installer.Validation.ValidationResult> results = this.tasker.GetValidationErrors();
+      IEnumerable<Sitecore9Installer.Validation.ValidationResult> results = this.tasker.GetValidationResults();
       Dispatcher.BeginInvoke(new Action(() =>
         {
-          if (results.Any())
-          {
+          this.Messages = results.OrderBy(r => r.State);
+          if (this.Messages.Any())
+          {            
             this.Caption.Text = "Validation results:";
-            this.MessagesList.Visibility = Visibility.Visible;
+            List<ValidationStatsItem> items = new List<ValidationStatsItem>();
+            ValidationStatsItem errors = this.GetStatsItemForLevel(Sitecore9Installer.Validation.ValidatorState.Error, Brushes.Red);
+            if (errors != null)
+            {
+              items.Add(errors);
+            }
+
+            ValidationStatsItem warns = this.GetStatsItemForLevel(Sitecore9Installer.Validation.ValidatorState.Warning, Brushes.Orange);
+            if (warns != null)
+            {
+              items.Add(warns);
+            }
+
+            ValidationStatsItem success = this.GetStatsItemForLevel(Sitecore9Installer.Validation.ValidatorState.Success, Brushes.Green);
+            if (success != null)
+            {
+              items.Add(success);
+            }
+
+            this.Stats.DataContext = items;
           }
           else
           {
-            this.Caption.Text = "Validation is successful.";
-            this.MessagesList.Visibility = Visibility.Hidden;
-          }
-
-          this.Messages = results;
+            this.Caption.Text = "No validation results.";
+          }         
         }), DispatcherPriority.Background).Wait();
     }
 
@@ -84,13 +124,14 @@ namespace SIM.Tool.Windows.UserControls.Install
     {
       Assert.ArgumentNotNull(wizardArgs, nameof(wizardArgs));
       Install9WizardArgs args = (Install9WizardArgs)wizardArgs;
-      if (this.Validate.IsChecked.HasValue && this.Validate.IsChecked.Value)
+      if (this.Messages.Any(m => m.State != Sitecore9Installer.Validation.ValidatorState.Success))
       {
-        WindowHelper.LongRunningTask(() => this.RunValidation(), "Running validation", owner);
-        if (this.Messages.Any())
+        if(MessageBox.Show("There are validation errors/warnings do you want to run install anyway?", "Validation", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
         {
-          return false;
+          return true;
         }
+
+        return false;
       }
 
       return true;
@@ -101,10 +142,9 @@ namespace SIM.Tool.Windows.UserControls.Install
       return true;
     }
 
-    public string CustomButtonText { get => "Advanced..."; }
     public void CustomButtonClick()
     {
-      WindowHelper.ShowDialog<Install9ParametersEditor>(this.tasker, this.owner);
+      WindowHelper.ShowDialog<ValidationDetails>(this.Messages, this.owner);
     }
   }
 }
