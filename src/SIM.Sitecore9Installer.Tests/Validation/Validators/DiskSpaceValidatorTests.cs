@@ -15,7 +15,7 @@ namespace SIM.Sitecore9Installer.Tests.Validation.Validators
   public class DiskSpaceValidatorTests
   {
     [Theory]
-    [InlineData(@"C:\inetpub\wwwroot", 7368709120, ValidatorState.Success, null)]
+    [InlineData(@"C:\inetpub\wwwroot", 7368709120, ValidatorState.Success, "Hard disk has enough free space to continue the installation.")]
     [InlineData(@"C:\inetpub\wwwroot\", 5368709119, ValidatorState.Warning, @"Hard disk 'C:\' has a little free space.")]
     [InlineData(@"D:\inetpub\", 3221225470, ValidatorState.Error, @"Hard disk 'D:\' does not have enough free space to continue installation.")]
     [InlineData(@"D:\inetpub\wwwroot", -1, ValidatorState.Error, @"Hard disk 'D:\' has not been found.")]

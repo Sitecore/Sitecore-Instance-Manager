@@ -12,6 +12,24 @@
       "Data": { "ParamNames": "param2,param3" }
     }*/
     {
+      "Name": "CorePrefixDoesNotExistValidator",
+      "Type": "SIM.Sitecore9Installer.Validation.Validators.CorePrefixDoesNotExistValidator",
+      "Data": {
+        "Prefix": "CorePrefix",
+        "Solr": "SolrUrl"
+      }
+    },
+    {
+      "Name": "SolrAvailableValidator",
+      "Type": "SIM.Sitecore9Installer.Validation.Validators.HostAvaiableValidator",
+      "Data": { "ParamNames": "SolrUrl" }
+    },
+    {
+      "Name": "SolrRootExistsValidator",
+      "Type": "SIM.Sitecore9Installer.Validation.Validators.PathExistsValidator",
+      "Data": { "ParamNames": "SolrRoot" }
+    },
+    {
       "Name": "HostNameValidator",
       "Type": "SIM.Sitecore9Installer.Validation.Validators.HostNameValidator",
       "Data": { "ParamNames": "DnsName" }
@@ -165,7 +183,10 @@
       "LicenseFileValidator",
       "DatabaseNameValidator",
       "AppPoolSiteValidator",
-      "DiskSpaceValidator"
+      "DiskSpaceValidator",
+      "SolrRootExistsValidator",
+      "SolrAvailableValidator",
+      "CorePrefixDoesNotExistValidator"
     ],
     "DDS": [
       "NugetToolPresenceValidator"

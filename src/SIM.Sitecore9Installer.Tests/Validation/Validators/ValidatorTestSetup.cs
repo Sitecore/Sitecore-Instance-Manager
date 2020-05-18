@@ -39,5 +39,20 @@ namespace SIM.Sitecore9Installer.Tests.Validation.Validators
     {
       return GetEnumerator();
     }
+
+    public static Task CreateTask(string taskName, string[] paramNames, string[] paramValues)
+    {
+      var task = Substitute.For<Task>("someTask", 1, null, new List<InstallParam>(),
+        new Dictionary<string, string>());
+      List<InstallParam> iParams = new List<InstallParam>();
+      for (int i = 0; i < paramNames.Length; ++i)
+      {
+        InstallParam p = new InstallParam(paramNames[i], paramValues[i]);
+        iParams.Add(p);
+      }
+
+      task.LocalParams.Returns(iParams);
+      return task;
+    }
   }
 }

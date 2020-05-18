@@ -9,7 +9,7 @@ namespace SIM.Sitecore9Installer.Validation.Validators
 {
   public abstract class BaseValidator : IValidator
   {
-    public virtual string SuccessMessage { get; }
+    public abstract string SuccessMessage { get; }
 
     public BaseValidator()
     {
