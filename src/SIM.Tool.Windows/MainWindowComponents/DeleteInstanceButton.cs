@@ -11,6 +11,7 @@
   using SIM.Tool.Base.Pipelines;
   using SIM.Tool.Base;
   using System.Linq;
+  using SIM.SitecoreEnvironments;
 
   [UsedImplicitly]
   public class DeleteInstanceButton : IMainWindowButton
@@ -33,21 +34,30 @@
       {
         var connectionString = ProfileManager.GetConnectionString();
         var args = new DeleteArgs(instance, connectionString);
-        args.OnCompleted += () => mainWindow.Dispatcher.Invoke(() => OnPipelineCompleted(args.RootPath));
-        var index = MainWindowHelper.GetListItemID(instance.ID);
-        if (int.Parse(instance.Product.ShortVersion) < 90)
+        args.OnCompleted += () => mainWindow.Dispatcher.Invoke(() => OnPipelineCompleted(args));
+        var index = MainWindowHelper.GetListItemID(instance.ID);        
+        int version;
+        if (int.TryParse(instance.Product.ShortVersion,out version)&& version < 90)
         {
-          WizardPipelineManager.Start("delete", mainWindow, args, null, (ignore) => OnWizardCompleted(index), () => null);
+          WizardPipelineManager.Start("delete", mainWindow, args, null, (ignore) => OnWizardCompleted(index, args.HasInstallationBeenCompleted), () => null);
         }
         else
         {
           string uninstallPath = string.Empty;
-          foreach(string installName in Directory.GetDirectories(ApplicationManager.UnInstallParamsFolder).OrderByDescending(s=>s.Length))
+          SitecoreEnvironment env = SitecoreEnvironmentHelper.GetExistingSitecoreEnvironment(instance.Name);
+          if (!string.IsNullOrEmpty(env?.UnInstallDataPath))
           {
-            if (instance.Name.StartsWith(Path.GetFileName(installName)))
+            uninstallPath = env.UnInstallDataPath;
+          }
+          else
+          {
+            foreach (string installName in Directory.GetDirectories(ApplicationManager.UnInstallParamsFolder).OrderByDescending(s => s.Length))
             {
-              uninstallPath = installName;
-              break;
+              if (instance.Name.StartsWith(Path.GetFileName(installName)))
+              {
+                uninstallPath = installName;
+                break;
+              }
             }
           }
           if (string.IsNullOrEmpty(uninstallPath))
@@ -55,10 +65,9 @@
             WindowHelper.ShowMessage("UnInstall files not found.");
             return;
           }
-          
-          WizardPipelineManager.Start("delete9", mainWindow, null, null, (ignore) => OnWizardCompleted(index),
-          () => new Delete9WizardArgs(instance,connectionString,uninstallPath)
-         );
+
+          Delete9WizardArgs delete9WizardArgsargs = new Delete9WizardArgs(instance, connectionString, uninstallPath);
+          WizardPipelineManager.Start("delete9", mainWindow, null, null, (ignore) => OnWizardCompleted(index, delete9WizardArgsargs.HasInstallationBeenCompleted),() => delete9WizardArgsargs);
         }
       }
     }
@@ -67,19 +76,26 @@
 
     #region Private methods
 
-    private static void OnWizardCompleted(int index)
-    {
-      MainWindowHelper.SoftlyRefreshInstances();
+    private static void OnWizardCompleted(int index, bool hasInstallationBeenCompleted)
+    {                           
+      if (hasInstallationBeenCompleted)
+      {
+        MainWindowHelper.SoftlyRefreshInstances();
+      }
+
       MainWindowHelper.MakeInstanceSelected(index);
     }
 
-    private void OnPipelineCompleted(string rootPath)
+    private void OnPipelineCompleted(DeleteArgs args)
     {
-      var root = new DirectoryInfo(rootPath);
+      var root = new DirectoryInfo(args.RootPath);
       if (root.Exists && root.GetFiles("*", SearchOption.AllDirectories).Length > 0)
       {
-        FileSystem.FileSystem.Local.Directory.TryDelete(rootPath);
+        FileSystem.FileSystem.Local.Directory.TryDelete(args.RootPath);
       }
+
+      args.HasInstallationBeenCompleted = true;
+
     }
 
     #endregion

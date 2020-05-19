@@ -15,6 +15,7 @@ namespace SIM
     string root;
     string name;
 
+    [RenderInDataGreed]
     public string Name {
       get
       {
@@ -26,6 +27,7 @@ namespace SIM
       }
     }
     
+    [RenderInDataGreed]
     public string Url {
       get
       {
@@ -36,6 +38,7 @@ namespace SIM
         url = value.Trim().TrimEnd('/','#');
       }
     }
+    [RenderInDataGreed]
     public string Root
     {
       get
@@ -47,6 +50,7 @@ namespace SIM
         root = value;
       }
     }
+    [RenderInDataGreed]
     public string Service { get; set; }
 
     public object Clone()
@@ -58,6 +62,17 @@ namespace SIM
         url = Url,
         Service = Service
       };
+    }
+
+    public bool HasAnyValuesInTheFields()
+    {
+      if (string.IsNullOrEmpty(this.Name) && string.IsNullOrEmpty(this.Root) && string.IsNullOrEmpty(this.Service) &&
+          string.IsNullOrEmpty(this.Url))
+      {
+        return false;
+      }
+
+      return true;
     }
 
     public string ValidateAndGetError()

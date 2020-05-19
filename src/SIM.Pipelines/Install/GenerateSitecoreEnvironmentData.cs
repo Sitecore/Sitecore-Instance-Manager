@@ -26,13 +26,14 @@ namespace SIM.Pipelines.Install
       InstallParam sqlDbPrefixParam = arguments.Tasker.GlobalParams.FirstOrDefault(p => p.Name == SqlDbPrefix);
       if (sqlDbPrefixParam != null && !string.IsNullOrEmpty(sqlDbPrefixParam.Value))
       {
-        this.AddSitecoreEnvironment(this.CreateSitecoreEnvironment(arguments.Tasker, sqlDbPrefixParam.Value));
+        this.AddSitecoreEnvironment(this.CreateSitecoreEnvironment(arguments.Tasker, sqlDbPrefixParam.Value,arguments.UnInstallDataPath));
       }
     }
 
-    private SitecoreEnvironment CreateSitecoreEnvironment(Tasker tasker, string sqlDbPrefix)
+    private SitecoreEnvironment CreateSitecoreEnvironment(Tasker tasker, string sqlDbPrefix, string uninstallDataPath)
     {
       SitecoreEnvironment sitecoreEnvironment = new SitecoreEnvironment(sqlDbPrefix);
+      sitecoreEnvironment.UnInstallDataPath = uninstallDataPath;
       sitecoreEnvironment.Members = new List<SitecoreEnvironmentMember>();
 
       foreach (Task powerShellTask in tasker.Tasks)
@@ -40,7 +41,7 @@ namespace SIM.Pipelines.Install
         InstallParam installParam = powerShellTask.LocalParams.FirstOrDefault(x => x.Name == SiteName);
         if (installParam != null && !string.IsNullOrEmpty(installParam.Value))
         {
-          Hashtable evaluatedLocalParams = tasker.EvaluateLocalParams(powerShellTask.LocalParams, tasker.GlobalParams);
+          Hashtable evaluatedLocalParams = tasker.GetEvaluatedLocalParams(powerShellTask.LocalParams, tasker.GlobalParams);
           if (evaluatedLocalParams != null && evaluatedLocalParams[SiteName] != null)
           {
             sitecoreEnvironment.Members.Add(new SitecoreEnvironmentMember(evaluatedLocalParams[SiteName].ToString(),

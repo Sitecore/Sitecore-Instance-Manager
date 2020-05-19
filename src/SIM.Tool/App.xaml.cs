@@ -280,22 +280,26 @@ namespace SIM.Tool
 
     private void InitializeTelemetry()
     {
+      var _logger = new SIM.Core.Logging.SitecoreLogger(Microsoft.Extensions.Logging.LogLevel.Debug);
+
       var kbProviderConfiguration = new KBProviderConfiguration() { BaseAddress = Constants.KBProviderBaseAddress };
-      var kbTelemetryProvider = new KnowledgeBaseProvider(kbProviderConfiguration, enabled: true);
+
+      var kbTelemetryProvider = new KnowledgeBaseProvider(kbProviderConfiguration, true, _logger);
 
       Telemetry.Analytics.RegisterProvider(kbTelemetryProvider);
 
-      var telemetryEventContext = new TelemetryEventContext();
-
       try
       {
-        telemetryEventContext.ApplicationID = Constants.SitecoreInstanceManagerAppId;
-        telemetryEventContext.DeviceId = AnalyticsHelper.GetDeviceId(ApplicationManager.TempFolder);
-        telemetryEventContext.AppVersion = string.IsNullOrEmpty(ApplicationManager.AppVersion) ? "0.0.0.0" : ApplicationManager.AppVersion;
-        telemetryEventContext.OperatingSystem = Environment.OSVersion.ToString();
-        telemetryEventContext.Language = AnalyticsHelper.GetCurrentUICulture();
-        telemetryEventContext.ScreenWidth = AnalyticsHelper.GetScreenWidth();
-        telemetryEventContext.ScreenHeight = AnalyticsHelper.GetScreenHeight();
+        string appVersion = string.IsNullOrEmpty(ApplicationManager.AppVersion) ? "0.0.0.0" : ApplicationManager.AppVersion;
+
+        var telemetryEventContext = new TelemetryEventContext(
+          Constants.SitecoreInstanceManagerAppId,
+          AnalyticsHelper.GetDeviceId(ApplicationManager.TempFolder, _logger),
+          appVersion,
+          _logger
+          );
+
+        Telemetry.Analytics.Initialize(telemetryEventContext, WindowsSettings.AppTelemetryEnabled.Value, _logger);
       }
       catch (Exception ex)
       {
@@ -306,7 +310,7 @@ namespace SIM.Tool
         return;
       }
 
-      Telemetry.Analytics.Initialize(telemetryEventContext, trackingEnabled: WindowsSettings.AppTelemetryEnabled.Value);
+
     }
 
     private void InitializeLogging()

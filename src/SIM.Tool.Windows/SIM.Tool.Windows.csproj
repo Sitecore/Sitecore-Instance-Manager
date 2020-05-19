@@ -8,7 +8,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SIM.Tool.Windows</RootNamespace>
     <AssemblyName>SIM.Tool.Windows</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
@@ -264,6 +264,9 @@
     <Compile Include="UserControls\Install\Instance9Details.xaml.cs">
       <DependentUpon>Instance9Details.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\Install\Instance9Validation.xaml.cs">
+      <DependentUpon>Instance9Validation.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\Install\Instance9SelectTasks.xaml.cs">
       <DependentUpon>Instance9SelectTasks.xaml</DependentUpon>
     </Compile>
@@ -295,6 +298,10 @@
     <Compile Include="UserControls\Install\ParametersEditor\Install9ParametersEditor.xaml.cs">
       <DependentUpon>Install9ParametersEditor.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\Install\Validation\ValidationDetails.xaml.cs">
+      <DependentUpon>ValidationDetails.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Install\Validation\ValidationStatsItem.cs" />
     <Compile Include="UserControls\MultipleDeletion\MultipleDeletionWizardArgs.cs" />
     <Compile Include="UserControls\MultipleDeletion\SelectInstances.xaml.cs">
       <DependentUpon>SelectInstances.xaml</DependentUpon>
@@ -603,6 +610,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="UserControls\Install\Instance9Validation.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="UserControls\Install\Instance9SelectTasks.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -626,6 +637,10 @@
     <Page Include="UserControls\Install\ParametersEditor\Install9ParametersEditor.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\Install\Validation\ValidationDetails.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="UserControls\Reinstall\Reinstall9Confirmation.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -787,6 +802,7 @@
   <ItemGroup>
     <Resource Include="Images\Sitecore.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

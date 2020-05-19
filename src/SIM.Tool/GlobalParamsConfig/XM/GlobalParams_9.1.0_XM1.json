@@ -48,6 +48,11 @@
     "IdentityServer": "* (OnPrem)_identityserver.scwdp.zip"
   },
 
+  "Validators": [
+    "list|Basic",
+    "list|Sitecore_9.1"
+  ],
+
   "ExecSequense": {
     "InstallSIF": {
       "Type": "SIM.Sitecore9Installer.Tasks.InstallSIFTask, SIM.Sitecore9Installer",

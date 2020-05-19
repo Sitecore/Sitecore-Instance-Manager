@@ -35,10 +35,10 @@ namespace SIM.Sitecore9Installer.Tasks
         {
           PowerShellInstance.Invoke();
         }
-        catch (Exception ex)
+        catch (Exception)
         {
           State = TaskState.Failed;
-          return ex.ToString();
+          throw;
         }
 
         if (PowerShellInstance.Streams.Error.Count > 0)

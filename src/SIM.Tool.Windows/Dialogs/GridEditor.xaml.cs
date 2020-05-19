@@ -3,16 +3,10 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace SIM.Tool.Windows.Dialogs
 {
@@ -32,6 +26,12 @@ namespace SIM.Tool.Windows.Dialogs
       Assert.ArgumentNotNull(editContext, nameof(editContext));
       this.DescriptionText.Text = editContext.Description;
       
+      //Bind properties
+      IEnumerable<PropertyInfo> propertiesToRender = editContext.ElementType.GetProperties().Where(prop => Attribute.IsDefined(prop, typeof(RenderInDataGreedAttribute)));
+      foreach (var propertyToRender in propertiesToRender)
+      {
+        this.DataGrid.Columns.Add(new DataGridTextColumn() { Binding = new Binding(propertyToRender.Name), Header = propertyToRender.Name});
+      }
     }
 
     private void Ok_Click(object sender, RoutedEventArgs e)
@@ -42,6 +42,22 @@ namespace SIM.Tool.Windows.Dialogs
           where c != null
           select Validation.GetHasError(c))
         .FirstOrDefault(x => x);
+
+      //In case of empty row was added but wasn't changed. Just remove it.
+      if (!errors)
+      {
+        GridEditorContext editContext = this.DataContext as GridEditorContext;
+        for (int i = 0; i < editContext.GridItems.Count; i++)
+        {
+          if ((editContext.GridItems[i] as IValidateable).HasAnyValuesInTheFields())
+          { 
+            continue;
+          }
+          editContext.GridItems.RemoveAt(i);
+          i--;
+        }
+      }
+
       if (errors)
       {
         if (MessageBox.Show("There are validation errors. Data will not be saved.\nProceed anyway?", "Invalid data",
@@ -54,13 +70,20 @@ namespace SIM.Tool.Windows.Dialogs
       this.Close();
     }
 
-    private void Button_Click(object sender, RoutedEventArgs e)
+    private void DeleteRow_Click(object sender, RoutedEventArgs e)
     {
       Button b = sender as Button;
       GridEditorContext editContext = this.DataContext as GridEditorContext;
       editContext.GridItems.Remove(b.DataContext);
       this.DataGrid.DataContext = null;
       this.DataGrid.DataContext = editContext;
+    }
+
+    private void AddRow_Click(object sender, RoutedEventArgs e)
+    {
+      Button b = sender as Button;
+      GridEditorContext editContext = this.DataContext as GridEditorContext;
+      editContext.GridItems.Add(Activator.CreateInstance(editContext.ElementType));
     }
   }
 
