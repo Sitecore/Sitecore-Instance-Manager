@@ -1,31 +1,16 @@
-﻿using JetBrains.Annotations;
-using Newtonsoft.Json.Linq;
-using SIM.IO.Real;
+﻿using SIM.Sitecore9Installer;
 using SIM.Tool.Base;
 using SIM.Tool.Base.Pipelines;
 using SIM.Tool.Base.Wizards;
+using SIM.Tool.Windows.UserControls.Install.Validation;
 using Sitecore.Diagnostics.Base;
-using SIM.Sitecore9Installer;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using SIM.Tool.Windows.UserControls.Install.ParametersEditor;
 using System.Windows.Threading;
-using SIM.Tool.Windows.UserControls.Install.Validation;
+using TaskDialogInterop;
 
 namespace SIM.Tool.Windows.UserControls.Install
 {
@@ -49,7 +34,13 @@ namespace SIM.Tool.Windows.UserControls.Install
       this.tasker = args.Tasker;
       if (args.Validate)
       {
-        WindowHelper.LongRunningTask(() => this.RunValidation(), "Running validation", owner);
+        TaskDialogResult result= WindowHelper.LongRunningTask(() => this.RunValidation(), "Running validation", owner);
+        if (result == null)
+        {
+          this.Caption.Text = "Validation aborted by user.";
+          this.Messages = Enumerable.Empty<Sitecore9Installer.Validation.ValidationResult>();
+
+        }
       }
       else
       {
