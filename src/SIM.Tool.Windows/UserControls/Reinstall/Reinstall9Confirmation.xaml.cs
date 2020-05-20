@@ -1,4 +1,5 @@
 ﻿using SIM.Sitecore9Installer;
+using SIM.SitecoreEnvironments;
 using SIM.Tool.Base;
 using SIM.Tool.Base.Pipelines;
 using SIM.Tool.Base.Profiles;
@@ -25,12 +26,20 @@ namespace SIM.Tool.Windows.UserControls.Reinstall
     {
       var args = wizardArgs as ReinstallWizardArgs;
       string uninstallPath = string.Empty;
-      foreach (string installName in Directory.GetDirectories(ApplicationManager.UnInstallParamsFolder).OrderByDescending(s=>s.Length))
+      SitecoreEnvironment env = SitecoreEnvironmentHelper.GetExistingSitecoreEnvironment(args.Instance.Name);
+      if (!string.IsNullOrEmpty(env?.UnInstallDataPath))
       {
-        if (args.Instance.Name.StartsWith(Path.GetFileName(installName)))
+        uninstallPath = env.UnInstallDataPath;
+      }
+      else
+      {
+        foreach (string installName in Directory.GetDirectories(ApplicationManager.UnInstallParamsFolder).OrderByDescending(s => s.Length))
         {
-          uninstallPath = installName;
-          break;
+          if (args.Instance.Name.StartsWith(Path.GetFileName(installName)))
+          {
+            uninstallPath = installName;
+            break;
+          }
         }
       }
 
