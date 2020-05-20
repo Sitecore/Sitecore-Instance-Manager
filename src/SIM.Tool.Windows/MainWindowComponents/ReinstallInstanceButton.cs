@@ -38,7 +38,8 @@
         var license = ProfileManager.Profile.License;
         Assert.IsNotNull(license, @"The license file isn't set in the Settings window");
         FileSystem.FileSystem.Local.File.AssertExists(license, "The {0} file is missing".FormatWith(license));
-        if (int.Parse(instance.Product.ShortVersion) < 90)
+        int version;
+        if (int.TryParse(instance.Product.ShortVersion,out version)&& version < 90)
         {
           MainWindowHelper.ReinstallInstance(instance, mainWindow, license, ProfileManager.GetConnectionString());
         }
