@@ -21,6 +21,8 @@ namespace SIM.Tool.Windows.UserControls.Install
   {
     private Window owner;
     private Tasker tasker;
+    private IEnumerable<Sitecore9Installer.Validation.ValidationResult> messages;
+
     public Instance9Validation()
     {
       InitializeComponent();
@@ -38,8 +40,6 @@ namespace SIM.Tool.Windows.UserControls.Install
         if (result == null)
         {
           this.Caption.Text = "Validation aborted by user.";
-          this.Messages = Enumerable.Empty<Sitecore9Installer.Validation.ValidationResult>();
-
         }
       }
       else
@@ -51,7 +51,19 @@ namespace SIM.Tool.Windows.UserControls.Install
 
     public IEnumerable<Sitecore9Installer.Validation.ValidationResult> Messages
     {
-      get;set;
+      get
+      {
+        if (messages == null)
+        {
+          messages = Enumerable.Empty<Sitecore9Installer.Validation.ValidationResult>();
+        }
+
+        return messages;
+      }
+      set
+      {
+        messages = value;
+      }
     }
 
     public string CustomButtonText => "Details...";
@@ -76,7 +88,7 @@ namespace SIM.Tool.Windows.UserControls.Install
         {
           this.Messages = results.OrderBy(r => r.State);
           if (this.Messages.Any())
-          {            
+          {
             this.Caption.Text = "Validation results:";
             List<ValidationStatsItem> items = new List<ValidationStatsItem>();
             ValidationStatsItem errors = this.GetStatsItemForLevel(Sitecore9Installer.Validation.ValidatorState.Error, Brushes.Red);
@@ -102,7 +114,7 @@ namespace SIM.Tool.Windows.UserControls.Install
           else
           {
             this.Caption.Text = "No validation results.";
-          }         
+          }
         }), DispatcherPriority.Background).Wait();
     }
 
