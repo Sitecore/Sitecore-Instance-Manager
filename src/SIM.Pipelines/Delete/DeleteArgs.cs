@@ -77,6 +77,9 @@
 
     public ICollection<MongoDbDatabase> MongoDatabases { get; private set; }
 
+    //Indicates if the installation has been completed
+    public bool HasInstallationBeenCompleted { get; set; }
+
     #endregion
   }
 }

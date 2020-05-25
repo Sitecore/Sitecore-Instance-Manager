@@ -4,6 +4,7 @@ namespace SIM.Tool.Windows.UserControls.Install
   using System.Collections.Generic;
   using System.Collections.ObjectModel;
   using System.IO;
+  using System.IO.Compression;
   using System.Linq;
   using System.Windows;
   using System.Windows.Controls;
@@ -47,6 +48,11 @@ namespace SIM.Tool.Windows.UserControls.Install
     private Window owner;
     private InstallWizardArgs _InstallParameters = null;
     private IEnumerable<Product> _StandaloneProducts;
+
+    // According to the following document the maximum length for a path in Windows systems is defined as 260 characters:
+    // https://docs.microsoft.com/en-us/windows/win32/fileio/naming-a-file
+    // To prevent possibility of additional characters in the full path while combining, the value is set to 250 characters.
+    private const int MaxFileSystemPathLength = 250;
 
     #endregion
 
@@ -100,7 +106,8 @@ namespace SIM.Tool.Windows.UserControls.Install
       FileSystem.FileSystem.Local.File.AssertExists(licensePath, "The {0} file is missing".FormatWith(licensePath));
 
       
-      var args = (Install9WizardArgs)wizardArgs;      
+      var args = (Install9WizardArgs)wizardArgs;
+      args.Validate = this.runValidation.IsChecked.Value;
       args.InstanceName = name;
       args.InstanceProduct = product;
       args.InstanceConnectionString = connectionString;
@@ -117,6 +124,12 @@ namespace SIM.Tool.Windows.UserControls.Install
       args.SolrUrl = solr.Url; //this.solrUrl.Text;
       args.SorlRoot = solr.Root; //this.solrRoot.Text;
       args.ScriptRoot = System.IO.Path.Combine(Directory.GetParent(args.Product.PackagePath).FullName, System.IO.Path.GetFileNameWithoutExtension(args.Product.PackagePath));
+
+      if (!this.IsFilePathLengthValidInPackage(args.Product.PackagePath, args.ScriptRoot))
+      {
+        return false;
+      }
+
       if (!Directory.Exists(args.ScriptRoot))
       {
         Directory.CreateDirectory(args.ScriptRoot);
@@ -201,7 +214,7 @@ namespace SIM.Tool.Windows.UserControls.Install
       }
 
       InstallParam solrService = tasker.GlobalParams.FirstOrDefault(p => p.Name == "SolrService");
-      if (solrService != null)
+      if (solrService != null&&!string.IsNullOrEmpty(solr.Service))
       {
         solrService.Value = solr.Service; // this.SolrService.Text;
       }
@@ -571,6 +584,32 @@ namespace SIM.Tool.Windows.UserControls.Install
         SelectProductByValue(ProductVersion, WindowsSettings.AppInstallationDefaultProductVersion.Value);
         SelectByValue(ProductRevision, WindowsSettings.AppInstallationDefaultProductRevision.Value);       
       }
+    }
+
+    private bool IsFilePathLengthValidInPackage(string packagePath, string scriptRoot)
+    {
+      if (File.Exists(packagePath))
+      {
+        int maxAllowedFilePathLength = MaxFileSystemPathLength - scriptRoot.Length;
+        using (ZipArchive zipArchive = ZipFile.OpenRead(packagePath))
+        {
+          foreach (ZipArchiveEntry entry in zipArchive.Entries)
+          {
+            if (!(maxAllowedFilePathLength > entry.FullName.Length))
+            {
+              WindowHelper.ShowMessage("The full path length of some files in the package after unzipping is too long! Please change the path of the Local Repository folder in Settings, so it has less path length.");
+              return false;
+            }
+          }
+        }
+      }
+      else
+      {
+        WindowHelper.ShowMessage(string.Format("Please make sure that the \"{0}\" package exists.", packagePath));
+        return false;
+      }
+
+      return true;
     }
 
     #endregion

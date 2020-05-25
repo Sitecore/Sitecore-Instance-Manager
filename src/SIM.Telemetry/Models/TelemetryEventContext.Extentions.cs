@@ -1,14 +1,17 @@
 ﻿namespace SIM.Telemetry.Models
 {
+  using JetBrains.Annotations;
   using KB.Telemetry;
+  using System.Collections.Generic;
 
   public static class Extentions
   {
-    public static AppUtilizationModel ToAppUtilizationModel(this TelemetryEventContext eventContext, TelemetryEvent telemetryEvent)
+    public static AppUtilizationModel ToAppUtilizationModel(this TelemetryEventContext eventContext, string telemetryEvent, [CanBeNull] Dictionary<string, string> customEventData)
     {
       var model = new AppUtilizationModel()
       {
         Event = telemetryEvent.ToString(),
+        CustomEventData = customEventData ?? new Dictionary<string, string>(),
         ApplicationId = eventContext.ApplicationID,
         AppVersion = eventContext.AppVersion,
         DeviceId = eventContext.DeviceId,

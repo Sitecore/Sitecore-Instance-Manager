@@ -14,6 +14,9 @@
 
     public Window WizardWindow { get; set; }
 
+    //Indicates if the installation has been completed
+    public bool HasInstallationBeenCompleted { get; set; }
+
     #endregion
 
     #region Public Methods

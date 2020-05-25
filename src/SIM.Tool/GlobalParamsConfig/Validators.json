@@ -1,0 +1,213 @@
+{
+  "ValidatorDefinitions": [
+    /*example
+    {
+      "Name": "name",
+      "Type": "type",
+      "Data": { "ParamNames": "param1" }
+    },
+    {
+      "Name": "name2",
+      "Type": "type2",
+      "Data": { "ParamNames": "param2,param3" }
+    }*/
+    {
+      "Name": "CorePrefixDoesNotExistValidator",
+      "Type": "SIM.Sitecore9Installer.Validation.Validators.CorePrefixDoesNotExistValidator",
+      "Data": {
+        "Prefix": "CorePrefix",
+        "Solr": "SolrUrl"
+      }
+    },
+    {
+      "Name": "SolrAvailableValidator",
+      "Type": "SIM.Sitecore9Installer.Validation.Validators.HostAvaiableValidator",
+      "Data": { "ParamNames": "SolrUrl" }
+    },
+    {
+      "Name": "SolrRootExistsValidator",
+      "Type": "SIM.Sitecore9Installer.Validation.Validators.PathExistsValidator",
+      "Data": { "ParamNames": "SolrRoot" }
+    },
+    {
+      "Name": "HostNameValidator",
+      "Type": "SIM.Sitecore9Installer.Validation.Validators.HostNameValidator",
+      "Data": { "ParamNames": "DnsName" }
+    },
+    {
+      "Name": "SolrServiceValidator",
+      "Type": "SIM.Sitecore9Installer.Validation.Validators.SolrServiceValidator",
+      "Data": { "ParamNames": "SolrService" }
+    },
+    {
+      "Name": "NugetToolPresenceValidator",
+      "Type": "SIM.Sitecore9Installer.Validation.Validators.NugetToolPresenceValidator"
+    },
+    {
+      "Name": "9.0_SqlCompatibilityValidator",
+      "Type": "SIM.Sitecore9Installer.Validation.Validators.SqlVersionValidator",
+      "Data": {
+        "Server": "SqlServer",
+        "User": "SqlAdminUser",
+        "Password": "SqlAdminPassword",
+        "Versions": "13.0.4*"
+      }
+    },
+    {
+      "Name": "9.1_SqlCompatibilityValidator",
+      "Type": "SIM.Sitecore9Installer.Validation.Validators.SqlVersionValidator",
+      "Data": {
+        "Server": "SqlServer",
+        "User": "SqlAdminUser",
+        "Password": "SqlAdminPassword",
+        "Versions": "13.0.5*,14.0.*"
+      }
+    },
+    {
+      "Name": "9.2_SqlCompatibilityValidator",
+      "Type": "SIM.Sitecore9Installer.Validation.Validators.SqlVersionValidator",
+      "Data": {
+        "Server": "SqlServer",
+        "User": "SqlAdminUser",
+        "Password": "SqlAdminPassword",
+        "Versions": "13.0.5*,14.0.*"
+      }
+    },
+    {
+      "Name": "9.3_SqlCompatibilityValidator",
+      "Type": "SIM.Sitecore9Installer.Validation.Validators.SqlVersionValidator",
+      "Data": {
+        "Server": "SqlServer",
+        "User": "SqlAdminUser",
+        "Password": "SqlAdminPassword",
+        "Versions": "13.0.5*,14.0.*,15.0.*"
+      }
+    },
+    {
+      "Name": "RootCertificateValidatorRoot",
+      "Type": "SIM.Sitecore9Installer.Validation.Validators.CertificateValidator",
+      "Data": {
+        "ParamNames": "RootCertFileName",
+        "StoreName": "Root",
+        "Prefix": "DO_NOT_TRUST_"
+      }
+    },
+    {
+      "Name": "RootCertificateValidatorMy",
+      "Type": "SIM.Sitecore9Installer.Validation.Validators.CertificateValidator",
+      "Data": {
+        "ParamNames": "RootCertFileName",
+        "StoreName": "My",
+        "Prefix": "DO_NOT_TRUST_"
+      }
+    },
+    {
+      "Name": "CertificateValidator",
+      "Type": "SIM.Sitecore9Installer.Validation.Validators.CertificateValidator",
+      "Data": {
+        "ParamNames": "CertificateName",
+        "StoreName": "MY"
+
+      }
+    },
+    {
+      "Name": "DatabaseNameValidator",
+      "Type": "SIM.Sitecore9Installer.Validation.Validators.SqlPefixValidator",
+      "Data": {
+        "Server": "SqlServer",
+        "User": "SqlAdminUser",
+        "Password": "SqlAdminPassword",
+        "Prefix": "SqlDbPrefix"
+      }
+    },
+    {
+      "Name": "AppPoolSiteValidator",
+      "Type": "SIM.Sitecore9Installer.Validation.Validators.AppPoolSiteValidator",
+      "Data": { "ParamNames": "SiteName" }
+    },
+    {
+      "Name": "DiskSpaceValidator",
+      "Type": "SIM.Sitecore9Installer.Validation.Validators.DiskSpaceValidator",
+      "Data": {
+        "DeployRoot": "DeployRoot",
+        "HardDriveWarningLimit": "5368709120",
+        "HardDriveErrorLimit": "3221225472"
+      }
+    },
+    {
+      "Name": "CmDdsPatchSiteNameValidator",
+      "Type": "SIM.Sitecore9Installer.Validation.Validators.CmDdsPatchSiteNameValidator",
+      "Data": {
+        "SitecoreXp1Cm": "sitecore-xp1-cm",
+        "SitecoreXp1CmDdsPatch": "sitecore-XP1-cm-dds-patch",
+        "SiteName": "SiteName"
+      }
+    },
+    {
+      "Name": "CmIdentityServerSiteNameValidator",
+      "Type": "SIM.Sitecore9Installer.Validation.Validators.CmIdentityServerSiteNameValidator",
+      "Data": {
+        "SitecoreXp1Cm": "sitecore-xp1-cm",
+        "SitecoreXm1Cm": "Sitecore-xm1-cm",
+        "SitecoreXp0": "Sitecore-XP0",
+        "SiteName": "SiteName",
+        "IdentityServer": "IdentityServer",
+        "AllowedCorsOrigins": "AllowedCorsOrigins",
+        "PasswordRecoveryUrl": "PasswordRecoveryUrl"
+      }
+    },
+    {
+      "Name": "LicenseFileValidator",
+      "Type": "SIM.Sitecore9Installer.Validation.Validators.LicenseFileValidator",
+      "Data": {
+        "LicenseFileVariable": "LicenseFile"
+      }
+    }
+  ],
+  "ValidatorLists": {
+    /*example
+    "List1": [
+      "val1",
+      "val2"
+    ],
+    "List2": [
+      "val3",
+      "val4",
+      "val5"
+    ]*/
+    "Basic": [
+      "SolrServiceValidator",
+      "RootCertificateValidator",
+      "RootCertificateValidatorRoot",
+      "RootCertificateValidatorMy",
+      "LicenseFileValidator",
+      "DatabaseNameValidator",
+      "AppPoolSiteValidator",
+      "DiskSpaceValidator",
+      "SolrRootExistsValidator",
+      "SolrAvailableValidator",
+      "CorePrefixDoesNotExistValidator"
+    ],
+    "DDS": [
+      "NugetToolPresenceValidator"
+    ],
+    "DDS_Patch": [
+      "CmDdsPatchSiteNameValidator"
+    ],
+    "Sitecore_9.0": [
+      "9.0_SqlCompatibilityValidator"
+    ],
+    "Sitecore_9.1": [
+      "9.1_SqlCompatibilityValidator",
+      "CmIdentityServerSiteNameValidator"
+    ],
+    "Sitecore_9.2": [
+      "9.2_SqlCompatibilityValidator",
+      "CmIdentityServerSiteNameValidator"
+    ],
+    "Sitecore_9.3": [
+      "9.3_SqlCompatibilityValidator",
+      "CmIdentityServerSiteNameValidator"
+    ]
+  }
+}

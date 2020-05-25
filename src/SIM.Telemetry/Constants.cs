@@ -2,7 +2,7 @@
 
 namespace SIM.Telemetry
 {
-  public enum TelemetryEvent { AppRun }
+  public enum TelemetryEvent { AppRun, AppExit }
 
   public static class Constants
   {

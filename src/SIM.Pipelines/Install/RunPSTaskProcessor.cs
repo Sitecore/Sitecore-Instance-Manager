@@ -1,14 +1,9 @@
 ﻿using JetBrains.Annotations;
 using SIM.Pipelines.Processors;
-using Sitecore.Diagnostics.Base;
-using SIM.Sitecore9Installer;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using SIM.Sitecore9Installer.Tasks;
+using Sitecore.Diagnostics.Base;
+using System;
+using System.Linq;
 
 namespace SIM.Pipelines.Install
 {
@@ -35,14 +30,25 @@ namespace SIM.Pipelines.Install
       }
       catch (Exception ex)
       {
-        SetLogLocation(task);
+        this.HandleError(task, ex);
       }
 
       if (task.State != TaskState.Finished)
       {
-        SetLogLocation(task);
-        throw new AggregateException(string.Format("Failed to execute {0} task. \n{1}",task.Name,result));
+        this.HandleError(task, result);
       }   
+    }
+
+    private void HandleError(Task task, Exception e)
+    {
+      this.SetLogLocation(task);
+      throw new AggregateException(string.Format("Failed to execute {0} task.", task.Name), e);
+    }
+
+    private void HandleError(Task task, string failure)
+    {
+      this.SetLogLocation(task);
+      throw new AggregateException(string.Format("Failed to execute {0} task. \n{1}", task.Name, failure));
     }
 
     private void SetLogLocation(Sitecore9Installer.Tasks.Task task)

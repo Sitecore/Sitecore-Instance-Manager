@@ -17,15 +17,15 @@ namespace SIM.Sitecore9Installer.Tasks
       this.InnerTasks = new List<SitecoreTask>();
     }
 
-    public TaskState State { get; protected set; }
+    public virtual TaskState State { get; protected set; }
     public string Name { get; protected set; }
     public bool ShouldRun { get; set; }
     public Dictionary<string, string> TaskOptions { get; }
     public int ExecutionOrder { get; protected set; }
     public bool UnInstall { get; set; }
-    public Tasker Owner { get; }
-    public List<InstallParam> GlobalParams => Owner.GlobalParams;
-    public List<InstallParam> LocalParams { get; set; }
+    public virtual Tasker Owner { get; }
+    public virtual List<InstallParam> GlobalParams => Owner.GlobalParams;
+    public virtual List<InstallParam> LocalParams { get; set; }
     public List<SitecoreTask> InnerTasks { get; }
 
     public abstract string Run();

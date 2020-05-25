@@ -1,37 +1,51 @@
 ﻿namespace SIM.Telemetry.Providers
 {
   using System;
+  using System.Collections.Generic;
   using System.Net.Http;
   using System.Text;
-  using KB.Telemetry;
+  using JetBrains.Annotations;
+  using Microsoft.Extensions.Logging;
   using Newtonsoft.Json;
   using SIM.Telemetry.Models;
-  using Sitecore.Diagnostics.Logging;
 
   public class KnowledgeBaseProvider : TelemetryProviderBase
   {
     #region Protected Properties
     protected static HttpClient Client => new HttpClient();
     protected string BaseAddress { get; }
+
+    protected ILogger _logger;
     #endregion
 
     #region Constructors
     private KnowledgeBaseProvider() { }
 
-    public KnowledgeBaseProvider(KBProviderConfiguration configuration) : this(configuration, enabled: true) { }
+    public KnowledgeBaseProvider(
+      KBProviderConfiguration configuration,
+      ILogger logger
+      ) : this(configuration, true, logger) { }
 
-    public KnowledgeBaseProvider(KBProviderConfiguration configuration, bool enabled)
+    public KnowledgeBaseProvider(
+      [CanBeNull] KBProviderConfiguration configuration,
+      bool enabled,
+      [CanBeNull] ILogger logger)
     {
+      if (configuration == null) throw new ArgumentNullException(nameof(configuration));
+      if (logger == null) throw new ArgumentNullException(nameof(logger));
+
       IsEnabled = enabled;
 
       BaseAddress = configuration.BaseAddress;      
+
+      _logger = logger;
     }
     #endregion
 
     #region Public Methods
-    public override void TrackEvent(TelemetryEvent telemetryEvent, TelemetryEventContext eventContext)
+    public override void TrackEvent(string telemetryEvent, Dictionary<string, string> customEventData, TelemetryEventContext eventContext)
     {
-      var appUtilizationModel = eventContext.ToAppUtilizationModel(telemetryEvent);
+      var appUtilizationModel = eventContext.ToAppUtilizationModel(telemetryEvent, customEventData);
 
       try
       {
@@ -45,10 +59,9 @@
       }
       catch (HttpRequestException e)
       {
-        var errorMessage = $"Exception Caught. {Environment.NewLine}Message :{e.Message}{Environment.NewLine}" +
-          $"{e.StackTrace}";
+        var errorMessage = $"KnowledgeBaseProvider: telemetry tracking failed.";
 
-        Log.Debug(errorMessage);
+        _logger.LogDebug(e, errorMessage);
       }
     }
     #endregion

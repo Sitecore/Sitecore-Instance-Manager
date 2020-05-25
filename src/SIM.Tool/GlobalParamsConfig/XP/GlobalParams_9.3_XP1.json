@@ -16,7 +16,7 @@
     "BaseConfig": "",
     //cert
     "CertPath": "c:/certificates",
-    "RootCertFileName": "",
+    "RootCertFileName": "SIM_SIF220Root",
     //xConnect
     "XConnectCert": "$GlobalParams.SqlDbPrefix+\"xconnect_client\"",
     "SqlMarketingAutomationUser": "",
@@ -94,6 +94,14 @@
     "IdentityServer": "* (OnPrem)_identityserver.scwdp.zip",
     "sitecore-XP1-cm-dds-patch": "Sitecore.Patch.EXM (OnPrem)_CM.zip"
   },
+
+  "Validators": [
+    "list|Basic",
+    "list|DDS",
+    "list|DDS_Patch",
+    "list|Sitecore_9.3"
+  ],
+
   "ExecSequense": {
     "InstallSIF": {
       "Type": "SIM.Sitecore9Installer.Tasks.InstallSIFTask, SIM.Sitecore9Installer",

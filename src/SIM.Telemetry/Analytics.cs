@@ -3,11 +3,10 @@
   using System;
   using System.Collections.Generic;
   using SIM.Telemetry.Models;
-  using Sitecore.Diagnostics.Logging;
   using JetBrains.Annotations;
   using SIM.Telemetry.Providers;
   using System.Threading.Tasks;
-  using Sitecore.Diagnostics.Base;
+  using Microsoft.Extensions.Logging;
 
   public class Analytics
   {
@@ -34,15 +33,23 @@
     private static TelemetryEventContext EventContext { get; set; }
     #endregion
 
+    private static ILogger _logger;
+
     #region Public Properties
     public static bool IsInitialized { get; private set; }
     #endregion
 
     #region Public Methods
-    public static void Initialize([NotNull] TelemetryEventContext telemetryEventContext, bool trackingEnabled)
-    {
+    public static void Initialize([CanBeNull] TelemetryEventContext telemetryEventContext, 
+      bool trackingEnabled,
+      [CanBeNull]ILogger logger)
+    {      
+      if (telemetryEventContext == null) throw new ArgumentNullException(nameof(telemetryEventContext));
+      if (logger == null) throw new ArgumentNullException(nameof(logger));
+
       EventContext = telemetryEventContext;
       IsTrackingEnabled = trackingEnabled;
+      _logger = logger;
 
       if (telemetryEventContext.DeviceId != Guid.Empty)
       {
@@ -52,46 +59,63 @@
       {
         IsInitialized = false;
 
-        Log.Debug($"'SIM.Telemetry.Analytics' initialization failed. 'DeviceId' is empty.");
+        _logger.LogDebug($"'Telemetry.Analytics' initialization failed. 'DeviceId' is empty.");
       }
+
+      _logger.LogInformation("'Telemetry.Analytics' has been initialized successfully");
     }
 
     public static void Track(TelemetryEvent tEvent)
     {
+      Track(tEvent.ToString(), new Dictionary<string, string>());
+    }
+
+    public static void Track(string tEvent)
+    {
+      Track(tEvent, new Dictionary<string, string>());
+    }
+
+    public static void Track(TelemetryEvent tEvent, Dictionary<string, string> eventCustomData)
+    {
+      Track(tEvent.ToString(), eventCustomData);
+    }
+
+    public static void Track(string tEvent, Dictionary<string, string> eventCustomData)
+    {
       if (!IsInitialized)
       {
-        Log.Debug($"'Analytics' manager has not been initialized. Telemetry event '{tEvent.ToString()}' will not be processed.");
+        _logger.LogDebug($"'Analytics' manager has not been initialized. Telemetry event '{tEvent}' will not be processed.");
 
         return;
       }
 
       if (!IsTrackingEnabled)
       {
-        Log.Debug($"Analytics is disabled. Telemetry event '{tEvent.ToString()}' will not be processed.");
+        _logger.LogDebug($"Analytics is disabled. Telemetry event '{tEvent}' will not be processed.");
 
         return;
       }
 
       if (TelemetryProviders.Count <= 0)
       {
-        Log.Debug($"Telemetry providers list is empty. Telemetry event '{tEvent.ToString()}' will not be processed.");
+        _logger.LogDebug($"Telemetry providers list is empty. Telemetry event '{tEvent.ToString()}' will not be processed.");
 
         return;
       }
 
-      Task.Run(() => DoTrackEvent(tEvent));
+      Task.Run(() => DoTrackEvent(tEvent, eventCustomData));
     }
 
     public static void RegisterProvider(TelemetryProviderBase telemetryProvider)
     {
-      Assert.ArgumentNotNull(telemetryProvider, "telemetryProvider");
+      if (telemetryProvider == null) throw new ArgumentNullException(nameof(telemetryProvider));
 
       TelemetryProviders.Add(telemetryProvider);
     }
     #endregion
 
     #region Private Methods
-    private static void DoTrackEvent(TelemetryEvent telemetryEvent)
+    private static void DoTrackEvent(string telemetryEvent, Dictionary<string, string> eventCustomData)
     {
       var providers = TelemetryProviders.ToArray();
 
@@ -99,13 +123,11 @@
       {
         try
         {
-          provider.TrackEvent(telemetryEvent, EventContext);
+          provider.TrackEvent(telemetryEvent, eventCustomData, EventContext);
         }
         catch (Exception ex)
-        {
-          Log.Debug($"Telemetry event '{telemetryEvent.ToString()}' has not been processed by '{provider.GetType()}' provider.{Environment.NewLine}" +
-            $"Message: {ex.Message}{Environment.NewLine}" +
-            $"{ex.StackTrace}{Environment.NewLine}");
+        {          
+          _logger.LogDebug(ex, $"Telemetry event '{telemetryEvent.ToString()}' has not been processed by '{provider.GetType()}' provider.{Environment.NewLine}");
 
           return;
         }

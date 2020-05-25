@@ -17,36 +17,36 @@
     //cert
     "CertificateName": "$GlobalParams.SqlDbPrefix+\"xconnect_client\"",
     "CertPath": "c:/certificates",
-    "RootCertFileName": "SIF121Root",
+    "RootCertFileName": "SIM_SIF121Root",
     //xConnect
     "XConnectCert": "$GlobalParams.SqlDbPrefix+\"xconnect_client\"",
     "SqlMarketingAutomationUser": "",
-    "SqlMarketingAutomationPassword": "",
+    "SqlMarketingAutomationPassword": "Password12345",
     "SqlReferenceDataUser": "",
-    "SqlReferenceDataPassword": "",
+    "SqlReferenceDataPassword": "Password12345",
     "SqlProcessingPoolsUser": "",
-    "SqlProcessingPoolsPassword": "",
+    "SqlProcessingPoolsPassword": "Password12345",
     "SqlCollectionUser": "$GlobalParams.SqlDbPrefix+\"collectionuser\"",
-    "SqlCollectionPassword": "",
+    "SqlCollectionPassword": "Password12345",
     "XConnectEnvironment": "",
     "XConnectLogLevel": "",
     //Sitecore
     "SitecoreAdminPassword": "b",
     "SolrCorePrefix": "$GlobalParams.SqlDbPrefix",
     "SqlCoreUser": "",
-    "SqlCorePassword": "",
+    "SqlCorePassword": "Password12345",
     "SqlWebUser": "",
-    "SqlWebPassword": "",
+    "SqlWebPassword": "Password12345",
     "SqlFormsUser": "",
-    "SqlFormsPassword": "",
+    "SqlFormsPassword": "Password12345",
     "SqlMasterUser": "",
-    "SqlMasterPassword": "",
+    "SqlMasterPassword": "Password12345",
     "SqlReportingUser": "",
-    "SqlReportingPassword": "",
+    "SqlReportingPassword": "Password12345",
     "SqlProcessingTasksUser": "",
-    "SqlProcessingTasksPassword": "",
+    "SqlProcessingTasksPassword": "Password12345",
     "SqlExmMasterUser": "",
-    "SqlExmMasterPassword": "",
+    "SqlExmMasterPassword": "Password12345",
     "ExmEdsProvider": "",
     "EXMCryptographicKey": "",
     "EXMAuthenticationKey": "",
@@ -61,7 +61,7 @@
     "ReportingServiceApiKey": "",
     "TelerikEncryptionKey": "",
     "SqlMessagingUser": "",
-    "SqlMessagingPassword": ""
+    "SqlMessagingPassword": "Password12345"
   },
   "PackageMapping": {
 
@@ -79,6 +79,11 @@
     "sitecore-xp1-dds": "* (OnPrem)_dds.scwdp.zip",
     "sitecore-XP1-cm-dds-patch": "Sitecore.Patch.EXM (OnPrem)_CM.zip"
   },
+
+  "Validators": [
+    "list|Basic",
+    "list|Sitecore_9.0"
+  ],
 
   "ExecSequense": {
     "InstallSIF": {

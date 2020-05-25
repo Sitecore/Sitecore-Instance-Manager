@@ -17,7 +17,7 @@
     //cert
 
     "CertPath": "c:/certificates",
-    "RootCertFileName": "",
+    "RootCertFileName": "SIM_SIF220Root",
     //xConnect
 
     "SqlMarketingAutomationUser": "",
@@ -93,6 +93,12 @@
     "xconnect-xp0": "* (OnPrem)_xp0xconnect.scwdp.zip",
     "IdentityServer": "* (OnPrem)_identityserver.scwdp.zip"
   },
+
+  "Validators": [
+    "list|Basic",
+    "list|Sitecore_9.3"
+  ],
+
   "ExecSequense": {
     "InstallSIF": {
       "Type": "SIM.Sitecore9Installer.Tasks.InstallSIFTask, SIM.Sitecore9Installer",
