@@ -3,6 +3,11 @@
   public static class PipelinesConfig
   {
     public const string Contents = @"<pipelines>
+<installSolr title=""Installing the solr"">
+    <step>
+      <hive type=""SIM.Pipelines.Install.RunPSTasksProcessor, SIM.Pipelines"" />
+    </step>   
+</installSolr>
 <reinstall9 title=""Reinstalling the instance"">
     <step>
       <hive type=""SIM.Pipelines.Install.RunPSTasksProcessor, SIM.Pipelines"" param=""uninstall"" />

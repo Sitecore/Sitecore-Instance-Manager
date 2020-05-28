@@ -172,6 +172,12 @@ namespace SIM.Tool.Windows
                 },
                 new ButtonDefinition
                 {
+                  Label = "Install Solr",
+                  Image = "/Images/$lg/install.png, SIM.Tool.Windows",
+                  Handler = new SIM.Tool.Windows.MainWindowComponents.InstallSolrButton()
+                },
+                new ButtonDefinition
+                {
                   Label = "Install MongoDB",
                   Image = "/Images/$lg/scroll_refresh.png, SIM.Tool.Windows",
                   Handler = new SIM.Tool.Windows.MainWindowComponents.InstallMongoDbButton()
