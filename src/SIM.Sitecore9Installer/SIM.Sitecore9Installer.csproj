@@ -96,6 +96,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="InstallParam.cs" />
+    <Compile Include="Tasks\EvaluateParamsTask.cs" />
     <Compile Include="Tasks\xConnectTaskWithPostSteps.cs" />
     <Compile Include="Tasks\InstallSIFTask.cs" />
     <Compile Include="Tasks\PowerShellTask.cs" />

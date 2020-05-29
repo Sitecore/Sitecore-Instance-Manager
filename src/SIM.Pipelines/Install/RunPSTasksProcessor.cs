@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using SIM.Sitecore9Installer.Tasks;
 
 namespace SIM.Pipelines.Install
@@ -15,10 +14,9 @@ namespace SIM.Pipelines.Install
     {
       Install9Args arguments = (Install9Args)args;
       List<Processor> processors = new List<Processor>();
-      arguments.Tasker.EvaluateGlobalParams();
       Processor root = null;
       bool uninstall = this.ParentDefinition.Param.Equals("uninstall", StringComparison.InvariantCultureIgnoreCase);
-      foreach (PowerShellTask task in arguments.Tasker.Tasks)
+      foreach (Task task in arguments.Tasker.Tasks)
       {
         if (!task.ShouldRun||(!task.SupportsUninstall()&&uninstall))
         {
