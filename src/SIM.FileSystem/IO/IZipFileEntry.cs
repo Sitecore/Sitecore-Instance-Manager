@@ -2,5 +2,6 @@
 {
   public interface IZipFileEntry
   {
+    string Name { get; }
   }
 }
