@@ -22,6 +22,16 @@
       ZipFile = new ZipFile(zipFile.File.FullName);
     }
 
+    public IEnumerable<IZipFileEntry> GetEntries()
+    {
+      var entries = ZipFile.Entries;
+      Assert.IsNotNull(entries, nameof(entries));
+
+      List<RealZipFileEntry> zipEntries = entries.Select(e => new RealZipFileEntry(e)).ToList();
+
+      return zipEntries;
+    }
+
     public bool Contains(string entryPath)
     {
       Assert.ArgumentNotNull(entryPath, nameof(entryPath));

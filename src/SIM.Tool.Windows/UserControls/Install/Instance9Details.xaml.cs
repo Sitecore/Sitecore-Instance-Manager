@@ -1,3 +1,5 @@
+using SIM.IO;
+
 namespace SIM.Tool.Windows.UserControls.Install
 {
   using System;
@@ -130,6 +132,17 @@ namespace SIM.Tool.Windows.UserControls.Install
         return false;
       }
 
+      if (File.Exists(args.Product.PackagePath) && !IsWdpPackageValid(args))
+      {
+        WindowHelper.ShowMessage("The selected installation package is not supported. " +
+          "Please choose a package for 'On Premises' deployment.", 
+          messageBoxImage: MessageBoxImage.Warning, 
+          messageBoxButton: MessageBoxButton.OK
+          );
+
+        return false;
+      }
+
       if (!Directory.Exists(args.ScriptRoot))
       {
         Directory.CreateDirectory(args.ScriptRoot);
@@ -242,6 +255,39 @@ namespace SIM.Tool.Windows.UserControls.Install
       return true;
     }
 
+    private bool IsWdpPackageValid([NotNull] Install9WizardArgs args)
+    {
+      Assert.ArgumentNotNull(args, nameof(args));
+
+      Product product = args.Product;
+      Assert.IsNotNull(product, nameof(product));
+
+      RealZipFile zip = new RealZipFile(new RealFile(new RealFileSystem(), product.PackagePath));
+
+      IZipFileEntry[] entries = zip.Entries.GetEntries().ToArray();
+
+      string[] configFiles = entries.Where(e => e.Name.ToLowerInvariant().EndsWith(".zip") &&
+          e.Name.ToLowerInvariant().Contains("configuration files"))
+        .Select(e => e.Name)
+        .ToArray();
+
+      string[] scwdps = entries.Where(e => e.Name.ToLowerInvariant().EndsWith(".zip") && 
+          e.Name.ToLowerInvariant().Contains("(onprem)"))
+        .Select(e => e.Name)
+        .ToArray();
+
+      if (configFiles.Length > 0 && scwdps.Length > 0)
+      {
+        return true;
+      }
+
+      Log.Warn($"Unsupported WDP package was used. Name: '{args.ScriptRoot}', " +
+        $"config files: '{configFiles.Length}', " +
+        $"scwdps: '{scwdps.Length}'");
+
+      return false;
+    }
+
     public void UnpackInstallationFiles(Install9WizardArgs args)
     {
       RealZipFile zip = new RealZipFile(new RealFile(new RealFileSystem(), args.Product.PackagePath));
@@ -257,10 +303,6 @@ namespace SIM.Tool.Windows.UserControls.Install
       var webRootPath = Path.Combine(rootPath, "Website");
       return webRootPath;
     }
-
-   
-
-    
 
     [CanBeNull]
     private string GetValidWebsiteName()
