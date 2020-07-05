@@ -1008,7 +1008,7 @@
       using (new ProfileSection("Main window search handler"))
       {
         var searchPhrase = Invoke(w => w.SearchTextBox.Text.Trim());
-        IEnumerable<Instance> source = InstanceManager.Default.PartiallyCachedInstances;
+        IEnumerable<Instance> source = InstanceManager.Default.PartiallyCachedInstances?.Values;
         if (source == null)
         {
           return;

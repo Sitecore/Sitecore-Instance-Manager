@@ -7,8 +7,8 @@
   using SIM.Adapters.WebServer;
   using Sitecore.Diagnostics.Base;
   using JetBrains.Annotations;
+  using Sitecore.Diagnostics.Base.Extensions.EnumerableExtensions;
   using Sitecore.Diagnostics.Logging;
-  using SIM.Extensions;
   using SIM.SitecoreEnvironments;
 
   #region
@@ -19,7 +19,7 @@
   {
     #region Fields
 
-    private IEnumerable<Instance> _CachedInstances;
+    private Dictionary<string, Instance> _CachedInstances;
     private IEnumerable<Instance> _Instances;
     private string _InstancesFolder;
 
@@ -51,7 +51,7 @@
     }
 
     [CanBeNull]
-    public IEnumerable<Instance> PartiallyCachedInstances
+    public Dictionary<string, Instance> PartiallyCachedInstances
     {
       get
       {
@@ -66,7 +66,9 @@
           return null;
         }
 
-        _CachedInstances = Instances.Select(x => new PartiallyCachedInstance((int)x.ID)).ToArray();
+        _CachedInstances = new Dictionary<string, Instance>();
+        Instances.ForEach(x => { _CachedInstances.Add(x.Name, new PartiallyCachedInstance((int) x.ID)); });
+
         return _CachedInstances;
       }
 
@@ -103,13 +105,17 @@
       Assert.ArgumentNotNull(name, nameof(name));
       Log.Debug($"InstanceManager:GetInstance('{name}')");
 
-      Initialize();
+      if (Instances == null)
+      {
+        Initialize();
+      }
+
       if (Instances == null)
       {
         return null;
       }
 
-      return Instances.SingleOrDefault(i => i.Name.EqualsIgnoreCase(name));
+      return PartiallyCachedInstances?[name];
     }
 
     public void Initialize([CanBeNull] string defaultRootFolder = null)
@@ -143,13 +149,13 @@
           IEnumerable<Site> sites = GetOperableSites(context, defaultRootFolder);
 
           // The trick is in reused PartiallyCachedInstances. We use site ID as identificator that cached instance may be reused. If we can't fetch instance from cache, we create new.
-          PartiallyCachedInstances = sites
-            .Select(site => PartiallyCachedInstances.FirstOrDefault(cachedInst => cachedInst.ID == site.Id) ?? GetPartiallyCachedInstance(site))
+          PartiallyCachedInstances = sites.Select(site =>
+              PartiallyCachedInstances?.Values.FirstOrDefault(cachedInst => cachedInst.ID == site.Id) ??
+              GetPartiallyCachedInstance(site))
             .Where(IsSitecoreOrSitecoreEnvironmentMember)
-            .Where(IsNotHidden)
-            .ToArray();
-
-          Instances = PartiallyCachedInstances.Select(x => GetInstance(x.ID)).ToArray();
+            .Where(IsNotHidden).ToDictionary(value => value.Name);
+    
+          Instances = PartiallyCachedInstances?.Values.Select(x => GetInstance(x.ID)).ToArray();
         }
       }
     }
@@ -162,24 +168,23 @@
     {
       using (new ProfileSection("Get instances"))
       {
-        var array = PartiallyCachedInstances.Select(x => GetInstance(x.ID)).ToArray();
+        var array = PartiallyCachedInstances?.Values.Select(x => GetInstance(x.ID)).ToArray();
 
         return ProfileSection.Result(array);
       }
     }
 
-    private IEnumerable<Instance> GetPartiallyCachedInstances(IEnumerable<Site> sites)
+    private Dictionary<string, Instance> GetPartiallyCachedInstances(IEnumerable<Site> sites)
     {
       using (new ProfileSection("Getting partially cached Sitecore instances"))
       {
         ProfileSection.Argument("sites", sites);
 
-        var array = sites.Select(GetPartiallyCachedInstance)
+        Dictionary<string, Instance> partiallyCachedInstances = sites.Select(GetPartiallyCachedInstance)
           .Where(IsSitecoreOrSitecoreEnvironmentMember)
-          .Where(IsNotHidden)
-          .ToArray();
+          .Where(IsNotHidden).ToDictionary(value => value.Name);
 
-        return ProfileSection.Result(array);
+        return partiallyCachedInstances;
       }
     }
 
