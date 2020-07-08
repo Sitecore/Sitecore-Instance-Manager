@@ -207,6 +207,7 @@
     <Compile Include="Pipelines\Install\OpenScriptsFolderFinishAction.cs" />
     <Compile Include="Pipelines\Setup\SetupProcessor.cs" />
     <Compile Include="Pipelines\Setup\SetupWizardArgs.cs" />
+    <Compile Include="Pipelines\Solr\AddSolrToSimConfig.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

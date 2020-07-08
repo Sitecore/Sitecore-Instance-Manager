@@ -193,7 +193,10 @@ By clicking 'Next' you accept the License Agreement."" />
                   type=""SIM.Tool.Windows.UserControls.Install.SolrDetails, SIM.Tool.Windows"" />
             <step name=""STEP 2 of 2 - SELECT INSTALLATION TASKS"" 
                   type=""SIM.Tool.Windows.UserControls.Install.Instance9SelectTasks, SIM.Tool.Windows"" />
-         </steps>     
+         </steps> 
+      <finish>
+         <action text=""Add this solr to SIM"" type=""SIM.Tool.Windows.Pipelines.Solr.AddSolrToSimConfig, SIM.Tool.Windows"" method=""Run"" />
+      </finish>
      </installSolr>
 
 <delete9 title=""Deleting instances"" startButton=""Delete""
