@@ -19,7 +19,7 @@
   {
     #region Fields
 
-    private Dictionary<string, Instance> _CachedInstances;
+    private IDictionary<string, Instance> _CachedInstances;
     private IEnumerable<Instance> _Instances;
     private string _InstancesFolder;
 
@@ -51,7 +51,7 @@
     }
 
     [CanBeNull]
-    public Dictionary<string, Instance> PartiallyCachedInstances
+    public IDictionary<string, Instance> PartiallyCachedInstances
     {
       get
       {
@@ -76,7 +76,7 @@
       {
         if (_CachedInstances != null)
         {
-          foreach (var cachedInstance in _CachedInstances.OfType<IDisposable>())
+          foreach (var cachedInstance in _CachedInstances.Values.OfType<IDisposable>())
           {
             if (cachedInstance != null)
             {
@@ -174,13 +174,13 @@
       }
     }
 
-    private Dictionary<string, Instance> GetPartiallyCachedInstances(IEnumerable<Site> sites)
+    private IDictionary<string, Instance> GetPartiallyCachedInstances(IEnumerable<Site> sites)
     {
       using (new ProfileSection("Getting partially cached Sitecore instances"))
       {
         ProfileSection.Argument("sites", sites);
 
-        Dictionary<string, Instance> partiallyCachedInstances = sites.Select(GetPartiallyCachedInstance)
+        IDictionary<string, Instance> partiallyCachedInstances = sites.Select(GetPartiallyCachedInstance)
           .Where(IsSitecoreOrSitecoreEnvironmentMember)
           .Where(IsNotHidden).ToDictionary(value => value.Name);
 
