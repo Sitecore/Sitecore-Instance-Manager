@@ -18,7 +18,7 @@
     {
       Assert.ArgumentNotNull(args, nameof(args));
 
-      var cachedInstance = InstanceManager.Default.PartiallyCachedInstances.SingleOrDefault(x => x.ID == args.InstanceID) as PartiallyCachedInstance;
+      var cachedInstance = InstanceManager.Default.PartiallyCachedInstances?.Values.SingleOrDefault(x => x.ID == args.InstanceID) as PartiallyCachedInstance;
       if (cachedInstance != null)
       {
         cachedInstance.Dispose();

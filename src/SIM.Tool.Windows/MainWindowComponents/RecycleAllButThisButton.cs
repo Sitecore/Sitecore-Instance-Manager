@@ -30,7 +30,7 @@
     {
       Assert.ArgumentNotNull(mainWindow, nameof(mainWindow));
 
-      var instances = InstanceManager.Default.PartiallyCachedInstances ?? InstanceManager.Default.Instances;
+      var instances = InstanceManager.Default.PartiallyCachedInstances?.Values;
       Assert.IsNotNull(instances, nameof(instances));
 
       var otherInstances = instances.Where(x => x.ID != instance.ID);
