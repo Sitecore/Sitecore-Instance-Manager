@@ -7,6 +7,8 @@ using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using SIM.Tool.Base.Profiles;
+using SIM.Tool.Windows.MainWindowComponents;
 
 namespace SIM.Tool.Windows.Dialogs
 {
@@ -75,8 +77,7 @@ namespace SIM.Tool.Windows.Dialogs
       Button b = sender as Button;
       GridEditorContext editContext = this.DataContext as GridEditorContext;
       editContext.GridItems.Remove(b.DataContext);
-      this.DataGrid.DataContext = null;
-      this.DataGrid.DataContext = editContext;
+      this.ReinitializeDataContext(editContext);
     }
 
     private void AddRow_Click(object sender, RoutedEventArgs e)
@@ -88,7 +89,28 @@ namespace SIM.Tool.Windows.Dialogs
 
     private void InstallSolr_OnClick(object sender, RoutedEventArgs e)
     {
-      new SIM.Tool.Windows.MainWindowComponents.InstallSolrButton().OnClick(this, null);
+      InstallSolrButton installSolrButton = new InstallSolrButton();
+      // Refresh the list of Solr servers after installing the new one 
+      installSolrButton.InstallationCompleted += (o, args) =>
+      {
+        GridEditorContext editContext = this.DataContext as GridEditorContext;
+        editContext.GridItems.Clear();
+
+        foreach (var solr in ProfileManager.Profile.Solrs)
+        {
+          editContext.GridItems.Add((SolrDefinition)solr.Clone());
+        }
+
+        this.ReinitializeDataContext(editContext);
+      };
+        
+      installSolrButton.InstallSolr(this);
+    }
+
+    private void ReinitializeDataContext(GridEditorContext editContext)
+    {
+      this.DataGrid.DataContext = null;
+      this.DataGrid.DataContext = editContext;
     }
   }
 

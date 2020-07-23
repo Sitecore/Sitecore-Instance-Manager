@@ -1,4 +1,5 @@
-﻿using JetBrains.Annotations;
+﻿using System;
+using JetBrains.Annotations;
 using SIM.Instances;
 using SIM.Tool.Base.Pipelines;
 using SIM.Tool.Base.Plugins;
@@ -9,6 +10,8 @@ namespace SIM.Tool.Windows.MainWindowComponents
 {
   public class InstallSolrButton : IMainWindowButton
   {
+    public event EventHandler<EventArgs> InstallationCompleted;
+
     public bool IsEnabled([NotNull] Window mainWindow, [CanBeNull] Instance instance)
     {
       return true;
@@ -21,7 +24,12 @@ namespace SIM.Tool.Windows.MainWindowComponents
 
     public void OnClick([NotNull] Window mainWindow, [CanBeNull] Instance instance)
     {
-      WizardPipelineManager.Start("installSolr", mainWindow, null, null, (args) =>
+      this.InstallSolr(mainWindow);
+    }
+
+    public void InstallSolr(Window window)
+    {
+      WizardPipelineManager.Start("installSolr", window, null, null, (args) =>
       {
         if (args == null)
         {
@@ -33,6 +41,8 @@ namespace SIM.Tool.Windows.MainWindowComponents
         {
           MainWindowHelper.SoftlyRefreshInstances();
         }
+        // Raise the event to refresh the list of Solr servers after installing the new one
+        EventHelper.RaiseEvent(InstallationCompleted, this, new EventArgs());
 
       }, () => new Install9WizardArgs());
     }
