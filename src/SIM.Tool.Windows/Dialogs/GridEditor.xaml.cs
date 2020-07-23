@@ -85,6 +85,11 @@ namespace SIM.Tool.Windows.Dialogs
       GridEditorContext editContext = this.DataContext as GridEditorContext;
       editContext.GridItems.Add(Activator.CreateInstance(editContext.ElementType));
     }
+
+    private void InstallSolr_OnClick(object sender, RoutedEventArgs e)
+    {
+      new SIM.Tool.Windows.MainWindowComponents.InstallSolrButton().OnClick(this, null);
+    }
   }
 
   internal class GridObjectValidationRule : ValidationRule

@@ -46,13 +46,22 @@
                     </DataGridTemplateColumn>
                 </DataGrid.Columns>
             </DataGrid>
-            <Button Content="Add" Margin="10,10,0,0"  HorizontalAlignment="Left" VerticalAlignment="Top" Width="50" Click="AddRow_Click" Background="#FFDDDDDD" >
-                <Button.Resources>
-                    <Style TargetType="{x:Type Border}">
-                        <Setter Property="CornerRadius" Value="2"/>
-                    </Style>
-                </Button.Resources>
-            </Button>
+            <WrapPanel>
+                <Button Name="AddSolr" Content="Add existing" Margin="10,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="80" Click="AddRow_Click" Background="#FFDDDDDD" >
+                    <Button.Resources>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="CornerRadius" Value="2"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+                <Button Name="InstallSolr" Content="Install new" Margin="10,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="80" Click="InstallSolr_OnClick"  Background="#FFDDDDDD" >
+                    <Button.Resources>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="CornerRadius" Value="2"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+            </WrapPanel>
         </StackPanel>
         <Button Name="Ok"  Grid.Row="3"  Margin="0,0,10,10"  Content="Ok" Click="Ok_Click" HorizontalAlignment="Right" Width="72" Height="23" VerticalAlignment="Bottom" >
         </Button>
