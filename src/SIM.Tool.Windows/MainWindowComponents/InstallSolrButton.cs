@@ -10,7 +10,7 @@ namespace SIM.Tool.Windows.MainWindowComponents
 {
   public class InstallSolrButton : IMainWindowButton
   {
-    public event EventHandler<EventArgs> InstallationCompleted;
+    public event EventHandler<InstallWizardArgs> InstallationCompleted;
 
     public bool IsEnabled([NotNull] Window mainWindow, [CanBeNull] Instance instance)
     {
@@ -27,9 +27,9 @@ namespace SIM.Tool.Windows.MainWindowComponents
       this.InstallSolr(mainWindow);
     }
 
-    public void InstallSolr(Window window)
+    public void InstallSolr(Window window, bool? isAsync = null)
     {
-      WizardPipelineManager.Start("installSolr", window, null, null, (args) =>
+      WizardPipelineManager.Start("installSolr", window, null, isAsync, (args) =>
       {
         if (args == null)
         {
@@ -41,9 +41,9 @@ namespace SIM.Tool.Windows.MainWindowComponents
         {
           MainWindowHelper.SoftlyRefreshInstances();
         }
-        // Raise the event to refresh the list of Solr servers after installing the new one
-        EventHelper.RaiseEvent(InstallationCompleted, this, new EventArgs());
 
+        // Raise the event to refresh the list of Solr servers after installing the new one
+        InstallationCompleted?.Invoke(this, install);
       }, () => new Install9WizardArgs());
     }
   }

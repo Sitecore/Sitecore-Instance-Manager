@@ -5,32 +5,59 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SIM.Tool.Windows.Dialogs"
         mc:Ignorable="d"
-        Title="Add Solr" Height="167.375" Width="300"
+        Title="Solr" Height="192" Width="310"
         ResizeMode="NoResize">
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="13*"></ColumnDefinition>
-            <ColumnDefinition Width="29*"></ColumnDefinition>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="25"></RowDefinition>
-            <RowDefinition Height="25"></RowDefinition>
-            <RowDefinition Height="25"></RowDefinition>
-            <RowDefinition Height="25"></RowDefinition>
-            <RowDefinition Height="25"></RowDefinition>
-        </Grid.RowDefinitions>
-        <TextBlock Grid.Column="0" Grid.Row="0" VerticalAlignment="Center" TextWrapping="Wrap" Text="Name:" Height="16" Margin="5,4,0,6"/>
-        <TextBox Name="NameText" Grid.Column="1" Grid.Row="0" VerticalContentAlignment="Center" />
-        <TextBlock Grid.Column="0" Grid.Row="1" VerticalAlignment="Center" TextWrapping="Wrap" Text="Solr Url:" Height="16" Margin="5,4,0,6"/>
-        <TextBox Name="UrlText" Text="https://localhost:8983/solr" VerticalContentAlignment="Center" Grid.Column="1" Grid.Row="1"  />
-        <TextBlock Grid.Column="0" Grid.Row="2" VerticalAlignment="Center" TextWrapping="Wrap" Text="Solr Root:" Height="16" Margin="5,6,15,4"/>
-        <TextBox Name="RootText" Grid.Column="1" Grid.Row="2" VerticalContentAlignment="Center" />
-        <TextBlock Grid.Column="0" Grid.Row="3" VerticalAlignment="Center" TextWrapping="Wrap" Text="Solr Service:" Height="16" Margin="5,4,0,6"/>
-        <TextBox Name="ServiceText" Grid.Column="1" Grid.Row="3" VerticalContentAlignment="Center" />
-        <Button Content="Ok" Name="Ok" Click="Ok_Click"  Grid.Column="1" HorizontalAlignment="Left"  Grid.Row="4" Width="75" Margin="0,4,0,2"/>
-        <Button Content="Cancel" Name="Cancel" Click="Cancel_Click" Grid.Column="1" HorizontalAlignment="Left" Margin="118,4,0,2" Grid.Row="4" Width="75"/>
-        <Button Content="..." Name="Browse" HorizontalAlignment="Left" Click="Browse_Click" Margin="66,3,0,0" Grid.Row="2" VerticalAlignment="Top" Width="20"/>
-
-    </Grid>
-
+    <TabControl>
+        <TabItem x:Name="AddSolrTab">
+            <TabItem.Header>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock FontWeight="Bold">Add existing</TextBlock>
+                </StackPanel>
+            </TabItem.Header>
+            <TabItem.Content>
+                <StackPanel>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="13*"></ColumnDefinition>
+                            <ColumnDefinition Width="29*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="25"></RowDefinition>
+                            <RowDefinition Height="25"></RowDefinition>
+                            <RowDefinition Height="25"></RowDefinition>
+                            <RowDefinition Height="25"></RowDefinition>
+                            <RowDefinition Height="25"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.Column="0" Grid.Row="0" VerticalAlignment="Center" TextWrapping="Wrap" Text="Name:" Height="16" Margin="5,4,0,6"/>
+                        <TextBox Name="NameText" Grid.Column="1" Grid.Row="0" VerticalContentAlignment="Center" />
+                        <TextBlock Grid.Column="0" Grid.Row="1" VerticalAlignment="Center" TextWrapping="Wrap" Text="Solr Url:" Height="16" Margin="5,4,0,6"/>
+                        <TextBox Name="UrlText" Text="https://localhost:8983/solr" VerticalContentAlignment="Center" Grid.Column="1" Grid.Row="1"  />
+                        <TextBlock Grid.Column="0" Grid.Row="2" VerticalAlignment="Center" TextWrapping="Wrap" Text="Solr Root:" Height="16" Margin="5,6,15,4"/>
+                        <TextBox Name="RootText" Grid.Column="1" Grid.Row="2" VerticalContentAlignment="Center" />
+                        <TextBlock Grid.Column="0" Grid.Row="3" VerticalAlignment="Center" TextWrapping="Wrap" Text="Solr Service:" Height="16" Margin="5,4,0,6"/>
+                        <TextBox Name="ServiceText" Grid.Column="1" Grid.Row="3" VerticalContentAlignment="Center" />
+                        <Button Content="Ok" Name="Ok" Click="Ok_Click"  Grid.Column="1" HorizontalAlignment="Right" Grid.Row="4" Width="75" Margin="0,4,80,2"/>
+                        <Button Content="Cancel" Name="Cancel" Click="Cancel_Click" Grid.Column="1" HorizontalAlignment="Right" Margin="0,4,0,2" Grid.Row="4" Width="75"/>
+                        <Button Content="..." Name="Browse" HorizontalAlignment="Left" Click="Browse_Click" Margin="66,3,0,0" Grid.Row="2" VerticalAlignment="Top" Width="20"/>
+                    </Grid>
+                </StackPanel>
+            </TabItem.Content>
+        </TabItem>
+        <TabItem x:Name="InstallSolrTab">
+            <TabItem.Header>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock FontWeight="Bold">Install new</TextBlock>
+                </StackPanel>
+            </TabItem.Header>
+            <TabItem.Content>
+                <StackPanel>
+                    <TextBlock HorizontalAlignment="Center" Margin="0,44,0,0">Press Install to open Wizard for Solr server installation</TextBlock>
+                    <WrapPanel HorizontalAlignment="Right" Margin="0,40,0,0">
+                        <Button Name="InstallSolr" Content="Install" Margin="0,4,6,2" Width="75" Click="InstallSolr_OnClick" />
+                        <Button Name="CancelInstall" Content="Cancel" Margin="0,4,0,2" Width="75" Click="Cancel_Click" />
+                    </WrapPanel>
+                </StackPanel>
+            </TabItem.Content>
+        </TabItem>
+    </TabControl>
 </Window>

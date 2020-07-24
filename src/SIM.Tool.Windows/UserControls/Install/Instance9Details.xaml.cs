@@ -739,8 +739,15 @@ namespace SIM.Tool.Windows.UserControls.Install
       SolrDefinition solr = WindowHelper.ShowDialog<AddSolrDialog>(ProfileManager.Profile.Solrs, this.owner) as SolrDefinition;
       if (solr != null)
       {
-        ProfileManager.Profile.Solrs.Add(solr);
-        ProfileManager.SaveChanges(ProfileManager.Profile);
+        if (!ProfileManager.Profile.Solrs.Contains(solr))
+        {
+          ProfileManager.Profile.Solrs.Add(solr);
+          ProfileManager.SaveChanges(ProfileManager.Profile);
+        }
+
+        // Refresh items in the Solrs Combobox
+        this.Solrs.DataContext = null;
+        this.Solrs.DataContext = ProfileManager.Profile.Solrs;
         this.Solrs.SelectedItem = solr;
       }
     }
