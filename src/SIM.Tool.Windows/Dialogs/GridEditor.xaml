@@ -63,7 +63,7 @@
                 </Button>
             </WrapPanel>
         </StackPanel>
-        <Button Name="Ok"  Grid.Row="3"  Margin="0,0,10,10"  Content="Ok" Click="Ok_Click" HorizontalAlignment="Right" Width="72" Height="23" VerticalAlignment="Bottom" >
+        <Button Name="Ok"  Grid.Row="3"  Margin="0,0,10,10"  Content="OK" Click="Ok_Click" HorizontalAlignment="Right" Width="72" Height="23" VerticalAlignment="Bottom" >
         </Button>
     </Grid>
 </Window>
