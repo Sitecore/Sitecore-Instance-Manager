@@ -26,6 +26,7 @@ namespace SIM.Tool.Windows.Dialogs
     {
       GridEditorContext editContext = this.DataContext as GridEditorContext;
       Assert.ArgumentNotNull(editContext, nameof(editContext));
+      this.Title = editContext.Title;
       this.DescriptionText.Text = editContext.Description;
       
       //Bind properties
@@ -33,6 +34,12 @@ namespace SIM.Tool.Windows.Dialogs
       foreach (var propertyToRender in propertiesToRender)
       {
         this.DataGrid.Columns.Add(new DataGridTextColumn() { Binding = new Binding(propertyToRender.Name), Header = propertyToRender.Name});
+      }
+
+      if (editContext.ElementType.Name == "SolrDefinition")
+      {
+        this.Add.Content = "Add existing";
+        this.InstallSolr.Visibility = Visibility.Visible;
       }
     }
 

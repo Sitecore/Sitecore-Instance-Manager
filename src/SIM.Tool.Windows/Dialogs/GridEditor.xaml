@@ -47,14 +47,14 @@
                 </DataGrid.Columns>
             </DataGrid>
             <WrapPanel>
-                <Button Name="AddSolr" Content="Add existing" Margin="10,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="80" Click="AddRow_Click" Background="#FFDDDDDD" >
+                <Button Name="Add" Content="Add" Margin="10,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="80" Click="AddRow_Click" Background="#FFDDDDDD" >
                     <Button.Resources>
                         <Style TargetType="{x:Type Border}">
                             <Setter Property="CornerRadius" Value="2"/>
                         </Style>
                     </Button.Resources>
                 </Button>
-                <Button Name="InstallSolr" Content="Install new" Margin="10,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="80" Click="InstallSolr_OnClick"  Background="#FFDDDDDD" >
+                <Button Name="InstallSolr" Content="Install new" Margin="10,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="80" Click="InstallSolr_OnClick" Visibility="Hidden" Background="#FFDDDDDD" >
                     <Button.Resources>
                         <Style TargetType="{x:Type Border}">
                             <Setter Property="CornerRadius" Value="2"/>
