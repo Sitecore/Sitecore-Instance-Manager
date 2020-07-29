@@ -47,20 +47,8 @@
                 </DataGrid.Columns>
             </DataGrid>
             <WrapPanel>
-                <Button Name="Add" Content="Add" Margin="10,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="80" Click="AddRow_Click" Background="#FFDDDDDD" >
-                    <Button.Resources>
-                        <Style TargetType="{x:Type Border}">
-                            <Setter Property="CornerRadius" Value="2"/>
-                        </Style>
-                    </Button.Resources>
-                </Button>
-                <Button Name="InstallSolr" Content="Install new" Margin="10,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="80" Click="InstallSolr_OnClick" Visibility="Hidden" Background="#FFDDDDDD" >
-                    <Button.Resources>
-                        <Style TargetType="{x:Type Border}">
-                            <Setter Property="CornerRadius" Value="2"/>
-                        </Style>
-                    </Button.Resources>
-                </Button>
+                <Button Name="Add" Content="Add" Margin="10,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="80" Click="AddRow_Click" Background="#FFDDDDDD" />
+                <Button Name="InstallSolr" Content="Install new" Margin="10,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="80" Click="InstallSolr_OnClick" Visibility="Hidden" Background="#FFDDDDDD" />
             </WrapPanel>
         </StackPanel>
         <Button Name="Ok"  Grid.Row="3"  Margin="0,0,10,10"  Content="OK" Click="Ok_Click" HorizontalAlignment="Right" Width="72" Height="23" VerticalAlignment="Bottom" >
