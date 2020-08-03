@@ -124,10 +124,14 @@
       "TaskOptions": {
         "InstallVersion": "2.1.0",
         "Repository": "https://sitecore.myget.org/F/sc-powershell/api/v2",
+        "ExecutionOrder": "-100"
       }
     },
     "EvaluateParams": {
-      "Type": "SIM.Sitecore9Installer.Tasks.EvaluateParamsTask, SIM.Sitecore9Installer"
+      "Type": "SIM.Sitecore9Installer.Tasks.EvaluateParamsTask, SIM.Sitecore9Installer",
+      "TaskOptions": {
+        "ExecutionOrder": "-90"
+      }
     },
 
     "Prerequisites": {

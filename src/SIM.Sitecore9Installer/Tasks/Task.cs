@@ -7,14 +7,21 @@ namespace SIM.Sitecore9Installer.Tasks
     public Task(string taskName, int executionOrder, Tasker owner, List<InstallParam> localParams,
       Dictionary<string, string> taskOptions)
     {
-      this.Name = taskName;
-      this.ExecutionOrder = executionOrder;
+      this.Name = taskName;      
       this.Owner = owner;
       this.LocalParams = localParams;
       this.ShouldRun = true;
       this.TaskOptions = taskOptions;
       this.State = TaskState.Pending;
       this.InnerTasks = new List<SitecoreTask>();
+      if (taskOptions.ContainsKey("ExecutionOrder"))
+      {
+        this.ExecutionOrder = int.Parse(taskOptions["ExecutionOrder"]);
+      }
+      else
+      {
+        this.ExecutionOrder = executionOrder;
+      }
     }
 
     public virtual TaskState State { get; protected set; }

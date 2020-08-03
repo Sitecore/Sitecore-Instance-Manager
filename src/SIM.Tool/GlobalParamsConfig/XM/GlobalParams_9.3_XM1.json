@@ -58,11 +58,15 @@
       "Type": "SIM.Sitecore9Installer.Tasks.InstallSIFTask, SIM.Sitecore9Installer",
       "TaskOptions": {
         "InstallVersion": "2.2.0",
-        "Repository": "https://sitecore.myget.org/F/sc-powershell/api/v2"
+        "Repository": "https://sitecore.myget.org/F/sc-powershell/api/v2",
+        "ExecutionOrder": "-100"
       }
     },
     "EvaluateParams": {
-      "Type": "SIM.Sitecore9Installer.Tasks.EvaluateParamsTask, SIM.Sitecore9Installer"
+      "Type": "SIM.Sitecore9Installer.Tasks.EvaluateParamsTask, SIM.Sitecore9Installer",
+      "TaskOptions": {
+        "ExecutionOrder": "-90"
+      }
     },
     "Prerequisites": {
       "Type": "SIM.Sitecore9Installer.Tasks.SitecoreTask, SIM.Sitecore9Installer"

@@ -173,9 +173,6 @@ namespace SIM.Sitecore9Installer
 
     public IEnumerable<ValidationResult> GetValidationResults()
     {
-      this.RunTask("InstallSIF");
-
-      this.EvaluateAllParams();
       ConcurrentBag<ValidationResult> results = new ConcurrentBag<ValidationResult>();
       IEnumerable<IValidator> vals = ValidationFactory.Instance.GetValidators(this.Validators);
       Parallel.ForEach(vals, new ParallelOptions() { MaxDegreeOfParallelism = Environment.ProcessorCount * 2 }, (validator) =>
@@ -461,6 +458,25 @@ namespace SIM.Sitecore9Installer
       return JsonConvert.SerializeObject(GlobalParams.Where(p => !excludeList.Contains(p.Name)));
     }
 
+    public void RunLowlevelTasks()
+    {
+      foreach (Task t in this.Tasks.Where(t => t.ExecutionOrder < 0))
+      {
+        if (!t.ShouldRun || (!t.SupportsUninstall() && this.UnInstall))
+        {
+          continue;
+        }
+
+        string result= t.Run();
+        if (t.State!=TaskState.Finished)
+        {
+          throw new AggregateException(result);
+        }
+
+        t.ShouldRun = false;
+      }
+    }
+
     public string RunAllTasks()
     {
       StringBuilder results = new StringBuilder();
@@ -555,18 +571,30 @@ namespace SIM.Sitecore9Installer
 
         //Resolves task options for the task
         Dictionary<string, string> taskOptions = GetTaskOptions(param);
-
+        
         //Creates a task based on type which is defined in the json
         string taskType = param.Value["Type"]?.ToString() ?? typeof(SitecoreTask).FullName;
 
         //Each task should have the same ctor (TaskName(string),Order(int),Tasker,LocalParams(List<InstallParams>),TaskOptions(Dictionary<string,string>))
         Task t = (Task) Activator.CreateInstance(Type.GetType(taskType), param.Name, order, this, localParams,
-          taskOptions);
-
+          taskOptions);        
         t.UnInstall = UnInstall;
-        Tasks.Add(t);
-        ++order;
+        this.Tasks.Add(t);        
+        if (order!=t.ExecutionOrder&&t.ExecutionOrder>=0)
+        {
+          order = t.ExecutionOrder;
+          ++order;
+        }
+        else
+        {
+          if (t.ExecutionOrder >=0)
+          {
+            ++order;
+          }          
+        }
       }
+
+      this.Tasks.OrderBy(t => t.ExecutionOrder);
     }
 
     private void InjectLocalDeploymentRoot(string taskFilePath)
