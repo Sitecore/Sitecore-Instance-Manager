@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SIM.Sitecore9Installer
 {
-  public enum InstallParamType { String, Bool }
+  public enum InstallParamType { String, Bool, Int }
 
   public class InstallParam
   {
@@ -26,8 +26,13 @@ namespace SIM.Sitecore9Installer
       switch (type?.ToLower())
       {
         case "bool":
+        case "switch":
           {
             return InstallParamType.Bool;
+          }
+        case "int":
+          {
+            return InstallParamType.Int;
           }
         default:
           {
@@ -62,14 +67,26 @@ namespace SIM.Sitecore9Installer
     public string Description { get; set; }
     public virtual string GetParameterValue()
     {
-      if (Type == InstallParamType.Bool)
+      switch (this.Type)
       {
-        return GetBoolValue(Value);
+        case InstallParamType.Bool:
+          {
+            return GetBoolValue(Value);
+          }       
+        case InstallParamType.Int:
+          {
+            return GetIntValue(Value);
+          }
+        default:
+          {
+            return GetStringValue(Value);
+          }
       }
-      else
-      {
-        return GetStringValue(Value);
-      }     
+    }
+
+    private string GetIntValue(string value)
+    {
+      return value;
     }
 
     private string GetBoolValue(string value)

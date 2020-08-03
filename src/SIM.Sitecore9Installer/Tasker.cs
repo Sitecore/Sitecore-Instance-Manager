@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Management.Automation;
@@ -13,6 +12,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using SIM.Sitecore9Installer.Tasks;
 using SIM.Sitecore9Installer.Validation;
+using SIM.Sitecore9Installer.Configuration;
 using Task = SIM.Sitecore9Installer.Tasks.Task;
 
 namespace SIM.Sitecore9Installer
@@ -23,7 +23,6 @@ namespace SIM.Sitecore9Installer
     private readonly JObject doc;
     private readonly string globalParamsFile;
     private readonly List<InstallParam> mapping;
-    private readonly JObject settingsDoc;
     private readonly string uninstallTasksFolderName;
     private bool unInstall;
     private bool localParamsEvaluadted;
@@ -31,15 +30,7 @@ namespace SIM.Sitecore9Installer
 
     private Tasker()
     {
-      this.Validators = new List<string>();
-      string globalSettings = string.Empty;
-      using (StreamReader reader =
-        new StreamReader(Path.Combine(Directory.GetCurrentDirectory(), "GlobalParamsConfig/GlobalSettings.json")))
-      {
-        globalSettings = reader.ReadToEnd();
-      }
-
-      settingsDoc = JObject.Parse(globalSettings);
+      this.Validators = new List<string>();   
       uninstallTasksFolderName = "UninstallTasks";
     }
 
@@ -47,7 +38,7 @@ namespace SIM.Sitecore9Installer
     {
       this.deployRoot = deployRoot;
       FilesRoot = root;
-      Dictionary<string, string> globalFilesMap = settingsDoc["GlobalFilesMap"].ToObject<Dictionary<string, string>>();
+      Dictionary<string, string> globalFilesMap = Configuration.Configuration.Instance.GlobalFilesMap;
       foreach (string pattern in globalFilesMap.Keys)
         if (Regex.IsMatch(installationPackageName, pattern))
         {
@@ -419,7 +410,7 @@ namespace SIM.Sitecore9Installer
 
     public void SaveUninstallParams(string path)
     {
-      IEnumerable<string> excludeParams = settingsDoc["ExcludeUninstallParams"].Values<string>();
+      IEnumerable<string> excludeParams = Configuration.Configuration.Instance.ExcludedUninstallParams;
       using (StreamWriter wr = new StreamWriter(Path.Combine(path, "globals.json")))
       {
         wr.WriteLine(Path.GetFileName(globalParamsFile));

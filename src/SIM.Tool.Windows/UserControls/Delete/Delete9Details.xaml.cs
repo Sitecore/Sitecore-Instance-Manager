@@ -148,8 +148,9 @@ namespace SIM.Tool.Windows.UserControls.Install
       var args = (Delete9WizardArgs)wizardArgs;
       args.Tasker = new Tasker(args.UnInstallPath);
       StringBuilder displayText = new StringBuilder();
-      this.ListHeader.Text = string.Format("Deleting {0}:", args.Instance.SitecoreEnvironment.Name);
-      foreach (var member in args.Instance.SitecoreEnvironment.Members.Select(env => env.Name))
+      Instance instance = args.Instance;
+      this.ListHeader.Text = string.Format("Deleting {0}:", instance.SitecoreEnvironment.Name);
+      foreach (var member in instance.SitecoreEnvironment.Members.Select(env => env.Name))
       {
         displayText.AppendLine(string.Format(" -{0}", member));
       }

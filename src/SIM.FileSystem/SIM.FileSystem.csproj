@@ -70,6 +70,7 @@
     <Compile Include="IO\Real\RealFolder.cs" />
     <Compile Include="IO\IFolderExtensions.cs" />
     <Compile Include="IO\Real\RealTempFile.cs" />
+    <Compile Include="IO\Real\RealZipFileEntry.cs" />
     <Compile Include="IO\Real\RealZipFile.cs" />
     <Compile Include="IO\Real\RealZipFileEntries.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
