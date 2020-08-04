@@ -14,14 +14,16 @@ namespace SIM.Tool.Windows.Dialogs
   class GridEditorContext
   {
     public ObservableCollection<object> GridItems { get; }
+    public string Title { get; }
     public string Description { get; }
     public Type ElementType { get; }
 
-    public GridEditorContext(Type elementType, IEnumerable<object> itemsSource, string description)
+    public GridEditorContext(Type elementType, IEnumerable<object> itemsSource, string title, string description)
     {
       Assert.ArgumentNotNull(itemsSource, nameof(itemsSource));
       Assert.ArgumentNotNullOrEmpty(description, nameof(description));
       this.GridItems = new ObservableCollection<object>(itemsSource);
+      this.Title = title;
       this.Description = description;
       this.ElementType = elementType;
     }
