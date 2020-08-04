@@ -41,10 +41,10 @@ namespace SIM.Pipelines.Install
         InstallParam installParam = powerShellTask.LocalParams.FirstOrDefault(x => x.Name == SiteName);
         if (installParam != null && !string.IsNullOrEmpty(installParam.Value))
         {
-          Hashtable evaluatedLocalParams = tasker.GetEvaluatedLocalParams(powerShellTask.LocalParams, tasker.GlobalParams);
-          if (evaluatedLocalParams != null && evaluatedLocalParams[SiteName] != null)
+          InstallParam param= powerShellTask.LocalParams.FirstOrDefault(t => t.Name == SiteName);
+          if (param != null)
           {
-            sitecoreEnvironment.Members.Add(new SitecoreEnvironmentMember(evaluatedLocalParams[SiteName].ToString(),
+            sitecoreEnvironment.Members.Add(new SitecoreEnvironmentMember(param.Value,
               SitecoreEnvironmentMember.Types.Site.ToString()));
           }
         }
