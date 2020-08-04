@@ -95,6 +95,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Configuration\Configuration.cs" />
     <Compile Include="InstallParam.cs" />
     <Compile Include="Tasks\EvaluateParamsTask.cs" />
     <Compile Include="Tasks\xConnectTaskWithPostSteps.cs" />

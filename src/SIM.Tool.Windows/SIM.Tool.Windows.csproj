@@ -171,6 +171,7 @@
     <Compile Include="MainWindowComponents\InstallInstanceButton.cs" />
     <Compile Include="MainWindowComponents\InstallModulesButton.cs" />
     <Compile Include="MainWindowComponents\InstallMongoDb.cs" />
+    <Compile Include="MainWindowComponents\InstallSolrButton.cs" />
     <Compile Include="MainWindowComponents\KillAllButThisButton.cs" />
     <Compile Include="MainWindowComponents\SitecoreMemberOpenFolderButton.cs" />
     <Compile Include="MainWindowComponents\SitecoreMemberButton.cs" />
@@ -206,6 +207,7 @@
     <Compile Include="Pipelines\Install\OpenScriptsFolderFinishAction.cs" />
     <Compile Include="Pipelines\Setup\SetupProcessor.cs" />
     <Compile Include="Pipelines\Setup\SetupWizardArgs.cs" />
+    <Compile Include="Pipelines\Solr\AddSolrToSimConfig.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -339,6 +341,9 @@
     <Compile Include="MainWindowHelper.cs" />
     <Compile Include="Dialogs\HostsDialog.xaml.cs">
       <DependentUpon>HostsDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Solr\SolrDetails.xaml.cs">
+      <DependentUpon>SolrDetails.xaml</DependentUpon>
     </Compile>
     <Compile Include="WindowsSettings.cs" />
     <Compile Include="WizardPipelinesConfig.cs" />
@@ -723,6 +728,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Dialogs\HostsDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\Solr\SolrDetails.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

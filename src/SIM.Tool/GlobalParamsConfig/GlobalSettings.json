@@ -21,7 +21,11 @@
     //
 
     "9.0.\\d.* XP1": "GlobalParams_9.0_XP1.json",
-    "9.0.\\d.* XP0": "GlobalParams_9.0_XP0.json"
+    "9.0.\\d.* XP0": "GlobalParams_9.0_XP0.json",
+
+    //solr
+    "solr": "GlobalParams_solr.json"
+    //
   },
 
   "ExcludeUninstallParams": [
@@ -42,5 +46,13 @@
     "SitecoreAdminPassword",
     "SqlAdminPassword",
     "Path"
-  ]
+  ],
+
+  "SolrVersionsMap": {
+    "6.6.2": "9.0.*",
+    "7.2.1": "9.1.*",
+    "7.5.0": "9.2.0",
+    "8.1.0": "9.3.0",
+    "8.4.0": "10.0.0"
+  }
 }
