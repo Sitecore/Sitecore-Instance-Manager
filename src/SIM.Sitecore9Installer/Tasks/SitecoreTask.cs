@@ -15,25 +15,27 @@ namespace SIM.Sitecore9Installer.Tasks
   public class SitecoreTask: SIM.Sitecore9Installer.Tasks.PowerShellTask
   {
     //TO DO It's still used by uninstallation task.
-    public SitecoreTask(string name, int executionOrder, Tasker owner) : base(name, executionOrder, owner, new List<InstallParam>(), new Dictionary<string, string>())
+    public SitecoreTask(string name, int executionOrder, List<InstallParam> globalParams, IParametersHandler handler) : base(name, executionOrder, globalParams, new List<InstallParam>(), new Dictionary<string, string>(), handler)
     {
     }
 
-    public SitecoreTask(string taskName, int executionOrder, Tasker owner, List<InstallParam> localParams, Dictionary<string, string> taskOptions) : base(taskName, executionOrder, owner, localParams, taskOptions)
+    public SitecoreTask(string taskName, int executionOrder, List<InstallParam> globalParams, 
+      List<InstallParam> localParams, Dictionary<string, string> taskOptions, IParametersHandler handler) 
+      :base(taskName, executionOrder, globalParams, localParams, taskOptions, handler)
     {
     }
 
-    public override string GetScript()
+    protected override string GetScript()
     {
       StringBuilder script = new StringBuilder();
 
 
-      script.Append(this.Owner.GetGlobalParamsScript());
+      //script.Append(this.ParamsHandler.GetGlobalParamsScript(this.GlobalParams,true));
 
       //script.AppendLine("$installParams=@{");
       string installParams = GetLocalParamsScript();
 
-      script.Append(installParams);
+      //script.Append(installParams);
       script.Append(installParams);
       script.AppendLine(string.Format("cd \"{0}\"", Path.GetDirectoryName(this.LocalParams.First(p => p.Name == "Path").Value)));
       script.AppendLine("Set-ExecutionPolicy Bypass -Force");

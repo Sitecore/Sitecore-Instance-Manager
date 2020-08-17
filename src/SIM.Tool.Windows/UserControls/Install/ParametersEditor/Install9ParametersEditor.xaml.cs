@@ -39,11 +39,6 @@ namespace SIM.Tool.Windows.UserControls.Install.ParametersEditor
         }
       }
 
-      if (model.Count > 1)
-      {
-        model.Insert(0,new TasksModel("Global", tasker.GlobalParams));
-      }
-
       this.InstallationParameters.DataContext = model;
       this.InstallationParameters.SelectedIndex = 0;
     }

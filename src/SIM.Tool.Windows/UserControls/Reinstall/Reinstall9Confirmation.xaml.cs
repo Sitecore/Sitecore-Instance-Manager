@@ -49,7 +49,7 @@ namespace SIM.Tool.Windows.UserControls.Reinstall
         wizardArgs.WizardWindow.Close();
       }
 
-      Tasker tasker = new Tasker(uninstallPath);
+      Tasker tasker = new Tasker(uninstallPath, new ParametersHandler());
       InstallParam sqlServer = tasker.GlobalParams.FirstOrDefault(p => p.Name == "SqlServer");
       if (sqlServer != null)
       {

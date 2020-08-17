@@ -8,7 +8,8 @@ namespace SIM.Sitecore9Installer.Tasks
 {
   public class EvaluateParamsTask : Task
   {
-    public EvaluateParamsTask(string taskName, int executionOrder, Tasker owner, List<InstallParam> localParams, Dictionary<string, string> taskOptions) : base(taskName, executionOrder, owner, localParams, taskOptions)
+    public EvaluateParamsTask(string taskName, int executionOrder, List<InstallParam> globalParams, 
+      List<InstallParam> localParams, Dictionary<string, string> taskOptions, IParametersHandler handler) : base(taskName, executionOrder, globalParams, localParams, taskOptions, handler)
     {
     }
 
@@ -16,7 +17,7 @@ namespace SIM.Sitecore9Installer.Tasks
     {
       try
       {
-        this.Owner.EvaluateAllParams();
+        this.ParamsHandler.EvaluateGlobalParams(this.GlobalParams);
       }
       catch
       {

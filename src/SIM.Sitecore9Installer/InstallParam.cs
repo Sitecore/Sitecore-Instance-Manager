@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using SIM.Sitecore9Installer.Events;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,12 +13,12 @@ namespace SIM.Sitecore9Installer
 
   public class InstallParam
   {
-    public event EventHandler<ParamValueUpdatedArgs> ParamValueUpdated;
     string value;
-    public InstallParam(string name, string value, string type = "string")
+    public InstallParam(string name, string value, bool isGlogal=false, string type = "string")
     {
       this.name = name;
       this.Value = value;
+      this.IsGlobal = isGlogal;
       this.Type = ParseInstallParamType(type);
     }
 
@@ -43,6 +44,7 @@ namespace SIM.Sitecore9Installer
 
     private string name;
     public string Name { get => this.name; }
+    public bool IsGlobal { get; }
     public string Value
     {
       get
@@ -53,12 +55,8 @@ namespace SIM.Sitecore9Installer
       {
         string oldValue = this.value;
         this.value = value;
-        if (this.ParamValueUpdated != null)
-        {
-          ParamValueUpdatedArgs args = new ParamValueUpdatedArgs(oldValue);
-
-          this.ParamValueUpdated(this, args);
-        }
+        ParamValueUpdatedArgs args = new ParamValueUpdatedArgs(oldValue);
+        EventManager.Instance.RaiseParamValueUpdated(this, args);
       }
     }
 
@@ -120,13 +118,4 @@ namespace SIM.Sitecore9Installer
     }
   }
 
-  public class ParamValueUpdatedArgs : EventArgs
-  {
-    public ParamValueUpdatedArgs(string oldValue)
-    {
-      this.OldValue = oldValue;
-    }
-
-    public string OldValue { get; }
-  }
 }

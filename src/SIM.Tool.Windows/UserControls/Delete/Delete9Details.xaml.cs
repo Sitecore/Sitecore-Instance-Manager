@@ -43,8 +43,6 @@ namespace SIM.Tool.Windows.UserControls.Install
       "v2.0", "v4.0"
     };
 
-    private InstallWizardArgs _InstallParameters = null;
-
     #endregion
 
     #region Constructors
@@ -146,7 +144,7 @@ namespace SIM.Tool.Windows.UserControls.Install
     void IWizardStep.InitializeStep(WizardArgs wizardArgs)
     {
       var args = (Delete9WizardArgs)wizardArgs;
-      args.Tasker = new Tasker(args.UnInstallPath);
+      args.Tasker = new Tasker(args.UnInstallPath,new ParametersHandler());
       StringBuilder displayText = new StringBuilder();
       Instance instance = args.Instance;
       this.ListHeader.Text = string.Format("Deleting {0}:", instance.SitecoreEnvironment.Name);

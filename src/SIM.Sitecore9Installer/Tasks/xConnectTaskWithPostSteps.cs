@@ -9,9 +9,9 @@ namespace SIM.Sitecore9Installer.Tasks
     private readonly string scriptTemaplate =
       "Invoke-Sqlcmd -ServerInstance \"$(ServerInstance)\" -Username \"$(SqlAdminUser)\" -Password \"$(SqlAdminPassword)\" -Query \"\nGO \nIF(SUSER_ID('$(UserName)') IS NULL) \nBEGIN \nCREATE LOGIN[$(UserName)] WITH PASSWORD = '$(Password)'; \nEND; \nGO \nUSE[$(DatabasePrefix)$(ShardMapManagerDatabaseNameSuffix)] \nIF NOT EXISTS(SELECT* FROM sys.database_principals WHERE name = N'$(UserName)') \nBEGIN \nCREATE USER[$(UserName)] FOR LOGIN[$(UserName)] \nGRANT SELECT ON SCHEMA::__ShardManagement TO[$(UserName)] \nGRANT EXECUTE ON SCHEMA :: __ShardManagement TO[$(UserName)] \nEND; \nGO \nUSE[$(DatabasePrefix)$(Shard0DatabaseNameSuffix)] \nIF NOT EXISTS(SELECT* FROM sys.database_principals WHERE name = N'$(UserName)') \nBEGIN \nCREATE USER[$(UserName)] FOR LOGIN[$(UserName)] \nEXEC[xdb_collection].[GrantLeastPrivilege] @UserName = '$(UserName)' \nEND; \nGO \nUSE[$(DatabasePrefix)$(Shard1DatabaseNameSuffix)] \nIF NOT EXISTS(SELECT* FROM sys.database_principals WHERE name = N'$(UserName)') \nBEGIN CREATE USER[$(UserName)] FOR LOGIN[$(UserName)] \nEXEC[xdb_collection].[GrantLeastPrivilege] @UserName ='$(UserName)' \nEND; \nGO\"";
 
-    public xConnectTaskWithPostSteps(string taskName, int executionOrder, Tasker owner, List<InstallParam> localParams,
-      Dictionary<string, string> taskOptions) :
-      base(taskName, executionOrder, owner, localParams, taskOptions)
+    public xConnectTaskWithPostSteps(string taskName, int executionOrder, List<InstallParam> globalParams, List<InstallParam> localParams,
+      Dictionary<string, string> taskOptions, IParametersHandler handler) :
+      base(taskName, executionOrder, globalParams, localParams, taskOptions, handler)
     {
     }
 
@@ -25,7 +25,7 @@ namespace SIM.Sitecore9Installer.Tasks
     public string Shard0DatabaseNameSuffix { get; set; }
     public string Shard1DatabaseNameSuffix { get; set; }
 
-    public override string GetScript()
+    protected override string GetScript()
     {
       ShardMapManagerDatabaseNameSuffix = TaskOptions["ShardMapManagerDatabaseNameSuffix"];
       Shard0DatabaseNameSuffix = TaskOptions["Shard0DatabaseNameSuffix"];
