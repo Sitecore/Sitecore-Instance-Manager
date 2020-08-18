@@ -1,0 +1,33 @@
+﻿<UserControl x:Class="SIM.Tool.Windows.UserControls.Install.SolrDetails" 
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:converters="clr-namespace:SIM.Tool.Base.Converters;assembly=SIM.Tool.Base"
+             xmlns:install="clr-namespace:SIM.Tool.Windows.UserControls.Install"
+             mc:Ignorable="d" d:DesignWidth="623.837" >
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="72"/>
+            <ColumnDefinition Width="100"/>
+            <ColumnDefinition Width="20"/>
+            <ColumnDefinition Width="72"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30" />
+            <RowDefinition Height="30" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Left" Text="Solr version:" Grid.Row="0" Grid.Column="0" Height="16" Margin="0,8,0,7.2" Width="64" />
+        <ComboBox Name="solrVersionSelector" Grid.Column="1" Grid.Row="0" SelectionChanged="SolrVersionSelector_SelectionChanged" >
+        </ComboBox>
+        <TextBlock Text="Solr port:" Grid.Row="1" Grid.Column="3" HorizontalAlignment="Left"/>
+        <TextBox Name="solrPortSelector" Grid.Column="4" Width="100" HorizontalAlignment="Left"  Grid.Row="1"/>
+        <TextBlock Text="Install folder:" Grid.Row="0" Grid.Column="3" HorizontalAlignment="Left"/>
+        <TextBox Name="solrFolderSelector" Grid.Row="0" Grid.Column="4" HorizontalAlignment="Right" Width="160"  />
+        <TextBlock Text="Solr host:" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left"/>
+        <TextBox Name="solrHostSelector" Grid.Row="1" Grid.Column="1"/>
+        <Button Name="Location" Click="LocationBtn_Click" Grid.Column="4" Grid.Row="0" Content="..." Width="20" Height="20" VerticalAlignment="Center" HorizontalAlignment="Left" />
+    </Grid>
+</UserControl>

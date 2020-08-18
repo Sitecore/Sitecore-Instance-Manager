@@ -185,6 +185,20 @@ By clicking 'Next' you accept the License Agreement."" />
       </steps>
     </download8>
 
+    <installSolr title=""Installing new Solr instance"" startButton=""Install""
+                 finishText=""The installation was successfully completed"">
+          <args type=""SIM.Tool.Base.Pipelines.Install9WizardArgs, SIM.Tool.Base""/>
+          <steps>
+            <step name=""STEP 1 of 2 - DETAILS"" 
+                  type=""SIM.Tool.Windows.UserControls.Install.SolrDetails, SIM.Tool.Windows"" />
+            <step name=""STEP 2 of 2 - SELECT INSTALLATION TASKS"" 
+                  type=""SIM.Tool.Windows.UserControls.Install.Instance9SelectTasks, SIM.Tool.Windows"" />
+         </steps> 
+      <finish>
+         <action text=""Add this solr to SIM"" type=""SIM.Tool.Windows.Pipelines.Solr.AddSolrToSimConfig, SIM.Tool.Windows"" method=""Run"" />
+      </finish>
+     </installSolr>
+
 <delete9 title=""Deleting instances"" startButton=""Delete""
              finishText=""The uninstallation was successfully completed"">
       <args type=""SIM.Tool.Base.Pipelines.Install9WizardArgs, SIM.Tool.Base""/>

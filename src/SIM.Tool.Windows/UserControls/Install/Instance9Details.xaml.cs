@@ -1,36 +1,32 @@
+using SIM.IO;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.IO;
+using System.IO.Compression;
+using System.Linq;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
+using System.Xml;
+using SIM.Adapters.SqlServer;
+using SIM.Adapters.WebServer;
+using SIM.Products;
+using SIM.Tool.Base;
+using SIM.Tool.Base.Pipelines;
+using SIM.Tool.Base.Profiles;
+using SIM.Tool.Base.Wizards;
+using Sitecore.Diagnostics.Base;
+using JetBrains.Annotations;
+using Sitecore.Diagnostics.Logging;
+using SIM.Extensions;
+using SIM.IO.Real;
+using SIM.Sitecore9Installer;
+using SIM.Tool.Windows.Dialogs;
+using SIM.Tool.Windows.UserControls.Helpers;
+
 namespace SIM.Tool.Windows.UserControls.Install
 {
-  using System;
-  using System.Collections.Generic;
-  using System.Collections.ObjectModel;
-  using System.IO;
-  using System.IO.Compression;
-  using System.Linq;
-  using System.Windows;
-  using System.Windows.Controls;
-  using System.Windows.Controls.Primitives;
-  using System.Xml;
-  using SIM.Adapters.SqlServer;
-  using SIM.Adapters.WebServer;
-  using SIM.Instances;
-  using SIM.Products;
-  using SIM.Tool.Base;
-  using SIM.Tool.Base.Pipelines;
-  using SIM.Tool.Base.Profiles;
-  using SIM.Tool.Base.Wizards;
-  using Sitecore.Diagnostics.Base;
-  using JetBrains.Annotations;
-  using Sitecore.Diagnostics.Logging;
-  using SIM.Extensions;
-  using SIM.IO.Real;
-  using SIM.Sitecore9Installer;
-  using SIM.Tool.Windows.Dialogs;
-  using SIM.Tool.Windows.UserControls.Helpers;
-
-  #region
-
-  #endregion
-
   [UsedImplicitly]
   public partial class Instance9Details : IWizardStep, IFlowControl
   {
@@ -61,7 +57,6 @@ namespace SIM.Tool.Windows.UserControls.Install
     public Instance9Details()
     {
       InitializeComponent();
-
     }
 
     #endregion
@@ -92,11 +87,10 @@ namespace SIM.Tool.Windows.UserControls.Install
 
       Product product = productRevision.SelectedValue as Product;
       Assert.IsNotNull(product, nameof(product));
-           
 
       var name = GetValidWebsiteName();
       if (name == null)
-        return false;     
+        return false;
 
       var connectionString = ProfileManager.GetConnectionString();
       SqlServerManager.Instance.ValidateConnectionString(connectionString);
@@ -105,7 +99,6 @@ namespace SIM.Tool.Windows.UserControls.Install
       Assert.IsNotNull(licensePath, @"The license file isn't set in the Settings window");
       FileSystem.FileSystem.Local.File.AssertExists(licensePath, "The {0} file is missing".FormatWith(licensePath));
 
-      
       var args = (Install9WizardArgs)wizardArgs;
       args.Validate = this.runValidation.IsChecked.Value;
       args.InstanceName = name;
@@ -130,6 +123,17 @@ namespace SIM.Tool.Windows.UserControls.Install
         return false;
       }
 
+      if (File.Exists(args.Product.PackagePath) && !IsWdpPackageValid(args))
+      {
+        WindowHelper.ShowMessage("The selected installation package is not supported. " +
+          "Please choose a package for 'On Premises' deployment.",
+          messageBoxImage: MessageBoxImage.Warning,
+          messageBoxButton: MessageBoxButton.OK
+          );
+
+        return false;
+      }
+
       if (!Directory.Exists(args.ScriptRoot))
       {
         Directory.CreateDirectory(args.ScriptRoot);
@@ -143,14 +147,14 @@ namespace SIM.Tool.Windows.UserControls.Install
         {
           Directory.Delete(args.ScriptRoot, true);
           Directory.CreateDirectory(args.ScriptRoot);
-          WindowHelper.LongRunningTask(()=>this.UnpackInstallationFiles(args), "Unpacking installation files.", wizardArgs.WizardWindow);
+          WindowHelper.LongRunningTask(() => this.UnpackInstallationFiles(args), "Unpacking installation files.", wizardArgs.WizardWindow);
           WindowHelper.LongRunningTask(() => InstallTasksHelper.CopyCustomSifConfig(args), "Copying custom SIF configuration files to the install folder.", wizardArgs.WizardWindow);
           WindowHelper.LongRunningTask(() => InstallTasksHelper.AddUninstallTasks(args), "Add Uninstall tasks to the OOB config files.", wizardArgs.WizardWindow);
         }
-       
+
       }
 
-      string rootPath = this.LocationText.Text; 
+      string rootPath = this.LocationText.Text;
       if (!args.ScriptsOnly)
       {
         if (string.IsNullOrWhiteSpace(rootPath))
@@ -176,14 +180,14 @@ namespace SIM.Tool.Windows.UserControls.Install
         }
       }
 
-      Tasker tasker = new Tasker(args.ScriptRoot, Path.GetFileNameWithoutExtension(args.Product.PackagePath),rootPath);    
+      Tasker tasker = new Tasker(args.ScriptRoot, Path.GetFileNameWithoutExtension(args.Product.PackagePath), rootPath);
       InstallParam sqlServer = tasker.GlobalParams.FirstOrDefault(p => p.Name == "SqlServer");
       if (sqlServer != null)
       {
         sqlServer.Value = args.InstanceConnectionString.DataSource;
       }
 
-      InstallParam sqlAdminUser= tasker.GlobalParams.FirstOrDefault(p => p.Name == "SqlAdminUser");
+      InstallParam sqlAdminUser = tasker.GlobalParams.FirstOrDefault(p => p.Name == "SqlAdminUser");
       if (sqlAdminUser != null)
       {
         sqlAdminUser.Value = args.InstanceConnectionString.UserID;
@@ -205,7 +209,7 @@ namespace SIM.Tool.Windows.UserControls.Install
       if (licenseFile != null)
       {
         licenseFile.Value = args.LicenseFileInfo.FullName;
-      }     
+      }
 
       InstallParam solrRoot = tasker.GlobalParams.FirstOrDefault(p => p.Name == "SolrRoot");
       if (solrRoot != null)
@@ -214,7 +218,7 @@ namespace SIM.Tool.Windows.UserControls.Install
       }
 
       InstallParam solrService = tasker.GlobalParams.FirstOrDefault(p => p.Name == "SolrService");
-      if (solrService != null&&!string.IsNullOrEmpty(solr.Service))
+      if (solrService != null && !string.IsNullOrEmpty(solr.Service))
       {
         solrService.Value = solr.Service; // this.SolrService.Text;
       }
@@ -223,11 +227,11 @@ namespace SIM.Tool.Windows.UserControls.Install
       if (solrUrl != null)
       {
         solrUrl.Value = args.SolrUrl;
-      }      
+      }
 
       args.ScriptsOnly = this.scriptsOnly.IsChecked ?? false;
       args.Tasker = tasker;
-      
+
       VersionToSolr vts = ProfileManager.Profile.VersionToSolrMap.FirstOrDefault(s => s.Vesrion == product.ShortVersion);
       if (vts == null)
       {
@@ -235,11 +239,44 @@ namespace SIM.Tool.Windows.UserControls.Install
         vts.Vesrion = product.ShortVersion;
         ProfileManager.Profile.VersionToSolrMap.Add(vts);
       }
-      
+
       vts.Solr = solr.Name;
       ProfileManager.SaveChanges(ProfileManager.Profile);
 
       return true;
+    }
+
+    private bool IsWdpPackageValid([NotNull] Install9WizardArgs args)
+    {
+      Assert.ArgumentNotNull(args, nameof(args));
+
+      Product product = args.Product;
+      Assert.IsNotNull(product, nameof(product));
+
+      RealZipFile zip = new RealZipFile(new RealFile(new RealFileSystem(), product.PackagePath));
+
+      IZipFileEntry[] entries = zip.Entries.GetEntries().ToArray();
+
+      string[] configFiles = entries.Where(e => e.Name.ToLowerInvariant().EndsWith(".zip") &&
+          e.Name.ToLowerInvariant().Contains("configuration files"))
+        .Select(e => e.Name)
+        .ToArray();
+
+      string[] scwdps = entries.Where(e => e.Name.ToLowerInvariant().EndsWith(".zip") &&
+          e.Name.ToLowerInvariant().Contains("(onprem)"))
+        .Select(e => e.Name)
+        .ToArray();
+
+      if (configFiles.Length > 0 && scwdps.Length > 0)
+      {
+        return true;
+      }
+
+      Log.Warn($"Unsupported WDP package was used. Name: '{args.ScriptRoot}', " +
+        $"config files: '{configFiles.Length}', " +
+        $"scwdps: '{scwdps.Length}'");
+
+      return false;
     }
 
     public void UnpackInstallationFiles(Install9WizardArgs args)
@@ -257,10 +294,6 @@ namespace SIM.Tool.Windows.UserControls.Install
       var webRootPath = Path.Combine(rootPath, "Website");
       return webRootPath;
     }
-
-   
-
-    
 
     [CanBeNull]
     private string GetValidWebsiteName()
@@ -283,16 +316,16 @@ namespace SIM.Tool.Windows.UserControls.Install
             Alert("The website with the same name already exists, please choose another instance name.");
             return null;
           }
-
-            if (
+          if (
                 WindowHelper.ShowMessage(
                   $"A website with the name {name} already exists. Would you like to remove it?",
                     MessageBoxButton.OKCancel, MessageBoxImage.Asterisk) != MessageBoxResult.OK)
-            {
-                return null;
-            }
+          {
+            return null;
+          }
 
-            site.Delete();
+          site.Delete();
+
           context.CommitChanges();
         }
       }
@@ -300,7 +333,7 @@ namespace SIM.Tool.Windows.UserControls.Install
       websiteExists = WebServerManager.WebsiteExists(name);
       Assert.IsTrue(!websiteExists, "The website with the same name already exists, please choose another instance name.");
       return name;
-    }       
+    }
 
     #endregion
 
@@ -325,10 +358,10 @@ namespace SIM.Tool.Windows.UserControls.Install
       using (new ProfileSection("Initializing InstanceDetails", this))
       {
         DataContext = new Model();
-        _StandaloneProducts = ProductManager.StandaloneProducts.Where(p=>int.Parse(p.ShortVersion)>=90&&!p.PackagePath.EndsWith(".scwdp.zip"));
+        _StandaloneProducts = ProductManager.StandaloneProducts.Where(p => int.Parse(p.ShortVersion) >= 90 && !p.PackagePath.EndsWith(".scwdp.zip"));
         this.Solrs.DataContext = ProfileManager.Profile.Solrs;
       }
-    }        
+    }
 
     private void ProductNameChanged([CanBeNull] object sender, [CanBeNull] SelectionChangedEventArgs e)
     {
@@ -375,22 +408,22 @@ namespace SIM.Tool.Windows.UserControls.Install
               switch (lname.ToLower())
               {
                 case "framework":
-                {
-                  var supportedVersions = limitation.SelectElements("supportedVersion");
-                  if (supportedVersions != null)
                   {
-                    ICollection<string> supportedVersionNames = supportedVersions.Select(supportedVersion => supportedVersion.InnerText).ToArray();
-                    for (int i = frameworkVersions.Count - 1; i >= 0; i--)
+                    var supportedVersions = limitation.SelectElements("supportedVersion");
+                    if (supportedVersions != null)
                     {
-                      if (!supportedVersionNames.Contains(frameworkVersions[i]))
+                      ICollection<string> supportedVersionNames = supportedVersions.Select(supportedVersion => supportedVersion.InnerText).ToArray();
+                      for (int i = frameworkVersions.Count - 1; i >= 0; i--)
                       {
-                        frameworkVersions.RemoveAt(i);
+                        if (!supportedVersionNames.Contains(frameworkVersions[i]))
+                        {
+                          frameworkVersions.RemoveAt(i);
+                        }
                       }
                     }
-                  }
 
-                  break;
-                }
+                    break;
+                  }
               }
             }
           }
@@ -414,7 +447,7 @@ namespace SIM.Tool.Windows.UserControls.Install
 
       var solrName = ProfileManager.Profile.VersionToSolrMap.FirstOrDefault(s => s.Vesrion == grouping.Key)?.Solr;
 
-      this.Solrs.SelectedItem = ((List<SolrDefinition>)Solrs.DataContext).FirstOrDefault(s => s.Name== solrName);
+      this.Solrs.SelectedItem = ((List<SolrDefinition>)Solrs.DataContext).FirstOrDefault(s => s.Name == solrName);
     }
 
     private void Select([NotNull] Selector element, [NotNull] string value)
@@ -582,7 +615,7 @@ namespace SIM.Tool.Windows.UserControls.Install
 
         SelectProductByValue(ProductName, WindowsSettings.AppInstallationDefaultProduct.Value);
         SelectProductByValue(ProductVersion, WindowsSettings.AppInstallationDefaultProductVersion.Value);
-        SelectByValue(ProductRevision, WindowsSettings.AppInstallationDefaultProductRevision.Value);       
+        SelectByValue(ProductRevision, WindowsSettings.AppInstallationDefaultProductRevision.Value);
       }
     }
 
@@ -678,7 +711,7 @@ namespace SIM.Tool.Windows.UserControls.Install
       else
       {
         SelectFirst(ProductName);
-      }      
+      }
 
       var name = args.InstanceName;
       if (!string.IsNullOrEmpty(name))
@@ -706,8 +739,15 @@ namespace SIM.Tool.Windows.UserControls.Install
       SolrDefinition solr = WindowHelper.ShowDialog<AddSolrDialog>(ProfileManager.Profile.Solrs, this.owner) as SolrDefinition;
       if (solr != null)
       {
-        ProfileManager.Profile.Solrs.Add(solr);
-        ProfileManager.SaveChanges(ProfileManager.Profile);
+        if (!ProfileManager.Profile.Solrs.Contains(solr))
+        {
+          ProfileManager.Profile.Solrs.Add(solr);
+          ProfileManager.SaveChanges(ProfileManager.Profile);
+        }
+
+        // Refresh items in the Solrs Combobox
+        this.Solrs.DataContext = null;
+        this.Solrs.DataContext = ProfileManager.Profile.Solrs;
         this.Solrs.SelectedItem = solr;
       }
     }
