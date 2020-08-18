@@ -16,6 +16,8 @@ namespace SIM.Sitecore9Installer.Validation.Validators
       this.Data = new Dictionary<string, string>();
     }
 
+    public virtual string SuccessMessage => "Solr core prefix is unique.";
+
     public string CorePrefix { get => this.Data["Prefix"]; }
     public string SolrUrl { get => this.Data["Solr"]; }
     public Dictionary<string, string> Data { get; set; }
@@ -62,7 +64,7 @@ namespace SIM.Sitecore9Installer.Validation.Validators
 
       if (!errors)
       {
-        yield return new ValidationResult(ValidatorState.Success, string.Empty, null);
+        yield return new ValidationResult(ValidatorState.Success, this.SuccessMessage, null);
       }
     }
 

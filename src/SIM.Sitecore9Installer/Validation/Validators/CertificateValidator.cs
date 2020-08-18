@@ -6,7 +6,7 @@ namespace SIM.Sitecore9Installer.Validation.Validators
 {
   public class CertificateValidator : BaseValidator
   {
-    public override string SuccessMessage => "Invalid certificates have not been found.";
+    public override string SuccessMessage => $"Invalid certificates have not been found in {this.Data["StoreName"]}.";
 
     protected override IEnumerable<ValidationResult> GetErrorsForTask(Task task, IEnumerable<InstallParam> paramsToValidate)
     {
