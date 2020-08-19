@@ -70,7 +70,6 @@ namespace SIM.Sitecore9Installer.Tasks
 
       this.repo = this.TaskOptions["Repository"];
       this.Name = taskName;
-      this.ExecutionOrder = int.MinValue;
     }
 
     public override string GetScript()

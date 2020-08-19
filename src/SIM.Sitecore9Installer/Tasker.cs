@@ -25,6 +25,8 @@ namespace SIM.Sitecore9Installer
     private readonly List<InstallParam> mapping;
     private readonly string uninstallTasksFolderName;
     private bool unInstall;
+    private bool localParamsEvaluadted;
+    private bool globalParamsEvauadted;
 
     private Tasker()
     {
@@ -144,13 +146,27 @@ namespace SIM.Sitecore9Installer
       }
     }
 
+    private void RunTask(string name)
+    {
+      
+      Task task = this.Tasks.FirstOrDefault(t => t.Name == name);
+      if (task == null)
+      {
+        throw new ArgumentException($"Task {name} not found.");
+      }
+
+      string result = task.Run();
+      if (!string.IsNullOrEmpty(result)||task.State!=TaskState.Finished)
+      {
+        throw new AggregateException($"Task {name} did not finish successfully.\n{result}");
+      }
+    }
+
     public IEnumerable<ValidationResult> GetValidationResults()
     {
-      this.EvaluateGlobalParams();
-      this.EvaluateLocalParams();
       ConcurrentBag<ValidationResult> results = new ConcurrentBag<ValidationResult>();
       IEnumerable<IValidator> vals = ValidationFactory.Instance.GetValidators(this.Validators);
-      Parallel.ForEach(vals,new ParallelOptions(){MaxDegreeOfParallelism=Environment.ProcessorCount*2}, (validator) =>
+      Parallel.ForEach(vals, new ParallelOptions() { MaxDegreeOfParallelism = Environment.ProcessorCount * 2 }, (validator) =>
       {
         try
         {
@@ -167,6 +183,12 @@ namespace SIM.Sitecore9Installer
       });
 
       return results;
+    }
+
+    public void EvaluateAllParams()
+    {
+      this.EvaluateGlobalParams();
+      this.EvaluateLocalParams();
     }
 
     public List<string> Validators { get; private set; }
@@ -224,7 +246,7 @@ namespace SIM.Sitecore9Installer
     private void GlobalParamValueUpdated(object sender, ParamValueUpdatedArgs e)
     {
       InstallParam updatedParam = (InstallParam) sender;
-      foreach (PowerShellTask task in Tasks)
+      foreach (Task task in Tasks)
       {
         InstallParam param = task.LocalParams.FirstOrDefault(p => p.Name == updatedParam.Name);
         if (param != null) param.Value = updatedParam.Value;
@@ -284,8 +306,13 @@ namespace SIM.Sitecore9Installer
       return script.ToString();
     }
 
-    public void EvaluateGlobalParams()
+    private void EvaluateGlobalParams()
     {
+      if (this.globalParamsEvauadted)
+      {
+        return;
+      }
+
       StringBuilder globalParamsEval = new StringBuilder();
       globalParamsEval.Append("Set-ExecutionPolicy Bypass -Force\n");
       globalParamsEval.AppendFormat("Import-Module SitecoreInstallFramework{0}\n", this.GetSifVersionParam());
@@ -303,10 +330,16 @@ namespace SIM.Sitecore9Installer
 
         param.Value = (string) evaluatedParams[param.Name];
       }
+
+      this.globalParamsEvauadted = true;
     }
 
-    public void EvaluateLocalParams()
+    private void EvaluateLocalParams()
     {
+      if (this.localParamsEvaluadted)
+      {
+        return;
+      }
       Parallel.ForEach(this.Tasks.Where(t => t.ShouldRun),new ParallelOptions(){MaxDegreeOfParallelism=Environment.ProcessorCount*2}, (task) =>
       {
         Hashtable evaluatedParams = this.GetEvaluatedLocalParams(task.LocalParams, task.GlobalParams);
@@ -320,6 +353,8 @@ namespace SIM.Sitecore9Installer
           param.Value = (string) evaluatedParams[param.Name];
         }
       });
+
+      this.localParamsEvaluadted = true;
     }
     public Hashtable GetEvaluatedLocalParams(List<InstallParam> localParams, List<InstallParam> globalParams)
     {
@@ -382,7 +417,7 @@ namespace SIM.Sitecore9Installer
         wr.WriteLine(GetSerializedGlobalParams(excludeParams));
       }
 
-      foreach (PowerShellTask task in Tasks.Where(t => t.ShouldRun && t.SupportsUninstall()))
+      foreach (PowerShellTask task in Tasks.Where(t => t.ShouldRun && t.SupportsUninstall()&& t is PowerShellTask))
       {
         string parameters = task.GetSerializedParameters(excludeParams);
         using (StreamWriter wr =
@@ -412,6 +447,25 @@ namespace SIM.Sitecore9Installer
     public string GetSerializedGlobalParams(IEnumerable<string> excludeList)
     {
       return JsonConvert.SerializeObject(GlobalParams.Where(p => !excludeList.Contains(p.Name)));
+    }
+
+    public void RunLowlevelTasks()
+    {
+      foreach (Task t in this.Tasks.Where(t => t.ExecutionOrder < 0))
+      {
+        if (!t.ShouldRun || (!t.SupportsUninstall() && this.UnInstall))
+        {
+          continue;
+        }
+
+        string result= t.Run();
+        if (t.State!=TaskState.Finished)
+        {
+          throw new AggregateException(result);
+        }
+
+        t.ShouldRun = false;
+      }
     }
 
     public string RunAllTasks()
@@ -508,18 +562,30 @@ namespace SIM.Sitecore9Installer
 
         //Resolves task options for the task
         Dictionary<string, string> taskOptions = GetTaskOptions(param);
-
+        
         //Creates a task based on type which is defined in the json
         string taskType = param.Value["Type"]?.ToString() ?? typeof(SitecoreTask).FullName;
 
         //Each task should have the same ctor (TaskName(string),Order(int),Tasker,LocalParams(List<InstallParams>),TaskOptions(Dictionary<string,string>))
         Task t = (Task) Activator.CreateInstance(Type.GetType(taskType), param.Name, order, this, localParams,
-          taskOptions);
-
+          taskOptions);        
         t.UnInstall = UnInstall;
-        Tasks.Add(t);
-        ++order;
+        this.Tasks.Add(t);        
+        if (order!=t.ExecutionOrder&&t.ExecutionOrder>=0)
+        {
+          order = t.ExecutionOrder;
+          ++order;
+        }
+        else
+        {
+          if (t.ExecutionOrder >=0)
+          {
+            ++order;
+          }          
+        }
       }
+
+      this.Tasks.OrderBy(t => t.ExecutionOrder);
     }
 
     private void InjectLocalDeploymentRoot(string taskFilePath)
