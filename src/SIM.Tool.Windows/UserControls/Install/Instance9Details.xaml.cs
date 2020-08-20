@@ -377,8 +377,8 @@ namespace SIM.Tool.Windows.UserControls.Install
       var productVersion = ProductVersion;
       Assert.IsNotNull(productVersion, nameof(productVersion));
 
-      productVersion.DataContext = grouping.Where(x => x != null).GroupBy(p => p.ShortVersion).Where(x => x != null).OrderBy(p => p.Key);
-      SelectFirst(productVersion);
+      productVersion.DataContext = grouping.Where(x => x != null).GroupBy(p => p.ShortVersion).Where(x => x != null).OrderBy(p => Int32.Parse(p.Key));
+      SelectFirst(productVersion);           
     }
 
     private void ProductRevisionChanged([CanBeNull] object sender, [CanBeNull] SelectionChangedEventArgs e)

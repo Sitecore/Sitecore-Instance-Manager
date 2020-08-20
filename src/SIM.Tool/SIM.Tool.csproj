@@ -483,6 +483,15 @@
     <Content Include="GlobalParamsConfig\Validators.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="GlobalParamsConfig\XP\GlobalParams_10.0_XP0.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="GlobalParamsConfig\XM\GlobalParams_10.0_XM1.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="GlobalParamsConfig\XP\GlobalParams_10.0_XP1.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="CustomSifConfig\Solr\Solr-SingleDeveloper.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
