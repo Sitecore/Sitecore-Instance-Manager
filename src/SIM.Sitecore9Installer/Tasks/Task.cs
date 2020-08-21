@@ -4,8 +4,8 @@ namespace SIM.Sitecore9Installer.Tasks
 {
   public abstract class Task
   {
-    public Task(string taskName, int executionOrder, List<InstallParam> globalParams, 
-      List<InstallParam> localParams, Dictionary<string, string> taskOptions, IParametersHandler handler)
+    public Task(string taskName, int executionOrder, GlobalParameters globalParams, 
+      LocalParameters localParams, Dictionary<string, string> taskOptions)
     {
       this.Name = taskName;      
       this.LocalParams = localParams;
@@ -13,7 +13,6 @@ namespace SIM.Sitecore9Installer.Tasks
       this.TaskOptions = taskOptions;
       this.State = TaskState.Pending;
       this.GlobalParams = globalParams;
-      this.ParamsHandler = handler;
       this.InnerTasks = new List<SitecoreTask>();
       if (taskOptions.ContainsKey("ExecutionOrder"))
       {
@@ -25,7 +24,6 @@ namespace SIM.Sitecore9Installer.Tasks
       }
     }
 
-    public IParametersHandler ParamsHandler { get; }
     public TaskState State { get; protected set; }
     public string Name { get; protected set; }
     public bool ShouldRun { get; set; }
@@ -33,8 +31,8 @@ namespace SIM.Sitecore9Installer.Tasks
     public int ExecutionOrder { get; protected set; }
     public bool UnInstall { get; set; }
     //public virtual Tasker Owner { get; }
-    public List<InstallParam> GlobalParams { get; }
-    public List<InstallParam> LocalParams { get; set; }
+    public BaseParameters GlobalParams { get; }
+    public BaseParameters LocalParams { get; set; }
     public List<SitecoreTask> InnerTasks { get; }
 
     public abstract string Run();

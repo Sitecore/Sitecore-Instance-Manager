@@ -23,18 +23,16 @@ namespace SIM.Sitecore9Installer
     private readonly PackageMapping mapping;
     private readonly string uninstallTasksFolderName;
     private bool unInstall;
-    private bool localParamsEvaluadted;
-    private bool globalParamsEvauadted;
-    private IParametersHandler paramsHandler;
+    //private bool localParamsEvaluadted;
+    //private bool globalParamsEvauadted;
 
-    private Tasker(IParametersHandler handler)
+    private Tasker()
     {
       this.Validators = new List<string>();   
       uninstallTasksFolderName = "UninstallTasks";
-      this.paramsHandler = handler;
     }
 
-    public Tasker(string root, string installationPackageName, string deployRoot, IParametersHandler handler,bool unInstall = false) : this(handler)
+    public Tasker(string root, string installationPackageName, string deployRoot, bool unInstall = false) : this()
     {
       this.deployRoot = deployRoot;
       FilesRoot = root;
@@ -51,13 +49,13 @@ namespace SIM.Sitecore9Installer
       doc = JObject.Parse(File.ReadAllText(globalParamsFile));
       mapping = GetPackageMapping();
       this.LoadValidators();
-      GlobalParams = this.paramsHandler.GetGlobalParams(this.doc, this.FilesRoot);
+      this.GlobalParams = new GlobalParameters(this.doc, this.FilesRoot);
       EventManager.Instance.ParamValueUpdated += this.GlobalParamValueUpdated;
       UnInstall = unInstall;
       LoadTasks();
     }
 
-    public Tasker(string unInstallParamsPath, IParametersHandler handler) : this(handler)
+    public Tasker(string unInstallParamsPath) : this()
     {
       UnInstall = true;
       UnInstallParamsPath = unInstallParamsPath;
@@ -76,7 +74,7 @@ namespace SIM.Sitecore9Installer
       doc = JObject.Parse(File.ReadAllText(globalParamsFile));
       this.LoadValidators();
       mapping = GetPackageMapping();
-      GlobalParams = this.paramsHandler.GetGlobalParams(this.doc, this.FilesRoot);
+      this.GlobalParams = new GlobalParameters(this.doc, this.FilesRoot);
       string deployRoot = deserializedGlobalParams.Single(p => p.Name == "DeployRoot")?.Value;
       if (deployRoot != null)
       {
@@ -88,7 +86,7 @@ namespace SIM.Sitecore9Installer
         InstallParam param = deserializedGlobalParams.FirstOrDefault(p => p.Name == GlobalParams[i].Name);
         if (param != null)
         {
-          GlobalParams[i] = param;
+          GlobalParams.AddOrUpdateParam(param.Name,param.Value,param.Type);
         }
       }
 
@@ -112,7 +110,10 @@ namespace SIM.Sitecore9Installer
             for (int i = 0; i < t.LocalParams.Count; ++i)
             {
               InstallParam lParam = deserializedLocalParams.FirstOrDefault(p => p.Name == t.LocalParams[i].Name);
-              if (lParam != null) t.LocalParams[i] = lParam;
+              if (lParam != null)
+              {
+                t.LocalParams.AddOrUpdateParam(lParam.Name,lParam.Value,lParam.Type);
+              }
             }
           }
 
@@ -128,7 +129,7 @@ namespace SIM.Sitecore9Installer
     private Task CreateTask(int order, JProperty taskDescriptor)
     {
       TaskDefinition definition = new TaskDefinition(taskDescriptor);
-      return definition.CreateTask(order, this.GlobalParams, this.FilesRoot, this.UnInstall, this.mapping, this.paramsHandler);
+      return definition.CreateTask(order, this.GlobalParams, this.FilesRoot, this.UnInstall, this.mapping);
     }
 
     private void LoadValidators()
@@ -176,7 +177,7 @@ namespace SIM.Sitecore9Installer
     public List<string> Validators { get; private set; }
     public string FilesRoot { get; }
 
-    public List<InstallParam> GlobalParams { get; }
+    public GlobalParameters GlobalParams { get; }
 
     public List<Task> Tasks { get; } = new List<Task>();
 
@@ -202,40 +203,28 @@ namespace SIM.Sitecore9Installer
 
       foreach (Task task in Tasks)
       {
-        InstallParam param = task.LocalParams.FirstOrDefault(p => p.Name == updatedParam.Name);
+        InstallParam param = task.LocalParams[updatedParam.Name];
         if (param != null) param.Value = updatedParam.Value;
       }
     }
 
     private void EvaluateGlobalParams()
     {
-      if (this.globalParamsEvauadted)
-      {
-        return;
-      }
-
-      this.paramsHandler.EvaluateGlobalParams(this.GlobalParams);
-      this.globalParamsEvauadted = true;
+      this.GlobalParams.Evaluate();
     }
 
     private void EvaluateLocalParams()
-    {
-      if (this.localParamsEvaluadted)
-      {
-        return;
-      }
+    {      
       Parallel.ForEach(this.Tasks.Where(t => t.ShouldRun),new ParallelOptions(){MaxDegreeOfParallelism=Environment.ProcessorCount*2}, 
         (task) =>
       {
-        this.paramsHandler.EvaluateLocalParams(task.LocalParams, task.GlobalParams);
+        task.LocalParams.Evaluate();
       });
-
-      this.localParamsEvaluadted = true;
     }    
 
     public string SaveUninstallData(string path)
     {
-      string filesPath = Path.Combine(path, GlobalParams.First(p => p.Name == "SqlDbPrefix").Value);
+      string filesPath = Path.Combine(path, GlobalParams["SqlDbPrefix"].Value);
       string unstallTasksPath = Path.Combine(filesPath, uninstallTasksFolderName);
       Directory.CreateDirectory(filesPath);
       Directory.CreateDirectory(unstallTasksPath);
@@ -409,7 +398,7 @@ namespace SIM.Sitecore9Installer
 
     private void InjectGlobalDeploymentRoot(string path)
     {
-      this.paramsHandler.AddOrUpdateParam(this.GlobalParams, "DeployRoot", path);
+      this.GlobalParams.AddOrUpdateParam("DeployRoot", path,InstallParamType.String);
     }
 
     private PackageMapping GetPackageMapping()

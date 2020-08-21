@@ -21,16 +21,16 @@ namespace SIM.Sitecore9Installer.Tasks
     public string TaskName { get; }
     public string TaskFileName { get; }
 
-    public Task CreateTask(int order, List<InstallParam> globalParams, string taskFolder, bool uninstall, PackageMapping mapping, IParametersHandler handler)
+    public Task CreateTask(int order, GlobalParameters globalParams, string taskFolder, bool uninstall, PackageMapping mapping)
     {
       JToken overridden = this._definition.Value["Parameters"];
       string realName = this.TaskFileName;
       //Resolves local parameters
-      List<InstallParam> localParams = GetTaskParameters(taskFolder,globalParams, uninstall, mapping);
+      LocalParameters localParams = GetTaskParameters(taskFolder, globalParams, uninstall, mapping);
       if (overridden != null)
         foreach (JProperty newJParam in overridden.Children())
         {
-          InstallParam newParam = localParams.FirstOrDefault(p => p.Name == newJParam.Name);
+          InstallParam newParam = localParams[newJParam.Name];
           if (newParam != null) newParam.Value = newJParam.Value.ToString();
         }
 
@@ -39,7 +39,7 @@ namespace SIM.Sitecore9Installer.Tasks
       //Creates a task based on type which is defined in the json
       string taskType = this._definition.Value["Type"]?.ToString() ?? typeof(SitecoreTask).FullName;
       //Each task should have the same ctor (TaskName(string),Order(int),Tasker,LocalParams(List<InstallParams>),TaskOptions(Dictionary<string,string>))
-      return (Task)Activator.CreateInstance(Type.GetType(taskType), this._definition.Name, order, globalParams, localParams, taskOptions, handler);
+      return (Task)Activator.CreateInstance(Type.GetType(taskType), this._definition.Name, order, globalParams, localParams, taskOptions);
     }
 
     private string ParseTaskFileName()
@@ -54,12 +54,12 @@ namespace SIM.Sitecore9Installer.Tasks
       return realName;
     }
 
-    private List<InstallParam> GetTaskParameters(string taskFolder, List<InstallParam> globalParams, bool unInstall, PackageMapping mapping)
+    private LocalParameters GetTaskParameters(string taskFolder, GlobalParameters globalParams, bool unInstall, PackageMapping mapping)
     {
       string file = Directory.GetFiles(taskFolder, string.Format("{0}.json", this.TaskFileName), SearchOption.AllDirectories)
         .FirstOrDefault();
 
-      if (string.IsNullOrEmpty(file)) return new List<InstallParam>();
+      if (string.IsNullOrEmpty(file)) return new LocalParameters(new List<InstallParam>(), globalParams);
 
       List<InstallParam> installParams = new List<InstallParam>();
       JObject doc = JObject.Parse(File.ReadAllText(file));
@@ -67,12 +67,24 @@ namespace SIM.Sitecore9Installer.Tasks
       {
         string dafultValue = param.Value["DefaultValue"]?.ToString();
 
-        string type = param.Value["Type"]?.ToString();
+        InstallParamType type;        
+        string typeName = param.Value["Type"]?.ToString();
+        if (!string.IsNullOrEmpty(typeName))
+        {
+          if (!Enum.TryParse<InstallParamType>(typeName, out type))
+          {
+            throw new ArgumentOutOfRangeException($"Unknown parameter type '{typeName}' in task '{param.Name}'");
+          }
+        }
+        else
+        {
+          type = InstallParamType.String;
+        }        
 
         InstallParam p = new InstallParam(param.Name, dafultValue, false, type);
         p.Description = param.Value["Description"]?.ToString();
-        if (globalParams.Any(g => g.Name == p.Name && !string.IsNullOrEmpty(g.Value)))
-          p.Value = globalParams.First(g => g.Name == p.Name).Value;
+        if (!string.IsNullOrEmpty(globalParams[p.Name]?.Value))
+          p.Value = globalParams[p.Name].Value;
         installParams.Add(p);
 
         if (p.Name == "Package" && !unInstall)
@@ -81,8 +93,8 @@ namespace SIM.Sitecore9Installer.Tasks
         }
       }
 
-      installParams.Add(new InstallParam("Path", file));
-      return installParams;
+      installParams.Add(new InstallParam("Path", file,false,InstallParamType.String));
+      return new LocalParameters(installParams, globalParams);
     }
 
     private Dictionary<string, string> GetTaskOptions()

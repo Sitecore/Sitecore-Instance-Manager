@@ -14,32 +14,12 @@ namespace SIM.Sitecore9Installer
   public class InstallParam
   {
     string value;
-    public InstallParam(string name, string value, bool isGlogal=false, string type = "string")
+    public InstallParam(string name, string value, bool isGlogal, InstallParamType type)
     {
       this.name = name;
       this.Value = value;
       this.IsGlobal = isGlogal;
-      this.Type = ParseInstallParamType(type);
-    }
-
-    private InstallParamType ParseInstallParamType(string type)
-    {
-      switch (type?.ToLower())
-      {
-        case "bool":
-        case "switch":
-          {
-            return InstallParamType.Bool;
-          }
-        case "int":
-          {
-            return InstallParamType.Int;
-          }
-        default:
-          {
-            return InstallParamType.String;
-          }
-      }
+      this.Type = type;
     }
 
     private string name;

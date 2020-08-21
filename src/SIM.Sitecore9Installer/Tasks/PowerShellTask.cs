@@ -18,9 +18,9 @@ namespace SIM.Sitecore9Installer.Tasks
 
   public abstract class PowerShellTask : Task
   {
-    public PowerShellTask(string taskName, int executionOrder, List<InstallParam> globalParams, List<InstallParam> localParams,
-      Dictionary<string, string> taskOptions, IParametersHandler handler)
-      : base(taskName, executionOrder, globalParams,localParams, taskOptions, handler)
+    public PowerShellTask(string taskName, int executionOrder, GlobalParameters globalParams, LocalParameters localParams,
+      Dictionary<string, string> taskOptions)
+      : base(taskName, executionOrder, globalParams,localParams, taskOptions)
     {
     }
 
@@ -87,7 +87,7 @@ namespace SIM.Sitecore9Installer.Tasks
 
     protected virtual void EvaluateLocalParams()
     {
-      this.ParamsHandler.EvaluateLocalParams(this.LocalParams, this.GlobalParams);
+      this.LocalParams.Evaluate();
     }
 
     protected abstract string GetScript();

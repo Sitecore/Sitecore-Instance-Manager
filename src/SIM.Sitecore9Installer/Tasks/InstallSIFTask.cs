@@ -54,9 +54,9 @@ namespace SIM.Sitecore9Installer.Tasks
     private readonly string sifVersionInstall;
     private readonly string sifVersionUnInstall;
     
-    public InstallSIFTask(string taskName, int executionOrder, List<InstallParam> globalParams, List<InstallParam> localParams,
-      Dictionary<string, string> taskOptions, IParametersHandler handler)
-      : base(taskName, executionOrder, globalParams, localParams, taskOptions,handler)
+    public InstallSIFTask(string taskName, int executionOrder, GlobalParameters globalParams, LocalParameters localParams,
+      Dictionary<string, string> taskOptions)
+      : base(taskName, executionOrder, globalParams, localParams, taskOptions)
     {
       this.sifVersionInstall = this.TaskOptions["InstallVersion"];
       if (this.TaskOptions.ContainsKey("UninstallVersion"))

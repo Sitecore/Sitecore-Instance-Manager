@@ -14,14 +14,9 @@ namespace SIM.Sitecore9Installer.Tasks
 {
   public class SitecoreTask: SIM.Sitecore9Installer.Tasks.PowerShellTask
   {
-    //TO DO It's still used by uninstallation task.
-    public SitecoreTask(string name, int executionOrder, List<InstallParam> globalParams, IParametersHandler handler) : base(name, executionOrder, globalParams, new List<InstallParam>(), new Dictionary<string, string>(), handler)
-    {
-    }
-
-    public SitecoreTask(string taskName, int executionOrder, List<InstallParam> globalParams, 
-      List<InstallParam> localParams, Dictionary<string, string> taskOptions, IParametersHandler handler) 
-      :base(taskName, executionOrder, globalParams, localParams, taskOptions, handler)
+    public SitecoreTask(string taskName, int executionOrder, GlobalParameters globalParams, 
+      LocalParameters localParams, Dictionary<string, string> taskOptions) 
+      :base(taskName, executionOrder, globalParams, localParams, taskOptions)
     {
     }
 
@@ -37,7 +32,7 @@ namespace SIM.Sitecore9Installer.Tasks
 
       //script.Append(installParams);
       script.Append(installParams);
-      script.AppendLine(string.Format("cd \"{0}\"", Path.GetDirectoryName(this.LocalParams.First(p => p.Name == "Path").Value)));
+      script.AppendLine(string.Format("cd \"{0}\"", Path.GetDirectoryName(this.LocalParams["Path"].Value)));
       script.AppendLine("Set-ExecutionPolicy Bypass -Force");
 
       string sifVersion = GetSifVersion(this.UnInstall, this.GlobalParams);
@@ -55,13 +50,13 @@ namespace SIM.Sitecore9Installer.Tasks
       return script.ToString();
     }
 
-    private string GetSifVersion(bool unInstall, List<InstallParam> globalParams)
+    private string GetSifVersion(bool unInstall, BaseParameters globalParams)
     {
       string sifVersion = string.Empty;
 
       if (unInstall)
       {
-        sifVersion = globalParams.FirstOrDefault(p => p.Name == "SIFVersionUninstall")?.Value ?? string.Empty;
+        sifVersion = globalParams["SIFVersionUninstall"]?.Value ?? string.Empty;
       }
 
       if (!string.IsNullOrEmpty(sifVersion))
@@ -70,7 +65,7 @@ namespace SIM.Sitecore9Installer.Tasks
       }
       else
       {
-        return globalParams.FirstOrDefault(p => p.Name == "SIFVersion")?.Value ?? string.Empty;
+        return globalParams["SIFVersion"]?.Value ?? string.Empty;
       }
     }
 
