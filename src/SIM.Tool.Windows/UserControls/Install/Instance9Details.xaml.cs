@@ -377,8 +377,8 @@ namespace SIM.Tool.Windows.UserControls.Install
       var productVersion = ProductVersion;
       Assert.IsNotNull(productVersion, nameof(productVersion));
 
-      productVersion.DataContext = grouping.Where(x => x != null).GroupBy(p => p.ShortVersion).Where(x => x != null).OrderBy(p => p.Key);
-      SelectFirst(productVersion);
+      productVersion.DataContext = grouping.Where(x => x != null).GroupBy(p => p.ShortVersion).Where(x => x != null).OrderBy(p => Int32.Parse(p.Key));
+      SelectFirst(productVersion);           
     }
 
     private void ProductRevisionChanged([CanBeNull] object sender, [CanBeNull] SelectionChangedEventArgs e)
@@ -739,8 +739,15 @@ namespace SIM.Tool.Windows.UserControls.Install
       SolrDefinition solr = WindowHelper.ShowDialog<AddSolrDialog>(ProfileManager.Profile.Solrs, this.owner) as SolrDefinition;
       if (solr != null)
       {
-        ProfileManager.Profile.Solrs.Add(solr);
-        ProfileManager.SaveChanges(ProfileManager.Profile);
+        if (!ProfileManager.Profile.Solrs.Contains(solr))
+        {
+          ProfileManager.Profile.Solrs.Add(solr);
+          ProfileManager.SaveChanges(ProfileManager.Profile);
+        }
+
+        // Refresh items in the Solrs Combobox
+        this.Solrs.DataContext = null;
+        this.Solrs.DataContext = ProfileManager.Profile.Solrs;
         this.Solrs.SelectedItem = solr;
       }
     }
