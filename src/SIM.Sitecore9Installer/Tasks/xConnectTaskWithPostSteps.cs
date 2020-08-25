@@ -27,6 +27,7 @@ namespace SIM.Sitecore9Installer.Tasks
 
     protected override string GetScript()
     {
+      this.EvaluateLocalParams();
       ShardMapManagerDatabaseNameSuffix = TaskOptions["ShardMapManagerDatabaseNameSuffix"];
       Shard0DatabaseNameSuffix = TaskOptions["Shard0DatabaseNameSuffix"];
       Shard1DatabaseNameSuffix = TaskOptions["Shard1DatabaseNameSuffix"];

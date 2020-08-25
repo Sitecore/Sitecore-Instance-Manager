@@ -31,8 +31,8 @@ namespace SIM.Sitecore9Installer.Tasks
     public int ExecutionOrder { get; protected set; }
     public bool UnInstall { get; set; }
     //public virtual Tasker Owner { get; }
-    public BaseParameters GlobalParams { get; }
-    public BaseParameters LocalParams { get; set; }
+    public virtual BaseParameters GlobalParams { get; }
+    public virtual BaseParameters LocalParams { get; }
     public List<SitecoreTask> InnerTasks { get; }
 
     public abstract string Run();

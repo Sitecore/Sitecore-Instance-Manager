@@ -23,8 +23,6 @@ namespace SIM.Sitecore9Installer
     private readonly PackageMapping mapping;
     private readonly string uninstallTasksFolderName;
     private bool unInstall;
-    //private bool localParamsEvaluadted;
-    //private bool globalParamsEvauadted;
 
     private Tasker()
     {
@@ -149,6 +147,7 @@ namespace SIM.Sitecore9Installer
     {
       ConcurrentBag<ValidationResult> results = new ConcurrentBag<ValidationResult>();
       IEnumerable<IValidator> vals = ValidationFactory.Instance.GetValidators(this.Validators);
+      this.EvaluateLocalParams();
       Parallel.ForEach(vals, new ParallelOptions() { MaxDegreeOfParallelism = Environment.ProcessorCount * 2 }, (validator) =>
       {
         try

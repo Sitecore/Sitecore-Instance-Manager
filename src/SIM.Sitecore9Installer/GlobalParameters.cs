@@ -12,7 +12,6 @@ namespace SIM.Sitecore9Installer
   public class GlobalParameters:BaseParameters
   {
     private List<InstallParam> _parameters;
-    private bool _evaluated;
 
     public GlobalParameters(JObject globalParamsDoc, string filesRoot)
     {
@@ -33,15 +32,16 @@ namespace SIM.Sitecore9Installer
       this._parameters = globalParams;
     }
 
+    protected internal GlobalParameters()
+    {
+      this._parameters = new List<InstallParam>();
+    }
+
     protected override List<InstallParam> Parameters { get => _parameters; }
 
-    public override void Evaluate()
+    protected override void CalculateParameters()
     {
-      if (!this._evaluated)
-      {
         this.EvaluateGlobalParams();
-        this._evaluated = true;
-      }
     }
 
     public string GetGlobalParamsScript()

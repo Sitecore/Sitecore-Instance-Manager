@@ -10,8 +10,26 @@ namespace SIM.Sitecore9Installer
 {
   public abstract class BaseParameters:IEnumerable<InstallParam>
   {
+    private object _lock = new object();
+    private bool _evaluated;
     protected abstract List<InstallParam> Parameters { get; }
-    public abstract void Evaluate();
+    public void Evaluate()
+    {
+      if (!this._evaluated)
+      {
+        lock (this._lock)
+        {
+          if (!this._evaluated)
+          {
+            this.CalculateParameters();
+            this._evaluated = true;
+          }
+        }
+      }
+    }
+
+    protected abstract void CalculateParameters();
+
     protected abstract InstallParam CreateParameter(string name, string value, InstallParamType type);
     
     public virtual void AddOrUpdateParam(string name, string value, InstallParamType type)

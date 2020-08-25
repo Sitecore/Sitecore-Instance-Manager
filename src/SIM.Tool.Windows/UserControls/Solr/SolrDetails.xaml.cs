@@ -100,7 +100,7 @@ namespace SIM.Tool.Windows.UserControls.Install
     void IWizardStep.InitializeStep(WizardArgs wizardArgs)
     {
       string root = Path.Combine(Directory.GetCurrentDirectory(), "CustomSifConfig/Solr");
-      this.tasker = new Tasker(root, "solr", null, new ParametersHandler());
+      this.tasker = new Tasker(root, "solr", null);
       this.FillSolrVersions();
       this.solrPortSelector.Text = tasker.Tasks.First(t => t.Name == "Solr").LocalParams.First(p => p.Name == "SolrPort").Value;
       this.solrFolderSelector.Text = tasker.Tasks.First(t => t.Name == "Solr").LocalParams.First(p => p.Name == "SolrInstallRoot").Value;

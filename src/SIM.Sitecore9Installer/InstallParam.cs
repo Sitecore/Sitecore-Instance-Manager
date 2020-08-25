@@ -14,17 +14,30 @@ namespace SIM.Sitecore9Installer
   public class InstallParam
   {
     string value;
-    public InstallParam(string name, string value, bool isGlogal, InstallParamType type)
+    private bool isGlobal;
+    public InstallParam(string name, string value, bool isGlobal, InstallParamType type)
+    {
+      Initialize(name, value, isGlobal);
+      this.Type = type;
+    }
+
+    private void Initialize(string name, string value, bool isGlobal)
     {
       this.name = name;
       this.Value = value;
-      this.IsGlobal = isGlogal;
-      this.Type = type;
+      this.isGlobal = isGlobal;
+    }
+
+    [JsonConstructor]
+    public InstallParam(string name, string value, bool isGlogal, string type)
+    {
+      this.Initialize(name, value, isGlobal);
+      this.Type = this.ParseInstallParamType(type);
     }
 
     private string name;
     public string Name { get => this.name; }
-    public bool IsGlobal { get; }
+    public bool IsGlobal { get=>this.isGlobal; }
     public string Value
     {
       get
@@ -95,6 +108,29 @@ namespace SIM.Sitecore9Installer
       }
 
       return value;
+    }
+
+    private InstallParamType ParseInstallParamType(string type)
+    {
+      switch (type?.ToLower())
+      {
+        case "bool":
+          {
+            return InstallParamType.Bool;
+          }
+        case "string":
+          {
+            return InstallParamType.String;
+          }
+        case "int":
+          {
+            return InstallParamType.Int;
+          }
+        default:
+          {
+            throw new ArgumentOutOfRangeException($"Unknown parameter type '{type}'");
+          }
+      }
     }
   }
 

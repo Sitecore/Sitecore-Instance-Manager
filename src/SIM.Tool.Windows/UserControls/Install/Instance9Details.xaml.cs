@@ -163,24 +163,27 @@ namespace SIM.Tool.Windows.UserControls.Install
           return false;
         }
 
-        if (SIM.FileSystem.FileSystem.Local.Directory.Exists(rootPath))
+        if (!args.ScriptsOnly)
         {
-          if (Directory.EnumerateFileSystemEntries(rootPath).Any())
+          if (SIM.FileSystem.FileSystem.Local.Directory.Exists(rootPath))
           {
-            if (WindowHelper.ShowMessage("The folder with the same name already exists and is not empty. Would you like to delete it?", MessageBoxButton.OKCancel, MessageBoxImage.Question, MessageBoxResult.OK) == MessageBoxResult.OK)
+            if (Directory.EnumerateFileSystemEntries(rootPath).Any())
             {
-              SIM.FileSystem.FileSystem.Local.Directory.DeleteIfExists(rootPath, null);
-              SIM.FileSystem.FileSystem.Local.Directory.CreateDirectory(rootPath);
+              if (WindowHelper.ShowMessage("The folder with the same name already exists and is not empty. Would you like to delete it?", MessageBoxButton.OKCancel, MessageBoxImage.Question, MessageBoxResult.OK) == MessageBoxResult.OK)
+              {
+                SIM.FileSystem.FileSystem.Local.Directory.DeleteIfExists(rootPath, null);
+                SIM.FileSystem.FileSystem.Local.Directory.CreateDirectory(rootPath);
+              }
             }
           }
-        }
-        else
-        {
-          SIM.FileSystem.FileSystem.Local.Directory.CreateDirectory(rootPath);
+          else
+          {
+            SIM.FileSystem.FileSystem.Local.Directory.CreateDirectory(rootPath);
+          }
         }
       }
 
-      Tasker tasker = new Tasker(args.ScriptRoot, Path.GetFileNameWithoutExtension(args.Product.PackagePath), rootPath, new ParametersHandler());
+      Tasker tasker = new Tasker(args.ScriptRoot, Path.GetFileNameWithoutExtension(args.Product.PackagePath), rootPath);
       InstallParam sqlServer = tasker.GlobalParams.FirstOrDefault(p => p.Name == "SqlServer");
       if (sqlServer != null)
       {

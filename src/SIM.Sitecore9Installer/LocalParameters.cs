@@ -11,7 +11,6 @@ namespace SIM.Sitecore9Installer
   {
     private List<InstallParam> _localParams;
     private GlobalParameters _globalParams;
-    private bool _evaluated;
 
     public LocalParameters(List<InstallParam> loaclParameters, GlobalParameters globalParameters)
     {
@@ -21,14 +20,10 @@ namespace SIM.Sitecore9Installer
 
     protected override List<InstallParam> Parameters { get => _localParams; }
 
-    public override void Evaluate()    
+    protected override void CalculateParameters()    
     {
       this._globalParams.Evaluate();
-      if (!this._evaluated)
-      {
-        this.EvaluateLocalParams();
-        this._evaluated = true;
-      }
+      this.EvaluateLocalParams();
     }
 
     protected override InstallParam CreateParameter(string name, string value, InstallParamType type)

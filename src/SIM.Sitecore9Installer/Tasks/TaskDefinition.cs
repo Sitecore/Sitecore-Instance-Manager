@@ -63,25 +63,10 @@ namespace SIM.Sitecore9Installer.Tasks
 
       List<InstallParam> installParams = new List<InstallParam>();
       JObject doc = JObject.Parse(File.ReadAllText(file));
-      foreach (JProperty param in doc["Parameters"].Children())
-      {
+      foreach (JProperty param in doc["Parameters"].Children())      {
         string dafultValue = param.Value["DefaultValue"]?.ToString();
-
-        InstallParamType type;        
         string typeName = param.Value["Type"]?.ToString();
-        if (!string.IsNullOrEmpty(typeName))
-        {
-          if (!Enum.TryParse<InstallParamType>(typeName, out type))
-          {
-            throw new ArgumentOutOfRangeException($"Unknown parameter type '{typeName}' in task '{param.Name}'");
-          }
-        }
-        else
-        {
-          type = InstallParamType.String;
-        }        
-
-        InstallParam p = new InstallParam(param.Name, dafultValue, false, type);
+        InstallParam p = new InstallParam(param.Name, dafultValue, false, typeName);
         p.Description = param.Value["Description"]?.ToString();
         if (!string.IsNullOrEmpty(globalParams[p.Name]?.Value))
           p.Value = globalParams[p.Name].Value;

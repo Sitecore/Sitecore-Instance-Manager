@@ -144,7 +144,7 @@ namespace SIM.Tool.Windows.UserControls.Install
     void IWizardStep.InitializeStep(WizardArgs wizardArgs)
     {
       var args = (Delete9WizardArgs)wizardArgs;
-      args.Tasker = new Tasker(args.UnInstallPath,new ParametersHandler());
+      args.Tasker = new Tasker(args.UnInstallPath);
       StringBuilder displayText = new StringBuilder();
       Instance instance = args.Instance;
       this.ListHeader.Text = string.Format("Deleting {0}:", instance.SitecoreEnvironment.Name);
