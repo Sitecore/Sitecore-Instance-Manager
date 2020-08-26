@@ -88,6 +88,7 @@ namespace SIM.Sitecore9Installer
         }
       }
 
+      this.LoadTasks();
       List<string> uninstallTasksNames = Directory.GetFiles(unInstallParamsPath, "*.json")
         .Where(name => !Path.GetFileName(name).Equals("globals.json", StringComparison.InvariantCultureIgnoreCase))
         .ToList();
@@ -99,8 +100,7 @@ namespace SIM.Sitecore9Installer
         int order = int.Parse(taskNameAdnOrder.Substring(index + 1));
         using (StreamReader reader = new StreamReader(paramsFile))
         {
-          JProperty param = doc["ExecSequense"].Children().Cast<JProperty>().Single(p => p.Name == taskName);
-          Task t = this.CreateTask(order, param);
+          Task t = this.Tasks.FirstOrDefault(task => task.Name == taskName);
           string data = reader.ReadToEnd();
           if (!string.IsNullOrWhiteSpace(data))
           {
@@ -114,9 +114,6 @@ namespace SIM.Sitecore9Installer
               }
             }
           }
-
-          t.UnInstall = true;
-          Tasks.Add(t);
         }
       }
 

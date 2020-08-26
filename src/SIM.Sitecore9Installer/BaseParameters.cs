@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SIM.Sitecore9Installer.Events;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,25 @@ namespace SIM.Sitecore9Installer
   {
     private object _lock = new object();
     private bool _evaluated;
+    public BaseParameters()
+    {
+      EventManager.Instance.ParamValueUpdated += ParamValueUpdated;
+    }
+
+    protected virtual void ParamValueUpdated(object sender, ParamValueUpdatedArgs e)
+    {
+      if (this.Parameters == null)
+      {
+        return;
+      }
+
+      InstallParam p = (InstallParam)sender;
+      if (this[p.Name] != null||p.IsGlobal)
+      {
+        this._evaluated = false;
+      }
+    }
+
     protected abstract List<InstallParam> Parameters { get; }
     public void Evaluate()
     {

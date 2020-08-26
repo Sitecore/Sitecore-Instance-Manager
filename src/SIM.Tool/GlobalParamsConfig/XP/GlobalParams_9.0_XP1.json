@@ -98,13 +98,6 @@
         "ExecutionOrder": "-100"
       }
     },
-    "EvaluateParams": {
-      "Type": "SIM.Sitecore9Installer.Tasks.EvaluateParamsTask, SIM.Sitecore9Installer",
-      "TaskOptions": {
-        "ExecutionOrder": "-90"
-      }
-    },
-
     "xconnect-createcert": {
       "Type": "SIM.Sitecore9Installer.Tasks.SitecoreTask, SIM.Sitecore9Installer"
     },
