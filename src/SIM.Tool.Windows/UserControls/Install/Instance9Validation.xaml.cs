@@ -40,11 +40,17 @@ namespace SIM.Tool.Windows.UserControls.Install
         if (result == null)
         {
           this.Caption.Text = "Validation aborted by user.";
+          this.Stats.Visibility = Visibility.Hidden;
+        }
+        else
+        {
+          Stats.Visibility = Visibility.Visible;
         }
       }
       else
       {
         this.Caption.Text = "Validation skipped by user.";
+        this.Stats.Visibility = Visibility.Hidden;
       }
 
     }
