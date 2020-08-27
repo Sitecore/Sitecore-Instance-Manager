@@ -58,7 +58,7 @@ namespace SIM.Tool.Windows.UserControls.Install.ParametersEditor
       public TasksModel(string Name, BaseParameters Params)
       {
         this.Name = Name;
-        this.Params = Params;
+        this.Params = Params.ToList();
       }
 
       public string Name { get; }
