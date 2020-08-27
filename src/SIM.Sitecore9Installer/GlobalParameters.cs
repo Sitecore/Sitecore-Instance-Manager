@@ -41,22 +41,7 @@ namespace SIM.Sitecore9Installer
 
     protected override void CalculateParameters()
     {
-        this.EvaluateGlobalParams();
-    }
-
-    public string GetGlobalParamsScript()
-    {
-      return this.GetParamsScript();
-    }
-
-    protected override InstallParam CreateParameter(string name, string value, InstallParamType type)
-    {
-      return new InstallParam(name, value, true, type);
-    }
-
-    private void EvaluateGlobalParams()
-    {
-      StringBuilder globalParamsEval = new StringBuilder();
+        StringBuilder globalParamsEval = new StringBuilder();
       globalParamsEval.Append("Set-ExecutionPolicy Bypass -Force\n");
       globalParamsEval.AppendFormat("Import-Module SitecoreInstallFramework{0}\n", this.GetSifVersion());
       globalParamsEval.AppendLine("$GlobalParams =@{");
@@ -74,6 +59,16 @@ namespace SIM.Sitecore9Installer
 
         param.Value = (string)evaluatedParams[param.Name];
       }
+    }
+
+    public string GetGlobalParamsScript()
+    {
+      return this.GetParamsScript();
+    }
+
+    protected override InstallParam CreateParameter(string name, string value, InstallParamType type)
+    {
+      return new InstallParam(name, value, true, type);
     }
 
     private string GetSifVersion()
