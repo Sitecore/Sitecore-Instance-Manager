@@ -24,7 +24,7 @@ namespace SIM.Sitecore9Installer
     private void Initialize(string name, string value, bool isGlobal)
     {
       this.name = name;
-      this.Value = value;
+      this.value = value;
       this.isGlobal = isGlobal;
     }
 
