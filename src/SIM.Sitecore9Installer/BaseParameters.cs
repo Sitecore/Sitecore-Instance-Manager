@@ -15,10 +15,10 @@ namespace SIM.Sitecore9Installer
     private bool _evaluated;
     public BaseParameters()
     {
-      EventManager.Instance.ParamValueUpdated += ParamValueUpdated;
+      EventManager.Instance.ParamValueUpdated += OnParamValueUpdated;
     }
 
-    protected virtual void ParamValueUpdated(object sender, ParamValueUpdatedArgs e)
+    protected virtual void OnParamValueUpdated(object sender, ParamValueUpdatedArgs e)
     {
       if (this.Parameters == null)
       {

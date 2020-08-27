@@ -8,7 +8,7 @@ namespace SIM.Sitecore9Installer.Events
 {
   public class EventManager
   {
-    private static EventManager _instance=new EventManager();
+    private static EventManager _instance = new EventManager();
     public static EventManager Instance
     {
       get => _instance;
