@@ -18,11 +18,11 @@ namespace SIM.Sitecore9Installer.Tests.Validation.Validators
     public void ReturnsValidValidationResults(bool fileExists, ValidatorState expectedResult)
     {
       //Arrange
-      Task task = Substitute.For<Task>("", 0, null, new List<InstallParam>(), new Dictionary<string, string>());
-      task.LocalParams.Returns(new List<InstallParam>());
+      Task task = Substitute.For<Task>("", 0, null, null, new Dictionary<string, string>());
+      GlobalParameters globals = new GlobalParameters();
+      task.LocalParams.Returns(new LocalParameters(new List<InstallParam>(),globals));
 
-      InstallParam licenseFileParam = new InstallParam("LicenseFile", @"C:\license.xml");
-      task.LocalParams.Add(licenseFileParam);
+      task.LocalParams.AddOrUpdateParam("LicenseFile", @"C:\license.xml",InstallParamType.String);
 
       List<Task> tasks = Substitute.For<List<Task>>();
       tasks.Add(task);

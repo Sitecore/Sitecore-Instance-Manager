@@ -14,7 +14,6 @@ namespace SIM.Pipelines.Reinstall
     {
       Reinstall9Args arguments = (Reinstall9Args)args;
       arguments.Tasker.UnInstall = false;
-      arguments.Tasker.RunLowlevelTasks();
     }
   }
 }

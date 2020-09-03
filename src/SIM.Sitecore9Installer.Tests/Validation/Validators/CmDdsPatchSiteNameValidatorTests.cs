@@ -28,22 +28,26 @@ namespace SIM.Sitecore9Installer.Tests.Validation.Validators
     {
       // Arrange 
       var fixture = new Fixture();
-
-      var cmTask = Substitute.For<Task>(cmTaskName, fixture.Create<int>(), null, new List<InstallParam>(), new Dictionary<string, string>());
-      InstallParam siteNameParam = new InstallParam(SiteName, cmSiteName);
+      GlobalParameters globals = new GlobalParameters();
+      var cmTask = Substitute.For<Task>(cmTaskName, fixture.Create<int>(), null, null, new Dictionary<string, string>());
+      InstallParam siteNameParam = new InstallParam(SiteName, cmSiteName,false,InstallParamType.String);
       List<InstallParam> paramList = new List<InstallParam>
       {
         siteNameParam
       };
-      cmTask.LocalParams.Returns(paramList);
 
-      var ddsPatchTask = Substitute.For<Task>(ddsPatchTaskName, fixture.Create<int>(), null, new List<InstallParam>(), new Dictionary<string, string>());
-      siteNameParam = new InstallParam(SiteName, ddsPatchSiteName);
+      LocalParameters cmLocals = new LocalParameters(paramList, globals);
+      cmTask.LocalParams.Returns(cmLocals);
+
+      var ddsPatchTask = Substitute.For<Task>(ddsPatchTaskName, fixture.Create<int>(), null, null, new Dictionary<string, string>());
+      siteNameParam = new InstallParam(SiteName, ddsPatchSiteName,false, InstallParamType.String);
       paramList = new List<InstallParam>
       {
         siteNameParam
       };
-      ddsPatchTask.LocalParams.Returns(paramList);
+
+      LocalParameters ddsLocals = new LocalParameters(paramList, globals);
+      ddsPatchTask.LocalParams.Returns(ddsLocals);
 
       var validator = Substitute.ForPartsOf<CmDdsPatchSiteNameValidator>();
       validator.Data["SitecoreXp1Cm"] = SitecoreXp1Cm;

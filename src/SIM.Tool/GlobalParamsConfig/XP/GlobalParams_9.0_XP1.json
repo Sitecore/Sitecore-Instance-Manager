@@ -21,13 +21,13 @@
     //xConnect
     "XConnectCert": "$GlobalParams.SqlDbPrefix+\"xconnect_client\"",
     "SqlMarketingAutomationUser": "",
-    "SqlMarketingAutomationPassword": "Password1234567890",
+    "SqlMarketingAutomationPassword": "Password1234567890!",
     "SqlReferenceDataUser": "",
-    "SqlReferenceDataPassword": "Password1234567890",
+    "SqlReferenceDataPassword": "Password1234567890!",
     "SqlProcessingPoolsUser": "",
-    "SqlProcessingPoolsPassword": "Password1234567890",
+    "SqlProcessingPoolsPassword": "Password1234567890!",
     "SqlCollectionUser": "$GlobalParams.SqlDbPrefix+\"collectionuser\"",
-    "SqlCollectionPassword": "Password1234567890",
+    "SqlCollectionPassword": "Password1234567890!",
     "XConnectEnvironment": "",
     "XConnectLogLevel": "",
     //Sitecore
@@ -35,19 +35,19 @@
     "SolrCorePrefix": "$GlobalParams.SqlDbPrefix",
 
     "SqlCoreUser": "",
-    "SqlCorePassword": "Password1234567890",
+    "SqlCorePassword": "Password1234567890!",
     "SqlWebUser": "",
-    "SqlWebPassword": "Password1234567890",
+    "SqlWebPassword": "Password1234567890!",
     "SqlFormsUser": "",
-    "SqlFormsPassword": "Password1234567890",
+    "SqlFormsPassword": "Password1234567890!",
     "SqlMasterUser": "",
-    "SqlMasterPassword": "Password1234567890",
+    "SqlMasterPassword": "Password1234567890!",
     "SqlReportingUser": "",
-    "SqlReportingPassword": "Password1234567890",
+    "SqlReportingPassword": "Password1234567890!",
     "SqlProcessingTasksUser": "",
-    "SqlProcessingTasksPassword": "Password1234567890",
+    "SqlProcessingTasksPassword": "Password1234567890!",
     "SqlExmMasterUser": "",
-    "SqlExmMasterPassword": "Password1234567890",
+    "SqlExmMasterPassword": "Password1234567890!",
     "ExmEdsProvider": "",
     "EXMCryptographicKey": "",
     "EXMAuthenticationKey": "",
@@ -62,7 +62,7 @@
     "ReportingServiceApiKey": "abcde111112222233333444445555566",
     "TelerikEncryptionKey": "",
     "SqlMessagingUser": "",
-    "SqlMessagingPassword": "Password1234567890"
+    "SqlMessagingPassword": "Password1234567890!"
   },
   "PackageMapping": {
 
@@ -98,13 +98,6 @@
         "ExecutionOrder": "-100"
       }
     },
-    "EvaluateParams": {
-      "Type": "SIM.Sitecore9Installer.Tasks.EvaluateParamsTask, SIM.Sitecore9Installer",
-      "TaskOptions": {
-        "ExecutionOrder": "-90"
-      }
-    },
-
     "xconnect-createcert": {
       "Type": "SIM.Sitecore9Installer.Tasks.SitecoreTask, SIM.Sitecore9Installer"
     },

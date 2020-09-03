@@ -19,9 +19,10 @@ namespace SIM.Sitecore9Installer.Tests.Validation.Validators
           _fix = new Fixture();
           _fix.Register<Tasks.Task>(() =>
           {
-            Task t = Substitute.For<Task>(_fix.Create<string>(), _fix.Create<int>(), null, new List<InstallParam>(), new Dictionary<string, string>());
-            t.GlobalParams.Returns(new List<InstallParam>());
-            t.LocalParams.Returns(new List<InstallParam>());
+            Task t = Substitute.For<Task>(_fix.Create<string>(), _fix.Create<int>(), null, null, new Dictionary<string, string>());
+            GlobalParameters global = new GlobalParameters();
+            t.GlobalParams.Returns(global);
+            t.LocalParams.Returns(new LocalParameters(new List<InstallParam>(), global));
             return t;
           });
         }
@@ -42,16 +43,16 @@ namespace SIM.Sitecore9Installer.Tests.Validation.Validators
 
     public static Task CreateTask(string taskName, string[] paramNames, string[] paramValues)
     {
-      var task = Substitute.For<Task>("someTask", 1, null, new List<InstallParam>(),
+      var task = Substitute.For<Task>("someTask", 1, null, null,
         new Dictionary<string, string>());
       List<InstallParam> iParams = new List<InstallParam>();
       for (int i = 0; i < paramNames.Length; ++i)
       {
-        InstallParam p = new InstallParam(paramNames[i], paramValues[i]);
+        InstallParam p = new InstallParam(paramNames[i], paramValues[i],false,InstallParamType.String);
         iParams.Add(p);
       }
 
-      task.LocalParams.Returns(iParams);
+      task.LocalParams.Returns(new LocalParameters(iParams,new GlobalParameters()));
       return task;
     }
   }

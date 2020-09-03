@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using SIM.Sitecore9Installer.Events;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,37 +13,31 @@ namespace SIM.Sitecore9Installer
 
   public class InstallParam
   {
-    public event EventHandler<ParamValueUpdatedArgs> ParamValueUpdated;
     string value;
-    public InstallParam(string name, string value, string type = "string")
+    private bool isGlobal;
+    public InstallParam(string name, string value, bool isGlobal, InstallParamType type)
     {
-      this.name = name;
-      this.Value = value;
-      this.Type = ParseInstallParamType(type);
+      Initialize(name, value, isGlobal);
+      this.Type = type;
     }
 
-    private InstallParamType ParseInstallParamType(string type)
+    private void Initialize(string name, string value, bool isGlobal)
     {
-      switch (type?.ToLower())
-      {
-        case "bool":
-        case "switch":
-          {
-            return InstallParamType.Bool;
-          }
-        case "int":
-          {
-            return InstallParamType.Int;
-          }
-        default:
-          {
-            return InstallParamType.String;
-          }
-      }
+      this.name = name;
+      this.value = value;
+      this.isGlobal = isGlobal;
+    }
+
+    [JsonConstructor]
+    public InstallParam(string name, string value, bool isGlogal, string type)
+    {
+      this.Initialize(name, value, isGlobal);
+      this.Type = this.ParseInstallParamType(type);
     }
 
     private string name;
     public string Name { get => this.name; }
+    public bool IsGlobal { get=>this.isGlobal; }
     public string Value
     {
       get
@@ -53,12 +48,8 @@ namespace SIM.Sitecore9Installer
       {
         string oldValue = this.value;
         this.value = value;
-        if (this.ParamValueUpdated != null)
-        {
-          ParamValueUpdatedArgs args = new ParamValueUpdatedArgs(oldValue);
-
-          this.ParamValueUpdated(this, args);
-        }
+        ParamValueUpdatedArgs args = new ParamValueUpdatedArgs(oldValue);
+        EventManager.Instance.RaiseParamValueUpdated(this, args);
       }
     }
 
@@ -118,15 +109,29 @@ namespace SIM.Sitecore9Installer
 
       return value;
     }
-  }
 
-  public class ParamValueUpdatedArgs : EventArgs
-  {
-    public ParamValueUpdatedArgs(string oldValue)
+    private InstallParamType ParseInstallParamType(string type)
     {
-      this.OldValue = oldValue;
+      switch (type?.ToLower())
+      {
+        case "bool":
+          {
+            return InstallParamType.Bool;
+          }
+        case "string":
+          {
+            return InstallParamType.String;
+          }
+        case "int":
+          {
+            return InstallParamType.Int;
+          }
+        default:
+          {
+            throw new ArgumentOutOfRangeException($"Unknown parameter type '{type}'");
+          }
+      }
     }
-
-    public string OldValue { get; }
   }
+
 }

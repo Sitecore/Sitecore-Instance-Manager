@@ -20,7 +20,7 @@ namespace SIM.Sitecore9Installer.Tests.Validation.Validators
     {
       foreach (Task t in tasks)
       {
-        t.LocalParams.Add(new InstallParam("SolrService", "nope"));
+        t.LocalParams.AddOrUpdateParam("SolrService", "nope",InstallParamType.String);
       }
 
       SolrServiceValidator val = Substitute.ForPartsOf<SolrServiceValidator>();
@@ -37,7 +37,7 @@ namespace SIM.Sitecore9Installer.Tests.Validation.Validators
     {
       foreach (Task t in tasks)
       {
-        t.LocalParams.Add(new InstallParam("SolrService", "nope"));
+        t.LocalParams.AddOrUpdateParam("SolrService", "nope",InstallParamType.String);
       }
 
       SolrServiceValidator val = Substitute.ForPartsOf<SolrServiceValidator>();

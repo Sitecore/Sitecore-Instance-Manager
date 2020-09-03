@@ -96,8 +96,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Configuration\Configuration.cs" />
+    <Compile Include="Events\EventManager.cs" />
+    <Compile Include="Events\ParamValueUpdatedArgs.cs" />
+    <Compile Include="GlobalParameters.cs" />
+    <Compile Include="LocalParameters.cs" />
+    <Compile Include="PackageMapping.cs" />
+    <Compile Include="BaseParameters.cs" />
     <Compile Include="InstallParam.cs" />
     <Compile Include="Tasks\EvaluateParamsTask.cs" />
+    <Compile Include="Tasks\TaskDefinition.cs" />
     <Compile Include="Tasks\xConnectTaskWithPostSteps.cs" />
     <Compile Include="Tasks\InstallSIFTask.cs" />
     <Compile Include="Tasks\PowerShellTask.cs" />

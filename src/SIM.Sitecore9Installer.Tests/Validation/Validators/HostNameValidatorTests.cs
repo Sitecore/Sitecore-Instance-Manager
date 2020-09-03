@@ -15,7 +15,7 @@ namespace SIM.Sitecore9Installer.Tests.Validation.Validators
     {
       foreach(Task t in tasks)
       {
-        t.LocalParams.Add(new InstallParam("DnsName", "test.com"));
+        t.LocalParams.AddOrUpdateParam("DnsName", "test.com",InstallParamType.String);
       }
 
       HostNameValidator val = new HostNameValidator();
@@ -31,7 +31,7 @@ namespace SIM.Sitecore9Installer.Tests.Validation.Validators
     {
       foreach (Task t in tasks)
       {
-        t.LocalParams.Add(new InstallParam("DnsName", "!@#$%%"));
+        t.LocalParams.AddOrUpdateParam("DnsName", "!@#$%%",InstallParamType.String);
       }
 
       HostNameValidator val = new HostNameValidator();

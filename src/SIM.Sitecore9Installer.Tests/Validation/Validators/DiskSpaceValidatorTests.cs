@@ -23,12 +23,12 @@ namespace SIM.Sitecore9Installer.Tests.Validation.Validators
     public void ReturnsValidValidationResults(string deployRoot, long freeSpace, ValidatorState expectedResult, string resultMessage)
     {
       //Arrange
-      Task task = Substitute.For<Task>("", 0, null, new List<InstallParam>(), new Dictionary<string, string>());
-      task.LocalParams.Returns(new List<InstallParam>());
-      InstallParam deployRootParam = new InstallParam("DeployRoot", deployRoot);
-      task.LocalParams.Add(deployRootParam);
+      Task task = Substitute.For<Task>("", 0, null, null, new Dictionary<string, string>());
+      GlobalParameters globals = new GlobalParameters();
+      task.LocalParams.Returns(new LocalParameters(new List<InstallParam>(),globals));
+      task.LocalParams.AddOrUpdateParam("DeployRoot",deployRoot,InstallParamType.String);
 
-      List<Task> tasks = Substitute.For<List<Task>>();
+      List <Task> tasks = Substitute.For<List<Task>>();
       tasks.Add(task);
       
       DiskSpaceValidator val = Substitute.ForPartsOf<DiskSpaceValidator>();

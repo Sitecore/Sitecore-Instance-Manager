@@ -57,7 +57,7 @@ namespace SIM.Pipelines.Install
 
       if (sTask != null)
       {
-        this.CustomLogLocation = sTask.Owner.FilesRoot;
+        this.CustomLogLocation = sTask.GlobalParams.First(p=>p.Name== "FilesRoot").Value;
       }
     }
   }

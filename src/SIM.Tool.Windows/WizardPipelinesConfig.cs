@@ -396,8 +396,6 @@ But the confirmation will be required if the databases are attached to:
         <action text=""Open Visual Studio"" 
                 type=""SIM.Tool.Windows.Pipelines.Reinstall.FinishActions, SIM.Tool.Windows"" method=""OpenVisualStudio"" />
 
-        <action text=""Make a back up"" 
-                type=""SIM.Tool.Windows.Pipelines.Reinstall.FinishActions, SIM.Tool.Windows"" method=""BackupInstance"" />
       </finish>
     </reinstall>
     <installmodules title=""Installing modules to the {InstanceName} instance"" startButton=""Install""
@@ -423,8 +421,6 @@ But the confirmation will be required if the databases are attached to:
                 method=""OpenWebsiteFolder"" />
         <action text=""Open Visual Studio"" type=""SIM.Tool.Windows.Pipelines.Install.InstallModulesActions, SIM.Tool.Windows""
                 method=""OpenVisualStudio"" />
-        <action text=""Make a back up"" type=""SIM.Tool.Windows.Pipelines.Install.InstallModulesActions, SIM.Tool.Windows""
-                method=""BackupInstance"" />
         <action text=""Publish Site"" type=""SIM.Tool.Windows.Pipelines.Install.InstallModulesActions, SIM.Tool.Windows"" method=""PublishSite"" />
         <hive type=""SIM.Tool.Windows.Pipelines.Install.InstallModulesFinishActionHive, SIM.Tool.Windows"" />
       </finish>
