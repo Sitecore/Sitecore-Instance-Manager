@@ -39,11 +39,6 @@ namespace SIM.Tool.Windows.UserControls.Install.ParametersEditor
         }
       }
 
-      if (model.Count > 1)
-      {
-        model.Insert(0,new TasksModel("Global", tasker.GlobalParams));
-      }
-
       this.InstallationParameters.DataContext = model;
       this.InstallationParameters.SelectedIndex = 0;
     }
@@ -60,14 +55,14 @@ namespace SIM.Tool.Windows.UserControls.Install.ParametersEditor
 
     private class TasksModel
     {
-      public TasksModel(string Name, List<InstallParam> Params)
+      public TasksModel(string Name, BaseParameters Params)
       {
         this.Name = Name;
-        this.Params = Params;
+        this.Params = Params.ToList();
       }
 
       public string Name { get; }
-      public List<InstallParam> Params { get; }
+      public IEnumerable<InstallParam> Params { get; }
     }
 
     private void Btn_Close_Click(object sender, RoutedEventArgs e)

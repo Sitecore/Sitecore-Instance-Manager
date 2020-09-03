@@ -24,7 +24,6 @@ namespace SIM.Sitecore9Installer.Validation.Validators
       foreach (Task task in tasks.Where(t => t.LocalParams.Any(p => p.Name == user)))
       {
         string sereverVersion = string.Empty;
-        Exception error = null;
         sereverVersion = this.GetSqlVersion(task.LocalParams.Single(p => p.Name == server).Value,
         task.LocalParams.Single(p => p.Name == user).Value,
         task.LocalParams.Single(p => p.Name == pass).Value);

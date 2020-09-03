@@ -43,8 +43,6 @@ namespace SIM.Tool.Windows.UserControls.Install
       "v2.0", "v4.0"
     };
 
-    private InstallWizardArgs _InstallParameters = null;
-
     #endregion
 
     #region Constructors

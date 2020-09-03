@@ -11,7 +11,7 @@ namespace SIM.Tool.Windows.Pipelines.Solr
   {
     public static void Run(Install9WizardArgs args)
     {
-      List<InstallParam> solrParams = args.Tasker.Tasks.First(t => t.Name == "Solr").LocalParams;
+      BaseParameters solrParams = args.Tasker.Tasks.First(t => t.Name == "Solr").LocalParams;
       string solrDomain = solrParams.First(p => p.Name == "SolrDomain").Value;
       string solrInstallRoot = solrParams.First(p => p.Name == "SolrInstallRoot").Value;
       string solrPort = solrParams.First(p => p.Name == "SolrPort").Value;
