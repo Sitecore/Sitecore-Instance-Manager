@@ -56,7 +56,7 @@
         var name = GetName();
         var root = GetRootFolder(name);
 
-        var instance = new FakeInstance(root, root, GetDatabases(name, root));
+        var instance = new FakeInstance(root, root, GetDatabases(name, root), name);
         RootPathTest("#4 all are root (root, root, root)", root, instance);
       }
     }
@@ -265,9 +265,11 @@
       _GetAttachedDatabases = databases;
     }
 
-    public FakeInstance(DirectoryInfo webroot, DirectoryInfo dataFolder, Database[] databases)
+    public FakeInstance(DirectoryInfo webroot, DirectoryInfo dataFolder, 
+      Database[] databases, string displayName = null)
       : this(webroot.FullName, dataFolder.FullName, databases)
     {
+      DisplayName = $"FakeInstance-{displayName ?? webroot.Parent.Name}";
     }
 
     #endregion
@@ -281,6 +283,8 @@
         return webRootPath;
       }
     }
+
+    public sealed override string DisplayName { get; }
 
     #endregion
 
