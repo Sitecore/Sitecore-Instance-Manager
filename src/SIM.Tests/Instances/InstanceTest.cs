@@ -68,7 +68,13 @@
         var name = GetName();
         var root = GetRootFolder(name);
         var rootDrive = FileSystem.FileSystem.Local.Directory.GetDirectoryRoot(root.FullName);
-        var drive = Environment.GetLogicalDrives().First(d => !d.EqualsIgnoreCase(rootDrive));
+        var drive = Environment.GetLogicalDrives().FirstOrDefault(d => !d.EqualsIgnoreCase(rootDrive));
+
+        //This test can be executed only if there are more than 1 drive on the machine.
+        //If there is just 1 drive, the test is skipped.
+        if (drive == null)
+          return;
+
         var instance = new FakeInstance(GetRelativeFolder(root, "Website"), new DirectoryInfo(drive + "data"), GetDatabases(name, GetRelativeFolder(root, "Databases")));
         RootPathTest($"#5 data on another drive (root/website, {drive}data, root/databases)", root, instance);
       }
@@ -92,7 +98,13 @@
         var name = GetName();
         var root = GetRootFolder(name);
         var rootDrive = FileSystem.FileSystem.Local.Directory.GetDirectoryRoot(root.FullName);
-        var drive = Environment.GetLogicalDrives().First(d => !d.EqualsIgnoreCase(rootDrive));
+        var drive = Environment.GetLogicalDrives().FirstOrDefault(d => !d.EqualsIgnoreCase(rootDrive));
+
+        //This test can be executed only if there are more than 1 drive on the machine.
+        //If there is just 1 drive, the test is skipped.
+        if (drive == null)
+          return;
+
         var instance = new FakeInstance(GetRelativeFolder(root, "Website"), GetRelativeFolder(root, "Data"), GetDatabases(name, new DirectoryInfo(drive + "databases")));
         RootPathTest($"#7 databases on another drive (root/website, root/data, {drive}databases)", root, instance);
       }
@@ -105,7 +117,13 @@
         var name = GetName();
         var root = GetRootFolder(name);
         var rootDrive = FileSystem.FileSystem.Local.Directory.GetDirectoryRoot(root.FullName);
-        var drive = Environment.GetLogicalDrives().First(d => !d.EqualsIgnoreCase(rootDrive));
+        var drive = Environment.GetLogicalDrives().FirstOrDefault(d => !d.EqualsIgnoreCase(rootDrive));
+
+        //This test can be executed only if there are more than 1 drive on the machine.
+        //If there is just 1 drive, the test is skipped.
+        if (drive == null)
+          return;
+
         var instance = new FakeInstance(GetRelativeFolder(root, "Website"), GetRelativeFolder(root.Parent, "Data"), GetDatabases(name, new DirectoryInfo(drive + "databases")));
         RootPathTest($"#8 databases on another drive, data too far (root/website, root/data, {drive}databases)", root, instance);
       }
@@ -117,10 +135,8 @@
       {
         var name = GetName();
         var root = GetRootFolder(name);
-        var rootDrive = FileSystem.FileSystem.Local.Directory.GetDirectoryRoot(root.FullName);
-        var drive = Environment.GetLogicalDrives().First(d => !d.EqualsIgnoreCase(rootDrive));
         var instance = new FakeInstance(GetRelativeFolder(root, "Website"), GetRelativeFolder(root.Parent, "Data"), new Database[0]);
-        RootPathTest($"#9 no databases, data too far (root/website, root/data, {drive}databases)", root, instance);
+        RootPathTest($"#9 no databases, data too far (root/website, root/data, no databases)", root, instance);
       }
     }
 
@@ -130,11 +146,9 @@
       {
         var name = GetName();
         var root = GetRootFolder(name);
-        var rootDrive = FileSystem.FileSystem.Local.Directory.GetDirectoryRoot(root.FullName);
-        var drive = Environment.GetLogicalDrives().First(d => !d.EqualsIgnoreCase(rootDrive));
         var website = GetRelativeFolder(root, "Website");
         var instance = new FakeInstance(website, GetRelativeFolder(website, "Data"), new Database[0]);
-        RootPathTest($"#9 no databases, data is inside (root/website, root/website/data, {drive}databases)", website, instance);
+        RootPathTest($"#10 no databases, data is inside (root/website, root/website/data, no databases)", website, instance);
       }
     }
 
