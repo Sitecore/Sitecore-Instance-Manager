@@ -15,7 +15,7 @@
     #region Public methods
     
     [TestMethod]
-    public void RootPathTest1()
+    public void DataAndWebsiteOnSameLevelTest()
     {
       {
         var name = GetName();
@@ -26,7 +26,7 @@
     }
 
     [TestMethod]
-    public void RootPathTest2()
+    public void DataInsideWebsiteTest()
     {
       {
         var name = GetName();
@@ -38,7 +38,7 @@
     }
 
     [TestMethod]
-    public void RootPathTest3()
+    public void DataIsWebsiteTest()
     {
       {
         var name = GetName();
@@ -50,7 +50,7 @@
     }
 
     [TestMethod]
-    public void RootPathTest4()
+    public void DataAndWebsiteAreRootTest()
     {
       {
         var name = GetName();
@@ -62,7 +62,7 @@
     }
 
     [TestMethod]
-    public void RootPathTest5()
+    public void DataOnAnotherDriveTest()
     {
       {
         var name = GetName();
@@ -81,7 +81,7 @@
     }
 
     [TestMethod]
-    public void RootPathTest6()
+    public void DataOutsideRootTest()
     {
       {
         var name = GetName();
@@ -92,7 +92,7 @@
     }
 
     [TestMethod]
-    public void RootPathTest7()
+    public void DatabasesOnAnotherDriveTest()
     {
       {
         var name = GetName();
@@ -111,7 +111,7 @@
     }
 
     [TestMethod]
-    public void RootPathTest8()
+    public void DatabasesOnAnotherDriveDataOtsideRootTest()
     {
       {
         var name = GetName();
@@ -130,7 +130,7 @@
     }
 
     [TestMethod]
-    public void RootPathTest9()
+    public void NoDatabasesDataOutsideRootTest()
     {
       {
         var name = GetName();
@@ -141,7 +141,7 @@
     }
 
     [TestMethod]
-    public void RootPathTest10()
+    public void NoDatabasesDataInsideWebsiteTest()
     {
       {
         var name = GetName();
