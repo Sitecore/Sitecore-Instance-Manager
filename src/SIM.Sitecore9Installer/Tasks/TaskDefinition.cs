@@ -72,7 +72,7 @@ namespace SIM.Sitecore9Installer.Tasks
           p.Value = globalParams[p.Name].Value;
         installParams.Add(p);
 
-        if (p.Name == "Package" && !unInstall)
+        if (p.Name == "Package")
         {          
             p.Value = mapping.Map(this.TaskName, taskFolder);
         }
