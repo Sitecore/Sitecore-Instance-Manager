@@ -76,6 +76,7 @@ namespace SIM.Sitecore9Installer
       string deployRoot = deserializedGlobalParams.Single(p => p.Name == "DeployRoot")?.Value;
       if (deployRoot != null)
       {
+        this.deployRoot = deployRoot;
         this.InjectGlobalDeploymentRoot(deployRoot);
       }
 
