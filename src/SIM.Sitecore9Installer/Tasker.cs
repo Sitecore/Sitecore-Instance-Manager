@@ -239,7 +239,7 @@ namespace SIM.Sitecore9Installer
         wr.WriteLine(GetSerializedGlobalParams(excludeParams));
       }
 
-      foreach (PowerShellTask task in Tasks.Where(t => t.ShouldRun && t.SupportsUninstall()&& t is PowerShellTask))
+      foreach (PowerShellTask task in Tasks.Where(t => t.ShouldRun && t is PowerShellTask))
       {
         string parameters = task.GetSerializedParameters(excludeParams);
         using (StreamWriter wr =
