@@ -185,6 +185,20 @@ By clicking 'Next' you accept the License Agreement."" />
       </steps>
     </download8>
 
+    <installSolr title=""Installing new Solr instance"" startButton=""Install""
+                 finishText=""The installation was successfully completed"">
+          <args type=""SIM.Tool.Base.Pipelines.Install9WizardArgs, SIM.Tool.Base""/>
+          <steps>
+            <step name=""STEP 1 of 2 - DETAILS"" 
+                  type=""SIM.Tool.Windows.UserControls.Install.SolrDetails, SIM.Tool.Windows"" />
+            <step name=""STEP 2 of 2 - SELECT INSTALLATION TASKS"" 
+                  type=""SIM.Tool.Windows.UserControls.Install.Instance9SelectTasks, SIM.Tool.Windows"" />
+         </steps> 
+      <finish>
+         <action text=""Add this solr to SIM"" type=""SIM.Tool.Windows.Pipelines.Solr.AddSolrToSimConfig, SIM.Tool.Windows"" method=""Run"" />
+      </finish>
+     </installSolr>
+
 <delete9 title=""Deleting instances"" startButton=""Delete""
              finishText=""The uninstallation was successfully completed"">
       <args type=""SIM.Tool.Base.Pipelines.Install9WizardArgs, SIM.Tool.Base""/>
@@ -382,8 +396,6 @@ But the confirmation will be required if the databases are attached to:
         <action text=""Open Visual Studio"" 
                 type=""SIM.Tool.Windows.Pipelines.Reinstall.FinishActions, SIM.Tool.Windows"" method=""OpenVisualStudio"" />
 
-        <action text=""Make a back up"" 
-                type=""SIM.Tool.Windows.Pipelines.Reinstall.FinishActions, SIM.Tool.Windows"" method=""BackupInstance"" />
       </finish>
     </reinstall>
     <installmodules title=""Installing modules to the {InstanceName} instance"" startButton=""Install""
@@ -409,8 +421,6 @@ But the confirmation will be required if the databases are attached to:
                 method=""OpenWebsiteFolder"" />
         <action text=""Open Visual Studio"" type=""SIM.Tool.Windows.Pipelines.Install.InstallModulesActions, SIM.Tool.Windows""
                 method=""OpenVisualStudio"" />
-        <action text=""Make a back up"" type=""SIM.Tool.Windows.Pipelines.Install.InstallModulesActions, SIM.Tool.Windows""
-                method=""BackupInstance"" />
         <action text=""Publish Site"" type=""SIM.Tool.Windows.Pipelines.Install.InstallModulesActions, SIM.Tool.Windows"" method=""PublishSite"" />
         <hive type=""SIM.Tool.Windows.Pipelines.Install.InstallModulesFinishActionHive, SIM.Tool.Windows"" />
       </finish>

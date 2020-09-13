@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using SIM.Sitecore9Installer.Tasks;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 

@@ -31,7 +31,7 @@ namespace SIM.Pipelines.Install
       PowerShellTask powershellTask = task as PowerShellTask;
       if (powershellTask!=null)
       {
-        string result = powershellTask.GetScript();
+        string result = powershellTask.GetEvaluatedScript();
         if (task.State == TaskState.Failed)
         {
           throw new AggregateException(string.Format("Failed to execute {0} task. \n{1}", task.Name, result));
@@ -43,7 +43,7 @@ namespace SIM.Pipelines.Install
 
         using (StreamWriter writer = new StreamWriter(Path.Combine(path, string.Format("{0}.ps1", task.Name))))
         {
-          writer.Write(powershellTask.GetScript());
+          writer.Write(result);
         }
       }
       else

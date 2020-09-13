@@ -23,6 +23,7 @@ namespace SIM.Pipelines.Install
         return;
       }
 
+      arguments.Tasker.GlobalParams.Evaluate();
       InstallParam sqlDbPrefixParam = arguments.Tasker.GlobalParams.FirstOrDefault(p => p.Name == SqlDbPrefix);
       if (sqlDbPrefixParam != null && !string.IsNullOrEmpty(sqlDbPrefixParam.Value))
       {
@@ -41,12 +42,9 @@ namespace SIM.Pipelines.Install
         InstallParam installParam = powerShellTask.LocalParams.FirstOrDefault(x => x.Name == SiteName);
         if (installParam != null && !string.IsNullOrEmpty(installParam.Value))
         {
-          Hashtable evaluatedLocalParams = tasker.GetEvaluatedLocalParams(powerShellTask.LocalParams, tasker.GlobalParams);
-          if (evaluatedLocalParams != null && evaluatedLocalParams[SiteName] != null)
-          {
-            sitecoreEnvironment.Members.Add(new SitecoreEnvironmentMember(evaluatedLocalParams[SiteName].ToString(),
+          powerShellTask.LocalParams.Evaluate();
+          sitecoreEnvironment.Members.Add(new SitecoreEnvironmentMember(installParam.Value,
               SitecoreEnvironmentMember.Types.Site.ToString()));
-          }
         }
       }
 

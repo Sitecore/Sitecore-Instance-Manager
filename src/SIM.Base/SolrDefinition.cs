@@ -89,7 +89,7 @@ namespace SIM
       {
         uri = new Uri(this.Url, UriKind.Absolute);
       }
-      catch (Exception ex)
+      catch (Exception)
       {
         return "Invalid solr URL.";
       }

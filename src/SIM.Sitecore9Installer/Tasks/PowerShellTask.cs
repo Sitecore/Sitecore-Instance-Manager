@@ -18,21 +18,22 @@ namespace SIM.Sitecore9Installer.Tasks
 
   public abstract class PowerShellTask : Task
   {
-    public PowerShellTask(string taskName, int executionOrder, Tasker owner, List<InstallParam> localParams,
+    public PowerShellTask(string taskName, int executionOrder, GlobalParameters globalParams, LocalParameters localParams,
       Dictionary<string, string> taskOptions)
-      : base(taskName, executionOrder, owner, localParams, taskOptions)
+      : base(taskName, executionOrder, globalParams,localParams, taskOptions)
     {
     }
 
     public override string Run()
     {
       StringBuilder results = new StringBuilder();
-      State = TaskState.Running;
+      State = TaskState.Running;      
       using (PowerShell PowerShellInstance = PowerShell.Create())
       {
-        PowerShellInstance.AddScript(GetScript());
         try
         {
+          string script = this.GetEvaluatedScript();
+          PowerShellInstance.AddScript(script);
           PowerShellInstance.Invoke();
         }
         catch (Exception)
@@ -65,12 +66,16 @@ namespace SIM.Sitecore9Installer.Tasks
 
       return results.ToString();
     }
-
-    public abstract string GetScript();
-
+    
     public virtual string GetSerializedParameters()
     {
       return GetSerializedParameters(new string[0]);
+    }
+
+    public virtual string GetEvaluatedScript()
+    {
+      this.EvaluateLocalParams();
+      return this.GetScript();
     }
 
     public virtual string GetSerializedParameters(IEnumerable<string> excludeList)
@@ -79,5 +84,12 @@ namespace SIM.Sitecore9Installer.Tasks
 
       return JsonConvert.SerializeObject(LocalParams.Where(p => !excludeList.Contains(p.Name)));
     }
+
+    protected virtual void EvaluateLocalParams()
+    {
+      this.LocalParams.Evaluate();
+    }
+
+    protected abstract string GetScript();
   }
 }
