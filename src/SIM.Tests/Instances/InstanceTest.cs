@@ -15,7 +15,7 @@
     #region Public methods
     
     [TestMethod]
-    public void RootPathTest1()
+    public void DataAndWebsiteOnSameLevelTest()
     {
       {
         var name = GetName();
@@ -26,7 +26,7 @@
     }
 
     [TestMethod]
-    public void RootPathTest2()
+    public void DataInsideWebsiteTest()
     {
       {
         var name = GetName();
@@ -38,7 +38,7 @@
     }
 
     [TestMethod]
-    public void RootPathTest3()
+    public void DataIsWebsiteTest()
     {
       {
         var name = GetName();
@@ -50,32 +50,38 @@
     }
 
     [TestMethod]
-    public void RootPathTest4()
+    public void DataAndWebsiteAreRootTest()
     {
       {
         var name = GetName();
         var root = GetRootFolder(name);
 
-        var instance = new FakeInstance(root, root, GetDatabases(name, root));
+        var instance = new FakeInstance(root, root, GetDatabases(name, root), name);
         RootPathTest("#4 all are root (root, root, root)", root, instance);
       }
     }
 
     [TestMethod]
-    public void RootPathTest5()
+    public void DataOnAnotherDriveTest()
     {
       {
         var name = GetName();
         var root = GetRootFolder(name);
         var rootDrive = FileSystem.FileSystem.Local.Directory.GetDirectoryRoot(root.FullName);
-        var drive = Environment.GetLogicalDrives().First(d => !d.EqualsIgnoreCase(rootDrive));
+        var drive = Environment.GetLogicalDrives().FirstOrDefault(d => !d.EqualsIgnoreCase(rootDrive));
+
+        //This test can be executed only if there are more than 1 drive on the machine.
+        //If there is just 1 drive, the test is skipped.
+        if (drive == null)
+          return;
+
         var instance = new FakeInstance(GetRelativeFolder(root, "Website"), new DirectoryInfo(drive + "data"), GetDatabases(name, GetRelativeFolder(root, "Databases")));
         RootPathTest($"#5 data on another drive (root/website, {drive}data, root/databases)", root, instance);
       }
     }
 
     [TestMethod]
-    public void RootPathTest6()
+    public void DataOutsideRootTest()
     {
       {
         var name = GetName();
@@ -86,55 +92,63 @@
     }
 
     [TestMethod]
-    public void RootPathTest7()
+    public void DatabasesOnAnotherDriveTest()
     {
       {
         var name = GetName();
         var root = GetRootFolder(name);
         var rootDrive = FileSystem.FileSystem.Local.Directory.GetDirectoryRoot(root.FullName);
-        var drive = Environment.GetLogicalDrives().First(d => !d.EqualsIgnoreCase(rootDrive));
+        var drive = Environment.GetLogicalDrives().FirstOrDefault(d => !d.EqualsIgnoreCase(rootDrive));
+
+        //This test can be executed only if there are more than 1 drive on the machine.
+        //If there is just 1 drive, the test is skipped.
+        if (drive == null)
+          return;
+
         var instance = new FakeInstance(GetRelativeFolder(root, "Website"), GetRelativeFolder(root, "Data"), GetDatabases(name, new DirectoryInfo(drive + "databases")));
         RootPathTest($"#7 databases on another drive (root/website, root/data, {drive}databases)", root, instance);
       }
     }
 
     [TestMethod]
-    public void RootPathTest8()
+    public void DatabasesOnAnotherDriveDataOtsideRootTest()
     {
       {
         var name = GetName();
         var root = GetRootFolder(name);
         var rootDrive = FileSystem.FileSystem.Local.Directory.GetDirectoryRoot(root.FullName);
-        var drive = Environment.GetLogicalDrives().First(d => !d.EqualsIgnoreCase(rootDrive));
+        var drive = Environment.GetLogicalDrives().FirstOrDefault(d => !d.EqualsIgnoreCase(rootDrive));
+
+        //This test can be executed only if there are more than 1 drive on the machine.
+        //If there is just 1 drive, the test is skipped.
+        if (drive == null)
+          return;
+
         var instance = new FakeInstance(GetRelativeFolder(root, "Website"), GetRelativeFolder(root.Parent, "Data"), GetDatabases(name, new DirectoryInfo(drive + "databases")));
         RootPathTest($"#8 databases on another drive, data too far (root/website, root/data, {drive}databases)", root, instance);
       }
     }
 
     [TestMethod]
-    public void RootPathTest9()
+    public void NoDatabasesDataOutsideRootTest()
     {
       {
         var name = GetName();
         var root = GetRootFolder(name);
-        var rootDrive = FileSystem.FileSystem.Local.Directory.GetDirectoryRoot(root.FullName);
-        var drive = Environment.GetLogicalDrives().First(d => !d.EqualsIgnoreCase(rootDrive));
         var instance = new FakeInstance(GetRelativeFolder(root, "Website"), GetRelativeFolder(root.Parent, "Data"), new Database[0]);
-        RootPathTest($"#9 no databases, data too far (root/website, root/data, {drive}databases)", root, instance);
+        RootPathTest($"#9 no databases, data too far (root/website, root/data, no databases)", root, instance);
       }
     }
 
     [TestMethod]
-    public void RootPathTest10()
+    public void NoDatabasesDataInsideWebsiteTest()
     {
       {
         var name = GetName();
         var root = GetRootFolder(name);
-        var rootDrive = FileSystem.FileSystem.Local.Directory.GetDirectoryRoot(root.FullName);
-        var drive = Environment.GetLogicalDrives().First(d => !d.EqualsIgnoreCase(rootDrive));
         var website = GetRelativeFolder(root, "Website");
         var instance = new FakeInstance(website, GetRelativeFolder(website, "Data"), new Database[0]);
-        RootPathTest($"#9 no databases, data is inside (root/website, root/website/data, {drive}databases)", website, instance);
+        RootPathTest($"#10 no databases, data is inside (root/website, root/website/data, no databases)", website, instance);
       }
     }
 
@@ -265,9 +279,11 @@
       _GetAttachedDatabases = databases;
     }
 
-    public FakeInstance(DirectoryInfo webroot, DirectoryInfo dataFolder, Database[] databases)
+    public FakeInstance(DirectoryInfo webroot, DirectoryInfo dataFolder, 
+      Database[] databases, string displayName = null)
       : this(webroot.FullName, dataFolder.FullName, databases)
     {
+      DisplayName = $"FakeInstance-{displayName ?? webroot.Parent.Name}";
     }
 
     #endregion
@@ -281,6 +297,8 @@
         return webRootPath;
       }
     }
+
+    public sealed override string DisplayName { get; }
 
     #endregion
 
