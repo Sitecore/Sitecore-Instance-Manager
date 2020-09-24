@@ -16,14 +16,9 @@
       "Description": "The Solr port.",
       "DefaultValue": 8983
     },
-    "SolrServicePrefix": {
-      "Type": "String",
-      "Description": "The Solr service prefix name.",
-      "DefaultValue": ""
-    },
     "SolrInstallRoot": {
       "Type": "String",
-      "Description": "The file path to install Solr. This config will add the prefix and solr version e.g C:\\Solr becomes C:\\Solr\\[SolrServicePrefix]Solr-8.4.0",
+      "Description": "The file path to install Solr.",
       "DefaultValue": "C:\\"
     },
     "SolrSourceURL": {
@@ -68,7 +63,7 @@
     ],
 
     "Solr.FileName": "[concat('solr-',parameter('SolrVersion'))]",
-    "Solr.Service": "[concat(parameter('SolrServicePrefix'),variable('Solr.FileName'))]",
+    "Solr.Service": "[concat(variable('Solr.FileName'),'-',parameter('SolrDomain'),'-',parameter('SolrPort'))]",
     "Solr.Uri": "[concat('https://',parameter('SolrDomain'),':',parameter('SolrPort'))]",
     "Solr.Install.Path": "[JoinPath(parameter('SolrInstallRoot'),variable('Solr.Service'))]",
     "Java.Install.Path": "[parameter('JavaHome')]",
