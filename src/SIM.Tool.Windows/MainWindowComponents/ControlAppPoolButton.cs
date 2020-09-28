@@ -3,13 +3,12 @@ namespace SIM.Tool.Windows.MainWindowComponents
   using System.Windows;
   using SIM.Instances;
   using SIM.Tool.Base;
-  using SIM.Tool.Base.Plugins;
   using Sitecore.Diagnostics.Base;
   using JetBrains.Annotations;
   using SIM.Extensions;
 
   [UsedImplicitly]
-  public class ControlAppPoolButton : IMainWindowButton
+  public class ControlAppPoolButton : InstanceOnlyButton
   {
     #region Constants
 
@@ -72,37 +71,7 @@ namespace SIM.Tool.Windows.MainWindowComponents
 
     #region Public methods
 
-    public bool IsEnabled(Window mainWindow, Instance instance)
-    {
-      if (instance == null)
-      {
-        return false;
-      }
-
-      // performance optimization
-      // if (this.StartMode && (instance.ApplicationPoolState == ObjectState.Started || instance.ApplicationPoolState == ObjectState.Starting))
-      // {
-      // return false;
-      // }
-
-      // if ((this.StopMode || this.KillMode || this.RecycleMode) && (instance.ApplicationPoolState == ObjectState.Stopped || instance.ApplicationPoolState == ObjectState.Stopping))
-      // {
-      // return false;
-      // }
-
-      // if ((this.KillMode || this.RecycleMode) && !instance.ProcessIds.Any())
-      // {
-      // return false;
-      // }
-      return true;
-    }
-
-    public bool IsVisible(Window mainWindow, Instance instance)
-    {
-      return true;
-    }
-
-    public void OnClick(Window mainWindow, Instance instance)
+    public override void OnClick(Window mainWindow, Instance instance)
     {
       if (instance != null)
       {

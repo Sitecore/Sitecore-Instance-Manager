@@ -15,24 +15,14 @@ namespace SIM.Tool.Windows.MainWindowComponents
   using SIM.Tool.Base;
   using SIM.Tool.Base.Plugins;
 
-  public class AttachReportingDatabaseButton : IMainWindowButton
+  public class AttachReportingDatabaseButton : InstanceOnlyButton
   {
     [UsedImplicitly]
     public AttachReportingDatabaseButton()
     {
     }
 
-    public bool IsEnabled(Window mainWindow, Instance instance)
-    {
-      return instance != null;
-    }
-
-    public bool IsVisible(Window mainWindow, Instance instance)
-    {
-      return true;
-    }
-
-    public void OnClick(Window mainWindow, Instance instance)
+    public override void OnClick(Window mainWindow, Instance instance)
     {
       Assert.ArgumentNotNull(instance, nameof(instance));
                     

@@ -1,30 +1,18 @@
 ﻿namespace SIM.Tool.Windows.MainWindowComponents
 {
   using System.Windows;
-  using SIM.Core.Common;
   using SIM.Instances;
   using SIM.Pipelines.Export;
-  using SIM.Tool.Base.Plugins;
   using JetBrains.Annotations;
   using SIM.Tool.Base.Wizards;
   using SIM.Tool.Windows.UserControls.Export;
 
   [UsedImplicitly]
-  public class ExportInstanceButton : IMainWindowButton
+  public class ExportInstanceButton : InstanceOnlyButton
   {
     #region Public methods
 
-    public bool IsEnabled(Window mainWindow, Instance instance)
-    {
-      return instance != null;
-    }
-
-    public bool IsVisible(Window mainWindow, Instance instance)
-    {
-      return true;
-    }
-
-    public void OnClick(Window mainWindow, Instance instance)
+    public override void OnClick(Window mainWindow, Instance instance)
     {
       if (instance != null)
       {

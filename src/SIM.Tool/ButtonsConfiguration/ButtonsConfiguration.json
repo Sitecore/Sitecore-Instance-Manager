@@ -1,0 +1,161 @@
+{
+  "Sitecore8AndEarlierButtons": [
+    /*Refresh sites, installer, caches, all*/
+    "RefreshButton",
+    /*Install Sitecore XP 8.2 and earlier*/
+    "InstallInstanceButton",
+    /*Install SC XP 9, Install Sitecore XP 9 and later*/
+    "Install9InstanceButton",
+    /*Import Solution*/
+    "ImportInstanceButton",
+    /*Get Sitecore, Download Sitecore*/
+    "Download8Button",
+    /*SIM Logs, SIM Data Folder, Website Folder, Root Folder, Data Folder, Databases Folder, App_Config Folder, Include Folder, zzz Folder*/
+    "OpenFolderButton",
+    "SitecoreMemberOpenFolderButton",
+    /*Hosts Editor*/
+    "OpenHostsButton",
+    /*MS SQL Manager*/
+    "DatabaseManagerButton",
+    /*Update Licenses*/
+    "UpdateLicenseButton",
+    /*Multiple Deletion*/
+    "MultipleDeletionButton",
+    /*Log Analyzer*/
+    "OpenLogsButton",
+    /*SSPG*/
+    "OpenSSPGButton",
+    /*Config Builder*/
+    "ConfigBuilderButton",
+    /*Install Solr*/
+    "InstallSolrButton",
+    /*Install MongoDB*/
+    "InstallMongoDbButton",
+    /*Generate NuGet packages, Generate NuGet packages for selected instance*/
+    "GenerateNuGetPackagesButton",
+    /*Settings*/
+    "SettingsButton",
+    /*Create Support Patch, Create Core Patch*/
+    "CreateSupportPatchButton",
+    /*Sitecore Client, Front-end Site, Sitecore Login, Sitecore Desktop, Content Editor, Page Editor, Launch Pad, Google Chrome, Google Chrome (Incognito), Mozilla Firefox, Mozilla Firefox (Private), Internet Explorer, Internet Explorer (Private), Apple Safari*/
+    "BrowseButton",
+    /*Sitecore Admin*/
+    "OpenToolboxButton, Sitecore Admin",
+    /*Log in admin, Copy URL*/
+    "LoginAdminButton",
+    /*Config Files, web.config*/
+    "OpenWebConfigButton",
+    /*Global.asax, ConnectionStrings.config, Sitecore.config*/
+    "OpenFileButton",
+    /*Showconfig.xml*/
+    "ConfigBuilderButton",
+    /*Log Files, App State*/
+    "SitecoreMemberButton",
+    /*Current Log file*/
+    "OpenCurrentLogButton",
+    /*Entire Log files*/
+    "OpenLogsButton",
+    /*Visual Studio*/
+    "OpenVisualStudioButton",
+    /*Install Packages*/
+    "InstallModulesButton",
+    /*Backup*/
+    "BackupButton",
+    "BackupInstanceButton",
+    /*Export*/
+    "ExportInstanceButton",
+    /*Restore*/
+    "RestoreInstanceButton",
+    /*App State*/
+    "ControlAppPoolButton",
+    /*Delete*/
+    "DeleteInstanceButton",
+    /*Reinstall*/
+    "ReinstallInstanceButton",
+    /*Extra Actions*/
+    "ExtraActionsButton",
+    /*Publish*/
+    "PublishButton",
+    /*Cleanup logs and temp folder*/
+    "CleanupInstanceButton",
+    "AttachReportingDatabaseButton",
+    "AttachReportingSecondaryDatabaseButton",
+    "CopyMarketingDefinitionTablesButton",
+    "ReplaceReportingDatabaseWithSecondaryButton",
+    "ClearPropertiesButton",
+    "ClearEventQueueButton",
+    "RecycleAllButThisButton",
+    "KillAllButThisButton",
+    "AttachDebuggerButton",
+    "CollectMemoryDumpButton",
+    "ManagedArgsTracerButton"
+  ],
+  "Sitecore9AndLaterButtons": [
+    "RefreshButton",
+    "InstallInstanceButton",
+    "Install9InstanceButton",
+    "ImportInstanceButton",
+    "Download8Button",
+    "OpenFolderButton",
+    "SitecoreMemberOpenFolderButton",
+    "OpenHostsButton",
+    "DatabaseManagerButton",
+    "UpdateLicenseButton",
+    "MultipleDeletionButton",
+    "OpenLogsButton",
+    "OpenSSPGButton",
+    "ConfigBuilderButton",
+    "InstallSolrButton",
+    "InstallMongoDbButton",
+    "GenerateNuGetPackagesButton",
+    "SettingsButton",
+    "CreateSupportPatchButton",
+    "BrowseButton",
+    "OpenToolboxButton, Sitecore Admin",
+    "LoginAdminButton",
+    "OpenWebConfigButton",
+    "OpenFileButton",
+    "ConfigBuilderButton",
+    "SitecoreMemberButton",
+    "OpenCurrentLogButton",
+    "OpenLogsButton",
+    "OpenVisualStudioButton",
+    "InstallModulesButton",
+    "ControlAppPoolButton",
+    "DeleteInstanceButton",
+    "ReinstallInstanceButton"
+  ],
+  "Sitecore9AndLaterMemberButtons": [
+    "RefreshButton",
+    "InstallInstanceButton",
+    "Install9InstanceButton",
+    "ImportInstanceButton",
+    "Download8Button",
+    "SitecoreMemberOpenFolderButton",
+    "OpenHostsButton",
+    "DatabaseManagerButton",
+    "UpdateLicenseButton",
+    "MultipleDeletionButton",
+    "OpenLogsButton",
+    "OpenSSPGButton",
+    "ConfigBuilderButton",
+    "InstallSolrButton",
+    "InstallMongoDbButton",
+    "GenerateNuGetPackagesButton",
+    "SettingsButton",
+    "CreateSupportPatchButton",
+    "BrowseButton",
+    "OpenToolboxButton, Sitecore Admin",
+    "LoginAdminButton",
+    "OpenWebConfigButton",
+    "OpenFileButton",
+    "ConfigBuilderButton",
+    "OpenCurrentLogButton",
+    "OpenLogsButton",
+    "OpenVisualStudioButton",
+    "InstallModulesButton",
+    "ControlAppPoolButton",
+    "DeleteInstanceButton",
+    "ReinstallInstanceButton"
+  ]
+}

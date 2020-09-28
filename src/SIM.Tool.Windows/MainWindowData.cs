@@ -106,13 +106,13 @@ namespace SIM.Tool.Windows
                 {
                   Label = "SIM Logs",
                   Image = "/Images/$sm/folder_document2.png, SIM.Tool.Windows",
-                  Handler = new SIM.Tool.Windows.MainWindowComponents.OpenFolderButton(@"%APPDATA%\Sitecore\Sitecore Instance Manager\Logs")
+                  Handler = new SIM.Tool.Windows.MainWindowComponents.OpenSimFolderButton(@"%APPDATA%\Sitecore\Sitecore Instance Manager\Logs")
                 },
                 new ButtonDefinition
                 {
                   Label = "SIM Data Folder",
                   Image = "/Images/$sm/folder_window.png, SIM.Tool.Windows",
-                  Handler = new SIM.Tool.Windows.MainWindowComponents.OpenFolderButton(@"%APPDATA%\Sitecore\Sitecore Instance Manager")
+                  Handler = new SIM.Tool.Windows.MainWindowComponents.OpenSimFolderButton(@"%APPDATA%\Sitecore\Sitecore Instance Manager")
                 },
                 new ButtonDefinition(),
                 GetPatchButton(),

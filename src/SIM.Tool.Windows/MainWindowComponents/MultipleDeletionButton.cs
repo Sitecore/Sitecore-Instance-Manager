@@ -2,31 +2,18 @@
 {
   using System.Collections.Generic;
   using System.Windows;
-  using SIM.Instances;
   using SIM.Pipelines.MultipleDeletion;
-  using SIM.Tool.Base.Plugins;
   using SIM.Tool.Windows;
   using JetBrains.Annotations;
   using SIM.Tool.Base.Wizards;
   using SIM.Tool.Windows.UserControls.MultipleDeletion;
 
   [UsedImplicitly]
-  public class MultipleDeletionButton : IMainWindowButton
+  public class MultipleDeletionButton : WindowOnlyButton
   {
-    #region Public methods
+    #region Protected methods
 
-    public bool IsEnabled(Window mainWindow, Instance instance)
-    {
-      return true;
-    }
-
-    public bool IsVisible(Window mainWindow, Instance instance)
-    {
-      return true;
-    }
-
-
-    public void OnClick(Window mainWindow, Instance instance)
+    protected override void OnClick(Window mainWindow)
     {
       WizardPipelineManager.Start("multipleDeletion", mainWindow, new MultipleDeletionArgs(new List<string>()), null, ignore => OnWizardCompleted(), () => new MultipleDeletionWizardArgs());
     }

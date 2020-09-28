@@ -4,13 +4,11 @@
   using System.Windows;
   using SIM.Instances;
   using SIM.Tool.Base;
-  using SIM.Tool.Base.Pipelines;
-  using SIM.Tool.Base.Plugins;
   using JetBrains.Annotations;
   using Sitecore.Diagnostics.Logging;
 
   [UsedImplicitly]
-  public class PublishButton : IMainWindowButton
+  public class PublishButton : InstanceOnlyButton
   {
     #region Constants
 
@@ -43,18 +41,7 @@
 
     #region Public methods
 
-    public bool IsEnabled(Window mainWindow, Instance instance)
-    {
-      return instance != null;
-    }
-
-    public bool IsVisible(Window mainWindow, Instance instance)
-    {
-      return true;
-    }
-
-
-    public void OnClick(Window mainWindow, Instance instance)
+    public override void OnClick(Window mainWindow, Instance instance)
     {
       using (new ProfileSection("Publish", this))
       {

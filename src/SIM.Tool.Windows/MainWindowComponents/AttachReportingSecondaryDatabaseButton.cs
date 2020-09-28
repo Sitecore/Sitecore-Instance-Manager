@@ -16,24 +16,14 @@
   using SIM.Tool.Base;
   using SIM.Tool.Base.Plugins;
 
-  public class AttachReportingSecondaryDatabaseButton : IMainWindowButton
+  public class AttachReportingSecondaryDatabaseButton : InstanceOnlyButton
   {
     [UsedImplicitly]
     public AttachReportingSecondaryDatabaseButton()
     {
     }
 
-    public bool IsEnabled(Window mainWindow, Instance instance)
-    {
-      return instance != null;
-    }
-
-    public bool IsVisible(Window mainWindow, Instance instance)
-    {
-      return true;
-    }
-
-    public void OnClick(Window mainWindow, Instance instance)
+    public override void OnClick(Window mainWindow, Instance instance)
     {
       Assert.ArgumentNotNull(instance, nameof(instance));
 

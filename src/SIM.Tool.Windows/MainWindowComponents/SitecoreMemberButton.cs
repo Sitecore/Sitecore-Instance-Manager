@@ -1,29 +1,9 @@
 ﻿namespace SIM.Tool.Windows.MainWindowComponents
 {
-  using System.Windows;
-  using SIM.Instances;
-  using SIM.Tool.Base.Plugins;
   using JetBrains.Annotations;
 
   [UsedImplicitly]
-  public class SitecoreMemberButton : IMainWindowButton
+  public class SitecoreMemberButton : InstanceOnlyButton
   {
-    #region Public methods
-
-    public bool IsEnabled(Window mainWindow, Instance instance)
-    {
-      return instance != null;
-    }
-
-    public bool IsVisible(Window mainWindow, Instance instance)
-    {
-      return MainWindowHelper.IsEnabledOrVisibleButtonForSitecoreMember(instance);
-    }
-
-    public void OnClick(Window mainWindow, Instance instance)
-    {
-    }
-
-    #endregion
   }
 }

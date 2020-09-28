@@ -8,27 +8,16 @@
   using SIM.Pipelines.InstallModules;
   using SIM.Products;
   using SIM.Tool.Base;
-  using SIM.Tool.Base.Plugins;
   using Sitecore.Diagnostics.Base;
   using JetBrains.Annotations;
   using SIM.Core;
 
   [UsedImplicitly]
-  public class OpenVisualStudioButton : IMainWindowButton
+  public class OpenVisualStudioButton : InstanceOnlyButton
   {
     #region Public methods
 
-    public bool IsEnabled(Window mainWindow, Instance instance)
-    {
-      return instance != null;
-    }
-
-    public bool IsVisible(Window mainWindow, Instance instance)
-    {
-      return true;
-    }
-
-    public void OnClick(Window mainWindow, Instance instance)
+    public override void OnClick(Window mainWindow, Instance instance)
     {
       if (instance == null)
       {

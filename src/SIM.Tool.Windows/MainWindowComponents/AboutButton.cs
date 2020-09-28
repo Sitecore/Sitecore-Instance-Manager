@@ -10,7 +10,7 @@
   public class AboutOnlyButton : WindowOnlyButton
   {
     #region Public methods
-    
+
     protected override void OnClick(Window mainWindow)
     {
       Assert.ArgumentNotNull(mainWindow, nameof(mainWindow));

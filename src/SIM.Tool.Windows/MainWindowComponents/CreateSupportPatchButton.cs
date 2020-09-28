@@ -8,10 +8,9 @@ namespace SIM.Tool.Windows.MainWindowComponents
   using SIM.Core;
   using SIM.Instances;
   using SIM.Tool.Base;
-  using SIM.Tool.Base.Plugins;
 
   [UsedImplicitly]
-  public class CreateSupportPatchButton : IMainWindowButton
+  public class CreateSupportPatchButton : InstanceOnlyButton
   {
     #region Public methods
     
@@ -24,17 +23,7 @@ namespace SIM.Tool.Windows.MainWindowComponents
       AppUrl = appUrl;
     }
 
-    public bool IsEnabled(Window mainWindow, Instance instance)
-    {
-      return true;
-    }
-
-    public bool IsVisible(Window mainWindow, Instance instance)
-    {
-      return MainWindowHelper.IsEnabledOrVisibleButtonForSitecore91AndMember(instance);
-    }
-
-    public void OnClick(Window mainWindow, Instance instance)
+    public override void OnClick(Window mainWindow, Instance instance)
     {
       if (instance == null)
       {

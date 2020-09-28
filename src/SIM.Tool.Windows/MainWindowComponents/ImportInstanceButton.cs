@@ -2,10 +2,7 @@
 {
   using System.Windows;
   using Microsoft.Win32;
-  using SIM.Core.Common;
-  using SIM.Instances;
   using SIM.Tool.Base;
-  using SIM.Tool.Base.Plugins;
   using Sitecore.Diagnostics.Base;
   using JetBrains.Annotations;
   using Sitecore.Diagnostics.Logging;
@@ -15,21 +12,9 @@
   using SIM.Tool.Windows.UserControls.Import;
 
   [UsedImplicitly]
-  public class ImportInstanceButton : IMainWindowButton
+  public class ImportInstanceButton : WindowOnlyButton
   {
-    #region Public methods
-
-    public bool IsEnabled([CanBeNull] Window mainWindow, Instance instance)
-    {
-      return true;
-    }
-
-    public bool IsVisible([CanBeNull] Window mainWindow, Instance instance)
-    {
-      return true;
-    }
-
-    public void OnClick(Window mainWindow, Instance instance)
+    protected override void OnClick(Window mainWindow)
     {
       Assert.ArgumentNotNull(mainWindow, nameof(mainWindow));
 
@@ -80,7 +65,5 @@
 
       WizardPipelineManager.Start("import", mainWindow, null, null, ignore => MainWindowHelper.SoftlyRefreshInstances(), () => new ImportWizardArgs(file.FullName));
     }
-
-    #endregion
   }
 }

@@ -3,15 +3,12 @@
   using System;
   using System.Linq;
   using System.Windows;
-
   using JetBrains.Annotations;
-
   using SIM.Adapters.SqlServer;
   using SIM.Instances;
   using SIM.Tool.Base;
-  using SIM.Tool.Base.Plugins;
 
-  public abstract class ClearDatabasesButton : IMainWindowButton
+  public abstract class ClearDatabasesButton : InstanceOnlyButton
   {
     [NotNull]
     private string[] Databases { get; }
@@ -23,17 +20,7 @@
 
     public abstract string DatabaseName { get; }
 
-    public bool IsEnabled(Window mainWindow, Instance instance)
-    {
-      return instance != null;
-    }
-
-    public bool IsVisible(Window mainWindow, Instance instance)
-    {
-      return true;
-    }
-
-    public void OnClick(Window mainWindow, Instance instance)
+    public override void OnClick(Window mainWindow, Instance instance)
     {
       WindowHelper.LongRunningTask(() => DoWork(instance), $"Cleaning up {DatabaseName}", mainWindow);
     }

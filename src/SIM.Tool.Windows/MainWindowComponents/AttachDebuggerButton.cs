@@ -5,6 +5,7 @@ namespace SIM.Tool.Windows.MainWindowComponents
   using System.Globalization;
   using System.IO;
   using System.Linq;
+  using System.Windows;
   using SIM.Instances;
   using SIM.Tool.Base;
   using Sitecore.Diagnostics.Base;
@@ -21,7 +22,7 @@ namespace SIM.Tool.Windows.MainWindowComponents
 
     #region Public methods
 
-    protected override void OnClick(Instance instance)
+    public override void OnClick(Window mainWindow, Instance instance)
     {
       Assert.ArgumentNotNull(instance, nameof(instance));
 

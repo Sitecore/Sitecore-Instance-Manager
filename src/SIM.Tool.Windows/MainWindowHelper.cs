@@ -871,36 +871,6 @@
       return false;
     }
 
-    public static bool IsEnabledOrVisibleButtonForSitecore91AndMember(Instance selectedInstance)
-    {
-      if (selectedInstance != null && (IsSitecoreMember(selectedInstance) || IsSitecore91(selectedInstance)))
-      {
-        return false;
-      }
-
-      return true;
-    }
-
-    public static bool IsEnabledOrVisibleButtonForSitecore9AndMember(Instance selectedInstance)
-    {
-      if (selectedInstance != null && (IsSitecoreMember(selectedInstance) || IsSitecore9(selectedInstance)))
-      {
-        return false;
-      }
-
-      return true;
-    }
-
-    public static bool IsEnabledOrVisibleButtonForSitecoreMember(Instance selectedInstance)
-    {
-      if (selectedInstance != null && IsSitecoreMember(selectedInstance))
-      {
-        return false;
-      }
-
-      return true;
-    }
-
     private static void ShowContextMenuItems(Instance selectedInstance)
     {
       ShowHideContextMenuItemsForSitecore9(Visibility.Visible);

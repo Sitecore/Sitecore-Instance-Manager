@@ -1,27 +1,15 @@
 namespace SIM.Tool.Windows.MainWindowComponents
 {
   using System.Windows;
-  using SIM.Instances;
-  using SIM.Tool.Base.Plugins;
   using JetBrains.Annotations;
   using SIM.Core;
 
   [UsedImplicitly]
-  public class OpenSSPGButton : IMainWindowButton
+  public class OpenSSPGButton : WindowOnlyButton
   {
-    #region Public methods
+    #region Protected methods
 
-    public bool IsEnabled(Window mainWindow, Instance instance)
-    {
-      return true;
-    }
-
-    public bool IsVisible(Window mainWindow, Instance instance)
-    {
-      return true;
-    }
-
-    public void OnClick(Window mainWindow, Instance instance)
+    protected override void OnClick(Window mainWindow)
     {
       CoreApp.RunApp("iexplore", "http://dl.sitecore.net/updater/sspg/SSPG.application");
     }

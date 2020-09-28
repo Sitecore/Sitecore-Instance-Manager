@@ -1,7 +1,5 @@
 ﻿namespace SIM.Tool.Windows.MainWindowComponents
 {
-  using System.Windows;
-  using SIM.Instances;
   using JetBrains.Annotations;
 
   [UsedImplicitly]
@@ -17,10 +15,10 @@
 
     #region Public methods
 
-    public override bool IsVisible(Window mainWindow, Instance instance)
+    /*public override bool IsVisible(Window mainWindow, Instance instance)
     {
       return MainWindowHelper.IsEnabledOrVisibleButtonForSitecoreMember(instance);
-    }
+    }*/
 
     #endregion
   }

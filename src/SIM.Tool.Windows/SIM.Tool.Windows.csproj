@@ -119,6 +119,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ButtonDefinition.cs" />
+    <Compile Include="ButtonsConfiguration.cs" />
     <Compile Include="CustomVisibilityConverter.cs" />
     <Compile Include="CustomEnabledConverter.cs" />
     <Compile Include="Dialogs\AddSolrDialog.xaml.cs">
@@ -173,6 +174,7 @@
     <Compile Include="MainWindowComponents\InstallMongoDb.cs" />
     <Compile Include="MainWindowComponents\InstallSolrButton.cs" />
     <Compile Include="MainWindowComponents\KillAllButThisButton.cs" />
+    <Compile Include="MainWindowComponents\OpenSimFolderButton.cs" />
     <Compile Include="MainWindowComponents\SitecoreMemberOpenFolderButton.cs" />
     <Compile Include="MainWindowComponents\SitecoreMemberButton.cs" />
     <Compile Include="MainWindowComponents\LoginAdminButton.cs" />

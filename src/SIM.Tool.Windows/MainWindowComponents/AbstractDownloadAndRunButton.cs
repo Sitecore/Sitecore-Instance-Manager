@@ -1,20 +1,18 @@
-using System;
-using System.Diagnostics;
-using System.IO;
-using System.Windows;
-using Sitecore.Diagnostics.Logging;
-using SIM.Tool.Base;
-
 namespace SIM.Tool.Windows.MainWindowComponents
 {
+  using System;
+  using System.Diagnostics;
+  using System.IO;
+  using System.Windows;
   using Sitecore.Diagnostics.Base;
+  using Sitecore.Diagnostics.Logging;
   using JetBrains.Annotations;
-  using SIM.Core;
-  using SIM.Core.Common;
-  using SIM.Instances;
+  using SIM.Tool.Base;
   using SIM.Tool.Base.Plugins;
+  using SIM.Core;
+  using SIM.Instances;
 
-  public abstract class AbstractDownloadAndRunButton : IMainWindowButton
+  public abstract class AbstractDownloadAndRunButton : WindowOnlyButton
   {
     [NotNull]
     protected abstract string BaseUrl { get; }
@@ -30,17 +28,7 @@ namespace SIM.Tool.Windows.MainWindowComponents
 
     #region Public methods
 
-    public virtual bool IsEnabled(Window mainWindow, Instance instance)
-    {
-      return true;
-    }
-
-    public virtual bool IsVisible(Window mainWindow, Instance instance)
-    {
-      return true;
-    }
-
-    public virtual void OnClick(Window mainWindow, Instance instance)
+    public override void OnClick(Window mainWindow, Instance instance)
     {
       RunApp(mainWindow);
     }

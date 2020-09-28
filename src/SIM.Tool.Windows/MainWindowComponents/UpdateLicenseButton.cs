@@ -3,27 +3,24 @@
   using System.Windows;
   using SIM.Instances;
   using SIM.Tool.Base;
-  using SIM.Tool.Base.Plugins;
   using JetBrains.Annotations;
 
   [UsedImplicitly]
-  public class UpdateLicenseButton : IMainWindowButton
+  public class UpdateLicenseButton : WindowOnlyButton
   {
     #region Public methods
 
-    public bool IsEnabled(Window mainWindow, Instance instance)
-    {
-      return true;
-    }
-
-    public bool IsVisible(Window mainWindow, Instance instance)
-    {
-      return true;
-    }
-
-    public void OnClick(Window mainWindow, Instance instance)
+    public override void OnClick(Window mainWindow, Instance instance)
     {
       LicenseUpdater.Update(mainWindow, instance);
+    }
+
+    #endregion
+
+    #region Protected methods
+
+    protected override void OnClick(Window mainWindow)
+    {
     }
 
     #endregion

@@ -2,29 +2,17 @@
 {
   using System.Windows;
   using SIM.Adapters.WebServer;
-  using SIM.Core.Common;
   using SIM.Instances;
-  using SIM.Tool.Base.Plugins;
   using JetBrains.Annotations;
   using SIM.Core;
   using SIM.Extensions;
 
   [UsedImplicitly]
-  public class OpenWebConfigButton : IMainWindowButton
+  public class OpenWebConfigButton : InstanceOnlyButton
   {
     #region Public methods
 
-    public bool IsEnabled(Window mainWindow, Instance instance)
-    {
-      return instance != null;
-    }
-
-    public bool IsVisible(Window mainWindow, Instance instance)
-    {
-      return MainWindowHelper.IsEnabledOrVisibleButtonForSitecoreMember(instance);
-    }
-
-    public void OnClick(Window mainWindow, Instance instance)
+    public override void OnClick(Window mainWindow, Instance instance)
     {
       if (instance != null)
       {

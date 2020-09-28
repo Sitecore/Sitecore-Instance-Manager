@@ -2,14 +2,12 @@
 {
   using System.IO;
   using System.Windows;
-  using SIM.Core.Common;
   using SIM.Instances;
-  using SIM.Tool.Base.Plugins;
   using JetBrains.Annotations;
   using SIM.Extensions;
 
   [UsedImplicitly]
-  public class OpenLogsButton : AbstractDownloadAndRunButton, IMainWindowButton
+  public class OpenLogsButton : AbstractDownloadAndRunButton
   {
     protected override string BaseUrl
     {
@@ -37,16 +35,6 @@
 
     #region Public methods
 
-    public bool IsEnabled(Window mainWindow, Instance instance)
-    {
-      return true;
-    }
-
-    public bool IsVisible(Window mainWindow, Instance instance)
-    {
-      return MainWindowHelper.IsEnabledOrVisibleButtonForSitecoreMember(instance);
-    }
-
     public override void OnClick(Window mainWindow, Instance instance)
     {
       if (instance != null)
@@ -64,5 +52,9 @@
     }
 
     #endregion
+
+    protected override void OnClick(Window mainWindow)
+    {
+    }
   }
 }

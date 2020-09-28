@@ -120,5 +120,9 @@
     }
 
     #endregion
+
+    protected override void OnClick([NotNull] Window mainWindow)
+    {
+    }
   }
 }

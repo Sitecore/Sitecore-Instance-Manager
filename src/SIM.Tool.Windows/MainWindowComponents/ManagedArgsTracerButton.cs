@@ -11,23 +11,11 @@ namespace SIM.Tool.Windows.MainWindowComponents
   using JetBrains.Annotations;
 
   [UsedImplicitly]
-  public class ManagedArgsTracerButton : IMainWindowButton
+  public class ManagedArgsTracerButton : InstanceOnlyButton
   {
     #region Public methods
 
-    public bool IsEnabled(Window mainWindow, Instance instance)
-    {
-      Assert.ArgumentNotNull(mainWindow, nameof(mainWindow));
-
-      return true;
-    }
-
-    public bool IsVisible(Window mainWindow, Instance instance)
-    {
-      return true;
-    }
-
-    public void OnClick(Window mainWindow, Instance instance)
+    public override void OnClick(Window mainWindow, Instance instance)
     {
       Assert.ArgumentNotNull(mainWindow, nameof(mainWindow));
 

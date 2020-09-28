@@ -9,24 +9,14 @@
   using SIM.Tool.Base;
   using SIM.Tool.Base.Plugins;
 
-  public class CleanupInstanceButton : IMainWindowButton
+  public class CleanupInstanceButton : InstanceOnlyButton
   {
     [UsedImplicitly]
     public CleanupInstanceButton()
     {
     }
 
-    public bool IsEnabled(Window mainWindow, Instance instance)
-    {
-      return instance != null;
-    }
-    
-    public bool IsVisible(Window mainWindow, Instance instance)
-    {
-      return true;
-    }
-
-    public void OnClick(Window mainWindow, Instance instance)
+    public override void OnClick(Window mainWindow, Instance instance)
     {
       if (instance.State != InstanceState.Stopped)
       {

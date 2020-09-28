@@ -2,14 +2,12 @@
 {
   using System.Linq;
   using System.Windows;
-  using SIM.Core.Common;
   using SIM.Instances;
   using SIM.Tool.Base;
-  using SIM.Tool.Base.Plugins;
   using JetBrains.Annotations;
 
   [UsedImplicitly]
-  public class BrowseButton : IMainWindowButton
+  public class BrowseButton : InstanceOnlyButton
   {
     #region Fields
 
@@ -45,17 +43,7 @@
 
     #region Public methods
 
-    public bool IsEnabled(Window mainWindow, Instance instance)
-    {
-      return MainWindowHelper.IsEnabledOrVisibleButtonForSitecoreMember(instance);
-    }
-
-    public bool IsVisible(Window mainWindow, Instance instance)
-    {
-      return true;
-    }
-
-    public void OnClick(Window mainWindow, Instance instance)
+    public override void OnClick(Window mainWindow, Instance instance)
     {
       if (instance != null)
       {

@@ -1,29 +1,16 @@
 ﻿namespace SIM.Tool.Windows.MainWindowComponents
 {
   using System.Windows;
-  using SIM.Core.Common;
-  using SIM.Instances;
   using SIM.Tool.Base;
-  using SIM.Tool.Base.Plugins;
   using SIM.Tool.Windows.Dialogs;
   using JetBrains.Annotations;
 
   [UsedImplicitly]
-  public class OpenHostsButton : IMainWindowButton
+  public class OpenHostsButton : WindowOnlyButton
   {
-    #region Public methods
+    #region Protected methods
 
-    public bool IsEnabled(Window mainWindow, Instance instance)
-    {
-      return true;
-    }
-
-    public bool IsVisible(Window mainWindow, Instance instance)
-    {
-      return true;
-    }
-
-    public void OnClick(Window mainWindow, Instance instance)
+    protected override void OnClick(Window mainWindow)
     {
       WindowHelper.ShowDialog(new HostsDialog(), mainWindow);
     }

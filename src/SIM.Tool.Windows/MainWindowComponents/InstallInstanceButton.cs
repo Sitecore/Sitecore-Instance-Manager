@@ -2,11 +2,8 @@
 {
   using System.Linq;
   using System.Windows;
-  using SIM.Core.Common;
-  using SIM.Instances;
   using SIM.Products;
   using SIM.Tool.Base;
-  using SIM.Tool.Base.Plugins;
   using SIM.Tool.Base.Profiles;
   using Sitecore.Diagnostics.Base;
   using JetBrains.Annotations;
@@ -14,21 +11,9 @@
   using SIM.Tool.Base.Wizards;
 
   [UsedImplicitly]
-  public class InstallInstanceButton : IMainWindowButton
+  public class InstallInstanceButton : WindowOnlyButton
   {
-    #region Public methods
-
-    public bool IsEnabled(Window mainWindow, Instance instance)
-    {
-      return true;
-    }
-
-    public bool IsVisible(Window mainWindow, Instance instance)
-    {
-      return true;
-    }
-
-    public void OnClick(Window mainWindow, Instance instance)
+    protected override void OnClick(Window mainWindow)
     {
       Assert.IsTrue(ProfileManager.IsValid, "Some of configuration settings are invalid - please fix them in Settings dialog and try again");
       Assert.IsTrue(ProductManager.StandaloneProducts.Any(),
@@ -67,7 +52,5 @@
         }, () => new InstallWizardArgs());
       }
     }
-
-    #endregion
   }
 }

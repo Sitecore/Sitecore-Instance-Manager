@@ -8,26 +8,15 @@ namespace SIM.Tool.Windows.MainWindowComponents
   using SIM.Adapters.SqlServer;
   using SIM.Instances;
   using SIM.Tool.Base;
-  using SIM.Tool.Base.Plugins;
 
-  public class ReplaceReportingDatabaseWithSecondaryButton : IMainWindowButton
+  public class ReplaceReportingDatabaseWithSecondaryButton : InstanceOnlyButton
   {
     [UsedImplicitly]
     public ReplaceReportingDatabaseWithSecondaryButton()
     {
     }
 
-    public bool IsEnabled(Window mainWindow, Instance instance)
-    {
-      return instance != null;
-    }
-
-    public bool IsVisible(Window mainWindow, Instance instance)
-    {
-      return true;
-    }
-
-    public void OnClick(Window mainWindow, Instance instance)
+    public override void OnClick(Window mainWindow, Instance instance)
     {
       WindowHelper.LongRunningTask(() => Process(instance), "Replacing reporting database", mainWindow);
     }

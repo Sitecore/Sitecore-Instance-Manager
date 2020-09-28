@@ -4,7 +4,6 @@
   using System.Windows;
   using SIM.Instances;
   using SIM.Pipelines.Delete;
-  using SIM.Tool.Base.Plugins;
   using SIM.Tool.Base.Profiles;
   using JetBrains.Annotations;
   using SIM.Tool.Base.Wizards;
@@ -14,21 +13,11 @@
   using SIM.SitecoreEnvironments;
 
   [UsedImplicitly]
-  public class DeleteInstanceButton : IMainWindowButton
+  public class DeleteInstanceButton : InstanceOnlyButton
   {
     #region Public methods
 
-    public bool IsEnabled(Window mainWindow, Instance instance)
-    {
-      return instance != null;
-    }
-
-    public bool IsVisible(Window mainWindow, Instance instance)
-    {
-      return true;
-    }
-
-    public void OnClick(Window mainWindow, Instance instance)
+    public override void OnClick(Window mainWindow, Instance instance)
     {
       if (instance != null)
       {

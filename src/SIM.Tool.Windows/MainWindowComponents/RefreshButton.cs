@@ -2,9 +2,6 @@
 {
   using System;
   using System.Windows;
-  using SIM.Core.Common;
-  using SIM.Instances;
-  using SIM.Tool.Base.Plugins;
   using Sitecore.Diagnostics.Base;
   using JetBrains.Annotations;
   using Sitecore.Diagnostics.Logging;
@@ -12,7 +9,7 @@
   using TaskDialogInterop;
 
   [UsedImplicitly]
-  public class RefreshButton : IMainWindowButton
+  public class RefreshButton : WindowOnlyButton
   {
     #region Enums
 
@@ -65,24 +62,13 @@
 
     #endregion
 
-    #region Public methods
+    #region Protected methods
 
-    public bool IsEnabled(Window mainWindow, Instance instance)
-    {
-      return true;
-    }
-
-    public bool IsVisible(Window mainWindow, Instance instance)
-    {
-      return true;
-    }
-
-    public void OnClick(Window mainWindow, Instance instance)
+    protected override void OnClick(Window mainWindow)
     {
       using (new ProfileSection("Refresh main window instances", this))
       {
         ProfileSection.Argument("mainWindow", mainWindow);
-        ProfileSection.Argument("instance", instance);
 
         var refreshMode = GetMode(mainWindow);
         switch (refreshMode)

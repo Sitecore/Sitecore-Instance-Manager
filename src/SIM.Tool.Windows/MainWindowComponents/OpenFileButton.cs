@@ -2,15 +2,13 @@ namespace SIM.Tool.Windows.MainWindowComponents
 {
   using System.IO;
   using System.Windows;
-  using SIM.Core.Common;
   using SIM.Instances;
-  using SIM.Tool.Base.Plugins;
   using JetBrains.Annotations;
   using SIM.Core;
   using SIM.Extensions;
 
   [UsedImplicitly]
-  public class OpenFileButton : IMainWindowButton
+  public class OpenFileButton : InstanceOnlyButton
   {
     #region Fields
 
@@ -29,17 +27,7 @@ namespace SIM.Tool.Windows.MainWindowComponents
 
     #region Public methods
 
-    public bool IsEnabled(Window mainWindow, Instance instance)
-    {
-      return instance != null;
-    }
-
-    public bool IsVisible(Window mainWindow, Instance instance)
-    {
-      return MainWindowHelper.IsEnabledOrVisibleButtonForSitecoreMember(instance);
-    }
-
-    public void OnClick(Window mainWindow, Instance instance)
+    public override void OnClick(Window mainWindow, Instance instance)
     {
       if (instance != null)
       {

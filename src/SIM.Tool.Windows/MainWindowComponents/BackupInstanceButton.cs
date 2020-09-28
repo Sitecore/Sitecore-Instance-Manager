@@ -1,31 +1,19 @@
 ﻿namespace SIM.Tool.Windows.MainWindowComponents
 {
   using System.Windows;
-  using SIM.Core.Common;
   using SIM.Instances;
   using SIM.Pipelines.Backup;
-  using SIM.Tool.Base.Plugins;
   using JetBrains.Annotations;
   using SIM.Tool.Base.Wizards;
   using SIM.Tool.Windows.UserControls.Backup;
   using SIM.Tool.Base.Profiles;
 
   [UsedImplicitly]
-  public class BackupInstanceButton : IMainWindowButton
+  public class BackupInstanceButton : InstanceOnlyButton
   {
     #region Public methods
 
-    public bool IsEnabled(Window mainWindow, Instance instance)
-    {
-      return instance != null;
-    }
-
-    public bool IsVisible(Window mainWindow, Instance instance)
-    {
-      return true;
-    }
-
-    public void OnClick(Window mainWindow, Instance instance)
+    public override void OnClick(Window mainWindow, Instance instance)
     {
       if (instance != null)
       {

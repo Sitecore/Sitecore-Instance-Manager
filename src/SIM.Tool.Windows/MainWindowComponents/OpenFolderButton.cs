@@ -2,16 +2,14 @@
 {
   using System;
   using System.Windows;
-  using SIM.Core.Common;
   using SIM.Instances;
   using SIM.Tool.Base;
-  using SIM.Tool.Base.Plugins;
   using Sitecore.Diagnostics.Base;
   using JetBrains.Annotations;
   using SIM.Extensions;
 
   [UsedImplicitly]
-  public class OpenFolderButton : IMainWindowButton
+  public class OpenFolderButton : InstanceOnlyButton
   {
     #region Fields
 
@@ -32,7 +30,7 @@
 
     #region Public methods
 
-    public bool IsEnabled(Window mainWindow, Instance instance)
+    /*public bool IsEnabled(Window mainWindow, Instance instance)
     {
       return instance != null || !RequiresInstance(Folder);
     }
@@ -40,9 +38,9 @@
     public virtual bool IsVisible(Window mainWindow, Instance instance)
     {
       return true;
-    }
+    }*/
 
-    public void OnClick(Window mainWindow, Instance instance)
+    public override void OnClick(Window mainWindow, Instance instance)
     {
       var path = ExpandPath(instance).Replace("/", "\\");
       if (!FileSystem.FileSystem.Local.Directory.Exists(path))

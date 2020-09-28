@@ -7,11 +7,10 @@
   using SIM.Pipelines.InstallModules;
   using SIM.Products;
   using SIM.Tool.Base;
-  using SIM.Tool.Base.Plugins;
   using JetBrains.Annotations;
 
   [UsedImplicitly]
-  public class OpenToolboxButton : IMainWindowButton
+  public class OpenToolboxButton : InstanceOnlyButton
   {
     #region Fields
 
@@ -36,17 +35,7 @@
 
     #region Public methods
 
-    public bool IsEnabled(Window mainWindow, Instance instance)
-    {
-      return instance != null;
-    }
-
-    public bool IsVisible(Window mainWindow, Instance instance)
-    {
-      return true;
-    }
-
-    public void OnClick(Window mainWindow, Instance instance)
+    public override void OnClick(Window mainWindow, Instance instance)
     {
       if (!EnvironmentHelper.CheckSqlServer())
       {

@@ -1,16 +1,13 @@
 ﻿namespace SIM.Tool.Windows.MainWindowComponents
 {
   using System.Windows;
-  using SIM.Core.Common;
   using SIM.Instances;
   using SIM.Tool.Base;
-  using SIM.Tool.Base.Pipelines;
-  using SIM.Tool.Base.Plugins;
   using Sitecore.Diagnostics.Base;
   using JetBrains.Annotations;
 
   [UsedImplicitly]
-  public class LoginAdminButton : IMainWindowButton
+  public class LoginAdminButton : InstanceOnlyButton
   {
     #region Fields
 
@@ -43,17 +40,7 @@
 
     #region Public methods
 
-    public bool IsEnabled([CanBeNull] Window mainWindow, Instance instance)
-    {
-      return MainWindowHelper.IsEnabledOrVisibleButtonForSitecoreMember(instance);
-    }
-
-    public bool IsVisible([CanBeNull] Window mainWindow, Instance instance)
-    {
-      return true;
-    }
-
-    public void OnClick(Window mainWindow, Instance instance)
+    public override void OnClick(Window mainWindow, Instance instance)
     {
       Assert.ArgumentNotNull(mainWindow, nameof(mainWindow));
       Assert.IsNotNull(instance, nameof(instance));

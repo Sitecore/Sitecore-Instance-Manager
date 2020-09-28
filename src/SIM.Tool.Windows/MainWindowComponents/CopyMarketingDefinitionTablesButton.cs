@@ -7,26 +7,15 @@ namespace SIM.Tool.Windows.MainWindowComponents
   using JetBrains.Annotations;
   using SIM.Instances;
   using SIM.Tool.Base;
-  using SIM.Tool.Base.Plugins;
 
-  public class CopyMarketingDefinitionTablesButton : IMainWindowButton
+  public class CopyMarketingDefinitionTablesButton : InstanceOnlyButton
   {
     [UsedImplicitly]
     public CopyMarketingDefinitionTablesButton()
     {
     }
 
-    public bool IsEnabled(Window mainWindow, Instance instance)
-    {
-      return instance != null;
-    }
-
-    public bool IsVisible(Window mainWindow, Instance instance)
-    {
-      return true;
-    }
-
-    public void OnClick(Window mainWindow, Instance instance)
+    public override void OnClick(Window mainWindow, Instance instance)
     {                                                                                         
       WindowHelper.LongRunningTask(() => Process(instance), "Copying definitions", mainWindow);
     }

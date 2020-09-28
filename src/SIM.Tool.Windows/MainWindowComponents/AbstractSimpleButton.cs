@@ -8,17 +8,17 @@
 
   public abstract class WindowOnlyButton : IMainWindowButton
   {
-    public bool IsEnabled([CanBeNull] Window mainWindow, Instance instance)
+    public virtual bool IsEnabled(Window mainWindow, Instance instance)
     {
       return true;
     }
 
-    public bool IsVisible([CanBeNull] Window mainWindow, Instance instance)
+    public virtual bool IsVisible(Window mainWindow, Instance instance)
     {
       return true;
     }
 
-    public void OnClick(Window mainWindow, Instance instance)
+    public virtual void OnClick(Window mainWindow, Instance instance)
     {
       Assert.ArgumentNotNull(mainWindow, nameof(mainWindow));
 
