@@ -13,6 +13,7 @@ namespace SIM.Tool.Windows
         new GroupDefinition
         {
           Name = "Refresh",
+          Handler = new SIM.Tool.Windows.MainWindowComponents.Groups.WindowOnlyGroup(),
           Buttons = new[]
           {
             new ButtonDefinition
@@ -54,6 +55,7 @@ namespace SIM.Tool.Windows
         new GroupDefinition
         {
           Name = "Install",
+          Handler = new SIM.Tool.Windows.MainWindowComponents.Groups.WindowOnlyGroup(),
           Buttons = new[]
           {
             new ButtonDefinition
@@ -88,6 +90,7 @@ namespace SIM.Tool.Windows
         new GroupDefinition
         {
           Name = "Tools",
+          Handler = new SIM.Tool.Windows.MainWindowComponents.Groups.WindowOnlyGroup(),
           Buttons = new[]
           {
             new ButtonDefinition
@@ -199,6 +202,7 @@ namespace SIM.Tool.Windows
         new GroupDefinition
         {
           Name = "App",
+          Handler = new SIM.Tool.Windows.MainWindowComponents.Groups.WindowOnlyGroup(),
           Buttons = new[]
           {
             new ButtonDefinition
@@ -250,6 +254,7 @@ namespace SIM.Tool.Windows
         new GroupDefinition
         {
           Name = "Page",
+          Handler = new SIM.Tool.Windows.MainWindowComponents.Groups.PageGroup(),
           Buttons = new[]
           {
             new ButtonDefinition
@@ -446,6 +451,7 @@ namespace SIM.Tool.Windows
         new GroupDefinition
         {
           Name = "File System",
+          Handler = new SIM.Tool.Windows.MainWindowComponents.Groups.FileSystemGroup(),
           Buttons = new[]
           {
             new ButtonDefinition
@@ -627,6 +633,7 @@ namespace SIM.Tool.Windows
         new GroupDefinition
         {
           Name = "Apps",
+          Handler = new SIM.Tool.Windows.MainWindowComponents.Groups.AppsGroup(),
           Buttons = new[]
           {
             new ButtonDefinition
@@ -659,6 +666,7 @@ namespace SIM.Tool.Windows
         new GroupDefinition
         {
           Name = "Install",
+          Handler = new SIM.Tool.Windows.MainWindowComponents.Groups.InstallGroup(),
           Buttons = new[]
           {
             new ButtonDefinition
@@ -673,6 +681,7 @@ namespace SIM.Tool.Windows
         new GroupDefinition
         {
           Name = "Backup",
+          Handler = new SIM.Tool.Windows.MainWindowComponents.Groups.BackupGroup(),
           Buttons = new[]
           {
             new ButtonDefinition
@@ -715,6 +724,7 @@ namespace SIM.Tool.Windows
         return new GroupDefinition
         {
           Name = "Manage",
+          Handler = new SIM.Tool.Windows.MainWindowComponents.Groups.ManageGroup(),
           Buttons = new[]
           {
             new ButtonDefinition
@@ -910,6 +920,7 @@ namespace SIM.Tool.Windows
       return new GroupDefinition
       {
         Name = "Manage",
+        Handler = new SIM.Tool.Windows.MainWindowComponents.Groups.ManageGroup(),
         Buttons = new[]
         {
           new ButtonDefinition

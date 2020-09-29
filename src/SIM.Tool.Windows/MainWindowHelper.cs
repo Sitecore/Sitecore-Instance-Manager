@@ -12,7 +12,6 @@
   using System.Windows.Input;
   using System.Windows.Media;
   using System.Xaml;
-
   using Fluent;
   using SIM.Instances;
   using SIM.Pipelines.Agent;
@@ -22,6 +21,7 @@
   using SIM.Tool.Base;
   using SIM.Tool.Base.Plugins;
   using SIM.Tool.Base.Profiles;
+  using SIM.Tool.Windows.CustomConverters;
   using Sitecore.Diagnostics.Base;
   using JetBrains.Annotations;
   using Sitecore.Diagnostics.Logging;
@@ -29,7 +29,6 @@
   using Core;
   using SIM.Extensions;
   using SIM.Tool.Base.Pipelines;
-
   using System.ComponentModel;
   using System.Windows.Data;
 
@@ -510,24 +509,34 @@
 
           if (menuHandler != null)
           {
-            // bind IsEnabled and IsVisible events
-            SetIsEnabledProperty(menuButton, menuHandler);
-            SetIsVisibleProperty(menuButton, menuHandler);
+            // bind IsEnabled and IsVisible events for button
+            //SetIsEnabledProperty(menuButton, menuHandler);
+            //SetIsVisibleProperty(menuButton, menuHandler);
+            /*menuButton.SetBinding(UIElement.IsEnabledProperty, new System.Windows.Data.Binding("SelectedItem")
+            {
+              Converter = new CustomMenuItemEnabledConverter(menuHandler),
+              ElementName = "InstanceList"
+            });
+            menuButton.SetBinding(UIElement.VisibilityProperty, new System.Windows.Data.Binding("SelectedItem")
+            {
+              Converter = new CustomMenuItemVisibilityConverter(menuHandler),
+              ElementName = "InstanceList"
+            });*/
 
             menuButton.Click += delegate
-          {
-            try
             {
-              if (menuHandler.IsEnabled(MainWindow.Instance, SelectedInstance) && menuHandler.IsVisible(MainWindow.Instance, SelectedInstance))
+              try
               {
-                menuHandler.OnClick(MainWindow.Instance, SelectedInstance);
+                if (menuHandler.IsEnabled(MainWindow.Instance, SelectedInstance) && menuHandler.IsVisible(MainWindow.Instance, SelectedInstance))
+                {
+                  menuHandler.OnClick(MainWindow.Instance, SelectedInstance);
+                }
               }
-            }
-            catch (Exception ex)
-            {
-              WindowHelper.HandleError($"Error during handling menu button click: {menuHandler.GetType().FullName}", true, ex);
-            }
-          };
+              catch (Exception ex)
+              {
+                WindowHelper.HandleError($"Error during handling menu button click: {menuHandler.GetType().FullName}", true, ex);
+              }
+            };
           }
 
           items.Add(menuButton);
@@ -609,6 +618,19 @@
 
         if (mainWindowButton != null)
         {
+          //SetIsEnabledProperty(menuItem, mainWindowButton);
+          //SetIsVisibleProperty(menuItem, mainWindowButton);
+          menuItem.SetBinding(UIElement.IsEnabledProperty, new System.Windows.Data.Binding("SelectedItem")
+          {
+            Converter = new CustomMenuItemEnabledConverter(mainWindowButton),
+            ElementName = "InstanceList"
+          });
+          menuItem.SetBinding(UIElement.VisibilityProperty, new System.Windows.Data.Binding("SelectedItem")
+          {
+            Converter = new CustomMenuItemVisibilityConverter(mainWindowButton),
+            ElementName = "InstanceList"
+          });
+
           menuItem.Click += (obj, e) =>
           {
             try
@@ -623,9 +645,6 @@
               WindowHelper.HandleError("Failed to initialize context menu", true, ex);
             }
           };
-
-          SetIsEnabledProperty(menuItem, mainWindowButton);
-          SetIsVisibleProperty(menuItem, mainWindowButton);
         }
 
         foreach (var childElement in menuItemElement.Buttons ?? new ButtonDefinition[0])
@@ -718,6 +737,17 @@
           foreach (var button in group.Buttons)
           {
             InitializeRibbonButton(window, getImage, button, ribbonGroup);
+          }
+
+          var groupHandler = group.Handler;
+          if (groupHandler != null)
+          {
+            // bind IsVisible event for group element
+            ribbonGroup.SetBinding(UIElement.VisibilityProperty, new System.Windows.Data.Binding("SelectedItem")
+            {
+              Converter = new CustomGroupVisibilityConverter(groupHandler),
+              ElementName = "InstanceList"
+            });
           }
         }
       }
@@ -835,8 +865,8 @@
             MainWindow.Instance.OpenTab.IsSelected = true;
           }
 
-          ShowContextMenuItems(SelectedInstance);
-          HideContextMenuItems(SelectedInstance);
+          //ShowContextMenuItems(SelectedInstance);
+          //HideContextMenuItems(SelectedInstance);
         }
       }
     }
@@ -854,16 +884,6 @@
     private static bool IsSitecore9(Instance selectedInstance)
     {
       if (selectedInstance.Product.Release.Version.MajorMinorInt >= 90)
-      {
-        return true;
-      }
-
-      return false;
-    }
-
-    private static bool IsSitecore91(Instance selectedInstance)
-    {
-      if (selectedInstance.Product.Release.Version.MajorMinorInt >= 91)
       {
         return true;
       }

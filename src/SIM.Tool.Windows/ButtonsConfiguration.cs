@@ -45,7 +45,7 @@ namespace SIM.Tool.Windows
     {
       get
       {
-        return this.settings["Sitecore9AndLaterButtons"].Values<string>();
+        return this.settings["Sitecore9AndLaterButtons"].ToObject<List<string>>();
       }
     }
 
@@ -53,7 +53,31 @@ namespace SIM.Tool.Windows
     {
       get
       {
-        return settings["Sitecore9AndLaterMemberButtons"].Values<string>();
+        return settings["Sitecore9AndLaterMemberButtons"].ToObject<List<string>>();
+      }
+    }
+
+    public IEnumerable<string> Sitecore8AndEarlierGroups
+    {
+      get
+      {
+        return this.settings["Sitecore8AndEarlierGroups"].ToObject<List<string>>(); ;
+      }
+    }
+
+    public IEnumerable<string> Sitecore9AndLaterGroups
+    {
+      get
+      {
+        return this.settings["Sitecore9AndLaterGroups"].ToObject<List<string>>();
+      }
+    }
+
+    public IEnumerable<string> Sitecore9AndLaterMemberGroups
+    {
+      get
+      {
+        return settings["Sitecore9AndLaterMemberGroups"].ToObject<List<string>>();
       }
     }
   }

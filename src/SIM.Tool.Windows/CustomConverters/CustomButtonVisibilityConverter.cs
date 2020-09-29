@@ -1,15 +1,16 @@
-namespace SIM.Tool.Windows
-{
-  using System;
-  using System.Globalization;
-  using System.Windows.Data;
-  using SIM.Instances;
-  using SIM.Tool.Base.Plugins;
-  using Sitecore.Diagnostics.Base;
-  using JetBrains.Annotations;
-  using Sitecore.Diagnostics.Logging;
+using System;
+using System.Globalization;
+using System.Windows;
+using System.Windows.Data;
+using SIM.Instances;
+using SIM.Tool.Base.Plugins;
+using Sitecore.Diagnostics.Base;
+using JetBrains.Annotations;
+using Sitecore.Diagnostics.Logging;
 
-  public class CustomEnabledConverter : IValueConverter
+namespace SIM.Tool.Windows.CustomConverters
+{
+  public class CustomVisibilityConverter : IValueConverter
   {
     #region Fields
 
@@ -20,7 +21,7 @@ namespace SIM.Tool.Windows
 
     #region Constructors
 
-    public CustomEnabledConverter([NotNull] IMainWindowButton mainWindowButton)
+    public CustomVisibilityConverter([NotNull] IMainWindowButton mainWindowButton)
     {
       Assert.ArgumentNotNull(mainWindowButton, nameof(mainWindowButton));
 
@@ -34,10 +35,10 @@ namespace SIM.Tool.Windows
     [CanBeNull]
     public object Convert([CanBeNull] object value, [CanBeNull] Type targetType, [CanBeNull] object parameter, [CanBeNull] CultureInfo culture)
     {
-      using (new ProfileSection("Checking if button is enabled", this))
+      using (new ProfileSection("Checking if button is visible", this))
       {
         ProfileSection.Argument("this.button", Button.GetType().FullName);
-        return Button.IsEnabled(MainWindow.Instance, value as Instance);
+        return Button.IsVisible(MainWindow.Instance, value as Instance) ? Visibility.Visible : Visibility.Collapsed;
       }
     }
 

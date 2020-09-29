@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
@@ -8,24 +8,24 @@ using Sitecore.Diagnostics.Base;
 using JetBrains.Annotations;
 using Sitecore.Diagnostics.Logging;
 
-namespace SIM.Tool.Windows
+namespace SIM.Tool.Windows.CustomConverters
 {
-  public class CustomVisibilityConverter : IValueConverter
+  public class CustomGroupVisibilityConverter : IValueConverter
   {
     #region Fields
 
     [NotNull]
-    private IMainWindowButton Button { get; }
+    private IMainWindowGroup Group { get; }
 
     #endregion
 
     #region Constructors
 
-    public CustomVisibilityConverter([NotNull] IMainWindowButton mainWindowButton)
+    public CustomGroupVisibilityConverter([NotNull] IMainWindowGroup mainWindowGroup)
     {
-      Assert.ArgumentNotNull(mainWindowButton, nameof(mainWindowButton));
+      Assert.ArgumentNotNull(mainWindowGroup, nameof(mainWindowGroup));
 
-      Button = mainWindowButton;
+      Group = mainWindowGroup;
     }
 
     #endregion
@@ -35,10 +35,10 @@ namespace SIM.Tool.Windows
     [CanBeNull]
     public object Convert([CanBeNull] object value, [CanBeNull] Type targetType, [CanBeNull] object parameter, [CanBeNull] CultureInfo culture)
     {
-      using (new ProfileSection("Checking if button is visible", this))
+      using (new ProfileSection("Checking if group is visible", this))
       {
-        ProfileSection.Argument("this.button", Button.GetType().FullName);
-        return Button.IsVisible(MainWindow.Instance, value as Instance) ? Visibility.Visible : Visibility.Collapsed;
+        ProfileSection.Argument("this.group", Group.GetType().FullName);
+        return Group.IsVisible(MainWindow.Instance, value as Instance) ? Visibility.Visible : Visibility.Collapsed;
       }
     }
 

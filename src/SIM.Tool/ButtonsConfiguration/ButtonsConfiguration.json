@@ -150,5 +150,24 @@
     "ControlAppPoolButton",
     "DeleteInstanceButton",
     "ReinstallInstanceButton"
+  ],
+  "Sitecore8AndEarlierGroups": [
+    "PageGroup",
+    "FileSystemGroup",
+    "AppsGroup",
+    "InstallGroup",
+    "ManageGroup",
+    "BackupGroup"
+  ],
+  "Sitecore9AndLaterGroups": [
+    "PageGroup",
+    "FileSystemGroup",
+    "AppsGroup",
+    "ManageGroup"
+  ],
+  "Sitecore9AndLaterMemberGroups": [
+    "FileSystemGroup",
+    "AppsGroup",
+    "ManageGroup"
   ]
 }

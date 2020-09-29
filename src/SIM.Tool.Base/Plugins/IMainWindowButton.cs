@@ -8,8 +8,6 @@
   {
     #region Public methods
 
-    //string Label { get; set; }
-
     bool IsEnabled([NotNull] Window mainWindow, [CanBeNull] Instance instance);
 
     bool IsVisible([NotNull] Window mainWindow, [CanBeNull] Instance instance);
