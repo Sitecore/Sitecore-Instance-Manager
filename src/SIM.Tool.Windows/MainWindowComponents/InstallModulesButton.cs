@@ -11,7 +11,7 @@
   {
     #region Public methods
 
-    public void OnClick(Window mainWindow, Instance instance)
+    public override void OnClick(Window mainWindow, Instance instance)
     {
       if (instance != null)
       {

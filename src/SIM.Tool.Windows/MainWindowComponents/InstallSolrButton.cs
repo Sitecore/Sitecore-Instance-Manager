@@ -11,10 +11,16 @@ namespace SIM.Tool.Windows.MainWindowComponents
   {
     public event EventHandler<InstallWizardArgs> InstallationCompleted;
 
+    #region Protected methods
+
     protected override void OnClick([NotNull] Window mainWindow)
     {
       this.InstallSolr(mainWindow);
     }
+
+    #endregion
+
+    #region Public methods
 
     public void InstallSolr(Window window, bool? isAsync = null)
     {
@@ -35,5 +41,7 @@ namespace SIM.Tool.Windows.MainWindowComponents
         InstallationCompleted?.Invoke(this, install);
       }, () => new Install9WizardArgs());
     }
+
+    #endregion
   }
 }

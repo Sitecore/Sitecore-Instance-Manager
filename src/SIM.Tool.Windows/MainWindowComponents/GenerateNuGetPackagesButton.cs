@@ -16,11 +16,15 @@
     {
     }
 
+    #region Protected methods
+
     protected override void OnClick(Window mainWindow)
     {
       WindowHelper.ShowMessage("This function is no longer available. Use PatchCreator to generate NuGet packages for Sitecore CMS and Sitecore Modules.");
 
       CoreApp.OpenInBrowser("http://dl.sitecore.net/updater/pc", true);
     }
+
+    #endregion
   }
 }

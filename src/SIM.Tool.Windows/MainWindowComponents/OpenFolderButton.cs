@@ -30,16 +30,6 @@
 
     #region Public methods
 
-    /*public bool IsEnabled(Window mainWindow, Instance instance)
-    {
-      return instance != null || !RequiresInstance(Folder);
-    }
-
-    public virtual bool IsVisible(Window mainWindow, Instance instance)
-    {
-      return true;
-    }*/
-
     public override void OnClick(Window mainWindow, Instance instance)
     {
       var path = ExpandPath(instance).Replace("/", "\\");

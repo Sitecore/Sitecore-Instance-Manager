@@ -18,6 +18,8 @@
 
   public class AttachReportingSecondaryDatabaseButton : InstanceOnlyButton
   {
+    #region Public methods
+
     [UsedImplicitly]
     public AttachReportingSecondaryDatabaseButton()
     {
@@ -29,6 +31,10 @@
 
       WindowHelper.LongRunningTask(() => Process(instance), "Attaching database", mainWindow);
     }
+
+    #endregion
+
+    #region Private methods
 
     private static void Process(Instance instance)
     {
@@ -87,6 +93,8 @@
       };
 
       instance.Configuration.ConnectionStrings.Add("reporting.secondary", secondaryBuilder);
-    }   
+    }
+
+    #endregion
   }
 }

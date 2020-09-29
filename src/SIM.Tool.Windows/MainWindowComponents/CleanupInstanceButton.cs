@@ -11,6 +11,8 @@
 
   public class CleanupInstanceButton : InstanceOnlyButton
   {
+    #region Public methods
+
     [UsedImplicitly]
     public CleanupInstanceButton()
     {
@@ -27,6 +29,10 @@
 
       WindowHelper.LongRunningTask(() => DoWork(instance), "Cleaning up", mainWindow);
     }
+
+    #endregion
+
+    #region Private methods
 
     private void DoWork(Instance instance)
     {
@@ -78,5 +84,7 @@
         Directory.CreateDirectory(folder);
       }
     }
+
+    #endregion
   }
 }

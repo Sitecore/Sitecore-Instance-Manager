@@ -13,7 +13,7 @@
   using SIM.Core;
 
   [UsedImplicitly]
-  public class OpenVisualStudioButton : InstanceOnlyButton
+  public class OpenVisualStudioButton : WindowOnlyButton
   {
     #region Public methods
 
@@ -55,6 +55,14 @@
       Assert.IsTrue(!string.IsNullOrEmpty(path) && FileSystem.FileSystem.Local.File.Exists(path), "The Visual Studio files are missing");
 
       CoreApp.OpenFile(path);
+    }
+
+    #endregion
+
+    #region Protected methods
+
+    protected override void OnClick(Window mainWindow)
+    {
     }
 
     #endregion

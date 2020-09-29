@@ -121,8 +121,12 @@
 
     #endregion
 
+    #region Protected methods
+
     protected override void OnClick([NotNull] Window mainWindow)
     {
     }
+
+    #endregion
   }
 }

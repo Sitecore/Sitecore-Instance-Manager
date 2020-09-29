@@ -14,6 +14,8 @@
   [UsedImplicitly]
   public class ImportInstanceButton : WindowOnlyButton
   {
+    #region Protected methods
+
     protected override void OnClick(Window mainWindow)
     {
       Assert.ArgumentNotNull(mainWindow, nameof(mainWindow));
@@ -65,5 +67,7 @@
 
       WizardPipelineManager.Start("import", mainWindow, null, null, ignore => MainWindowHelper.SoftlyRefreshInstances(), () => new ImportWizardArgs(file.FullName));
     }
+
+    #endregion
   }
 }

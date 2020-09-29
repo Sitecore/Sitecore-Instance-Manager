@@ -8,6 +8,8 @@
 
   public abstract class WindowOnlyButton : IMainWindowButton
   {
+    #region Public methods
+
     public virtual bool IsEnabled(Window mainWindow, Instance instance)
     {
       return true;
@@ -25,6 +27,12 @@
       OnClick(mainWindow);
     }
 
+    #endregion
+
+    #region Protected methods
+
     protected abstract void OnClick([NotNull] Window mainWindow);
+
+    #endregion
   }
 }

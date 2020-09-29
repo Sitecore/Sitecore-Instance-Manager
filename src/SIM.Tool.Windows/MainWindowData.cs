@@ -115,9 +115,6 @@ namespace SIM.Tool.Windows
                   Handler = new SIM.Tool.Windows.MainWindowComponents.OpenSimFolderButton(@"%APPDATA%\Sitecore\Sitecore Instance Manager")
                 },
                 new ButtonDefinition(),
-                GetPatchButton(),
-                GetHotfixButton(),
-                new ButtonDefinition(),
                 new ButtonDefinition
                 {
                   Label = "Download Sitecore",
@@ -455,52 +452,52 @@ namespace SIM.Tool.Windows
             {
               Label = "Website Folder",
               Image = "/Images/$lg/folder_open.png, SIM.Tool.Windows",
-              Handler = new SIM.Tool.Windows.MainWindowComponents.OpenFolderButton("$(website)"),
+              Handler = new SIM.Tool.Windows.MainWindowComponents.SitecoreMemberOpenFolderButton("$(website)"),
               Buttons = new[]
               {
                 new ButtonDefinition
                 {
                   Label = "Root Folder",
                   Image = "/Images/$sm/folder_network.png, SIM.Tool.Windows",
-                  Handler = new SIM.Tool.Windows.MainWindowComponents.OpenFolderButton("$(root)")
+                  Handler = new SIM.Tool.Windows.MainWindowComponents.SitecoreMemberOpenFolderButton("$(root)")
                 },
                 new ButtonDefinition(),
                 new ButtonDefinition
                 {
                   Label = "Website Folder",
                   Image = "/Images/$sm/folder_open.png, SIM.Tool.Windows",
-                  Handler = new SIM.Tool.Windows.MainWindowComponents.OpenFolderButton("$(website)")
+                  Handler = new SIM.Tool.Windows.MainWindowComponents.SitecoreMemberOpenFolderButton("$(website)")
                 },
                 new ButtonDefinition
                 {
                   Label = "Data Folder",
                   Image = "/Images/$sm/folders.png, SIM.Tool.Windows",
-                  Handler = new SIM.Tool.Windows.MainWindowComponents.SitecoreMemberOpenFolderButton("$(data)")
+                  Handler = new SIM.Tool.Windows.MainWindowComponents.OpenFolderButton("$(data)")
                 },
                 new ButtonDefinition
                 {
                   Label = "Databases Folder",
                   Image = "/Images/$sm/folders.png, SIM.Tool.Windows",
-                  Handler = new SIM.Tool.Windows.MainWindowComponents.SitecoreMemberOpenFolderButton("$(root)/Databases")
+                  Handler = new SIM.Tool.Windows.MainWindowComponents.OpenFolderButton("$(root)/Databases")
                 },
                 new ButtonDefinition(),
                 new ButtonDefinition
                 {
                   Label = "App_Config Folder",
                   Image = "/Images/$sm/folder_open.png, SIM.Tool.Windows",
-                  Handler = new SIM.Tool.Windows.MainWindowComponents.OpenFolderButton("$(website)/App_Config")
+                  Handler = new SIM.Tool.Windows.MainWindowComponents.SitecoreMemberOpenFolderButton("$(website)/App_Config")
                 },
                 new ButtonDefinition
                 {
                   Label = "Include Folder",
                   Image = "/Images/$sm/folder_open.png, SIM.Tool.Windows",
-                  Handler = new SIM.Tool.Windows.MainWindowComponents.SitecoreMemberOpenFolderButton("$(website)/App_Config/Include")
+                  Handler = new SIM.Tool.Windows.MainWindowComponents.OpenFolderButton("$(website)/App_Config/Include")
                 },
                 new ButtonDefinition
                 {
                   Label = "zzz Folder",
                   Image = "/Images/$sm/folder_open.png, SIM.Tool.Windows",
-                  Handler = new SIM.Tool.Windows.MainWindowComponents.SitecoreMemberOpenFolderButton("$(website)/App_Config/Include/zzz")
+                  Handler = new SIM.Tool.Windows.MainWindowComponents.OpenFolderButton("$(website)/App_Config/Include/zzz")
                 },
               }
             },

@@ -16,10 +16,16 @@ namespace SIM.Tool.Windows.MainWindowComponents
     {
     }
 
+    #region Public methods
+
     public override void OnClick(Window mainWindow, Instance instance)
     {
       WindowHelper.LongRunningTask(() => Process(instance), "Replacing reporting database", mainWindow);
     }
+
+    #endregion
+
+    #region Private methods
 
     private static void Process(Instance instance)
     {
@@ -42,5 +48,7 @@ namespace SIM.Tool.Windows.MainWindowComponents
 
       primary.SaveChanges();
     }
+
+    #endregion
   }
 }

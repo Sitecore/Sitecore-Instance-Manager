@@ -53,8 +53,12 @@
 
     #endregion
 
+    #region Protected methods
+
     protected override void OnClick(Window mainWindow)
     {
     }
+
+    #endregion
   }
 }

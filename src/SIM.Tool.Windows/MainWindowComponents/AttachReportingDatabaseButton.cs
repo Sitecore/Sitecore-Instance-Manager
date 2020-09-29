@@ -13,10 +13,11 @@ namespace SIM.Tool.Windows.MainWindowComponents
   using SIM.IO.Real;
   using SIM.Pipelines;
   using SIM.Tool.Base;
-  using SIM.Tool.Base.Plugins;
 
   public class AttachReportingDatabaseButton : InstanceOnlyButton
   {
+    #region Public methods
+
     [UsedImplicitly]
     public AttachReportingDatabaseButton()
     {
@@ -28,6 +29,10 @@ namespace SIM.Tool.Windows.MainWindowComponents
                     
       WindowHelper.LongRunningTask(() => Process(instance), "Attaching database", mainWindow);
     }
+
+    #endregion
+
+    #region Private methods
 
     private static void Process(Instance instance)
     {
@@ -77,5 +82,7 @@ namespace SIM.Tool.Windows.MainWindowComponents
 
       instance.Configuration.ConnectionStrings.Add("reporting", reportingValue);
     }
+
+    #endregion
   }
 }

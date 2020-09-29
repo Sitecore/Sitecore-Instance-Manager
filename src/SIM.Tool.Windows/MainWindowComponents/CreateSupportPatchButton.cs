@@ -12,15 +12,28 @@ namespace SIM.Tool.Windows.MainWindowComponents
   [UsedImplicitly]
   public class CreateSupportPatchButton : InstanceOnlyButton
   {
-    #region Public methods
-    
     private string AppArgsFilePath { get; }
     private string AppUrl { get; }
-    
+
+    #region Public methods
+
     public CreateSupportPatchButton(string appArgsFilePath, string appUrl)
     {
       AppArgsFilePath = appArgsFilePath;
       AppUrl = appUrl;
+    }
+
+    public override bool IsVisible(Window mainWindow, Instance instance)
+    {
+      if (base.IsVisible(mainWindow, instance))
+      {
+        if (base.IsSitecore90AndEarlier(instance))
+        {
+          return true;
+        }
+      }
+
+      return false;
     }
 
     public override void OnClick(Window mainWindow, Instance instance)

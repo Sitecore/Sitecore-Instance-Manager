@@ -13,6 +13,8 @@
   [UsedImplicitly]
   public class InstallInstanceButton : WindowOnlyButton
   {
+    #region Protected methods
+
     protected override void OnClick(Window mainWindow)
     {
       Assert.IsTrue(ProfileManager.IsValid, "Some of configuration settings are invalid - please fix them in Settings dialog and try again");
@@ -52,5 +54,7 @@
         }, () => new InstallWizardArgs());
       }
     }
+
+    #endregion
   }
 }

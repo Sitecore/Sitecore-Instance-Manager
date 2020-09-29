@@ -10,14 +10,13 @@ namespace SIM.Tool.Windows.MainWindowComponents
 
   public abstract class InstanceOnlyButton : IMainWindowButton
   {
+    #region Fields
+
     private string label;
 
-    #region Public methods
+    #endregion
 
-    public InstanceOnlyButton()
-    {
-      this.label = this.GetType().Name;
-    }
+    #region Public methods
 
     public virtual bool IsEnabled(Window mainWindow, Instance instance)
     {
@@ -53,9 +52,14 @@ namespace SIM.Tool.Windows.MainWindowComponents
 
     #endregion
 
-    #region Private methods
+    #region Protected methods
 
-    private bool IsSitecoreMember(Instance selectedInstance)
+    protected InstanceOnlyButton()
+    {
+      this.label = this.GetType().Name;
+    }
+
+    protected bool IsSitecoreMember(Instance selectedInstance)
     {
       if (selectedInstance.Product == Product.Undefined || selectedInstance.Product.Release == null)
       {
@@ -65,7 +69,7 @@ namespace SIM.Tool.Windows.MainWindowComponents
       return false;
     }
 
-    private bool IsSitecore9AndLater(Instance selectedInstance)
+    protected bool IsSitecore9AndLater(Instance selectedInstance)
     {
       if (selectedInstance.Product.Release.Version.MajorMinorInt >= 90)
       {
@@ -75,9 +79,19 @@ namespace SIM.Tool.Windows.MainWindowComponents
       return false;
     }
 
-    private bool IsSitecore8AndEarlier(Instance selectedInstance)
+    protected bool IsSitecore8AndEarlier(Instance selectedInstance)
     {
       if (selectedInstance.Product.Release.Version.MajorMinorInt < 90)
+      {
+        return true;
+      }
+
+      return false;
+    }
+
+    protected bool IsSitecore90AndEarlier(Instance selectedInstance)
+    {
+      if (selectedInstance.Product.Release.Version.MajorMinorInt <= 90)
       {
         return true;
       }

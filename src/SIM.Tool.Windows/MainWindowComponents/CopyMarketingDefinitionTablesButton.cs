@@ -15,10 +15,16 @@ namespace SIM.Tool.Windows.MainWindowComponents
     {
     }
 
+    #region Public methods
+
     public override void OnClick(Window mainWindow, Instance instance)
     {                                                                                         
       WindowHelper.LongRunningTask(() => Process(instance), "Copying definitions", mainWindow);
     }
+
+    #endregion
+
+    #region Private methods
 
     private static void Process(Instance instance)
     {
@@ -66,5 +72,7 @@ namespace SIM.Tool.Windows.MainWindowComponents
         }
       }
     }
+
+    #endregion
   }
 }

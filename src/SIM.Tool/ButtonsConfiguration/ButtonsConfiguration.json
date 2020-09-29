@@ -40,7 +40,7 @@
     /*Sitecore Client, Front-end Site, Sitecore Login, Sitecore Desktop, Content Editor, Page Editor, Launch Pad, Google Chrome, Google Chrome (Incognito), Mozilla Firefox, Mozilla Firefox (Private), Internet Explorer, Internet Explorer (Private), Apple Safari*/
     "BrowseButton",
     /*Sitecore Admin*/
-    "OpenToolboxButton, Sitecore Admin",
+    "OpenToolboxButton",
     /*Log in admin, Copy URL*/
     "LoginAdminButton",
     /*Config Files, web.config*/
@@ -111,7 +111,7 @@
     "SettingsButton",
     "CreateSupportPatchButton",
     "BrowseButton",
-    "OpenToolboxButton, Sitecore Admin",
+    "OpenToolboxButton",
     "LoginAdminButton",
     "OpenWebConfigButton",
     "OpenFileButton",
@@ -120,7 +120,6 @@
     "OpenCurrentLogButton",
     "OpenLogsButton",
     "OpenVisualStudioButton",
-    "InstallModulesButton",
     "ControlAppPoolButton",
     "DeleteInstanceButton",
     "ReinstallInstanceButton"
@@ -143,17 +142,11 @@
     "InstallMongoDbButton",
     "GenerateNuGetPackagesButton",
     "SettingsButton",
-    "CreateSupportPatchButton",
-    "BrowseButton",
-    "OpenToolboxButton, Sitecore Admin",
-    "LoginAdminButton",
-    "OpenWebConfigButton",
     "OpenFileButton",
     "ConfigBuilderButton",
     "OpenCurrentLogButton",
     "OpenLogsButton",
     "OpenVisualStudioButton",
-    "InstallModulesButton",
     "ControlAppPoolButton",
     "DeleteInstanceButton",
     "ReinstallInstanceButton"

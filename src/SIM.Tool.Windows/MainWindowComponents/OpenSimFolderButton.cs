@@ -9,6 +9,8 @@ namespace SIM.Tool.Windows.MainWindowComponents
     {
     }
 
+    #region Public methods
+
     public override bool IsEnabled(Window mainWindow, Instance instance)
     {
       return true;
@@ -18,5 +20,7 @@ namespace SIM.Tool.Windows.MainWindowComponents
     {
       return true;
     }
+
+    #endregion
   }
 }

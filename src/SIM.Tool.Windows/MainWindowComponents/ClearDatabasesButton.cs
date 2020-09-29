@@ -20,6 +20,8 @@
 
     public abstract string DatabaseName { get; }
 
+    #region Public methods
+
     public override void OnClick(Window mainWindow, Instance instance)
     {
       WindowHelper.LongRunningTask(() => DoWork(instance), $"Cleaning up {DatabaseName}", mainWindow);
@@ -42,5 +44,7 @@
         SqlServerManager.Instance.Execute(database.ConnectionString, $"DELETE FROM [{DatabaseName}]");
       }
     }
+
+    #endregion
   }
 }

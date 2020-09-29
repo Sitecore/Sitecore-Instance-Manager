@@ -7,6 +7,8 @@ namespace SIM.Tool.Windows.MainWindowComponents
 {
   public class Install9InstanceButton : WindowOnlyButton
   {
+    #region Protected methods
+
     protected override void OnClick([NotNull] Window mainWindow)
     {
       WizardPipelineManager.Start("install9", mainWindow, null, null, (args) =>
@@ -26,5 +28,7 @@ namespace SIM.Tool.Windows.MainWindowComponents
         
       }, () => new Install9WizardArgs());
     }
+
+    #endregion
   }
 }

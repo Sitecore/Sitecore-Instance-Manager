@@ -12,6 +12,7 @@ namespace SIM.Tool.Windows.MainWindowComponents
   public class CollectMemoryDumpButton : InstanceOnlyButton
   {
     #region Public methods
+
     public override void OnClick(Window mainWindow, Instance instance)
     {
       if (instance == null)

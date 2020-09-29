@@ -8,7 +8,7 @@
   [UsedImplicitly]
   public class DatabaseManagerButton : WindowOnlyButton
   {
-    #region Public methods
+    #region Protected methods
 
     protected override void OnClick(Window mainWindow)
     {

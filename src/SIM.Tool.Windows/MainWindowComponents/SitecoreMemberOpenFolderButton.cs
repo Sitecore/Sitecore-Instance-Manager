@@ -12,14 +12,5 @@
     }
 
     #endregion
-
-    #region Public methods
-
-    /*public override bool IsVisible(Window mainWindow, Instance instance)
-    {
-      return MainWindowHelper.IsEnabledOrVisibleButtonForSitecoreMember(instance);
-    }*/
-
-    #endregion
   }
 }
