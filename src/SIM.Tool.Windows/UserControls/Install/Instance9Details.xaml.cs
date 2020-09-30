@@ -286,7 +286,7 @@ namespace SIM.Tool.Windows.UserControls.Install
     {
       RealZipFile zip = new RealZipFile(new RealFile(new RealFileSystem(), args.Product.PackagePath));
       zip.ExtractTo(new RealFolder(new RealFileSystem(), args.ScriptRoot));
-      if (args.InstanceProduct.DisplayName.Contains("SXA")) return; //don't execute further since all required files are already unzipped for SXA
+      if (args.InstanceProduct.DisplayName.Contains("Developer Workstation")) return; //don't execute further since all required files are already unzipped for SXA
       string configFilesZipPath = Directory.GetFiles(args.ScriptRoot, "*Configuration files*.zip").First();
       RealZipFile configFilesZip = new RealZipFile(new RealFile(new RealFileSystem(), configFilesZipPath));
       configFilesZip.ExtractTo(new RealFolder(new RealFileSystem(), args.ScriptRoot));

@@ -1,7 +1,7 @@
 {
   "Parameters": {
     //global
-    "SIFVersion": "2.3.0",
+    "SIFVersion": "2.2.0",
     "SqlServer": "",
     "SqlAdminUser": "",
     "SqlAdminPassword": "",
@@ -17,7 +17,7 @@
     //cert
 
     "CertPath": "c:/certificates",
-    "RootCertFileName": "SIM_SIF230Root",
+    "RootCertFileName": "SIM_SIF220Root",
     //xConnect
 
     "SqlMarketingAutomationUser": "",
@@ -87,87 +87,84 @@
     "MarketingAutomationOperationsService": "https://\"+$GlobalParams.SqlDbPrefix+\"XConnect.local",
     "MarketingAutomationReportingService": "https://\"+$GlobalParams.SqlDbPrefix+\"XConnect.local",
     "SqlMessagingPassword": "[Invoke-RandomStringConfigFunction -Length 20 -DisAllowSpecial -EnforceComplexity]"
-
   },
-  "PackageMapping": {
-    "sitecore-XP0": "* (OnPrem)_single.scwdp.zip",
-    "xconnect-xp0": "* (OnPrem)_xp0xconnect.scwdp.zip",
-    "IdentityServer": "* (OnPrem)_identityserver.scwdp.zip",
-    "spe": "Sitecore.PowerShell.Extensions*.zip",   
-	"sxa-XP0": "Sitecore Experience Accelerator*.zip"
-  },
+	"PackageMapping": {
+		"sitecore-XP0": "* (OnPrem)_single.scwdp.zip",
+		"xconnect-xp0": "* (OnPrem)_xp0xconnect.scwdp.zip",
+		"IdentityServer": "* (OnPrem)_identityserver.scwdp.zip",
+		"spe": "Sitecore.PowerShell.Extensions*.zip",
+		"sxa-XP0": "Sitecore Experience Accelerator*.zip"
+	},
 
   "Validators": [
-    "list|Basic"
+    "list|Basic",
+    "list|Sitecore_9.3"
   ],
 
-  "ExecSequense": {
-    "InstallSIF": {
-      "Type": "SIM.Sitecore9Installer.Tasks.InstallSIFTask, SIM.Sitecore9Installer",
-      "TaskOptions": {
-        "InstallVersion": "2.3.0",
-        "Repository": "https://sitecore.myget.org/F/sc-powershell/api/v2",
-        "ExecutionOrder": "-100"
-      }
-    },
-    "Prerequisites": {
-      "Type": "SIM.Sitecore9Installer.Tasks.SitecoreTask, SIM.Sitecore9Installer"
-    },
-    "IdentityServerCertificates": {
-      "Type": "SIM.Sitecore9Installer.Tasks.SitecoreTask, SIM.Sitecore9Installer",
-      "Parameters": {
-        "RealName": "createcert",
-        "CertificateName": "$SitecoreIdentityCert"
-      }
-    },
-    "IdentityServer": {
-      "Type": "SIM.Sitecore9Installer.Tasks.SitecoreTask, SIM.Sitecore9Installer",
-      "Parameters": {
-        "SiteName": "$SqlDbPrefix+\"Id.local\""
-      }
-    },
-    "XConnectCertificates": {
-      "Type": "SIM.Sitecore9Installer.Tasks.SitecoreTask, SIM.Sitecore9Installer",
-      "Parameters": {
-        "RealName": "createcert",
-        "CertificateName": "$XConnectCert"
-      }
-    },
-    "xconnect-solr": {
-      "Type": "SIM.Sitecore9Installer.Tasks.SitecoreTask, SIM.Sitecore9Installer"
-    },
-    "xconnect-xp0": {
-      "Type": "SIM.Sitecore9Installer.Tasks.SitecoreTask, SIM.Sitecore9Installer",
-      "Parameters": {
-        "SiteName": "$SqlDbPrefix+\"XConnect.local\""
-      }
-    },
-    "Sitecore-solr": {
-      "Type": "SIM.Sitecore9Installer.Tasks.SitecoreTask, SIM.Sitecore9Installer"
-    },
-    "Sitecore-XP0": {
-      "Type": "SIM.Sitecore9Installer.Tasks.SitecoreTask, SIM.Sitecore9Installer",
-      "Parameters": {
-        "SiteName": "$SqlDbPrefix+\".local\""
-      }
-    },
-    "SPE": {
-	  "Type": "SIM.Sitecore9Installer.Tasks.SitecoreTask, SIM.Sitecore9Installer",
-      "Parameters": {
-        "SiteName": "$SqlDbPrefix+\".local\""
-      }
-    },
-	"SXA-Solr": {
-	  "Type": "SIM.Sitecore9Installer.Tasks.SitecoreTask, SIM.Sitecore9Installer",
-      "Parameters": {
-        "SiteName": "$SqlDbPrefix+\".local\""
-      }
-    },
-	"SXA-XP0": {
-	  "Type": "SIM.Sitecore9Installer.Tasks.SitecoreTask, SIM.Sitecore9Installer",
-      "Parameters": {
-        "SiteName": "$SqlDbPrefix+\".local\""
-      }
-    }
-  }
+	"ExecSequense": {
+		"InstallSIF": {
+			"Type": "SIM.Sitecore9Installer.Tasks.InstallSIFTask, SIM.Sitecore9Installer",
+			"TaskOptions": {
+				"InstallVersion": "2.2.0",
+				"Repository": "https://sitecore.myget.org/F/sc-powershell/api/v2",
+				"ExecutionOrder": "-100"
+			}
+		},
+		"Prerequisites": {
+			"Type": "SIM.Sitecore9Installer.Tasks.SitecoreTask, SIM.Sitecore9Installer"
+		},
+		"IdentityServerCertificates": {
+			"Type": "SIM.Sitecore9Installer.Tasks.SitecoreTask, SIM.Sitecore9Installer",
+			"Parameters": {
+				"RealName": "createcert",
+				"CertificateName": "$SitecoreIdentityCert"
+			}
+		},
+		"IdentityServer": {
+			"Type": "SIM.Sitecore9Installer.Tasks.SitecoreTask, SIM.Sitecore9Installer",
+			"Parameters": {
+				"SiteName": "$SqlDbPrefix+\"Id.local\""
+			}
+		},
+		"XConnectCertificates": {
+			"Type": "SIM.Sitecore9Installer.Tasks.SitecoreTask, SIM.Sitecore9Installer",
+			"Parameters": {
+				"RealName": "createcert",
+				"CertificateName": "$XConnectCert"
+			}
+		},
+		"xconnect-solr": {
+			"Type": "SIM.Sitecore9Installer.Tasks.SitecoreTask, SIM.Sitecore9Installer"
+		},
+		"xconnect-xp0": {
+			"Type": "SIM.Sitecore9Installer.Tasks.SitecoreTask, SIM.Sitecore9Installer",
+			"Parameters": {
+				"SiteName": "$SqlDbPrefix+\"XConnect.local\""
+			}
+		},
+		"Sitecore-solr": {
+			"Type": "SIM.Sitecore9Installer.Tasks.SitecoreTask, SIM.Sitecore9Installer"
+		},
+		"Sitecore-XP0": {
+			"Type": "SIM.Sitecore9Installer.Tasks.SitecoreTask, SIM.Sitecore9Installer",
+			"Parameters": {
+				"SiteName": "$SqlDbPrefix+\".local\""
+			}
+		},
+		"SPE": {
+			"Type": "SIM.Sitecore9Installer.Tasks.SitecoreTask, SIM.Sitecore9Installer",
+			"Parameters": {
+				"SiteName": "$SqlDbPrefix+\".local\""
+			}
+		},
+		"SXA-Solr": {
+			"Type": "SIM.Sitecore9Installer.Tasks.SitecoreTask, SIM.Sitecore9Installer"
+		},
+		"SXA-XP0": {
+			"Type": "SIM.Sitecore9Installer.Tasks.SitecoreTask, SIM.Sitecore9Installer",
+			"Parameters": {
+				"SiteName": "$SqlDbPrefix+\".local\""
+			}
+		}
+	}
 }

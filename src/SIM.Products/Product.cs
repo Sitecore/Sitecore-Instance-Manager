@@ -31,7 +31,7 @@
 
     private const string ProductNamePattern = @"([a-zA-Z][a-zA-Z\d\-\s\._]*[a-zA-Z])";
 
-    private const string ProductRevisionPattern = @"(\d\d\d\d\d\d([\d\w\s_\-\!\(\)]*|[\d\w\s_\-.\!\(\)]+\.[\d\w\s_\-.\!\(\)]+))"; // @"(\d\d\d\d\d\d)";//the additional \.\ after \-\ will allow the dots in 1.2.0 in the end in a string like this : Sitecore 10.0.0 rev. 004346 (Setup XP0 Developer Workstation rev. 1.2.0-r64).zip
+    private const string ProductRevisionPattern = @"(\d\d\d\d\d\d([\d\w\s_\-\!\(\)]*|[\d\w\s_\-\!\(\)]+\.[\d\w\s_\-\.\!]+\)))";
 
     private const string ProductVersionPattern = @"(\d{1,2}\.\d(\.?\d?))";
 
@@ -635,7 +635,7 @@
                   PackagePath = packagePath, 
                   TwoVersion = $"{arr[0]}.{arr[1]}",
                   TriVersion = version,
-                  Revision = revision.Replace(".zip", " with SXA")
+                  Revision = revision
                 };
 
       return true;

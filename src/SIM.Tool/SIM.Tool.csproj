@@ -498,7 +498,9 @@
     <Content Include="GlobalParamsConfig\Solr\GlobalParams_solr.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <None Include="GlobalParamsConfig\XP\GlobalParams_10.0_Setup_XP0.json" />
+    <None Include="GlobalParamsConfig\XP\GlobalParams_10.0_XP0_SXA.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="GlobalParamsConfig\XP\GlobalParams_9.2_XP0.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -508,7 +510,7 @@
     <Content Include="GlobalParamsConfig\XP\GlobalParams_9.3_XP1.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="GlobalParamsConfig\XP\GlobalParams_9.3_Setup_XP0.json">
+    <Content Include="GlobalParamsConfig\XP\GlobalParams_9.3_XP0_SXA.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="packages.config" />
