@@ -78,6 +78,7 @@
     <Compile Include="IAdvancedSettingsStorage.cs" />
     <Compile Include="IProfile.cs" />
     <Compile Include="IValidateable.cs" />
+    <Compile Include="RangeObservableCollection.cs" />
     <Compile Include="RenderInDataGreedAttribute.cs" />
     <Compile Include="Safe.cs" />
     <Compile Include="Parameters.cs" />

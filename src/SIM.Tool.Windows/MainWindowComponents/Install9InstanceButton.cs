@@ -38,7 +38,7 @@ namespace SIM.Tool.Windows.MainWindowComponents
 
         if (install.HasInstallationBeenCompleted)
         {
-          MainWindowHelper.SoftlyRefreshInstances();
+          MainWindowHelper.AddNewInstance(install.InstanceName, false);
         }
         
       }, () => new Install9WizardArgs());

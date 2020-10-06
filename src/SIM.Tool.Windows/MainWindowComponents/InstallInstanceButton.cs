@@ -62,7 +62,7 @@
 
           if (install.HasInstallationBeenCompleted)
           {
-            MainWindowHelper.SoftlyRefreshInstances();
+            MainWindowHelper.AddNewInstance(install.InstanceName, true);
           }
         }, () => new InstallWizardArgs());
       }

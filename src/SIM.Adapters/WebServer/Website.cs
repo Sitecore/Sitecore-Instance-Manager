@@ -161,12 +161,26 @@
     {
       get
       {
-        using (WebServerManager.WebServerContext context = WebServerManager.CreateContext())
+        try
         {
-          return GetName(context);
+          if (string.IsNullOrEmpty(name))
+          {
+            using (WebServerManager.WebServerContext context = WebServerManager.CreateContext())
+            {
+              name = GetName(context);
+            }
+          }
+          return name;
+        }
+        catch(Exception ex)
+        {
+          Log.Error(ex.Message+" "+ex.StackTrace);
+          return "Error";
         }
       }
     }
+
+    private string name { get; set; }
 
     public virtual IEnumerable<int> ProcessIds
     {
