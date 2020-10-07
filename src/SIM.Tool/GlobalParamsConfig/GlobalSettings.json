@@ -1,63 +1,63 @@
 ﻿{
-	"GlobalFilesMap": {
-		"10.0.\\d.* XM1": "GlobalParams_10.0_XM1.json",
-		"9.3.\\d.* XM1": "GlobalParams_9.3_XM1.json",
-		"9.2.\\d.* XM1": "GlobalParams_9.2_XM1.json",
-		"9.1.0.* XM1": "GlobalParams_9.1.0_XM1.json",
-		"9.1.\\d.* XM1": "GlobalParams_9.1_XM1.json",
-		"9.0.\\d.* XM1": "GlobalParams_9.0_XM1.json",
+  "GlobalFilesMap": {
+    "10.0.\\d.* XM1": "GlobalParams_10.0_XM1.json",
+    "9.3.\\d.* XM1": "GlobalParams_9.3_XM1.json",
+    "9.2.\\d.* XM1": "GlobalParams_9.2_XM1.json",
+    "9.1.0.* XM1": "GlobalParams_9.1.0_XM1.json",
+    "9.1.\\d.* XM1": "GlobalParams_9.1_XM1.json",
+    "9.0.\\d.* XM1": "GlobalParams_9.0_XM1.json",
 
-		"10.0.\\d.* XP0 Developer": "GlobalParams_10.0_XP0_SXA.json",
-		"10.0.\\d.* XP0": "GlobalParams_10.0_XP0.json",
-		"10.0.\\d.* XP1": "GlobalParams_10.0_XP1.json",
-		"9.3.\\d.* XP1": "GlobalParams_9.3_XP1.json",
-		"9.3.\\d.* XP0 Developer": "GlobalParams_9.3_XP0_SXA.json",
-		"9.3.\\d.* XP0": "GlobalParams_9.3_XP0.json",
-		"9.2.\\d.* XP1": "GlobalParams_9.2_XP1.json",
-		"9.2.\\d.* XP0": "GlobalParams_9.2_XP0.json",
-		"9.1.0.* XP0": "GlobalParams_9.1.0_XP0.json",
-		"9.1.0.* XP1": "GlobalParams_9.1.0_XP1.json",
-		"9.1.\\d.* XP0": "GlobalParams_9.1_XP0.json",
-		"9.1.\\d.* XP1": "GlobalParams_9.1_XP1.json",
+    "10.0.\\d.* XP0 Developer": "GlobalParams_10.0_XP0_SXA.json",
+    "10.0.\\d.* XP0": "GlobalParams_10.0_XP0.json",
+    "10.0.\\d.* XP1": "GlobalParams_10.0_XP1.json",
+    "9.3.\\d.* XP1": "GlobalParams_9.3_XP1.json",
+    "9.3.\\d.* XP0 Developer": "GlobalParams_9.3_XP0_SXA.json",
+    "9.3.\\d.* XP0": "GlobalParams_9.3_XP0.json",
+    "9.2.\\d.* XP1": "GlobalParams_9.2_XP1.json",
+    "9.2.\\d.* XP0": "GlobalParams_9.2_XP0.json",
+    "9.1.0.* XP0": "GlobalParams_9.1.0_XP0.json",
+    "9.1.0.* XP1": "GlobalParams_9.1.0_XP1.json",
+    "9.1.\\d.* XP0": "GlobalParams_9.1_XP0.json",
+    "9.1.\\d.* XP1": "GlobalParams_9.1_XP1.json",
 
-		//9.0 Initial Release as it has the specific post installation task
-		"9.0.0.* XP0": "GlobalParams_9.0.0_XP0.json",
-		"9.0.0.* XP1": "GlobalParams_9.0.0_XP1.json",
-		//
+    //9.0 Initial Release as it has the specific post installation task
+    "9.0.0.* XP0": "GlobalParams_9.0.0_XP0.json",
+    "9.0.0.* XP1": "GlobalParams_9.0.0_XP1.json",
+    //
 
-		"9.0.\\d.* XP1": "GlobalParams_9.0_XP1.json",
-		"9.0.\\d.* XP0": "GlobalParams_9.0_XP0.json",
+    "9.0.\\d.* XP1": "GlobalParams_9.0_XP1.json",
+    "9.0.\\d.* XP0": "GlobalParams_9.0_XP0.json",
 
-		//solr
-		"solr": "GlobalParams_solr.json"
-		//
-	},
+    //solr
+    "solr": "GlobalParams_solr.json"
+    //
+  },
 
-	"ExcludeUninstallParams": [
-		"SqlMarketingAutomationPassword",
-		"SqlReferenceDataPassword",
-		"SqlProcessingPoolsPassword",
-		"SqlCollectionPassword",
-		"SqlProcessingEnginePassword",
-		"SqlSecurityPassword",
-		"SqlCorePassword",
-		"SqlWebPassword",
-		"SqlFormsPassword",
-		"SqlMasterPassword",
-		"SqlReportingPassword",
-		"SqlProcessingTasksPassword",
-		"SqlExmMasterPassword",
-		"SqlMessagingPassword",
-		"SitecoreAdminPassword",
-		"SqlAdminPassword",
-		"Path"
-	],
+  "ExcludeUninstallParams": [
+    "SqlMarketingAutomationPassword",
+    "SqlReferenceDataPassword",
+    "SqlProcessingPoolsPassword",
+    "SqlCollectionPassword",
+    "SqlProcessingEnginePassword",
+    "SqlSecurityPassword",
+    "SqlCorePassword",
+    "SqlWebPassword",
+    "SqlFormsPassword",
+    "SqlMasterPassword",
+    "SqlReportingPassword",
+    "SqlProcessingTasksPassword",
+    "SqlExmMasterPassword",
+    "SqlMessagingPassword",
+    "SitecoreAdminPassword",
+    "SqlAdminPassword",
+    "Path"
+  ],
 
-	"SolrVersionsMap": {
-		"6.6.2": "9.0.*",
-		"7.2.1": "9.1.*",
-		"7.5.0": "9.2.0",
-		"8.1.0": "9.3.0",
-		"8.4.0": "10.0.0"
-	}
+  "SolrVersionsMap": {
+    "6.6.2": "9.0.*",
+    "7.2.1": "9.1.*",
+    "7.5.0": "9.2.0",
+    "8.1.0": "9.3.0",
+    "8.4.0": "10.0.0"
+  }
 }
