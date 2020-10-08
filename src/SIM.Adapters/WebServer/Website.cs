@@ -20,6 +20,8 @@
 
     public long ID { get; }
 
+    private string name;
+
     #endregion
 
     #region Constructors
@@ -179,8 +181,6 @@
         }
       }
     }
-
-    private string name { get; set; }
 
     public virtual IEnumerable<int> ProcessIds
     {

@@ -208,7 +208,7 @@ namespace SIM.Instances
             SitecoreEnvironmentHelper.SitecoreEnvironments.FirstOrDefault(e => e.Name == instanceName);
           if (environment != null && environment.Members != null && environment.Members.Count != 0)
           {
-            foreach (var member in environment.Members)
+            foreach (var member in environment.Members.Where(x=>x.Type== SitecoreEnvironmentMember.Types.Site.ToString()))
             {
               Site site = sites.FirstOrDefault(s => s.Name == member.Name);
               if (site != null)
