@@ -7,11 +7,11 @@
   using Sitecore.Diagnostics.Base;
   using JetBrains.Annotations;
   using SIM.Core;
-  using SIM.Core.Common;
   using SIM.Extensions;
+  using SIM.Tool.Base.Plugins;
 
   [UsedImplicitly]
-  public class ConfigBuilderButton : AbstractDownloadAndRunButton
+  public class ConfigBuilderButton : IMainWindowButton
   {
     #region Fields
 
@@ -40,38 +40,23 @@
 
     #endregion
 
-    protected override string BaseUrl
-    {
-      get
-      {
-        return "http://dl.sitecore.net/updater/1.1/scb/";
-      }
-    }
-
-    protected override string AppName
-    {
-      get
-      {
-        return "Config Builder";
-      }
-    }
-
-    protected override string ExecutableName
-    {
-      get
-      {
-        return "Sitecore.ConfigBuilder.Tool.exe";
-      }
-    }
-
     #region Public methods
-                     
-    public override void OnClick(Window mainWindow, Instance instance)
+
+    public bool IsEnabled(Window mainWindow, Instance instance)
+    {
+      return true;
+    }
+
+    public bool IsVisible(Window mainWindow, Instance instance)
+    {
+      return MainWindowHelper.IsEnabledOrVisibleButtonForSitecoreMember(instance);
+    }
+
+    public void OnClick(Window mainWindow, Instance instance)
     {
       if (!Showconfig && !WebConfigResult)
       {
-        var param = instance != null ? Path.Combine(instance.WebRootPath, "web.config") : null;
-        RunApp(mainWindow, param);
+        CoreApp.RunApp("iexplore", "http://dl.sitecore.net/updater/scb/Sitecore.ConfigBuilder.Tool.application");
 
         return;
       }
