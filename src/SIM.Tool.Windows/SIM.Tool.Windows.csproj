@@ -123,8 +123,6 @@
     <Compile Include="CustomConverters\CustomGroupVisibilityConverter.cs" />
     <Compile Include="CustomConverters\CustomButtonVisibilityConverter.cs" />
     <Compile Include="CustomConverters\CustomButtonEnabledConverter.cs" />
-    <Compile Include="CustomConverters\CustomMenuItemEnabledConverter.cs" />
-    <Compile Include="CustomConverters\CustomMenuItemVisibilityConverter.cs" />
     <Compile Include="Dialogs\AddSolrDialog.xaml.cs">
       <DependentUpon>AddSolrDialog.xaml</DependentUpon>
     </Compile>

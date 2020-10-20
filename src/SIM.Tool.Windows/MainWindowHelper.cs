@@ -1,4 +1,6 @@
-﻿namespace SIM.Tool.Windows
+﻿using System.Runtime.CompilerServices;
+
+namespace SIM.Tool.Windows
 {
   using System;
   using System.Collections.Generic;
@@ -93,6 +95,13 @@
       using (new ProfileSection("Initialize context menu"))
       {
         MainWindow window = MainWindow.Instance;
+        // This is needed to bind properties of custom buttons to menu items in the InitializeContextMenuItem method
+        window.ContextMenu.PlacementTarget = window.InstanceList;
+        window.ContextMenu.DataContext = new System.Windows.Data.Binding("PlacementTarget.DataContext")
+        {
+          RelativeSource = RelativeSource.Self
+        };
+
         foreach (var item in menuItems)
         {
           using (new ProfileSection("Fill in context menu"))
@@ -509,20 +518,6 @@
 
           if (menuHandler != null)
           {
-            // bind IsEnabled and IsVisible events for button
-            //SetIsEnabledProperty(menuButton, menuHandler);
-            //SetIsVisibleProperty(menuButton, menuHandler);
-            /*menuButton.SetBinding(UIElement.IsEnabledProperty, new System.Windows.Data.Binding("SelectedItem")
-            {
-              Converter = new CustomMenuItemEnabledConverter(menuHandler),
-              ElementName = "InstanceList"
-            });
-            menuButton.SetBinding(UIElement.VisibilityProperty, new System.Windows.Data.Binding("SelectedItem")
-            {
-              Converter = new CustomMenuItemVisibilityConverter(menuHandler),
-              ElementName = "InstanceList"
-            });*/
-
             menuButton.Click += delegate
             {
               try
@@ -618,18 +613,9 @@
 
         if (mainWindowButton != null)
         {
-          //SetIsEnabledProperty(menuItem, mainWindowButton);
-          //SetIsVisibleProperty(menuItem, mainWindowButton);
-          menuItem.SetBinding(UIElement.IsEnabledProperty, new System.Windows.Data.Binding("SelectedItem")
-          {
-            Converter = new CustomMenuItemEnabledConverter(mainWindowButton),
-            ElementName = "InstanceList"
-          });
-          menuItem.SetBinding(UIElement.VisibilityProperty, new System.Windows.Data.Binding("SelectedItem")
-          {
-            Converter = new CustomMenuItemVisibilityConverter(mainWindowButton),
-            ElementName = "InstanceList"
-          });
+          // bind IsEnabled and IsVisible events
+          SetMenuItemIsEnabledProperty(menuItem, mainWindowButton);
+          SetMenuItemIsVisibleProperty(menuItem, mainWindowButton);
 
           menuItem.Click += (obj, e) =>
           {
@@ -665,6 +651,24 @@
       }
     }
 
+    private static void SetMenuItemIsEnabledProperty(FrameworkElement menuItem, IMainWindowButton mainWindowButton)
+    {
+      menuItem.SetBinding(UIElement.IsEnabledProperty, new System.Windows.Data.Binding("PlacementTarget.SelectedItem")
+      {
+        RelativeSource = new RelativeSource(RelativeSourceMode.FindAncestor, typeof(System.Windows.Controls.ContextMenu), 1),
+        Converter = new CustomButtonEnabledConverter(mainWindowButton)
+      });
+    }
+
+    private static void SetMenuItemIsVisibleProperty(FrameworkElement menuItem, IMainWindowButton mainWindowButton)
+    {
+      menuItem.SetBinding(UIElement.VisibilityProperty, new System.Windows.Data.Binding("PlacementTarget.SelectedItem")
+      {
+        RelativeSource = new RelativeSource(RelativeSourceMode.FindAncestor, typeof(System.Windows.Controls.ContextMenu), 1),
+        Converter = new CustomButtonVisibilityConverter(mainWindowButton)
+      });
+    }
+
     private static void InitializeRibbonButton(MainWindow window, Func<string, ImageSource> getImage, ButtonDefinition button, RibbonGroupBox ribbonGroup)
     {
       using (new ProfileSection("Initialize ribbon button"))
@@ -691,14 +695,14 @@
             ribbonButton.Width = d;
           }
 
-          // bind IsEnabled and IsVisible events
           if (mainWindowButton != null)
           {
             ribbonButton.Tag = mainWindowButton;
             ribbonButton.IsEnabled = mainWindowButton.IsEnabled(window, SelectedInstance);
             ribbonButton.Visibility = mainWindowButton.IsVisible(window, SelectedInstance) ? Visibility.Visible : Visibility.Collapsed;
-            SetIsEnabledProperty(ribbonButton, mainWindowButton);
-            SetIsVisibleProperty(ribbonButton, mainWindowButton);
+            // bind IsEnabled and IsVisible events
+            SetRibbonButtonIsEnabledProperty(ribbonButton, mainWindowButton);
+            SetRibbonButtonIsVisibleProperty(ribbonButton, mainWindowButton);
           }
         }
         catch (Exception ex)
@@ -706,6 +710,24 @@
           WindowHelper.HandleError($"Plugin Button caused an exception: {button.Label}", true, ex);
         }
       }
+    }
+
+    private static void SetRibbonButtonIsEnabledProperty(FrameworkElement ribbonButton, IMainWindowButton mainWindowButton)
+    {
+      ribbonButton.SetBinding(UIElement.IsEnabledProperty, new System.Windows.Data.Binding("SelectedItem")
+      {
+        Converter = new CustomButtonEnabledConverter(mainWindowButton),
+        ElementName = "InstanceList"
+      });
+    }
+
+    private static void SetRibbonButtonIsVisibleProperty(FrameworkElement ribbonButton, IMainWindowButton mainWindowButton)
+    {
+      ribbonButton.SetBinding(UIElement.VisibilityProperty, new System.Windows.Data.Binding("SelectedItem")
+      {
+        Converter = new CustomButtonVisibilityConverter(mainWindowButton),
+        ElementName = "InstanceList"
+      });
     }
 
     private static void InitializeRibbonTab([NotNull] TabDefinition tab, MainWindow window, Func<string, ImageSource> getImage)
@@ -743,30 +765,17 @@
           if (groupHandler != null)
           {
             // bind IsVisible event for group element
-            ribbonGroup.SetBinding(UIElement.VisibilityProperty, new System.Windows.Data.Binding("SelectedItem")
-            {
-              Converter = new CustomGroupVisibilityConverter(groupHandler),
-              ElementName = "InstanceList"
-            });
+            SetRibbonTabIsVisibleProperty(ribbonGroup, groupHandler);
           }
         }
       }
     }
 
-    private static void SetIsEnabledProperty(FrameworkElement ribbonButton, IMainWindowButton mainWindowButton)
+    private static void SetRibbonTabIsVisibleProperty(FrameworkElement ribbonGroup, IMainWindowGroup groupHandler)
     {
-      ribbonButton.SetBinding(UIElement.IsEnabledProperty, new System.Windows.Data.Binding("SelectedItem")
+      ribbonGroup.SetBinding(UIElement.VisibilityProperty, new System.Windows.Data.Binding("SelectedItem")
       {
-        Converter = new CustomEnabledConverter(mainWindowButton),
-        ElementName = "InstanceList"
-      });
-    }
-
-    private static void SetIsVisibleProperty(FrameworkElement ribbonButton, IMainWindowButton mainWindowButton)
-    {
-      ribbonButton.SetBinding(UIElement.VisibilityProperty, new System.Windows.Data.Binding("SelectedItem")
-      {
-        Converter = new CustomVisibilityConverter(mainWindowButton),
+        Converter = new CustomGroupVisibilityConverter(groupHandler),
         ElementName = "InstanceList"
       });
     }
@@ -864,97 +873,10 @@
           {
             MainWindow.Instance.OpenTab.IsSelected = true;
           }
-
-          //ShowContextMenuItems(SelectedInstance);
-          //HideContextMenuItems(SelectedInstance);
         }
       }
     }
 
-    private static bool IsSitecoreMember(Instance selectedInstance)
-    {
-      if (selectedInstance.Product == Product.Undefined || selectedInstance.Product.Release == null)
-      {
-        return true;
-      }
-
-      return false;
-    }
-
-    private static bool IsSitecore9(Instance selectedInstance)
-    {
-      if (selectedInstance.Product.Release.Version.MajorMinorInt >= 90)
-      {
-        return true;
-      }
-
-      return false;
-    }
-
-    private static void ShowContextMenuItems(Instance selectedInstance)
-    {
-      ShowHideContextMenuItemsForSitecore9(Visibility.Visible);
-      ShowHideContextMenuItemsForSitecore9EnvironmentMember(Visibility.Visible);
-    }
-
-    private static void HideContextMenuItems(Instance selectedInstance)
-    {
-      if (IsSitecoreMember(selectedInstance))
-      {
-        ShowHideContextMenuItemsForSitecore9(Visibility.Collapsed);
-        ShowHideContextMenuItemsForSitecore9EnvironmentMember(Visibility.Collapsed);
-
-        return;
-      }
-
-      if (IsSitecore9(selectedInstance))
-      {
-        ShowHideContextMenuItemsForSitecore9(Visibility.Collapsed);
-      }
-    }
-
-    private static void ShowHideContextMenuItemsForSitecore9(Visibility visibility)
-    {
-      for (int i = 0; i < MainWindow.Instance.ContextMenu.Items.Count; i++)
-      {
-        if (MainWindow.Instance.ContextMenu.Items[i] is System.Windows.Controls.MenuItem &&
-            ((MainWindow.Instance.ContextMenu.Items[i] as System.Windows.Controls.MenuItem).Header == "Backup" ||
-            (MainWindow.Instance.ContextMenu.Items[i] as System.Windows.Controls.MenuItem).Header == "Restore" ||
-            (MainWindow.Instance.ContextMenu.Items[i] as System.Windows.Controls.MenuItem).Header == "Export" ||
-            (MainWindow.Instance.ContextMenu.Items[i] as System.Windows.Controls.MenuItem).Header == "Install modules"))
-        {
-          (MainWindow.Instance.ContextMenu.Items[i] as System.Windows.Controls.MenuItem).Visibility = visibility;
-          if (MainWindow.Instance.ContextMenu.Items[i+1] is System.Windows.Controls.Separator)
-          {
-            (MainWindow.Instance.ContextMenu.Items[i+1] as System.Windows.Controls.Separator).Visibility = visibility;
-          }
-        }
-      }
-    }
-
-    private static void ShowHideContextMenuItemsForSitecore9EnvironmentMember(Visibility visibility)
-    {
-      for (int i = 0; i < MainWindow.Instance.ContextMenu.Items.Count; i++)
-      {
-        if (MainWindow.Instance.ContextMenu.Items[i] is System.Windows.Controls.MenuItem &&
-            ((MainWindow.Instance.ContextMenu.Items[i] as System.Windows.Controls.MenuItem).Header == "Browse Sitecore Website" ||
-             (MainWindow.Instance.ContextMenu.Items[i] as System.Windows.Controls.MenuItem).Header == "Browse Sitecore Client" ||
-             (MainWindow.Instance.ContextMenu.Items[i] as System.Windows.Controls.MenuItem).Header == "Log in admin" ||
-             (MainWindow.Instance.ContextMenu.Items[i] as System.Windows.Controls.MenuItem).Header == "Sitecore Admin" ||
-             (MainWindow.Instance.ContextMenu.Items[i] as System.Windows.Controls.MenuItem).Header == "Open Visual Studio" ||
-             (MainWindow.Instance.ContextMenu.Items[i] as System.Windows.Controls.MenuItem).Header == "Analyze log files" ||
-             (MainWindow.Instance.ContextMenu.Items[i] as System.Windows.Controls.MenuItem).Header == "Open log file" ||
-             (MainWindow.Instance.ContextMenu.Items[i] as System.Windows.Controls.MenuItem).Header == "Open web.config file" ||
-             (MainWindow.Instance.ContextMenu.Items[i] as System.Windows.Controls.MenuItem).Header == "Publish Site"))
-        {
-          (MainWindow.Instance.ContextMenu.Items[i] as System.Windows.Controls.MenuItem).Visibility = visibility;
-          if (MainWindow.Instance.ContextMenu.Items[i + 1] is System.Windows.Controls.Separator)
-          {
-            (MainWindow.Instance.ContextMenu.Items[i + 1] as System.Windows.Controls.Separator).Visibility = visibility;
-          }
-        }
-      }
-    }
     // private static void SetupInstanceRestoreButton(string webRootPath)
     // {
     // using (new ProfileSection("MainWindowHelper:SetupInstanceRestoreButton()"))

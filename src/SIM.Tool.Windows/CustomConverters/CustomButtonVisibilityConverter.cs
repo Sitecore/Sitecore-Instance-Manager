@@ -10,7 +10,7 @@ using Sitecore.Diagnostics.Logging;
 
 namespace SIM.Tool.Windows.CustomConverters
 {
-  public class CustomVisibilityConverter : IValueConverter
+  public class CustomButtonVisibilityConverter : IValueConverter
   {
     #region Fields
 
@@ -21,7 +21,7 @@ namespace SIM.Tool.Windows.CustomConverters
 
     #region Constructors
 
-    public CustomVisibilityConverter([NotNull] IMainWindowButton mainWindowButton)
+    public CustomButtonVisibilityConverter([NotNull] IMainWindowButton mainWindowButton)
     {
       Assert.ArgumentNotNull(mainWindowButton, nameof(mainWindowButton));
 

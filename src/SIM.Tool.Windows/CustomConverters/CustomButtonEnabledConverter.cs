@@ -1,15 +1,15 @@
+using System;
+using System.Globalization;
+using System.Windows.Data;
+using SIM.Instances;
+using SIM.Tool.Base.Plugins;
+using Sitecore.Diagnostics.Base;
+using JetBrains.Annotations;
+using Sitecore.Diagnostics.Logging;
+
 namespace SIM.Tool.Windows.CustomConverters
 {
-  using System;
-  using System.Globalization;
-  using System.Windows.Data;
-  using SIM.Instances;
-  using SIM.Tool.Base.Plugins;
-  using Sitecore.Diagnostics.Base;
-  using JetBrains.Annotations;
-  using Sitecore.Diagnostics.Logging;
-
-  public class CustomEnabledConverter : IValueConverter
+  public class CustomButtonEnabledConverter : IValueConverter
   {
     #region Fields
 
@@ -20,7 +20,7 @@ namespace SIM.Tool.Windows.CustomConverters
 
     #region Constructors
 
-    public CustomEnabledConverter([NotNull] IMainWindowButton mainWindowButton)
+    public CustomButtonEnabledConverter([NotNull] IMainWindowButton mainWindowButton)
     {
       Assert.ArgumentNotNull(mainWindowButton, nameof(mainWindowButton));
 
