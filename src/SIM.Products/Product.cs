@@ -31,7 +31,7 @@
 
     private const string ProductNamePattern = @"([a-zA-Z][a-zA-Z\d\-\s\._]*[a-zA-Z])";
 
-    private const string ProductRevisionPattern = @"(\d\d\d\d\d\d([\d\w\s_\-\!\(\)]*|[\d\w\s_\-\!\(\)]+\.[\d\w\s_\-\!\(\)]+))"; // @"(\d\d\d\d\d\d)";
+    private const string ProductRevisionPattern = @"(\d\d\d\d\d\d([\d\w\s_\-\!\(\)]*|[\d\w\s_\-\!\(\)]+\.[\d\w\s_\-\.\!]+\)))";
 
     private const string ProductVersionPattern = @"(\d{1,2}\.\d(\.?\d?))";
 
