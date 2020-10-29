@@ -1,13 +1,13 @@
-﻿namespace SIM.Tool.Windows.MainWindowComponents
-{
-  using System;
-  using System.Windows;
-  using Sitecore.Diagnostics.Base;
-  using JetBrains.Annotations;
-  using Sitecore.Diagnostics.Logging;
-  using SIM.Extensions;
-  using TaskDialogInterop;
+﻿using System;
+using System.Windows;
+using JetBrains.Annotations;
+using SIM.Extensions;
+using Sitecore.Diagnostics.Base;
+using Sitecore.Diagnostics.Logging;
+using TaskDialogInterop;
 
+namespace SIM.Tool.Windows.MainWindowComponents.Buttons
+{
   [UsedImplicitly]
   public class RefreshButton : WindowOnlyButton
   {

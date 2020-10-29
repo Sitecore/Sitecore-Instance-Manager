@@ -1,15 +1,14 @@
-namespace SIM.Tool.Windows.MainWindowComponents
-{
-  using System.Diagnostics;
-  using System.Globalization;
-  using System.Linq;
-  using System.Windows;
-  using SIM.Instances;
-  using SIM.Tool.Base;
-  using SIM.Tool.Base.Plugins;
-  using Sitecore.Diagnostics.Base;
-  using JetBrains.Annotations;
+using System.Diagnostics;
+using System.Globalization;
+using System.Linq;
+using System.Windows;
+using JetBrains.Annotations;
+using SIM.Instances;
+using SIM.Tool.Base;
+using Sitecore.Diagnostics.Base;
 
+namespace SIM.Tool.Windows.MainWindowComponents.Buttons
+{
   [UsedImplicitly]
   public class ManagedArgsTracerButton : InstanceOnlyButton
   {

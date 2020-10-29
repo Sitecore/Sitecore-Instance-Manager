@@ -1,16 +1,16 @@
-﻿namespace SIM.Tool.Windows.MainWindowComponents
-{
-  using System.Windows;
-  using Microsoft.Win32;
-  using SIM.Tool.Base;
-  using Sitecore.Diagnostics.Base;
-  using JetBrains.Annotations;
-  using Sitecore.Diagnostics.Logging;
-  using SIM.Extensions;
-  using SIM.IO.Real;
-  using SIM.Tool.Base.Wizards;
-  using SIM.Tool.Windows.UserControls.Import;
+﻿using System.Windows;
+using JetBrains.Annotations;
+using Microsoft.Win32;
+using SIM.Extensions;
+using SIM.IO.Real;
+using SIM.Tool.Base;
+using SIM.Tool.Base.Wizards;
+using SIM.Tool.Windows.UserControls.Import;
+using Sitecore.Diagnostics.Base;
+using Sitecore.Diagnostics.Logging;
 
+namespace SIM.Tool.Windows.MainWindowComponents.Buttons
+{
   [UsedImplicitly]
   public class ImportInstanceButton : WindowOnlyButton
   {

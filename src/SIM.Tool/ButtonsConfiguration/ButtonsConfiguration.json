@@ -35,7 +35,9 @@
     "GenerateNuGetPackagesButton",
     /*Settings*/
     "SettingsButton",
-    /*Create Support Patch, Create Core Patch*/
+    /*Create Core Patch*/
+    "CreateSupportHotfixButton",
+    /*Create Support Patch*/
     "CreateSupportPatchButton",
     /*Sitecore Client, Front-end Site, Sitecore Login, Sitecore Desktop, Content Editor, Page Editor, Launch Pad, Google Chrome, Google Chrome (Incognito), Mozilla Firefox, Mozilla Firefox (Private), Internet Explorer, Internet Explorer (Private), Apple Safari*/
     "BrowseButton",
@@ -109,6 +111,7 @@
     "InstallMongoDbButton",
     "GenerateNuGetPackagesButton",
     "SettingsButton",
+    "CreateSupportHotfixButton",
     "CreateSupportPatchButton",
     "BrowseButton",
     "OpenToolboxButton",
@@ -142,6 +145,7 @@
     "InstallMongoDbButton",
     "GenerateNuGetPackagesButton",
     "SettingsButton",
+    "CreateSupportHotfixButton",
     "OpenFileButton",
     "ConfigBuilderButton",
     "OpenCurrentLogButton",

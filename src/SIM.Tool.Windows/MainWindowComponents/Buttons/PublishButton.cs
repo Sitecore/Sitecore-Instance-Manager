@@ -1,12 +1,12 @@
-﻿namespace SIM.Tool.Windows.MainWindowComponents
-{
-  using System;
-  using System.Windows;
-  using SIM.Instances;
-  using SIM.Tool.Base;
-  using JetBrains.Annotations;
-  using Sitecore.Diagnostics.Logging;
+﻿using System;
+using System.Windows;
+using JetBrains.Annotations;
+using SIM.Instances;
+using SIM.Tool.Base;
+using Sitecore.Diagnostics.Logging;
 
+namespace SIM.Tool.Windows.MainWindowComponents.Buttons
+{
   [UsedImplicitly]
   public class PublishButton : InstanceOnlyButton
   {

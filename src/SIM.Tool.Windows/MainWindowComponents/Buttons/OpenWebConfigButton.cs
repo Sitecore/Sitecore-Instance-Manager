@@ -1,12 +1,12 @@
-﻿namespace SIM.Tool.Windows.MainWindowComponents
-{
-  using System.Windows;
-  using SIM.Adapters.WebServer;
-  using SIM.Instances;
-  using JetBrains.Annotations;
-  using SIM.Core;
-  using SIM.Extensions;
+﻿using System.Windows;
+using JetBrains.Annotations;
+using SIM.Adapters.WebServer;
+using SIM.Core;
+using SIM.Extensions;
+using SIM.Instances;
 
+namespace SIM.Tool.Windows.MainWindowComponents.Buttons
+{
   [UsedImplicitly]
   public class OpenWebConfigButton : InstanceOnlyButton
   {

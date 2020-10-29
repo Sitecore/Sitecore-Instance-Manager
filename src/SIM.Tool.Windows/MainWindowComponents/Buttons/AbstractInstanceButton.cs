@@ -1,13 +1,13 @@
-namespace SIM.Tool.Windows.MainWindowComponents
-{
-  using System.Linq;
-  using System.Windows;
-  using SIM.Instances;
-  using SIM.Products;
-  using SIM.Tool.Base.Plugins;
-  using Sitecore.Diagnostics.Base;
-  using JetBrains.Annotations;
+using System.Linq;
+using System.Windows;
+using JetBrains.Annotations;
+using SIM.Instances;
+using SIM.Products;
+using SIM.Tool.Base.Plugins;
+using Sitecore.Diagnostics.Base;
 
+namespace SIM.Tool.Windows.MainWindowComponents.Buttons
+{
   public abstract class InstanceOnlyButton : IMainWindowButton
   {
     #region Fields

@@ -8,7 +8,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using SIM.Tool.Base.Profiles;
-using SIM.Tool.Windows.MainWindowComponents;
+using SIM.Tool.Windows.MainWindowComponents.Buttons;
 
 namespace SIM.Tool.Windows.Dialogs
 {

@@ -1,4 +1,4 @@
-﻿namespace SIM.Tool.Windows.MainWindowComponents
+﻿namespace SIM.Tool.Windows.MainWindowComponents.Buttons
 {
   public class ClearEventQueueButton : ClearDatabasesButton
   {

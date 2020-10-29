@@ -111,7 +111,15 @@ namespace SIM.Tool.Windows
             var header = item.Label;
             if (string.IsNullOrEmpty(header))
             {
-              window.ContextMenu.Items.Add(new Separator());
+              Separator separator = new Separator();
+              if (item.Handler != null)
+              {
+                // bind IsEnabled and IsVisible events
+                SetMenuItemIsEnabledProperty(separator, item.Handler);
+                SetMenuItemIsVisibleProperty(separator, item.Handler);
+              }
+
+              window.ContextMenu.Items.Add(separator);
               continue;
             }
 
@@ -518,6 +526,10 @@ namespace SIM.Tool.Windows
 
           if (menuHandler != null)
           {
+            // bind IsEnabled and IsVisible events
+            SetRibbonButtonIsEnabledProperty(menuButton, menuHandler);
+            SetRibbonButtonIsVisibleProperty(menuButton, menuHandler);
+
             menuButton.Click += delegate
             {
               try

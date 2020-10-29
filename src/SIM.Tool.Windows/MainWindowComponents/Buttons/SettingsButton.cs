@@ -1,10 +1,10 @@
-﻿namespace SIM.Tool.Windows.MainWindowComponents
-{
-  using System.Windows;
-  using SIM.Tool.Base;
-  using SIM.Tool.Windows.Dialogs;
-  using JetBrains.Annotations;
+﻿using System.Windows;
+using JetBrains.Annotations;
+using SIM.Tool.Base;
+using SIM.Tool.Windows.Dialogs;
 
+namespace SIM.Tool.Windows.MainWindowComponents.Buttons
+{
   [UsedImplicitly]
   public class SettingsButton : WindowOnlyButton
   {

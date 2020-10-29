@@ -1,12 +1,12 @@
-﻿namespace SIM.Tool.Windows.MainWindowComponents
-{
-  using System.Windows;
-  using SIM.Instances;
-  using SIM.Pipelines.Export;
-  using JetBrains.Annotations;
-  using SIM.Tool.Base.Wizards;
-  using SIM.Tool.Windows.UserControls.Export;
+﻿using System.Windows;
+using JetBrains.Annotations;
+using SIM.Instances;
+using SIM.Pipelines.Export;
+using SIM.Tool.Base.Wizards;
+using SIM.Tool.Windows.UserControls.Export;
 
+namespace SIM.Tool.Windows.MainWindowComponents.Buttons
+{
   [UsedImplicitly]
   public class ExportInstanceButton : InstanceOnlyButton
   {

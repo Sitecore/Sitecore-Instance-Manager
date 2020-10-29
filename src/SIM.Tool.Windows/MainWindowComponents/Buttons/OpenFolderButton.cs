@@ -1,13 +1,13 @@
-﻿namespace SIM.Tool.Windows.MainWindowComponents
-{
-  using System;
-  using System.Windows;
-  using SIM.Instances;
-  using SIM.Tool.Base;
-  using Sitecore.Diagnostics.Base;
-  using JetBrains.Annotations;
-  using SIM.Extensions;
+﻿using System;
+using System.Windows;
+using JetBrains.Annotations;
+using SIM.Extensions;
+using SIM.Instances;
+using SIM.Tool.Base;
+using Sitecore.Diagnostics.Base;
 
+namespace SIM.Tool.Windows.MainWindowComponents.Buttons
+{
   [UsedImplicitly]
   public class OpenFolderButton : InstanceOnlyButton
   {

@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using SIM.Instances;
 
-namespace SIM.Tool.Windows.MainWindowComponents
+namespace SIM.Tool.Windows.MainWindowComponents.Buttons
 {
   public class OpenSimFolderButton : OpenFolderButton
   {

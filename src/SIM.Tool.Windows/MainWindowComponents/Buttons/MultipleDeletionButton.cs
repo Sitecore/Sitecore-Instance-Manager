@@ -1,13 +1,12 @@
-﻿namespace SIM.Tool.Windows.MainWindowComponents
-{
-  using System.Collections.Generic;
-  using System.Windows;
-  using SIM.Pipelines.MultipleDeletion;
-  using SIM.Tool.Windows;
-  using JetBrains.Annotations;
-  using SIM.Tool.Base.Wizards;
-  using SIM.Tool.Windows.UserControls.MultipleDeletion;
+﻿using System.Collections.Generic;
+using System.Windows;
+using JetBrains.Annotations;
+using SIM.Pipelines.MultipleDeletion;
+using SIM.Tool.Base.Wizards;
+using SIM.Tool.Windows.UserControls.MultipleDeletion;
 
+namespace SIM.Tool.Windows.MainWindowComponents.Buttons
+{
   [UsedImplicitly]
   public class MultipleDeletionButton : WindowOnlyButton
   {

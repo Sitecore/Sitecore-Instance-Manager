@@ -3,13 +3,12 @@
   using System;
   using System.ComponentModel;
   using System.Threading;
-  using System.Windows;
   using System.Windows.Controls;
   using System.Windows.Input;
   using System.Windows.Threading;
   using SIM.Tool.Base;
   using SIM.Tool.Base.Plugins;
-  using SIM.Tool.Windows.MainWindowComponents;
+  using SIM.Tool.Windows.MainWindowComponents.Buttons;
   using Sitecore.Diagnostics.Base;
   using JetBrains.Annotations;
   using Sitecore.Diagnostics.Logging;

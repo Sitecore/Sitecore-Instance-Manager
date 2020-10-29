@@ -1,7 +1,7 @@
-﻿namespace SIM.Tool.Windows.MainWindowComponents
-{
-  using JetBrains.Annotations;
+﻿using JetBrains.Annotations;
 
+namespace SIM.Tool.Windows.MainWindowComponents.Buttons
+{
   [UsedImplicitly]
   public class BackupButton : InstanceOnlyButton
   {

@@ -145,6 +145,7 @@
     <Compile Include="GroupDefinition.cs" />
     <Compile Include="MainWindowComponents\Buttons\AboutButton.cs" />
     <Compile Include="MainWindowComponents\Buttons\AbstractInstanceButton.cs" />
+    <Compile Include="MainWindowComponents\Buttons\CreateSupportHotfixButton.cs" />
     <Compile Include="MainWindowComponents\Groups\AppsGroup.cs" />
     <Compile Include="MainWindowComponents\Groups\BackupGroup.cs" />
     <Compile Include="MainWindowComponents\Groups\FileSystemGroup.cs" />

@@ -1,17 +1,16 @@
-namespace SIM.Tool.Windows.MainWindowComponents
-{
-  using System;
-  using System.Diagnostics;
-  using System.IO;
-  using System.Windows;
-  using Sitecore.Diagnostics.Base;
-  using Sitecore.Diagnostics.Logging;
-  using JetBrains.Annotations;
-  using SIM.Tool.Base;
-  using SIM.Tool.Base.Plugins;
-  using SIM.Core;
-  using SIM.Instances;
+using System;
+using System.Diagnostics;
+using System.IO;
+using System.Windows;
+using JetBrains.Annotations;
+using SIM.Core;
+using SIM.Instances;
+using SIM.Tool.Base;
+using Sitecore.Diagnostics.Base;
+using Sitecore.Diagnostics.Logging;
 
+namespace SIM.Tool.Windows.MainWindowComponents.Buttons
+{
   public abstract class AbstractDownloadAndRunButton : WindowOnlyButton
   {
     [NotNull]

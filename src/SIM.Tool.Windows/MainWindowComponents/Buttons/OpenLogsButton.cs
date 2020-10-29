@@ -1,11 +1,11 @@
-﻿namespace SIM.Tool.Windows.MainWindowComponents
-{
-  using System.IO;
-  using System.Windows;
-  using SIM.Instances;
-  using JetBrains.Annotations;
-  using SIM.Extensions;
+﻿using System.IO;
+using System.Windows;
+using JetBrains.Annotations;
+using SIM.Extensions;
+using SIM.Instances;
 
+namespace SIM.Tool.Windows.MainWindowComponents.Buttons
+{
   [UsedImplicitly]
   public class OpenLogsButton : AbstractDownloadAndRunButton
   {

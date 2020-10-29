@@ -1,14 +1,14 @@
-﻿namespace SIM.Tool.Windows.MainWindowComponents
-{
-  using System.IO;
-  using System.Windows;
-  using SIM.Instances;
-  using SIM.Pipelines;
-  using SIM.Pipelines.InstallModules;
-  using SIM.Products;
-  using SIM.Tool.Base;
-  using JetBrains.Annotations;
+﻿using System.IO;
+using System.Windows;
+using JetBrains.Annotations;
+using SIM.Instances;
+using SIM.Pipelines;
+using SIM.Pipelines.InstallModules;
+using SIM.Products;
+using SIM.Tool.Base;
 
+namespace SIM.Tool.Windows.MainWindowComponents.Buttons
+{
   [UsedImplicitly]
   public class OpenToolboxButton : InstanceOnlyButton
   {

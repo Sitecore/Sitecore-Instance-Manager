@@ -1,11 +1,11 @@
-﻿namespace SIM.Tool.Windows.MainWindowComponents
-{
-  using System.Windows;
-  using SIM.Instances;
-  using SIM.Tool.Base;
-  using Sitecore.Diagnostics.Base;
-  using JetBrains.Annotations;
+﻿using System.Windows;
+using JetBrains.Annotations;
+using SIM.Instances;
+using SIM.Tool.Base;
+using Sitecore.Diagnostics.Base;
 
+namespace SIM.Tool.Windows.MainWindowComponents.Buttons
+{
   [UsedImplicitly]
   public class OpenCurrentLogButton : InstanceOnlyButton
   {

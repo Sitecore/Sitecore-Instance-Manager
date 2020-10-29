@@ -1,11 +1,10 @@
 ﻿using System;
+using System.Windows;
 using JetBrains.Annotations;
-using SIM.Instances;
 using SIM.Tool.Base.Pipelines;
 using SIM.Tool.Base.Wizards;
-using System.Windows;
 
-namespace SIM.Tool.Windows.MainWindowComponents
+namespace SIM.Tool.Windows.MainWindowComponents.Buttons
 {
   public class InstallSolrButton : WindowOnlyButton
   {

@@ -1,9 +1,9 @@
-namespace SIM.Tool.Windows.MainWindowComponents
-{
-  using System.Windows;
-  using JetBrains.Annotations;
-  using SIM.Core;
+using System.Windows;
+using JetBrains.Annotations;
+using SIM.Core;
 
+namespace SIM.Tool.Windows.MainWindowComponents.Buttons
+{
   [UsedImplicitly]
   public class OpenSSPGButton : WindowOnlyButton
   {

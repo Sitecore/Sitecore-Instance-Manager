@@ -1,13 +1,13 @@
-﻿namespace SIM.Tool.Windows.MainWindowComponents
-{
-  using System;
-  using System.Linq;
-  using System.Windows;
-  using JetBrains.Annotations;
-  using SIM.Adapters.SqlServer;
-  using SIM.Instances;
-  using SIM.Tool.Base;
+﻿using System;
+using System.Linq;
+using System.Windows;
+using JetBrains.Annotations;
+using SIM.Adapters.SqlServer;
+using SIM.Instances;
+using SIM.Tool.Base;
 
+namespace SIM.Tool.Windows.MainWindowComponents.Buttons
+{
   public abstract class ClearDatabasesButton : InstanceOnlyButton
   {
     [NotNull]

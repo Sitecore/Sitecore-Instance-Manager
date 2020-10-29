@@ -1,11 +1,11 @@
-﻿namespace SIM.Tool.Windows.MainWindowComponents
-{
-  using System.Linq;
-  using System.Windows;
-  using SIM.Instances;
-  using SIM.Tool.Base;
-  using JetBrains.Annotations;
+﻿using System.Linq;
+using System.Windows;
+using JetBrains.Annotations;
+using SIM.Instances;
+using SIM.Tool.Base;
 
+namespace SIM.Tool.Windows.MainWindowComponents.Buttons
+{
   [UsedImplicitly]
   public class BrowseButton : InstanceOnlyButton
   {

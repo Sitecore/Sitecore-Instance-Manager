@@ -1,19 +1,19 @@
-namespace SIM.Tool.Windows.MainWindowComponents
-{
-  using System.Data.SqlClient;
-  using System.IO;
-  using System.Linq;
-  using System.Windows;
-  using Sitecore.Diagnostics.Base;
-  using JetBrains.Annotations;
-  using SIM.Adapters.SqlServer;
-  using SIM.Core.Common;
-  using SIM.Extensions;
-  using SIM.Instances;
-  using SIM.IO.Real;
-  using SIM.Pipelines;
-  using SIM.Tool.Base;
+using System.Data.SqlClient;
+using System.IO;
+using System.Linq;
+using System.Windows;
+using JetBrains.Annotations;
+using SIM.Adapters.SqlServer;
+using SIM.Core.Common;
+using SIM.Extensions;
+using SIM.Instances;
+using SIM.IO.Real;
+using SIM.Pipelines;
+using SIM.Tool.Base;
+using Sitecore.Diagnostics.Base;
 
+namespace SIM.Tool.Windows.MainWindowComponents.Buttons
+{
   public class AttachReportingDatabaseButton : InstanceOnlyButton
   {
     #region Public methods

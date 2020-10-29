@@ -1,15 +1,15 @@
-﻿namespace SIM.Tool.Windows.MainWindowComponents
-{
-  using System.Linq;
-  using System.Windows;
-  using SIM.Products;
-  using SIM.Tool.Base;
-  using SIM.Tool.Base.Profiles;
-  using Sitecore.Diagnostics.Base;
-  using JetBrains.Annotations;
-  using SIM.Tool.Base.Pipelines;
-  using SIM.Tool.Base.Wizards;
+﻿using System.Linq;
+using System.Windows;
+using JetBrains.Annotations;
+using SIM.Products;
+using SIM.Tool.Base;
+using SIM.Tool.Base.Pipelines;
+using SIM.Tool.Base.Profiles;
+using SIM.Tool.Base.Wizards;
+using Sitecore.Diagnostics.Base;
 
+namespace SIM.Tool.Windows.MainWindowComponents.Buttons
+{
   [UsedImplicitly]
   public class InstallInstanceButton : WindowOnlyButton
   {

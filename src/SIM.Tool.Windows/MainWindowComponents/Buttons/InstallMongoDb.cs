@@ -1,10 +1,10 @@
-﻿namespace SIM.Tool.Windows.MainWindowComponents
-{
-  using System.Windows;
-  using Sitecore.Diagnostics.Base;
-  using JetBrains.Annotations;
-  using SIM.Core;
+﻿using System.Windows;
+using JetBrains.Annotations;
+using SIM.Core;
+using Sitecore.Diagnostics.Base;
 
+namespace SIM.Tool.Windows.MainWindowComponents.Buttons
+{
   [UsedImplicitly]
   public class InstallMongoDbButton : WindowOnlyButton
   {

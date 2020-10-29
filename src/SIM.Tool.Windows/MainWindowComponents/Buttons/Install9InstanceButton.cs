@@ -1,9 +1,9 @@
-﻿using JetBrains.Annotations;
+﻿using System.Windows;
+using JetBrains.Annotations;
 using SIM.Tool.Base.Pipelines;
 using SIM.Tool.Base.Wizards;
-using System.Windows;
 
-namespace SIM.Tool.Windows.MainWindowComponents
+namespace SIM.Tool.Windows.MainWindowComponents.Buttons
 {
   public class Install9InstanceButton : WindowOnlyButton
   {

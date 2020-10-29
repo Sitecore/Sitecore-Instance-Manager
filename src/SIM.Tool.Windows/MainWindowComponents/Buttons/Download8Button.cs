@@ -1,12 +1,11 @@
-﻿namespace SIM.Tool.Windows.MainWindowComponents
-{
-  using System.Windows;
-  using JetBrains.Annotations;
-  using SIM.Instances;
-  using SIM.Tool.Base.Profiles;
-  using SIM.Tool.Base.Wizards;
-  using SIM.Tool.Windows.UserControls.Download8;
+﻿using System.Windows;
+using JetBrains.Annotations;
+using SIM.Tool.Base.Profiles;
+using SIM.Tool.Base.Wizards;
+using SIM.Tool.Windows.UserControls.Download8;
 
+namespace SIM.Tool.Windows.MainWindowComponents.Buttons
+{
   [UsedImplicitly]
   public class Download8Button : WindowOnlyButton
   {

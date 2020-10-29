@@ -1,15 +1,15 @@
-﻿namespace SIM.Tool.Windows.MainWindowComponents
-{
-  using System.Windows;
-  using SIM.Core.Common;
-  using SIM.Instances;
-  using SIM.Pipelines.Restore;
-  using JetBrains.Annotations;
-  using SIM.Tool.Base.Pipelines;
-  using SIM.Tool.Base.Wizards;
-  using System.Data.SqlClient;
-  using SIM.IO.Real;
+﻿using System.Data.SqlClient;
+using System.Windows;
+using JetBrains.Annotations;
+using SIM.Core.Common;
+using SIM.Instances;
+using SIM.IO.Real;
+using SIM.Pipelines.Restore;
+using SIM.Tool.Base.Pipelines;
+using SIM.Tool.Base.Wizards;
 
+namespace SIM.Tool.Windows.MainWindowComponents.Buttons
+{
   [UsedImplicitly]
   public class RestoreInstanceButton : InstanceOnlyButton
   {

@@ -1,13 +1,13 @@
-﻿namespace SIM.Tool.Windows.MainWindowComponents
-{
-  using System.Windows;
-  using SIM.Instances;
-  using SIM.Pipelines.Backup;
-  using JetBrains.Annotations;
-  using SIM.Tool.Base.Wizards;
-  using SIM.Tool.Windows.UserControls.Backup;
-  using SIM.Tool.Base.Profiles;
+﻿using System.Windows;
+using JetBrains.Annotations;
+using SIM.Instances;
+using SIM.Pipelines.Backup;
+using SIM.Tool.Base.Profiles;
+using SIM.Tool.Base.Wizards;
+using SIM.Tool.Windows.UserControls.Backup;
 
+namespace SIM.Tool.Windows.MainWindowComponents.Buttons
+{
   [UsedImplicitly]
   public class BackupInstanceButton : InstanceOnlyButton
   {
