@@ -25,7 +25,6 @@ namespace SIM.Instances
   {
     public InstanceManager()
     {
-      InstancesObservableCollection = new RangeObservableCollection<Instance>();
     }
     #region Fields
 
@@ -101,7 +100,7 @@ namespace SIM.Instances
 
     public static InstanceManager Default { get; } = new InstanceManager();
 
-    public RangeObservableCollection<Instance> InstancesObservableCollection;
+    public RangeObservableCollection<Instance> InstancesObservableCollection = new RangeObservableCollection<Instance>();
 
 
     #endregion

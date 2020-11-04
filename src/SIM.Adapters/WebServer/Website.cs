@@ -176,7 +176,7 @@
         }
         catch(Exception ex)
         {
-          Log.Error(ex.Message+" "+ex.StackTrace);
+          Log.Error(ex, ex.Message);
           return "Error";
         }
       }
