@@ -15,7 +15,8 @@
     public enum Types
     {
       Site,
-      Service
+      Service,
+      Container
     }
   }
 }
