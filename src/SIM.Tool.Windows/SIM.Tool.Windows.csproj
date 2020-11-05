@@ -168,6 +168,7 @@
     <Compile Include="MainWindowComponents\GenerateNuGetPackagesButton.cs" />
     <Compile Include="MainWindowComponents\ImportInstanceButton.cs" />
     <Compile Include="MainWindowComponents\Install9InstanceButton.cs" />
+    <Compile Include="MainWindowComponents\InstallContainerButton.cs" />
     <Compile Include="MainWindowComponents\InstallInstanceButton.cs" />
     <Compile Include="MainWindowComponents\InstallModulesButton.cs" />
     <Compile Include="MainWindowComponents\InstallMongoDb.cs" />
@@ -262,6 +263,15 @@
     <Compile Include="UserControls\Import\ImportWizardArgs.cs" />
     <Compile Include="UserControls\Import\SetWebsiteBindings.xaml.cs">
       <DependentUpon>SetWebsiteBindings.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Install\Containers\ContainerDetails.xaml.cs">
+      <DependentUpon>ContainerDetails.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Install\Containers\SelectTag.xaml.cs">
+      <DependentUpon>SelectTag.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Install\Containers\SetEnvValues.xaml.cs">
+      <DependentUpon>SetEnvValues.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\Install\Instance9Details.xaml.cs">
       <DependentUpon>Instance9Details.xaml</DependentUpon>
@@ -611,6 +621,18 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="UserControls\Install\Containers\ContainerDetails.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\Install\Containers\SelectTag.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\Install\Containers\SetEnvValues.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="UserControls\Install\Instance9Details.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -767,6 +789,10 @@
     <Resource Include="Images\window.ico" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ContainerInstaller\ContainerInstaller.csproj">
+      <Project>{d9ad90f9-bf6d-4c46-8546-3bed9ff93450}</Project>
+      <Name>ContainerInstaller</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SIM.Base\SIM.Base.csproj">
       <Project>{CA9339A0-9A7D-4900-839E-F21B7269BDAA}</Project>
       <Name>SIM.Base</Name>
