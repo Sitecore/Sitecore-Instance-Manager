@@ -33,6 +33,14 @@
       }
     }
 
+    public static IEnumerable<Product> ContainerProducts
+    {
+      get
+      {
+        return Products.Where(p => p.IsContainer).OrderByDescending(p => p.SortOrder);
+      }
+    }
+
     #endregion
 
     #region Public Methods

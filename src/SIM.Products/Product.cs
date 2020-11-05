@@ -66,6 +66,7 @@
     private string _ShortName;
     private string _ShortVersion;
     private int? _SortOrder;
+    private bool? _IsContainer;
 
     #endregion
 
@@ -157,11 +158,27 @@
       }
     }
 
+    public bool IsSitecoreWdpPackage
+    {
+      get
+      {
+        return !string.IsNullOrEmpty(this.PackagePath) && this.PackagePath.EndsWith(".scwdp.zip");
+      }
+    }
+
     public bool IsPackage
     {
       get
       {
         return (bool)(_IsPackage ?? (_IsPackage = GetIsPackage(PackagePath, Manifest)));
+      }
+    }
+
+    public bool IsContainer
+    {
+      get
+      {
+        return (bool)(this._IsContainer ?? (this._IsContainer = this.Manifest.With(m => m.SelectSingleElement(ManifestPrefix + "container")) != null));
       }
     }
 
