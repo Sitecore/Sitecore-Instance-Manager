@@ -165,8 +165,6 @@ namespace SIM.Instances
 
         return GetPartiallyCachedInstances(sites);
       }
-
-      return GetInstances();
     }
 
     public void InitializeWithSoftListRefresh([CanBeNull] string defaultRootFolder = null)
