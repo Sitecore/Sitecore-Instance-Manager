@@ -3,7 +3,7 @@ using Sitecore.Diagnostics.Base;
 
 namespace SIM.Products.ProductParsers
 {
-  public class ContainerProductParser : BaseProductParser
+  public class ContainerProductParser : IProductParser
   {
     private const string ProductNamePattern = @"([a-zA-Z]{4,})";
     private const string ProductVersionPattern = @"(\d{1,2}\.\d{1,2}\.\d{1,2})";
@@ -13,7 +13,7 @@ namespace SIM.Products.ProductParsers
 
     public static Regex ProductRegex { get; } = new Regex(ProductFileNamePattern, RegexOptions.IgnoreCase);
 
-    public override bool TryParseName(string path, out string originalName)
+    public bool TryParseName(string path, out string originalName)
     {
       string packagePath;
       string twoVersion;
@@ -28,7 +28,7 @@ namespace SIM.Products.ProductParsers
       return false;
     }
 
-    public override bool TryParseProduct(string path, out Product product)
+    public bool TryParseProduct(string path, out Product product)
     {
       Assert.ArgumentNotNullOrEmpty(path, nameof(path));
 
@@ -48,6 +48,11 @@ namespace SIM.Products.ProductParsers
       product = null;
 
       return false;
+    }
+
+    protected internal virtual Product GetOrCreateProduct(string originalName, string packagePath, string twoVersion, string triVersion, string revision)
+    {
+      return ProductManager.GetOrCreateProduct(originalName, packagePath, twoVersion, triVersion, revision);
     }
 
     protected virtual bool DoParse(string path, out string originalName, out string packagePath, out string twoVersion, out string triVersion, out string revision)

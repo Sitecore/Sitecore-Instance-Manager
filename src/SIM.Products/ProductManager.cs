@@ -242,5 +242,30 @@ namespace SIM.Products
       var distributive = products.FirstOrDefault();
       return distributive;
     }
+
+    public static Product GetOrCreateProduct(
+      string originalName,
+      string packagePath,
+      string twoVersion,
+      string triVersion,
+      string revision
+    )
+    {
+      Assert.ArgumentNotNullOrEmpty(originalName, nameof(originalName));
+      Assert.ArgumentNotNullOrEmpty(packagePath, nameof(packagePath));
+      Assert.ArgumentNotNullOrEmpty(twoVersion, nameof(twoVersion));
+      Assert.ArgumentNotNullOrEmpty(triVersion, nameof(triVersion));
+      Assert.ArgumentNotNullOrEmpty(revision, nameof(revision));
+
+      return Products.FirstOrDefault(p => p.OriginalName.Equals(originalName) && p.Revision.EqualsIgnoreCase(revision))
+             ?? new Product
+             {
+               OriginalName = originalName,
+               PackagePath = packagePath,
+               TwoVersion = twoVersion,
+               TriVersion = triVersion,
+               Revision = revision
+             };
+    }
   }
 }
