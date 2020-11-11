@@ -1,4 +1,6 @@
-﻿namespace SIM.Products
+﻿using SIM.Products.ProductParsers;
+
+namespace SIM.Products
 {
   using System;
   using System.Collections.Generic;
@@ -22,6 +24,8 @@
 
     #endregion
 
+    private static IProductParser[] _productParsers;
+
     #region Properties
 
     [NotNull]
@@ -39,6 +43,20 @@
       {
         return Products.Where(p => p.IsContainer).OrderByDescending(p => p.SortOrder);
       }
+    }
+
+    public static IProductParser[] ProductParsers
+    {
+      get
+      {
+        if (_productParsers == null)
+        {
+          _productParsers = new IProductParser[] {new ContainerProductParser()};
+        }
+
+        return _productParsers;
+      }
+      
     }
 
     #endregion
