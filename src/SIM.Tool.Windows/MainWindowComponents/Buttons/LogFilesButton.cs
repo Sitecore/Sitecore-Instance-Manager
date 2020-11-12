@@ -3,7 +3,7 @@
 namespace SIM.Tool.Windows.MainWindowComponents.Buttons
 {
   [UsedImplicitly]
-  public class SitecoreMemberButton : InstanceOnlyButton
+  public class LogFilesButton : InstanceDummyButton
   {
   }
 }

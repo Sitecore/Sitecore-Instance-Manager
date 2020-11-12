@@ -574,7 +574,7 @@ namespace SIM.Tool.Windows
             {
               Label = "Log Files",
               Image = "/Images/$lg/history2.png, SIM.Tool.Windows",
-              Handler = new SitecoreMemberButton(),
+              Handler = new LogFilesButton(),
               Buttons = new[]
               {
                 new ButtonDefinition
@@ -686,7 +686,7 @@ namespace SIM.Tool.Windows
             {
               Label = "Backup",
               Image = "/Images/$lg/floppy_disks.png, SIM.Tool.Windows",
-              Handler = new BackupButton(),
+              Handler = new BackupInstanceButton(),
               Buttons = new[]
               {
                 new ButtonDefinition
@@ -729,7 +729,7 @@ namespace SIM.Tool.Windows
             {
               Label = "App State",
               Image = "/Images/$lg/gearwheels.png, SIM.Tool.Windows",
-              Handler = new SitecoreMemberButton(),
+              Handler = new AppStateButton(),
               Buttons = new[]
               {
                 new ButtonDefinition
@@ -925,7 +925,7 @@ namespace SIM.Tool.Windows
           {
             Label = "App State",
             Image = "/Images/$lg/gearwheels.png, SIM.Tool.Windows",
-            Handler = new SitecoreMemberButton(),
+            Handler = new AppStateButton(),
             Buttons = new[]
             {
               new ButtonDefinition

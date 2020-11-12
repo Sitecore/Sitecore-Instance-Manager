@@ -145,7 +145,10 @@
     <Compile Include="GroupDefinition.cs" />
     <Compile Include="MainWindowComponents\Buttons\AboutButton.cs" />
     <Compile Include="MainWindowComponents\Buttons\AbstractInstanceButton.cs" />
+    <Compile Include="MainWindowComponents\Buttons\AppStateButton.cs" />
     <Compile Include="MainWindowComponents\Buttons\CreateSupportHotfixButton.cs" />
+    <Compile Include="MainWindowComponents\Buttons\InstanceDummyButton.cs" />
+    <Compile Include="MainWindowComponents\Buttons\LogFilesButton.cs" />
     <Compile Include="MainWindowComponents\Groups\AppsGroup.cs" />
     <Compile Include="MainWindowComponents\Groups\BackupGroup.cs" />
     <Compile Include="MainWindowComponents\Groups\FileSystemGroup.cs" />
@@ -171,7 +174,6 @@
     <Compile Include="MainWindowComponents\Buttons\Download8Button.cs" />
     <Compile Include="MainWindowComponents\Buttons\AbstractDownloadAndRunButton.cs" />
     <Compile Include="MainWindowComponents\Buttons\ExportInstanceButton.cs" />
-    <Compile Include="MainWindowComponents\Buttons\BackupButton.cs" />
     <Compile Include="MainWindowComponents\Buttons\ExtraActionsButton.cs" />
     <Compile Include="MainWindowComponents\Groups\ManageGroup.cs" />
     <Compile Include="MainWindowComponents\Groups\PageGroup.cs" />
@@ -185,7 +187,6 @@
     <Compile Include="MainWindowComponents\Buttons\KillAllButThisButton.cs" />
     <Compile Include="MainWindowComponents\Buttons\OpenSimFolderButton.cs" />
     <Compile Include="MainWindowComponents\Buttons\SitecoreMemberOpenFolderButton.cs" />
-    <Compile Include="MainWindowComponents\Buttons\SitecoreMemberButton.cs" />
     <Compile Include="MainWindowComponents\Buttons\LoginAdminButton.cs" />
     <Compile Include="MainWindowComponents\Buttons\ManagedArgsTracerButton.cs" />
     <Compile Include="MainWindowComponents\Buttons\MultipleDeletionButton.cs" />

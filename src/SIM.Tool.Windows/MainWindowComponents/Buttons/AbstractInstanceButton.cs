@@ -46,9 +46,7 @@ namespace SIM.Tool.Windows.MainWindowComponents.Buttons
       return false;
     }
 
-    public virtual void OnClick([CanBeNull] Window mainWindow, Instance instance)
-    {
-    }
+    public abstract void OnClick([CanBeNull] Window mainWindow, Instance instance);
 
     #endregion
 

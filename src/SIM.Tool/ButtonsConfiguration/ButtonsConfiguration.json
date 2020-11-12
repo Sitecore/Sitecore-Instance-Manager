@@ -49,8 +49,10 @@
     "OpenFileButton",
     /*Showconfig.xml*/
     "ConfigBuilderButton",
-    /*Log Files, App State*/
-    "SitecoreMemberButton",
+    /*Log Files*/
+    "LogFilesButton",
+    /*App State*/
+    "AppStateButton",
     /*Current Log file*/
     "OpenCurrentLogButton",
     /*Entire Log files*/
@@ -60,7 +62,6 @@
     /*Install Packages*/
     "InstallModulesButton",
     /*Backup*/
-    "BackupButton",
     "BackupInstanceButton",
     /*Export*/
     "ExportInstanceButton",
@@ -116,7 +117,8 @@
     "OpenWebConfigButton",
     "OpenFileButton",
     "ConfigBuilderButton",
-    "SitecoreMemberButton",
+    "LogFilesButton",
+    "AppStateButton",
     "OpenCurrentLogButton",
     "OpenLogsButton",
     "OpenVisualStudioButton",
