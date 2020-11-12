@@ -188,19 +188,6 @@ namespace SIM.Tool.Windows
                   Image = "/Images/$lg/scroll_refresh.png, SIM.Tool.Windows",
                   Handler = new InstallMongoDbButton()
                 },
-                new ButtonDefinition(),
-                new ButtonDefinition
-                {
-                  Label = "Generate NuGet packages",
-                  Image = "/Images/$sm/new_package.png, SIM.Tool.Windows",
-                  Handler = new GenerateNuGetPackagesButton()
-                },
-                new ButtonDefinition
-                {
-                  Label = "Generate NuGet packages for selected instance",
-                  Image = "/Images/$sm/new_package.png, SIM.Tool.Windows",
-                  Handler = new GenerateNuGetPackagesButton("instance")
-                },
               }
             },
           }

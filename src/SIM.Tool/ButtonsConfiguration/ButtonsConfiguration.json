@@ -31,8 +31,6 @@
     "InstallSolrButton",
     /*Install MongoDB*/
     "InstallMongoDbButton",
-    /*Generate NuGet packages, Generate NuGet packages for selected instance*/
-    "GenerateNuGetPackagesButton",
     /*Settings*/
     "SettingsButton",
     /*Create Core Patch*/
@@ -109,7 +107,6 @@
     "ConfigBuilderButton",
     "InstallSolrButton",
     "InstallMongoDbButton",
-    "GenerateNuGetPackagesButton",
     "SettingsButton",
     "CreateSupportHotfixButton",
     "CreateSupportPatchButton",
@@ -143,7 +140,6 @@
     "ConfigBuilderButton",
     "InstallSolrButton",
     "InstallMongoDbButton",
-    "GenerateNuGetPackagesButton",
     "SettingsButton",
     "CreateSupportHotfixButton",
     "OpenFileButton",

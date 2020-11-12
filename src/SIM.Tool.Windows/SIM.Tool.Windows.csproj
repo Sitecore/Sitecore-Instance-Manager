@@ -173,7 +173,6 @@
     <Compile Include="MainWindowComponents\Buttons\ExportInstanceButton.cs" />
     <Compile Include="MainWindowComponents\Buttons\BackupButton.cs" />
     <Compile Include="MainWindowComponents\Buttons\ExtraActionsButton.cs" />
-    <Compile Include="MainWindowComponents\Buttons\GenerateNuGetPackagesButton.cs" />
     <Compile Include="MainWindowComponents\Groups\ManageGroup.cs" />
     <Compile Include="MainWindowComponents\Groups\PageGroup.cs" />
     <Compile Include="MainWindowComponents\Groups\WindowOnlyGroup.cs" />
