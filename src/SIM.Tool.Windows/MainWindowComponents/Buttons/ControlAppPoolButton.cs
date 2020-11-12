@@ -101,7 +101,7 @@ namespace SIM.Tool.Windows.MainWindowComponents.Buttons
 
         if (ChangeMode)
         {
-          DoChangeMode(mainWindow, instance);
+          this.DoChangeMode(mainWindow, instance);
           return;
         }
 

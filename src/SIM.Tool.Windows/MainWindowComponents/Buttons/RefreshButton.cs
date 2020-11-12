@@ -70,7 +70,7 @@ namespace SIM.Tool.Windows.MainWindowComponents.Buttons
       {
         ProfileSection.Argument("mainWindow", mainWindow);
 
-        var refreshMode = GetMode(mainWindow);
+        var refreshMode = this.GetMode(mainWindow);
         switch (refreshMode)
         {
           case RefreshMode.Instances:

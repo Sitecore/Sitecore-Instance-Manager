@@ -48,7 +48,7 @@ namespace SIM.Tool.Windows.MainWindowComponents.Buttons
         ProfileSection.Argument("mainWindow", mainWindow);
         ProfileSection.Argument("instance", instance);
 
-        var modeText = GetMode(mainWindow);
+        var modeText = this.GetMode(mainWindow);
 
         if (modeText == null || modeText == CancelOption)
         {

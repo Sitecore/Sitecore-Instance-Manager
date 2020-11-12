@@ -42,7 +42,7 @@ namespace SIM.Tool.Windows.MainWindowComponents.Buttons
 
       if (!FileSystem.FileSystem.Local.File.Exists(path) || (!string.IsNullOrEmpty(latestVersion) && FileVersionInfo.GetVersionInfo(path).ProductVersion != latestVersion))
       {
-        GetLatestVersion(mainWindow, path);
+        this.GetLatestVersion(mainWindow, path);
 
         if (!FileSystem.FileSystem.Local.File.Exists(path))
         {

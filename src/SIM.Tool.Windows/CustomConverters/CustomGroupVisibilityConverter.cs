@@ -25,7 +25,7 @@ namespace SIM.Tool.Windows.CustomConverters
     {
       Assert.ArgumentNotNull(mainWindowGroup, nameof(mainWindowGroup));
 
-      Group = mainWindowGroup;
+      this.Group = mainWindowGroup;
     }
 
     #endregion
@@ -37,8 +37,8 @@ namespace SIM.Tool.Windows.CustomConverters
     {
       using (new ProfileSection("Checking if group is visible", this))
       {
-        ProfileSection.Argument("this.group", Group.GetType().FullName);
-        return Group.IsVisible(MainWindow.Instance, value as Instance) ? Visibility.Visible : Visibility.Collapsed;
+        ProfileSection.Argument("this.group", this.Group.GetType().FullName);
+        return this.Group.IsVisible(MainWindow.Instance, value as Instance) ? Visibility.Visible : Visibility.Collapsed;
       }
     }
 

@@ -24,7 +24,7 @@ namespace SIM.Tool.Windows.MainWindowComponents.Buttons
     {
       Assert.ArgumentNotNull(mainWindow, nameof(mainWindow));
 
-      OnClick(mainWindow);
+      this.OnClick(mainWindow);
     }
 
     #endregion

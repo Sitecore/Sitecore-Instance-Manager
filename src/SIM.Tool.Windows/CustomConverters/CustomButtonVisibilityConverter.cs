@@ -25,7 +25,7 @@ namespace SIM.Tool.Windows.CustomConverters
     {
       Assert.ArgumentNotNull(mainWindowButton, nameof(mainWindowButton));
 
-      Button = mainWindowButton;
+      this.Button = mainWindowButton;
     }
 
     #endregion
@@ -37,8 +37,8 @@ namespace SIM.Tool.Windows.CustomConverters
     {
       using (new ProfileSection("Checking if button is visible", this))
       {
-        ProfileSection.Argument("this.button", Button.GetType().FullName);
-        return Button.IsVisible(MainWindow.Instance, value as Instance) ? Visibility.Visible : Visibility.Collapsed;
+        ProfileSection.Argument("this.button", this.Button.GetType().FullName);
+        return this.Button.IsVisible(MainWindow.Instance, value as Instance) ? Visibility.Visible : Visibility.Collapsed;
       }
     }
 
