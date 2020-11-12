@@ -17,7 +17,8 @@ namespace SIM.Tool.Windows.MainWindowComponents.Buttons
     {
       if (base.IsVisible(mainWindow, instance))
       {
-        if (base.IsSitecore90AndEarlier(instance))
+        // Check if instance is Sitecore XP 9.0 or earlier
+        if (instance.Product.Release.Version.MajorMinorInt <= 90)
         {
           return true;
         }

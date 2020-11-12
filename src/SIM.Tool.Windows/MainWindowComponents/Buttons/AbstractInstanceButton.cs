@@ -2,7 +2,6 @@ using System.Linq;
 using System.Windows;
 using JetBrains.Annotations;
 using SIM.Instances;
-using SIM.Products;
 using SIM.Tool.Base.Plugins;
 using Sitecore.Diagnostics.Base;
 
@@ -12,7 +11,7 @@ namespace SIM.Tool.Windows.MainWindowComponents.Buttons
   {
     #region Fields
 
-    private string label;
+    private readonly string _label;
 
     #endregion
 
@@ -29,17 +28,20 @@ namespace SIM.Tool.Windows.MainWindowComponents.Buttons
     {
       if (instance != null)
       {
-        if (this.IsSitecoreMember(instance))
+        switch (instance.Type)
         {
-          return ButtonsConfiguration.Instance.Sitecore9AndLaterMemberButtons.Contains(this.label);
-        }
-        if (this.IsSitecore9AndLater(instance))
-        {
-          return ButtonsConfiguration.Instance.Sitecore9AndLaterButtons.Contains(this.label);
-        }
-        if (this.IsSitecore8AndEarlier(instance))
-        {
-          return ButtonsConfiguration.Instance.Sitecore8AndEarlierButtons.Contains(this.label);
+          case Instance.InstanceType.SitecoreMember:
+          {
+            return ButtonsConfiguration.Instance.Sitecore9AndLaterMemberButtons.Contains(this._label);
+          }
+          case Instance.InstanceType.Sitecore9AndLater:
+          {
+            return ButtonsConfiguration.Instance.Sitecore9AndLaterButtons.Contains(this._label);
+          }
+          case Instance.InstanceType.Sitecore8AndEarlier:
+          {
+            return ButtonsConfiguration.Instance.Sitecore8AndEarlierButtons.Contains(this._label);
+          }
         }
       }
 
@@ -54,47 +56,7 @@ namespace SIM.Tool.Windows.MainWindowComponents.Buttons
 
     protected InstanceOnlyButton()
     {
-      this.label = this.GetType().Name;
-    }
-
-    protected bool IsSitecoreMember(Instance selectedInstance)
-    {
-      if (selectedInstance.Product == Product.Undefined || selectedInstance.Product.Release == null)
-      {
-        return true;
-      }
-
-      return false;
-    }
-
-    protected bool IsSitecore9AndLater(Instance selectedInstance)
-    {
-      if (selectedInstance.Product.Release.Version.MajorMinorInt >= 90)
-      {
-        return true;
-      }
-
-      return false;
-    }
-
-    protected bool IsSitecore8AndEarlier(Instance selectedInstance)
-    {
-      if (selectedInstance.Product.Release.Version.MajorMinorInt < 90)
-      {
-        return true;
-      }
-
-      return false;
-    }
-
-    protected bool IsSitecore90AndEarlier(Instance selectedInstance)
-    {
-      if (selectedInstance.Product.Release.Version.MajorMinorInt <= 90)
-      {
-        return true;
-      }
-
-      return false;
+      this._label = this.GetType().Name;
     }
 
     #endregion
