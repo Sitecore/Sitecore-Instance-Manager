@@ -51,6 +51,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SIM.Sitecore9Installer.Test
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContainerInstaller", "ContainerInstaller\ContainerInstaller.csproj", "{D9AD90F9-BF6D-4C46-8546-3BED9FF93450}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SIM.DockerImages", "SIM.DockerImages\SIM.DockerImages.csproj", "{BAF47B46-A2DC-4B9E-951C-62DF9195FC97}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -375,6 +377,22 @@ Global
 		{D9AD90F9-BF6D-4C46-8546-3BED9FF93450}.Release|x64.Build.0 = Release|Any CPU
 		{D9AD90F9-BF6D-4C46-8546-3BED9FF93450}.Release|x86.ActiveCfg = Release|Any CPU
 		{D9AD90F9-BF6D-4C46-8546-3BED9FF93450}.Release|x86.Build.0 = Release|Any CPU
+		{BAF47B46-A2DC-4B9E-951C-62DF9195FC97}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BAF47B46-A2DC-4B9E-951C-62DF9195FC97}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BAF47B46-A2DC-4B9E-951C-62DF9195FC97}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{BAF47B46-A2DC-4B9E-951C-62DF9195FC97}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{BAF47B46-A2DC-4B9E-951C-62DF9195FC97}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{BAF47B46-A2DC-4B9E-951C-62DF9195FC97}.Debug|x64.Build.0 = Debug|Any CPU
+		{BAF47B46-A2DC-4B9E-951C-62DF9195FC97}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{BAF47B46-A2DC-4B9E-951C-62DF9195FC97}.Debug|x86.Build.0 = Debug|Any CPU
+		{BAF47B46-A2DC-4B9E-951C-62DF9195FC97}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BAF47B46-A2DC-4B9E-951C-62DF9195FC97}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BAF47B46-A2DC-4B9E-951C-62DF9195FC97}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{BAF47B46-A2DC-4B9E-951C-62DF9195FC97}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{BAF47B46-A2DC-4B9E-951C-62DF9195FC97}.Release|x64.ActiveCfg = Release|Any CPU
+		{BAF47B46-A2DC-4B9E-951C-62DF9195FC97}.Release|x64.Build.0 = Release|Any CPU
+		{BAF47B46-A2DC-4B9E-951C-62DF9195FC97}.Release|x86.ActiveCfg = Release|Any CPU
+		{BAF47B46-A2DC-4B9E-951C-62DF9195FC97}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -401,6 +419,7 @@ Global
 		{18190C9C-1642-4814-8CEF-C6675342853B} = {27597389-98A2-4AF7-8629-DC761E20EEDC}
 		{4BA57663-92B2-43DF-9505-759B0C28EEB1} = {27597389-98A2-4AF7-8629-DC761E20EEDC}
 		{D9AD90F9-BF6D-4C46-8546-3BED9FF93450} = {9285A641-C759-471D-A4FE-9C92C529128C}
+		{BAF47B46-A2DC-4B9E-951C-62DF9195FC97} = {9285A641-C759-471D-A4FE-9C92C529128C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5F97C0C4-9F5F-48C7-ACB3-983A4AEF8C84}
