@@ -670,6 +670,12 @@ namespace SIM.Tool.Windows
               Image = "/Images/$lg/install.png, SIM.Tool.Windows",
               Handler = new SIM.Tool.Windows.MainWindowComponents.InstallModulesButton()
             },
+            new ButtonDefinition
+            {
+              Label = "Publishing Service",
+              Image = "/Images/$lg/install.png, SIM.Tool.Windows",
+              Handler = new SIM.Tool.Windows.MainWindowComponents.InstallPublishingServiceButton()
+            },
           }
         },
         GetManageGroupDefinition(),

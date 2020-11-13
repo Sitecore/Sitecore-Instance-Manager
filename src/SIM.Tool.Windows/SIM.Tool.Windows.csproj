@@ -169,6 +169,7 @@
     <Compile Include="MainWindowComponents\ImportInstanceButton.cs" />
     <Compile Include="MainWindowComponents\Install9InstanceButton.cs" />
     <Compile Include="MainWindowComponents\InstallInstanceButton.cs" />
+    <Compile Include="MainWindowComponents\InstallPublishingServiceButton.cs" />
     <Compile Include="MainWindowComponents\InstallModulesButton.cs" />
     <Compile Include="MainWindowComponents\InstallMongoDb.cs" />
     <Compile Include="MainWindowComponents\InstallSolrButton.cs" />
