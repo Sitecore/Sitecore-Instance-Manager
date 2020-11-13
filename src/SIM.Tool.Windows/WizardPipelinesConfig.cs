@@ -425,6 +425,15 @@ But the confirmation will be required if the databases are attached to:
         <hive type=""SIM.Tool.Windows.Pipelines.Install.InstallModulesFinishActionHive, SIM.Tool.Windows"" />
       </finish>
     </installmodules>
+    <installpublishingservice title=""Installing Publishing Service for the {InstanceName} instance"" 
+                              startButton=""Install"" 
+                              finishText=""Publishing Service installation completed"">
+      <steps>
+        <step name=""STEP # 1""
+              type=""SIM.Tool.Windows.UserControls.Install.PublishingService.ConfigureParameters, SIM.Tool.Windows"" />
+      </steps>
+      
+    </installpublishingservice>
   </wizardPipelines>
 </configuration>
 ";

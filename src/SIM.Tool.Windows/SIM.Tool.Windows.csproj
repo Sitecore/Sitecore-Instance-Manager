@@ -301,6 +301,9 @@
     <Compile Include="UserControls\Install\ParametersEditor\Install9ParametersEditor.xaml.cs">
       <DependentUpon>Install9ParametersEditor.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\Install\PublishingService\ConfigureParameters.xaml.cs">
+      <DependentUpon>ConfigureParameters.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\Install\Validation\ValidationDetails.xaml.cs">
       <DependentUpon>ValidationDetails.xaml</DependentUpon>
     </Compile>
@@ -641,6 +644,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="UserControls\Install\ParametersEditor\Install9ParametersEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\Install\PublishingService\ConfigureParameters.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
