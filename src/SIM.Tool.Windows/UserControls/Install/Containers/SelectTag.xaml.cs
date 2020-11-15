@@ -59,7 +59,7 @@ namespace SIM.Tool.Windows.UserControls.Install.Containers
     
     private string[] GetTags(string productVersion, string tagNameSpace)
     {
-      return new string[] { "10.0.0-1909", "10.0.0-ltsc2019" };
+      return new string[] { "10.0.0-1909", "10.0.0-ltsc2019", "some random tag"  };
     }
 
     private class NameValueModel
@@ -94,6 +94,17 @@ namespace SIM.Tool.Windows.UserControls.Install.Containers
       Uri registry = new Uri("https://" + model.SitecoreRegistry, UriKind.Absolute);
       this.Tags.DataContext = this.GetTags(this.productVersion, registry.LocalPath.Trim('/'));
       this.Tags.SelectedIndex = 0;
+    }
+
+    private void Tags_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+    {
+      if (this.Tags.SelectedItem == null)
+      {
+        return;
+      }
+
+      string tag = (string)this.Tags.SelectedItem;
+      this.envModel.SitecoreVersion = tag;
     }
   }
 
