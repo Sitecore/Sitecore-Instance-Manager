@@ -14,6 +14,7 @@ namespace SIM.Pipelines.Install.Containers
     {
       this.EnvModel = model;
       this.FilesRoot = filesRoot;
+      this.Destination = destination;
     }
     public EnvModel EnvModel { get; }
     public string Destination
