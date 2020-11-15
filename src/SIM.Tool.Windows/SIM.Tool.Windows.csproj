@@ -133,6 +133,9 @@
     <Compile Include="Dialogs\DatabasesOperationsDialog.xaml.cs">
       <DependentUpon>DatabasesOperationsDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Dialogs\ContainerVariablesEditor.xaml.cs">
+      <DependentUpon>ContainerVariablesEditor.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Dialogs\GridEditor.xaml.cs">
       <DependentUpon>GridEditor.xaml</DependentUpon>
     </Compile>
@@ -606,6 +609,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Dialogs\DatabasesOperationsDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Dialogs\ContainerVariablesEditor.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

@@ -1,4 +1,5 @@
-﻿using SIM.Instances;
+﻿using ContainerInstaller;
+using SIM.Instances;
 using SIM.Pipelines.Processors;
 using System;
 using System.Collections.Generic;
@@ -23,6 +24,8 @@ namespace SIM.Tool.Base.Pipelines
     public string FilesRoot { get; set; }
     public string Tag { get; set; }
     public string DockerRoot { get; set; }
+    public string DestinationFolder { get; set; }
+    public EnvModel EnvModel { get; set; }
 
     public override ProcessorArgs ToProcessorArgs()
     {

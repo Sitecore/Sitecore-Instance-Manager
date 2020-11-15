@@ -17,9 +17,9 @@
             <ColumnDefinition Width="70"></ColumnDefinition>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <ComboBox Name="Tags" Grid.Row="1" ItemsSource="{Binding}" Grid.Column="1" SelectionChanged="Tags_SelectionChanged" DisplayMemberPath="Name" />
-        <TextBlock Grid.Row="1" Grid.Column="0" Text="Tag:" VerticalAlignment="Center" HorizontalAlignment="Left" />
-        <ComboBox Name="Topoligies" Grid.Row="2" ItemsSource="{Binding}"   Grid.Column="1"  DisplayMemberPath="Name"/>
-        <TextBlock Grid.Row="2" Grid.Column="0" Text="Topology:" VerticalAlignment="Center" HorizontalAlignment="Left" />
+        <ComboBox Name="Tags" Grid.Row="2" ItemsSource="{Binding}" Grid.Column="1"  />
+        <TextBlock Grid.Row="2" Grid.Column="0" Text="Tag:" VerticalAlignment="Center" HorizontalAlignment="Left" />
+        <ComboBox Name="Topoligies" Grid.Row="1" ItemsSource="{Binding}"   Grid.Column="1"  DisplayMemberPath="Name" SelectionChanged="Topoligies_SelectionChanged"/>
+        <TextBlock Grid.Row="1" Grid.Column="0" Text="Topology:" VerticalAlignment="Center" HorizontalAlignment="Left" />
     </Grid>
 </UserControl>
