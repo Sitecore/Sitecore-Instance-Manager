@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SIM.Pipelines.Install
+namespace SIM.Pipelines.Install.Containers
 {
   public class InstallContainerArgs:ProcessorArgs
   {

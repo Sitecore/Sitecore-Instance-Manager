@@ -110,6 +110,7 @@
     <Compile Include="Install\0600 UpdateWebConfig.cs" />
     <Compile Include="Install\0650 AddServerTxt.cs" />
     <Compile Include="Install\0900 InstallRoles.cs" />
+    <Compile Include="Install\InstallContainerArgs.cs" />
     <Compile Include="Install\InstallRolesCommandHelper.cs" />
     <Compile Include="Install\Modules\CreateSolrCores.cs" />
     <Compile Include="Install\Modules\SolrInformation.cs" />
@@ -227,6 +228,10 @@
     <WCFMetadataStorage Include="Service References\SitecoreWebservices\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ContainerInstaller\ContainerInstaller.csproj">
+      <Project>{d9ad90f9-bf6d-4c46-8546-3bed9ff93450}</Project>
+      <Name>ContainerInstaller</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SIM.Adapters\SIM.Adapters.csproj">
       <Project>{CA40C57A-EF4F-474D-BE8B-98E51AE62C1F}</Project>
       <Name>SIM.Adapters</Name>

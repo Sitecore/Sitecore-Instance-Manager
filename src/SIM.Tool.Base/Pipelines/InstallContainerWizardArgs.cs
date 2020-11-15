@@ -1,12 +1,7 @@
 ﻿using ContainerInstaller;
 using SIM.Instances;
-using SIM.Pipelines.Install;
+using SIM.Pipelines.Install.Containers;
 using SIM.Pipelines.Processors;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SIM.Tool.Base.Pipelines
 {
