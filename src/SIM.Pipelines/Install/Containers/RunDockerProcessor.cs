@@ -10,9 +10,22 @@ namespace SIM.Pipelines.Install.Containers
 {
   public class RunDockerProcessor : Processor
   {
-    protected override void Process([NotNull] ProcessorArgs args)
+    protected override void Process([NotNull] ProcessorArgs arguments)
     {
-      throw new NotImplementedException();
+      InstallContainerArgs args = (InstallContainerArgs)arguments;
+      string strCmdText = $"/C cd \"{args.Destination}\"&docker.exe -detach";
+      System.Diagnostics.Process proc = new System.Diagnostics.Process();
+      proc.StartInfo.Arguments = strCmdText;
+      proc.StartInfo.FileName = "CMD.exe";
+      proc.StartInfo.UseShellExecute = false;
+      proc.StartInfo.RedirectStandardError = true;
+      proc.StartInfo.RedirectStandardOutput = true;
+      proc.Start();
+      proc.WaitForExit();
+      if (proc.ExitCode != 0)
+      {
+        throw new AggregateException($"Failed to run docker -detach\n{proc.StandardError.ReadToEnd()}");
+      }
     }
   }
 }
