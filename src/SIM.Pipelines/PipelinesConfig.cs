@@ -21,7 +21,15 @@
 </reinstall9>
 
 <installContainer title=""Deploying new container environment"">
-
+    <step>
+      <processor type=""SIM.Pipelines.Install.Containers.CopyFilesToDestination, SIM.Pipelines"" title=""Copy files to destination folder""/>       
+    </step>
+    <step>
+      <processor type=""SIM.Pipelines.Install.Containers.WriteEnvFileProcessor, SIM.Pipelines"" title=""Write .env file""/>
+    </step>
+    <step>
+      <processor type=""SIM.Pipelines.Install.Containers.RunDockerProcessor, SIM.Pipelines"" title=""Run docker""/>
+    </step>
 </installContainer>
 
 <install9 title=""Installing the instance"">
