@@ -20,6 +20,10 @@
     </step>
 </reinstall9>
 
+<installContainer title=""Deploying new container environment"">
+
+</installContainer>
+
 <install9 title=""Installing the instance"">
     <step>
       <processor type=""SIM.Pipelines.Install.GenerateUnInstallParameters, SIM.Pipelines"" title=""Generate Uninstall data"" />

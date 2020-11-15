@@ -1,5 +1,6 @@
 ﻿using ContainerInstaller;
 using SIM.Instances;
+using SIM.Pipelines.Install;
 using SIM.Pipelines.Processors;
 using System;
 using System.Collections.Generic;
@@ -29,7 +30,7 @@ namespace SIM.Tool.Base.Pipelines
 
     public override ProcessorArgs ToProcessorArgs()
     {
-      throw new NotImplementedException("to do: create new pipeline args type");
+     return new InstallContainerArgs(this.EnvModel, this.DestinationFolder, this.DockerRoot);
     }
   }
 }
