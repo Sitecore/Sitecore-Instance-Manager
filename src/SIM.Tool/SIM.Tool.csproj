@@ -498,6 +498,9 @@
     <Content Include="GlobalParamsConfig\Solr\GlobalParams_solr.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="ButtonsConfiguration\ButtonsConfiguration.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="GlobalParamsConfig\XP\GlobalParams_10.0_XP0_SXA.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

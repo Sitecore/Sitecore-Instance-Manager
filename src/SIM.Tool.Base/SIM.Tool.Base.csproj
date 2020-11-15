@@ -80,6 +80,7 @@
     <Compile Include="Pipelines\Delete9WizardArgs.cs" />
     <Compile Include="Pipelines\Install9WizardArgs.cs" />
     <Compile Include="Pipelines\ReinstallWizardArgs.cs" />
+    <Compile Include="Plugins\IMainWindowGroup.cs" />
     <Compile Include="WinAppSettings.cs" />
     <Compile Include="AuthenticationHelper.cs" />
     <Compile Include="Converters\IsNotNullOrEmptyAndDirectoryExists.cs" />
