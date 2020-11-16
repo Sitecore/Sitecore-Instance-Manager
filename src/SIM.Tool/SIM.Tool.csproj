@@ -226,6 +226,9 @@
     <Content Include="Configurations\Configuration - Sitecore 8.2 - ContentSearch - Solr.manifest.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="ContainerFiles\Scripts\LicenseScript.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="first-run.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

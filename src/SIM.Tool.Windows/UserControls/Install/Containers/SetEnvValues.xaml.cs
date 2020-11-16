@@ -2,6 +2,7 @@
 using SIM.Sitecore9Installer;
 using SIM.Tool.Base;
 using SIM.Tool.Base.Pipelines;
+using SIM.Tool.Base.Profiles;
 using SIM.Tool.Base.Wizards;
 using SIM.Tool.Windows.Dialogs;
 using Sitecore.Diagnostics.Base;
@@ -32,6 +33,7 @@ namespace SIM.Tool.Windows.UserControls.Install.Containers
       InstallContainerWizardArgs args = (InstallContainerWizardArgs)wizardArgs;
       this.owner = args.WizardWindow;
       this.envModel = args.EnvModel;
+      this.envModel.SitecoreLicense = ProfileManager.Profile.License;
     }    
 
     public bool OnMovingBack(WizardArgs wizardArgs)

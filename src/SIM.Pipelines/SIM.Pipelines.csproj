@@ -100,6 +100,7 @@
     <Compile Include="Import\ImportRestoreMongoDatabases.cs" />
     <Compile Include="Import\UpdateConnectionStrings.cs" />
     <Compile Include="Import\UpdateDataFolder.cs" />
+    <Compile Include="Install\Containers\ConvertLicenseProcessor.cs" />
     <Compile Include="Install\Containers\CopyFilesToDestination.cs" />
     <Compile Include="Install\Containers\RunDockerProcessor.cs" />
     <Compile Include="Install\Containers\WriteEnvFileProcessor.cs" />
