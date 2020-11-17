@@ -1,7 +1,10 @@
-﻿using SIM.Tool.Base.Pipelines;
+﻿using SIM.Adapters.WebServer;
+using SIM.Extensions;
+using SIM.Tool.Base.Pipelines;
 using SIM.Tool.Base.Wizards;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,6 +25,9 @@ namespace SIM.Tool.Windows.UserControls.Install.PublishingService
   /// </summary>
   public partial class ConfigureParameters : IWizardStep, IFlowControl
   {
+
+    public ConnectionStringCollection ConnectionStrings { get; set; }
+
     public ConfigureParameters()
     {
       InitializeComponent();
@@ -30,8 +36,19 @@ namespace SIM.Tool.Windows.UserControls.Install.PublishingService
     public void InitializeStep(WizardArgs wizardArgs)
     {
       InstallPublishingServiceWizardArgs args = (InstallPublishingServiceWizardArgs)wizardArgs;
-      InstanceNameTextBlock.Text = args.InstanceName;
-      InstancePathTextBlock.Text = args.Instance.RootPath;
+      foreach (var connString in args.InstanceConnectionStrings)
+      {
+        switch (connString.Name.ToLower().Trim())
+        {
+          case "core":
+          case "master":
+          case "web":
+            ConnectionStringsListBox.Items.Add(new CheckBox() { Content = connString.Name, IsChecked = true }); break;
+          default:
+            ConnectionStringsListBox.Items.Add(new CheckBox() { Content = connString.Name }); break;
+        }
+      }
+      return;
     }
 
     public bool OnMovingBack(WizardArgs wizardArgs)
@@ -41,6 +58,16 @@ namespace SIM.Tool.Windows.UserControls.Install.PublishingService
 
     public bool OnMovingNext(WizardArgs wizardArgs)
     {
+      InstallPublishingServiceWizardArgs args = (InstallPublishingServiceWizardArgs)wizardArgs;
+      args.PublishingServiceSiteName = PublishingServiceSiteNameTextBox.Text.Trim();
+      foreach (CheckBox checkbox in ConnectionStringsListBox.Items)
+      {
+        if (checkbox.IsChecked ?? false)
+        {
+          args.PublishingServiceConnectionStrings.Add(checkbox.Content.ToString(),
+            new SqlConnectionStringBuilder(args.InstanceConnectionStrings.Find(cs => cs.Name.Equals(checkbox.Content)).Value));
+        }
+      }
       return true;
     }
 

@@ -100,6 +100,7 @@
     <Compile Include="Import\ImportRestoreMongoDatabases.cs" />
     <Compile Include="Import\UpdateConnectionStrings.cs" />
     <Compile Include="Import\UpdateDataFolder.cs" />
+    <Compile Include="InstallPublishingService\InstallPublishingServiceProcessorArgs.cs" />
     <Compile Include="Install\GenerateScriptProcessor.cs" />
     <Compile Include="Install\GenerateSitecoreEnvironmentData.cs" />
     <Compile Include="Install\GenerateUnInstallParameters.cs" />

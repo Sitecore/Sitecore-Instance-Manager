@@ -217,6 +217,14 @@
       <processor type=""SIM.Pipelines.Import.ImportHostNames, SIM.Pipelines"" title=""Update hosts file"" />
     </processor>
   </import>
+  <installpublishingservice title=""Installing Publishing Service"">
+    <processor title=""Unzip Publishing Service Package"" />
+    <processor title=""Set connection strings with admin credentials"" />
+    <processor title=""Upgrade database schema"" />
+    <processor title=""Reset database schema"" />
+    <processor title=""Set connection strings with actual credentials"" />
+    <processor title=""Create IIS site"" />
+  </installpublishingservice>
 </pipelines>";
   }
 }

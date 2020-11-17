@@ -3,23 +3,22 @@
              mc:Ignorable="d" d:DesignHeight="399" d:DesignWidth="633">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="72" />
+            <ColumnDefinition Width="30" />
             <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="80" />
-            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="30" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="28" />
-            <RowDefinition Height="28" />
-            <RowDefinition Height="28" />
-            <RowDefinition Height="28" />
-            <RowDefinition Height="28" />
-            <RowDefinition Height="28" />
+            <RowDefinition Height="50" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-
-        <TextBlock x:Name="InstanceNameTextBlock" Grid.Row="0" Grid.Column="1" />
-        <TextBlock x:Name="InstancePathTextBlock" Grid.Row="1" Grid.Column="1" />
+        
+        <GroupBox Grid.Row="0" Grid.Column="1" Header="Publishing service site name">
+            <TextBox Grid.Row="0" Grid.Column="1" Text="sitecore.publishing" x:Name="PublishingServiceSiteNameTextBox"></TextBox>
+        </GroupBox>
+        <GroupBox Grid.Row="1" Grid.Column="1" Header="Publishing service connection strings (typically core, master, web)">
+            <ListBox x:Name="ConnectionStringsListBox" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
+                 HorizontalAlignment="Stretch" VerticalAlignment="Top" HorizontalContentAlignment="Stretch"></ListBox>
+        </GroupBox>
 
     </Grid>
 </UserControl>
