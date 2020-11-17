@@ -96,12 +96,17 @@
     <Compile Include="Pipelines\ConditionEvaluatorTests.cs" />
     <Compile Include="Pipelines\CreateSolrCoreTests.cs" />
     <Compile Include="Pipelines\Export\ExportArgsTests.cs" />
+    <Compile Include="Pipelines\InstallContainer\DockerComposeRepositoryTests.cs" />
     <Compile Include="Pipelines\SolrInformationTests.cs" />
     <Compile Include="Pipelines\SwitchConfigsToSolrTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Instances\InstanceHelperTests.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ContainerInstaller\ContainerInstaller.csproj">
+      <Project>{d9ad90f9-bf6d-4c46-8546-3bed9ff93450}</Project>
+      <Name>ContainerInstaller</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SIM.Base\SIM.Base.csproj">
       <Project>{CA9339A0-9A7D-4900-839E-F21B7269BDAA}</Project>
       <Name>SIM.Base</Name>
