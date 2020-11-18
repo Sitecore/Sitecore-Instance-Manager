@@ -26,8 +26,6 @@
     </step>
     <step>
       <processor type=""SIM.Pipelines.Install.Containers.WriteEnvFileProcessor, SIM.Pipelines"" title=""Write .env file""/>
-    </step>
-    <step>
       <processor type=""SIM.Pipelines.Install.Containers.GenerateEnvironmentData, SIM.Pipelines"" title=""Add Sitecore environment data""/>
     </step>
     <step>
