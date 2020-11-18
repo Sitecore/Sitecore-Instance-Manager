@@ -2,6 +2,7 @@
 {
   using System.Collections.Generic;
   using System.Data.SqlClient;
+  using System.IO;
   using SIM.Adapters.WebServer;
   using SIM.Instances;
   using SIM.Pipelines.Install;
@@ -14,6 +15,7 @@
 
   public class InstallPublishingServiceWizardArgs : WizardArgs
   {
+    private string _publishingServicePackagePath;
     public InstallPublishingServiceWizardArgs(Instance instance)
     {
       Initialize(instance);
@@ -35,6 +37,11 @@
 
 
     //From User Input
+    public string PublishingServicePackage
+    {
+      get { return Path.GetFileNameWithoutExtension(_publishingServicePackagePath); }
+      set { _publishingServicePackagePath = value; }
+    }
     public string PublishingServiceSiteName { get; set; }
     public Dictionary<string, SqlConnectionStringBuilder> PublishingServiceConnectionStrings { get; set; }
 
@@ -62,11 +69,11 @@
         PublishingServiceSiteName = this.PublishingServiceSiteName,
         InstanceInstallRoot = this.InstanceInstallRoot,
         PublishingServiceInstallRoot = this.PublishingServiceInstallRoot,
+        PublishingServicePackagePath = this._publishingServicePackagePath,
         SqlAdminUsername = this.SqlAdminUsername,
         SqlAdminPassword = this.SqlAdminPassword,
         PublishingServiceConnectionStrings = this.PublishingServiceConnectionStrings
       };
-
     }
 
     #endregion

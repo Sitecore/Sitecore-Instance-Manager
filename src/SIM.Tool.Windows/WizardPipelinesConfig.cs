@@ -429,7 +429,9 @@ But the confirmation will be required if the databases are attached to:
                               startButton=""Install"" 
                               finishText=""Publishing Service installation completed"">
       <steps>
-        <step name=""STEP # 1 of 1 - CONFIGURE REQUIRED PARAMETERS""
+        <step name=""STEP # 1 of 2 - SELECT PUBLISHING SERVICE PACKAGE""
+              type=""SIM.Tool.Windows.UserControls.Install.PublishingService.SelectPublishingServicePackage, SIM.Tool.Windows"" />
+        <step name=""STEP # 2 of 2 - CONFIGURE REQUIRED PARAMETERS""
               type=""SIM.Tool.Windows.UserControls.Install.PublishingService.ConfigureParameters, SIM.Tool.Windows"" />
       </steps>
       

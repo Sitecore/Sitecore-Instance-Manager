@@ -16,6 +16,7 @@ namespace SIM.Pipelines.InstallPublishingService
     public string PublishingServiceInstallRoot { get; set; }
     public string SqlAdminUsername { get; set; }
     public string SqlAdminPassword { get; set; }
+    public string PublishingServicePackagePath { get; set; }
     public string PublishingServiceSiteName { get; set; }
     public Dictionary<string, SqlConnectionStringBuilder> PublishingServiceConnectionStrings { get; set; }
 

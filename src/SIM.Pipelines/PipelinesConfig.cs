@@ -217,6 +217,12 @@
       <processor type=""SIM.Pipelines.Import.ImportHostNames, SIM.Pipelines"" title=""Update hosts file"" />
     </processor>
   </import>
+</pipelines>";
+  }
+}
+
+/*
+  TO BE ADDED:
   <installpublishingservice title=""Installing Publishing Service"">
     <processor title=""Unzip Publishing Service Package"" />
     <processor title=""Set connection strings with admin credentials"" />
@@ -225,6 +231,4 @@
     <processor title=""Set connection strings with actual credentials"" />
     <processor title=""Create IIS site"" />
   </installpublishingservice>
-</pipelines>";
-  }
-}
+*/
