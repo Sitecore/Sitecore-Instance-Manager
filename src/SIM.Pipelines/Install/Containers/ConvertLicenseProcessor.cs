@@ -16,11 +16,10 @@ namespace SIM.Pipelines.Install.Containers
     protected override void Process([NotNull] ProcessorArgs arguments)
     {
       InstallContainerArgs args = (InstallContainerArgs)arguments;
-      if (FileSystem.FileSystem.Local.File.Exists(args.EnvModel.SitecoreLicense))
+      string licensePath = Path.Combine(args.Destination, "license.xml");
+      if (FileSystem.FileSystem.Local.File.Exists(licensePath))
       {
-        string licensePath = Path.Combine(args.Destination, "license.xml");
-        FileSystem.FileSystem.Local.File.Copy(args.EnvModel.SitecoreLicense, licensePath);
-        args.EnvModel.SitecoreLicense=this.converter.Convert(licensePath);
+        args.EnvModel.SitecoreLicense = this.converter.Convert(licensePath);
       }
     }
   }
