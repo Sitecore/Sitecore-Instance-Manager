@@ -425,16 +425,15 @@ But the confirmation will be required if the databases are attached to:
         <hive type=""SIM.Tool.Windows.Pipelines.Install.InstallModulesFinishActionHive, SIM.Tool.Windows"" />
       </finish>
     </installmodules>
-    <installpublishingservice title=""Installing Publishing Service for the {InstanceName} instance"" 
-                              startButton=""Install"" 
-                              finishText=""Publishing service installation completed."">
+    <installpublishingservice title=""Installing Publishing Service for the {InstanceName} instance"" startButton=""Install""
+    finishText=""Publishing service installation completed.  Please login into Sitecore and install the Publishing Module via the wizard:
+                  Sitecore Launchpad > Control Panel > ADMINISTRATION > Install a package"">
       <steps>
         <step name=""STEP # 1 of 2 - SELECT PUBLISHING SERVICE PACKAGE""
               type=""SIM.Tool.Windows.UserControls.Install.PublishingService.SelectPublishingServicePackage, SIM.Tool.Windows"" />
         <step name=""STEP # 2 of 2 - CONFIGURE REQUIRED PARAMETERS""
               type=""SIM.Tool.Windows.UserControls.Install.PublishingService.ConfigureParameters, SIM.Tool.Windows"" />
       </steps>
-     
     </installpublishingservice>
   </wizardPipelines>
 </configuration>
