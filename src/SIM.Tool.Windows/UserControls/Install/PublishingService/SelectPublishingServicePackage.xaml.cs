@@ -40,7 +40,7 @@ namespace SIM.Tool.Windows.UserControls.Install.PublishingService
     public bool OnMovingNext(WizardArgs wizardArgs)
     {
       InstallPublishingServiceWizardArgs args = (InstallPublishingServiceWizardArgs)wizardArgs;
-      args.PublishingServicePackage = PublishingServicePackageComboBox.SelectedItem.ToString();
+      args.PublishingServicePackage = ((ComboBoxItem)PublishingServicePackageComboBox.SelectedItem).Tag.ToString();
       return true;
     }
 

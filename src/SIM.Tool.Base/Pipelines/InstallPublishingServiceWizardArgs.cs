@@ -29,8 +29,8 @@
     public ConnectionStringCollection InstanceConnectionStrings { get; private set; }
 
     //From Profile
-    public string InstanceInstallRoot { get; set; }
-    public string PublishingServiceInstallRoot { get; set; }
+    public string InstanceFolder { get; set; }
+    public string PublishingServiceInstanceFolder { get; set; }
 
     public string SqlAdminUsername { get; private set; }
     public string SqlAdminPassword { get; private set; }
@@ -43,7 +43,7 @@
       set { _publishingServicePackagePath = value; }
     }
     public string PublishingServiceSiteName { get; set; }
-    public Dictionary<string, SqlConnectionStringBuilder> PublishingServiceConnectionStrings { get; set; }
+    public Dictionary<string, SqlConnectionStringBuilder> PublishingServiceConnectionStrings { get; set; } = new Dictionary<string, SqlConnectionStringBuilder>();
 
     #endregion
 
@@ -52,9 +52,9 @@
     {
       this.Instance = instance;
       this.InstanceName = instance.Name;
-      this.InstanceInstallRoot = ProfileManager.Profile.InstancesFolder;
+      this.InstanceFolder = ProfileManager.Profile.InstancesFolder;
       this.InstanceConnectionStrings = instance.Configuration.ConnectionStrings;
-      this.PublishingServiceInstallRoot = ProfileManager.Profile.InstancesFolder;
+      this.PublishingServiceInstanceFolder = ProfileManager.Profile.InstancesFolder;
 
       SqlConnectionStringBuilder SqlServerConnectionString = ProfileManager.GetConnectionString();
       this.SqlAdminUsername = SqlServerConnectionString.UserID;
@@ -67,8 +67,8 @@
       {
         InstanceName = this.InstanceName,
         PublishingServiceSiteName = this.PublishingServiceSiteName,
-        InstanceInstallRoot = this.InstanceInstallRoot,
-        PublishingServiceInstallRoot = this.PublishingServiceInstallRoot,
+        InstanceFolder = this.InstanceFolder,
+        PublishingServiceInstanceFolder = this.PublishingServiceInstanceFolder,
         PublishingServicePackagePath = this._publishingServicePackagePath,
         SqlAdminUsername = this.SqlAdminUsername,
         SqlAdminPassword = this.SqlAdminPassword,

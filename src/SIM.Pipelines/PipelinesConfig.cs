@@ -217,18 +217,20 @@
       <processor type=""SIM.Pipelines.Import.ImportHostNames, SIM.Pipelines"" title=""Update hosts file"" />
     </processor>
   </import>
+  <installpublishingservice title=""Installing Publishing Service"">
+    <processor type=""SIM.Pipelines.InstallPublishingService.UnzipPackageProcessor, SIM.Pipelines"" 
+                title=""Unzipping package"" />
+    <processor type=""SIM.Pipelines.InstallPublishingService.SetAdminConnectionStringsProcessor, SIM.Pipelines"" 
+                title=""Setting admin connection strings"" />
+    <processor type=""SIM.Pipelines.InstallPublishingService.UpgradeDatabaseSchemaProcessor, SIM.Pipelines""
+                title=""Upgrading database schema"" />
+    <processor type=""SIM.Pipelines.InstallPublishingService.ResetDatabaseSchemaProcessor, SIM.Pipelines""
+                title=""Resetting database schema"" />
+    <processor type=""SIM.Pipelines.InstallPublishingService.SetActualConnectionStringsProcessor, SIM.Pipelines""
+                title=""Setting actual connection strings"" />
+    <processor type=""SIM.Pipelines.InstallPublishingService.CreateIISiteProcessor, SIM.Pipelines""
+                title=""Creating IIS site"" />
+  </installpublishingservice>
 </pipelines>";
   }
 }
-
-/*
-  TO BE ADDED:
-  <installpublishingservice title=""Installing Publishing Service"">
-    <processor title=""Unzip Publishing Service Package"" />
-    <processor title=""Set connection strings with admin credentials"" />
-    <processor title=""Upgrade database schema"" />
-    <processor title=""Reset database schema"" />
-    <processor title=""Set connection strings with actual credentials"" />
-    <processor title=""Create IIS site"" />
-  </installpublishingservice>
-*/
