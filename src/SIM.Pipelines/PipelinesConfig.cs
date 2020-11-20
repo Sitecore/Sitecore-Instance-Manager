@@ -230,6 +230,8 @@
                 title=""Setting actual connection strings"" />
     <processor type=""SIM.Pipelines.InstallPublishingService.CreateIISiteProcessor, SIM.Pipelines""
                 title=""Creating IIS site"" />
+    <processor type=""SIM.Pipelines.InstallPublishingService.VerifyInstallationProcessor, SIM.Pipelines""
+                title=""Checking status endpoint for errors"" />
   </installpublishingservice>
 </pipelines>";
   }
