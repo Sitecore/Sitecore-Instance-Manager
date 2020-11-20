@@ -1,25 +1,11 @@
 ﻿using SIM.Adapters.WebServer;
-using SIM.Extensions;
-using SIM.Instances;
 using SIM.Tool.Base;
 using SIM.Tool.Base.Pipelines;
 using SIM.Tool.Base.Wizards;
-using Sitecore.Diagnostics.Logging;
-using System;
-using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 
 namespace SIM.Tool.Windows.UserControls.Install.PublishingService
 {
@@ -28,9 +14,6 @@ namespace SIM.Tool.Windows.UserControls.Install.PublishingService
   /// </summary>
   public partial class ConfigureParameters : IWizardStep, IFlowControl
   {
-
-    public ConnectionStringCollection ConnectionStrings { get; set; }
-
     public ConfigureParameters()
     {
       InitializeComponent();
@@ -39,16 +22,19 @@ namespace SIM.Tool.Windows.UserControls.Install.PublishingService
     public void InitializeStep(WizardArgs wizardArgs)
     {
       InstallPublishingServiceWizardArgs args = (InstallPublishingServiceWizardArgs)wizardArgs;
-      foreach (var connString in args.InstanceConnectionStrings)
+      if (ConnectionStringsListBox.Items.Count < 1)
       {
-        switch (connString.Name.ToLower().Trim())
+        foreach (var connString in args.InstanceConnectionStrings)
         {
-          case "core":
-          case "master":
-          case "web":
-            ConnectionStringsListBox.Items.Add(new CheckBox() { Content = connString.Name, IsChecked = true }); break;
-          default:
-            ConnectionStringsListBox.Items.Add(new CheckBox() { Content = connString.Name }); break;
+          switch (connString.Name.ToLower().Trim())
+          {
+            case "core":
+            case "master":
+            case "web":
+              ConnectionStringsListBox.Items.Add(new CheckBox() { Content = connString.Name, IsChecked = true }); break;
+            default:
+              ConnectionStringsListBox.Items.Add(new CheckBox() { Content = connString.Name }); break;
+          }
         }
       }
       return;
