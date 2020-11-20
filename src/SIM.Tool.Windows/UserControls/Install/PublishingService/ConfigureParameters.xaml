@@ -16,7 +16,16 @@
         </Grid.RowDefinitions>
         
         <GroupBox Grid.Row="0" Grid.Column="1" Header="Publishing service site name">
-            <TextBox Grid.Row="0" Grid.Column="1" Text="sitecore.publishing" x:Name="PublishingServiceSiteNameTextBox"></TextBox>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="110"/>
+                    <ColumnDefinition Width="20"/>
+                </Grid.ColumnDefinitions>
+                <TextBox Grid.Column="0" Text="sitecore.publishing" x:Name="PublishingServiceSiteNameTextBox"></TextBox>
+                <Label Grid.Column="1" Content="Overwrite if exists?" HorizontalAlignment="Right"/>
+                <CheckBox Grid.Column="2" x:Name="OverwriteIfExistsCheckBox" VerticalAlignment="Center"/>
+            </Grid>
         </GroupBox>
         <GroupBox Grid.Row="1" Grid.Column="1" Header="Publishing service connection strings (typically core, master, web)">
             <ListBox x:Name="ConnectionStringsListBox" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"

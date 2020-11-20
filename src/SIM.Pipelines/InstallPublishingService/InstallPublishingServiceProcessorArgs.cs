@@ -21,9 +21,10 @@ namespace SIM.Pipelines.InstallPublishingService
     public string PublishingServicePackagePath { get; set; }
     public string PublishingServiceSiteName { get; set; }
     public Dictionary<string, SqlConnectionStringBuilder> PublishingServiceConnectionStrings { get; set; }
+    public bool OverwriteExisting { get; set; }
 
     //Other Properties
-    public string PubilshingServiceWebroot { get { return Path.Combine(PublishingServiceInstanceFolder, PublishingServiceSiteName); } }
+    public string PublishingServiceWebroot { get { return Path.Combine(PublishingServiceInstanceFolder, PublishingServiceSiteName); } }
 
     #endregion
   }

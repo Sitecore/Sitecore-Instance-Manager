@@ -37,6 +37,7 @@
 
 
     //From User Input
+    public bool OverwriteExisting { get; set; }
     public string PublishingServicePackage
     {
       get { return Path.GetFileNameWithoutExtension(_publishingServicePackagePath); }
@@ -72,7 +73,8 @@
         PublishingServicePackagePath = this._publishingServicePackagePath,
         SqlAdminUsername = this.SqlAdminUsername,
         SqlAdminPassword = this.SqlAdminPassword,
-        PublishingServiceConnectionStrings = this.PublishingServiceConnectionStrings
+        PublishingServiceConnectionStrings = this.PublishingServiceConnectionStrings,
+        OverwriteExisting = this.OverwriteExisting
       };
     }
 

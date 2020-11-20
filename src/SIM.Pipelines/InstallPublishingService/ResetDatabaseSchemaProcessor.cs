@@ -12,7 +12,7 @@ namespace SIM.Pipelines.InstallPublishingService
     //Resetting the schema is done to clear any potentially existing Publishing tables 
     protected override void ProcessCore(InstallPublishingServiceProcessorArgs args)
     {
-      Directory.SetCurrentDirectory(args.PubilshingServiceWebroot);
+      Directory.SetCurrentDirectory(args.PublishingServiceWebroot);
       Commands.SchemaReset();
     }
   }

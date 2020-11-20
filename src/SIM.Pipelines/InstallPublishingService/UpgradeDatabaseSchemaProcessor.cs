@@ -11,7 +11,7 @@ namespace SIM.Pipelines.InstallPublishingService
   {
     protected override void ProcessCore(InstallPublishingServiceProcessorArgs args)
     {
-      Directory.SetCurrentDirectory(args.PubilshingServiceWebroot);
+      Directory.SetCurrentDirectory(args.PublishingServiceWebroot);
       Commands.SchemaUpgrade();
     }
   }

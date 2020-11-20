@@ -18,11 +18,15 @@ namespace SIM.Pipelines.InstallPublishingService
     {
       try
       {
-        ZipFile.ExtractToDirectory(args.PublishingServicePackagePath, args.PubilshingServiceWebroot);
+        if (args.OverwriteExisting)
+        {
+          Directory.Delete(args.PublishingServiceWebroot, true);
+        }
+        ZipFile.ExtractToDirectory(args.PublishingServicePackagePath, args.PublishingServiceWebroot);
       }
       catch (Exception ex)
       {
-        Log.Error($"\nSOURCE PATH: {args.PublishingServicePackagePath}\nDESTINATION PATH: {args.PubilshingServiceWebroot}");
+        Log.Error($"\nSOURCE PATH: {args.PublishingServicePackagePath}\nDESTINATION PATH: {args.PublishingServiceWebroot}");
         throw ex;
       }
     }

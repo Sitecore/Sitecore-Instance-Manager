@@ -49,10 +49,12 @@ namespace SIM.Tool.Windows.UserControls.Install.PublishingService
     {
       InstallPublishingServiceWizardArgs args = (InstallPublishingServiceWizardArgs)wizardArgs;
       args.PublishingServiceSiteName = PublishingServiceSiteNameTextBox.Text.Trim();
+      args.OverwriteExisting = OverwriteIfExistsCheckBox.IsChecked ?? false;
 
       string newWebroot = Path.Combine(args.PublishingServiceInstanceFolder, args.PublishingServiceSiteName);
-      if (Directory.Exists(newWebroot)){
-        WindowHelper.ShowMessage($"{newWebroot} already exists, please remove it or choose a different name for your instance");
+      if (Directory.Exists(newWebroot) && !args.OverwriteExisting){
+        WindowHelper.ShowMessage($"{newWebroot} already exists, please delete the existing instance, choose a different name, or select the" +
+          $"\"Overwrite if exists?\" checkbox to replace the existing solution");
         return false;
       }
 

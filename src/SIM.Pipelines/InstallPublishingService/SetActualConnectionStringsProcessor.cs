@@ -12,7 +12,7 @@ namespace SIM.Pipelines.InstallPublishingService
   {
     protected override void ProcessCore(InstallPublishingServiceProcessorArgs args)
     {
-      Directory.SetCurrentDirectory(args.PubilshingServiceWebroot);
+      Directory.SetCurrentDirectory(args.PublishingServiceWebroot);
       foreach (KeyValuePair<string, SqlConnectionStringBuilder> connString in args.PublishingServiceConnectionStrings)
       {
         Commands.SetConnectionString(connString.Key, connString.Value.ToString());
