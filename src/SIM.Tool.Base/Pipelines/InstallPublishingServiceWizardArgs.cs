@@ -12,11 +12,10 @@
   using SIM.Tool.Base.Converters;
   using SIM.Tool.Base.Profiles;
   using SIM.Tool.Base.Wizards;
-
-  public class UninstallPublishingServiceWizardArgs : WizardArgs
+  public class InstallSPSWizardArgs : WizardArgs
   {
-    private string _publishingServicePackagePath;
-    public UninstallPublishingServiceWizardArgs(Instance instance)
+    private string _spsPackagePath;
+    public InstallSPSWizardArgs(Instance instance)
     {
       Initialize(instance);
     }
@@ -30,7 +29,7 @@
 
     //From Profile
     public string InstanceFolder { get; set; }
-    public string PublishingServiceInstanceFolder { get; set; }
+    public string SPSInstanceFolder { get; set; }
 
     public string SqlAdminUsername { get; private set; }
     public string SqlAdminPassword { get; private set; }
@@ -38,13 +37,13 @@
 
     //From User Input
     public bool OverwriteExisting { get; set; }
-    public string PublishingServicePackage
+    public string SPSPackage
     {
-      get { return Path.GetFileNameWithoutExtension(_publishingServicePackagePath); }
-      set { _publishingServicePackagePath = value; }
+      get { return Path.GetFileNameWithoutExtension(_spsPackagePath); }
+      set { _spsPackagePath = value; }
     }
-    public string PublishingServiceSiteName { get; set; }
-    public Dictionary<string, SqlConnectionStringBuilder> PublishingServiceConnectionStrings { get; set; } = new Dictionary<string, SqlConnectionStringBuilder>();
+    public string SPSSiteName { get; set; }
+    public Dictionary<string, SqlConnectionStringBuilder> SPSConnectionStrings { get; set; } = new Dictionary<string, SqlConnectionStringBuilder>();
 
     #endregion
 
@@ -55,7 +54,7 @@
       this.InstanceName = instance.Name;
       this.InstanceFolder = ProfileManager.Profile.InstancesFolder;
       this.InstanceConnectionStrings = instance.Configuration.ConnectionStrings;
-      this.PublishingServiceInstanceFolder = ProfileManager.Profile.InstancesFolder;
+      this.SPSInstanceFolder = ProfileManager.Profile.InstancesFolder;
 
       SqlConnectionStringBuilder SqlServerConnectionString = ProfileManager.GetConnectionString();
       this.SqlAdminUsername = SqlServerConnectionString.UserID;
@@ -64,16 +63,16 @@
 
     public override ProcessorArgs ToProcessorArgs()
     {
-      return new InstallPublishingServiceProcessorArgs()
+      return new InstallSPSProcessorArgs()
       {
         InstanceName = this.InstanceName,
-        PublishingServiceSiteName = this.PublishingServiceSiteName,
+        SPSSiteName = this.SPSSiteName,
         InstanceFolder = this.InstanceFolder,
-        PublishingServiceInstanceFolder = this.PublishingServiceInstanceFolder,
-        PublishingServicePackagePath = this._publishingServicePackagePath,
+        SPSInstanceFolder = this.SPSInstanceFolder,
+        SPSPackagePath = this._spsPackagePath,
         SqlAdminUsername = this.SqlAdminUsername,
         SqlAdminPassword = this.SqlAdminPassword,
-        PublishingServiceConnectionStrings = this.PublishingServiceConnectionStrings,
+        SPSConnectionStrings = this.SPSConnectionStrings,
         OverwriteExisting = this.OverwriteExisting
       };
     }

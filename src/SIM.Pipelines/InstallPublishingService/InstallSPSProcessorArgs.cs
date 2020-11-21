@@ -9,22 +9,22 @@ using System.Threading.Tasks;
 
 namespace SIM.Pipelines.InstallPublishingService
 {
-  public class InstallPublishingServiceProcessorArgs : ProcessorArgs
+  public class InstallSPSProcessorArgs : ProcessorArgs
   {
     #region Properties
     //Populated from InstallPublishingServiceWizardArgs
     public string InstanceName { get; set; }
     public string InstanceFolder { get; set; }
-    public string PublishingServiceInstanceFolder { get; set; }
+    public string SPSInstanceFolder { get; set; }
     public string SqlAdminUsername { get; set; }
     public string SqlAdminPassword { get; set; }
-    public string PublishingServicePackagePath { get; set; }
-    public string PublishingServiceSiteName { get; set; }
-    public Dictionary<string, SqlConnectionStringBuilder> PublishingServiceConnectionStrings { get; set; }
+    public string SPSPackagePath { get; set; }
+    public string SPSSiteName { get; set; }
+    public Dictionary<string, SqlConnectionStringBuilder> SPSConnectionStrings { get; set; }
     public bool OverwriteExisting { get; set; }
 
     //Other Properties
-    public string PublishingServiceWebroot { get { return Path.Combine(PublishingServiceInstanceFolder, PublishingServiceSiteName); } }
+    public string SPSWebroot { get { return Path.Combine(SPSInstanceFolder, SPSSiteName); } }
 
     #endregion
   }

@@ -109,13 +109,13 @@
     <Compile Include="Import\UpdateConnectionStrings.cs" />
     <Compile Include="Import\UpdateDataFolder.cs" />
     <Compile Include="InstallPublishingService\CreateIISiteProcessor.cs" />
-    <Compile Include="InstallPublishingService\InstallPublishingServiceProcessor.cs" />
-    <Compile Include="InstallPublishingService\InstallPublishingServiceProcessorArgs.cs" />
+    <Compile Include="InstallPublishingService\InstallSPSProcessor.cs" />
+    <Compile Include="InstallPublishingService\InstallSPSProcessorArgs.cs" />
     <Compile Include="InstallPublishingService\Commands.cs" />
-    <Compile Include="InstallPublishingService\RemoveExistingPublishingServiceProcessor.cs" />
+    <Compile Include="InstallPublishingService\RemoveExistingSPSProcessor.cs" />
     <Compile Include="InstallPublishingService\SetActualConnectionStringsProcessor.cs" />
     <Compile Include="InstallPublishingService\SetAdminConnectionStringsProcessor.cs" />
-    <Compile Include="InstallPublishingService\UnzipPackageProcessor.cs" />
+    <Compile Include="InstallPublishingService\UnzipSPSPackageProcessor.cs" />
     <Compile Include="InstallPublishingService\ResetDatabaseSchemaProcessor.cs" />
     <Compile Include="InstallPublishingService\UpgradeDatabaseSchemaProcessor.cs" />
     <Compile Include="InstallPublishingService\VerifyInstallationProcessor.cs" />

@@ -12,12 +12,12 @@ using System.Threading.Tasks;
 
 namespace SIM.Pipelines.InstallPublishingService
 {
-  public class RemoveExistingPublishingServiceProcessor : InstallPublishingServiceProcessor
+  public class RemoveExistingSPSProcessor : InstallSPSProcessor
   {
     private const int STOP_RETRIES = 6;
     private const int RETRY_INTERVAL_MS = 5000;
 
-    protected override void ProcessCore(InstallPublishingServiceProcessorArgs args)
+    protected override void ProcessCore(InstallSPSProcessorArgs args)
     {
       if (!args.OverwriteExisting)
       {
@@ -27,32 +27,32 @@ namespace SIM.Pipelines.InstallPublishingService
 
       using (ServerManager sm = new ServerManager())
       {
-        Site spsSite = sm.Sites.FirstOrDefault(s => s.Name.Equals(args.PublishingServiceSiteName));
-        ApplicationPool spsAppPool = sm.ApplicationPools.FirstOrDefault(s => s.Name.Equals(args.PublishingServiceSiteName));
+        Site spsSite = sm.Sites.FirstOrDefault(s => s.Name.Equals(args.SPSSiteName));
+        ApplicationPool spsAppPool = sm.ApplicationPools.FirstOrDefault(s => s.Name.Equals(args.SPSSiteName));
 
         if (!DeleteSite(sm, spsSite))
         {
-          throw new Exception($"Could not stop site with the name {args.PublishingServiceSiteName}.  Please remove it manually in IIS.");
+          throw new Exception($"Could not stop site with the name {args.SPSSiteName}.  Please remove it manually in IIS.");
         }
 
         if (!DeleteAppPool(sm, spsAppPool))
         {
-          throw new Exception($"Could not stop app pool with the name {args.PublishingServiceSiteName}.  Please remove it manually in IIS.");
+          throw new Exception($"Could not stop app pool with the name {args.SPSSiteName}.  Please remove it manually in IIS.");
         }
 
         sm.CommitChanges();
       }
 
-      if (Directory.Exists(args.PublishingServiceWebroot))
+      if (Directory.Exists(args.SPSWebroot))
       {
         try
         {
-          Directory.Delete(args.PublishingServiceWebroot, true);
+          Directory.Delete(args.SPSWebroot, true);
         }
         catch (IOException ex)
         {
           //Unlikely user scenario, but it can occur when you create an instance, then immediately try to overwrite it without restarting SIM
-          throw new Exception($"SIM may be locking the {args.PublishingServiceWebroot} folder if it was just created.  Try restarting SIM and installing publishing service again", ex);
+          throw new Exception($"SIM may be locking the {args.SPSWebroot} folder if it was just created.  Try restarting SIM and installing publishing service again", ex);
         }
       }
     }

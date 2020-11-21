@@ -218,9 +218,9 @@
     </processor>
   </import>
   <installpublishingservice title=""Installing Publishing Service"">
-    <processor type=""SIM.Pipelines.InstallPublishingService.RemoveExistingPublishingServiceProcessor, SIM.Pipelines"" 
+    <processor type=""SIM.Pipelines.InstallPublishingService.RemoveExistingSPSProcessor, SIM.Pipelines"" 
                 title=""Removing existing publishing service if necessary"" />
-    <processor type=""SIM.Pipelines.InstallPublishingService.UnzipPackageProcessor, SIM.Pipelines"" 
+    <processor type=""SIM.Pipelines.InstallPublishingService.UnzipSPSPackageProcessor, SIM.Pipelines"" 
                 title=""Unzipping package"" />
     <processor type=""SIM.Pipelines.InstallPublishingService.SetAdminConnectionStringsProcessor, SIM.Pipelines"" 
                 title=""Setting admin connection strings"" />

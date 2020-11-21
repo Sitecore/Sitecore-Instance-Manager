@@ -22,7 +22,7 @@
                     <ColumnDefinition Width="110"/>
                     <ColumnDefinition Width="20"/>
                 </Grid.ColumnDefinitions>
-                <TextBox Grid.Column="0" Text="sitecore.publishing" x:Name="PublishingServiceSiteNameTextBox"></TextBox>
+                <TextBox Grid.Column="0" Text="sitecore.publishing" x:Name="SPSSiteNameTextBox"></TextBox>
                 <Label Grid.Column="1" Content="Overwrite if exists?" HorizontalAlignment="Right"/>
                 <CheckBox Grid.Column="2" x:Name="OverwriteIfExistsCheckBox" VerticalAlignment="Center"/>
             </Grid>
