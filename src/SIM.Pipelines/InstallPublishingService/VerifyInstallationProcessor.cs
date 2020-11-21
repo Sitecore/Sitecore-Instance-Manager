@@ -17,7 +17,7 @@ namespace SIM.Pipelines.InstallPublishingService
   {
     protected override void ProcessCore(InstallSPSProcessorArgs args)
     {
-      string statusEndpoint = $"http://{args.SPSSiteName}/api/publishing/operations/status";
+      string statusEndpoint = $"http://{args.SPSSiteName}:{args.SPSPort}/api/publishing/operations/status";
       if (!ValidateStatusEndpoint(statusEndpoint))
       {
         Log.Error("Publishing Service returned errors");

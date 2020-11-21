@@ -23,10 +23,6 @@ namespace SIM.Tool.Windows.UserControls.Install.PublishingService
     {
       InstallSPSWizardArgs args = (InstallSPSWizardArgs)wizardArgs;
 
-      /*[PORT - BAD GATEWAY ISSUE]*/
-      PortLabel.Visibility = System.Windows.Visibility.Hidden;
-      PortTextBox.Visibility = System.Windows.Visibility.Hidden;
-
       InitConnectrionStringsListBox(args);
       InitSiteName();
       InitPort();
@@ -81,18 +77,16 @@ namespace SIM.Tool.Windows.UserControls.Install.PublishingService
 
     private void SetConnectionStrings(InstallSPSWizardArgs args)
     {
-      if (ConnectionStringsListBox.Items.Count < 1)
+      args.SPSConnectionStrings.Clear();
+      foreach (CheckBox checkbox in ConnectionStringsListBox.Items)
       {
-        foreach (CheckBox checkbox in ConnectionStringsListBox.Items)
+        if (checkbox.IsChecked ?? false)
         {
-          if (checkbox.IsChecked ?? false)
-          {
-            ConnectionString connString = args.InstanceConnectionStrings.Single(cs => cs.Name.Equals(checkbox.Content));
-            args.SPSConnectionStrings.Add(checkbox.Content.ToString(), new SqlConnectionStringBuilder(connString.Value));
-          }
+          ConnectionString connString = args.InstanceConnectionStrings.Single(cs => cs.Name.Equals(checkbox.Content));
+          args.SPSConnectionStrings.Add(checkbox.Content.ToString(), new SqlConnectionStringBuilder(connString.Value));
         }
       }
-    }
+  }
 
     private void InitConnectrionStringsListBox(InstallSPSWizardArgs args)
     {
