@@ -79,6 +79,7 @@
     <Compile Include="EnvironmentHelper.cs" />
     <Compile Include="Pipelines\Delete9WizardArgs.cs" />
     <Compile Include="Pipelines\Install9WizardArgs.cs" />
+    <Compile Include="Pipelines\UninstallPublishingServiceWizardArgs.cs" />
     <Compile Include="Pipelines\InstallPublishingServiceWizardArgs.cs" />
     <Compile Include="Pipelines\ReinstallWizardArgs.cs" />
     <Compile Include="WinAppSettings.cs" />

@@ -13,10 +13,10 @@
   using SIM.Tool.Base.Profiles;
   using SIM.Tool.Base.Wizards;
 
-  public class UninstallPublishingServiceWizardArgs : WizardArgs
+  public class InstallPublishingServiceWizardArgs : WizardArgs
   {
     private string _publishingServicePackagePath;
-    public UninstallPublishingServiceWizardArgs(Instance instance)
+    public InstallPublishingServiceWizardArgs(Instance instance)
     {
       Initialize(instance);
     }

@@ -674,7 +674,22 @@ namespace SIM.Tool.Windows
             {
               Label = "Publishing Service",
               Image = "/Images/$lg/install.png, SIM.Tool.Windows",
-              Handler = new SIM.Tool.Windows.MainWindowComponents.InstallPublishingServiceButton()
+              Handler = new SIM.Tool.Windows.MainWindowComponents.InstallPublishingServiceButton(),
+              Buttons = new[]
+              {
+                new ButtonDefinition
+                {
+                  Label = "Install",
+                  Image = "/Images/$lg/install.png, SIM.Tool.Windows",
+                  Handler = new SIM.Tool.Windows.MainWindowComponents.InstallPublishingServiceButton(),
+                },
+                new ButtonDefinition
+                {
+                  Label = "Uninstall",
+                  Image = "/Images/$lg/uninstall.png, SIM.Tool.Windows",
+                  Handler = new SIM.Tool.Windows.MainWindowComponents.UninstallPublishingServiceButton(),
+                }
+              }
             },
           }
         },
