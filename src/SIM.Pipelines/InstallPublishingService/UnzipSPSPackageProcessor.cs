@@ -12,11 +12,11 @@ using System.Threading.Tasks;
 
 namespace SIM.Pipelines.InstallPublishingService
 {
-  public class UnzipPackageProcessor : InstallPublishingServiceProcessor
+  public class UnzipSPSPackageProcessor : InstallSPSProcessor
   {
-    protected override void ProcessCore(InstallPublishingServiceProcessorArgs args)
+    protected override void ProcessCore(InstallSPSProcessorArgs args)
     {
-      ZipFile.ExtractToDirectory(args.PublishingServicePackagePath, args.PublishingServiceWebroot);
+      ZipFile.ExtractToDirectory(args.SPSPackagePath, args.SPSWebroot);
     }
   }
 }

@@ -17,11 +17,11 @@
         </Grid.RowDefinitions>
 
         <GroupBox Grid.Row="0" Grid.Column="1" Header="Select the publishing service package you want to install">
-            <ComboBox x:Name="PublishingServicePackageComboBox"></ComboBox>
+            <ComboBox x:Name="SPSPackageComboBox"></ComboBox>
         </GroupBox>
         <TextBlock Grid.Row="1" Grid.Column="1" TextWrapping="Wrap">
             You can
-            <Hyperlink x:Name="DownloadPublishingServiceLink" RequestNavigate="Hyperlink_RequestNavigate">
+            <Hyperlink x:Name="DownloadSPSLink" RequestNavigate="Hyperlink_RequestNavigate">
                 get publishing service packages here.
             </Hyperlink>
             Then place them into 

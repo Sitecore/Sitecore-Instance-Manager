@@ -36,8 +36,8 @@ namespace SIM.Tool.Windows.UserControls.Install.PublishingService
 
     public bool OnMovingNext(WizardArgs wizardArgs)
     {
-      InstallPublishingServiceWizardArgs args = (InstallPublishingServiceWizardArgs)wizardArgs;
-      args.PublishingServicePackage = ((ComboBoxItem)PublishingServicePackageComboBox.SelectedItem).Tag.ToString();
+      InstallSPSWizardArgs args = (InstallSPSWizardArgs)wizardArgs;
+      args.SPSPackage = ((ComboBoxItem)SPSPackageComboBox.SelectedItem).Tag.ToString();
       return true;
     }
 
@@ -55,7 +55,7 @@ namespace SIM.Tool.Windows.UserControls.Install.PublishingService
     private void Initialize()
     {
       //Prepare links
-      DownloadPublishingServiceLink.NavigateUri = new Uri(@"https://dev.sitecore.net/Downloads/Sitecore_Publishing_Service.aspx");
+      DownloadSPSLink.NavigateUri = new Uri(@"https://dev.sitecore.net/Downloads/Sitecore_Publishing_Service.aspx");
       OpenLocalRepoLink.NavigateUri = new Uri($@"{ProfileManager.Profile.LocalRepository}");
       KBForSPSCompatibilityPriorTo410.NavigateUri = new Uri(KB_SPS_COMPATIBILTY_PRIOR_TO_410);
       KBForSPSCompatibility410AndLater.NavigateUri = new Uri(KB_SPS_COMPATIBILTY_410_AND_LATER);
@@ -64,7 +64,7 @@ namespace SIM.Tool.Windows.UserControls.Install.PublishingService
       //Populate ComboBox
       foreach (string packagePath in Directory.GetFiles(ProfileManager.Profile.LocalRepository, "Sitecore Publishing Service*.zip"))
       {
-        PublishingServicePackageComboBox.Items.Add(new ComboBoxItem()
+        SPSPackageComboBox.Items.Add(new ComboBoxItem()
         {
          Content = Path.GetFileNameWithoutExtension(packagePath),
          Tag = packagePath

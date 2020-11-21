@@ -13,11 +13,11 @@ using System.Threading.Tasks;
 
 namespace SIM.Pipelines.InstallPublishingService
 {
-  public class VerifyInstallationProcessor : InstallPublishingServiceProcessor
+  public class VerifyInstallationProcessor : InstallSPSProcessor
   {
-    protected override void ProcessCore(InstallPublishingServiceProcessorArgs args)
+    protected override void ProcessCore(InstallSPSProcessorArgs args)
     {
-      string statusEndpoint = $"http://{args.PublishingServiceSiteName}/api/publishing/operations/status";
+      string statusEndpoint = $"http://{args.SPSSiteName}/api/publishing/operations/status";
       if (!ValidateStatusEndpoint(statusEndpoint))
       {
         Log.Error("Publishing Service returned errors");

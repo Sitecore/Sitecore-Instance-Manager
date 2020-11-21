@@ -21,7 +21,7 @@ namespace SIM.Tool.Windows.UserControls.Install.PublishingService
 
     public void InitializeStep(WizardArgs wizardArgs)
     {
-      InstallPublishingServiceWizardArgs args = (InstallPublishingServiceWizardArgs)wizardArgs;
+      InstallSPSWizardArgs args = (InstallSPSWizardArgs)wizardArgs;
       if (ConnectionStringsListBox.Items.Count < 1)
       {
         foreach (var connString in args.InstanceConnectionStrings)
@@ -47,11 +47,11 @@ namespace SIM.Tool.Windows.UserControls.Install.PublishingService
 
     public bool OnMovingNext(WizardArgs wizardArgs)
     {
-      InstallPublishingServiceWizardArgs args = (InstallPublishingServiceWizardArgs)wizardArgs;
-      args.PublishingServiceSiteName = PublishingServiceSiteNameTextBox.Text.Trim();
+      InstallSPSWizardArgs args = (InstallSPSWizardArgs)wizardArgs;
+      args.SPSSiteName = SPSSiteNameTextBox.Text.Trim();
       args.OverwriteExisting = OverwriteIfExistsCheckBox.IsChecked ?? false;
 
-      string newWebroot = Path.Combine(args.PublishingServiceInstanceFolder, args.PublishingServiceSiteName);
+      string newWebroot = Path.Combine(args.SPSInstanceFolder, args.SPSSiteName);
       if (Directory.Exists(newWebroot) && !args.OverwriteExisting){
         WindowHelper.ShowMessage($"{newWebroot} already exists, please delete the existing instance, choose a different name, or select the" +
           $"\"Overwrite if exists?\" checkbox to replace the existing solution");
@@ -63,7 +63,7 @@ namespace SIM.Tool.Windows.UserControls.Install.PublishingService
         if (checkbox.IsChecked ?? false)
         {
           ConnectionString connString = args.InstanceConnectionStrings.Single(cs => cs.Name.Equals(checkbox.Content));
-          args.PublishingServiceConnectionStrings.Add(checkbox.Content.ToString(), new SqlConnectionStringBuilder(connString.Value));
+          args.SPSConnectionStrings.Add(checkbox.Content.ToString(), new SqlConnectionStringBuilder(connString.Value));
         }
       }
 

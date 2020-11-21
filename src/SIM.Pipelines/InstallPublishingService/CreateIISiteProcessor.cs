@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace SIM.Pipelines.InstallPublishingService
 {
-  public class CreateIISiteProcessor : InstallPublishingServiceProcessor
+  public class CreateIISiteProcessor : InstallSPSProcessor
   {
-    protected override void ProcessCore(InstallPublishingServiceProcessorArgs args)
+    protected override void ProcessCore(InstallSPSProcessorArgs args)
     {
-      Commands.IISInstall(args.PublishingServiceSiteName, args.PublishingServiceSiteName);
+      Commands.IISInstall(args.SPSSiteName, args.SPSSiteName);
     }
   }
 }

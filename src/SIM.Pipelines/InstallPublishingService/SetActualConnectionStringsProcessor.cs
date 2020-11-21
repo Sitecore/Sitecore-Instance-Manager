@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 
 namespace SIM.Pipelines.InstallPublishingService
 {
-  public class SetActualConnectionStringsProcessor : InstallPublishingServiceProcessor
+  public class SetActualConnectionStringsProcessor : InstallSPSProcessor
   {
-    protected override void ProcessCore(InstallPublishingServiceProcessorArgs args)
+    protected override void ProcessCore(InstallSPSProcessorArgs args)
     {
-      Directory.SetCurrentDirectory(args.PublishingServiceWebroot);
-      foreach (KeyValuePair<string, SqlConnectionStringBuilder> connString in args.PublishingServiceConnectionStrings)
+      Directory.SetCurrentDirectory(args.SPSWebroot);
+      foreach (KeyValuePair<string, SqlConnectionStringBuilder> connString in args.SPSConnectionStrings)
       {
         Commands.SetConnectionString(connString.Key, connString.Value.ToString());
       }

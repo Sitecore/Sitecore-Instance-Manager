@@ -9,13 +9,13 @@ using System.Threading.Tasks;
 
 namespace SIM.Pipelines.InstallPublishingService
 {
-  public abstract class InstallPublishingServiceProcessor  : Processor
+  public abstract class InstallSPSProcessor : Processor
   {
     protected static bool AbortPipeline = false;
 
     protected override void Process([NotNull] ProcessorArgs args)
     {
-      InstallPublishingServiceProcessorArgs processorArgs = args as InstallPublishingServiceProcessorArgs;
+      InstallSPSProcessorArgs processorArgs = args as InstallSPSProcessorArgs;
 
       if (AbortPipeline)
       {
@@ -36,6 +36,6 @@ namespace SIM.Pipelines.InstallPublishingService
       }
     }
 
-    protected abstract void ProcessCore(InstallPublishingServiceProcessorArgs args);
+    protected abstract void ProcessCore(InstallSPSProcessorArgs args);
   }
 }

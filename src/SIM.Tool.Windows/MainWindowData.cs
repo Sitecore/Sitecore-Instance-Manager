@@ -674,7 +674,7 @@ namespace SIM.Tool.Windows
             {
               Label = "Publishing Service",
               Image = "/Images/$lg/install.png, SIM.Tool.Windows",
-              Handler = new SIM.Tool.Windows.MainWindowComponents.InstallPublishingServiceButton()
+              Handler = new SIM.Tool.Windows.MainWindowComponents.InstallSPSButton()
             },
           }
         },
@@ -1145,7 +1145,7 @@ namespace SIM.Tool.Windows
       new ButtonDefinition(),
       new ButtonDefinition { Label = "Delete", Image = "/Images/$sm/uninstall.png, SIM.Tool.Windows", Handler = new SIM.Tool.Windows.MainWindowComponents.DeleteInstanceButton() },
       new ButtonDefinition(),
-      new ButtonDefinition { Label = "Install Publishing Service", Image = "/Images/$sm/install.png, SIM.Tool.Windows", Handler = new SIM.Tool.Windows.MainWindowComponents.InstallPublishingServiceButton() },
+      new ButtonDefinition { Label = "Install Publishing Service", Image = "/Images/$sm/install.png, SIM.Tool.Windows", Handler = new SIM.Tool.Windows.MainWindowComponents.InstallSPSButton() },
     };
 
     public static TabDefinition[] Tabs { get; } = {

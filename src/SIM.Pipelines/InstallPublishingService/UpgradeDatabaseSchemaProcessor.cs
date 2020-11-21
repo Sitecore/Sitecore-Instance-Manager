@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace SIM.Pipelines.InstallPublishingService
 {
-  public class UpgradeDatabaseSchemaProcessor : InstallPublishingServiceProcessor
+  public class UpgradeDatabaseSchemaProcessor : InstallSPSProcessor
   {
-    protected override void ProcessCore(InstallPublishingServiceProcessorArgs args)
+    protected override void ProcessCore(InstallSPSProcessorArgs args)
     {
-      Directory.SetCurrentDirectory(args.PublishingServiceWebroot);
+      Directory.SetCurrentDirectory(args.SPSWebroot);
       Commands.SchemaUpgrade();
     }
   }
