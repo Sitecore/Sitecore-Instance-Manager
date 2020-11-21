@@ -21,7 +21,6 @@ namespace SIM.Pipelines.InstallPublishingService
     {
       if (!args.OverwriteExisting)
       {
-        this.Skip();
         return;
       }
 
@@ -72,7 +71,6 @@ namespace SIM.Pipelines.InstallPublishingService
           retries++;
           Thread.Sleep(RETRY_INTERVAL_MS);
         }
-        Log.Info($"The site {site.Name}'s state is currently {site.State}");
         if (!site.State.Equals(ObjectState.Stopped))
         {
           return false;
@@ -97,7 +95,6 @@ namespace SIM.Pipelines.InstallPublishingService
           retries++;
           Thread.Sleep(RETRY_INTERVAL_MS);
         }
-        Log.Info($"The appl pool {appPool.Name}'s state is currently {appPool.State}");
         if (!appPool.State.Equals(ObjectState.Stopped))
         {
           return false;

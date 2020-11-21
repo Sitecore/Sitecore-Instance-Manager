@@ -11,7 +11,7 @@ namespace SIM.Pipelines.InstallPublishingService
   {
     protected override void ProcessCore(InstallSPSProcessorArgs args)
     {
-      Commands.IISInstall(args.SPSSiteName, args.SPSSiteName);
+      Commands.IISInstall(args.SPSSiteName, args.SPSSiteName, args.SPSPort);
     }
   }
 }

@@ -27,6 +27,7 @@ namespace SIM.Pipelines.InstallPublishingService
 
     private bool ValidateStatusEndpoint(string statusEndpoint)
     {
+      Log.Info($"HTTP GET {statusEndpoint}");
       JObject response;
       using (WebClient wc = new WebClient())
       {
