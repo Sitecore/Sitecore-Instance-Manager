@@ -41,6 +41,6 @@ namespace SIM.Pipelines.InstallPublishingService
       }
     }
 
-    protected abstract void ProcessCore(InstallPublishingServiceProcessorArgs processorArgs);
+    protected abstract void ProcessCore(InstallPublishingServiceProcessorArgs args);
   }
 }
