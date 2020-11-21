@@ -440,6 +440,13 @@ If you get a response with a status of 0, it means your publishing service is ru
               type=""SIM.Tool.Windows.UserControls.Install.PublishingService.ConfigureParameters, SIM.Tool.Windows"" />
       </steps>
     </installpublishingservice>
+    <uninstallpublishingservice title=""Uninstalling Publishing Service"" startButton=""Uninstall""
+    finishText=""The publishing service was uninstalled"">
+      <steps>
+        <step name=""STEP # 1 of 1 - SELECT PUBLISHING SERVICE TO UNINSTALL""
+              type=""SIM.Tool.Windows.UserControls.Install.PublishingService.SelectServiceToUninstall, SIM.Tool.Windows"" />
+      </steps>
+    </uninstallpublishingservice>
   </wizardPipelines>
 </configuration>
 ";

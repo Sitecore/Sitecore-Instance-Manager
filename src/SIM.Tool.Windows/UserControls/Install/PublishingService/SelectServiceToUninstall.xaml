@@ -1,0 +1,23 @@
+﻿<UserControl x:Class="SIM.Tool.Windows.UserControls.Install.PublishingService.SelectServiceToUninstall" 
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d" d:DesignHeight="399" d:DesignWidth="633">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="30" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="30" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <GroupBox Grid.Row="0" Grid.Column="1" Header="Select the publishing service you want to uninstall">
+            <ComboBox x:Name="SPSPackageComboBox"></ComboBox>
+        </GroupBox>
+
+    </Grid>
+</UserControl>

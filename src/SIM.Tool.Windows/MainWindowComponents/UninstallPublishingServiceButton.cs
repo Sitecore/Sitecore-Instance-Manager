@@ -9,7 +9,7 @@
   using SIM.Tool.Base.Wizards;
 
   [UsedImplicitly]
-  public class UninstallPublishingServiceButton : IMainWindowButton
+  public class UninstallSPSButton : IMainWindowButton
   {
     #region Public methods
 
@@ -28,7 +28,7 @@
       if (instance != null)
       {
         var id = MainWindowHelper.GetListItemID(instance.ID);
-        WizardPipelineManager.Start("uninstallpublishingservice", mainWindow, null, null, ignore => MainWindowHelper.MakeInstanceSelected(id), () => new UninstallPublishingServiceWizardArgs(instance));
+        WizardPipelineManager.Start("uninstallpublishingservice", mainWindow, null, null, ignore => MainWindowHelper.MakeInstanceSelected(id), () => new UninstallSPSWizardArgs(instance));
       }
     }
 

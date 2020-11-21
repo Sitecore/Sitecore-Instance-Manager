@@ -308,6 +308,9 @@
     <Compile Include="UserControls\Install\PublishingService\SelectPublishingServicePackage.xaml.cs">
       <DependentUpon>SelectPublishingServicePackage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\Install\PublishingService\SelectServiceToUninstall.xaml.cs">
+      <DependentUpon>SelectServiceToUninstall.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\Install\Validation\ValidationDetails.xaml.cs">
       <DependentUpon>ValidationDetails.xaml</DependentUpon>
     </Compile>
@@ -656,6 +659,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\Install\PublishingService\SelectPublishingServicePackage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\Install\PublishingService\SelectServiceToUninstall.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

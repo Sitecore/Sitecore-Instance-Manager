@@ -687,7 +687,7 @@ namespace SIM.Tool.Windows
                 {
                   Label = "Uninstall",
                   Image = "/Images/$lg/uninstall.png, SIM.Tool.Windows",
-                  Handler = new SIM.Tool.Windows.MainWindowComponents.UninstallPublishingServiceButton(),
+                  Handler = new SIM.Tool.Windows.MainWindowComponents.UninstallSPSButton(),
                 }
               }
             },
