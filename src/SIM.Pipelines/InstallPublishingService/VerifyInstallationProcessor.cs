@@ -40,6 +40,5 @@ namespace SIM.Pipelines.InstallPublishingService
     {
       System.Diagnostics.Process.Start(new ProcessStartInfo(statusEndpoint));
     }
-
   }
 }

@@ -218,6 +218,8 @@
     </processor>
   </import>
   <installpublishingservice title=""Installing Publishing Service"">
+    <processor type=""SIM.Pipelines.InstallPublishingService.RemoveExistingPublishingServiceProcessor, SIM.Pipelines"" 
+                title=""Removing existing publishing service if necessary"" />
     <processor type=""SIM.Pipelines.InstallPublishingService.UnzipPackageProcessor, SIM.Pipelines"" 
                 title=""Unzipping package"" />
     <processor type=""SIM.Pipelines.InstallPublishingService.SetAdminConnectionStringsProcessor, SIM.Pipelines"" 

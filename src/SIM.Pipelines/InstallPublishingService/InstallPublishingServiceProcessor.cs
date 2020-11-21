@@ -17,14 +17,9 @@ namespace SIM.Pipelines.InstallPublishingService
     {
       InstallPublishingServiceProcessorArgs processorArgs = args as InstallPublishingServiceProcessorArgs;
 
-      if (processorArgs == null)
-      {
-        throw new Exception("Invalid ProcessorArgs passed to InstallPublishingServiceProcessor");
-      }
-
       if (AbortPipeline)
       {
-        Log.Warn($"{this} processor was skipped.");
+        Log.Warn($"The {this.GetType().Name} processor was skipped.");
         this.Skip();
         return;
       }
