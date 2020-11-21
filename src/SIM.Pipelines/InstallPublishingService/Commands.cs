@@ -10,10 +10,10 @@ namespace SIM.Pipelines.InstallPublishingService
 {
   public static class Commands
   {
-    private const string SET_CONNECTION_STRING = ".\\Sitecore.Framework.Publishing.Host.exe configuration setconnectionstring {0} \"{1}\"";
-    private const string SCHEMA_UPGRADE = ".\\Sitecore.Framework.Publishing.Host.exe schema upgrade --force";
-    private const string SCHEMA_RESET = ".\\Sitecore.Framework.Publishing.Host.exe schema reset --force";
-    private const string IIS_INSTALL = ".\\Sitecore.Framework.Publishing.Host.exe iis install --sitename \"{0}\" --apppool \"{1}\" --hosts --force";
+    private const string SET_CONNECTION_STRING = "configuration setconnectionstring {0} \"{1}\"";
+    private const string SCHEMA_UPGRADE = "schema upgrade --force";
+    private const string SCHEMA_RESET = "schema reset --force";
+    private const string IIS_INSTALL = "iis install --sitename \"{0}\" --apppool \"{1}\" --port \"{2}\" --hosts --force";
 
     public static void SetConnectionString(string connectionStringName, string connectrionStringValue)
     {
@@ -30,16 +30,16 @@ namespace SIM.Pipelines.InstallPublishingService
       ExecuteCommand(SCHEMA_RESET);
     }
 
-    public static void IISInstall(string siteName, string appPoolName)
+    public static void IISInstall(string siteName, string appPoolName, int port)
     {
-      ExecuteCommand(IIS_INSTALL, siteName, appPoolName);
+      ExecuteCommand(IIS_INSTALL, siteName, appPoolName, port);
     }
 
-    private static void ExecuteCommand(string commandFormat, params object[] args)
+    private static void ExecuteCommand(string commandArgs, params object[] args)
     {
       using (PowerShell PS = PowerShell.Create())
       {
-        PS.AddScript(string.Format(commandFormat, args)).Invoke();
+        PS.AddScript(string.Format(".\\Sitecore.Framework.Publishing.Host.exe " + commandArgs, args)).Invoke();
       }
     }
   }

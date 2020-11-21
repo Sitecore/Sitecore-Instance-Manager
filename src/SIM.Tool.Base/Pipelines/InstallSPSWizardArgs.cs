@@ -43,6 +43,7 @@
       set { _spsPackagePath = value; }
     }
     public string SPSSiteName { get; set; }
+    public int SPSPort { get; set; }
     public Dictionary<string, SqlConnectionStringBuilder> SPSConnectionStrings { get; set; } = new Dictionary<string, SqlConnectionStringBuilder>();
 
     #endregion
@@ -67,6 +68,7 @@
       {
         InstanceName = this.InstanceName,
         SPSSiteName = this.SPSSiteName,
+        SPSPort = this.SPSPort,
         InstanceFolder = this.InstanceFolder,
         SPSInstanceFolder = this.SPSInstanceFolder,
         SPSPackagePath = this._spsPackagePath,

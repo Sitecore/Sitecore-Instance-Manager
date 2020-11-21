@@ -19,12 +19,16 @@
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="110"/>
+                    <ColumnDefinition Width="65"/>
                     <ColumnDefinition Width="20"/>
+                    <ColumnDefinition Width="40"/>
+                    <ColumnDefinition Width="50"/>
                 </Grid.ColumnDefinitions>
-                <TextBox Grid.Column="0" Text="sitecore.publishing" x:Name="SPSSiteNameTextBox"></TextBox>
-                <Label Grid.Column="1" Content="Overwrite if exists?" HorizontalAlignment="Right"/>
-                <CheckBox Grid.Column="2" x:Name="OverwriteIfExistsCheckBox" VerticalAlignment="Center"/>
+                <TextBox Grid.Column="0" x:Name="SiteNameTextBox"></TextBox>
+                <Label Grid.Column="1" Content="Overwrite" HorizontalAlignment="Right"/>
+                <CheckBox Grid.Column="2" x:Name="OverwriteIfExistsCheckBox" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                <Label Grid.Column="3" x:Name="PortLabel" Content="Port" HorizontalAlignment="Right"/>
+                <TextBox Grid.Column="4" x:Name="PortTextBox" VerticalAlignment="Center"/>
             </Grid>
         </GroupBox>
         <GroupBox Grid.Row="1" Grid.Column="1" Header="Publishing service connection strings (typically core, master, web)">
