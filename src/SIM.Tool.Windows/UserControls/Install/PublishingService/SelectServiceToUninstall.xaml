@@ -16,7 +16,7 @@
         </Grid.RowDefinitions>
 
         <GroupBox Grid.Row="0" Grid.Column="1" Header="Select the publishing service you want to uninstall">
-            <ComboBox x:Name="SPSPackageComboBox"></ComboBox>
+            <ComboBox x:Name="SPSComboBox"></ComboBox>
         </GroupBox>
 
     </Grid>
