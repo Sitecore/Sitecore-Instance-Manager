@@ -70,6 +70,7 @@
     <Reference Include="System.Core" />
     <Reference Include="System.IO.Compression" />
     <Reference Include="System.IO.Compression.FileSystem" />
+    <Reference Include="System.Management.Automation, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.Web" />
@@ -102,6 +103,8 @@
     <Compile Include="Import\UpdateDataFolder.cs" />
     <Compile Include="Install\Containers\ConvertLicenseProcessor.cs" />
     <Compile Include="Install\Containers\CopyFilesToDestination.cs" />
+    <Compile Include="Install\Containers\GenerateIdEnvValuesProcessor.cs" />
+    <Compile Include="Install\Containers\InstallDockerToolsProcessor.cs" />
     <Compile Include="Install\Containers\RunDockerProcessor.cs" />
     <Compile Include="Install\Containers\WriteEnvFileProcessor.cs" />
     <Compile Include="Install\GenerateScriptProcessor.cs" />
