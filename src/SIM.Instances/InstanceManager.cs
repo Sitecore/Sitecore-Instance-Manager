@@ -100,7 +100,7 @@ namespace SIM.Instances
 
     public static InstanceManager Default { get; } = new InstanceManager();
 
-    public RangeObservableCollection<Instance> InstancesObservableCollection = new RangeObservableCollection<Instance>();
+    public RangeObservableCollection<Instance> InstancesObservableCollection { get; } = new RangeObservableCollection<Instance>();
 
 
     #endregion

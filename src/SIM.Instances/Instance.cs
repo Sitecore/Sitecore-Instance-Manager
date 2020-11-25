@@ -28,7 +28,6 @@
     private InstanceConfiguration _Configuration;
 
     private Product _Product;
-    private SitecoreEnvironment _SitecoreEnvironment;
 
     #endregion
 
@@ -37,7 +36,7 @@
     public Instance([NotNull] int id)
       : base(id)
     {
-      _SitecoreEnvironment = SitecoreEnvironmentHelper.GetExistingOrNewSitecoreEnvironment(this.Name);
+      this.SitecoreEnvironment = SitecoreEnvironmentHelper.GetExistingOrNewSitecoreEnvironment(this.Name);
     }
 
 
@@ -262,17 +261,7 @@
 
 
     [NotNull]
-    public virtual SitecoreEnvironment SitecoreEnvironment
-    {
-      get
-      {
-        if (_SitecoreEnvironment == null)
-        {
-          _SitecoreEnvironment = SitecoreEnvironmentHelper.GetExistingOrNewSitecoreEnvironment(this.Name);
-        }
-        return _SitecoreEnvironment;
-      }
-    }
+    public virtual SitecoreEnvironment SitecoreEnvironment { get; }
 
     [NotNull]
     public virtual Product Product
