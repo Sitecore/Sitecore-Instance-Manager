@@ -103,6 +103,7 @@
     <Compile Include="Import\UpdateDataFolder.cs" />
     <Compile Include="Install\Containers\ConvertLicenseProcessor.cs" />
     <Compile Include="Install\Containers\CopyFilesToDestination.cs" />
+    <Compile Include="Install\Containers\GenerateEnvironmentData.cs" />
     <Compile Include="Install\Containers\GenerateIdEnvValuesProcessor.cs" />
     <Compile Include="Install\Containers\InstallDockerToolsProcessor.cs" />
     <Compile Include="Install\Containers\RunDockerProcessor.cs" />
