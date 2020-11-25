@@ -3,19 +3,20 @@ using SIM.Pipelines.Processors;
 using Sitecore.Diagnostics.Logging;
 using System;
 using System.Collections.Generic;
+using System.Deployment.Internal;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace SIM.Pipelines.InstallPublishingService
 {
-  public abstract class InstallSPSProcessor : Processor
+  public abstract class SPSProcessor<T> : Processor where T : ProcessorArgs
   {
     protected static bool AbortPipeline = false;
 
     protected override void Process([NotNull] ProcessorArgs args)
     {
-      InstallSPSProcessorArgs processorArgs = args as InstallSPSProcessorArgs;
+      T processorArgs = args as T;
 
       if (AbortPipeline)
       {
@@ -31,11 +32,17 @@ namespace SIM.Pipelines.InstallPublishingService
       catch (Exception ex)
       {
         AbortPipeline = true;
-        Log.Error($"installpublishingservice Pipeline was aborted.  The remaining steps were skipped.");
+        Log.Error($"Publishing Service Pipeline was aborted.  The remaining steps were skipped.");
         throw ex;
       }
     }
 
-    protected abstract void ProcessCore(InstallSPSProcessorArgs args);
+    protected abstract void ProcessCore([NotNull] T args);
+
+    //Kind of a hack so I can resure some of the uninstall sps processors in the RemoveExistingSPSProcessor class
+    internal void DoProcess([NotNull] T args)
+    {
+      this.Process(args);
+    }
   }
 }

@@ -1,6 +1,7 @@
 ﻿using JetBrains.Annotations;
 using Microsoft.Web.Administration;
 using SIM.Adapters.WebServer;
+using SIM.Pipelines.UninstallPublishingService;
 using Sitecore.Diagnostics.Logging;
 using System;
 using System.Collections.Generic;
@@ -12,11 +13,8 @@ using System.Threading.Tasks;
 
 namespace SIM.Pipelines.InstallPublishingService
 {
-  public class RemoveExistingSPSProcessor : InstallSPSProcessor
+  public class RemoveExistingSPSProcessor : SPSProcessor<InstallSPSProcessorArgs>
   {
-    private const int STOP_RETRIES = 6;
-    private const int RETRY_INTERVAL_MS = 5000;
-
     protected override void ProcessCore(InstallSPSProcessorArgs args)
     {
       if (!args.OverwriteExisting)
@@ -24,84 +22,19 @@ namespace SIM.Pipelines.InstallPublishingService
         return;
       }
 
-      using (ServerManager sm = new ServerManager())
+      UninstallSPSProcessorArgs uninstallArgs = new UninstallSPSProcessorArgs()
       {
-        Site spsSite = sm.Sites.FirstOrDefault(s => s.Name.Equals(args.SPSSiteName));
-        ApplicationPool spsAppPool = sm.ApplicationPools.FirstOrDefault(s => s.Name.Equals(args.SPSSiteName));
+        SPSSiteName = args.SPSSiteName,
+        SPSAppPoolName = args.SPSAppPoolName,
+        SPSWebroot = args.SPSWebroot,
+        SkipSPSSite = false,
+        SkipSPSAppPool = false,
+        SkipSPSWebroot = false
+      };
 
-        if (!DeleteSite(sm, spsSite))
-        {
-          throw new Exception($"Could not stop site with the name {args.SPSSiteName}.  Please remove it manually in IIS.");
-        }
-
-        if (!DeleteAppPool(sm, spsAppPool))
-        {
-          throw new Exception($"Could not stop app pool with the name {args.SPSSiteName}.  Please remove it manually in IIS.");
-        }
-
-        sm.CommitChanges();
-      }
-
-      if (Directory.Exists(args.SPSWebroot))
-      {
-        try
-        {
-          Directory.Delete(args.SPSWebroot, true);
-        }
-        catch (IOException ex)
-        {
-          //Unlikely user scenario, but it can occur when you create an instance, then immediately try to overwrite it without restarting SIM
-          throw new Exception($"SIM may be locking the {args.SPSWebroot} folder if it was just created.  Try restarting SIM and installing publishing service again", ex);
-        }
-      }
-    }
-
-    private bool DeleteSite(ServerManager sm, [CanBeNull] Site site)
-    {
-      if (site != null)
-      {
-        int retries = 0;
-        while (!site.State.Equals(ObjectState.Stopped) && retries < STOP_RETRIES)
-        {
-          //If the site is starting/stopping IIS won't accept commands and will throw an error, we'll check if its in a started state first
-          if (site.State.Equals(ObjectState.Started))  
-          {
-            site.Stop();
-          }
-          retries++;
-          Thread.Sleep(RETRY_INTERVAL_MS);
-        }
-        if (!site.State.Equals(ObjectState.Stopped))
-        {
-          return false;
-        }
-        sm.Sites.Remove(site);
-      }
-      return true;
-    }
-
-    private bool DeleteAppPool (ServerManager sm, [CanBeNull] ApplicationPool appPool)
-    {
-      if (appPool != null)
-      {
-        int retries = 0;
-        while (!appPool.State.Equals(ObjectState.Stopped) && retries < STOP_RETRIES)
-        {
-          //If the site is starting/stopping IIS won't accept commands and will throw an error, we'll check if its in a started state first
-          if (appPool.State.Equals(ObjectState.Started))
-          {
-            appPool.Stop();
-          }
-          retries++;
-          Thread.Sleep(RETRY_INTERVAL_MS);
-        }
-        if (!appPool.State.Equals(ObjectState.Stopped))
-        {
-          return false;
-        }
-        sm.ApplicationPools.Remove(appPool);
-      }
-      return true;
+      new RemoveIISSiteProcessor().DoProcess(uninstallArgs);
+      new RemoveAppPoolProcessor().DoProcess(uninstallArgs);
+      new RemoveWebrootFolderProcessor().DoProcess(uninstallArgs);
     }
   }
 }

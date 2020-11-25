@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace SIM.Pipelines.InstallPublishingService
 {
-  public class VerifyInstallationProcessor : InstallSPSProcessor
+  public class VerifyInstallationProcessor : SPSProcessor<InstallSPSProcessorArgs>
   {
     protected override void ProcessCore(InstallSPSProcessorArgs args)
     {

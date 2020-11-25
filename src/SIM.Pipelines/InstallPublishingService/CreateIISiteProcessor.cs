@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SIM.Pipelines.InstallPublishingService
 {
-  public class CreateIISiteProcessor : InstallSPSProcessor
+  public class CreateIISiteProcessor : SPSProcessor<InstallSPSProcessorArgs>
   {
     protected override void ProcessCore(InstallSPSProcessorArgs args)
     {

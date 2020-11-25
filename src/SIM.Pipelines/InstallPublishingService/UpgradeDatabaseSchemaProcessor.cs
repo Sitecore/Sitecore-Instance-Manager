@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SIM.Pipelines.InstallPublishingService
 {
-  public class UpgradeDatabaseSchemaProcessor : InstallSPSProcessor
+  public class UpgradeDatabaseSchemaProcessor : SPSProcessor<InstallSPSProcessorArgs>
   {
     protected override void ProcessCore(InstallSPSProcessorArgs args)
     {

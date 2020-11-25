@@ -12,6 +12,7 @@ namespace SIM.Tool.Windows.UserControls.Install.PublishingService
   /// </summary>
   public partial class SelectServiceToUninstall : IWizardStep, IFlowControl
   {
+    private string InstanceFolder { get; set; }
     public SelectServiceToUninstall()
     {
       InitializeComponent();
@@ -20,6 +21,8 @@ namespace SIM.Tool.Windows.UserControls.Install.PublishingService
     public void InitializeStep(WizardArgs wizardArgs)
     {
       UninstallSPSWizardArgs args = (UninstallSPSWizardArgs)wizardArgs;
+      this.InstanceFolder = args.SPSInstanceFolder;
+
       if (string.IsNullOrEmpty(SiteNameTextBox.Text))
       {
         SiteNameTextBox.Text = "sitecore.publishing";
@@ -30,7 +33,7 @@ namespace SIM.Tool.Windows.UserControls.Install.PublishingService
       }
       if (string.IsNullOrEmpty(WebrootTextBox.Text))
       {
-        WebrootTextBox.Text = Path.Combine(args.SPSInstanceFolder, "sitecore.publishing");
+        WebrootTextBox.Text = Path.Combine(InstanceFolder, "sitecore.publishing");
       }
       return;
     }
@@ -42,9 +45,14 @@ namespace SIM.Tool.Windows.UserControls.Install.PublishingService
 
     public bool OnMovingNext(WizardArgs wizardArgs)
     {
-      Site site;
-      ApplicationPool appPool;
-      string webroot;
+      UninstallSPSWizardArgs args = (UninstallSPSWizardArgs)wizardArgs;
+      args.SkipSPSSite = SkipSiteName.IsChecked ?? false;
+      args.SkipSPSAppPool = SkipAppPool.IsChecked ?? false;
+      args.SkipSPSWebroot = SkipWebrootFolder.IsChecked ?? false;
+
+      Site site = null;
+      ApplicationPool appPool = null;
+      string webroot = "";
 
       using (ServerManager sm = new ServerManager())
       {
@@ -53,28 +61,54 @@ namespace SIM.Tool.Windows.UserControls.Install.PublishingService
       }
       webroot = WebrootTextBox.Text;
 
-      if (site == null)
+      if (site == null && !args.SkipSPSSite)
       {
-        WindowHelper.ShowMessage($"The site {site.Name} was not found in IIS");
+        WindowHelper.ShowMessage($"The site {SiteNameTextBox.Text} was not found in IIS");
         return false;
       }
 
-      if (appPool == null)
+      if (appPool == null && !args.SkipSPSAppPool)
       {
-        WindowHelper.ShowMessage($"The site {appPool.Name} was not found in IIS");
+        WindowHelper.ShowMessage($"The application pool {AppPoolTextBox.Text} was not found in IIS");
         return false;
       }
 
-      if (!Directory.Exists(webroot))
+      if (!Directory.Exists(webroot) && !args.SkipSPSWebroot)
       {
         WindowHelper.ShowMessage($"The {webroot} directory does not exist");
+        return false;
       }
+
+      args.SPSSiteName = site.Name;
+      args.SPSAppPoolName = appPool.Name;
+      args.SPSWebroot = webroot;
       return true;
     }
 
     public bool SaveChanges(WizardArgs wizardArgs)
     {
       return true;
+    }
+
+    private void SiteNameTextBox_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
+    {
+      AppPoolTextBox.Text = SiteNameTextBox.Text;
+      WebrootTextBox.Text = Path.Combine(InstanceFolder, SiteNameTextBox.Text);
+    }
+
+    private void SkipSiteName_Checked(object sender, System.Windows.RoutedEventArgs e)
+    {
+      SiteNameTextBox.IsEnabled = !(SkipSiteName.IsChecked ?? false);
+    }
+
+    private void SkipAppPool_Checked(object sender, System.Windows.RoutedEventArgs e)
+    {
+      AppPoolTextBox.IsEnabled = !(SkipAppPool.IsChecked ?? false);
+    }
+
+    private void SkipWebrootFolder_Checked(object sender, System.Windows.RoutedEventArgs e)
+    {
+      WebrootTextBox.IsEnabled = !(SkipWebrootFolder.IsChecked ?? false);
     }
   }
 }

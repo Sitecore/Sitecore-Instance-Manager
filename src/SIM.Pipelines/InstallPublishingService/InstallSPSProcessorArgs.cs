@@ -20,12 +20,11 @@ namespace SIM.Pipelines.InstallPublishingService
     public string SqlAdminPassword { get; set; }
     public string SPSPackagePath { get; set; }
     public string SPSSiteName { get; set; }
+    public string SPSAppPoolName { get; set; }
+    public string SPSWebroot { get; set; }
     public int SPSPort { get; set; }
     public Dictionary<string, SqlConnectionStringBuilder> SPSConnectionStrings { get; set; }
     public bool OverwriteExisting { get; set; }
-
-    //Other Properties
-    public string SPSWebroot { get { return Path.Combine(SPSInstanceFolder, SPSSiteName); } }
 
     #endregion
   }

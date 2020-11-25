@@ -8,6 +8,8 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="30" />
             <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="40" />
+            <ColumnDefinition Width="20" />
             <ColumnDefinition Width="30" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
@@ -18,15 +20,22 @@
         </Grid.RowDefinitions>
 
         <GroupBox Grid.Row="0" Grid.Column="1" Header="Site name">
-            <TextBox x:Name="SiteNameTextBox"></TextBox>
+            <TextBox x:Name="SiteNameTextBox" TextChanged="SiteNameTextBox_TextChanged"></TextBox>
         </GroupBox>
+        <Label Grid.Row="0" Grid.Column="2" Content="Skip" VerticalAlignment="Center" HorizontalAlignment="Right"></Label>
+        <CheckBox Grid.Row="0" Grid.Column="3" x:Name="SkipSiteName" VerticalAlignment="Center" Checked="SkipSiteName_Checked" Unchecked="SkipSiteName_Checked"></CheckBox>
+        
         <GroupBox Grid.Row="1" Grid.Column="1" Header="Application pool name">
             <TextBox x:Name="AppPoolTextBox"></TextBox>
         </GroupBox>
+        <Label Grid.Row="1" Grid.Column="2" Content="Skip" VerticalAlignment="Center" HorizontalAlignment="Right"></Label>
+        <CheckBox Grid.Row="1" Grid.Column="3" x:Name="SkipAppPool" VerticalAlignment="Center" Checked="SkipAppPool_Checked" Unchecked="SkipAppPool_Checked"></CheckBox>
+        
         <GroupBox Grid.Row="2" Grid.Column="1" Header="Webroot">
             <TextBox x:Name="WebrootTextBox"></TextBox>
         </GroupBox>
-
+        <Label Grid.Row="2" Grid.Column="2" Content="Skip" VerticalAlignment="Center" HorizontalAlignment="Right"></Label>
+        <CheckBox Grid.Row="2" Grid.Column="3" x:Name="SkipWebrootFolder" VerticalAlignment="Center" Checked="SkipWebrootFolder_Checked" Unchecked="SkipWebrootFolder_Checked"></CheckBox>
 
     </Grid>
 </UserControl>

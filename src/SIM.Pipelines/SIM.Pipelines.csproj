@@ -109,7 +109,7 @@
     <Compile Include="Import\UpdateConnectionStrings.cs" />
     <Compile Include="Import\UpdateDataFolder.cs" />
     <Compile Include="InstallPublishingService\CreateIISiteProcessor.cs" />
-    <Compile Include="InstallPublishingService\InstallSPSProcessor.cs" />
+    <Compile Include="InstallPublishingService\SPSProcessor.cs" />
     <Compile Include="InstallPublishingService\InstallSPSProcessorArgs.cs" />
     <Compile Include="InstallPublishingService\Commands.cs" />
     <Compile Include="InstallPublishingService\RemoveExistingSPSProcessor.cs" />
@@ -209,6 +209,10 @@
     <Compile Include="Reinstall\0500 Delete.DeleteWebsite.cs" />
     <Compile Include="Reinstall\0600 Delete.DeleteWebsiteFolder.cs" />
     <Compile Include="Reinstall\0800 Install.Extract.cs" />
+    <Compile Include="UninstallPublishingService\RemoveAppPoolProcessor.cs" />
+    <Compile Include="UninstallPublishingService\RemoveWebrootFolderProcessor.cs" />
+    <Compile Include="UninstallPublishingService\RemoveIISSiteProcessor.cs" />
+    <Compile Include="UninstallPublishingService\UninstallSPSProcessorArgs.cs" />
     <Compile Include="UpdateWebConfigHelper.cs" />
     <Compile Include="Reinstall\ReinstallArgs.cs" />
     <Compile Include="Reinstall\ReinstallProcessor.cs" />

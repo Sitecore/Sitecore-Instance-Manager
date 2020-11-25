@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace SIM.Pipelines.InstallPublishingService
 {
-  public class UnzipSPSPackageProcessor : InstallSPSProcessor
+  public class UnzipSPSPackageProcessor : SPSProcessor<InstallSPSProcessorArgs>
   {
     protected override void ProcessCore(InstallSPSProcessorArgs args)
     {

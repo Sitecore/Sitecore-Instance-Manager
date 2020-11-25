@@ -235,6 +235,14 @@
     <processor type=""SIM.Pipelines.InstallPublishingService.VerifyInstallationProcessor, SIM.Pipelines""
                 title=""Checking status endpoint for errors"" />
   </installpublishingservice>
+  <uninstallpublishingservice title=""Removing Publishing Service"">
+    <processor type=""SIM.Pipelines.UninstallPublishingService.RemoveIISSiteProcessor, SIM.Pipelines"" 
+                title=""Removing iis site"" />
+    <processor type=""SIM.Pipelines.UninstallPublishingService.RemoveAppPoolProcessor, SIM.Pipelines"" 
+                title=""Removing application pool"" />
+    <processor type=""SIM.Pipelines.UninstallPublishingService.RemoveWebrootFolderProcessor, SIM.Pipelines"" 
+                title=""Removing webroot folder"" />
+  </uninstallpublishingservice>
 </pipelines>";
   }
 }

@@ -68,6 +68,8 @@
       {
         InstanceName = this.InstanceName,
         SPSSiteName = this.SPSSiteName,
+        SPSAppPoolName = this.SPSSiteName,
+        SPSWebroot = Path.Combine(this.SPSInstanceFolder, this.SPSSiteName),
         SPSPort = this.SPSPort,
         InstanceFolder = this.InstanceFolder,
         SPSInstanceFolder = this.SPSInstanceFolder,

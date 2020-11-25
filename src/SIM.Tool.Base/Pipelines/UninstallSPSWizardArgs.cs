@@ -7,7 +7,7 @@
   using SIM.Adapters.WebServer;
   using SIM.Instances;
   using SIM.Pipelines.Install;
-  using SIM.Pipelines.InstallPublishingService;
+  using SIM.Pipelines.UninstallPublishingService;
   using SIM.Pipelines.Processors;
   using SIM.Services;
   using SIM.Tool.Base.Converters;
@@ -17,6 +17,8 @@
   {
     public UninstallSPSWizardArgs(Instance instance)
     {
+      this.Instance = instance;
+      this.InstanceName = instance.Name;
     }
 
     #region Properties
@@ -28,12 +30,21 @@
     public string SPSSiteName { get; set; }
     public string SPSAppPoolName { get; set; }
     public string SPSWebroot { get; set; }
-
-
+    public bool SkipSPSSite { get; set; }
+    public bool SkipSPSAppPool { get; set; }
+    public bool SkipSPSWebroot { get; set; }
 
     public override ProcessorArgs ToProcessorArgs()
     {
-      throw new NotImplementedException();
+      return new UninstallSPSProcessorArgs()
+      {
+        SPSSiteName = this.SPSSiteName,
+        SPSAppPoolName = this.SPSAppPoolName,
+        SPSWebroot = this.SPSWebroot,
+        SkipSPSSite = this.SkipSPSSite,
+        SkipSPSAppPool = this.SkipSPSAppPool,
+        SkipSPSWebroot = this.SkipSPSWebroot
+      };
     }
 
     #endregion

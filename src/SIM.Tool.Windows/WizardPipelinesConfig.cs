@@ -429,10 +429,10 @@ But the confirmation will be required if the databases are attached to:
     finishText=""Publishing service installation completed.  Please login into Sitecore and install the Publishing Module via the wizard:
 Sitecore Launchpad > Control Panel > ADMINISTRATION > Install a package
 
-Your browser should have opened a page to:
+If successful your browser should have opened a page to:
 http://{Your Publishing Service Hostname}/api/publishing/operations/status
 
-If you get a response with a status of 0, it means your publishing service is running without any issues. "">
+A response with a status of 0 means your publishing service is running without any issues. "">
       <steps>
         <step name=""STEP # 1 of 2 - SELECT PUBLISHING SERVICE PACKAGE""
               type=""SIM.Tool.Windows.UserControls.Install.PublishingService.SelectPublishingServicePackage, SIM.Tool.Windows"" />

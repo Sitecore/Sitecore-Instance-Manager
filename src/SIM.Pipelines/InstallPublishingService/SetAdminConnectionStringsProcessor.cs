@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SIM.Pipelines.InstallPublishingService
 {
-  public class SetAdminConnectionStringsProcessor : InstallSPSProcessor
+  public class SetAdminConnectionStringsProcessor : SPSProcessor<InstallSPSProcessorArgs>
   {
     //Using the admin credentials for connection strings is necessary to upgrade and reset the database schema
     protected override void ProcessCore(InstallSPSProcessorArgs args)
