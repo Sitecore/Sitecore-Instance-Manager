@@ -22,7 +22,12 @@
 
 <installContainer title=""Deploying new container environment"">
     <step>
-      <processor type=""SIM.Pipelines.Install.Containers.CopyFilesToDestination, SIM.Pipelines"" title=""Copy files to destination folder""/>       
+      <processor type=""SIM.Pipelines.Install.Containers.InstallDockerToolsProcessor, SIM.Pipelines"" title=""Install 'SitecoreDockerTools' ps module""/>      
+      <processor type=""SIM.Pipelines.Install.Containers.CopyFilesToDestination, SIM.Pipelines"" title=""Copy files to destination folder""/>      
+    </step>
+    <step>
+      <processor type=""SIM.Pipelines.Install.Containers.ConvertLicenseProcessor, SIM.Pipelines"" title=""Convert sitecore license""/>
+      <processor type=""SIM.Pipelines.Install.Containers.GenerateIdEnvValuesProcessor, SIM.Pipelines"" title=""Generate 'SITECORE_ID*' .env values""/>
     </step>
     <step>
       <processor type=""SIM.Pipelines.Install.Containers.WriteEnvFileProcessor, SIM.Pipelines"" title=""Write .env file""/>

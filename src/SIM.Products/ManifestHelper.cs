@@ -1,4 +1,7 @@
-﻿namespace SIM.Products
+﻿using SIM.Products.ProductParsers;
+using Sitecore.Diagnostics.InfoService.Client.Model;
+
+namespace SIM.Products
 {
   using System;
   using System.Collections.Generic;
@@ -87,16 +90,35 @@
 
           var result = new[]
           {
-            name, 
-            name + " " + version.SubstringEx(0, 1), 
-            name + " " + version.SubstringEx(0, 3), 
-            name + " " + version.SubstringEx(0, 5), 
+            name,
+            name + " " + version.SubstringEx(0, 1),
+            name + " " + version.SubstringEx(0, 3),
+            name + " " + version.SubstringEx(0, 5),
             name + " " + version + " rev. " + revision
           }
             .Distinct()
             .ToList();
 
           return ProfileSection.Result(result);
+        }
+
+        // Consider fallback product parsers
+        IProductParser[] parsers = ProductManager.ProductParsers;
+
+        foreach (var parser in parsers)
+        {
+          if (parser.TryParseName(packageFile, out originalName))
+          {
+            if (!string.IsNullOrEmpty(originalName))
+            {
+              var result = new List<string>()
+              {
+                originalName
+              };
+
+              return result;
+            }
+          }
         }
 
         return new List<string>(new[]
@@ -212,7 +234,7 @@
                     using (var stream = new MemoryStream())
                     {
                       entry.Extract(stream);
-                      stream.Seek(0,SeekOrigin.Begin);
+                      stream.Seek(0, SeekOrigin.Begin);
                       mainDocument = XmlDocumentEx.LoadStream(stream);
                     }
 
@@ -270,15 +292,15 @@
           return ProfileSection.Result(packageManifest);
         }
 
-        using(var zip = new RealZipFile(new RealFileSystem().ParseFile(packageFile)))
-        if (zip.Entries.Contains("metadata/sc_name.txt") &&
-            zip.Entries.Contains("installer/version"))
-        {
-          Log.Info($"The '{packageFile}' file is considered as Sitecore Package, (type #2)");
-          CacheManager.SetEntry("IsPackage", packageFile, "true");
+        using (var zip = new RealZipFile(new RealFileSystem().ParseFile(packageFile)))
+          if (zip.Entries.Contains("metadata/sc_name.txt") &&
+              zip.Entries.Contains("installer/version"))
+          {
+            Log.Info($"The '{packageFile}' file is considered as Sitecore Package, (type #2)");
+            CacheManager.SetEntry("IsPackage", packageFile, "true");
 
-          return ProfileSection.Result(packageManifest);
-        }
+            return ProfileSection.Result(packageManifest);
+          }
 
         CacheManager.SetEntry("IsPackage", packageFile, "false");
 
