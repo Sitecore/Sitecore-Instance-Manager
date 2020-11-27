@@ -111,7 +111,7 @@ namespace SIM.Sitecore9Installer.Validation.Validators
     {
       HttpClient client = new HttpClient();
 
-      using (Stream stream = client.GetStreamAsync($"{solrUrl}/admin/info/system").Result)
+      using (Stream stream = client.GetStreamAsync($"{solrUrl}/admin/info/system?wt=json").Result)
       using (StreamReader streamReader = new StreamReader(stream))
       using (JsonReader reader = new JsonTextReader(streamReader))
       {
