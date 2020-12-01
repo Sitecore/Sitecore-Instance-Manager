@@ -4,14 +4,20 @@ using System.Management.Automation;
 
 namespace ContainerInstaller
 {
-  public abstract class PSExecutor
+  public class PSExecutor
   {
     private string root;
+    private string script;
 
-    public PSExecutor(string executionDir)
+    public PSExecutor(string executionDir):this(string.Empty, executionDir)
+    {}
+
+    public PSExecutor(string script, string executionDir)
     {
+      this.script = script;
       this.root = executionDir;
     }
+
     public Collection<PSObject> Execute()
     {
       using (PowerShell PowerShellInstance = PowerShell.Create())
@@ -42,6 +48,9 @@ namespace ContainerInstaller
       }
     }
 
-    public abstract string GetScript();
+    public virtual string GetScript()
+    {
+      return script;
+    }
   }
 }

@@ -50,6 +50,8 @@ namespace SIM.Tool.Windows.UserControls.Install.Containers
       args.Tag = (string)this.Tags.SelectedValue;
       args.DockerRoot = ((NameValueModel)this.Topoligies.SelectedItem).Value;
       args.EnvModel = this.envModel;
+      args.Topology = ((NameValueModel)this.Topoligies.SelectedItem).Name.ToString();
+
       return true;
     }
 
