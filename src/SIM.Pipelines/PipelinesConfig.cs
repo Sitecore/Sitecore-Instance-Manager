@@ -40,7 +40,7 @@
 </installContainer>
 <deleteContainer title=""Uninstalling container environment"">
     <step>
-            <processor type=""SIM.Pipelines.Delete.Containers.UpdateHostsProcessor, SIM.Pipelines"" title=""Update hosts file""/>
+            <processor type=""SIM.Pipelines.Delete.Containers.RemoveHostsProcessor, SIM.Pipelines"" title=""Update hosts file""/>
     </step>
 </deleteContainer>
 
