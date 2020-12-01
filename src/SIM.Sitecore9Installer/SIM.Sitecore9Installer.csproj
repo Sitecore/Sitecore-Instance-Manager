@@ -128,6 +128,7 @@
     <Compile Include="Validation\Validators\AppPoolSiteValidator.cs" />
     <Compile Include="Validation\Validators\CmDdsPatchSiteNameValidator.cs" />
     <Compile Include="Validation\Validators\PathExistsValidator.cs" />
+    <Compile Include="Validation\Validators\SolrVersionValidator.cs" />
     <Compile Include="Validation\Validators\SolrServiceValidator.cs" />
     <Compile Include="Validation\Validators\SqlPefixValidator.cs" />
     <Compile Include="Validation\Validators\SqlVersionValidator.cs" />
