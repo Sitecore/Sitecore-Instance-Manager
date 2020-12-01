@@ -93,6 +93,7 @@
     <Compile Include="ConditionEvaluator.cs" />
     <Compile Include="ConfigurationActions.cs" />
     <Compile Include="Delete\CleanUp.cs" />
+    <Compile Include="Delete\Containers\RemoveHostsProcessor.cs" />
     <Compile Include="Delete\DeleteMongoDatabases.cs" />
     <Compile Include="Delete\DeleteRegistryKey.cs" />
     <Compile Include="Delete\DeleteSitecoreEnvironmentData.cs" />
@@ -101,6 +102,7 @@
     <Compile Include="Import\ImportRestoreMongoDatabases.cs" />
     <Compile Include="Import\UpdateConnectionStrings.cs" />
     <Compile Include="Import\UpdateDataFolder.cs" />
+    <Compile Include="Install\Containers\AddHostsProcessor.cs" />
     <Compile Include="Install\Containers\ConvertLicenseProcessor.cs" />
     <Compile Include="Install\Containers\CopyFilesToDestination.cs" />
     <Compile Include="Install\Containers\GenerateEnvironmentData.cs" />

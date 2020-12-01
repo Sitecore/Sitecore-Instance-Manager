@@ -28,6 +28,7 @@
     <step>
       <processor type=""SIM.Pipelines.Install.Containers.ConvertLicenseProcessor, SIM.Pipelines"" title=""Convert sitecore license""/>
       <processor type=""SIM.Pipelines.Install.Containers.GenerateIdEnvValuesProcessor, SIM.Pipelines"" title=""Generate 'SITECORE_ID*' .env values""/>
+      <processor type=""SIM.Pipelines.Install.Containers.AddHostsProcessor, SIM.Pipelines"" title=""Update hosts file""/>
     </step>
     <step>
       <processor type=""SIM.Pipelines.Install.Containers.WriteEnvFileProcessor, SIM.Pipelines"" title=""Write .env file""/>
@@ -37,6 +38,11 @@
       <processor type=""SIM.Pipelines.Install.Containers.RunDockerProcessor, SIM.Pipelines"" title=""Run docker""/>
     </step>
 </installContainer>
+<deleteContainer title=""Uninstalling container environment"">
+    <step>
+            <processor type=""SIM.Pipelines.Delete.Containers.RemoveHostsProcessor, SIM.Pipelines"" title=""Update hosts file""/>
+    </step>
+</deleteContainer>
 
 <install9 title=""Installing the instance"">
     <step>
