@@ -28,7 +28,7 @@
     <step>
       <processor type=""SIM.Pipelines.Install.Containers.ConvertLicenseProcessor, SIM.Pipelines"" title=""Convert sitecore license""/>
       <processor type=""SIM.Pipelines.Install.Containers.GenerateIdEnvValuesProcessor, SIM.Pipelines"" title=""Generate 'SITECORE_ID*' .env values""/>
-      <processor type=""SIM.Pipelines.Install.Containers.UpdateHostsProcessor, SIM.Pipelines"" title=""Update hosts file""/>
+      <processor type=""SIM.Pipelines.Install.Containers.AddHostsProcessor, SIM.Pipelines"" title=""Update hosts file""/>
     </step>
     <step>
       <processor type=""SIM.Pipelines.Install.Containers.WriteEnvFileProcessor, SIM.Pipelines"" title=""Write .env file""/>
