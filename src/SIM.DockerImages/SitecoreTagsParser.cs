@@ -1,75 +1,31 @@
 ﻿using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Net;
 using Newtonsoft.Json;
+using SIM.DockerImages.Helpers;
 using SIM.DockerImages.Models;
 
 namespace SIM.DockerImages
 {
   public class SitecoreTagsParser
   {
-    private const string SitecoreTagsPath = "https://raw.githubusercontent.com/Sitecore/docker-images/master/tags/sitecore-tags.json";
-    
     private readonly IEnumerable<SitecoreTagsEntity> _sitecoreTagsEntities;
-
-    private string SitecoreTagsFilePath
-    {
-      get { return Path.Combine(ApplicationManager.DockerImagesFolder, "sitecore-tags.json"); }
-    }
 
     public SitecoreTagsParser()
     {
-      string json = new WebClient().DownloadString(SitecoreTagsPath);
-
-      if (!string.IsNullOrEmpty(json))
-      {
-        if (!File.Exists(this.SitecoreTagsFilePath))
-        {
-          File.WriteAllText(this.SitecoreTagsFilePath, json);
-        }
-        else if (json != File.ReadAllText(this.SitecoreTagsFilePath))
-        {
-          File.WriteAllText(this.SitecoreTagsFilePath, json);
-        }
-
-        this._sitecoreTagsEntities = JsonConvert.DeserializeObject<IEnumerable<SitecoreTagsEntity>>(json);
-      }
+      this._sitecoreTagsEntities = JsonConvert.DeserializeObject<IEnumerable<SitecoreTagsEntity>>(new FileHelper().GetTagsData());
     }
 
-    public IEnumerable<SitecoreTagsEntity> GetSitecoreTags()
+    public IEnumerable<string> GetSitecoreTags()
     {
-      return _sitecoreTagsEntities;
+      return _sitecoreTagsEntities?.Select(entity => entity.Tags)
+        .SelectMany(tags => tags.Select(tag => tag.Tag));
     }
 
-    public IEnumerable<SitecoreTagsEntity> GetSitecoreTags(string namespaceParam)
+    public IEnumerable<string> GetSitecoreTags(string sitecoreVersionParam, string namespaceParam)
     {
-      if (_sitecoreTagsEntities != null)
-      {
-        return _sitecoreTagsEntities.Where(s => s.Namespace == namespaceParam).ToList();
-      }
-
-      return null;
-    }
-
-    public IEnumerable<SitecoreTagsEntity> GetSitecoreTags(int sitecoreMajorVersionParam)
-    {
-      if (_sitecoreTagsEntities != null)
-      {
-        return _sitecoreTagsEntities.Where(s => s.Tags.Any() && s.Tags.Where(t => t.Tag.StartsWith(sitecoreMajorVersionParam.ToString())).Any()).ToList();
-      }
-
-      return null;
-    }
-
-    public IEnumerable<SitecoreTagsEntity> GetSitecoreTags(string namespaceParam, int sitecoreMajorVersionParam)
-    {
-      if (_sitecoreTagsEntities != null)
-      {
-        return _sitecoreTagsEntities.Where(s => s.Namespace == namespaceParam && s.Tags.Any() && s.Tags.Where(t => t.Tag.StartsWith(sitecoreMajorVersionParam.ToString())).Any()).ToList();
-      }
-
-      return null;
+      return _sitecoreTagsEntities?.Where(entity => entity.Namespace == namespaceParam)
+        .Select(entity => entity.Tags).SelectMany(tags => tags.Select(tag => tag.Tag))
+        .Where(t => t.StartsWith(sitecoreVersionParam));
     }
   }
 }

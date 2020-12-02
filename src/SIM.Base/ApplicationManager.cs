@@ -82,9 +82,6 @@ namespace SIM
 
     public static string AppsFolder { get; }
 
-    [NotNull]
-    public static string DockerImagesFolder { get; }
-
     #endregion
 
     #region Constructors
@@ -111,7 +108,6 @@ namespace SIM
       AppLabel = GetLabel();
       UnInstallParamsFolder = InitializeDataFolder("UnInstallParams");
       TempFolder = InitializeDataFolder("Temp");
-      DockerImagesFolder = InitializeDataFolder("DockerImages");
     }
 
     #endregion

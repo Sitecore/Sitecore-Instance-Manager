@@ -45,7 +45,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Helpers\FileHelper.cs" />
     <Compile Include="Models\SitecoreTagsEntity.cs" />
+    <Compile Include="Models\SitecoreTagsHashEntity.cs" />
     <Compile Include="Models\Tags.cs" />
     <Compile Include="SitecoreTagsParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
