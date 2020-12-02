@@ -33,7 +33,7 @@
     "InstallMongoDbButton",
     /*Settings*/
     "SettingsButton",
-    /*Create Core Patch*/
+    /*Create Hotfix*/
     "CreateSupportHotfixButton",
     /*Create Support Patch*/
     "CreateSupportPatchButton",
