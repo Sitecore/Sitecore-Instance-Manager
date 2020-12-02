@@ -1,10 +1,7 @@
-﻿using SIM.Instances;
+﻿using ContainerInstaller;
+using SIM.Instances;
+using SIM.Pipelines.Install.Containers;
 using SIM.Pipelines.Processors;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SIM.Tool.Base.Pipelines
 {
@@ -23,10 +20,12 @@ namespace SIM.Tool.Base.Pipelines
     public string FilesRoot { get; set; }
     public string Tag { get; set; }
     public string DockerRoot { get; set; }
+    public string DestinationFolder { get; set; }
+    public EnvModel EnvModel { get; set; }
 
     public override ProcessorArgs ToProcessorArgs()
     {
-      throw new NotImplementedException("to do: create new pipeline args type");
+     return new InstallContainerArgs(this.EnvModel, this.DestinationFolder, this.DockerRoot);
     }
   }
 }

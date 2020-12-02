@@ -133,6 +133,7 @@ namespace SIM.Tool.Windows.UserControls.Install.Containers
           SIM.FileSystem.FileSystem.Local.Directory.CreateDirectory(rootPath);
         }
 
+      args.DestinationFolder = rootPath;
       return true;
     }
 

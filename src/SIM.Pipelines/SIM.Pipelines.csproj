@@ -70,6 +70,7 @@
     <Reference Include="System.Core" />
     <Reference Include="System.IO.Compression" />
     <Reference Include="System.IO.Compression.FileSystem" />
+    <Reference Include="System.Management.Automation, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.Web" />
@@ -92,6 +93,7 @@
     <Compile Include="ConditionEvaluator.cs" />
     <Compile Include="ConfigurationActions.cs" />
     <Compile Include="Delete\CleanUp.cs" />
+    <Compile Include="Delete\Containers\RemoveHostsProcessor.cs" />
     <Compile Include="Delete\DeleteMongoDatabases.cs" />
     <Compile Include="Delete\DeleteRegistryKey.cs" />
     <Compile Include="Delete\DeleteSitecoreEnvironmentData.cs" />
@@ -100,6 +102,14 @@
     <Compile Include="Import\ImportRestoreMongoDatabases.cs" />
     <Compile Include="Import\UpdateConnectionStrings.cs" />
     <Compile Include="Import\UpdateDataFolder.cs" />
+    <Compile Include="Install\Containers\AddHostsProcessor.cs" />
+    <Compile Include="Install\Containers\ConvertLicenseProcessor.cs" />
+    <Compile Include="Install\Containers\CopyFilesToDestination.cs" />
+    <Compile Include="Install\Containers\GenerateEnvironmentData.cs" />
+    <Compile Include="Install\Containers\GenerateIdEnvValuesProcessor.cs" />
+    <Compile Include="Install\Containers\InstallDockerToolsProcessor.cs" />
+    <Compile Include="Install\Containers\RunDockerProcessor.cs" />
+    <Compile Include="Install\Containers\WriteEnvFileProcessor.cs" />
     <Compile Include="Install\GenerateScriptProcessor.cs" />
     <Compile Include="Install\GenerateSitecoreEnvironmentData.cs" />
     <Compile Include="Install\GenerateUnInstallParameters.cs" />
@@ -110,6 +120,7 @@
     <Compile Include="Install\0600 UpdateWebConfig.cs" />
     <Compile Include="Install\0650 AddServerTxt.cs" />
     <Compile Include="Install\0900 InstallRoles.cs" />
+    <Compile Include="Install\Containers\InstallContainerArgs.cs" />
     <Compile Include="Install\InstallRolesCommandHelper.cs" />
     <Compile Include="Install\Modules\CreateSolrCores.cs" />
     <Compile Include="Install\Modules\SolrInformation.cs" />
@@ -227,6 +238,10 @@
     <WCFMetadataStorage Include="Service References\SitecoreWebservices\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ContainerInstaller\ContainerInstaller.csproj">
+      <Project>{d9ad90f9-bf6d-4c46-8546-3bed9ff93450}</Project>
+      <Name>ContainerInstaller</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SIM.Adapters\SIM.Adapters.csproj">
       <Project>{CA40C57A-EF4F-474D-BE8B-98E51AE62C1F}</Project>
       <Name>SIM.Adapters</Name>

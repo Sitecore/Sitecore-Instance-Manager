@@ -1,8 +1,10 @@
-﻿using SIM.Sitecore9Installer;
+﻿using ContainerInstaller;
+using SIM.Sitecore9Installer;
 using SIM.Tool.Base;
 using SIM.Tool.Base.Pipelines;
 using SIM.Tool.Base.Wizards;
 using Sitecore.Diagnostics.Base;
+using System;
 using System.IO;
 using System.Linq;
 using System.Windows;
@@ -16,6 +18,9 @@ namespace SIM.Tool.Windows.UserControls.Install.Containers
   public partial class SelectTag : IWizardStep, IFlowControl
   {
     private Window owner;
+    private string productVersion;
+    private string lastRegistry;
+    private EnvModel envModel;
     public SelectTag()
     {
       InitializeComponent();
@@ -26,10 +31,12 @@ namespace SIM.Tool.Windows.UserControls.Install.Containers
       Assert.ArgumentNotNull(wizardArgs, nameof(wizardArgs));
       InstallContainerWizardArgs args = (InstallContainerWizardArgs)wizardArgs;
       this.owner = args.WizardWindow;
-      string[] tags = Directory.GetDirectories(args.FilesRoot);
-      this.Tags.DataContext = tags.Select(t=>new NameValueModel(Path.GetFileName(t),t));
-      this.Tags.SelectedIndex = 0;
-    }    
+      this.productVersion = args.Product.TriVersion;      
+      string[] envFiles = Directory.GetFiles(args.FilesRoot, ".env", SearchOption.AllDirectories);
+      string topologiesFolder = Directory.GetParent(envFiles[0]).Parent.FullName;
+      this.Topoligies.DataContext = Directory.GetDirectories(topologiesFolder).Select(d => new NameValueModel(Path.GetFileName(d), d));
+      this.Topoligies.SelectedIndex = 0;
+    }
 
     public bool OnMovingBack(WizardArgs wizardArgs)
     {
@@ -40,25 +47,20 @@ namespace SIM.Tool.Windows.UserControls.Install.Containers
     {
       Assert.ArgumentNotNull(wizardArgs, nameof(wizardArgs));
       InstallContainerWizardArgs args = (InstallContainerWizardArgs)wizardArgs;
-      args.Tag = ((NameValueModel)this.Tags.SelectedValue).Value;
+      args.Tag = (string)this.Tags.SelectedValue;
       args.DockerRoot = ((NameValueModel)this.Topoligies.SelectedItem).Value;
+      args.EnvModel = this.envModel;
       return true;
     }
 
     public bool SaveChanges(WizardArgs wizardArgs)
     {
       return true;
-    }
-
-    private void Tags_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+    } 
+    
+    private string[] GetTags(string productVersion, string tagNameSpace)
     {
-      NameValueModel tag = (NameValueModel)this.Tags.SelectedValue;
-      if (tag != null)
-      {
-        string[] topoligies = Directory.GetDirectories(tag.Value);
-        this.Topoligies.DataContext = topoligies.Select(t => new NameValueModel(Path.GetFileName(t), t));
-        this.Topoligies.SelectedIndex = 0;
-      }
+      return new string[] { "10.0.0-1909", "10.0.0-ltsc2019", "some random tag"  };
     }
 
     private class NameValueModel
@@ -71,6 +73,39 @@ namespace SIM.Tool.Windows.UserControls.Install.Containers
 
       public string Name { get; }
       public string Value { get; }
+    }
+
+    private void Topoligies_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+    {
+      if (this.Topoligies.SelectedItem == null)
+      {
+        return;
+      }
+
+      NameValueModel topology = (NameValueModel)this.Topoligies.SelectedItem;
+      string envPath = Path.Combine(topology.Value, ".env");
+      EnvModel model = EnvModel.LoadFromFile(envPath);
+      this.envModel = model;
+      if (this.lastRegistry == model.SitecoreRegistry)
+      {
+        return;
+      }
+
+      this.lastRegistry = model.SitecoreRegistry;
+      Uri registry = new Uri("https://" + model.SitecoreRegistry, UriKind.Absolute);
+      this.Tags.DataContext = this.GetTags(this.productVersion, registry.LocalPath.Trim('/'));
+      this.Tags.SelectedIndex = 0;
+    }
+
+    private void Tags_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+    {
+      if (this.Tags.SelectedItem == null)
+      {
+        return;
+      }
+
+      string tag = (string)this.Tags.SelectedItem;
+      this.envModel.SitecoreVersion = tag;
     }
   }
 

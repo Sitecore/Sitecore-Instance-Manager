@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -8,11 +9,22 @@ using System.Threading.Tasks;
 
 namespace ContainerInstaller
 {
-  public class EnvModel : IEnumerable<KeyValuePair<string, string>>
+  public class EnvModel : IEnumerable<NameValuePair>
   {
-    private Dictionary<string, string> variables = new Dictionary<string, string>();
+    private List<NameValuePair> variables = new List<NameValuePair>();
 
     #region Env variables properties
+    public string SitecoreRegistry
+    {
+      get
+      {
+        return this["SITECORE_DOCKER_REGISTRY"];
+      }
+      set
+      {
+        this["SITECORE_DOCKER_REGISTRY"] = value;
+      }
+    }
     public string ProjectName
     {
       get
@@ -107,18 +119,7 @@ namespace ContainerInstaller
       {
         this["SITECORE_ID_CERTIFICATE_PASSWORD"] = value;
       }
-    }
-    public string this[string Name]
-    {
-      get
-      {
-        return this.variables[Name];
-      }
-      set
-      {
-        this.variables[Name] = value;
-      }
-    }
+    } 
 
     public string SitecoreLicense
     {
@@ -156,23 +157,41 @@ namespace ContainerInstaller
       }
     }
     #endregion
-    public IEnumerator<KeyValuePair<string, string>> GetEnumerator()
-    {
-      return ((IEnumerable<KeyValuePair<string, string>>)variables).GetEnumerator();
-    }
 
-    IEnumerator IEnumerable.GetEnumerator()
+    public string this[string Name]
     {
-      return ((IEnumerable<KeyValuePair<string, string>>)variables).GetEnumerator();
-    }
+      get
+      {
+        NameValuePair pair = this.GetPairOrNull(Name);
+        if (pair == null)
+        {
+          throw new InvalidOperationException($"Variable {Name} does not exist");
+        }
 
+        return pair.Value;
+      }
+      set
+      {
+        NameValuePair pair = this.GetPairOrNull(Name);
+        if (pair == null)
+        {
+          pair = new NameValuePair(Name, value);
+          this.variables.Add(pair);
+        }
+        else
+        {
+          pair.Value = value;
+        }
+      }
+    }
+  
     public void SaveToFile(string path)
     {
       using(StreamWriter writer=new StreamWriter(path))
       {
-        foreach(KeyValuePair<string,string> pair in this)
+        foreach(NameValuePair pair in this)
         {
-          writer.WriteLine(string.Format("{0}={1}", pair.Key, pair.Value));
+          writer.WriteLine(string.Format("{0}={1}", pair.Name, pair.Value));
         }
       }
     }
@@ -194,6 +213,21 @@ namespace ContainerInstaller
       }
 
       return model;
+    }
+
+    public IEnumerator<NameValuePair> GetEnumerator()
+    {
+      return ((IEnumerable<NameValuePair>)variables).GetEnumerator();
+    }
+
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+      return ((IEnumerable<NameValuePair>)variables).GetEnumerator();
+    }
+
+    private NameValuePair GetPairOrNull(string name)
+    {
+      return this.variables.FirstOrDefault(v => v.Name == name);
     }
   }
 }
