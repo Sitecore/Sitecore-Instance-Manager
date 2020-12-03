@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace SIM.DockerImages.Models
+namespace ContainerInstaller.Repositories.TagRepository.Models
 {
   public class SitecoreTagsEntity
   {

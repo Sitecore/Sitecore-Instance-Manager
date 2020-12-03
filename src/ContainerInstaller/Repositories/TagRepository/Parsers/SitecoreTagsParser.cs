@@ -1,14 +1,16 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Security.Cryptography;
 using System.Text;
+using ContainerInstaller.Repositories.TagRepository.Models;
 using Newtonsoft.Json;
-using SIM.DockerImages.Models;
+using SIM;
 
-namespace SIM.DockerImages.Helpers
+namespace ContainerInstaller.Repositories.TagRepository.Parsers
 {
-  public class FileHelper
+  public class SitecoreTagsParser
   {
     private const string SitecoreTagsPath = "https://raw.githubusercontent.com/Sitecore/docker-images/master/tags/sitecore-tags.json";
 
@@ -17,6 +19,15 @@ namespace SIM.DockerImages.Helpers
     private string SitecoreTagsFilePath => Path.Combine(ApplicationManager.TempFolder, "sitecore-tags.json");
 
     private string SitecoreTagsHashFilePath => Path.Combine(ApplicationManager.TempFolder, "sitecore-tags-hash.json");
+
+    public SitecoreTagsParser()
+    {
+    }
+
+    public IEnumerable<SitecoreTagsEntity> GetTagsEntities()
+    {
+      return JsonConvert.DeserializeObject<IEnumerable<SitecoreTagsEntity>>(this.GetTagsData());
+    }
 
     public string GetTagsData()
     {

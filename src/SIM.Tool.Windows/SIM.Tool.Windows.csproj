@@ -812,10 +812,6 @@
       <Project>{a124d359-b9bf-44f4-98cb-c40d3d490839}</Project>
       <Name>SIM.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SIM.DockerImages\SIM.DockerImages.csproj">
-      <Project>{baf47b46-a2dc-4b9e-951c-62df9195fc97}</Project>
-      <Name>SIM.DockerImages</Name>
-    </ProjectReference>
     <ProjectReference Include="..\SIM.FileSystem\SIM.FileSystem.csproj">
       <Project>{02B6C2D7-3083-4DF3-B86D-B6D4728C4EF2}</Project>
       <Name>SIM.FileSystem</Name>

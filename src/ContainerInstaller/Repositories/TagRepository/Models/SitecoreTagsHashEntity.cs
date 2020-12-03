@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SIM.DockerImages.Models
+namespace ContainerInstaller.Repositories.TagRepository.Models
 {
   public class SitecoreTagsHashEntity
   {

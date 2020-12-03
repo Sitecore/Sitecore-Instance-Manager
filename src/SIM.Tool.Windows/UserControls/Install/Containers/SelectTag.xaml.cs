@@ -8,7 +8,7 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Windows;
-using SIM.DockerImages;
+using ContainerInstaller.Repositories.TagRepository;
 using TaskDialogInterop;
 
 namespace SIM.Tool.Windows.UserControls.Install.Containers
@@ -22,12 +22,12 @@ namespace SIM.Tool.Windows.UserControls.Install.Containers
     private string productVersion;
     private string lastRegistry;
     private EnvModel envModel;
-    private SitecoreTagsParser sitecoreTagsParser;
+    private readonly ITagRepository tagRepository;
 
     public SelectTag()
     {
       InitializeComponent();
-      this.sitecoreTagsParser = new SitecoreTagsParser();
+      this.tagRepository = GitHubTagRepository.GetInstance();
     }
 
     public void InitializeStep(WizardArgs wizardArgs)
@@ -64,8 +64,7 @@ namespace SIM.Tool.Windows.UserControls.Install.Containers
     
     private string[] GetTags(string productVersion, string tagNameSpace)
     {
-      //return new string[] { "10.0.0-1909", "10.0.0-ltsc2019", "some random tag"  };
-      return this.sitecoreTagsParser.GetSitecoreTags(productVersion, tagNameSpace).ToArray(); ;
+      return this.tagRepository.GetSortedShortSitecoreTags(productVersion, tagNameSpace).ToArray(); ;
     }
 
     private class NameValueModel
