@@ -8,22 +8,24 @@ namespace SIM.DockerImages
 {
   public class SitecoreTagsParser
   {
-    private readonly IEnumerable<SitecoreTagsEntity> _sitecoreTagsEntities;
+    private static IEnumerable<SitecoreTagsEntity> _sitecoreTagsEntities;
+
+    private static IEnumerable<SitecoreTagsEntity> SitecoreTagsEntities =>_sitecoreTagsEntities ?? (_sitecoreTagsEntities =
+                 JsonConvert.DeserializeObject<IEnumerable<SitecoreTagsEntity>>(new FileHelper().GetTagsData()));
 
     public SitecoreTagsParser()
     {
-      this._sitecoreTagsEntities = JsonConvert.DeserializeObject<IEnumerable<SitecoreTagsEntity>>(new FileHelper().GetTagsData());
     }
 
     public IEnumerable<string> GetSitecoreTags()
     {
-      return _sitecoreTagsEntities?.Select(entity => entity.Tags)
+      return SitecoreTagsEntities?.Select(entity => entity.Tags)
         .SelectMany(tags => tags.Select(tag => tag.Tag));
     }
 
     public IEnumerable<string> GetSitecoreTags(string sitecoreVersionParam, string namespaceParam)
     {
-      return _sitecoreTagsEntities?.Where(entity => entity.Namespace == namespaceParam)
+      return SitecoreTagsEntities?.Where(entity => entity.Namespace == namespaceParam)
         .Select(entity => entity.Tags).SelectMany(tags => tags.Select(tag => tag.Tag))
         .Where(t => t.StartsWith(sitecoreVersionParam));
     }
