@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Security.Cryptography;
 using System.Text;
 using ContainerInstaller.Repositories.TagRepository.Models;
 using Newtonsoft.Json;
 using SIM;
+using Sitecore.Diagnostics.Logging;
 
 namespace ContainerInstaller.Repositories.TagRepository.Parsers
 {
@@ -36,7 +38,7 @@ namespace ContainerInstaller.Repositories.TagRepository.Parsers
       if (!this.IsLocalTagsFileValid())
       {
         json = this.DownloadSitecoreTagsFile();
-        if (!string.IsNullOrEmpty(json))
+        if (this.IsValidJson(json))
         {
           File.WriteAllText(this.SitecoreTagsFilePath, json);
           SitecoreTagsHashEntity sitecoreTagsHashEntity = new SitecoreTagsHashEntity
@@ -92,6 +94,20 @@ namespace ContainerInstaller.Repositories.TagRepository.Parsers
       return false;
     }
 
+    private bool IsValidJson(string json)
+    {
+      if (!string.IsNullOrEmpty(json))
+      {
+        IEnumerable<SitecoreTagsEntity> sitecoreTagsEntities = JsonConvert.DeserializeObject<IEnumerable<SitecoreTagsEntity>>(json);
+        if (sitecoreTagsEntities != null && sitecoreTagsEntities.Any())
+        {
+          return true;
+        }
+      }
+
+      return false;
+    }
+
     private string GenerateFileHash(string data)
     {
       var md5 = MD5.Create();
@@ -105,8 +121,11 @@ namespace ContainerInstaller.Repositories.TagRepository.Parsers
       {
         return new WebClient().DownloadString(SitecoreTagsPath);
       }
-      catch
+      catch (Exception ex)
       {
+        Log.Error(ex, string.Format("The '{0}' error occurred during getting the list of tags:{1}{2}", 
+          ex.Message, Environment.NewLine, ex.StackTrace));
+
         return null;
       }
     }

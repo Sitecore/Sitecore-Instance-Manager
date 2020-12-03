@@ -8,6 +8,6 @@ namespace ContainerInstaller.Repositories.TagRepository.Models
 
     public string Namespace { get; set; }
 
-    public IEnumerable<Tags> Tags { get; set; }
+    public IEnumerable<TagEntity> Tags { get; set; }
   }
 }

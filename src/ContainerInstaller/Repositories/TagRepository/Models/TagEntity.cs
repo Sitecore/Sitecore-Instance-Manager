@@ -2,7 +2,7 @@
 
 namespace ContainerInstaller.Repositories.TagRepository.Models
 {
-  public class Tags
+  public class TagEntity
   {
     public string Tag { get; set; }
 
