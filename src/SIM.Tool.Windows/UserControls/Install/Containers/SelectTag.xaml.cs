@@ -25,6 +25,7 @@ namespace SIM.Tool.Windows.UserControls.Install.Containers
     private string lastRegistry;
     private EnvModel envModel;
     private readonly ITagRepository tagRepository;
+    private string defaultProjectName;
 
     public SelectTag()
     {
@@ -42,6 +43,8 @@ namespace SIM.Tool.Windows.UserControls.Install.Containers
       string topologiesFolder = Directory.GetParent(envFiles[0]).Parent.FullName;
       this.Topoligies.DataContext = Directory.GetDirectories(topologiesFolder).Select(d => new NameValueModel(Path.GetFileName(d), d));
       this.Topoligies.SelectedIndex = 0;
+      this.defaultProjectName = args.InstanceName;
+      this.ProjectName.IsChecked = true;
     }
 
     public bool OnMovingBack(WizardArgs wizardArgs)
@@ -56,7 +59,6 @@ namespace SIM.Tool.Windows.UserControls.Install.Containers
       args.Tag = (string)this.Tags.SelectedValue;
       args.DockerRoot = ((NameValueModel)this.Topoligies.SelectedItem).Value;
       this.envModel.SitecoreVersion = args.Tag;
-      this.envModel.ProjectName = args.InstanceName;
       args.EnvModel = this.envModel;
       return true;
     }
@@ -95,6 +97,7 @@ namespace SIM.Tool.Windows.UserControls.Install.Containers
       this.envModel = this.CreateModel(envPath);
       if (this.lastRegistry == this.envModel.SitecoreRegistry)
       {
+        this.UpdateProjectName();
         return;
       }
 
@@ -129,8 +132,26 @@ namespace SIM.Tool.Windows.UserControls.Install.Containers
 
       string tag = (string)this.Tags.SelectedItem;
       this.envModel.SitecoreVersion = tag;
+      this.UpdateProjectName();
+    }
+
+    private void ProjectName_Checked(object sender, RoutedEventArgs e)
+    {
+      this.UpdateProjectName();
+    }
+
+    private void ProjectName_OnUnchecked(object sender, RoutedEventArgs e)
+    {
+      this.envModel.ProjectName = this.defaultProjectName;
+    }
+
+    private void UpdateProjectName()
+    {
+      if (ProjectName.IsChecked == true && this.Topoligies.SelectedItem != null && this.Tags.SelectedItem != null)
+      {
+        this.envModel.ProjectName =
+          $"{this.defaultProjectName}-{((NameValueModel)this.Topoligies.SelectedItem).Name}-{this.Tags.SelectedItem}";
+      }
     }
   }
-
- 
 }
