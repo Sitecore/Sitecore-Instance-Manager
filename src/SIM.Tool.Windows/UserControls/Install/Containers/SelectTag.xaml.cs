@@ -1,7 +1,5 @@
 ﻿using SIM.ContainerInstaller;
 using SIM.Core;
-using SIM.Sitecore9Installer;
-using SIM.Tool.Base;
 using SIM.Tool.Base.Pipelines;
 using SIM.Tool.Base.Profiles;
 using SIM.Tool.Base.Wizards;
@@ -11,7 +9,6 @@ using System.IO;
 using System.Linq;
 using System.Windows;
 using SIM.ContainerInstaller.Repositories.TagRepository;
-using TaskDialogInterop;
 
 namespace SIM.Tool.Windows.UserControls.Install.Containers
 {
@@ -40,8 +37,8 @@ namespace SIM.Tool.Windows.UserControls.Install.Containers
       this.productVersion = args.Product.TriVersion;      
       string[] envFiles = Directory.GetFiles(args.FilesRoot, ".env", SearchOption.AllDirectories);
       string topologiesFolder = Directory.GetParent(envFiles[0]).Parent.FullName;
-      this.Topoligies.DataContext = Directory.GetDirectories(topologiesFolder).Select(d => new NameValueModel(Path.GetFileName(d), d));
-      this.Topoligies.SelectedIndex = 0;
+      this.Topologies.DataContext = Directory.GetDirectories(topologiesFolder).Select(d => new NameValueModel(Path.GetFileName(d), d));
+      this.Topologies.SelectedIndex = 0;
     }
 
     public bool OnMovingBack(WizardArgs wizardArgs)
@@ -54,7 +51,7 @@ namespace SIM.Tool.Windows.UserControls.Install.Containers
       Assert.ArgumentNotNull(wizardArgs, nameof(wizardArgs));
       InstallContainerWizardArgs args = (InstallContainerWizardArgs)wizardArgs;
       args.Tag = (string)this.Tags.SelectedValue;
-      args.DockerRoot = ((NameValueModel)this.Topoligies.SelectedItem).Value;
+      args.DockerRoot = ((NameValueModel)this.Topologies.SelectedItem).Value;
       this.envModel.SitecoreVersion = args.Tag;
       this.envModel.ProjectName = args.InstanceName;
       args.EnvModel = this.envModel;
@@ -85,12 +82,12 @@ namespace SIM.Tool.Windows.UserControls.Install.Containers
 
     private void Topoligies_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
     {
-      if (this.Topoligies.SelectedItem == null)
+      if (this.Topologies.SelectedItem == null)
       {
         return;
       }
 
-      NameValueModel topology = (NameValueModel)this.Topoligies.SelectedItem;
+      NameValueModel topology = (NameValueModel)this.Topologies.SelectedItem;
       string envPath = Path.Combine(topology.Value, ".env");
       this.envModel = this.CreateModel(envPath);
       if (this.lastRegistry == this.envModel.SitecoreRegistry)
