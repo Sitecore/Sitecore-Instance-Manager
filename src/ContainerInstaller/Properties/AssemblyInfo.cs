@@ -5,13 +5,13 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("ContainerInstaller")]
+[assembly: AssemblyTitle("SIM.ContainerInstaller")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("ContainerInstaller")]
-[assembly: AssemblyCopyright("Copyright ©  2020")]
-[assembly: AssemblyTrademark("")]
+[assembly: AssemblyCompany("Sitecore Corporation")]
+[assembly: AssemblyProduct("Sitecore Instance Manager")]
+[assembly: AssemblyCopyright("Copyright © 2001-2020 Sitecore Corporation")]
+[assembly: AssemblyTrademark("Sitecore® is a registered trademark of Sitecore Corporation")]
 [assembly: AssemblyCulture("")]
 [assembly: InternalsVisibleTo("SIM.Tests")]
 

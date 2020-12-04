@@ -1,4 +1,4 @@
-﻿using ContainerInstaller;
+﻿using SIM.ContainerInstaller;
 using SIM.Core;
 using SIM.Sitecore9Installer;
 using SIM.Tool.Base;
@@ -10,7 +10,7 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Windows;
-using ContainerInstaller.Repositories.TagRepository;
+using SIM.ContainerInstaller.Repositories.TagRepository;
 using TaskDialogInterop;
 
 namespace SIM.Tool.Windows.UserControls.Install.Containers

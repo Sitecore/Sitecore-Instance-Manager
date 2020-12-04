@@ -1,14 +1,6 @@
-﻿using SIM.Sitecore9Installer;
-using SIM.Sitecore9Installer.Tasks;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Management.Automation;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.IO;
 
-namespace ContainerInstaller
+namespace SIM.ContainerInstaller
 {
   public class PSFileExecutor:PSExecutor 
   {

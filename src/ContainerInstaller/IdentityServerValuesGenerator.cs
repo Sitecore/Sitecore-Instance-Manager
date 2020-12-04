@@ -5,7 +5,7 @@ using System.Management.Automation;
 using JetBrains.Annotations;
 using Sitecore.Diagnostics.Base;
 
-namespace ContainerInstaller
+namespace SIM.ContainerInstaller
 {
   [UsedImplicitly]
   public class IdentityServerValuesGenerator : IIdentityServerValuesGenerator

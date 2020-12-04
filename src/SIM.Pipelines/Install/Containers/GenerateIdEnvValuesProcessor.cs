@@ -1,4 +1,4 @@
-﻿using ContainerInstaller;
+﻿using SIM.ContainerInstaller;
 using JetBrains.Annotations;
 using SIM.Pipelines.Processors;
 using Sitecore.Diagnostics.Base;

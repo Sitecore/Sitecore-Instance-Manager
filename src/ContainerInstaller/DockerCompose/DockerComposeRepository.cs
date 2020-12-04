@@ -1,11 +1,11 @@
-﻿using ContainerInstaller.DockerCompose.Model;
+﻿using SIM.ContainerInstaller.DockerCompose.Model;
 using System.Collections.Generic;
 using YamlDotNet.Serialization;
 using System.IO;
 using Sitecore.Diagnostics.Base;
 using YamlDotNet.Serialization.NamingConventions;
 
-namespace ContainerInstaller.DockerCompose
+namespace SIM.ContainerInstaller.DockerCompose
 {
   public class DockerComposeRepository : IRepository<object>
   {

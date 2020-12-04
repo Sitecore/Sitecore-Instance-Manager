@@ -5,12 +5,11 @@ using System.Linq;
 using System.Net;
 using System.Security.Cryptography;
 using System.Text;
-using ContainerInstaller.Repositories.TagRepository.Models;
+using SIM.ContainerInstaller.Repositories.TagRepository.Models;
 using Newtonsoft.Json;
-using SIM;
 using Sitecore.Diagnostics.Logging;
 
-namespace ContainerInstaller.Repositories.TagRepository.Parsers
+namespace SIM.ContainerInstaller.Repositories.TagRepository.Parsers
 {
   public class SitecoreTagsParser
   {
