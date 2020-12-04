@@ -1,7 +1,9 @@
 ﻿using ContainerInstaller;
+using SIM.Core;
 using SIM.Sitecore9Installer;
 using SIM.Tool.Base;
 using SIM.Tool.Base.Pipelines;
+using SIM.Tool.Base.Profiles;
 using SIM.Tool.Base.Wizards;
 using Sitecore.Diagnostics.Base;
 using System;
@@ -49,6 +51,8 @@ namespace SIM.Tool.Windows.UserControls.Install.Containers
       InstallContainerWizardArgs args = (InstallContainerWizardArgs)wizardArgs;
       args.Tag = (string)this.Tags.SelectedValue;
       args.DockerRoot = ((NameValueModel)this.Topoligies.SelectedItem).Value;
+      this.envModel.SitecoreVersion = args.Tag;
+      this.envModel.ProjectName = args.InstanceName;
       args.EnvModel = this.envModel;
       return true;
     }
@@ -84,17 +88,32 @@ namespace SIM.Tool.Windows.UserControls.Install.Containers
 
       NameValueModel topology = (NameValueModel)this.Topoligies.SelectedItem;
       string envPath = Path.Combine(topology.Value, ".env");
-      EnvModel model = EnvModel.LoadFromFile(envPath);
-      this.envModel = model;
-      if (this.lastRegistry == model.SitecoreRegistry)
+      this.envModel = this.CreateModel(envPath);
+      if (this.lastRegistry == this.envModel.SitecoreRegistry)
       {
         return;
       }
 
-      this.lastRegistry = model.SitecoreRegistry;
-      Uri registry = new Uri("https://" + model.SitecoreRegistry, UriKind.Absolute);
+      this.lastRegistry = this.envModel.SitecoreRegistry;
+      Uri registry = new Uri("https://" + this.envModel.SitecoreRegistry, UriKind.Absolute);
       this.Tags.DataContext = this.GetTags(this.productVersion, registry.LocalPath.Trim('/'));
       this.Tags.SelectedIndex = 0;
+    }
+
+    private EnvModel CreateModel(string envPath)
+    {
+      EnvModel model = EnvModel.LoadFromFile(envPath);
+      if (string.IsNullOrWhiteSpace(model.SqlAdminPassword))
+      {
+        model.SqlAdminPassword = ProfileManager.Profile.SqlPassword;
+      }
+
+      if (string.IsNullOrWhiteSpace(model.SitecoreAdminPassword))
+      {
+        model.SitecoreAdminPassword = CoreAppSettings.AppLoginAsAdminNewPassword.Value;
+      }
+
+      return model;
     }
 
     private void Tags_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)

@@ -26,6 +26,20 @@
     #region Properties
 
     #region Public properties
+    [NotNull]
+    public string SqlPassword
+    {
+      get
+      {
+        string pwdString = this.ConnectionString.Split(';').FirstOrDefault(s => s.StartsWith("Password="));
+        if (string.IsNullOrEmpty(pwdString))
+        {
+          return string.Empty;
+        }
+
+        return pwdString.Split('=')[1];
+      }
+    }
 
     [NotNull]
     public virtual string ConnectionString
