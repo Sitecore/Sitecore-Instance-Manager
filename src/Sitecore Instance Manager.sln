@@ -49,7 +49,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SIM.Telemetry.Tests", "SIM.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SIM.Sitecore9Installer.Tests", "SIM.Sitecore9Installer.Tests\SIM.Sitecore9Installer.Tests.csproj", "{4BA57663-92B2-43DF-9505-759B0C28EEB1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SIM.ContainerInstaller", "ContainerInstaller\SIM.ContainerInstaller.csproj", "{D9AD90F9-BF6D-4C46-8546-3BED9FF93450}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SIM.ContainerInstaller", "SIM.ContainerInstaller\SIM.ContainerInstaller.csproj", "{D9AD90F9-BF6D-4C46-8546-3BED9FF93450}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SIM.Products.Tests", "SIM.Products.Tests\SIM.Products.Tests.csproj", "{9C3A325B-61BE-40C2-9A77-D790212F1A22}"
 EndProject

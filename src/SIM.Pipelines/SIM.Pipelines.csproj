@@ -238,10 +238,6 @@
     <WCFMetadataStorage Include="Service References\SitecoreWebservices\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ContainerInstaller\SIM.ContainerInstaller.csproj">
-      <Project>{d9ad90f9-bf6d-4c46-8546-3bed9ff93450}</Project>
-      <Name>SIM.ContainerInstaller</Name>
-    </ProjectReference>
     <ProjectReference Include="..\SIM.Adapters\SIM.Adapters.csproj">
       <Project>{CA40C57A-EF4F-474D-BE8B-98E51AE62C1F}</Project>
       <Name>SIM.Adapters</Name>
@@ -249,6 +245,10 @@
     <ProjectReference Include="..\SIM.Base\SIM.Base.csproj">
       <Project>{CA9339A0-9A7D-4900-839E-F21B7269BDAA}</Project>
       <Name>SIM.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SIM.ContainerInstaller\SIM.ContainerInstaller.csproj">
+      <Project>{d9ad90f9-bf6d-4c46-8546-3bed9ff93450}</Project>
+      <Name>SIM.ContainerInstaller</Name>
     </ProjectReference>
     <ProjectReference Include="..\SIM.FileSystem\SIM.FileSystem.csproj">
       <Project>{02B6C2D7-3083-4DF3-B86D-B6D4728C4EF2}</Project>
