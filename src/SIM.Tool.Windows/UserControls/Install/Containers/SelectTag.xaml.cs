@@ -8,6 +8,7 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Windows;
+using SIM.Tool.Windows.Dialogs;
 using TaskDialogInterop;
 
 namespace SIM.Tool.Windows.UserControls.Install.Containers
@@ -15,7 +16,7 @@ namespace SIM.Tool.Windows.UserControls.Install.Containers
   /// <summary>
   /// Interaction logic for Instance9SelectTasks.xaml
   /// </summary>
-  public partial class SelectTag : IWizardStep, IFlowControl
+  public partial class SelectTag : IWizardStep, IFlowControl, ICustomButton
   {
     private Window owner;
     private string productVersion;
@@ -107,7 +108,12 @@ namespace SIM.Tool.Windows.UserControls.Install.Containers
       string tag = (string)this.Tags.SelectedItem;
       this.envModel.SitecoreVersion = tag;
     }
-  }
 
- 
+    public string CustomButtonText { get => "Advanced..."; }
+
+    public void CustomButtonClick()
+    {
+      WindowHelper.ShowDialog<ContainerVariablesEditor>(this.envModel.ToList(), this.owner);
+    }
+  }
 }
