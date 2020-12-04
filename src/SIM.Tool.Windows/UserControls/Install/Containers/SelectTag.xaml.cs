@@ -10,6 +10,7 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Windows;
+using ContainerInstaller.Repositories.TagRepository;
 using TaskDialogInterop;
 
 namespace SIM.Tool.Windows.UserControls.Install.Containers
@@ -23,9 +24,12 @@ namespace SIM.Tool.Windows.UserControls.Install.Containers
     private string productVersion;
     private string lastRegistry;
     private EnvModel envModel;
+    private readonly ITagRepository tagRepository;
+
     public SelectTag()
     {
       InitializeComponent();
+      this.tagRepository = GitHubTagRepository.GetInstance();
     }
 
     public void InitializeStep(WizardArgs wizardArgs)
@@ -64,7 +68,7 @@ namespace SIM.Tool.Windows.UserControls.Install.Containers
     
     private string[] GetTags(string productVersion, string tagNameSpace)
     {
-      return new string[] { "10.0.0-1909", "10.0.0-ltsc2019", "some random tag"  };
+      return this.tagRepository.GetSortedShortSitecoreTags(productVersion, tagNameSpace).ToArray(); ;
     }
 
     private class NameValueModel
