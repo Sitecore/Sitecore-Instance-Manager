@@ -119,11 +119,6 @@ namespace SIM.Tool.Windows.UserControls.Install.Containers
         model.SitecoreAdminPassword = CoreAppSettings.AppLoginAsAdminNewPassword.Value;
       }
 
-      if (string.IsNullOrWhiteSpace(model.SitecoreLicense))
-      {
-        model.SitecoreLicense = ProfileManager.Profile.License;
-      }
-
       return model;
     }
 
