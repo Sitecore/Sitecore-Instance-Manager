@@ -5,9 +5,11 @@ using SIM.Tool.Base.Pipelines;
 using SIM.Tool.Base.Wizards;
 using Sitecore.Diagnostics.Base;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows;
+using SIM.Tool.Base.Profiles;
 using SIM.Tool.Windows.Dialogs;
 using TaskDialogInterop;
 
@@ -87,6 +89,7 @@ namespace SIM.Tool.Windows.UserControls.Install.Containers
       string envPath = Path.Combine(topology.Value, ".env");
       EnvModel model = EnvModel.LoadFromFile(envPath);
       this.envModel = model;
+      this.envModel.SitecoreLicense = ProfileManager.Profile.License;
       if (this.lastRegistry == model.SitecoreRegistry)
       {
         return;
@@ -114,6 +117,29 @@ namespace SIM.Tool.Windows.UserControls.Install.Containers
     public void CustomButtonClick()
     {
       WindowHelper.ShowDialog<ContainerVariablesEditor>(this.envModel.ToList(), this.owner);
+      this.UpdateTagsControl(this.envModel.SitecoreVersion);
+    }
+
+    private void UpdateTagsControl(string tag)
+    {
+      if (this.Topoligies.SelectedItem != null && !string.Equals((string)this.Tags.SelectedItem, tag, StringComparison.InvariantCultureIgnoreCase))
+      {
+        foreach (string item in this.Tags.ItemsSource)
+        {
+          if (string.Equals(item, tag, StringComparison.InvariantCultureIgnoreCase))
+          {
+            this.Tags.SelectedItem = item;
+            return;
+          }
+        }
+
+        List<string> tagsItems = new List<string>(this.Tags.ItemsSource as IEnumerable<string>)
+        {
+          tag
+        };
+        this.Tags.DataContext = tagsItems;
+        this.Tags.SelectedIndex = this.Tags.Items.Count - 1;
+      }
     }
   }
 }
