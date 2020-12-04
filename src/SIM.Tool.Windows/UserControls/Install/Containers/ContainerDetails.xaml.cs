@@ -198,7 +198,7 @@ namespace SIM.Tool.Windows.UserControls.Install.Containers
           return;
         }
 
-        var name = product.DefaultInstanceName;
+        var name = product.ShortName.Replace(" ", "");
         InstanceName.Text = name;
 
       }
