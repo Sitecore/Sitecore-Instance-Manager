@@ -25,7 +25,7 @@ namespace SIM.Pipelines.Install.Containers
 
       string script = GetScript(args);
 
-      PSExecutor ps = new PSExecutor(script, destinationFolder);
+      PSExecutor ps = new PSScriptExecutor(destinationFolder, script);
 
       var result = ps.Execute();
     }
