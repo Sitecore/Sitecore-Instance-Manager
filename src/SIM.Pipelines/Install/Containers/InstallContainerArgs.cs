@@ -1,27 +1,33 @@
-﻿using ContainerInstaller;
+﻿using System;
+using System.Globalization;
+using ContainerInstaller;
 using SIM.Pipelines.Processors;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SIM.Pipelines.Install.Containers
 {
-  public class InstallContainerArgs:ProcessorArgs
+  public enum Topology
   {
-    public InstallContainerArgs(EnvModel model, string destination, string filesRoot)
+    Xm1,
+    Xp0,
+    Xp1
+  }
+
+  public class InstallContainerArgs : ProcessorArgs
+  {
+
+    public InstallContainerArgs(EnvModel model, string destination, string filesRoot, string topology)
     {
       this.EnvModel = model;
       this.FilesRoot = filesRoot;
       this.Destination = destination;
+      this.Topology = (Topology)Enum.Parse(typeof(Topology), topology, true);
     }
     public EnvModel EnvModel { get; }
     public string Destination
     {
       get; set;
     }
-
+    public Topology Topology { get; }
     public string FilesRoot
     {
       get;

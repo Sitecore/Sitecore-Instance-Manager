@@ -58,6 +58,8 @@ namespace SIM.Tool.Windows.UserControls.Install.Containers
       this.envModel.SitecoreVersion = args.Tag;
       this.envModel.ProjectName = args.InstanceName;
       args.EnvModel = this.envModel;
+      args.Topology = ((NameValueModel)this.Topoligies.SelectedItem).Name.ToString();
+
       return true;
     }
 

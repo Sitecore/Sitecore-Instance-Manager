@@ -1,4 +1,5 @@
-﻿using ContainerInstaller;
+﻿using System.Security.Permissions;
+using ContainerInstaller;
 using SIM.Instances;
 using SIM.Pipelines.Install.Containers;
 using SIM.Pipelines.Processors;
@@ -9,12 +10,10 @@ namespace SIM.Tool.Base.Pipelines
   {
     public InstallContainerWizardArgs() : base()
     {
-
     }
 
     public InstallContainerWizardArgs(Instance instance) : base(instance)
     {
-
     }
 
     public string FilesRoot { get; set; }
@@ -22,10 +21,11 @@ namespace SIM.Tool.Base.Pipelines
     public string DockerRoot { get; set; }
     public string DestinationFolder { get; set; }
     public EnvModel EnvModel { get; set; }
+    public string Topology { get; set; }
 
     public override ProcessorArgs ToProcessorArgs()
     {
-     return new InstallContainerArgs(this.EnvModel, this.DestinationFolder, this.DockerRoot);
+     return new InstallContainerArgs(this.EnvModel, this.DestinationFolder, this.DockerRoot, this.Topology);
     }
   }
 }
