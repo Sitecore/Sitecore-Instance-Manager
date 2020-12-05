@@ -273,9 +273,6 @@
     <Compile Include="UserControls\Install\Containers\SelectTag.xaml.cs">
       <DependentUpon>SelectTag.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\Install\Containers\SetEnvValues.xaml.cs">
-      <DependentUpon>SetEnvValues.xaml</DependentUpon>
-    </Compile>
     <Compile Include="UserControls\Install\Instance9Details.xaml.cs">
       <DependentUpon>Instance9Details.xaml</DependentUpon>
     </Compile>
@@ -633,10 +630,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="UserControls\Install\Containers\SelectTag.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="UserControls\Install\Containers\SetEnvValues.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
