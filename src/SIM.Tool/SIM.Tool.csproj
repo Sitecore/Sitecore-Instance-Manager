@@ -511,6 +511,9 @@
     <Content Include="ContainerFiles\Scripts\InstallDockerToolsModuleScript.ps1">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="ContainerFiles\Scripts\TelerikKeyGeneratorScript.ps1">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="GlobalParamsConfig\XP\GlobalParams_9.2_XP0.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
