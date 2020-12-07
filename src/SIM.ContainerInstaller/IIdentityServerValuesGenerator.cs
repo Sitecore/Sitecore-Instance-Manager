@@ -1,4 +1,4 @@
-﻿namespace ContainerInstaller
+﻿namespace SIM.ContainerInstaller
 {
   public interface IIdentityServerValuesGenerator
   {

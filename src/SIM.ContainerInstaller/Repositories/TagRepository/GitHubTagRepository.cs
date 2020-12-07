@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using ContainerInstaller.Repositories.TagRepository.Models;
-using ContainerInstaller.Repositories.TagRepository.Parsers;
+using SIM.ContainerInstaller.Repositories.TagRepository.Models;
+using SIM.ContainerInstaller.Repositories.TagRepository.Parsers;
 
-namespace ContainerInstaller.Repositories.TagRepository
+namespace SIM.ContainerInstaller.Repositories.TagRepository
 {
   public class GitHubTagRepository : ITagRepository
   {

@@ -2,7 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Management.Automation;
 
-namespace ContainerInstaller
+namespace SIM.ContainerInstaller
 {
   public abstract class PSExecutor
   {

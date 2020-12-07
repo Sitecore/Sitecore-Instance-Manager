@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace ContainerInstaller.DockerCompose
+namespace SIM.ContainerInstaller.DockerCompose
 {
   public interface IRepository<T>
     where T : class

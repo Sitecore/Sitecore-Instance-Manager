@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace ContainerInstaller.Repositories.TagRepository
+namespace SIM.ContainerInstaller.Repositories.TagRepository
 {
   public interface ITagRepository
   {

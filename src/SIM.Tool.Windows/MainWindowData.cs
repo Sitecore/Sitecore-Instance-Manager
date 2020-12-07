@@ -77,7 +77,7 @@ namespace SIM.Tool.Windows
                 },
                 new ButtonDefinition
                 {
-                  Label = "Deploy sitecore in container",
+                  Label = "Deploy Sitecore XP in container",
                   Image = "/Images/$lg/add_domain.png, SIM.Tool.Windows",
                   Handler = new SIM.Tool.Windows.MainWindowComponents.InstallContainerButton()
                 }

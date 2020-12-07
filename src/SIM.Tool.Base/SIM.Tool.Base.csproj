@@ -156,10 +156,6 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ContainerInstaller\ContainerInstaller.csproj">
-      <Project>{d9ad90f9-bf6d-4c46-8546-3bed9ff93450}</Project>
-      <Name>ContainerInstaller</Name>
-    </ProjectReference>
     <ProjectReference Include="..\SIM.Adapters\SIM.Adapters.csproj">
       <Project>{CA40C57A-EF4F-474D-BE8B-98E51AE62C1F}</Project>
       <Name>SIM.Adapters</Name>
@@ -167,6 +163,10 @@
     <ProjectReference Include="..\SIM.Base\SIM.Base.csproj">
       <Project>{CA9339A0-9A7D-4900-839E-F21B7269BDAA}</Project>
       <Name>SIM.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SIM.ContainerInstaller\SIM.ContainerInstaller.csproj">
+      <Project>{d9ad90f9-bf6d-4c46-8546-3bed9ff93450}</Project>
+      <Name>SIM.ContainerInstaller</Name>
     </ProjectReference>
     <ProjectReference Include="..\SIM.Core\SIM.Core.csproj">
       <Project>{a124d359-b9bf-44f4-98cb-c40d3d490839}</Project>
