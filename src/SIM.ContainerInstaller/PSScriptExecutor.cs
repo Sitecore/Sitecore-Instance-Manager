@@ -1,7 +1,6 @@
-﻿using SIM.ContainerInstaller;
-using Sitecore.Diagnostics.Base;
+﻿using Sitecore.Diagnostics.Base;
 
-namespace ContainerInstaller
+namespace SIM.ContainerInstaller
 {
   public class PSScriptExecutor : PSExecutor
   {
