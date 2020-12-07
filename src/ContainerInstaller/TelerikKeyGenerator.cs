@@ -4,7 +4,7 @@ using System.IO;
 using System.Management.Automation;
 using JetBrains.Annotations;
 
-namespace ContainerInstaller
+namespace SIM.ContainerInstaller
 {
   [UsedImplicitly]
   public class TelerikKeyGenerator : ITelerikKeyGenerator
