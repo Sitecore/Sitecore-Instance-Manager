@@ -238,12 +238,10 @@ By clicking 'Next' you accept the License Agreement."" />
     <installContainer title=""Installing new instance"" startButton=""Install""
              finishText=""The installation was successfully completed"">
       <steps>
-        <step name=""STEP 1 of 3 - DETAILS"" 
+        <step name=""STEP 1 of 2 - DETAILS"" 
               type=""SIM.Tool.Windows.UserControls.Install.Containers.ContainerDetails, SIM.Tool.Windows"" />
-        <step name=""STEP 2 of 3 - Select Tag"" 
+        <step name=""STEP 2 of 2 - SELECT TOPOLOGY AND TAG"" 
               type=""SIM.Tool.Windows.UserControls.Install.Containers.SelectTag, SIM.Tool.Windows"" />
-        <step name=""STEP 3 of 3 - Set environment variables"" 
-              type=""SIM.Tool.Windows.UserControls.Install.Containers.SetEnvValues, SIM.Tool.Windows"" />
      </steps>   
     </installContainer>
     <install title=""Installing new instance"" startButton=""Install""

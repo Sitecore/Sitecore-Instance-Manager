@@ -1,12 +1,14 @@
-﻿namespace SIM.SitecoreEnvironments
+﻿using Newtonsoft.Json;
+
+namespace SIM.SitecoreEnvironments
 {
   public class SitecoreEnvironmentMember
   {
     public SitecoreEnvironmentMember(string name, string type):this(name,type,false)
     {
-
     }
 
+    [JsonConstructor]
     public SitecoreEnvironmentMember(string name, string type, bool isContainer)
     {
       this.Name = name;
