@@ -126,7 +126,7 @@ namespace SIM.Instances
 
       List<Instance> instances = new List<Instance>();
 
-      instances.AddRange(GetIISInstances());
+      if(ApplicationManager.IsIisRunning) {instances.AddRange(GetIISInstances());}
 
       instances.AddRange(GetContainerizedInstances());
 
