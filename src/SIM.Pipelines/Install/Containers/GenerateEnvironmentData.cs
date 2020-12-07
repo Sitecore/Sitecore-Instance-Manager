@@ -6,8 +6,8 @@ using Sitecore.Diagnostics.Base;
 using SIM.SitecoreEnvironments;
 using System.Collections.Generic;
 using System.Linq;
-using ContainerInstaller.DockerCompose;
-using ContainerInstaller.DockerCompose.Model;
+using SIM.ContainerInstaller.DockerCompose;
+using SIM.ContainerInstaller.DockerCompose.Model;
 
 namespace SIM.Pipelines.Install.Containers
 {

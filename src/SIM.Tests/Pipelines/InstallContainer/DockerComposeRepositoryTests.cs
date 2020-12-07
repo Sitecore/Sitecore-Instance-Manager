@@ -1,5 +1,5 @@
-﻿using ContainerInstaller.DockerCompose;
-using ContainerInstaller.DockerCompose.Model;
+﻿using SIM.ContainerInstaller.DockerCompose;
+using SIM.ContainerInstaller.DockerCompose.Model;
 using NSubstitute;
 using Xunit;
 

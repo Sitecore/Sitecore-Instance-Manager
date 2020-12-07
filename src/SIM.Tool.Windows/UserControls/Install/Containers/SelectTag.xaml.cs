@@ -1,7 +1,5 @@
-﻿using ContainerInstaller;
+﻿using SIM.ContainerInstaller;
 using SIM.Core;
-using SIM.Sitecore9Installer;
-using SIM.Tool.Base;
 using SIM.Tool.Base.Pipelines;
 using SIM.Tool.Base.Profiles;
 using SIM.Tool.Base.Wizards;
@@ -12,8 +10,8 @@ using System.IO;
 using System.Linq;
 using System.Windows;
 using SIM.Tool.Windows.Dialogs;
-using ContainerInstaller.Repositories.TagRepository;
-using TaskDialogInterop;
+using SIM.ContainerInstaller.Repositories.TagRepository;
+using SIM.Tool.Base;
 
 namespace SIM.Tool.Windows.UserControls.Install.Containers
 {
@@ -27,6 +25,7 @@ namespace SIM.Tool.Windows.UserControls.Install.Containers
     private string lastRegistry;
     private EnvModel envModel;
     private readonly ITagRepository tagRepository;
+    private string defaultProjectName;
 
     public SelectTag()
     {
@@ -42,8 +41,10 @@ namespace SIM.Tool.Windows.UserControls.Install.Containers
       this.productVersion = args.Product.TriVersion;      
       string[] envFiles = Directory.GetFiles(args.FilesRoot, ".env", SearchOption.AllDirectories);
       string topologiesFolder = Directory.GetParent(envFiles[0]).Parent.FullName;
-      this.Topoligies.DataContext = Directory.GetDirectories(topologiesFolder).Select(d => new NameValueModel(Path.GetFileName(d), d));
-      this.Topoligies.SelectedIndex = 0;
+      this.Topologies.DataContext = Directory.GetDirectories(topologiesFolder).Select(d => new NameValueModel(Path.GetFileName(d), d));
+      this.Topologies.SelectedIndex = 0;
+      this.defaultProjectName = args.InstanceName;
+      this.ProjectName.IsChecked = true;
     }
 
     public bool OnMovingBack(WizardArgs wizardArgs)
@@ -56,11 +57,10 @@ namespace SIM.Tool.Windows.UserControls.Install.Containers
       Assert.ArgumentNotNull(wizardArgs, nameof(wizardArgs));
       InstallContainerWizardArgs args = (InstallContainerWizardArgs)wizardArgs;
       args.Tag = (string)this.Tags.SelectedValue;
-      args.DockerRoot = ((NameValueModel)this.Topoligies.SelectedItem).Value;
+      args.DockerRoot = ((NameValueModel)this.Topologies.SelectedItem).Value;
       this.envModel.SitecoreVersion = args.Tag;
-      this.envModel.ProjectName = args.InstanceName;
       args.EnvModel = this.envModel;
-      args.Topology = ((NameValueModel)this.Topoligies.SelectedItem).Name.ToString();
+      args.Topology = ((NameValueModel)this.Topologies.SelectedItem).Name.ToString();
 
       return true;
     }
@@ -87,18 +87,19 @@ namespace SIM.Tool.Windows.UserControls.Install.Containers
       public string Value { get; }
     }
 
-    private void Topoligies_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+    private void Topologies_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
     {
-      if (this.Topoligies.SelectedItem == null)
+      if (this.Topologies.SelectedItem == null)
       {
         return;
       }
 
-      NameValueModel topology = (NameValueModel)this.Topoligies.SelectedItem;
+      NameValueModel topology = (NameValueModel)this.Topologies.SelectedItem;
       string envPath = Path.Combine(topology.Value, ".env");
       this.envModel = this.CreateModel(envPath);
       if (this.lastRegistry == this.envModel.SitecoreRegistry)
       {
+        this.UpdateProjectName();
         return;
       }
 
@@ -138,8 +139,28 @@ namespace SIM.Tool.Windows.UserControls.Install.Containers
 
       string tag = (string)this.Tags.SelectedItem;
       this.envModel.SitecoreVersion = tag;
+      this.UpdateProjectName();
     }
 
+    private void ProjectName_Checked(object sender, RoutedEventArgs e)
+    {
+      this.UpdateProjectName();
+    }
+
+    private void ProjectName_OnUnchecked(object sender, RoutedEventArgs e)
+    {
+      this.envModel.ProjectName = this.defaultProjectName;
+    }
+
+    private void UpdateProjectName()
+    {
+      if (ProjectName.IsChecked == true && this.Topologies.SelectedItem != null && this.Tags.SelectedItem != null)
+      {
+        this.envModel.ProjectName =
+          $"{this.defaultProjectName}-{((NameValueModel)this.Topologies.SelectedItem).Name}-{this.Tags.SelectedItem}";
+      }
+    }
+      
     public string CustomButtonText { get => "Advanced..."; }
 
     public void CustomButtonClick()
@@ -150,7 +171,7 @@ namespace SIM.Tool.Windows.UserControls.Install.Containers
 
     private void UpdateTagsControl(string tag)
     {
-      if (this.Topoligies.SelectedItem != null && !string.Equals((string)this.Tags.SelectedItem, tag, StringComparison.InvariantCultureIgnoreCase))
+      if (this.Topologies.SelectedItem != null && !string.Equals((string)this.Tags.SelectedItem, tag, StringComparison.InvariantCultureIgnoreCase))
       {
         foreach (string item in this.Tags.ItemsSource)
         {

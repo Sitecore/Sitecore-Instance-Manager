@@ -5,10 +5,9 @@
 
   public class SitecoreEnvironment
   {
-    private EnvironmentType _type;
     public SitecoreEnvironment()
     {
-      this._type = EnvironmentType.OnPrem;
+      this.EnvType = EnvironmentType.OnPrem;
     }
 
     public SitecoreEnvironment(string instanceName) : this(instanceName, EnvironmentType.OnPrem) { }
@@ -16,7 +15,7 @@
     {
       ID = Guid.NewGuid();
       Name = instanceName;
-      this._type = type;
+      this.EnvType = type;
     }
 
     public Guid ID { get; set; }

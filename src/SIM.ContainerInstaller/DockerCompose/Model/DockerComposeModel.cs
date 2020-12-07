@@ -2,7 +2,7 @@
 using YamlDotNet.Core;
 using YamlDotNet.Serialization;
 
-namespace ContainerInstaller.DockerCompose.Model
+namespace SIM.ContainerInstaller.DockerCompose.Model
 {
   public class DockerComposeModel
   {

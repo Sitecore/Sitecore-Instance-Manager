@@ -1,4 +1,4 @@
-﻿using ContainerInstaller;
+﻿using SIM.ContainerInstaller;
 using Sitecore.Diagnostics.Base;
 using System.Collections.Generic;
 using System.Windows;
