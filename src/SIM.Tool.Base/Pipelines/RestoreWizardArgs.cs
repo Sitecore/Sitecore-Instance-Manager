@@ -1,10 +1,13 @@
 ﻿namespace SIM.Tool.Base.Pipelines
 {
+  using SIM.Core.Common;
   using SIM.Instances;
+  using SIM.IO.Real;
   using SIM.Pipelines.Processors;
   using SIM.Pipelines.Restore;
   using SIM.Tool.Base.Wizards;
   using Sitecore.Diagnostics.Base;
+  using System.Data.SqlClient;
 
   public class RestoreWizardArgs : WizardArgs
   {
@@ -44,7 +47,7 @@
     public override ProcessorArgs ToProcessorArgs()
     {
       Assert.IsNotNull(Backup, "Any backup wasn\'t chosen");
-      return new RestoreArgs(Instance, Backup);
+      return new RestoreArgs(Instance, new SqlConnectionStringBuilder(Profile.Read(new RealFileSystem()).ConnectionString), Backup);
     }
 
     #endregion

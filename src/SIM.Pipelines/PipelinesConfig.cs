@@ -3,6 +3,39 @@
   public static class PipelinesConfig
   {
     public const string Contents = @"<pipelines>
+<installSolr title=""Installing the solr"">
+    <step>
+      <hive type=""SIM.Pipelines.Install.RunPSTasksProcessor, SIM.Pipelines"" />
+    </step>   
+</installSolr>
+<reinstall9 title=""Reinstalling the instance"">
+    <step>
+      <hive type=""SIM.Pipelines.Install.RunPSTasksProcessor, SIM.Pipelines"" param=""uninstall"" />
+    </step>
+    <step>
+       <processor type=""SIM.Pipelines.Reinstall.Reinstall9SwitchMode, SIM.Pipelines"" title=""Switch mode to install"" />
+    </step>
+    <step>
+      <hive type=""SIM.Pipelines.Install.RunPSTasksProcessor, SIM.Pipelines"" param=""install"" />
+    </step>
+</reinstall9>
+
+<install9 title=""Installing the instance"">
+    <step>
+      <processor type=""SIM.Pipelines.Install.GenerateUnInstallParameters, SIM.Pipelines"" title=""Generate Uninstall data"" />
+      <processor type=""SIM.Pipelines.Install.GenerateSitecoreEnvironmentData, SIM.Pipelines"" title=""Generate Sitecore environment data"" />
+      <hive type=""SIM.Pipelines.Install.RunPSTasksProcessor, SIM.Pipelines""  />
+    </step>
+  </install9>
+<delete9 title=""UnInstalling the instance"">
+    <step>
+      <hive type=""SIM.Pipelines.Install.RunPSTasksProcessor, SIM.Pipelines"" param=""uninstall"" />
+    </step>
+    <step>
+      <processor type=""SIM.Pipelines.Delete.CleanUp, SIM.Pipelines"" title=""Clean Up"" />
+      <processor type=""SIM.Pipelines.Delete.DeleteSitecoreEnvironmentData, SIM.Pipelines"" title=""Delete Sitecore environment data"" />
+    </step>
+  </delete9>
   <install title=""Installing the {InstanceName} instance"">
     <step>
       <processor type=""SIM.Pipelines.Install.CheckPackageIntegrity, SIM.Pipelines"" title=""Validating install package"" />
@@ -63,7 +96,7 @@
   </multipleDeletion>
   <delete title=""Deleting the {InstanceName} instance"">
     <step>
-      <processor type=""SIM.Pipelines.Delete.CollectData, SIM.Pipelines"" title=""Collecting data"" />
+      <processor type=""SIM.Pipelines.Delete.InitializeArgs, SIM.Pipelines"" title=""Initializing arguments"" />
     </step>
     <step>
       <processor type=""SIM.Pipelines.Delete.DeleteRegistryKey, SIM.Pipelines"" title=""Deleting registry key"" />

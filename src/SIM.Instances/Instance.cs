@@ -17,6 +17,7 @@
   using JetBrains.Annotations;
   using Sitecore.Diagnostics.Logging;
   using SIM.Extensions;
+  using SIM.SitecoreEnvironments;
 
   [Serializable]
   public class Instance : Website, IXmlSerializable
@@ -134,7 +135,47 @@
     {
       get
       {
-        return GetIsSitecore();
+        try
+        {
+          return FileSystem.FileSystem.Local.File.Exists(ProductHelper.GetKernelPath(WebRootPath));
+        }
+        catch (Exception ex)
+        {
+          Log.Warn(ex, "An error occurred during checking if it is Sitecore");
+
+          return false;
+        }
+      }
+    }
+
+    public virtual bool IsSitecoreEnvironmentMember
+    {
+      get
+      {
+        try
+        {
+          if (!IsSitecore)
+          {
+            foreach (SitecoreEnvironment sitecoreEnvironment in SitecoreEnvironmentHelper.SitecoreEnvironments)
+            {
+              foreach (SitecoreEnvironmentMember sitecoreEnvironmentMember in sitecoreEnvironment.Members)
+              {
+                if (sitecoreEnvironmentMember.Name == Name)
+                {
+                  return true;
+                }
+              }
+            }
+          }
+
+          return false;
+        }
+        catch (Exception ex)
+        {
+          Log.Warn(ex, "An error occurred during checking if it is Sitecore environment member");
+
+          return false;
+        }
       }
     }
 
@@ -215,6 +256,13 @@
           throw new InvalidOperationException($"Cannot get packages folder of {WebRootPath}");
         }
       }
+    }
+
+
+    [NotNull]
+    public virtual SitecoreEnvironment SitecoreEnvironment
+    {
+      get { return SitecoreEnvironmentHelper.GetExistingOrNewSitecoreEnvironment(this.Name); }
     }
 
     [NotNull]
@@ -366,12 +414,25 @@
     {
       get
       {
-        var omsVersions = new[] { "6.2", "6.3", "6.4" };
-        var dmsVersions = new[] { "6.5", "6.6", "7.0", "7.1", "7.2" };
-        var dmsName = omsVersions.Any(x => ProductFullName.Contains(x)) ? "OMS" : (dmsVersions.Any(x => ProductFullName.Contains(x)) ? "DMS" : "xDB");
+        try
+        {
+          var omsVersions = new[] {"6.2", "6.3", "6.4"};
+          var dmsVersions = new[] {"6.5", "6.6", "7.0", "7.1", "7.2"};
+          var dmsName = omsVersions.Any(x => ProductFullName.Contains(x))
+            ? "OMS"
+            : (dmsVersions.Any(x => ProductFullName.Contains(x)) ? "DMS" : "xDB");
 
-        var modulesNames = Modules.Select(x => x.Name.TrimStart("Sitecore "));
-        return (string.Join(", ", modulesNames) + (File.Exists(Path.Combine(WebRootPath, "App_Config\\Include\\Sitecore.Analytics.config")) ? $", {dmsName}" : string.Empty)).TrimStart(" ,".ToCharArray());
+          var modulesNames = Modules.Select(x => x.Name.TrimStart("Sitecore "));
+          return (string.Join(", ", modulesNames) +
+                  (File.Exists(Path.Combine(WebRootPath, "App_Config\\Include\\Sitecore.Analytics.config"))
+                    ? $", {dmsName}"
+                    : string.Empty)).TrimStart(" ,".ToCharArray());
+        }
+        catch (Exception ex)
+        {
+          Log.Error(ex, $"Issue with reading ModulesNames propery of {this.Name} instance.");
+          return string.Empty;
+        }
       }
     }
 
@@ -403,6 +464,37 @@
         
         return dir.Exists ? dir.GetFiles("*.zip") : new FileInfo[0];
       }
+    }
+
+    public InstanceType Type
+    {
+      get
+      {
+        if (Product == Product.Undefined || Product.Release == null)
+        {
+          return InstanceType.SitecoreMember;
+        }
+
+        if (Product.Release.Version.MajorMinorInt < 90)
+        {
+          return InstanceType.Sitecore8AndEarlier;
+        }
+
+        if (Product.Release.Version.MajorMinorInt >= 90)
+        {
+          return InstanceType.Sitecore9AndLater;
+        }
+
+        return InstanceType.Unknown;
+      }
+    }
+
+    public enum InstanceType
+    {
+      Sitecore8AndEarlier,
+      Sitecore9AndLater,
+      SitecoreMember,
+      Unknown
     }
 
     #endregion
@@ -477,9 +569,13 @@
         yield break;
       }
 
-      foreach (var child in FileSystem.FileSystem.Local.Directory.GetDirectories(root))
+      var directories = FileSystem.FileSystem.Local.Directory.GetDirectories(root)
+        .Select(x => new DirectoryInfo(x))
+        .OrderBy(x => x.CreationTimeUtc)
+        .ToArray();
+
+      foreach (var childInfo in directories)
       {
-        var childInfo = new DirectoryInfo(child);
         var date = string.Format("\"{2}\", {0}, {1:hh:mm:ss tt}", childInfo.CreationTime.ToString("yyyy-MM-dd"), 
           childInfo.CreationTime, childInfo.Name);
 
@@ -488,7 +584,7 @@
           continue;
         }
 
-        var backup = new InstanceBackup(date, child);
+        var backup = new InstanceBackup(date, childInfo.FullName);
         if (!FileSystem.FileSystem.Local.Directory.Exists(backup.DatabasesFolderPath) && !FileSystem.FileSystem.Local.Directory.Exists(backup.MongoDatabasesFolderPath) && !FileSystem.FileSystem.Local.File.Exists(backup.WebRootFilePath) &&
             !FileSystem.FileSystem.Local.File.Exists(backup.WebRootNoClientFilePath))
         {
@@ -538,20 +634,6 @@
 
           throw new InvalidOperationException($"Cannot get data folder of {WebRootPath}");
         }
-      }
-    }
-
-    protected virtual bool GetIsSitecore()
-    {
-      try
-      {
-        return FileSystem.FileSystem.Local.File.Exists(ProductHelper.GetKernelPath(WebRootPath));
-      }
-      catch (Exception ex)
-      {
-        Log.Warn(ex, "An error occurred during checking if it is sitecore");
-
-        return false;
       }
     }
 

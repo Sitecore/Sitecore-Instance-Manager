@@ -52,10 +52,13 @@ namespace SIM.Tool.Windows
     public static readonly AdvancedProperty<int> AppInstanceSearchTimeout = AdvancedSettings.Create("App/InstanceSearch/Timeout", 300);
 
     [NotNull]
+    public static readonly AdvancedProperty<bool> AppTelemetryEnabled = AdvancedSettings.Create("App/Telemetry/Enabled", true);
+
+    [NotNull]
     public static readonly AdvancedProperty<string> AppToolsConfigEditor = AdvancedSettings.Create("App/Tools/ConfigEditor", string.Empty);
 
     [NotNull]
-    public static readonly AdvancedProperty<string> AppUiMainWindowDoubleClick = AdvancedSettings.Create("App/UI/InstanceDoubleClick", @"SIM.Tool.Windows.MainWindowComponents.BrowseButton, SIM.Tool.Windows");
+    public static readonly AdvancedProperty<string> AppUiMainWindowDoubleClick = AdvancedSettings.Create("App/UI/InstanceDoubleClick", @"SIM.Tool.Windows.MainWindowComponents.Buttons.BrowseButton, SIM.Tool.Windows");
 
     [NotNull]
     public static readonly AdvancedProperty<int> AppUiMainWindowWidth = AdvancedSettings.Create("App/UI/MainWindowWidth", -1);

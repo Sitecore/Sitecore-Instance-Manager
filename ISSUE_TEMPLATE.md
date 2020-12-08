@@ -24,9 +24,8 @@ I hereby confirm the issue is new:
 * it is not a [known issue](https://github.com/Sitecore/Sitecore-Instance-Manager/blob/develop/README.md#knwon-ssue)
 * it was not discussed before (I used GitHub Issues search)
 
-**Valid for QA**  
-I hereby confirm the issue is reproducible on the latest QA version [PUT HERE EXACT VERSION NUMBER]
-which was downloaded today from http://dl.sitecore.net/updater/qa/sim
+**Valid for QA/DEV**  
+I hereby confirm the issue is reproducible on the latest QA/DEV version [PUT HERE EXACT VERSION NUMBER]
 
 **Screenshots:**
 Please find screenshots attached.

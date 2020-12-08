@@ -3,6 +3,9 @@
   using System;
   using Sitecore.Diagnostics.Base;
   using JetBrains.Annotations;
+  using System.Collections.Generic;
+  using System.Linq;
+  using System.Collections;
 
   #region
 
@@ -10,6 +13,16 @@
 
   public class Profile : DataObject, IProfile, ICloneable
   {
+    #region Constructors
+
+    public Profile()
+    {
+      Solrs = new List<SolrDefinition>();
+      VersionToSolrMap = new List<VersionToSolr>();
+    }
+
+    #endregion
+
     #region Properties
 
     #region Public properties
@@ -78,6 +91,22 @@
       }
     }
 
+    public List<SolrDefinition> Solrs
+    {
+      get
+      {
+        return GetValue("Solrs") as List<SolrDefinition>;
+      }
+
+      set
+      {
+        Assert.ArgumentNotNull(value, nameof(value));
+        SetValue("Solrs", value);       
+      }
+    }
+
+    public List<VersionToSolr> VersionToSolrMap { get ; set; }
+
     #endregion
 
     #region Protected methods
@@ -97,13 +126,23 @@
 
     public object Clone()
     {
-      return new Profile
+      Profile p= new Profile
       {
-        ConnectionString = ConnectionString, 
-        InstancesFolder = InstancesFolder, 
-        License = License, 
-        LocalRepository = LocalRepository
+        ConnectionString = ConnectionString,
+        InstancesFolder = InstancesFolder,
+        License = License,
+        LocalRepository = LocalRepository,
+        //deep clone might be required       
+        VersionToSolrMap = VersionToSolrMap
       };
+
+      p.Solrs = new List<SolrDefinition>();
+      foreach(SolrDefinition s in this.Solrs)
+      {
+        p.Solrs.Add((SolrDefinition)s.Clone());
+      }
+
+      return p;
     }
 
     #endregion

@@ -22,6 +22,7 @@
   using SIM.Pipelines.Processors;
   using SIM.Tool.Base;
   using SIM.Tool.Base.Wizards;
+  using SIM.Pipelines.Install;
 
   #endregion
 
@@ -34,7 +35,6 @@
     private ProcessorArgs Args { get; }
 
     private Brush ProgressBar1Foreground { get; }
-
     private WizardPipeline WizardPipeline { get; }
 
     private double _Maximum = double.NaN;
@@ -69,6 +69,8 @@
           ResizeMode = ResizeMode.CanMinimize;
         }
       }
+
+      Initialize();
     }
 
     #endregion
@@ -151,6 +153,16 @@
 
     public new void Close()
     {
+      if (Pipeline != null && !Pipeline.IsFinished)
+      {
+        MessageBoxResult messageBoxResult = MessageBox.Show("Are you going to abort the process?", "Abort Confirmation", MessageBoxButton.YesNo);
+        if (messageBoxResult == MessageBoxResult.No)
+        {
+          return;
+          
+        }
+      }
+
       using (new ProfileSection("Close wizard", this))
       {
         AbortPipeline();
@@ -313,6 +325,29 @@
     #endregion
 
     #region Private methods
+    private void Initialize()
+    {
+      try
+      {
+        StepInfo[] sis = WizardPipeline._StepInfos;
+        foreach (StepInfo stepInfo in sis)
+        {
+          AddStepToWizard(stepInfo);
+        }
+
+        PageNumber = 0;
+
+        InitializeStep();
+        var title = ReplaceVariables(WizardPipeline.Title);
+        Title = title;
+        Header.Text = title;
+      }
+      catch (Exception ex)
+      {
+        WindowHelper.HandleError("Error occured while wizard loading", true, ex);
+        Close();
+      }
+    }
 
     private static IEnumerable<T> FindVisualChildren<T>(DependencyObject depObj) where T : DependencyObject
     {
@@ -455,7 +490,8 @@
                 message = Skipped;
               }
 
-              WindowHelper.HandleError(message, true, null);
+              
+              WindowHelper.HandleError(message, true, null,null,processor.CustomLogLocation);
               break;
             }
           }
@@ -474,6 +510,7 @@
 
         if (allDone)
         {
+          WizardPipeline.AfterLastStep?.Execute(this.WizardArgs);
           AddFinishActions(WizardPipeline._FinishActions);
 
           if (WizardPipeline._FinishActionHives != null)
@@ -617,7 +654,20 @@
         // the Progress Step    
         if (PageNumber == StepsCount)
         {
-          PipelineManager.StartPipeline(WizardPipeline.Name, _ProcessorArgs, this);
+          string pipelineName = WizardPipeline.Name;
+          if (!string.IsNullOrWhiteSpace(_ProcessorArgs.PipelineName))
+          {
+            pipelineName = _ProcessorArgs.PipelineName;
+          }        
+            
+          if (!PipelineManager.Definitions.ContainsKey(WizardPipeline.Name))
+          {
+            Finish("Done.", true);
+
+            return;
+          }
+
+          PipelineManager.StartPipeline(pipelineName, _ProcessorArgs, this);
           backButton.Visibility = Visibility.Hidden;
           CancelButton.Content = "Cancel";
           NextButton.IsEnabled = false;
@@ -864,26 +914,6 @@
 
     private void WindowLoaded(object sender, RoutedEventArgs e)
     {
-      try
-      {
-        StepInfo[] sis = WizardPipeline._StepInfos;
-        foreach (StepInfo stepInfo in sis)
-        {
-          AddStepToWizard(stepInfo);
-        }
-
-        PageNumber = 0;
-
-        InitializeStep();
-        var title = ReplaceVariables(WizardPipeline.Title);
-        Title = title;
-        Header.Text = title;
-      }
-      catch (Exception ex)
-      {
-        WindowHelper.HandleError("Error occured while wizard loading", true, ex);
-        Close();
-      }
     }
 
     #endregion

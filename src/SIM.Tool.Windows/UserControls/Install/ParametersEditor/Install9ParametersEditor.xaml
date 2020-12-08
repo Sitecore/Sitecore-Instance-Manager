@@ -1,0 +1,50 @@
+﻿<Window x:Class="SIM.Tool.Windows.UserControls.Install.ParametersEditor.Install9ParametersEditor"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SIM.Tool.Windows.UserControls.Install.ParametersEditor"
+        mc:Ignorable="d"
+        Title="Advanced installation parameters" Height="450" Width="800" Loaded="Window_Loaded">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40" />
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="46"/>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0">
+        <TextBlock Margin="4">
+            <Bold FontSize="15">All changes are applied immediately.</Bold>         
+        </TextBlock>
+            <TextBlock Margin="16,-3,0,18">                        
+            Updating a parameter on Global tab propagates the change to all other tabs.
+            </TextBlock>
+        </StackPanel>
+        <TabControl Grid.Row="1" Name="InstallationParameters" Margin="-1,3,0,0" ItemsSource="{Binding}">
+            <TabControl.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Name}"/>
+                </DataTemplate>
+            </TabControl.ItemTemplate>
+            <TabControl.ContentTemplate>
+                <DataTemplate>
+                    <DataGrid AutoGenerateColumns="False" ItemsSource="{Binding Params}"  Tag="{Binding Name}">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn  Header="Name" Binding="{Binding Name,Mode=OneWay}" >
+                                <DataGridTextColumn.CellStyle>
+                                    <Style TargetType="DataGridCell">
+                                        <Setter Property="ToolTip" Value="{Binding Description}" />
+                                    </Style>
+                                </DataGridTextColumn.CellStyle>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Header="Value" Binding="{Binding Value,Mode=TwoWay}"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </DataTemplate>
+            </TabControl.ContentTemplate>
+        </TabControl>
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Name="Btn_Close" Click="Btn_Close_Click" Content="Close" HorizontalAlignment="Left" Margin="24,11,21,12" Width="72"></Button>
+        </StackPanel>
+    </Grid>
+</Window>

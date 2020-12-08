@@ -88,9 +88,13 @@
 
       foreach (ProcessorDefinition processorDefinition in processorDefinitions)
       {
-        foreach (Processor processor in processorDefinition.CreateProcessors(args))
+        foreach (Processor processor in processorDefinition.CreateProcessors(args,controller))
         {
-          processor.ProcessorDefinition = processorDefinition;
+          if (processor.ProcessorDefinition == null)
+          {
+            processor.ProcessorDefinition = processorDefinition;
+          }
+
           bool isRequireProcessing = true;
           try
           {

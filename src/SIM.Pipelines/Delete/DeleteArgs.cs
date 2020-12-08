@@ -23,13 +23,6 @@
 
     public Instance Instance { get; }
 
-    public readonly IEnumerable<Database> _InstanceDatabases;
-
-    public long InstanceID { get; }
-
-    public readonly ICollection<MongoDbDatabase> _MongoDatabases;
-    private string instanceName { get; }
-
     #endregion
 
     #region Constructors
@@ -37,17 +30,22 @@
     public DeleteArgs([NotNull] Instance instance, [NotNull] SqlConnectionStringBuilder connectionString)
     {
       Instance = instance;
+      InstanceName = Instance.Name;
       Assert.ArgumentNotNull(instance, nameof(instance));
-
       ConnectionString = connectionString.IsNotNull("ConnectionString");
-      InstanceID = instance.ID;
-      _InstanceDatabases = instance.AttachedDatabases;
-      _MongoDatabases = instance.MongoDatabases;
-      InstanceDataFolderPath = instance.DataFolderPath;
-      InstanceBackupsFolder = instance.BackupsFolder;
-      InstanceStop = () => instance.Stop(true);
-      InstanceHostNames = instance.HostNames;
-      instanceName = instance.Name;
+    }
+
+    public void Initialize()
+    {
+      InstanceID = Instance.ID;
+      InstanceDatabases = Instance.AttachedDatabases;
+      MongoDatabases = Instance.MongoDatabases;
+      InstanceDataFolderPath = Instance.DataFolderPath;
+      InstanceBackupsFolder = Instance.BackupsFolder;
+      InstanceStop = () => Instance.Stop(true);
+      InstanceHostNames = Instance.HostNames;
+      WebRootPath = Instance.WebRootPath;
+      RootPath = Instance.RootPath;
     }
 
     #endregion
@@ -69,15 +67,18 @@
 
     public IEnumerable<string> InstanceHostNames { get; set; }
 
-    public string InstanceName
-    {
-      get
-      {
-        return instanceName;
-      }
-    }
+    public string InstanceName { get; private set; }
 
     public Action InstanceStop { get; set; }
+
+    public IEnumerable<Database> InstanceDatabases { get; private set; }
+
+    public long InstanceID { get; private set; }
+
+    public ICollection<MongoDbDatabase> MongoDatabases { get; private set; }
+
+    //Indicates if the installation has been completed
+    public bool HasInstallationBeenCompleted { get; set; }
 
     #endregion
   }

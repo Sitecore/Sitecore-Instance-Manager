@@ -1,0 +1,182 @@
+﻿{
+  "Parameters": {
+    //global
+    "SIFVersion": "1.2.1",
+    "SIFVersionUninstall": "2.1.0",
+    "SqlServer": "",
+    "SqlAdminUser": "",
+    "SqlAdminPassword": "",
+    "SqlDbPrefix": "",
+    "LicenseFile": "",
+    //solr
+    "SolrUrl": "",
+    "SolrRoot": "",
+    "SolrService": "",
+    "CorePrefix": "$GlobalParams.SqlDbPrefix",
+    "BaseConfig": "",
+    //cert
+    "CertificateName": "$GlobalParams.SqlDbPrefix+\"xconnect_client\"",
+    "CertPath": "c:/certificates",
+    "RootCertFileName": "SIM_SIF121Root",
+    //xConnect
+    "XConnectCert": "$GlobalParams.SqlDbPrefix+\"xconnect_client\"",
+    "SqlMarketingAutomationUser": "",
+    "SqlMarketingAutomationPassword": "Password1234567890!",
+    "SqlReferenceDataUser": "",
+    "SqlReferenceDataPassword": "Password1234567890!",
+    "SqlProcessingPoolsUser": "",
+    "SqlProcessingPoolsPassword": "Password1234567890!",
+    "SqlCollectionUser": "$GlobalParams.SqlDbPrefix+\"collectionuser\"",
+    "SqlCollectionPassword": "Password1234567890!",
+    "XConnectEnvironment": "",
+    "XConnectLogLevel": "",
+    //Sitecore
+    "SitecoreAdminPassword": "b",
+    "SolrCorePrefix": "$GlobalParams.SqlDbPrefix",
+
+    "SqlCoreUser": "",
+    "SqlCorePassword": "Password1234567890!",
+    "SqlWebUser": "",
+    "SqlWebPassword": "Password1234567890!",
+    "SqlFormsUser": "",
+    "SqlFormsPassword": "Password1234567890!",
+    "SqlMasterUser": "",
+    "SqlMasterPassword": "Password1234567890!",
+    "SqlReportingUser": "",
+    "SqlReportingPassword": "Password1234567890!",
+    "SqlProcessingTasksUser": "",
+    "SqlProcessingTasksPassword": "Password1234567890!",
+    "SqlExmMasterUser": "",
+    "SqlExmMasterPassword": "Password1234567890!",
+    "ExmEdsProvider": "",
+    "EXMCryptographicKey": "",
+    "EXMAuthenticationKey": "",
+    "SolrZookeeperUrl": "",
+    "XConnectCollectionService": "https://\"+$GlobalParams.SqlDbPrefix+\"XColl.local",
+    "XConnectCollectionSearchService": "https://\"+$GlobalParams.SqlDbPrefix+\"XSear.local",
+    "XConnectReferenceDataService": "https://\"+$GlobalParams.SqlDbPrefix+\"Xref.local",
+    "MarketingAutomationOperationsService": "https://\"+$GlobalParams.SqlDbPrefix+\"XP1XMA.local",
+    "MarketingAutomationReportingService": "https://\"+$GlobalParams.SqlDbPrefix+\"XMAR.local",
+    "ProcessingService": "https://\"+$GlobalParams.SqlDbPrefix+\"PRC.local",
+    "ReportingService": "https://\"+$GlobalParams.SqlDbPrefix+\"REP.local",
+    "ReportingServiceApiKey": "abcde111112222233333444445555566",
+    "TelerikEncryptionKey": "",
+    "SqlMessagingUser": "",
+    "SqlMessagingPassword": "Password1234567890!"
+  },
+  "PackageMapping": {
+
+    "sitecore-XP0": "* (OnPrem)_single.scwdp.zip",
+    "xconnect-xp0": "* (OnPrem)_xp0xconnect.scwdp.zip",
+    "sitecore-XP1-cd": "* (OnPrem)_cd.scwdp.zip",
+    "sitecore-XP1-cm": "* (OnPrem)_cm.scwdp.zip",
+    "sitecore-XP1-prc": "* (OnPrem)_prc.scwdp.zip",
+    "sitecore-XP1-rep": "* (OnPrem)_rep.scwdp.zip",
+    "xconnect-XP1-collection": "* (onPrem)_xp1collection.scwdp.zip",
+    "xconnect-xp1-collectionsearch": "* (onPrem)_xp1collectionsearch.scwdp.zip",
+    "xconnect-xp1-MarketingAutomation": "* (onPrem)_xp1marketingautomation.scwdp.zip",
+    "xconnect-xp1-MarketingAutomationReporting": "* (onPrem)_xp1marketingautomationreporting.scwdp.zip",
+    "xconnect-xp1-ReferenceData": "* (onPrem)_xp1referencedata.scwdp.zip",
+    "sitecore-xp1-dds": "* (OnPrem)_dds.scwdp.zip",
+    "sitecore-XP1-cm-dds-patch": "Sitecore.Patch.EXM (OnPrem)_CM.zip"
+  },
+
+  "Validators": [
+    "list|Basic",
+    "list|DDS",
+    "list|DDS_Patch",
+    "list|Sitecore_9.0"
+  ],
+
+  "ExecSequense": {
+    "InstallSIF": {
+      "Type": "SIM.Sitecore9Installer.Tasks.InstallSIFTask, SIM.Sitecore9Installer",
+      "TaskOptions": {
+        "InstallVersion": "1.2.1",
+        "UninstallVersion": "2.1.0",
+        "Repository": "https://sitecore.myget.org/F/sc-powershell/api/v2",
+        "ExecutionOrder": "-100"
+      }
+    },
+    "xconnect-createcert": {
+      "Type": "SIM.Sitecore9Installer.Tasks.SitecoreTask, SIM.Sitecore9Installer"
+    },
+    "xconnect-solr": {
+      "Type": "SIM.Sitecore9Installer.Tasks.SitecoreTask, SIM.Sitecore9Installer"
+    },
+    "xconnect-xp1-collection": {
+      "Type": "SIM.Sitecore9Installer.Tasks.SitecoreTask, SIM.Sitecore9Installer",
+      "Parameters": {
+        "SiteName": "$SqlDbPrefix+\"XColl.local\""
+      }
+    },
+    "xconnect-xp1-collectionsearch": {
+      "Type": "SIM.Sitecore9Installer.Tasks.SitecoreTask, SIM.Sitecore9Installer",
+      "Parameters": {
+        "SiteName": "$SqlDbPrefix+\"XSear.local\""
+      }
+    },
+    "xconnect-xp1-referencedata": {
+      "Type": "SIM.Sitecore9Installer.Tasks.SitecoreTask, SIM.Sitecore9Installer",
+      "Parameters": {
+        "SiteName": "$SqlDbPrefix+\"XRef.local\""
+      }
+    },
+    "xconnect-xp1-marketingautomation": {
+      "Type": "SIM.Sitecore9Installer.Tasks.SitecoreTask, SIM.Sitecore9Installer",
+      "Parameters": {
+        "SiteName": "$SqlDbPrefix+\"XMA.local\""
+      }
+    },
+    "xconnect-xp1-marketingautomationreporting": {
+      "Type": "SIM.Sitecore9Installer.Tasks.SitecoreTask, SIM.Sitecore9Installer",
+      "Parameters": {
+        "SiteName": "$SqlDbPrefix+\"XMar.local\""
+      }
+    },
+    "Sitecore-solr": {
+      "Type": "SIM.Sitecore9Installer.Tasks.SitecoreTask, SIM.Sitecore9Installer"
+    },
+
+    "Sitecore-xp1-cd": {
+      "Type": "SIM.Sitecore9Installer.Tasks.SitecoreTask, SIM.Sitecore9Installer",
+      "Parameters": {
+        "SiteName": "$SqlDbPrefix+\"CD.local\""
+      }
+    },
+    "Sitecore-xp1-prc": {
+      "Type": "SIM.Sitecore9Installer.Tasks.SitecoreTask, SIM.Sitecore9Installer",
+      "Parameters": {
+        "SiteName": "$SqlDbPrefix+\"Prc.local\""
+      }
+    },
+    "Sitecore-xp1-rep": {
+      "Type": "SIM.Sitecore9Installer.Tasks.SitecoreTask, SIM.Sitecore9Installer",
+      "Parameters": {
+        "SiteName": "$SqlDbPrefix+\"Rep.local\""
+      }
+    },
+    "Sitecore-xp1-cm": {
+      "Type": "SIM.Sitecore9Installer.Tasks.SitecoreTask, SIM.Sitecore9Installer",
+      "Parameters": {
+        "SiteName": "$SqlDbPrefix+\"CM.local\""
+      }
+    },
+    "sitecore-xp1-dds": {
+      "Type": "SIM.Sitecore9Installer.Tasks.SitecoreTask, SIM.Sitecore9Installer",
+      "Parameters": {
+        "SiteName": "$SqlDbPrefix+\"DDS.local\""
+      }
+    },
+    "sitecore-XP1-cm-dds-patch": {
+      "Type": "SIM.Sitecore9Installer.Tasks.SitecoreTask, SIM.Sitecore9Installer",
+      "Parameters": {
+        "SiteName": "$SqlDbPrefix+\"CM.local\"",
+        "DedicatedServerHostName": "https://\"+$SqlDbPrefix+\"DDS.local"
+      },
+      "TaskOptions": {
+        "SupportsUninstall": "false"
+      }
+    }
+  }
+}

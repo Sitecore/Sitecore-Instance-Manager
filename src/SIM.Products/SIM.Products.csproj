@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SIM.Products</RootNamespace>
     <AssemblyName>SIM.Products</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <TargetFrameworkProfile />
@@ -46,23 +46,23 @@
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="Sitecore.Diagnostics.Base, Version=2.0.1.65, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Sitecore.Diagnostics.Base.2.0.1.65\lib\Sitecore.Diagnostics.Base.dll</HintPath>
+    <Reference Include="Sitecore.Diagnostics.Base, Version=2.0.1.171, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Sitecore.Diagnostics.Base.2.0.1.171\lib\Sitecore.Diagnostics.Base.dll</HintPath>
     </Reference>
-    <Reference Include="Sitecore.Diagnostics.FileSystem, Version=2.0.1.65, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Sitecore.Diagnostics.FileSystem.2.0.1.65\lib\Sitecore.Diagnostics.FileSystem.dll</HintPath>
+    <Reference Include="Sitecore.Diagnostics.FileSystem, Version=2.0.1.171, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Sitecore.Diagnostics.FileSystem.2.0.1.171\lib\Sitecore.Diagnostics.FileSystem.dll</HintPath>
     </Reference>
-    <Reference Include="Sitecore.Diagnostics.InfoService.Client.Core, Version=2.0.1.65, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Sitecore.Diagnostics.InfoService.Client.Core.2.0.1.65\lib\Sitecore.Diagnostics.InfoService.Client.Core.dll</HintPath>
+    <Reference Include="Sitecore.Diagnostics.InfoService.Client.Core, Version=2.0.1.171, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Sitecore.Diagnostics.InfoService.Client.Core.2.0.1.171\lib\Sitecore.Diagnostics.InfoService.Client.Core.dll</HintPath>
     </Reference>
-    <Reference Include="Sitecore.Diagnostics.Logging, Version=2.0.1.65, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Sitecore.Diagnostics.Logging.2.0.1.65\lib\Sitecore.Diagnostics.Logging.dll</HintPath>
+    <Reference Include="Sitecore.Diagnostics.Logging, Version=2.0.1.171, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Sitecore.Diagnostics.Logging.2.0.1.171\lib\Sitecore.Diagnostics.Logging.dll</HintPath>
     </Reference>
-    <Reference Include="Sitecore.Diagnostics.Net, Version=2.0.1.65, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Sitecore.Diagnostics.Net.2.0.1.65\lib\Sitecore.Diagnostics.Net.dll</HintPath>
+    <Reference Include="Sitecore.Diagnostics.Net, Version=2.0.1.171, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Sitecore.Diagnostics.Net.2.0.1.171\lib\Sitecore.Diagnostics.Net.dll</HintPath>
     </Reference>
-    <Reference Include="Sitecore.Diagnostics.Objects, Version=2.0.1.65, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Sitecore.Diagnostics.Objects.2.0.1.65\lib\Sitecore.Diagnostics.Objects.dll</HintPath>
+    <Reference Include="Sitecore.Diagnostics.Objects, Version=2.0.1.171, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Sitecore.Diagnostics.Objects.2.0.1.171\lib\Sitecore.Diagnostics.Objects.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />

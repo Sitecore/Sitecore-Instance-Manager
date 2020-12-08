@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
@@ -10,34 +10,13 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SIM.Tool</RootNamespace>
     <AssemblyName>SIM.Tool.DEV</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <TargetFrameworkProfile />
     <LangVersion>6</LangVersion>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
-    <PlatformTarget>x86</PlatformTarget>
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\</OutputPath>
-    <DefineConstants>TRACE;JETBRAINS_ANNOTATIONS</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject>SIM.Tool.App</StartupObject>
@@ -47,6 +26,22 @@
   </PropertyGroup>
   <PropertyGroup>
     <NoWin32Manifest>true</NoWin32Manifest>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+    <OutputPath>bin\Release\</OutputPath>
+    <Prefer32Bit>false</Prefer32Bit>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+    <OutputPath>bin\Debug\</OutputPath>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <LangVersion>6</LangVersion>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
+    <DebugType>full</DebugType>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Alienlab.NetExtensions, Version=1.0.8.0, Culture=neutral, PublicKeyToken=b4f6771b076f5394, processorArchitecture=MSIL">
@@ -79,6 +74,9 @@
       <HintPath>..\packages\Microsoft.ApplicationInsights.PersistenceChannel.1.2.3\lib\net45\Microsoft.ApplicationInsights.PersistenceChannel.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Microsoft.Extensions.Logging.Abstractions, Version=3.1.2.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Logging.Abstractions.3.1.2\lib\netstandard2.0\Microsoft.Extensions.Logging.Abstractions.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Web.Administration, Version=7.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Web.Administration.7.0.0.0\lib\net20\Microsoft.Web.Administration.dll</HintPath>
       <SpecificVersion>False</SpecificVersion>
@@ -100,32 +98,32 @@
       <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="PresentationFramework" />
-    <Reference Include="Sitecore.Diagnostics.Base, Version=2.0.1.65, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Sitecore.Diagnostics.Base.2.0.1.65\lib\Sitecore.Diagnostics.Base.dll</HintPath>
+    <Reference Include="Sitecore.Diagnostics.Base, Version=2.0.1.171, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Sitecore.Diagnostics.Base.2.0.1.171\lib\Sitecore.Diagnostics.Base.dll</HintPath>
     </Reference>
-    <Reference Include="Sitecore.Diagnostics.ConfigBuilder, Version=2.0.1.65, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Sitecore.Diagnostics.ConfigBuilder.2.0.1.65\lib\Sitecore.Diagnostics.ConfigBuilder.dll</HintPath>
+    <Reference Include="Sitecore.Diagnostics.ConfigBuilder, Version=2.0.1.171, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Sitecore.Diagnostics.ConfigBuilder.2.0.1.171\lib\Sitecore.Diagnostics.ConfigBuilder.dll</HintPath>
     </Reference>
-    <Reference Include="Sitecore.Diagnostics.ConfigBuilder.Base, Version=2.0.1.65, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Sitecore.Diagnostics.ConfigBuilder.Base.2.0.1.65\lib\Sitecore.Diagnostics.ConfigBuilder.Base.dll</HintPath>
+    <Reference Include="Sitecore.Diagnostics.ConfigBuilder.Base, Version=2.0.1.171, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Sitecore.Diagnostics.ConfigBuilder.Base.2.0.1.171\lib\Sitecore.Diagnostics.ConfigBuilder.Base.dll</HintPath>
     </Reference>
-    <Reference Include="Sitecore.Diagnostics.FileSystem, Version=2.0.1.65, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Sitecore.Diagnostics.FileSystem.2.0.1.65\lib\Sitecore.Diagnostics.FileSystem.dll</HintPath>
+    <Reference Include="Sitecore.Diagnostics.FileSystem, Version=2.0.1.171, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Sitecore.Diagnostics.FileSystem.2.0.1.171\lib\Sitecore.Diagnostics.FileSystem.dll</HintPath>
     </Reference>
-    <Reference Include="Sitecore.Diagnostics.InfoService.Client.Core, Version=2.0.1.65, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Sitecore.Diagnostics.InfoService.Client.Core.2.0.1.65\lib\Sitecore.Diagnostics.InfoService.Client.Core.dll</HintPath>
+    <Reference Include="Sitecore.Diagnostics.InfoService.Client.Core, Version=2.0.1.171, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Sitecore.Diagnostics.InfoService.Client.Core.2.0.1.171\lib\Sitecore.Diagnostics.InfoService.Client.Core.dll</HintPath>
     </Reference>
-    <Reference Include="Sitecore.Diagnostics.Logging, Version=2.0.1.65, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Sitecore.Diagnostics.Logging.2.0.1.65\lib\Sitecore.Diagnostics.Logging.dll</HintPath>
+    <Reference Include="Sitecore.Diagnostics.Logging, Version=2.0.1.171, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Sitecore.Diagnostics.Logging.2.0.1.171\lib\Sitecore.Diagnostics.Logging.dll</HintPath>
     </Reference>
-    <Reference Include="Sitecore.Diagnostics.Logging.Log4Net, Version=2.0.1.65, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Sitecore.Diagnostics.Logging.Log4Net.2.0.1.65\lib\Sitecore.Diagnostics.Logging.Log4Net.dll</HintPath>
+    <Reference Include="Sitecore.Diagnostics.Logging.Log4Net, Version=2.0.1.171, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Sitecore.Diagnostics.Logging.Log4Net.2.0.1.171\lib\Sitecore.Diagnostics.Logging.Log4Net.dll</HintPath>
     </Reference>
-    <Reference Include="Sitecore.Diagnostics.Net, Version=2.0.1.65, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Sitecore.Diagnostics.Net.2.0.1.65\lib\Sitecore.Diagnostics.Net.dll</HintPath>
+    <Reference Include="Sitecore.Diagnostics.Net, Version=2.0.1.171, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Sitecore.Diagnostics.Net.2.0.1.171\lib\Sitecore.Diagnostics.Net.dll</HintPath>
     </Reference>
-    <Reference Include="Sitecore.Diagnostics.Objects, Version=2.0.1.65, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Sitecore.Diagnostics.Objects.2.0.1.65\lib\Sitecore.Diagnostics.Objects.dll</HintPath>
+    <Reference Include="Sitecore.Diagnostics.Objects, Version=2.0.1.171, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Sitecore.Diagnostics.Objects.2.0.1.171\lib\Sitecore.Diagnostics.Objects.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -434,8 +432,161 @@
     <Content Include="Configurations\Configuration - Sitecore 8.2 - Disable Xdb.zip">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="GlobalParamsConfig\GlobalSettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="GlobalParamsConfig\XM\GlobalParams_9.0_XM1.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="GlobalParamsConfig\XP\GlobalParams_9.0_XP0.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="GlobalParamsConfig\XP\GlobalParams_9.0_XP1.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="GlobalParamsConfig\XP\GlobalParams_9.1.0_XP0.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="GlobalParamsConfig\XP\GlobalParams_9.1.0_XP1.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="GlobalParamsConfig\XP\GlobalParams_9.1_XP0.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="GlobalParamsConfig\XP\GlobalParams_9.1_XP1.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="GlobalParamsConfig\XP\GlobalParams_9.2_XP1.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="GlobalParamsConfig\XM\GlobalParams_9.1.0_XM1.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="GlobalParamsConfig\XM\GlobalParams_9.1_XM1.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="GlobalParamsConfig\XM\GlobalParams_9.2_XM1.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CustomSifConfig\XP1\900\xconnect-createcert.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="GlobalParamsConfig\XP\GlobalParams_9.0.0_XP0.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="GlobalParamsConfig\XP\GlobalParams_9.0.0_XP1.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="GlobalParamsConfig\XM\GlobalParams_9.3_XM1.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="GlobalParamsConfig\Validators.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="GlobalParamsConfig\XP\GlobalParams_10.0_XP0.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="GlobalParamsConfig\XM\GlobalParams_10.0_XM1.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="GlobalParamsConfig\XP\GlobalParams_10.0_XP1.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CustomSifConfig\Solr\Solr-SingleDeveloper.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="GlobalParamsConfig\Solr\GlobalParams_solr.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ButtonsConfiguration\ButtonsConfiguration.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <None Include="GlobalParamsConfig\XP\GlobalParams_10.0_XP0_SXA.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="GlobalParamsConfig\XP\GlobalParams_9.2_XP0.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <Content Include="GlobalParamsConfig\XP\GlobalParams_9.3_XP0.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="GlobalParamsConfig\XP\GlobalParams_9.3_XP1.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="GlobalParamsConfig\XP\GlobalParams_9.3_XP0_SXA.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="packages.config" />
     <Content Include="Packages\Visual Studio 2015 Website Project.manifest.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SC90UninstallTasks\XM1\sitecore-solr.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SC90UninstallTasks\XM1\sitecore-XM1-cd.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SC90UninstallTasks\XM1\sitecore-XM1-cm.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SC90UninstallTasks\XP0\sitecore-solr.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SC90UninstallTasks\XP0\sitecore-XP0.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SC90UninstallTasks\XP0\xconnect-solr.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SC90UninstallTasks\XP0\xconnect-xp0.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SC90UninstallTasks\XP1\sitecore-solr.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SC90UninstallTasks\XP1\sitecore-XP1-cd.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SC90UninstallTasks\XP1\sitecore-XP1-cm.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SC90UninstallTasks\XP1\sitecore-xp1-dds.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SC90UninstallTasks\XP1\sitecore-XP1-prc.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SC90UninstallTasks\XP1\sitecore-XP1-rep.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SC90UninstallTasks\XP1\xconnect-solr.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SC90UninstallTasks\XP1\xconnect-xp1-collection.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SC90UninstallTasks\XP1\xconnect-xp1-collectionsearch.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SC90UninstallTasks\XP1\xconnect-xp1-MarketingAutomation.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SC90UninstallTasks\XP1\xconnect-xp1-MarketingAutomationReporting.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SC90UninstallTasks\XP1\xconnect-xp1-ReferenceData.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SC90UninstallTasks\XP0\900\xconnect-xp0.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SC90UninstallTasks\XP0\900\sitecore-XP0.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SC90UninstallTasks\XP1\900\xconnect-xp1-collection.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SC90UninstallTasks\XP1\900\sitecore-XP1-cm.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Page Include="ExpressionLight.xaml">
@@ -478,6 +629,10 @@
       <Project>{7a3fedf8-df96-4426-aa01-c2d4fd3e68c8}</Project>
       <Name>SIM.Pipelines</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SIM.Telemetry\SIM.Telemetry.csproj">
+      <Project>{b91b2024-3f75-4df7-8dcc-111fb5ccaf5d}</Project>
+      <Name>SIM.Telemetry</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SIM.Tool.Windows\SIM.Tool.Windows.csproj">
       <Project>{221FB0E1-56C0-499C-82F3-BA4060D6ED0C}</Project>
       <Name>SIM.Tool.Windows</Name>
@@ -513,5 +668,6 @@
   <ItemGroup>
     <Resource Include="Images\Sitecore.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -37,6 +37,9 @@ namespace SIM.Tool
   using File = System.IO.File;
   using SIM.IO.Real;
   using SIM.Tool.Windows.Pipelines.Setup;
+  using SIM.Telemetry;
+  using SIM.Telemetry.Models;
+  using SIM.Telemetry.Providers;
 
   public partial class App
   {
@@ -254,7 +257,9 @@ namespace SIM.Tool
       CoreApp.DeleteTempFolders();
 
       LoadIocResourcesForSolr();
-      Analytics.Start();
+
+      InitializeTelemetry();
+      Telemetry.Analytics.Track(TelemetryEvent.AppRun);
 
       // Show main window
       try
@@ -270,9 +275,42 @@ namespace SIM.Tool
 
       CoreApp.Exit();
 
-      Analytics.Flush();
-
       Environment.Exit(0);
+    }
+
+    private void InitializeTelemetry()
+    {
+      var _logger = new SIM.Core.Logging.SitecoreLogger(Microsoft.Extensions.Logging.LogLevel.Debug);
+
+      var kbProviderConfiguration = new KBProviderConfiguration() { BaseAddress = Constants.KBProviderBaseAddress };
+
+      var kbTelemetryProvider = new KnowledgeBaseProvider(kbProviderConfiguration, true, _logger);
+
+      Telemetry.Analytics.RegisterProvider(kbTelemetryProvider);
+
+      try
+      {
+        string appVersion = string.IsNullOrEmpty(ApplicationManager.AppVersion) ? "0.0.0.0" : ApplicationManager.AppVersion;
+
+        var telemetryEventContext = new TelemetryEventContext(
+          Constants.SitecoreInstanceManagerAppId,
+          AnalyticsHelper.GetDeviceId(ApplicationManager.TempFolder, _logger),
+          appVersion,
+          _logger
+          );
+
+        Telemetry.Analytics.Initialize(telemetryEventContext, WindowsSettings.AppTelemetryEnabled.Value, _logger);
+      }
+      catch (Exception ex)
+      {
+        Log.Error($"'TelemetryEventContext' error occurred.{Environment.NewLine}" +
+          $"Message: {ex.Message}{Environment.NewLine}," +
+          $"{ex.StackTrace}");
+
+        return;
+      }
+
+
     }
 
     private void InitializeLogging()
@@ -467,12 +505,14 @@ namespace SIM.Tool
       {
         try
         {
+          var pipelinesConfig = XmlDocumentEx.LoadXml(PipelinesConfig.Contents);
+
           var wizardPipelinesConfig = XmlDocumentEx.LoadXml(WizardPipelinesConfig.Contents);
           var pipelinesNode = wizardPipelinesConfig.SelectSingleNode("/configuration/pipelines") as XmlElement;
-          Assert.IsNotNull(pipelinesNode, nameof(pipelinesNode));
-
-          var pipelinesConfig = XmlDocumentEx.LoadXml(PipelinesConfig.Contents);
-          pipelinesConfig.Merge(XmlDocumentEx.LoadXml(pipelinesNode.OuterXml));
+          if (pipelinesNode != null)
+          {
+            pipelinesConfig.Merge(XmlDocumentEx.LoadXml(pipelinesNode.OuterXml));
+          }
 
           var resultPipelinesNode = pipelinesConfig.SelectSingleNode("/pipelines") as XmlElement;
           Assert.IsNotNull(resultPipelinesNode, "Can't find pipelines configuration node");

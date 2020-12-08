@@ -238,7 +238,9 @@
     [NotNull]
     public virtual string GetUrl([CanBeNull] string path = null)
     {
-      var binding = Bindings.FirstOrDefault();
+      var binding = Bindings
+        .OrderBy(x => string.Equals(x.Protocol, "https", StringComparison.OrdinalIgnoreCase) ? 0 : 1) // to use https when available
+        .FirstOrDefault();
       Assert.IsNotNull(binding, $"Website {ID} has no url bindings");
       var url = binding.Protocol + "://";
       var host = binding.Host;

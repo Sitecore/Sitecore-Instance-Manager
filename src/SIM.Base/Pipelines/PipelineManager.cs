@@ -18,7 +18,7 @@
   {
     #region Fields
     
-    private static readonly Dictionary<string, PipelineDefinition> Definitions = new Dictionary<string, PipelineDefinition>();
+    public static readonly Dictionary<string, PipelineDefinition> Definitions = new Dictionary<string, PipelineDefinition>();
 
     #endregion
 
@@ -164,7 +164,7 @@
         ProfileSection.Argument("controller", controller);
         ProfileSection.Argument("isAsync", isAsync);
 
-        Assert.IsTrue(Definitions.ContainsKey(pipelineName), "The {pipelineName} pipeline defintion does not exist");
+        Assert.IsTrue(Definitions.ContainsKey(pipelineName), $"The {pipelineName} pipeline defintion does not exist");
         PipelineDefinition definition = Definitions[pipelineName];
 
         Pipeline pipeline = new Pipeline(definition, args, controller, isAsync);

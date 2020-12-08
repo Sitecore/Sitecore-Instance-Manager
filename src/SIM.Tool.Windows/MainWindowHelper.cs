@@ -1,4 +1,6 @@
-﻿namespace SIM.Tool.Windows
+﻿using System.Runtime.CompilerServices;
+
+namespace SIM.Tool.Windows
 {
   using System;
   using System.Collections.Generic;
@@ -12,7 +14,6 @@
   using System.Windows.Input;
   using System.Windows.Media;
   using System.Xaml;
-
   using Fluent;
   using SIM.Instances;
   using SIM.Pipelines.Agent;
@@ -22,6 +23,7 @@
   using SIM.Tool.Base;
   using SIM.Tool.Base.Plugins;
   using SIM.Tool.Base.Profiles;
+  using SIM.Tool.Windows.CustomConverters;
   using Sitecore.Diagnostics.Base;
   using JetBrains.Annotations;
   using Sitecore.Diagnostics.Logging;
@@ -29,6 +31,8 @@
   using Core;
   using SIM.Extensions;
   using SIM.Tool.Base.Pipelines;
+  using System.ComponentModel;
+  using System.Windows.Data;
 
   #region
 
@@ -91,6 +95,13 @@
       using (new ProfileSection("Initialize context menu"))
       {
         MainWindow window = MainWindow.Instance;
+        // This is needed to bind properties of custom buttons to menu items in the InitializeContextMenuItem method
+        window.ContextMenu.PlacementTarget = window.InstanceList;
+        window.ContextMenu.DataContext = new System.Windows.Data.Binding("PlacementTarget.DataContext")
+        {
+          RelativeSource = RelativeSource.Self
+        };
+
         foreach (var item in menuItems)
         {
           using (new ProfileSection("Fill in context menu"))
@@ -100,7 +111,15 @@
             var header = item.Label;
             if (string.IsNullOrEmpty(header))
             {
-              window.ContextMenu.Items.Add(new Separator());
+              Separator separator = new Separator();
+              if (item.Handler != null)
+              {
+                // bind IsEnabled and IsVisible events
+                SetMenuItemIsEnabledProperty(separator, item.Handler);
+                SetMenuItemIsVisibleProperty(separator, item.Handler);
+              }
+
+              window.ContextMenu.Items.Add(separator);
               continue;
             }
 
@@ -257,7 +276,12 @@
         var instance = SelectedInstance;
         var name = instance != null ? instance.Name : null;
         var instancesFolder = !CoreAppSettings.CoreInstancesDetectEverywhere.Value ? ProfileManager.Profile.InstancesFolder : null;
-        InstanceManager.Default.Initialize(instancesFolder);
+      
+        WindowHelper.LongRunningTask(() =>
+        {
+            InstanceManager.Default.Initialize(instancesFolder);
+        }, "Refresh Sitecore web sites", mainWindow, "Scanning IIS applications to find Sitecore web sites", "", true);
+
         Search();
         if (string.IsNullOrEmpty(name))
         {
@@ -285,41 +309,57 @@
       Assert.ArgumentNotNull(license, nameof(license));
       Assert.ArgumentNotNull(connectionString, nameof(connectionString));
 
-      if (instance.IsSitecore)
+      if (instance.IsSitecore || instance.IsSitecoreEnvironmentMember)
       {
-        Product product = instance.Product;
-        if (string.IsNullOrEmpty(product.PackagePath))
+        if (int.Parse(instance.Product.ShortVersion) < 90)
         {
-          if (WindowHelper.ShowMessage("The {0} product isn't presented in your local repository. Would you like to choose the zip installation package?".FormatWith(instance.ProductFullName), MessageBoxButton.YesNo, MessageBoxImage.Stop) == MessageBoxResult.Yes)
+          Product product = instance.Product;
+          if (string.IsNullOrEmpty(product.PackagePath))
           {
-            var patt = instance.ProductFullName + ".zip";
-            OpenFileDialog fileBrowserDialog = new OpenFileDialog
+            if (WindowHelper.ShowMessage("The {0} product isn't presented in your local repository. Would you like to choose the zip installation package?".FormatWith(instance.ProductFullName), MessageBoxButton.YesNo, MessageBoxImage.Stop) == MessageBoxResult.Yes)
             {
-              Title = @"Choose installation package",
-              Multiselect = false,
-              CheckFileExists = true,
-              Filter = patt + '|' + patt
-            };
-
-            if (fileBrowserDialog.ShowDialog() == DialogResult.OK)
-            {
-              product = Product.Parse(fileBrowserDialog.FileName);
-              if (string.IsNullOrEmpty(product.PackagePath))
+              var patt = instance.ProductFullName + ".zip";
+              OpenFileDialog fileBrowserDialog = new OpenFileDialog
               {
-                WindowHelper.HandleError("SIM can't parse the {0} package".FormatWith(instance.ProductFullName), true, null);
-                return;
+                Title = @"Choose installation package",
+                Multiselect = false,
+                CheckFileExists = true,
+                Filter = patt + '|' + patt
+              };
+
+              if (fileBrowserDialog.ShowDialog() == DialogResult.OK)
+              {
+                product = Product.Parse(fileBrowserDialog.FileName);
+                if (string.IsNullOrEmpty(product.PackagePath))
+                {
+                  WindowHelper.HandleError("SIM can't parse the {0} package".FormatWith(instance.ProductFullName), true, null);
+                  return;
+                }
               }
             }
           }
-        }
 
-        if (string.IsNullOrEmpty(product.PackagePath))
-        {
-          return;
+          if (string.IsNullOrEmpty(product.PackagePath))
+          {
+            return;
+          }
         }
 
         var name = instance.Name;
         WizardPipelineManager.Start("reinstall", owner, null, null, ignore => MakeInstanceSelected(name), () => new ReinstallWizardArgs(instance, connectionString, license));
+      }
+    }
+
+    public static void Reinstall9Instance([NotNull] Instance instance, Window owner, [NotNull] string license, [NotNull] SqlConnectionStringBuilder connectionString)
+    {
+      Assert.ArgumentNotNull(instance, nameof(instance));
+      Assert.ArgumentNotNull(license, nameof(license));
+      Assert.ArgumentNotNull(connectionString, nameof(connectionString));
+
+      if (instance.IsSitecore || instance.IsSitecoreEnvironmentMember)
+      {       
+        var name = instance.Name;
+        WizardPipelineManager.Start("reinstall9", owner, null, null, ignore => MakeInstanceSelected(name), () => new ReinstallWizardArgs(instance, connectionString, license));
       }
     }
 
@@ -382,7 +422,6 @@
           if (mainWindowButton != null && mainWindowButton.IsEnabled(MainWindow.Instance, SelectedInstance))
           {
             mainWindowButton.OnClick(MainWindow.Instance, SelectedInstance);
-            RefreshInstances();
           }
         }
         catch (Exception ex)
@@ -476,7 +515,8 @@
           var menuButton = new Fluent.MenuItem()
           {
             Header = menuHeader,
-            IsEnabled = menuHandler?.IsEnabled(window, SelectedInstance) ?? true
+            IsEnabled = menuHandler?.IsEnabled(window, SelectedInstance) ?? true,
+            Visibility = menuHandler != null && menuHandler.IsEnabled(window, SelectedInstance) ? Visibility.Visible : Visibility.Collapsed
           };
 
           if (menuIcon != null)
@@ -486,24 +526,24 @@
 
           if (menuHandler != null)
           {
-            // bind IsEnabled event
-            SetIsEnabledProperty(menuButton, menuHandler);
+            // bind IsEnabled and IsVisible events
+            SetRibbonButtonIsEnabledProperty(menuButton, menuHandler);
+            SetRibbonButtonIsVisibleProperty(menuButton, menuHandler);
 
             menuButton.Click += delegate
-          {
-            try
             {
-              if (menuHandler.IsEnabled(MainWindow.Instance, SelectedInstance))
+              try
               {
-                menuHandler.OnClick(MainWindow.Instance, SelectedInstance);
-                RefreshInstances();
+                if (menuHandler.IsEnabled(MainWindow.Instance, SelectedInstance) && menuHandler.IsVisible(MainWindow.Instance, SelectedInstance))
+                {
+                  menuHandler.OnClick(MainWindow.Instance, SelectedInstance);
+                }
               }
-            }
-            catch (Exception ex)
-            {
-              WindowHelper.HandleError($"Error during handling menu button click: {menuHandler.GetType().FullName}", true, ex);
-            }
-          };
+              catch (Exception ex)
+              {
+                WindowHelper.HandleError($"Error during handling menu button click: {menuHandler.GetType().FullName}", true, ex);
+              }
+            };
           }
 
           items.Add(menuButton);
@@ -579,19 +619,23 @@
             Height = 16
           },
           IsEnabled = mainWindowButton == null || mainWindowButton.IsEnabled(window, SelectedInstance),
+          Visibility = mainWindowButton != null && mainWindowButton.IsVisible(window, SelectedInstance) ? Visibility.Visible : Visibility.Collapsed,
           Tag = mainWindowButton
         };
 
         if (mainWindowButton != null)
         {
+          // bind IsEnabled and IsVisible events
+          SetMenuItemIsEnabledProperty(menuItem, mainWindowButton);
+          SetMenuItemIsVisibleProperty(menuItem, mainWindowButton);
+
           menuItem.Click += (obj, e) =>
           {
             try
             {
-              if (mainWindowButton.IsEnabled(MainWindow.Instance, SelectedInstance))
+              if (mainWindowButton.IsEnabled(MainWindow.Instance, SelectedInstance) && mainWindowButton.IsVisible(MainWindow.Instance, SelectedInstance))
               {
                 mainWindowButton.OnClick(MainWindow.Instance, SelectedInstance);
-                RefreshInstances();
               }
             }
             catch (Exception ex)
@@ -599,8 +643,6 @@
               WindowHelper.HandleError("Failed to initialize context menu", true, ex);
             }
           };
-
-          SetIsEnabledProperty(menuItem, mainWindowButton);
         }
 
         foreach (var childElement in menuItemElement.Buttons ?? new ButtonDefinition[0])
@@ -619,6 +661,24 @@
       {
         Log.Error(ex, "Plugin Menu Item caused an exception");
       }
+    }
+
+    private static void SetMenuItemIsEnabledProperty(FrameworkElement menuItem, IMainWindowButton mainWindowButton)
+    {
+      menuItem.SetBinding(UIElement.IsEnabledProperty, new System.Windows.Data.Binding("PlacementTarget.SelectedItem")
+      {
+        RelativeSource = new RelativeSource(RelativeSourceMode.FindAncestor, typeof(System.Windows.Controls.ContextMenu), 1),
+        Converter = new CustomButtonEnabledConverter(mainWindowButton)
+      });
+    }
+
+    private static void SetMenuItemIsVisibleProperty(FrameworkElement menuItem, IMainWindowButton mainWindowButton)
+    {
+      menuItem.SetBinding(UIElement.VisibilityProperty, new System.Windows.Data.Binding("PlacementTarget.SelectedItem")
+      {
+        RelativeSource = new RelativeSource(RelativeSourceMode.FindAncestor, typeof(System.Windows.Controls.ContextMenu), 1),
+        Converter = new CustomButtonVisibilityConverter(mainWindowButton)
+      });
     }
 
     private static void InitializeRibbonButton(MainWindow window, Func<string, ImageSource> getImage, ButtonDefinition button, RibbonGroupBox ribbonGroup)
@@ -647,12 +707,14 @@
             ribbonButton.Width = d;
           }
 
-          // bind IsEnabled event
           if (mainWindowButton != null)
           {
             ribbonButton.Tag = mainWindowButton;
             ribbonButton.IsEnabled = mainWindowButton.IsEnabled(window, SelectedInstance);
-            SetIsEnabledProperty(ribbonButton, mainWindowButton);
+            ribbonButton.Visibility = mainWindowButton.IsVisible(window, SelectedInstance) ? Visibility.Visible : Visibility.Collapsed;
+            // bind IsEnabled and IsVisible events
+            SetRibbonButtonIsEnabledProperty(ribbonButton, mainWindowButton);
+            SetRibbonButtonIsVisibleProperty(ribbonButton, mainWindowButton);
           }
         }
         catch (Exception ex)
@@ -660,6 +722,24 @@
           WindowHelper.HandleError($"Plugin Button caused an exception: {button.Label}", true, ex);
         }
       }
+    }
+
+    private static void SetRibbonButtonIsEnabledProperty(FrameworkElement ribbonButton, IMainWindowButton mainWindowButton)
+    {
+      ribbonButton.SetBinding(UIElement.IsEnabledProperty, new System.Windows.Data.Binding("SelectedItem")
+      {
+        Converter = new CustomButtonEnabledConverter(mainWindowButton),
+        ElementName = "InstanceList"
+      });
+    }
+
+    private static void SetRibbonButtonIsVisibleProperty(FrameworkElement ribbonButton, IMainWindowButton mainWindowButton)
+    {
+      ribbonButton.SetBinding(UIElement.VisibilityProperty, new System.Windows.Data.Binding("SelectedItem")
+      {
+        Converter = new CustomButtonVisibilityConverter(mainWindowButton),
+        ElementName = "InstanceList"
+      });
     }
 
     private static void InitializeRibbonTab([NotNull] TabDefinition tab, MainWindow window, Func<string, ImageSource> getImage)
@@ -692,15 +772,22 @@
           {
             InitializeRibbonButton(window, getImage, button, ribbonGroup);
           }
+
+          var groupHandler = group.Handler;
+          if (groupHandler != null)
+          {
+            // bind IsVisible event for group element
+            SetRibbonTabIsVisibleProperty(ribbonGroup, groupHandler);
+          }
         }
       }
     }
 
-    private static void SetIsEnabledProperty(FrameworkElement ribbonButton, IMainWindowButton mainWindowButton)
+    private static void SetRibbonTabIsVisibleProperty(FrameworkElement ribbonGroup, IMainWindowGroup groupHandler)
     {
-      ribbonButton.SetBinding(UIElement.IsEnabledProperty, new System.Windows.Data.Binding("SelectedItem")
+      ribbonGroup.SetBinding(UIElement.VisibilityProperty, new System.Windows.Data.Binding("SelectedItem")
       {
-        Converter = new CustomConverter(mainWindowButton),
+        Converter = new CustomGroupVisibilityConverter(groupHandler),
         ElementName = "InstanceList"
       });
     }
@@ -792,9 +879,12 @@
     {
       using (new ProfileSection("Main window instance selected handler"))
       {
-        if (SelectedInstance != null && MainWindow.Instance.HomeTab.IsSelected)
+        if (SelectedInstance != null)
         {
-          MainWindow.Instance.OpenTab.IsSelected = true;
+          if (MainWindow.Instance.HomeTab.IsSelected)
+          {
+            MainWindow.Instance.OpenTab.IsSelected = true;
+          }
         }
       }
     }
@@ -842,7 +932,7 @@
       using (new ProfileSection("Main window search handler"))
       {
         var searchPhrase = Invoke(w => w.SearchTextBox.Text.Trim());
-        IEnumerable<Instance> source = InstanceManager.Default.PartiallyCachedInstances;
+        IEnumerable<Instance> source = InstanceManager.Default.PartiallyCachedInstances?.Values;
         if (source == null)
         {
           return;
@@ -854,8 +944,23 @@
           source = source.Where(instance => IsInstanceMatch(instance, searchPhrase));
         }
 
-        source = source.OrderBy(instance => instance.Name);
-        MainWindow.Instance.InstanceList.DataContext = source;
+        ICollectionView view = CollectionViewSource.GetDefaultView(source);
+        if (!view.GroupDescriptions.OfType<PropertyGroupDescription>().Any(x=>x.PropertyName=="SitecoreEnvironment.Name"))
+        {
+          view.GroupDescriptions.Add(new PropertyGroupDescription("SitecoreEnvironment.Name"));
+        }
+
+        if (!view.SortDescriptions.OfType<SortDescription>().Any(x => x.PropertyName == "SitecoreEnvironment.Name"))
+        {
+          view.SortDescriptions.Add(new SortDescription("SitecoreEnvironment.Name", ListSortDirection.Ascending));
+        }
+
+        if (!view.SortDescriptions.OfType<SortDescription>().Any(x => x.PropertyName == "Name"))
+        {
+          view.SortDescriptions.Add(new SortDescription("Name", ListSortDirection.Ascending));
+        }
+
+        MainWindow.Instance.InstanceList.DataContext = view;
         MainWindow.Instance.SearchTextBox.Focus();
       }
     }

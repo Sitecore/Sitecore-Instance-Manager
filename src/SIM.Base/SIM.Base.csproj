@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SIM</RootNamespace>
     <AssemblyName>SIM.Base</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
     <LangVersion>6</LangVersion>
@@ -43,11 +43,11 @@
     <Reference Include="JetBrains.Annotations, Version=11.1.0.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
       <HintPath>..\packages\JetBrains.Annotations.11.1.0\lib\net20\JetBrains.Annotations.dll</HintPath>
     </Reference>
-    <Reference Include="Sitecore.Diagnostics.Base, Version=2.0.1.65, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Sitecore.Diagnostics.Base.2.0.1.65\lib\Sitecore.Diagnostics.Base.dll</HintPath>
+    <Reference Include="Sitecore.Diagnostics.Base, Version=2.0.1.171, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Sitecore.Diagnostics.Base.2.0.1.171\lib\Sitecore.Diagnostics.Base.dll</HintPath>
     </Reference>
-    <Reference Include="Sitecore.Diagnostics.Logging, Version=2.0.1.65, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Sitecore.Diagnostics.Logging.2.0.1.65\lib\Sitecore.Diagnostics.Logging.dll</HintPath>
+    <Reference Include="Sitecore.Diagnostics.Logging, Version=2.0.1.171, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Sitecore.Diagnostics.Logging.2.0.1.171\lib\Sitecore.Diagnostics.Logging.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
@@ -77,6 +77,8 @@
     <Compile Include="FileSystem\TempFolder.cs" />
     <Compile Include="IAdvancedSettingsStorage.cs" />
     <Compile Include="IProfile.cs" />
+    <Compile Include="IValidateable.cs" />
+    <Compile Include="RenderInDataGreedAttribute.cs" />
     <Compile Include="Safe.cs" />
     <Compile Include="Parameters.cs" />
     <Compile Include="Pipelines\Pipeline.cs" />
@@ -102,6 +104,8 @@
     <Compile Include="ReflectionUtil.cs" />
     <Compile Include="Services\ConnectionString.cs" />
     <Compile Include="Services\SqlConnectionString.cs" />
+    <Compile Include="SolrDefinition.cs" />
+    <Compile Include="VersionToSolr.cs" />
     <Compile Include="WebRequestHelper.cs" />
     <Compile Include="XmlBasedAdvancedSettingsStorage.cs" />
     <Compile Include="AppConfigSectionHandler.cs" />

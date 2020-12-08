@@ -10,6 +10,8 @@
 
     bool IsEnabled([NotNull] Window mainWindow, [CanBeNull] Instance instance);
 
+    bool IsVisible([NotNull] Window mainWindow, [CanBeNull] Instance instance);
+
     void OnClick([NotNull] Window mainWindow, [CanBeNull] Instance instance);
 
     #endregion

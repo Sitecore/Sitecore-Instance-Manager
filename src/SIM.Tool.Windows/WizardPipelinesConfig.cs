@@ -4,24 +4,14 @@
   {
     public const string Contents = @"<configuration>
   <pipelines>
-    <setup title=""Configing application"">
-      <processor type=""SIM.Tool.Windows.Pipelines.Setup.SetupProcessor, SIM.Tool.Windows""
-                 title=""Configuring application"" />
-      <processor type=""SIM.Tool.Windows.Pipelines.Agreement.AcceptAgreement, SIM.Tool.Windows""
-                 title=""Saving accepted agreement"" />
-    </setup>
-    <agreement title=""License agreement"">
-      <processor type=""SIM.Tool.Windows.Pipelines.Agreement.AcceptAgreement, SIM.Tool.Windows""
-                 title=""Saving accepted agreement"" />
-    </agreement>
     <download8 title=""Downloading Sitecore"">
       <processor type=""SIM.Tool.Windows.Pipelines.Download8.Download8Processor, SIM.Tool.Windows""
-                 title=""Downloading packages"" />
+                  title=""Downloading packages"" />
     </download8>
   </pipelines>
   <wizardPipelines>
     <agreement title=""SIM License Agreement"" startButton=""Accept"" finishText=""Thank you"">
-      <steps>
+      <steps afterLastStep=""SIM.Tool.Windows.SaveAgreement, SIM.Tool.Windows"">
         <step name=""Welcome message"" type=""SIM.Tool.Windows.UserControls.ConfirmStepUserControl, SIM.Tool.Windows""
               param=""PLEASE READ IT CAREFULLY! You can see this wizard because it is the first time Sitecore Instance Manager was executed in this user account after installation or update. You should accept license agreement to use it. It was taken from http://marketplace.sitecore.net and most likely you already accepted it before downloading, but just in case please do it again here."" />
         <step name=""License agreement from marketplace.sitecore.net""
@@ -78,7 +68,7 @@ By clicking 'Accept' you accept the License Agreement."" />
     <setup title=""Initial Configuration Wizard"" startButton=""Next""
            finishText=""Congratulations! The installation was successfully completed and you can start using it out of the box. If you don't have any Sitecore zip files in the local repository then you may download them from SDN via Download Sitecores from SDN button on the Ribbon or do it manually""
            cancelButton=""Exit"">
-      <steps>
+      <steps afterLastStep=""SIM.Tool.Windows.Pipelines.Setup.SetupProcessor, SIM.Tool.Windows"">
         <step name=""Welcome message"" type=""SIM.Tool.Windows.UserControls.ConfirmStepUserControl, SIM.Tool.Windows""
               param=""PLEASE READ IT CAREFULLY! You can see this wizard because it is the first time Sitecore Instance Manager (SIM) was executed in this user account. You should accept license agreement and then set your preferences before you can use it, this wizard will help you.
               
@@ -194,6 +184,57 @@ By clicking 'Next' you accept the License Agreement."" />
               param=""The following credentials will be used for authenticating in dev.sitecore.net and performing downloading selected Sitecore versions on behalf of you. "" />
       </steps>
     </download8>
+
+    <installSolr title=""Installing new Solr instance"" startButton=""Install""
+                 finishText=""The installation was successfully completed"">
+          <args type=""SIM.Tool.Base.Pipelines.Install9WizardArgs, SIM.Tool.Base""/>
+          <steps>
+            <step name=""STEP 1 of 2 - DETAILS"" 
+                  type=""SIM.Tool.Windows.UserControls.Install.SolrDetails, SIM.Tool.Windows"" />
+            <step name=""STEP 2 of 2 - SELECT INSTALLATION TASKS"" 
+                  type=""SIM.Tool.Windows.UserControls.Install.Instance9SelectTasks, SIM.Tool.Windows"" />
+         </steps> 
+      <finish>
+         <action text=""Add this solr to SIM"" type=""SIM.Tool.Windows.Pipelines.Solr.AddSolrToSimConfig, SIM.Tool.Windows"" method=""Run"" />
+      </finish>
+     </installSolr>
+
+<delete9 title=""Deleting instances"" startButton=""Delete""
+             finishText=""The uninstallation was successfully completed"">
+      <args type=""SIM.Tool.Base.Pipelines.Install9WizardArgs, SIM.Tool.Base""/>
+      <steps>
+        <step name=""STEP 1 of 2 - DETAILS"" 
+              type=""SIM.Tool.Windows.UserControls.Install.Delete9Details, SIM.Tool.Windows"" />
+        <step name=""STEP 2 of 2 - SELECT UNINSTALLATION TASKS"" 
+              type=""SIM.Tool.Windows.UserControls.Install.Instance9SelectTasks, SIM.Tool.Windows"" />        
+     </steps>     
+     <finish>
+         <hive type=""SIM.Tool.Windows.Pipelines.Install.Install9ActionsHive, SIM.Tool.Windows"" />
+     </finish>
+    </delete9>
+    <reinstall9 title=""Reinstalling {InstanceName}"" startButton=""Reinstall""
+             finishText=""The re-installation was successfully completed"">    
+      <args type=""SIM.Tool.Base.Pipelines.ReinstallWizardArgs, SIM.Tool.Base""/>
+      <steps>
+        <step name=""Confirmation"" 
+              type=""SIM.Tool.Windows.UserControls.Reinstall.Reinstall9Confirmation, SIM.Tool.Windows"" />       
+     </steps>  
+    </reinstall9>
+    <install9 title=""Installing new instance"" startButton=""Install""
+             finishText=""The installation was successfully completed"">
+      <args type=""SIM.Tool.Base.Pipelines.Install9WizardArgs, SIM.Tool.Base""/>
+      <steps>
+        <step name=""STEP 1 of 3 - DETAILS"" 
+              type=""SIM.Tool.Windows.UserControls.Install.Instance9Details, SIM.Tool.Windows"" />
+        <step name=""STEP 2 of 3 - SELECT INSTALLATION TASKS"" 
+              type=""SIM.Tool.Windows.UserControls.Install.Instance9SelectTasks, SIM.Tool.Windows"" />
+<step name=""STEP 3 of 3 - PARAMETERS VALIDATION"" 
+              type=""SIM.Tool.Windows.UserControls.Install.Instance9Validation, SIM.Tool.Windows"" />
+     </steps>   
+     <finish>
+         <hive type=""SIM.Tool.Windows.Pipelines.Install.Install9ActionsHive, SIM.Tool.Windows"" />
+     </finish>
+    </install9>
     <install title=""Installing new instance"" startButton=""Install""
              finishText=""The installation was successfully completed"">
       <steps>
@@ -355,8 +396,6 @@ But the confirmation will be required if the databases are attached to:
         <action text=""Open Visual Studio"" 
                 type=""SIM.Tool.Windows.Pipelines.Reinstall.FinishActions, SIM.Tool.Windows"" method=""OpenVisualStudio"" />
 
-        <action text=""Make a back up"" 
-                type=""SIM.Tool.Windows.Pipelines.Reinstall.FinishActions, SIM.Tool.Windows"" method=""BackupInstance"" />
       </finish>
     </reinstall>
     <installmodules title=""Installing modules to the {InstanceName} instance"" startButton=""Install""
@@ -382,8 +421,6 @@ But the confirmation will be required if the databases are attached to:
                 method=""OpenWebsiteFolder"" />
         <action text=""Open Visual Studio"" type=""SIM.Tool.Windows.Pipelines.Install.InstallModulesActions, SIM.Tool.Windows""
                 method=""OpenVisualStudio"" />
-        <action text=""Make a back up"" type=""SIM.Tool.Windows.Pipelines.Install.InstallModulesActions, SIM.Tool.Windows""
-                method=""BackupInstance"" />
         <action text=""Publish Site"" type=""SIM.Tool.Windows.Pipelines.Install.InstallModulesActions, SIM.Tool.Windows"" method=""PublishSite"" />
         <hive type=""SIM.Tool.Windows.Pipelines.Install.InstallModulesFinishActionHive, SIM.Tool.Windows"" />
       </finish>

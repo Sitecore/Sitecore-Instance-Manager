@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SIM.Tool.Base</RootNamespace>
     <AssemblyName>SIM.Tool.Base</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
@@ -47,11 +47,11 @@
       <SpecificVersion>False</SpecificVersion>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Sitecore.Diagnostics.Base, Version=2.0.1.65, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Sitecore.Diagnostics.Base.2.0.1.65\lib\Sitecore.Diagnostics.Base.dll</HintPath>
+    <Reference Include="Sitecore.Diagnostics.Base, Version=2.0.1.171, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Sitecore.Diagnostics.Base.2.0.1.171\lib\Sitecore.Diagnostics.Base.dll</HintPath>
     </Reference>
-    <Reference Include="Sitecore.Diagnostics.Logging, Version=2.0.1.65, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Sitecore.Diagnostics.Logging.2.0.1.65\lib\Sitecore.Diagnostics.Logging.dll</HintPath>
+    <Reference Include="Sitecore.Diagnostics.Logging, Version=2.0.1.171, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Sitecore.Diagnostics.Logging.2.0.1.171\lib\Sitecore.Diagnostics.Logging.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -75,8 +75,12 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Converters\InstanceNameToLocation.cs" />
     <Compile Include="EnvironmentHelper.cs" />
+    <Compile Include="Pipelines\Delete9WizardArgs.cs" />
+    <Compile Include="Pipelines\Install9WizardArgs.cs" />
     <Compile Include="Pipelines\ReinstallWizardArgs.cs" />
+    <Compile Include="Plugins\IMainWindowGroup.cs" />
     <Compile Include="WinAppSettings.cs" />
     <Compile Include="AuthenticationHelper.cs" />
     <Compile Include="Converters\IsNotNullOrEmptyAndDirectoryExists.cs" />
@@ -116,6 +120,7 @@
     </Compile>
     <Compile Include="Wizards\FinishAction.cs" />
     <Compile Include="Wizards\FinishActionHive.cs" />
+    <Compile Include="Wizards\IAfterLastWizardPipelineStep.cs" />
     <Compile Include="Wizards\ICustomButtonWizardStep.cs" />
     <Compile Include="Wizards\IFlowControl.cs" />
     <Compile Include="Wizards\IWizardStep.cs" />
@@ -178,6 +183,10 @@
     <ProjectReference Include="..\SIM.Pipelines\SIM.Pipelines.csproj">
       <Project>{7A3FEDF8-DF96-4426-AA01-C2D4FD3E68C8}</Project>
       <Name>SIM.Pipelines</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SIM.Sitecore9Installer\SIM.Sitecore9Installer.csproj">
+      <Project>{5c870ab3-89f2-4e24-ae5d-3593ec816495}</Project>
+      <Name>SIM.Sitecore9Installer</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

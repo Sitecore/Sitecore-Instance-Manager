@@ -1,0 +1,100 @@
+﻿{
+  "Parameters": {
+    //global
+    "SIFVersion": "2.1.0",
+    "SqlServer": "",
+    "SqlAdminUser": "",
+    "SqlAdminPassword": "",
+    "SqlDbPrefix": "",
+    "LicenseFile": "",
+    "DnsName": "$installParams.SiteName",
+    //solr
+    "SolrUrl": "",
+    "SolrRoot": "",
+    "SolrService": "",
+    "CorePrefix": "$GlobalParams.SqlDbPrefix",
+    "BaseConfig": "",
+    //cert
+    "CertPath": "c:/certificates",
+    "RootCertFileName": "",
+    //identity
+    "ClientSecret": "SIF-Default",
+    "AllowedCorsOrigins": "https://\"+$GlobalParams.SqlDbPrefix+\"CM.local",
+    "PasswordRecoveryUrl": "https://\"+$GlobalParams.SqlDbPrefix+\"CM.local",
+    "SqlCoreDbName": "",
+    "SitecoreIdentityCert": "$GlobalParams.SqlDbPrefix+\"Id.local\"",
+    "SitecoreIdentityAuthority": "https://\"+$GlobalParams.SqlDbPrefix+\"Id.local",
+    //Sitecore
+    "SitecoreIdentitySecret": "$GlobalParams.ClientSecret",
+    "SqlSecurityPassword": "[Invoke-RandomStringConfigFunction -Length 20 -DisAllowSpecial -EnforceComplexity]",
+    "SqlSecurityUser": "",
+    "SitecoreAdminPassword": "b",
+    "SolrCorePrefix": "$GlobalParams.SqlDbPrefix",
+    "SqlCoreUser": "",
+    "SqlCorePassword": "[Invoke-RandomStringConfigFunction -Length 20 -DisAllowSpecial -EnforceComplexity]",
+    "SqlWebUser": "",
+    "SqlWebPassword": "[Invoke-RandomStringConfigFunction -Length 20 -DisAllowSpecial -EnforceComplexity]",
+    "SqlFormsUser": "",
+    "SqlFormsPassword": "[Invoke-RandomStringConfigFunction -Length 20 -DisAllowSpecial -EnforceComplexity]",
+    "SqlMasterUser": "",
+    "SqlMasterPassword": "[Invoke-RandomStringConfigFunction -Length 20 -DisAllowSpecial -EnforceComplexity]",
+    "SolrZookeeperUrl": "",
+    "TelerikEncryptionKey": ""
+  },
+  "PackageMapping": {
+
+    "sitecore-XM1-cd": "* (OnPrem)_cd.scwdp.zip",
+    "sitecore-XM1-cm": "* (OnPrem)_cm.scwdp.zip",
+    "IdentityServer": "* (OnPrem)_identityserver.scwdp.zip"
+  },
+
+  "Validators": [
+    "list|Basic",
+    "list|Sitecore_9.1"
+  ],
+
+  "ExecSequense": {
+    "InstallSIF": {
+      "Type": "SIM.Sitecore9Installer.Tasks.InstallSIFTask, SIM.Sitecore9Installer",
+      "TaskOptions": {
+        "InstallVersion": "2.1.0",
+        "Repository": "https://sitecore.myget.org/F/sc-powershell/api/v2",
+        "ExecutionOrder": "-100"
+      }
+    },
+    "Prerequisites": {
+      "Type": "SIM.Sitecore9Installer.Tasks.SitecoreTask, SIM.Sitecore9Installer",
+      "TaskOptions": {
+        "SupportsUninstall": "false"
+      }
+    },
+    "IdentityServerCertificates": {
+      "Type": "SIM.Sitecore9Installer.Tasks.SitecoreTask, SIM.Sitecore9Installer",
+      "Parameters": {
+        "RealName": "createcert",
+        "CertificateName": "$SitecoreIdentityCert"
+      }
+    },
+    "IdentityServer": {
+      "Type": "SIM.Sitecore9Installer.Tasks.SitecoreTask, SIM.Sitecore9Installer",
+      "Parameters": {
+        "SiteName": "$SqlDbPrefix+\"Id.local\""
+      }
+    },
+    "Sitecore-solr": {
+      "Type": "SIM.Sitecore9Installer.Tasks.SitecoreTask, SIM.Sitecore9Installer"
+    },
+    "Sitecore-xm1-cd": {
+      "Type": "SIM.Sitecore9Installer.Tasks.SitecoreTask, SIM.Sitecore9Installer",
+      "Parameters": {
+        "SiteName": "$SqlDbPrefix+\"CD.local\""
+      }
+    },
+    "Sitecore-xm1-cm": {
+      "Type": "SIM.Sitecore9Installer.Tasks.SitecoreTask, SIM.Sitecore9Installer",
+      "Parameters": {
+        "SiteName": "$SqlDbPrefix+\"CM.local\""
+      }
+    }
+  }
+}

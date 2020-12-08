@@ -50,3 +50,9 @@ src/SIM.Foundation.SqlAdapter/bin/
 src/SIM.Foundation.SqlAdapter/obj/
 src/SIM.Foundation.SqlAdapter.IntegrationTests/bin/
 src/SIM.Foundation.SqlAdapter.IntegrationTests/obj/
+src/SIM.Sitecore9Installer/bin/
+src/SIM.Telemetry/bin/
+src/SIM.Telemetry.Tests/bin/
+src/SIM.SitecoreEnvironments/bin/
+/.vs
+src/SIM.Sitecore9Installer.Tests/bin/

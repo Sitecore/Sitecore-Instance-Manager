@@ -3,6 +3,7 @@
   using SIM.Pipelines.Processors;
   using SIM.Tool.Base.Profiles;
   using SIM.Tool.Base.Wizards;
+  using System;
 
   public class SetupWizardArgs : WizardArgs
   {
@@ -42,13 +43,7 @@
 
     public override ProcessorArgs ToProcessorArgs()
     {
-      return new SetupArgs()
-      {
-        InstancesRootFolderPath = InstancesRootFolderPath, 
-        LocalRepositoryFolderPath = LocalRepositoryFolderPath, 
-        LicenseFilePath = LicenseFilePath, 
-        ConnectionString = ConnectionString
-      };
+      return new ProcessorArgs();
     }
 
     #endregion

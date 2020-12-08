@@ -14,6 +14,8 @@
 
     public readonly FinishActionHive[] _FinishActionHives;
 
+    public IAfterLastWizardPipelineStep AfterLastStep { get; }
+
     public readonly FinishAction[] _FinishActions;
 
     public string FinishText { get; }
@@ -30,7 +32,7 @@
 
     #region Constructors
 
-    public WizardPipeline(string name, string title, StepInfo[] stepInfos, Type args, string startButtonText, string cancelButtonText, string finishText, FinishAction[] finishActions, FinishActionHive[] finishActionHives)
+    public WizardPipeline(string name, string title, StepInfo[] stepInfos, Type args, string startButtonText, string cancelButtonText, string finishText, FinishAction[] finishActions, FinishActionHive[] finishActionHives, IAfterLastWizardPipelineStep afterLastStep)
     {
       this.name = name;
       Title = title;
@@ -40,6 +42,7 @@
       _StepInfos = stepInfos;
       _FinishActions = finishActions;
       _FinishActionHives = finishActionHives;
+      AfterLastStep = afterLastStep;
     }
 
     #endregion

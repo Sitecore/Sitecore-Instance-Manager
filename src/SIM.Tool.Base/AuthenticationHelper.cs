@@ -51,7 +51,21 @@
         }
       }
 
-      var querystring = (string.IsNullOrEmpty(pageUrl) ? string.Empty : "&page=" + pageUrl) + (string.IsNullOrEmpty(userName) || userName.EqualsIgnoreCase("admin") || userName.EqualsIgnoreCase("sitecore\\admin") ? string.Empty : "&user=" + HttpUtility.UrlEncode(userName));
+      var password = CoreAppSettings.AppLoginAsAdminNewPassword.Value;
+      var querystring = "";
+
+      querystring += string.IsNullOrEmpty(pageUrl) 
+        ? string.Empty 
+        : "&page=" + pageUrl;
+
+      querystring += string.IsNullOrEmpty(userName) || userName.EqualsIgnoreCase("admin") || userName.EqualsIgnoreCase("sitecore\\admin") 
+        ? string.Empty 
+        : "&user=" + HttpUtility.UrlEncode(userName);
+
+      querystring += string.IsNullOrEmpty(password) || password.Equals("b")
+        ? string.Empty 
+        : "&password=" + password;
+
       querystring = querystring.TrimStart('&');
       if (!string.IsNullOrEmpty(querystring))
       {

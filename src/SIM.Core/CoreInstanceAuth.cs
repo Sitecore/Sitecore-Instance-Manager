@@ -58,6 +58,22 @@
         {
           var shellUrlPrefix = @""/sitecore/shell"";
           var userName = Request.QueryString[""user""] ?? ""sitecore\\admin"";
+          var password = Request.QueryString[""password""] ?? ""b"";
+
+          if (!Sitecore.Security.Accounts.User.Exists(userName))
+          {
+            using (new Sitecore.SecurityModel.SecurityDisabler())
+            {
+              var user = Sitecore.Security.Accounts.User.Create(userName, password);
+
+              var profile = user.Profile;
+              profile.IsAdministrator = true;
+              profile.Save();
+
+              Sitecore.Diagnostics.Log.Audit(""Create admin account: "" + userName, this);
+            }
+          }          
+          
           var pageUrl = Request.QueryString[""page""] ?? shellUrlPrefix;
           Sitecore.Security.Authentication.AuthenticationManager.Login(userName);
           Sitecore.Diagnostics.Log.Warn(string.Format(""Bypassing authentication for {0} account"", userName), this);
