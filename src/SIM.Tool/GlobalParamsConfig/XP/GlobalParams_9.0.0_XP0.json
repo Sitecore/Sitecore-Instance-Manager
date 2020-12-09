@@ -21,32 +21,32 @@
     //xConnect
     "XConnectCert": "$GlobalParams.SqlDbPrefix+\"xconnect_client\"",
     "SqlMarketingAutomationUser": "",
-    "SqlMarketingAutomationPassword": "Password12345",
+    "SqlMarketingAutomationPassword": "Password1234567890!",
     "SqlReferenceDataUser": "",
-    "SqlReferenceDataPassword": "Password12345",
+    "SqlReferenceDataPassword": "Password1234567890!",
     "SqlProcessingPoolsUser": "",
-    "SqlProcessingPoolsPassword": "Password12345",
+    "SqlProcessingPoolsPassword": "Password1234567890!",
     "SqlCollectionUser": "$GlobalParams.SqlDbPrefix+\"collectionuser\"",
-    "SqlCollectionPassword": "Password12345",
+    "SqlCollectionPassword": "Password1234567890!",
     "XConnectEnvironment": "",
     "XConnectLogLevel": "",
     //Sitecore
     "SitecoreAdminPassword": "b",
     "SolrCorePrefix": "$GlobalParams.SqlDbPrefix",
     "SqlCoreUser": "",
-    "SqlCorePassword": "Password12345",
+    "SqlCorePassword": "Password1234567890!",
     "SqlWebUser": "",
-    "SqlWebPassword": "Password12345",
+    "SqlWebPassword": "Password1234567890!",
     "SqlFormsUser": "",
-    "SqlFormsPassword": "Password12345",
+    "SqlFormsPassword": "Password1234567890!",
     "SqlMasterUser": "",
-    "SqlMasterPassword": "Password12345",
+    "SqlMasterPassword": "Password1234567890!",
     "SqlReportingUser": "",
-    "SqlReportingPassword": "Password12345",
+    "SqlReportingPassword": "Password1234567890!",
     "SqlProcessingTasksUser": "",
-    "SqlProcessingTasksPassword": "Password12345",
+    "SqlProcessingTasksPassword": "Password1234567890!",
     "SqlExmMasterUser": "",
-    "SqlExmMasterPassword": "Password12345",
+    "SqlExmMasterPassword": "Password1234567890!",
     "ExmEdsProvider": "",
     "EXMCryptographicKey": "",
     "EXMAuthenticationKey": "",
@@ -61,7 +61,7 @@
     "ReportingServiceApiKey": "",
     "TelerikEncryptionKey": "",
     "SqlMessagingUser": "",
-    "SqlMessagingPassword": "Password12345"
+    "SqlMessagingPassword": "Password1234567890!"
   },
   "PackageMapping": {
 
@@ -91,10 +91,10 @@
       "TaskOptions": {
         "InstallVersion": "1.2.1",
         "UninstallVersion": "2.1.0",
-        "Repository": "https://sitecore.myget.org/F/sc-powershell/api/v2"
+        "Repository": "https://sitecore.myget.org/F/sc-powershell/api/v2",
+        "ExecutionOrder": "-100"
       }
     },
-
     "xconnect-createcert": {
       "Type": "SIM.Sitecore9Installer.Tasks.SitecoreTask, SIM.Sitecore9Installer"
     },

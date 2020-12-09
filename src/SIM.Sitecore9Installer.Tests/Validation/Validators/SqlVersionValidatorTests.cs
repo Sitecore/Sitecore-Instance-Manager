@@ -13,13 +13,10 @@ namespace SIM.Sitecore9Installer.Tests.Validation.Validators
     [ClassData(typeof(ValidatorTestSetup))]
     public void Compatible(IEnumerable<Task> tasks)
     {
-      InstallParam server = new InstallParam("server", "val");
-      InstallParam user = new InstallParam("user", "val");
-      InstallParam pass = new InstallParam("pass", "val");
       Task t= tasks.First();
-      t.LocalParams.Add(server);
-      t.LocalParams.Add(user);
-      t.LocalParams.Add(pass);
+      t.LocalParams.AddOrUpdateParam("server", "val", InstallParamType.String);
+      t.LocalParams.AddOrUpdateParam("user", "val", InstallParamType.String);
+      t.LocalParams.AddOrUpdateParam("pass", "val", InstallParamType.String);
 
       SqlVersionValidator val = Substitute.ForPartsOf<SqlVersionValidator>();
       val.Data["Server"] = "server";
@@ -35,13 +32,10 @@ namespace SIM.Sitecore9Installer.Tests.Validation.Validators
     [ClassData(typeof(ValidatorTestSetup))]
     public void NotCompatible(IEnumerable<Task> tasks)
     {
-      InstallParam server = new InstallParam("server", "val");
-      InstallParam user = new InstallParam("user", "val");
-      InstallParam pass = new InstallParam("pass", "val");
       Task t = tasks.First();
-      t.LocalParams.Add(server);
-      t.LocalParams.Add(user);
-      t.LocalParams.Add(pass);
+      t.LocalParams.AddOrUpdateParam("server", "val", InstallParamType.String);
+      t.LocalParams.AddOrUpdateParam("user", "val", InstallParamType.String);
+      t.LocalParams.AddOrUpdateParam("pass", "val", InstallParamType.String);
 
       SqlVersionValidator val = Substitute.ForPartsOf<SqlVersionValidator>();
       val.Data["Server"] = "server";

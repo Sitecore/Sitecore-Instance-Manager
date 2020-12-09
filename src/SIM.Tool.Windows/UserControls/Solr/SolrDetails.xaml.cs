@@ -38,7 +38,6 @@ namespace SIM.Tool.Windows.UserControls.Install
   public partial class SolrDetails : IWizardStep, IFlowControl
   {
     private Tasker tasker;
-    private Window owner;
     #region Constructors
 
     public SolrDetails()

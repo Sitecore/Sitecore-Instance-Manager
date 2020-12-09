@@ -13,6 +13,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using SIM.Tool.Base.Profiles;
+using SIM.Tool.Windows.MainWindowComponents.Buttons;
 
 namespace SIM.Tool.Windows.Dialogs
 {
@@ -54,6 +56,27 @@ namespace SIM.Tool.Windows.Dialogs
     private void Browse_Click(object sender, RoutedEventArgs e)
     {
       WindowHelper.PickFolder("Select solr root folder", this.RootText, null, null);
+    }
+
+    private void InstallSolr_OnClick(object sender, RoutedEventArgs e)
+    {
+      int solrsCount = ProfileManager.Profile.Solrs.Count;
+      InstallSolrButton installSolrButton = new InstallSolrButton();
+      // Reinitialize data context and close the Solr dialog box after installing the new Solr server
+      installSolrButton.InstallationCompleted += (o, args) =>
+      {
+        if (solrsCount < ProfileManager.Profile.Solrs.Count)
+        {
+          this.DataContext = ProfileManager.Profile.Solrs.Last();
+          this.DialogResult = true;
+          this.Close();
+        }
+        else
+        {
+          this.Cancel_Click(null, null);
+        }
+      };
+      installSolrButton.InstallSolr(this, false);
     }
   }
 }

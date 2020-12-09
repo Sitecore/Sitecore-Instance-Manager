@@ -23,7 +23,7 @@ namespace SIM.Telemetry.Tests.Models
       Action action = () => new TelemetryEventContext(app, device, version, logger);
 
       // Assert
-      Assert.Throws<ArgumentNullOrEmptyException>(action);
+      Assert.Throws<ArgumentNullException>(action);
     }
 
     [Theory]

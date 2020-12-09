@@ -38,24 +38,27 @@ namespace SIM.Sitecore9Installer.Tests.Validation.Validators
     {
       // Arrange 
       var fixture = new Fixture();
-
-      var cmTask = Substitute.For<Task>(cmTaskName, fixture.Create<int>(), null, new List<InstallParam>(), new Dictionary<string, string>());
-      InstallParam siteNameParam = new InstallParam(SiteName, cmSiteName);
+      GlobalParameters globals = new GlobalParameters();
+      var cmTask = Substitute.For<Task>(cmTaskName, fixture.Create<int>(), null, null, new Dictionary<string, string>());
+      InstallParam siteNameParam = new InstallParam(SiteName, cmSiteName,false,InstallParamType.String);
       List<InstallParam> paramList = new List<InstallParam>
       {
         siteNameParam
       };
-      cmTask.LocalParams.Returns(paramList);
+      LocalParameters cmLocals = new LocalParameters(paramList, globals);
 
-      var identityServerTask = Substitute.For<Task>(identityServerTaskName, fixture.Create<int>(), null, new List<InstallParam>(), new Dictionary<string, string>());
-      InstallParam allowedCorsOriginsParam = new InstallParam(AllowedCorsOrigins, identityServerAllowedCorsOrigins);
-      InstallParam passwordRecoveryUrlParam = new InstallParam(PasswordRecoveryUrl, identityServerPasswordRecoveryUrl);
+      cmTask.LocalParams.Returns(cmLocals);
+
+      var identityServerTask = Substitute.For<Task>(identityServerTaskName, fixture.Create<int>(), null, null, new Dictionary<string, string>());
+      InstallParam allowedCorsOriginsParam = new InstallParam(AllowedCorsOrigins, identityServerAllowedCorsOrigins,false,InstallParamType.String);
+      InstallParam passwordRecoveryUrlParam = new InstallParam(PasswordRecoveryUrl, identityServerPasswordRecoveryUrl,false, InstallParamType.String);
       paramList = new List<InstallParam>
       {
         allowedCorsOriginsParam,
         passwordRecoveryUrlParam
       };
-      identityServerTask.LocalParams.Returns(paramList);
+      LocalParameters idLocals = new LocalParameters(paramList, globals);
+      identityServerTask.LocalParams.Returns(idLocals);
 
       var validator = Substitute.ForPartsOf<CmIdentityServerSiteNameValidator>();
       validator.Data["SitecoreXp1Cm"] = SitecoreXp1Cm;

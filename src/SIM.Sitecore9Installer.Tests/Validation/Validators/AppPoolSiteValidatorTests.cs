@@ -29,13 +29,14 @@ namespace SIM.Sitecore9Installer.Tests.Validation.Validators
       // Arrange 
       var fixture = new Fixture();
 
-      var task = Substitute.For<Task>(TaskName, fixture.Create<int>(), null, new List<InstallParam>(), new Dictionary<string, string>());
-      InstallParam siteNameParam = new InstallParam(SiteName, taskSiteName);
+      var task = Substitute.For<Task>(TaskName, fixture.Create<int>(), null, null, new Dictionary<string, string>());
+      InstallParam siteNameParam = new InstallParam(SiteName, taskSiteName,false,InstallParamType.String);
       List<InstallParam> paramList = new List<InstallParam>
       {
         siteNameParam
       };
-      task.LocalParams.Returns(paramList);
+
+      task.LocalParams.Returns(new LocalParameters(paramList,new GlobalParameters()));
 
       var validator = Substitute.ForPartsOf<AppPoolSiteValidator>();
       validator.AppPoolExists(taskSiteName).Returns(appPoolExists);

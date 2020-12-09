@@ -11,16 +11,15 @@ namespace SIM.Tool.Windows.Pipelines.Solr
   {
     public static void Run(Install9WizardArgs args)
     {
-      List<InstallParam> solrParams = args.Tasker.Tasks.First(t => t.Name == "Solr").LocalParams;
+      BaseParameters solrParams = args.Tasker.Tasks.First(t => t.Name == "Solr").LocalParams;
       string solrDomain = solrParams.First(p => p.Name == "SolrDomain").Value;
       string solrInstallRoot = solrParams.First(p => p.Name == "SolrInstallRoot").Value;
       string solrPort = solrParams.First(p => p.Name == "SolrPort").Value;
       string solrVersion = solrParams.First(p => p.Name == "SolrVersion").Value;
-      string solrServicePrefix = solrParams.First(p => p.Name == "SolrServicePrefix").Value;
-      string solrService = solrServicePrefix + "solr-" + solrVersion;
+      string solrService = $"solr-{solrVersion}-{solrDomain}-{solrPort}";
       SolrDefinition solr = new SolrDefinition()
       {
-        Name = "solr-" + solrVersion,
+        Name = solrService,
         Root = Path.Combine(solrInstallRoot, solrService),
         Service = solrService,
         Url = "https://" + solrDomain + ":" + solrPort+"/solr"

@@ -137,7 +137,7 @@ namespace SIM.Tool.Windows.UserControls.Install
       if (!Directory.Exists(args.ScriptRoot))
       {
         Directory.CreateDirectory(args.ScriptRoot);
-        WindowHelper.LongRunningTask(() => this.UnpackInstallationFiles(args), "Unpacking unstallation files.", wizardArgs.WizardWindow);
+        WindowHelper.LongRunningTask(() => this.UnpackInstallationFiles(args), "Unpacking installation files.", wizardArgs.WizardWindow);
         WindowHelper.LongRunningTask(() => InstallTasksHelper.CopyCustomSifConfig(args), "Copying custom SIF configuration files to the install folder.", wizardArgs.WizardWindow);
         WindowHelper.LongRunningTask(() => InstallTasksHelper.AddUninstallTasks(args), "Add Uninstall tasks to the OOB config files.", wizardArgs.WizardWindow);
       }
@@ -163,20 +163,23 @@ namespace SIM.Tool.Windows.UserControls.Install
           return false;
         }
 
-        if (SIM.FileSystem.FileSystem.Local.Directory.Exists(rootPath))
+        if (!args.ScriptsOnly)
         {
-          if (Directory.EnumerateFileSystemEntries(rootPath).Any())
+          if (SIM.FileSystem.FileSystem.Local.Directory.Exists(rootPath))
           {
-            if (WindowHelper.ShowMessage("The folder with the same name already exists and is not empty. Would you like to delete it?", MessageBoxButton.OKCancel, MessageBoxImage.Question, MessageBoxResult.OK) == MessageBoxResult.OK)
+            if (Directory.EnumerateFileSystemEntries(rootPath).Any())
             {
-              SIM.FileSystem.FileSystem.Local.Directory.DeleteIfExists(rootPath, null);
-              SIM.FileSystem.FileSystem.Local.Directory.CreateDirectory(rootPath);
+              if (WindowHelper.ShowMessage("The folder with the same name already exists and is not empty. Would you like to delete it?", MessageBoxButton.OKCancel, MessageBoxImage.Question, MessageBoxResult.OK) == MessageBoxResult.OK)
+              {
+                SIM.FileSystem.FileSystem.Local.Directory.DeleteIfExists(rootPath, null);
+                SIM.FileSystem.FileSystem.Local.Directory.CreateDirectory(rootPath);
+              }
             }
           }
-        }
-        else
-        {
-          SIM.FileSystem.FileSystem.Local.Directory.CreateDirectory(rootPath);
+          else
+          {
+            SIM.FileSystem.FileSystem.Local.Directory.CreateDirectory(rootPath);
+          }
         }
       }
 
@@ -283,6 +286,7 @@ namespace SIM.Tool.Windows.UserControls.Install
     {
       RealZipFile zip = new RealZipFile(new RealFile(new RealFileSystem(), args.Product.PackagePath));
       zip.ExtractTo(new RealFolder(new RealFileSystem(), args.ScriptRoot));
+      if (args.InstanceProduct.DisplayName.Contains("Developer Workstation")) return; //don't execute further since all required files are already unzipped for SXA
       string configFilesZipPath = Directory.GetFiles(args.ScriptRoot, "*Configuration files*.zip").First();
       RealZipFile configFilesZip = new RealZipFile(new RealFile(new RealFileSystem(), configFilesZipPath));
       configFilesZip.ExtractTo(new RealFolder(new RealFileSystem(), args.ScriptRoot));
@@ -377,8 +381,8 @@ namespace SIM.Tool.Windows.UserControls.Install
       var productVersion = ProductVersion;
       Assert.IsNotNull(productVersion, nameof(productVersion));
 
-      productVersion.DataContext = grouping.Where(x => x != null).GroupBy(p => p.ShortVersion).Where(x => x != null).OrderBy(p => p.Key);
-      SelectFirst(productVersion);
+      productVersion.DataContext = grouping.Where(x => x != null).GroupBy(p => p.ShortVersion).Where(x => x != null).OrderBy(p => Int32.Parse(p.Key));
+      SelectFirst(productVersion);           
     }
 
     private void ProductRevisionChanged([CanBeNull] object sender, [CanBeNull] SelectionChangedEventArgs e)
@@ -739,8 +743,15 @@ namespace SIM.Tool.Windows.UserControls.Install
       SolrDefinition solr = WindowHelper.ShowDialog<AddSolrDialog>(ProfileManager.Profile.Solrs, this.owner) as SolrDefinition;
       if (solr != null)
       {
-        ProfileManager.Profile.Solrs.Add(solr);
-        ProfileManager.SaveChanges(ProfileManager.Profile);
+        if (!ProfileManager.Profile.Solrs.Contains(solr))
+        {
+          ProfileManager.Profile.Solrs.Add(solr);
+          ProfileManager.SaveChanges(ProfileManager.Profile);
+        }
+
+        // Refresh items in the Solrs Combobox
+        this.Solrs.DataContext = null;
+        this.Solrs.DataContext = ProfileManager.Profile.Solrs;
         this.Solrs.SelectedItem = solr;
       }
     }

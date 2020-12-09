@@ -464,6 +464,37 @@
       }
     }
 
+    public InstanceType Type
+    {
+      get
+      {
+        if (Product == Product.Undefined || Product.Release == null)
+        {
+          return InstanceType.SitecoreMember;
+        }
+
+        if (Product.Release.Version.MajorMinorInt < 90)
+        {
+          return InstanceType.Sitecore8AndEarlier;
+        }
+
+        if (Product.Release.Version.MajorMinorInt >= 90)
+        {
+          return InstanceType.Sitecore9AndLater;
+        }
+
+        return InstanceType.Unknown;
+      }
+    }
+
+    public enum InstanceType
+    {
+      Sitecore8AndEarlier,
+      Sitecore9AndLater,
+      SitecoreMember,
+      Unknown
+    }
+
     #endregion
 
     #region Public methods
