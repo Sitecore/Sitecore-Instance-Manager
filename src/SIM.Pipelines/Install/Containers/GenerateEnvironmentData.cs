@@ -6,6 +6,7 @@ using Sitecore.Diagnostics.Base;
 using SIM.SitecoreEnvironments;
 using System.Collections.Generic;
 using System.Linq;
+using MongoDB.Bson.Serialization.Conventions;
 using SIM.ContainerInstaller.DockerCompose;
 using SIM.ContainerInstaller.DockerCompose.Model;
 
@@ -65,12 +66,16 @@ namespace SIM.Pipelines.Install.Containers
     {
       SitecoreEnvironment environment = new SitecoreEnvironment(environmentName, SitecoreEnvironment.EnvironmentType.Container);
       environment.UnInstallDataPath = destinationFolder;
-      environment.Members = GetEnvironmentMembers(destinationFolder).ToList();
+      environment.Members = GetEnvironmentMembers(environmentName, destinationFolder).ToList();
 
       return environment;
     }
 
-    private IEnumerable<SitecoreEnvironmentMember> GetEnvironmentMembers(string destinationFolder, string fileName = "docker-compose.yml")
+    private IEnumerable<SitecoreEnvironmentMember> GetEnvironmentMembers(
+      string environmentName, 
+      string destinationFolder, 
+      string fileName = "docker-compose.yml"
+      )
     {
       string pathToComposeFile = Path.Combine(destinationFolder, fileName);
 
@@ -84,7 +89,9 @@ namespace SIM.Pipelines.Install.Containers
 
         if (!string.IsNullOrEmpty(memberType))
         {
-          yield return new SitecoreEnvironmentMember(serviceName, memberType, isContainer: true);
+          string memberName = $"{environmentName}-{serviceName}";
+
+          yield return new SitecoreEnvironmentMember(memberName, memberType, isContainer: true);
         }
       }
     }
