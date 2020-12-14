@@ -19,6 +19,7 @@
   using SIM.Pipelines.Install;
   using SIM.Pipelines.Reinstall;
   using SIM.Products;
+  using SIM.Tool;
   using SIM.Tool.Base;
   using SIM.Tool.Base.Plugins;
   using SIM.Tool.Base.Profiles;
@@ -255,6 +256,8 @@
     {
       using (new ProfileSection("Refresh instances"))
       {
+        ApplicationManager.IsIisRunning = EnvironmentHelper.IsIisRunning();
+
         var mainWindow = MainWindow.Instance;
         var tabIndex = mainWindow.MainRibbon.SelectedTabIndex;
         var instance = SelectedInstance;

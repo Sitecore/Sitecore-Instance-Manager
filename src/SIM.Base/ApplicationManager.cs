@@ -12,7 +12,7 @@ namespace SIM
 
   #region
 
-  
+
 
   #endregion
 
@@ -81,6 +81,8 @@ namespace SIM
     public static string UserManifestsFolder { get; }
 
     public static string AppsFolder { get; }
+
+    public static bool IsIisRunning { get; set; }
 
     #endregion
 
