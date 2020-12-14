@@ -68,6 +68,7 @@
     <Compile Include="IdentityServerValuesGenerator.cs" />
     <Compile Include="IIdentityServerValuesGenerator.cs" />
     <Compile Include="ISitecoreLicenseConverter.cs" />
+    <Compile Include="ITelerikKeyGenerator.cs" />
     <Compile Include="NameValuePair.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PSExecutor.cs" />
@@ -80,6 +81,7 @@
     <Compile Include="Repositories\TagRepository\Models\TagEntity.cs" />
     <Compile Include="Repositories\TagRepository\Parsers\SitecoreTagsParser.cs" />
     <Compile Include="SitecoreLicenseCoverter.cs" />
+    <Compile Include="TelerikKeyGenerator.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SIM.Base\SIM.Base.csproj">
