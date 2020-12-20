@@ -10,10 +10,12 @@ namespace SIM.Pipelines.Install.Containers
 {
   public class RunDockerProcessor : Processor
   {
+    protected virtual string Command => "docker-compose.exe up -d";
+
     protected override void Process([NotNull] ProcessorArgs arguments)
     {
       InstallContainerArgs args = (InstallContainerArgs)arguments;
-      string strCmdText = $"/C cd \"{args.Destination}\"&docker.exe -detach";
+      string strCmdText = $"/C cd \"{args.Destination}\"&{this.Command}";
       System.Diagnostics.Process proc = new System.Diagnostics.Process();
       proc.StartInfo.Arguments = strCmdText;
       proc.StartInfo.FileName = "CMD.exe";
@@ -24,7 +26,7 @@ namespace SIM.Pipelines.Install.Containers
       proc.WaitForExit();
       if (proc.ExitCode != 0)
       {
-        throw new AggregateException($"Failed to run docker -detach\n{proc.StandardError.ReadToEnd()}");
+        throw new AggregateException($"Failed to run '{this.Command}'\n{proc.StandardError.ReadToEnd()}");
       }
     }
   }
