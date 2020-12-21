@@ -1,15 +1,20 @@
-﻿namespace SIM.Tool.Windows
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Windows.Data;
+using SIM.Instances;
+
+namespace SIM.Tool.Windows
 {
   using System;
   using System.ComponentModel;
   using System.Threading;
-  using System.Windows;
   using System.Windows.Controls;
   using System.Windows.Input;
   using System.Windows.Threading;
   using SIM.Tool.Base;
   using SIM.Tool.Base.Plugins;
-  using SIM.Tool.Windows.MainWindowComponents;
+  using SIM.Tool.Windows.MainWindowComponents.Buttons;
   using Sitecore.Diagnostics.Base;
   using JetBrains.Annotations;
   using Sitecore.Diagnostics.Logging;
@@ -33,9 +38,15 @@
 
     #region Constructors
 
+    private object _lock = new object();
     public MainWindow()
     {
       InitializeComponent();
+      this.InstanceList.ItemsSource = InstanceManager.Default.InstancesObservableCollection;
+      BindingOperations.EnableCollectionSynchronization(InstanceManager.Default.InstancesObservableCollection, _lock);
+      InstanceList.Items.GroupDescriptions.Add(new PropertyGroupDescription("SitecoreEnvironment.Name"));
+      InstanceList.Items.SortDescriptions.Add(new SortDescription("SitecoreEnvironment.Name", ListSortDirection.Ascending));
+      InstanceList.Items.SortDescriptions.Add(new SortDescription("Name", ListSortDirection.Ascending));
 
       using (new ProfileSection("Main window ctor"))
       {

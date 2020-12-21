@@ -7,7 +7,7 @@
   using SIM.Pipelines.Backup;
   using SIM.Tool.Base;
   using SIM.Tool.Base.Pipelines;
-  using SIM.Tool.Windows.MainWindowComponents;
+  using SIM.Tool.Windows.MainWindowComponents.Buttons;
   using Sitecore.Diagnostics.Base;
   using JetBrains.Annotations;
   using SIM.Core;

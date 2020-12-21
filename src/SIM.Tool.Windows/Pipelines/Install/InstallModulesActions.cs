@@ -2,7 +2,7 @@
 {
   using SIM.Tool.Base;
   using SIM.Tool.Base.Pipelines;
-  using SIM.Tool.Windows.MainWindowComponents;
+  using SIM.Tool.Windows.MainWindowComponents.Buttons;
   using JetBrains.Annotations;
 
   using Sitecore.Diagnostics.Base;
