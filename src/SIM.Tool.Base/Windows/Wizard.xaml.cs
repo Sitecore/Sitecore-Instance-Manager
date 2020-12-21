@@ -23,6 +23,7 @@
   using SIM.Tool.Base;
   using SIM.Tool.Base.Wizards;
   using SIM.Pipelines.Install;
+  using SIM.Loggers;
 
   #endregion
 
@@ -57,6 +58,13 @@
         if (WizardArgs != null)
         {
           WizardArgs.WizardWindow = this;
+          this.WizardArgs.Logger = new Logger((message) =>
+          {
+            this.Dispatcher.Invoke(() =>
+            {
+              this.InstallationProgressTextBlock.Text += Environment.NewLine + message;
+            });
+          });
         }
 
         WizardPipeline = wizardPipeline;
@@ -667,6 +675,7 @@
             return;
           }
 
+          WizardSetupForInstallContainerPipeline(pipelineName);
           PipelineManager.StartPipeline(pipelineName, _ProcessorArgs, this);
           backButton.Visibility = Visibility.Hidden;
           CancelButton.Content = "Cancel";
@@ -968,6 +977,29 @@
       if (control != null)
       {
         SetActive(control);
+      }
+    }
+
+    private void WizardSetupForInstallContainerPipeline(string pipelineName)
+    {
+      if (pipelineName.Equals("installContainer", StringComparison.InvariantCultureIgnoreCase))
+      {
+        this.InstallationProgressRow.Height = new GridLength(20);
+        this.InstallationProgressTextBlock.Text = "INFO: Installation has been started";
+      }
+    }
+
+    private void ShowHideInstallationProgress_OnClick(object sender, RoutedEventArgs e)
+    {
+      if (this.InstallationProgressRow.Height.Value == 20)
+      {
+        this.ShowHideInstallationProgressTextBlock.Text = "Hide Installation Progress";
+        this.InstallationProgressRow.Height = new GridLength(100);
+      }
+      else if (this.InstallationProgressRow.Height.Value == 100)
+      {
+        this.ShowHideInstallationProgressTextBlock.Text = "Show Installation Progress";
+        this.InstallationProgressRow.Height = new GridLength(20);
       }
     }
 

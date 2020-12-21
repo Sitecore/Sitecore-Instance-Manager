@@ -1,7 +1,9 @@
 using SIM.ContainerInstaller;
 using SIM.Instances;
+using SIM.Loggers;
 using SIM.Pipelines.Install.Containers;
 using SIM.Pipelines.Processors;
+using SIM.Tool.Base.Plugins;
 
 namespace SIM.Tool.Base.Pipelines
 {
@@ -24,7 +26,13 @@ namespace SIM.Tool.Base.Pipelines
 
     public override ProcessorArgs ToProcessorArgs()
     {
-     return new InstallContainerArgs(this.EnvModel, this.DestinationFolder, this.DockerRoot, this.Topology);
+     return new InstallContainerArgs(
+       this.EnvModel, 
+       this.DestinationFolder, 
+       this.DockerRoot, 
+       this.Topology, 
+       this.Logger
+       );
     }
   }
 }

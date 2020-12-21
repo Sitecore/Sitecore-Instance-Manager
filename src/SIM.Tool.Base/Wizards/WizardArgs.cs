@@ -2,6 +2,7 @@
 {
   using System;
   using System.Windows;
+  using SIM.Loggers;
   using SIM.Pipelines.Processors;
 
   #region
@@ -13,6 +14,8 @@
     #region Public properties
 
     public Window WizardWindow { get; set; }
+
+    public ILogger Logger { get; set; }
 
     //Indicates if the installation has been completed
     public bool HasInstallationBeenCompleted { get; set; }

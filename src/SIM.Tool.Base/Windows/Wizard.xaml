@@ -9,6 +9,7 @@
       <RowDefinition Height="1px" />
       <RowDefinition Height="1px" />
       <RowDefinition Height="*" />
+      <RowDefinition Height="0px" Name="InstallationProgressRow" />
       <RowDefinition Height="1px" />
       <RowDefinition Height="1px" />
       <RowDefinition Height="46px" />
@@ -54,9 +55,22 @@
         </TabItem>
       </TabControl.Items>
     </TabControl>
-    <Grid Background="#FFA0A0A0" DockPanel.Dock="Top" Margin="0" Grid.Row="4" />
-    <Grid Background="White" DockPanel.Dock="Top" Margin="0" Grid.Row="5" />
-    <Grid Grid.Row="6">
+    <StackPanel Grid.Row="4">
+        <Label Name="ShowHideInstallationProgress" HorizontalAlignment="Center" Padding="0">
+            <Hyperlink Click="ShowHideInstallationProgress_OnClick">
+                <TextBlock Name="ShowHideInstallationProgressTextBlock" Text="Show Installation Progress" Margin="0"/>
+            </Hyperlink>
+        </Label>
+        <ScrollViewer Margin="18 0 18 0" Height="80px" Background="White"
+                      HorizontalScrollBarVisibility="Visible" 
+                      VerticalScrollBarVisibility="Visible"
+                      CanContentScroll="True">
+                <TextBlock Name="InstallationProgressTextBlock" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        </ScrollViewer>
+    </StackPanel>
+    <Grid Background="#FFA0A0A0" DockPanel.Dock="Top" Margin="0" Grid.Row="5" />
+    <Grid Background="White" DockPanel.Dock="Top" Margin="0" Grid.Row="6" />
+    <Grid Grid.Row="7">
       <Grid Margin="23,11,21,12">
         <Button Content="Custom Button" Click="CustomButtonClick" Width="90" Margin="0, 0, 4, 0" HorizontalAlignment="Left" Visibility="Hidden" Name="CustomButton" />
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
