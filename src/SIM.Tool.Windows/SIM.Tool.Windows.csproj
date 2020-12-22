@@ -149,9 +149,11 @@
     <Compile Include="MainWindowComponents\Buttons\AboutButton.cs" />
     <Compile Include="MainWindowComponents\Buttons\AbstractInstanceButton.cs" />
     <Compile Include="MainWindowComponents\Buttons\AppStateButton.cs" />
+    <Compile Include="MainWindowComponents\Buttons\BrowseSitecoreContainerWebsiteButton.cs" />
     <Compile Include="MainWindowComponents\Buttons\CreateSupportHotfixButton.cs" />
     <Compile Include="MainWindowComponents\Buttons\InstanceDummyButton.cs" />
     <Compile Include="MainWindowComponents\Buttons\LogFilesButton.cs" />
+    <Compile Include="MainWindowComponents\Buttons\OpenContainerFolderButton.cs" />
     <Compile Include="MainWindowComponents\Groups\AppsGroup.cs" />
     <Compile Include="MainWindowComponents\Groups\BackupGroup.cs" />
     <Compile Include="MainWindowComponents\Groups\FileSystemGroup.cs" />

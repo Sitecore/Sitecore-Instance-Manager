@@ -2,6 +2,7 @@
 using System.Windows;
 using SIM.Instances;
 using SIM.Products;
+using SIM.SitecoreEnvironments;
 using SIM.Tool.Base.Plugins;
 
 namespace SIM.Tool.Windows.MainWindowComponents.Groups
@@ -20,6 +21,10 @@ namespace SIM.Tool.Windows.MainWindowComponents.Groups
     {
       if (instance != null)
       {
+        if (this.IsSitecoreContainer(instance))
+        {
+          return ButtonsConfiguration.Instance.SitecoreContainersGroups.Contains(this.label);
+        }
         if (this.IsSitecoreMember(instance))
         {
           return ButtonsConfiguration.Instance.Sitecore9AndLaterMemberGroups.Contains(this.label);
@@ -44,6 +49,16 @@ namespace SIM.Tool.Windows.MainWindowComponents.Groups
     public InstanceOnlyGroup()
     {
       this.label = this.GetType().Name;
+    }
+
+    protected bool IsSitecoreContainer(Instance selectedInstance)
+    {
+      if (SitecoreEnvironmentHelper.GetExistingSitecoreEnvironment(selectedInstance.Name).EnvType == SitecoreEnvironment.EnvironmentType.Container)
+      {
+        return true;
+      }
+
+      return false;
     }
 
     protected bool IsSitecoreMember(Instance selectedInstance)

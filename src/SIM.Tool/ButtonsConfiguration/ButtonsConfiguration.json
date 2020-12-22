@@ -153,6 +153,12 @@
     "DeleteInstanceButton",
     "ReinstallInstanceButton"
   ],
+  "SitecoreContainersButtons": [
+    "OpenContainerFolderButton",
+    "BrowseSitecoreContainerWebsiteButton",
+    "DeleteInstanceButton",
+    "ReinstallInstanceButton"
+  ],
   "Sitecore8AndEarlierGroups": [
     "PageGroup",
     "FileSystemGroup",
@@ -170,6 +176,10 @@
   "Sitecore9AndLaterMemberGroups": [
     "FileSystemGroup",
     "AppsGroup",
+    "ManageGroup"
+  ],
+  "SitecoreContainersGroups": [
+    "FileSystemGroup",
     "ManageGroup"
   ]
 }
