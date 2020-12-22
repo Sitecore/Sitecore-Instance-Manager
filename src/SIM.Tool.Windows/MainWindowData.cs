@@ -277,7 +277,7 @@ namespace SIM.Tool.Windows
                 {
                   Label = "Front-end Site",
                   Image = "/Images/$sm/earth2.png, SIM.Tool.Windows",
-                  Handler = new BrowseButton()
+                  Handler = new BrowseHomePageButton()
                 },
                 new ButtonDefinition(),
                 new ButtonDefinition
@@ -1118,7 +1118,7 @@ namespace SIM.Tool.Windows
 
     internal static ButtonDefinition[] MenuItems { get; } = 
     {
-      new ButtonDefinition { Label = "Browse Sitecore Website", Image = "/Images/$sm/earth2.png, SIM.Tool.Windows", Handler = new BrowseButton() },
+      new ButtonDefinition { Label = "Browse Website", Image = "/Images/$sm/earth2.png, SIM.Tool.Windows", Handler = new BrowseHomePageButton() },
       new ButtonDefinition { Label = "Browse Sitecore Client", Image = "/Images/$sm/Sitecore.png, SIM.Tool.Windows", Handler = new BrowseButton("/sitecore") },
       new ButtonDefinition { Label = "Log in admin", Image = "/Images/$sm/log_in.png, SIM.Tool.Windows", Handler = new LoginAdminButton("/sitecore"), Buttons = new [] {
         new ButtonDefinition { Label = "Google Chrome", Image = "/Images/$lg/chrome.png, SIM.Tool.Windows", Handler = new LoginAdminButton("/sitecore:chrome") },
