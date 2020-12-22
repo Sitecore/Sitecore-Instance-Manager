@@ -1,36 +1,23 @@
-﻿using SIM.ContainerInstaller;
+﻿using System.IO;
+using System.Linq;
+using System.Windows;
+using JetBrains.Annotations;
+using SIM.Instances;
+using SIM.Pipelines.Delete;
+using SIM.SitecoreEnvironments;
+using SIM.Tool.Base;
+using SIM.Tool.Base.Pipelines;
+using SIM.Tool.Base.Profiles;
+using SIM.Tool.Base.Wizards;
 
-namespace SIM.Tool.Windows.MainWindowComponents
+namespace SIM.Tool.Windows.MainWindowComponents.Buttons
 {
-  using System.IO;
-  using System.Windows;
-  using SIM.Instances;
-  using SIM.Pipelines.Delete;
-  using SIM.Tool.Base.Plugins;
-  using SIM.Tool.Base.Profiles;
-  using JetBrains.Annotations;
-  using SIM.Tool.Base.Wizards;
-  using SIM.Tool.Base.Pipelines;
-  using SIM.Tool.Base;
-  using System.Linq;
-  using SIM.SitecoreEnvironments;
-
   [UsedImplicitly]
-  public class DeleteInstanceButton : IMainWindowButton
+  public class DeleteInstanceButton : InstanceOnlyButton
   {
     #region Public methods
 
-    public bool IsEnabled(Window mainWindow, Instance instance)
-    {
-      return instance != null;
-    }
-
-    public bool IsVisible(Window mainWindow, Instance instance)
-    {
-      return true;
-    }
-
-    public void OnClick(Window mainWindow, Instance instance)
+    public override void OnClick(Window mainWindow, Instance instance)
     {
       if (instance != null)
       {
