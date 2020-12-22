@@ -1,6 +1,4 @@
-﻿using SIM.Extensions;
-
-namespace SIM.Instances
+﻿namespace SIM.Instances
 {
   using System;
   using System.Collections.Generic;
@@ -166,7 +164,7 @@ namespace SIM.Instances
         return GetPartiallyCachedInstances(sites);
       }
     }
-
+    
     public void InitializeWithSoftListRefresh([CanBeNull] string defaultRootFolder = null)
     {
       SitecoreEnvironmentHelper.RefreshEnvironments();

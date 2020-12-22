@@ -99,6 +99,7 @@
     <Compile Include="Pipelines\InstallContainer\DockerComposeRepositoryTests.cs" />
     <Compile Include="Pipelines\SolrInformationTests.cs" />
     <Compile Include="Pipelines\SwitchConfigsToSolrTests.cs" />
+    <Compile Include="Products\ProductTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Instances\InstanceHelperTests.cs" />
   </ItemGroup>
