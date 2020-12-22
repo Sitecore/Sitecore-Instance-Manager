@@ -235,6 +235,15 @@ By clicking 'Next' you accept the License Agreement."" />
          <hive type=""SIM.Tool.Windows.Pipelines.Install.Install9ActionsHive, SIM.Tool.Windows"" />
      </finish>
     </install9>
+    <installContainer title=""Installing new instance"" startButton=""Install""
+             finishText=""The installation was successfully completed"">
+      <steps>
+        <step name=""STEP 1 of 2 - DETAILS"" 
+              type=""SIM.Tool.Windows.UserControls.Install.Containers.ContainerDetails, SIM.Tool.Windows"" />
+        <step name=""STEP 2 of 2 - SELECT TOPOLOGY AND TAG"" 
+              type=""SIM.Tool.Windows.UserControls.Install.Containers.SelectTag, SIM.Tool.Windows"" />
+     </steps>   
+    </installContainer>
     <install title=""Installing new instance"" startButton=""Install""
              finishText=""The installation was successfully completed"">
       <steps>

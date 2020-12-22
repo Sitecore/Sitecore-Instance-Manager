@@ -135,6 +135,9 @@
     <Compile Include="Dialogs\DatabasesOperationsDialog.xaml.cs">
       <DependentUpon>DatabasesOperationsDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Dialogs\ContainerVariablesEditor.xaml.cs">
+      <DependentUpon>ContainerVariablesEditor.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Dialogs\GridEditor.xaml.cs">
       <DependentUpon>GridEditor.xaml</DependentUpon>
     </Compile>
@@ -207,6 +210,7 @@
     <Compile Include="MainWindowComponents\Buttons\RestoreInstanceButton.cs" />
     <Compile Include="MainWindowComponents\Buttons\SettingsButton.cs" />
     <Compile Include="MainWindowComponents\Buttons\UpdateLicenseButton.cs" />
+    <Compile Include="MainWindowComponents\Buttons\InstallContainerButton.cs" />
     <Compile Include="MainWindowData.cs" />
     <Compile Include="Pipelines\Download8\Download8Args.cs" />
     <Compile Include="Pipelines\Download8\DownloadProcessor.cs" />
@@ -274,6 +278,12 @@
     <Compile Include="UserControls\Import\ImportWizardArgs.cs" />
     <Compile Include="UserControls\Import\SetWebsiteBindings.xaml.cs">
       <DependentUpon>SetWebsiteBindings.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Install\Containers\ContainerDetails.xaml.cs">
+      <DependentUpon>ContainerDetails.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Install\Containers\SelectTag.xaml.cs">
+      <DependentUpon>SelectTag.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\Install\Instance9Details.xaml.cs">
       <DependentUpon>Instance9Details.xaml</DependentUpon>
@@ -611,6 +621,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Dialogs\ContainerVariablesEditor.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Dialogs\GridEditor.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -620,6 +634,14 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="UserControls\Delete\Delete9Details.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\Install\Containers\ContainerDetails.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\Install\Containers\SelectTag.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -786,6 +808,10 @@
     <ProjectReference Include="..\SIM.Adapters\SIM.Adapters.csproj">
       <Project>{CA40C57A-EF4F-474D-BE8B-98E51AE62C1F}</Project>
       <Name>SIM.Adapters</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SIM.ContainerInstaller\SIM.ContainerInstaller.csproj">
+      <Project>{d9ad90f9-bf6d-4c46-8546-3bed9ff93450}</Project>
+      <Name>SIM.ContainerInstaller</Name>
     </ProjectReference>
     <ProjectReference Include="..\SIM.Core\SIM.Core.csproj">
       <Project>{a124d359-b9bf-44f4-98cb-c40d3d490839}</Project>

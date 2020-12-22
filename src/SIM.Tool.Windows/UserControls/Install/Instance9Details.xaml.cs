@@ -362,7 +362,7 @@ namespace SIM.Tool.Windows.UserControls.Install
       using (new ProfileSection("Initializing InstanceDetails", this))
       {
         DataContext = new Model();
-        _StandaloneProducts = ProductManager.StandaloneProducts.Where(p => int.Parse(p.ShortVersion) >= 90 && !p.PackagePath.EndsWith(".scwdp.zip"));
+        _StandaloneProducts = ProductManager.StandaloneProducts.Where(p => int.Parse(p.ShortVersion) >= 90 && !p.IsSitecoreWdpPackage);
         this.Solrs.DataContext = ProfileManager.Profile.Solrs;
       }
     }

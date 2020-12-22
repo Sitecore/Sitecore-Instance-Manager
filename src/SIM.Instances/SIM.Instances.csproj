@@ -76,6 +76,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ContainerizedInstance.cs" />
     <Compile Include="InstanceHelper.cs" />
     <Compile Include="InstanceState.cs" />
     <Compile Include="PartiallyCachedInstance.cs" />
