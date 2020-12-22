@@ -38,7 +38,7 @@ namespace SIM.Tool.Windows.UserControls.Install.Containers
       Assert.ArgumentNotNull(wizardArgs, nameof(wizardArgs));
       InstallContainerWizardArgs args = (InstallContainerWizardArgs)wizardArgs;
       this.owner = args.WizardWindow;
-      this.productVersion = args.Product.TriVersion;      
+      this.productVersion = args.Product.TwoVersion;      
       string[] envFiles = Directory.GetFiles(args.FilesRoot, ".env", SearchOption.AllDirectories);
       string topologiesFolder = Directory.GetParent(envFiles[0]).Parent.FullName;
       this.Topologies.DataContext = Directory.GetDirectories(topologiesFolder).Select(d => new NameValueModel(Path.GetFileName(d), d));
