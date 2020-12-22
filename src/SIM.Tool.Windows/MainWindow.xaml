@@ -1,14 +1,6 @@
-﻿<r:RibbonWindow WindowStartupLocation="CenterScreen" TextOptions.TextFormattingMode="Display"
-                x:Class="SIM.Tool.Windows.MainWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:r="clr-namespace:Fluent;assembly=Fluent"
-                Title="SIM {0} {2} {3}" MinWidth="340" Width="340" Height="480"
-                Icon="pack://application:,,,/SIM.Tool.Windows;component/Images/window.ico"
-                xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
-                ContentRendered="WindowLoaded" Closing="WindowClosing">
-
-  
-
-<DockPanel>
+﻿<r:RibbonWindow WindowStartupLocation="CenterScreen" TextOptions.TextFormattingMode="Display"  x:Class="SIM.Tool.Windows.MainWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:r="clr-namespace:Fluent;assembly=Fluent"
+               Title="SIM {0} {2} {3}" MinWidth="340" Width="340" Height="480" Icon="pack://application:,,,/SIM.Tool.Windows;component/Images/window.ico" ContentRendered="WindowLoaded" Closing="WindowClosing">
+  <DockPanel>
     <r:Ribbon DockPanel.Dock="Top" Name="MainRibbon">
       <r:Ribbon.ContextMenu>
         <ContextMenu Visibility="Hidden" />
@@ -55,8 +47,8 @@
         <TextBlock Text="{Binding ElementName=InstanceList, Path=SelectedItem.BindingsNames}" Padding="4,4,4,2"/>
         <TextBlock Text="{Binding ElementName=InstanceList, Path=SelectedItem.ModulesNames}" Padding="4,4,4,0" />
     </StackPanel>
-    <ListBox x:Name="InstanceList" ItemsSource="{Binding}" Margin="0 1 0 1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  BorderThickness="0" MouseRightButtonUp="ItemsTreeViewMouseRightClick" MouseDoubleClick="ItemsTreeViewMouseDoubleClick" KeyUp="ItemsTreeViewKeyPressed" SelectionChanged="InstanceSelected" SelectionMode="Single" VirtualizingPanel.IsVirtualizingWhenGrouping="True" VirtualizingPanel.VirtualizationMode="Recycling">
-        <ListBox.GroupStyle>
+    <ListBox Margin="0 1 0 1" Name="InstanceList" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" ItemsSource="{Binding}" BorderThickness="0" MouseRightButtonUp="ItemsTreeViewMouseRightClick" MouseDoubleClick="ItemsTreeViewMouseDoubleClick" KeyUp="ItemsTreeViewKeyPressed" SelectionChanged="InstanceSelected" SelectionMode="Single">
+    <ListBox.GroupStyle>
         <GroupStyle>
             <GroupStyle.ContainerStyle>
                     <Style TargetType="{x:Type GroupItem}">
@@ -179,6 +171,5 @@
         </ListBox.ContextMenu>
     </ListBox>
 </DockPanel>
-
 </r:RibbonWindow>
 

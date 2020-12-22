@@ -1,10 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Windows.Data;
-using SIM.Instances;
-
-namespace SIM.Tool.Windows
+﻿namespace SIM.Tool.Windows
 {
   using System;
   using System.ComponentModel;
@@ -38,15 +32,9 @@ namespace SIM.Tool.Windows
 
     #region Constructors
 
-    private object _lock = new object();
     public MainWindow()
     {
       InitializeComponent();
-      this.InstanceList.ItemsSource = InstanceManager.Default.InstancesObservableCollection;
-      BindingOperations.EnableCollectionSynchronization(InstanceManager.Default.InstancesObservableCollection, _lock);
-      InstanceList.Items.GroupDescriptions.Add(new PropertyGroupDescription("SitecoreEnvironment.Name"));
-      InstanceList.Items.SortDescriptions.Add(new SortDescription("SitecoreEnvironment.Name", ListSortDirection.Ascending));
-      InstanceList.Items.SortDescriptions.Add(new SortDescription("Name", ListSortDirection.Ascending));
 
       using (new ProfileSection("Main window ctor"))
       {

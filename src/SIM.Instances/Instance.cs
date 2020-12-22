@@ -36,7 +36,6 @@
     public Instance([NotNull] int id)
       : base(id)
     {
-      this.SitecoreEnvironment = SitecoreEnvironmentHelper.GetExistingOrNewSitecoreEnvironment(this.Name);
     }
 
 
@@ -261,7 +260,10 @@
 
 
     [NotNull]
-    public virtual SitecoreEnvironment SitecoreEnvironment { get; }
+    public virtual SitecoreEnvironment SitecoreEnvironment
+    {
+      get { return SitecoreEnvironmentHelper.GetExistingOrNewSitecoreEnvironment(this.Name); }
+    }
 
     [NotNull]
     public virtual Product Product
