@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Windows;
 using JetBrains.Annotations;
+using SIM.ContainerInstaller;
 using SIM.Instances;
 using SIM.Pipelines.Delete;
 using SIM.SitecoreEnvironments;
