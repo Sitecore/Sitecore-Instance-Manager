@@ -1,3 +1,5 @@
+﻿using System.Runtime.CompilerServices;
+
 namespace SIM.Tool.Windows
 {
   using System;
@@ -48,16 +50,6 @@ namespace SIM.Tool.Windows
         SelectedInstance.Recycle();
         OnInstanceSelected();
       }
-    }
-
-    internal static void AddNewInstance(string instanceName, bool isSitecore8Instance)
-    {
-        InstanceManager.Default.AddNewInstance(instanceName, isSitecore8Instance);
-        var searchPhrase = Invoke(w => w.SearchTextBox.Text.Trim());
-        if (!string.IsNullOrEmpty(searchPhrase))
-        {
-          Search();
-        }
     }
 
     public static void AppPoolStart()
@@ -286,34 +278,31 @@ namespace SIM.Tool.Windows
         var tabIndex = mainWindow.MainRibbon.SelectedTabIndex;
         var instance = SelectedInstance;
         var name = instance != null ? instance.Name : null;
-        var instancesFolder = !CoreAppSettings.CoreInstancesDetectEverywhere.Value
-          ? ProfileManager.Profile.InstancesFolder
-          : null;
-
+        var instancesFolder = !CoreAppSettings.CoreInstancesDetectEverywhere.Value ? ProfileManager.Profile.InstancesFolder : null;
+      
         WindowHelper.LongRunningTask(() =>
         {
-          InstanceManager.Default.Initialize(instancesFolder);
+            InstanceManager.Default.Initialize(instancesFolder);
         }, "Refresh Sitecore web sites", mainWindow, "Scanning IIS applications to find Sitecore web sites", "", true);
 
         Search();
         if (string.IsNullOrEmpty(name))
         {
-            mainWindow.MainRibbon.SelectedTabIndex = tabIndex;
-            return;
+          mainWindow.MainRibbon.SelectedTabIndex = tabIndex;
+          return;
         }
 
         var list = mainWindow.InstanceList;
-          for (int i = 0; i < list.Items.Count; ++i)
+        for (int i = 0; i < list.Items.Count; ++i)
+        {
+          var item = list.Items[i] as Instance;
+          if (item != null && item.Name.EqualsIgnoreCase(name))
           {
-            var item = list.Items[i] as Instance;
-            if (item != null && item.Name.EqualsIgnoreCase(name))
-            {
-              list.SelectedIndex = i;
-              mainWindow.MainRibbon.SelectedTabIndex = tabIndex;
-
-              return;
-            }
+            list.SelectedIndex = i;
+            mainWindow.MainRibbon.SelectedTabIndex = tabIndex;
+            return;
           }
+        }
       }
     }
 
@@ -952,13 +941,29 @@ namespace SIM.Tool.Windows
           return;
         }
 
+        // source = source.Select(inst => new CachedInstance((int)inst.ID));
         if (!string.IsNullOrEmpty(searchPhrase))
         {
           source = source.Where(instance => IsInstanceMatch(instance, searchPhrase));
         }
 
-        InstanceManager.Default.InstancesObservableCollection.Clear();
-        InstanceManager.Default.InstancesObservableCollection.AddRange(source);
+        ICollectionView view = CollectionViewSource.GetDefaultView(source);
+        if (!view.GroupDescriptions.OfType<PropertyGroupDescription>().Any(x=>x.PropertyName=="SitecoreEnvironment.Name"))
+        {
+          view.GroupDescriptions.Add(new PropertyGroupDescription("SitecoreEnvironment.Name"));
+        }
+
+        if (!view.SortDescriptions.OfType<SortDescription>().Any(x => x.PropertyName == "SitecoreEnvironment.Name"))
+        {
+          view.SortDescriptions.Add(new SortDescription("SitecoreEnvironment.Name", ListSortDirection.Ascending));
+        }
+
+        if (!view.SortDescriptions.OfType<SortDescription>().Any(x => x.PropertyName == "Name"))
+        {
+          view.SortDescriptions.Add(new SortDescription("Name", ListSortDirection.Ascending));
+        }
+
+        MainWindow.Instance.InstanceList.DataContext = view;
         MainWindow.Instance.SearchTextBox.Focus();
       }
     }

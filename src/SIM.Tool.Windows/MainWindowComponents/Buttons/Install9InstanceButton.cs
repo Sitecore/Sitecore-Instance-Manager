@@ -23,7 +23,7 @@ namespace SIM.Tool.Windows.MainWindowComponents.Buttons
 
         if (install.HasInstallationBeenCompleted)
         {
-          MainWindowHelper.AddNewInstance(install.InstanceName, false);
+          MainWindowHelper.SoftlyRefreshInstances();
         }
         
       }, () => new Install9WizardArgs());

@@ -20,8 +20,6 @@
 
     public long ID { get; }
 
-    private string name;
-
     #endregion
 
     #region Constructors
@@ -163,21 +161,9 @@
     {
       get
       {
-        try
+        using (WebServerManager.WebServerContext context = WebServerManager.CreateContext())
         {
-          if (string.IsNullOrEmpty(name))
-          {
-            using (WebServerManager.WebServerContext context = WebServerManager.CreateContext())
-            {
-              name = GetName(context);
-            }
-          }
-          return name;
-        }
-        catch(Exception ex)
-        {
-          Log.Error(ex, ex.Message);
-          return "Error";
+          return GetName(context);
         }
       }
     }
