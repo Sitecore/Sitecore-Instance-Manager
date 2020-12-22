@@ -63,6 +63,7 @@
             this.Dispatcher.Invoke(() =>
             {
               this.InstallationProgressTextBlock.Text += Environment.NewLine + message;
+              this.InstallationProgressScrollViewer.ScrollToEnd();
             });
           });
         }
@@ -670,12 +671,12 @@
             
           if (!PipelineManager.Definitions.ContainsKey(WizardPipeline.Name))
           {
+            SetInstallationProgressVisibility(false);
             Finish("Done.", true);
 
             return;
           }
 
-          WizardSetupForInstallContainerPipeline(pipelineName);
           PipelineManager.StartPipeline(pipelineName, _ProcessorArgs, this);
           backButton.Visibility = Visibility.Hidden;
           CancelButton.Content = "Cancel";
@@ -683,6 +684,7 @@
           NextButton.Content = "Retry";
           NextButton.Click -= MoveNextClick;
           NextButton.Click += RetryClick;
+          SetInstallationProgressVisibility(true);
         }
       }
     }
@@ -980,12 +982,17 @@
       }
     }
 
-    private void WizardSetupForInstallContainerPipeline(string pipelineName)
+    private void SetInstallationProgressVisibility(bool isInstallationProgressVisible)
     {
-      if (pipelineName.Equals("installContainer", StringComparison.InvariantCultureIgnoreCase))
+      if (isInstallationProgressVisible)
       {
         this.InstallationProgressRow.Height = new GridLength(20);
-        this.InstallationProgressTextBlock.Text = "INFO: Installation has been started";
+        ResizeMode = ResizeMode.CanResizeWithGrip;
+      }
+      else
+      {
+        this.InstallationProgressRow.Height = new GridLength(0);
+        ResizeMode = ResizeMode.CanMinimize;
       }
     }
 
@@ -994,13 +1001,33 @@
       if (this.InstallationProgressRow.Height.Value == 20)
       {
         this.ShowHideInstallationProgressTextBlock.Text = "Hide Installation Progress";
-        this.InstallationProgressRow.Height = new GridLength(100);
+        this.InstallationProgressRow.Height = new GridLength(120);
       }
-      else if (this.InstallationProgressRow.Height.Value == 100)
+      else if (this.InstallationProgressRow.Height.Value == 120)
       {
         this.ShowHideInstallationProgressTextBlock.Text = "Show Installation Progress";
         this.InstallationProgressRow.Height = new GridLength(20);
       }
+    }
+
+    private void InstallationProgressTextBlock_OnMouseDown(object sender, MouseButtonEventArgs e)
+    {
+      if (e.ChangedButton == MouseButton.Left)
+      {
+        TextBlock textBlock = sender as TextBlock;
+        ContextMenu contextMenu = textBlock?.ContextMenu;
+        if (contextMenu != null)
+        {
+          contextMenu.PlacementTarget = textBlock;
+          contextMenu.IsOpen = true;
+          e.Handled = true;
+        }
+      }
+    }
+
+    private void MenuItem_OnClick(object sender, RoutedEventArgs e)
+    {
+      Clipboard.SetText(InstallationProgressTextBlock.Text);
     }
 
     #endregion

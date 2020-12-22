@@ -2,6 +2,6 @@
 {
   public interface ILogger
   {
-    void Info(string message);
+    void Info(string message, bool includeSeverityLevel = true);
   }
 }

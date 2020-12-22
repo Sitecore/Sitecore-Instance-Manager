@@ -7,15 +7,16 @@ namespace SIM.Loggers
   {
     internal Action<string> _WriteLogMessage;
 
-    public Logger(Action<string> doLogMessage)
+    public Logger(Action<string> writeLogMessage)
     {
-      Assert.ArgumentNotNull(doLogMessage);
-      this._WriteLogMessage = doLogMessage;
+      Assert.ArgumentNotNull(writeLogMessage);
+      this._WriteLogMessage = writeLogMessage;
     }
 
-    public void Info(string message)
+    public void Info(string message, bool includeSeverityLevel = true)
     {
-      string text = $"INFO: {message}";
+      string time = DateTime.Now.ToString("HH:mm:ss");
+      string text = includeSeverityLevel ? $"[{time}] INFO: {message}" : $"[{time}] {message}";
       this._WriteLogMessage(text);
     }
   }

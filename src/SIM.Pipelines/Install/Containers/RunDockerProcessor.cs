@@ -2,20 +2,18 @@
 using System;
 using SIM.Loggers;
 using SIM.Pipelines.Processors;
-using Sitecore.Diagnostics.Base;
 
 namespace SIM.Pipelines.Install.Containers
 {
   public class RunDockerProcessor : Processor
   {
-    protected virtual string Command => "docker-compose.exe up -d";
-
     private ILogger _logger;
+
+    protected virtual string Command => "docker-compose.exe up -d";
 
     protected override void Process([NotNull] ProcessorArgs arguments)
     {
       InstallContainerArgs args = (InstallContainerArgs)arguments;
-      Assert.ArgumentNotNull(args.Logger, nameof(args.Logger));
       this._logger = args.Logger;
       string strCmdText = $"/C cd \"{args.Destination}\"&{this.Command}";
       System.Diagnostics.Process proc = new System.Diagnostics.Process();
@@ -24,9 +22,11 @@ namespace SIM.Pipelines.Install.Containers
       proc.StartInfo.UseShellExecute = false;
       proc.StartInfo.RedirectStandardError = true;
       proc.StartInfo.RedirectStandardOutput = true;
-      proc.OutputDataReceived += Proc_OutputDataReceived;
+      proc.OutputDataReceived += Proc_DataReceived;
+      proc.ErrorDataReceived += Proc_DataReceived;
       proc.Start();
       proc.BeginOutputReadLine();
+      proc.BeginErrorReadLine();
       proc.WaitForExit();
       if (proc.ExitCode != 0)
       {
@@ -34,11 +34,11 @@ namespace SIM.Pipelines.Install.Containers
       }
     }
 
-    private void Proc_OutputDataReceived(object sender, System.Diagnostics.DataReceivedEventArgs e)
+    private void Proc_DataReceived(object sender, System.Diagnostics.DataReceivedEventArgs e)
     {
       if (!string.IsNullOrEmpty(e.Data))
       {
-        this._logger.Info(e.Data);
+        this._logger.Info(e.Data, false);
       }
     }
   }
