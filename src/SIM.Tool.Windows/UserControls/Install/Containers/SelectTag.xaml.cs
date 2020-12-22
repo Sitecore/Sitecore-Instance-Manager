@@ -41,7 +41,7 @@ namespace SIM.Tool.Windows.UserControls.Install.Containers
       this.productVersion = args.Product.TwoVersion;      
       string[] envFiles = Directory.GetFiles(args.FilesRoot, ".env", SearchOption.AllDirectories);
       string topologiesFolder = Directory.GetParent(envFiles[0]).Parent.FullName;
-      this.Topologies.DataContext = Directory.GetDirectories(topologiesFolder).Select(d => new NameValueModel(Path.GetFileName(d), d));
+      this.Topologies.DataContext = Directory.GetDirectories(topologiesFolder).Where(d=>File.Exists(Path.Combine(d,".env"))).Select(d => new NameValueModel(Path.GetFileName(d), d));
       this.Topologies.SelectedIndex = 0;
       this.defaultProjectName = args.InstanceName;
       this.ProjectName.IsChecked = true;
