@@ -253,6 +253,9 @@
     <Compile Include="UserControls\ConfirmStepUserControl.xaml.cs">
       <DependentUpon>ConfirmStepUserControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\Delete\Containers\DeleteDetails.xaml.cs">
+      <DependentUpon>DeleteDetails.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\Delete\Delete9Details.xaml.cs">
       <DependentUpon>Delete9Details.xaml</DependentUpon>
     </Compile>
@@ -631,6 +634,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Dialogs\RestoreDatabaseDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\Delete\Containers\DeleteDetails.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

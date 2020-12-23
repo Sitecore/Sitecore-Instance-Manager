@@ -244,6 +244,14 @@ By clicking 'Next' you accept the License Agreement."" />
               type=""SIM.Tool.Windows.UserControls.Install.Containers.SelectTag, SIM.Tool.Windows"" />
      </steps>   
     </installContainer>
+    <deleteContainer title=""Deleting the environment"" startButton=""Delete""
+             finishText=""The deleting was successfully completed"">
+      <args type=""SIM.Tool.Base.Pipelines.DeleteContainersWizardArgs, SIM.Tool.Base""/>
+      <steps>
+        <step name=""STEP 1 of 1 - DETAILS"" 
+              type=""SIM.Tool.Windows.UserControls.Delete.Containers.DeleteDetails, SIM.Tool.Windows"" />
+     </steps>           
+    </deleteContainer>
     <install title=""Installing new instance"" startButton=""Install""
              finishText=""The installation was successfully completed"">
       <steps>

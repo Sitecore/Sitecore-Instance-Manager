@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Windows;
 using JetBrains.Annotations;
+using SIM.ContainerInstaller;
 using SIM.Instances;
 using SIM.Pipelines.Delete;
 using SIM.SitecoreEnvironments;
@@ -24,11 +25,30 @@ namespace SIM.Tool.Windows.MainWindowComponents.Buttons
         var connectionString = ProfileManager.GetConnectionString();
         var args = new DeleteArgs(instance, connectionString);
         args.OnCompleted += () => mainWindow.Dispatcher.Invoke(() => OnPipelineCompleted(args));
-        var index = MainWindowHelper.GetListItemID(instance.ID);        
+        var index = MainWindowHelper.GetListItemID(instance.ID);
         int version;
         if (int.TryParse(instance.Product.ShortVersion,out version)&& version < 90)
         {
           WizardPipelineManager.Start("delete", mainWindow, args, null, (ignore) => OnWizardCompleted(index, args.HasInstallationBeenCompleted), () => null);
+        }
+        else if (
+          instance?.Name != null &&
+          SitecoreEnvironmentHelper.GetExistingSitecoreEnvironment(instance.Name).EnvType == SitecoreEnvironment.EnvironmentType.Container
+                 )
+        {
+          DeleteContainersWizardArgs deleteContainersWizardArgs = new DeleteContainersWizardArgs()
+          {
+             DestinationFolder = SitecoreEnvironmentHelper.GetExistingSitecoreEnvironment(instance.Name).UnInstallDataPath,
+             EnvironmentId = SitecoreEnvironmentHelper.GetExistingSitecoreEnvironment(instance.Name).ID,
+             Env = EnvModel.LoadFromFile(Path.Combine(SitecoreEnvironmentHelper.GetExistingSitecoreEnvironment(instance.Name).UnInstallDataPath, ".env"))
+        };
+
+          WizardPipelineManager.Start(
+            "deleteContainer", 
+            mainWindow, 
+            null, 
+            null, 
+            (ignore) => OnWizardCompleted(index, deleteContainersWizardArgs.HasInstallationBeenCompleted), () => deleteContainersWizardArgs);
         }
         else
         {
@@ -66,7 +86,7 @@ namespace SIM.Tool.Windows.MainWindowComponents.Buttons
     #region Private methods
 
     private static void OnWizardCompleted(int index, bool hasInstallationBeenCompleted)
-    {                           
+    {
       if (hasInstallationBeenCompleted)
       {
         MainWindowHelper.SoftlyRefreshInstances();
