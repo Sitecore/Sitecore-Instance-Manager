@@ -15,8 +15,18 @@ namespace SIM.Loggers
 
     public void Info(string message, bool includeSeverityLevel = true)
     {
+      DoWriteMessage(message, includeSeverityLevel, "INFO");
+    }
+
+    public void Warn(string message, bool includeSeverityLevel = true)
+    {
+      DoWriteMessage(message, includeSeverityLevel, "WARN");
+    }
+
+    public void DoWriteMessage(string message, bool includeSeverityLevel = true, string severity = "")
+    {
       string time = DateTime.Now.ToString("HH:mm:ss");
-      string text = includeSeverityLevel ? $"[{time}] INFO: {message}" : $"[{time}] {message}";
+      string text = includeSeverityLevel ? $"[{time}] {severity}: {message}" : $"[{time}] {message}";
       this._WriteLogMessage(text);
     }
   }

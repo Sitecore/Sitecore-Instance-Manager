@@ -1,5 +1,6 @@
 ﻿using System;
 using SIM.ContainerInstaller;
+using SIM.Loggers;
 using SIM.Pipelines.Processors;
 using Sitecore.Diagnostics.Base;
 
@@ -13,7 +14,9 @@ namespace SIM.Pipelines.Delete.Containers
 
     public Guid EnvironmentId { get; }
 
-    public DeleteContainersArgs(string destinationFolder, EnvModel env, Guid environmentId)
+    public ILogger Logger { get; }
+
+    public DeleteContainersArgs(string destinationFolder, EnvModel env, Guid environmentId, ILogger logger)
     {
       Assert.ArgumentNotNullOrEmpty(destinationFolder, "destinationFolder");
       Assert.ArgumentNotNull(env, "env");
@@ -21,6 +24,7 @@ namespace SIM.Pipelines.Delete.Containers
       this.DestinationFolder = destinationFolder;
       this.Env = env;
       this.EnvironmentId = environmentId;
+      this.Logger = logger;
     }
   }
 }

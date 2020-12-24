@@ -334,6 +334,9 @@
     <Compile Include="UserControls\MultipleDeletion\SelectInstances.xaml.cs">
       <DependentUpon>SelectInstances.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\Reinstall\Containers\ReinstallDetails.xaml.cs">
+      <DependentUpon>ReinstallDetails.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\Reinstall\Reinstall9Confirmation.xaml.cs">
       <DependentUpon>Reinstall9Confirmation.xaml</DependentUpon>
     </Compile>
@@ -686,6 +689,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\Install\Validation\ValidationDetails.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\Reinstall\Containers\ReinstallDetails.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

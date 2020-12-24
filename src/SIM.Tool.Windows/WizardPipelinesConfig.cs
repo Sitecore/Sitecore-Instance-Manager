@@ -252,6 +252,14 @@ By clicking 'Next' you accept the License Agreement."" />
               type=""SIM.Tool.Windows.UserControls.Delete.Containers.DeleteDetails, SIM.Tool.Windows"" />
      </steps>           
     </deleteContainer>
+    <reinstallContainer title=""Reinstalling the instance"" startButton=""Reinstall""
+             finishText=""The reinstallation was successfully completed"">
+      <args type=""SIM.Tool.Base.Pipelines.DeleteContainersWizardArgs, SIM.Tool.Base""/>
+      <steps>
+        <step name=""STEP 1 of 1 - DETAILS"" 
+              type=""SIM.Tool.Windows.UserControls.Reinstall.Containers.ReinstallDetails, SIM.Tool.Windows"" />
+     </steps>   
+    </reinstallContainer>
     <install title=""Installing new instance"" startButton=""Install""
              finishText=""The installation was successfully completed"">
       <steps>

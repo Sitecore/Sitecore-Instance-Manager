@@ -90,6 +90,7 @@
     <Compile Include="Backup\BackupFiles.cs" />
     <Compile Include="Backup\BackupMongoDatabases.cs" />
     <Compile Include="Backup\BackupProcessor.cs" />
+    <Compile Include="BaseProcessors\RunCmdCommandBaseProcessor.cs" />
     <Compile Include="ConditionEvaluator.cs" />
     <Compile Include="ConfigurationActions.cs" />
     <Compile Include="Delete\CleanUp.cs" />
@@ -180,6 +181,11 @@
     <Compile Include="Reinstall\1200 Install.UpdateWebConfig.cs" />
     <Compile Include="Reinstall\1500 Install.StartInstance.cs" />
     <Compile Include="Reinstall\1250 Install.AddServerTxt.cs" />
+    <Compile Include="Reinstall\Containers\CleanupDataBaseProcessor.cs" />
+    <Compile Include="Reinstall\Containers\RemoveFromDockerProcessor.cs" />
+    <Compile Include="Reinstall\Containers\CleanupSolrDataProcessor.cs" />
+    <Compile Include="Reinstall\Containers\CleanupSqlDataProcessor.cs" />
+    <Compile Include="Reinstall\Containers\RunDockerProcessor.cs" />
     <Compile Include="Reinstall\Reinstall9Args.cs" />
     <Compile Include="Reinstall\Reinstall9SwitchMode.cs" />
     <Compile Include="Restore\RestoreMongoDatabases.cs" />
