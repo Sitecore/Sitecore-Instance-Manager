@@ -142,6 +142,18 @@ namespace SIM.ContainerInstaller
       }
     }
 
+    public string CdHost
+    {
+      get
+      {
+        return this["CD_HOST"];
+      }
+      set
+      {
+        this["CD_HOST"] = value;
+      }
+    }
+
     public string IdHost
     {
       get
