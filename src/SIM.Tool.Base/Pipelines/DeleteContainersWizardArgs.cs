@@ -19,7 +19,8 @@ namespace SIM.Tool.Base.Pipelines
       return new DeleteContainersArgs(
         this.DestinationFolder,
         this.Env,
-        this.EnvironmentId
+        this.EnvironmentId,
+        this.Logger
         );
     }
   }
