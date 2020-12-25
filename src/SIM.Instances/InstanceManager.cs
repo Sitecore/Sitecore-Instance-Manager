@@ -1,4 +1,9 @@
-﻿namespace SIM.Instances
+﻿using System.Diagnostics;
+using System.Threading;
+using System.Threading.Tasks;
+using SIM.Extensions;
+
+namespace SIM.Instances
 {
   using System;
   using System.Collections.Generic;
@@ -10,6 +15,7 @@
   using Sitecore.Diagnostics.Base.Extensions.EnumerableExtensions;
   using Sitecore.Diagnostics.Logging;
   using SIM.SitecoreEnvironments;
+  using System.Collections.ObjectModel;
 
   #region
 
@@ -17,6 +23,9 @@
 
   public class InstanceManager
   {
+    public InstanceManager()
+    {
+    }
     #region Fields
 
     private IDictionary<string, Instance> _CachedInstances;
@@ -91,11 +100,14 @@
 
     public static InstanceManager Default { get; } = new InstanceManager();
 
-    #endregion
+    public RangeObservableCollection<Instance> InstancesObservableCollection { get; } = new RangeObservableCollection<Instance>();
+
 
     #endregion
 
-    #region Public Methods
+    #endregion
+
+    #region Methods
 
     #region Public methods
 
@@ -131,7 +143,8 @@
         Instances = GetInstances();
       }
     }
-    
+
+
     public void InitializeWithSoftListRefresh([CanBeNull] string defaultRootFolder = null)
     {
       SitecoreEnvironmentHelper.RefreshEnvironments();
@@ -156,6 +169,60 @@
             .Where(IsNotHidden).ToDictionary(value => value.Name);
     
           Instances = PartiallyCachedInstances?.Values.Select(x => GetInstance(x.ID)).ToArray();
+        }
+      }
+    }
+
+    public Instance GetInstance(long id)
+    {
+      using (new ProfileSection("Get instance by id"))
+      {
+        ProfileSection.Argument("id", id);
+
+        var instance = new Instance((int)id);
+
+        return ProfileSection.Result(instance);
+      }
+    }
+
+    public void AddNewInstance(string instanceName, bool isSitecore8Instance)
+    {
+      using (WebServerManager.WebServerContext context = WebServerManager.CreateContext())
+      {
+        SiteCollection sites = context.Sites;
+        List<Instance> instances = new List<Instance>();
+
+        if (isSitecore8Instance)
+        {
+
+          Site site = sites.FirstOrDefault(s => s.Name == instanceName);
+          if (site != null)
+          {
+            instances.Add(new Instance((int)site.Id));
+          }
+        }
+        else
+        {
+          SitecoreEnvironment environment =
+            SitecoreEnvironmentHelper.SitecoreEnvironments.FirstOrDefault(e => e.Name == instanceName);
+          if (environment != null && environment.Members != null && environment.Members.Count != 0)
+          {
+            foreach (var member in environment.Members.Where(x=>x.Type== SitecoreEnvironmentMember.Types.Site.ToString()))
+            {
+              Site site = sites.FirstOrDefault(s => s.Name == member.Name);
+              if (site != null)
+              {
+                instances.Add(new Instance((int)site.Id));
+              }
+            }
+          }
+        }
+
+        foreach (var instance in instances)
+        {
+          this.InstancesObservableCollection.Add(instance);
+          this.PartiallyCachedInstances?.Add(instance.Name, instance);
+          this.Instances = this.Instances.Add(instance);
         }
       }
     }
@@ -187,12 +254,6 @@
         return partiallyCachedInstances;
       }
     }
-
-    #endregion
-
-    #endregion
-
-    #region Methods
 
     private IEnumerable<Site> GetOperableSites([NotNull] WebServerManager.WebServerContext context, [CanBeNull] string defaultRootFolder = null)
     {
@@ -243,20 +304,6 @@
     }
 
     #endregion
-
-    #region Public methods
-
-    public Instance GetInstance(long id)
-    {
-      using (new ProfileSection("Get instance by id"))
-      {
-        ProfileSection.Argument("id", id);
-
-        var instance = new Instance((int)id);
-
-        return ProfileSection.Result(instance);
-      }
-    }
 
     #endregion
   }

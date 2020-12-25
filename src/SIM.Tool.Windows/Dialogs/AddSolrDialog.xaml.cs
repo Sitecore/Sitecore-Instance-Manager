@@ -14,7 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using SIM.Tool.Base.Profiles;
-using SIM.Tool.Windows.MainWindowComponents;
+using SIM.Tool.Windows.MainWindowComponents.Buttons;
 
 namespace SIM.Tool.Windows.Dialogs
 {

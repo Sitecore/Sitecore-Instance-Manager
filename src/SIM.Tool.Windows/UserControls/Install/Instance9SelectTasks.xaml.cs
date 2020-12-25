@@ -47,8 +47,8 @@ namespace SIM.Tool.Windows.UserControls.Install
         return false;
       }
 
-
-      TaskDialogResult result= WindowHelper.LongRunningTask(() => this.RunLowLevelTasks(args.Tasker),"Preparing for install",this.owner);
+      var title = args.Tasker.UnInstall ? "Preparing for uninstall" : "Preparing for install";
+      TaskDialogResult result= WindowHelper.LongRunningTask(() => this.RunLowLevelTasks(args.Tasker),title,this.owner);
       if (result == null)
       {
         return false;

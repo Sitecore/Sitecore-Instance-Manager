@@ -375,16 +375,16 @@ namespace SIM.Sitecore9Installer
     private void InjectLocalDeploymentRoot(string taskFilePath)
     {
       JObject doc = JObject.Parse(File.ReadAllText(taskFilePath));
-      JToken node = doc["Variables"]["Site.PhysicalPath"];
+      JToken node = doc["Variables"]?["Site.PhysicalPath"];//have to use null propagation since there need not be a variables section at all like in case of SXA-SingleDeveloper.json
       if (node != null)
       {
         JObject deployRoot = new JObject();
         deployRoot["Type"] = "string";
-        deployRoot["Description"] = "The path to installtion root folder.";
+        deployRoot["Description"] = "The path to installation root folder.";
         deployRoot["DefaultValue"] = "";
         doc["Parameters"]["DeployRoot"] = deployRoot;
 
-        ((JValue) node).Value = "[joinpath(parameter('DeployRoot'), parameter('SiteName'))]";
+        ((JValue)node).Value = "[joinpath(parameter('DeployRoot'), parameter('SiteName'))]";
 
         using (StreamWriter wr = new StreamWriter(taskFilePath))
         {

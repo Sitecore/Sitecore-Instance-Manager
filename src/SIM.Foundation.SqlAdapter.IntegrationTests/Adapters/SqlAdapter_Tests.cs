@@ -11,7 +11,10 @@
   [TestClass]
   public class SqlAdapter_Tests
   {
-    private const string DefaultEnvSqlPath = @"C:\Sitecore\etc\sim2\env\default\SqlServer.txt";
+    //These tests require the "C:\Sitecore\etc\sim\env\default\SqlServer.txt" file to be present.
+    //This file contains one line which is a connection string to the SQL server.
+    //If such file is not present, it should be created by the build task before running integration tests.
+    private const string DefaultEnvSqlPath = @"C:\Sitecore\etc\sim\env\default\SqlServer.txt";
 
     [NotNull]
     private SqlAdapter Adapter { get; } = new SqlAdapter(new SqlConnectionString(File.ReadAllText(DefaultEnvSqlPath)));
