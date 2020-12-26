@@ -9,5 +9,9 @@
     public void Warn(string message, bool includeSeverityLevel = true)
     {
     }
+
+    public void Error(string message, bool includeSeverityLevel = true)
+    {
+    }
   }
 }
