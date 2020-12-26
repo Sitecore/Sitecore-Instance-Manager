@@ -35,6 +35,12 @@ namespace SIM.ContainerInstaller
 
               throw new AggregateException($"Failed to execute script.\n{error.ToString()}");
             }
+
+            if (error.FullyQualifiedErrorId.Equals("CommandNotFoundException",
+              StringComparison.InvariantCultureIgnoreCase))
+            {
+              throw new CommandNotFoundException(error.Exception.Message);
+            }
           }
         }
 
