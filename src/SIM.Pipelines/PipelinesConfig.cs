@@ -42,9 +42,31 @@
 </installContainer>
 <deleteContainer title=""Uninstalling container environment"">
     <step>
+            <processor type=""SIM.Pipelines.Delete.Containers.RemoveFromDocker, SIM.Pipelines"" title=""Remove environment from Docker""/>
+    </step>
+    <step>
             <processor type=""SIM.Pipelines.Delete.Containers.RemoveHostsProcessor, SIM.Pipelines"" title=""Update hosts file""/>
     </step>
+    <step>
+            <processor type=""SIM.Pipelines.Delete.Containers.RemoveEnvironmentFolder, SIM.Pipelines"" title=""Remove environment folder""/>
+    </step>
+    <step>
+            <processor type=""SIM.Pipelines.Delete.Containers.CleanupEnvironmentData, SIM.Pipelines"" title=""Cleanup environment data""/>
+    </step>
 </deleteContainer>
+<reinstallContainer title=""Reinstalling container environment"">
+    <step>
+            <processor type=""SIM.Pipelines.Reinstall.Containers.RemoveFromDockerProcessor, SIM.Pipelines"" title=""Remove environment from docker""/>
+    </step>
+    <step>
+            <processor type=""SIM.Pipelines.Reinstall.Containers.CleanupSolrDataProcessor, SIM.Pipelines"" title=""Remove Solr data""/>
+            <processor type=""SIM.Pipelines.Reinstall.Containers.CleanupSqlDataProcessor, SIM.Pipelines"" title=""Remove SQL data""/>
+    </step>
+    <step>
+            <processor type=""SIM.Pipelines.Reinstall.Containers.RunDockerProcessor, SIM.Pipelines"" title=""Start environment in Docker""/>            
+    </step>
+
+</reinstallContainer>
 
 <install9 title=""Installing the instance"">
     <step>

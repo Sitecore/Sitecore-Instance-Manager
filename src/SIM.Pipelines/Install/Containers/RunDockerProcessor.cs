@@ -1,33 +1,30 @@
-﻿using JetBrains.Annotations;
+﻿using SIM.Loggers;
+using JetBrains.Annotations;
 using SIM.Pipelines.Processors;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using SIM.Pipelines.BaseProcessors;
 
 namespace SIM.Pipelines.Install.Containers
 {
-  public class RunDockerProcessor : Processor
+  [UsedImplicitly]
+  public class RunDockerProcessor : RunCmdCommandBaseProcessor
   {
-    protected virtual string Command => "docker-compose.exe up -d";
-
-    protected override void Process([NotNull] ProcessorArgs arguments)
+    protected override string GetCommand(ProcessorArgs procArgs)
     {
-      InstallContainerArgs args = (InstallContainerArgs)arguments;
-      string strCmdText = $"/C cd \"{args.Destination}\"&{this.Command}";
-      System.Diagnostics.Process proc = new System.Diagnostics.Process();
-      proc.StartInfo.Arguments = strCmdText;
-      proc.StartInfo.FileName = "CMD.exe";
-      proc.StartInfo.UseShellExecute = false;
-      proc.StartInfo.RedirectStandardError = true;
-      proc.StartInfo.RedirectStandardOutput = true;
-      proc.Start();
-      proc.WaitForExit();
-      if (proc.ExitCode != 0)
-      {
-        throw new AggregateException($"Failed to run '{this.Command}'\n{proc.StandardError.ReadToEnd()}");
-      }
+      return "docker-compose.exe up -d";
+    }
+
+    protected override string GetExecutionFolder(ProcessorArgs procArgs)
+    {
+      InstallContainerArgs args = (InstallContainerArgs)procArgs;
+
+      return args.Destination;
+    }
+
+    protected override ILogger GetLogger(ProcessorArgs procArgs)
+    {
+      InstallContainerArgs args = (InstallContainerArgs)procArgs;
+
+      return args.Logger;
     }
   }
 }

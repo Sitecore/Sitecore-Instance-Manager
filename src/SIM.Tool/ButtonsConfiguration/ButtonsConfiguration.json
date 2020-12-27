@@ -37,8 +37,10 @@
     "CreateSupportHotfixButton",
     /*Create Support Patch*/
     "CreateSupportPatchButton",
-    /*Sitecore Client, Front-end Site, Sitecore Login, Sitecore Desktop, Content Editor, Page Editor, Launch Pad, Google Chrome, Google Chrome (Incognito), Mozilla Firefox, Mozilla Firefox (Private), Internet Explorer, Internet Explorer (Private), Apple Safari*/
+    /*Sitecore Client, Sitecore Login, Sitecore Desktop, Content Editor, Page Editor, Launch Pad, Google Chrome, Google Chrome (Incognito), Mozilla Firefox, Mozilla Firefox (Private), Internet Explorer, Internet Explorer (Private), Apple Safari*/
     "BrowseButton",
+    /*Site / page*/
+    "BrowseHomePageButton",
     /*Sitecore Admin*/
     "OpenToolboxButton",
     /*Log in admin, Copy URL*/
@@ -112,6 +114,7 @@
     "CreateSupportHotfixButton",
     "CreateSupportPatchButton",
     "BrowseButton",
+    "BrowseHomePageButton",
     "OpenToolboxButton",
     "LoginAdminButton",
     "OpenWebConfigButton",
@@ -151,7 +154,8 @@
     "OpenVisualStudioButton",
     "ControlAppPoolButton",
     "DeleteInstanceButton",
-    "ReinstallInstanceButton"
+    "ReinstallInstanceButton",
+    "BrowseHomePageButton"
   ],
   "SitecoreContainersButtons": [
     "OpenContainerFolderButton",

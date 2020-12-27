@@ -8,7 +8,7 @@ namespace SIM.ContainerInstaller.Repositories.TagRepository
 {
   public class GitHubTagRepository : ITagRepository
   {
-    private readonly string _shortTagPattern = @"^[0-9]+.[0-9]+.[0-9]+-.[^-]+$"; // tag example: 10.0.0-ltsc2019
+    private readonly string _shortTagPattern = @"^([0-9]+.[0-9]+.[0-9]+|[0-9]+.[0-9]+)-[^-]+$"; // tag examples: "10.0.0-ltsc2019", "10.0-2004"
 
     private IEnumerable<SitecoreTagsEntity> _sitecoreTagsEntities;
 

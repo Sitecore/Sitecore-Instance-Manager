@@ -150,6 +150,7 @@
     <Compile Include="MainWindowComponents\Buttons\AbstractInstanceButton.cs" />
     <Compile Include="MainWindowComponents\Buttons\AppStateButton.cs" />
     <Compile Include="MainWindowComponents\Buttons\BrowseSitecoreContainerWebsiteButton.cs" />
+    <Compile Include="MainWindowComponents\Buttons\BrowseHomePageButton.cs" />
     <Compile Include="MainWindowComponents\Buttons\CreateSupportHotfixButton.cs" />
     <Compile Include="MainWindowComponents\Buttons\InstanceDummyButton.cs" />
     <Compile Include="MainWindowComponents\Buttons\LogFilesButton.cs" />
@@ -254,6 +255,9 @@
     <Compile Include="UserControls\ConfirmStepUserControl.xaml.cs">
       <DependentUpon>ConfirmStepUserControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\Delete\Containers\DeleteDetails.xaml.cs">
+      <DependentUpon>DeleteDetails.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\Delete\Delete9Details.xaml.cs">
       <DependentUpon>Delete9Details.xaml</DependentUpon>
     </Compile>
@@ -331,6 +335,9 @@
     <Compile Include="UserControls\MultipleDeletion\MultipleDeletionWizardArgs.cs" />
     <Compile Include="UserControls\MultipleDeletion\SelectInstances.xaml.cs">
       <DependentUpon>SelectInstances.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Reinstall\Containers\ReinstallDetails.xaml.cs">
+      <DependentUpon>ReinstallDetails.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\Reinstall\Reinstall9Confirmation.xaml.cs">
       <DependentUpon>Reinstall9Confirmation.xaml</DependentUpon>
@@ -635,6 +642,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="UserControls\Delete\Containers\DeleteDetails.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="UserControls\Delete\Delete9Details.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -680,6 +691,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\Install\Validation\ValidationDetails.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\Reinstall\Containers\ReinstallDetails.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

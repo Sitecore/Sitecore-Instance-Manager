@@ -23,14 +23,6 @@ namespace SIM.Tool.Windows.MainWindowComponents.Buttons
     #endregion
 
     #region Constructors
-
-    public BrowseButton()
-    {
-      VirtualPath = string.Empty;
-      Browser = null;
-      _Params = new string[0];
-    }
-
     public BrowseButton([CanBeNull] string param)
     {
       var arr = (param + ":").Split(':');

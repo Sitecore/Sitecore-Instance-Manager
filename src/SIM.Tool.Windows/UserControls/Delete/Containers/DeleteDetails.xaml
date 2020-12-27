@@ -1,0 +1,20 @@
+﻿<UserControl x:Class="SIM.Tool.Windows.UserControls.Delete.Containers.DeleteDetails" 
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:converters="clr-namespace:SIM.Tool.Base.Converters;assembly=SIM.Tool.Base"
+             xmlns:install="clr-namespace:SIM.Tool.Windows.UserControls.Install"
+             mc:Ignorable="d" d:DesignWidth="615.837" Height="133.662">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20" ></RowDefinition>
+            <RowDefinition ></RowDefinition>
+            <RowDefinition Height="10"></RowDefinition>
+            <RowDefinition Height="20"></RowDefinition>
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0" Name="ListHeader"  HorizontalAlignment="Left" Height="16" VerticalAlignment="Center"></TextBlock>
+        <TextBox Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Top" Name="TextBlock" TextWrapping="Wrap" 
+                 VerticalScrollBarVisibility="Auto" IsReadOnly="True" BorderThickness="0" Background="Transparent" />
+    </Grid>
+</UserControl>
