@@ -30,7 +30,12 @@ namespace SIM.Products.ProductParsers
 
     public bool TryParseProduct(string path, out Product product)
     {
-      Assert.ArgumentNotNullOrEmpty(path, nameof(path));
+      product = null;
+
+      if (string.IsNullOrEmpty(path))
+      {
+        return false;
+      }
 
       string originalName;
       string packagePath;
@@ -44,8 +49,6 @@ namespace SIM.Products.ProductParsers
 
         return true;
       }
-
-      product = null;
 
       return false;
     }
