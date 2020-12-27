@@ -51,6 +51,15 @@ namespace SIM.Tool.Windows.MainWindowComponents.Buttons
       RunApp(mainWindow);
     }
 
+    public override bool IsVisible(Window mainWindow, Instance instance)
+    {
+      if (instance != null && instance.Type == Instance.InstanceType.SitecoreContainer)
+      {
+        return false;
+      }
+      return base.IsVisible(mainWindow, instance);
+    }
+
     #endregion
 
     #region Protected methods

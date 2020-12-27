@@ -470,6 +470,11 @@
     {
       get
       {
+        if (SitecoreEnvironmentHelper.GetExistingSitecoreEnvironment(this.Name).EnvType == SitecoreEnvironment.EnvironmentType.Container)
+        {
+          return InstanceType.SitecoreContainer;
+        }
+
         if (Product == Product.Undefined || Product.Release == null)
         {
           return InstanceType.SitecoreMember;
@@ -494,6 +499,7 @@
       Sitecore8AndEarlier,
       Sitecore9AndLater,
       SitecoreMember,
+      SitecoreContainer,
       Unknown
     }
 

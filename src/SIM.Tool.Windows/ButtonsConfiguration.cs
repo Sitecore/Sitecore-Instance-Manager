@@ -50,6 +50,9 @@ namespace SIM.Tool.Windows
     public IEnumerable<string> Sitecore9AndLaterMemberButtons =>
       this.GetButtonsList("Sitecore9AndLaterMemberButtons");
 
+    public IEnumerable<string> SitecoreContainersButtons =>
+      this.GetButtonsList("SitecoreContainersButtons");
+
     public IEnumerable<string> Sitecore8AndEarlierGroups =>
       this.GetButtonsList("Sitecore8AndEarlierGroups");
 
@@ -58,5 +61,8 @@ namespace SIM.Tool.Windows
 
     public IEnumerable<string> Sitecore9AndLaterMemberGroups =>
       this.GetButtonsList("Sitecore9AndLaterMemberGroups");
+
+    public IEnumerable<string> SitecoreContainersGroups =>
+      this.GetButtonsList("SitecoreContainersGroups");
   }
 }
