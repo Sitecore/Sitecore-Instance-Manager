@@ -174,7 +174,7 @@ namespace SIM.ContainerInstaller
         NameValuePair pair = this.GetPairOrNull(Name);
         if (pair == null)
         {
-          throw new InvalidOperationException($"Variable {Name} does not exist");
+          return null;
         }
 
         return pair.Value;
