@@ -86,8 +86,6 @@ namespace SIM.Tool.Windows
           MainWindow.Instance.Width = d;
         }
 
-        RefreshInstances();
-        RefreshInstaller();
         ApplicationManager.IisStatusChanged += (s,e) =>
         {
           RefreshIisStatus();
@@ -98,6 +96,9 @@ namespace SIM.Tool.Windows
         };
         ApplicationManager.InitializeIisStatus();
         ApplicationManager.InitializeDockerStatus();
+
+        RefreshInstances();
+        RefreshInstaller();
       }
     }
 
