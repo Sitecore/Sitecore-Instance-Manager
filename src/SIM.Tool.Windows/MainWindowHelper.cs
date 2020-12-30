@@ -88,6 +88,16 @@ namespace SIM.Tool.Windows
 
         RefreshInstances();
         RefreshInstaller();
+        ApplicationManager.IisStatusChanged += (s,e) =>
+        {
+          RefreshIisStatus();
+        };
+        ApplicationManager.DockerStatusChanged += (s, e) =>
+        {
+          RefreshDockerStatus();
+        };
+        ApplicationManager.InitializeIisStatus();
+        ApplicationManager.InitializeDockerStatus();
       }
     }
 
@@ -272,8 +282,6 @@ namespace SIM.Tool.Windows
     {
       using (new ProfileSection("Refresh instances"))
       {
-        ApplicationManager.IsIisRunning = EnvironmentHelper.IsIisRunning();
-
         var mainWindow = MainWindow.Instance;
         var tabIndex = mainWindow.MainRibbon.SelectedTabIndex;
         var instance = SelectedInstance;
@@ -1062,6 +1070,40 @@ namespace SIM.Tool.Windows
       {
         WindowHelper.HandleError($"Cannot find any installation package. {message}", false, null);
       }
+    }
+
+    private static void RefreshIisStatus()
+    {
+      Invoke((mainWindow) =>
+      {
+        if (ApplicationManager.IsIisRunning)
+        {
+          mainWindow.IisStatusEllipse.Fill = new SolidColorBrush(Color.FromRgb(0, 128, 0));
+          mainWindow.IisStatusTextBlock.Text = "IIS is running";
+        }
+        else
+        {
+          mainWindow.IisStatusEllipse.Fill = new SolidColorBrush(Color.FromRgb(255, 0, 0));
+          mainWindow.IisStatusTextBlock.Text = "IIS is stopped";
+        }
+      });
+    }
+
+    private static void RefreshDockerStatus()
+    {
+      Invoke((mainWindow) =>
+      {
+        if (ApplicationManager.IsDockerRunning)
+        {
+          mainWindow.DockerStatusEllipse.Fill = new SolidColorBrush(Color.FromRgb(0, 128, 0));
+          mainWindow.DockerStatusTextBlock.Text = "Docker is running";
+        }
+        else
+        {
+          mainWindow.DockerStatusEllipse.Fill = new SolidColorBrush(Color.FromRgb(255, 0, 0));
+          mainWindow.DockerStatusTextBlock.Text = "Docker is stopped";
+        }
+      });
     }
 
     #endregion

@@ -1,5 +1,5 @@
 ﻿<r:RibbonWindow WindowStartupLocation="CenterScreen" TextOptions.TextFormattingMode="Display"  x:Class="SIM.Tool.Windows.MainWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:r="clr-namespace:Fluent;assembly=Fluent"
-               Title="SIM {0} {2} {3}" MinWidth="340" Width="340" Height="480" Icon="pack://application:,,,/SIM.Tool.Windows;component/Images/window.ico" ContentRendered="WindowLoaded" Closing="WindowClosing">
+               Title="SIM {0} {2} {3}" MinWidth="340" Width="340" Height="500" Icon="pack://application:,,,/SIM.Tool.Windows;component/Images/window.ico" ContentRendered="WindowLoaded" Closing="WindowClosing">
   <DockPanel>
     <r:Ribbon DockPanel.Dock="Top" Name="MainRibbon">
       <r:Ribbon.ContextMenu>
@@ -36,6 +36,24 @@
         <Image Source="pack://application:,,,/SIM.Tool.Windows;component/Images/24/view.png" />
       </Button>
     </Grid>
+    <StackPanel DockPanel.Dock="Bottom" Height="20">
+        <StackPanel.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                <GradientStop Color="#FFCCD9EA" Offset="0.0" />
+                <GradientStop Color="#FFF1F5FB" Offset="0.1" />
+            </LinearGradientBrush>
+        </StackPanel.Background>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Ellipse Name="IisStatusEllipse" Width="10" Height="10" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="6,2,0,0"/>
+            <TextBlock Name="IisStatusTextBlock" Margin="18,2,0,0" Grid.Column="0" />
+            <Ellipse Name="DockerStatusEllipse" Width="10" Height="10" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="6,2,0,0"/>
+            <TextBlock Name="DockerStatusTextBlock" Margin="18,2,0,0" Grid.Column="1" />
+        </Grid>
+    </StackPanel>
     <StackPanel DockPanel.Dock="Bottom" Height="64">
         <StackPanel.Background>
             <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">

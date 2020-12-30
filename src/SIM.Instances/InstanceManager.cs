@@ -126,7 +126,7 @@
 
       if(ApplicationManager.IsIisRunning) {instances.AddRange(GetIISInstances());}
 
-      instances.AddRange(GetContainerizedInstances());
+      if(ApplicationManager.IsDockerRunning) {instances.AddRange(GetContainerizedInstances());}
 
       Dictionary<string, Instance> partiallyCachedInstances = instances.ToDictionary(i => i.Name);
 
