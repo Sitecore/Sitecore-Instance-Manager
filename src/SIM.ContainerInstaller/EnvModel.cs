@@ -193,7 +193,12 @@ namespace SIM.ContainerInstaller
         }
       }
     }
-  
+
+    public IEnumerable<string> GetNames()
+    {
+      return this.variables.Select(p => p.Name);
+    }
+
     public void SaveToFile(string path)
     {
       using(StreamWriter writer=new StreamWriter(path))

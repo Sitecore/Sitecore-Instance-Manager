@@ -8,10 +8,12 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Windows;
 using SIM.Tool.Windows.Dialogs;
 using SIM.ContainerInstaller.Repositories.TagRepository;
 using SIM.Tool.Base;
+using Sitecore.Diagnostics.InfoService.Client.Helpers;
 
 namespace SIM.Tool.Windows.UserControls.Install.Containers
 {
@@ -38,10 +40,10 @@ namespace SIM.Tool.Windows.UserControls.Install.Containers
       Assert.ArgumentNotNull(wizardArgs, nameof(wizardArgs));
       InstallContainerWizardArgs args = (InstallContainerWizardArgs)wizardArgs;
       this.owner = args.WizardWindow;
-      this.productVersion = args.Product.TwoVersion;      
+      this.productVersion = args.Product.TwoVersion;
       string[] envFiles = Directory.GetFiles(args.FilesRoot, ".env", SearchOption.AllDirectories);
       string topologiesFolder = Directory.GetParent(envFiles[0]).Parent.FullName;
-      this.Topologies.DataContext = Directory.GetDirectories(topologiesFolder).Where(d=>File.Exists(Path.Combine(d,".env"))).Select(d => new NameValueModel(Path.GetFileName(d), d));
+      this.Topologies.DataContext = Directory.GetDirectories(topologiesFolder).Where(d => File.Exists(Path.Combine(d, ".env"))).Select(d => new NameValueModel(Path.GetFileName(d), d));
       this.Topologies.SelectedIndex = 0;
       this.defaultProjectName = args.InstanceName;
       this.ProjectName.IsChecked = true;
@@ -68,8 +70,8 @@ namespace SIM.Tool.Windows.UserControls.Install.Containers
     public bool SaveChanges(WizardArgs wizardArgs)
     {
       return true;
-    } 
-    
+    }
+
     private string[] GetTags(string productVersion, string tagNameSpace)
     {
       return this.tagRepository.GetSortedShortSitecoreTags(productVersion, tagNameSpace).ToArray(); ;
@@ -100,6 +102,7 @@ namespace SIM.Tool.Windows.UserControls.Install.Containers
       if (this.lastRegistry == this.envModel.SitecoreRegistry)
       {
         this.UpdateProjectName();
+        this.UpdateHosts();
         return;
       }
 
@@ -140,11 +143,40 @@ namespace SIM.Tool.Windows.UserControls.Install.Containers
       string tag = (string)this.Tags.SelectedItem;
       this.envModel.SitecoreVersion = tag;
       this.UpdateProjectName();
+      this.UpdateHosts();
+    }
+
+    private void UpdateHosts()
+    {
+      string hostNameTemplate = "{0}-{1}";
+      string hostNameKeyPattern = "([A-Za-z0-9]{1,3})_HOST";
+
+      Regex regex = new Regex(hostNameKeyPattern);
+
+      if (string.IsNullOrEmpty(this.envModel.ProjectName))
+      {
+        return;
+      }
+
+      string[] keys = this.envModel.GetNames().ToArray();
+
+      IEnumerable<string> hostNamesKeys = keys.Where(n => regex.IsMatch(n));
+
+      foreach (var hostNameKey in hostNamesKeys)
+      {
+        string serviceName = regex.Match(hostNameKey).Groups[1].Value;
+
+        if (string.IsNullOrEmpty(serviceName))
+          continue;
+
+        this.envModel[hostNameKey] = string.Format(hostNameTemplate, this.envModel.ProjectName, serviceName.ToLower());
+      }
     }
 
     private void ProjectName_Checked(object sender, RoutedEventArgs e)
     {
       this.UpdateProjectName();
+      this.UpdateHosts();
     }
 
     private void ProjectName_OnUnchecked(object sender, RoutedEventArgs e)
@@ -160,7 +192,7 @@ namespace SIM.Tool.Windows.UserControls.Install.Containers
           $"{this.defaultProjectName}-{((NameValueModel)this.Topologies.SelectedItem).Name}-{this.Tags.SelectedItem}";
       }
     }
-      
+
     public string CustomButtonText { get => "Advanced..."; }
 
     public void CustomButtonClick()
