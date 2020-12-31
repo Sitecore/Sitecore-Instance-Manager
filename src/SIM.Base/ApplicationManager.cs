@@ -33,6 +33,7 @@ namespace SIM
     public const string AppDataRoot = @"%AppData%\Sitecore\Sitecore Instance Manager";
     public const string DefaultConfigurations = "Configurations";
     public const string DefaultPackages = "Packages";
+    public const string DockerDesktopPath = @"C:\Program Files\Docker\Docker\Docker Desktop.exe";
 
     #endregion
 
@@ -124,6 +125,8 @@ namespace SIM
       AppLabel = GetLabel();
       UnInstallParamsFolder = InitializeDataFolder("UnInstallParams");
       TempFolder = InitializeDataFolder("Temp");
+      IsIisRunning = GetIisStatus();
+      IsDockerRunning = GetDockerStatus();
       Timer = new Timer(TimerInterval);
       Timer.Elapsed += Timer_Elapsed;
       Timer.Enabled = true;
@@ -243,16 +246,77 @@ namespace SIM
       EventHelper.RaiseEvent(AttemptToClose, typeof(ApplicationManager), e);
     }
 
-    public static void InitializeIisStatus()
+    public static bool StartStopIis(bool start)
     {
-      IsIisRunning = GetIisStatus();
-      OnIisStatusChanged();
+      Timer.Stop();
+      try
+      {
+        using (var sc = new ServiceController("W3SVC"))
+        {
+          if (start)
+          {
+            sc.Start();
+            sc.WaitForStatus(ServiceControllerStatus.Running, TimeSpan.FromMilliseconds(TimerInterval));
+          }
+          else
+          {
+            sc.Stop();
+            sc.WaitForStatus(ServiceControllerStatus.Stopped, TimeSpan.FromMilliseconds(TimerInterval));
+          }
+        }
+
+        Timer.Start();
+        return true;
+      }
+      catch
+      {
+        Timer.Start();
+        return false;
+      }
     }
 
-    public static void InitializeDockerStatus()
+    public static bool StartStopDocker(bool start)
     {
-      IsDockerRunning = GetDockerStatus();
-      OnDockerStatusChanged();
+      Timer.Stop();
+      try
+      {
+        if (start)
+        {
+          if (File.Exists(DockerDesktopPath))
+          {
+            Process process = Process.Start(DockerDesktopPath);
+            if (process != null)
+            {
+              Timer.Start();
+              return true;
+            }
+          }
+        }
+        else
+        {
+          ServiceController service = ServiceController.GetServices().FirstOrDefault(s => s.ServiceName == "docker");
+
+          if (service != null)
+          {
+            service.Stop();
+
+            foreach (Process process in Process.GetProcessesByName("Docker Desktop"))
+            {
+              process.Kill();
+            }
+
+            Timer.Start();
+            return true;
+          }
+        }
+        Timer.Start();
+        return false;
+      }
+      catch
+      {
+        Timer.Start();
+        return false;
+      }
     }
 
     #endregion
@@ -355,7 +419,7 @@ namespace SIM
       {
         ServiceController service = ServiceController.GetServices().FirstOrDefault(s => s.ServiceName == "docker");
 
-        if (service != null)
+        if (service != null && service.Status.Equals(ServiceControllerStatus.Running))
         {
           return true;
         }

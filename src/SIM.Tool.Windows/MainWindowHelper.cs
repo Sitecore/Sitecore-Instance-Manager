@@ -86,16 +86,19 @@ namespace SIM.Tool.Windows
           MainWindow.Instance.Width = d;
         }
 
-        ApplicationManager.IisStatusChanged += (s,e) =>
+        ApplicationManager.IisStatusChanged += (sender, args) =>
         {
           RefreshIisStatus();
         };
-        ApplicationManager.DockerStatusChanged += (s, e) =>
+        ApplicationManager.DockerStatusChanged += (sender, args) =>
         {
           RefreshDockerStatus();
         };
-        ApplicationManager.InitializeIisStatus();
-        ApplicationManager.InitializeDockerStatus();
+        UpdateIisStatus(ApplicationManager.IsIisRunning, MainWindow.Instance);
+        UpdateDockerStatus(ApplicationManager.IsDockerRunning, MainWindow.Instance);
+
+        AddStartStopIisOnClickHandler();
+        AddStartStopDockerOnClickHandler();
 
         RefreshInstances();
         RefreshInstaller();
@@ -281,9 +284,14 @@ namespace SIM.Tool.Windows
 
     public static void RefreshInstances()
     {
+      var mainWindow = MainWindow.Instance;
+      RefreshInstances(mainWindow);
+    }
+
+    public static void RefreshInstances(MainWindow mainWindow)
+    {
       using (new ProfileSection("Refresh instances"))
       {
-        var mainWindow = MainWindow.Instance;
         var tabIndex = mainWindow.MainRibbon.SelectedTabIndex;
         var instance = SelectedInstance;
         var name = instance != null ? instance.Name : null;
@@ -1077,34 +1085,162 @@ namespace SIM.Tool.Windows
     {
       Invoke((mainWindow) =>
       {
+        UpdateIisStatus(ApplicationManager.IsIisRunning, mainWindow);
+        RefreshInstances(mainWindow);
+      });
+    }
+
+    private static void UpdateIisStatus(bool isIisRunning, MainWindow mainWindow)
+    {
+      if (isIisRunning)
+      {
+        string toolTip = "IIS is running, so the on-premise instances are displayed in the list. Click here to stop IIS.";
+        mainWindow.IisStatusEllipse.Fill = new SolidColorBrush(Color.FromRgb(0, 128, 0));
+        mainWindow.IisStatusEllipse.ToolTip = toolTip;
+        mainWindow.IisStatusTextBlock.Text = "IIS is running";
+        mainWindow.IisStatusTextBlock.ToolTip = toolTip;
+      }
+      else
+      {
+        string toolTip = "IIS is stopped, so the on-premise instances are not displayed in the list. Click here to start IIS.";
+        mainWindow.IisStatusEllipse.Fill = new SolidColorBrush(Color.FromRgb(255, 0, 0));
+        mainWindow.IisStatusEllipse.ToolTip = toolTip;
+        mainWindow.IisStatusTextBlock.Text = "IIS is stopped";
+        mainWindow.IisStatusTextBlock.ToolTip = toolTip;
+      }
+    }
+
+    private static void StartIisOnClick()
+    {
+      if (!ApplicationManager.StartStopIis(true))
+      {
+        ShowStatusMessage("Cannot start IIS. The on-premise instances will not be displayed in the list.",
+          MessageBoxButton.OK,
+          MessageBoxImage.Warning);
+      }
+    }
+
+    private static void StopIisOnClick()
+    {
+      if (!ApplicationManager.StartStopIis(false))
+      {
+        ShowStatusMessage("Cannot stop IIS. The on-premise instances will be displayed in the list.",
+          MessageBoxButton.OK,
+          MessageBoxImage.Warning);
+      }
+    }
+
+
+    private static void AddStartStopIisOnClickHandler()
+    {
+      MainWindow.Instance.IisStatusTextBlock.MouseLeftButtonDown += (sender, args) =>
+      {
+        args.Handled = true;
+
         if (ApplicationManager.IsIisRunning)
         {
-          mainWindow.IisStatusEllipse.Fill = new SolidColorBrush(Color.FromRgb(0, 128, 0));
-          mainWindow.IisStatusTextBlock.Text = "IIS is running";
+          if (ShowStatusMessage("Do you want to stop IIS? In this case, the on-premise instances will be hidden in the list.",
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Question) == MessageBoxResult.Yes)
+          {
+            StopIisOnClick();
+          }
         }
         else
         {
-          mainWindow.IisStatusEllipse.Fill = new SolidColorBrush(Color.FromRgb(255, 0, 0));
-          mainWindow.IisStatusTextBlock.Text = "IIS is stopped";
+          if (ShowStatusMessage("Do you want to start IIS? In this case, the on-premise instances will be displayed in the list.",
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Question) == MessageBoxResult.Yes)
+          {
+            StartIisOnClick();
+          }
         }
-      });
+      };
     }
 
     private static void RefreshDockerStatus()
     {
       Invoke((mainWindow) =>
       {
+        UpdateDockerStatus(ApplicationManager.IsDockerRunning, mainWindow);
+        RefreshInstances(mainWindow);
+      });
+    }
+
+    private static void UpdateDockerStatus(bool isDockerRunning, MainWindow mainWindow)
+    {
+      if (isDockerRunning)
+      {
+        string toolTip = "Docker is running, so the containerized instances are displayed in the list. Click here to stop Docker.";
+        mainWindow.DockerStatusEllipse.Fill = new SolidColorBrush(Color.FromRgb(0, 128, 0));
+        mainWindow.DockerStatusEllipse.ToolTip = toolTip;
+        mainWindow.DockerStatusTextBlock.Text = "Docker is running";
+        mainWindow.DockerStatusTextBlock.ToolTip = toolTip;
+      }
+      else
+      {
+        string toolTip = "Docker is stopped, so the containerized instances are not displayed in the list. Click here to start Docker.";
+        mainWindow.DockerStatusEllipse.Fill = new SolidColorBrush(Color.FromRgb(255, 0, 0));
+        mainWindow.DockerStatusEllipse.ToolTip = toolTip;
+        mainWindow.DockerStatusTextBlock.Text = "Docker is stopped";
+        mainWindow.DockerStatusTextBlock.ToolTip = toolTip;
+      }
+    }
+
+    private static void StartDockerOnClick()
+    {
+      if (!ApplicationManager.StartStopDocker(true))
+      {
+        ShowStatusMessage("Cannot start Docker. The containerized instances will not be displayed in the list.",
+          MessageBoxButton.OK,
+          MessageBoxImage.Warning);
+      }
+    }
+
+    private static void StopDockerOnClick()
+    {
+      if (!ApplicationManager.StartStopDocker(false))
+      {
+        ShowStatusMessage("Cannot stop Docker. The containerized instances will be displayed in the list.",
+          MessageBoxButton.OK,
+          MessageBoxImage.Warning);
+      }
+    }
+
+
+    private static void AddStartStopDockerOnClickHandler()
+    {
+      MainWindow.Instance.DockerStatusTextBlock.MouseLeftButtonDown += (sender, args) =>
+      {
+        args.Handled = true;
+
         if (ApplicationManager.IsDockerRunning)
         {
-          mainWindow.DockerStatusEllipse.Fill = new SolidColorBrush(Color.FromRgb(0, 128, 0));
-          mainWindow.DockerStatusTextBlock.Text = "Docker is running";
+          if (ShowStatusMessage("Do you want to stop Docker? In this case, the containerized instances will be hidden in the list.",
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Question) == MessageBoxResult.Yes)
+          {
+            StopDockerOnClick();
+          }
         }
         else
         {
-          mainWindow.DockerStatusEllipse.Fill = new SolidColorBrush(Color.FromRgb(255, 0, 0));
-          mainWindow.DockerStatusTextBlock.Text = "Docker is stopped";
+          if (ShowStatusMessage("Do you want to start Docker? In this case, the containerized instances will be displayed in the list.",
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Question) == MessageBoxResult.Yes)
+          {
+            StartDockerOnClick();
+          }
         }
-      });
+      };
+    }
+
+    private static MessageBoxResult ShowStatusMessage(string message, MessageBoxButton messageBoxButton, MessageBoxImage messageBoxImage)
+    {
+      return WindowHelper.ShowMessage(
+        message,
+        messageBoxButton,
+        messageBoxImage);
     }
 
     #endregion

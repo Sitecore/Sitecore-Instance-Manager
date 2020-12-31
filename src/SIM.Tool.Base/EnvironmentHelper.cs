@@ -80,29 +80,6 @@
       }
     }
 
-    public static bool IsIisRunning()
-    {
-      try
-      {
-        using (var sc = new ServiceController("W3SVC"))
-        {
-          Log.Info($"IIS.Name: {sc.DisplayName}");
-          Log.Info($"IIS.Status: {sc.Status}");
-          Log.Info($"IIS.MachineName: {sc.MachineName}");
-          Log.Info($"IIS.ServiceName: {sc.ServiceName}");
-          Log.Info($"IIS.ServiceType: {sc.ServiceType}");
-
-          return sc.Status.Equals(ServiceControllerStatus.Running);
-        }
-      }
-      catch (Exception ex)
-      {
-        Log.Error(ex, "Error during checking IIS state");
-
-        return false;
-      }
-    }
-
     #endregion
 
     #region Private methods
