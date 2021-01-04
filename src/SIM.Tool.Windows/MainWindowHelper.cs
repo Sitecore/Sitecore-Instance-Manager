@@ -300,7 +300,7 @@ namespace SIM.Tool.Windows
         WindowHelper.LongRunningTask(() =>
         {
             InstanceManager.Default.Initialize(instancesFolder);
-        }, "Refresh Sitecore web sites", mainWindow, "Scanning IIS applications to find Sitecore web sites", "", true);
+        }, "Refresh Sitecore web sites", mainWindow, "Scanning Sitecore web sites", "", true);
 
         Search();
         if (string.IsNullOrEmpty(name))
