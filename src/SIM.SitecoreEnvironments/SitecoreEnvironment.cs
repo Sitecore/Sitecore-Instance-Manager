@@ -30,7 +30,7 @@
         {
           case EnvironmentType.OnPrem:
           {
-            return @"pack://application:,,,/SIM.Tool.Windows;component/Images/16/sitecore.png";
+            return @"pack://application:,,,/SIM.Tool.Windows;component/Images/16/iis.png";
           }
           case EnvironmentType.Container:
           {

@@ -610,6 +610,7 @@
     <Resource Include="Images\9\plus_on_hover.png" />
     <Resource Include="Images\16\docker.png" />
     <Resource Include="Images\16\sitecore_black.png" />
+    <Resource Include="Images\16\iis.png" />
     <Content Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
