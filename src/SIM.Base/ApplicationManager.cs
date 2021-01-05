@@ -13,6 +13,7 @@ namespace SIM
   using System.ServiceProcess;
   using System.Linq;
   using System.Runtime.CompilerServices;
+  using System.Threading;
 
   #region
 
@@ -34,6 +35,9 @@ namespace SIM
     public const string DefaultConfigurations = "Configurations";
     public const string DefaultPackages = "Packages";
     public const string DockerDesktopPath = @"C:\Program Files\Docker\Docker\Docker Desktop.exe";
+    public const string DockerProcessName = "Docker Desktop";
+    public const string DockerServiceName = "docker";
+    public const string IisServiceName = "W3SVC";
 
     #endregion
 
@@ -95,7 +99,7 @@ namespace SIM
 
     public static event PropertyChangedEventHandler DockerStatusChanged;
 
-    private static readonly Timer Timer;
+    private static readonly System.Timers.Timer Timer;
 
     private const double TimerInterval = 10000;
 
@@ -127,7 +131,7 @@ namespace SIM
       TempFolder = InitializeDataFolder("Temp");
       IsIisRunning = GetIisStatus();
       IsDockerRunning = GetDockerStatus();
-      Timer = new Timer(TimerInterval);
+      Timer = new System.Timers.Timer(TimerInterval);
       Timer.Elapsed += Timer_Elapsed;
       Timer.Enabled = true;
     }
@@ -251,20 +255,21 @@ namespace SIM
       Timer.Stop();
       try
       {
-        using (var sc = new ServiceController("W3SVC"))
+        using (ServiceController serviceController = new ServiceController(IisServiceName))
         {
           if (start)
           {
-            sc.Start();
-            sc.WaitForStatus(ServiceControllerStatus.Running, TimeSpan.FromMilliseconds(TimerInterval));
+            serviceController.Start();
+            serviceController.WaitForStatus(ServiceControllerStatus.Running, TimeSpan.FromMilliseconds(TimerInterval));
           }
           else
           {
-            sc.Stop();
-            sc.WaitForStatus(ServiceControllerStatus.Stopped, TimeSpan.FromMilliseconds(TimerInterval));
+            serviceController.Stop();
+            serviceController.WaitForStatus(ServiceControllerStatus.Stopped, TimeSpan.FromMilliseconds(TimerInterval));
           }
         }
 
+        RunTimerElapsed(4000);
         Timer.Start();
         return true;
       }
@@ -287,6 +292,7 @@ namespace SIM
             Process process = Process.Start(DockerDesktopPath);
             if (process != null)
             {
+              RunTimerElapsed(10000);
               Timer.Start();
               return true;
             }
@@ -294,21 +300,23 @@ namespace SIM
         }
         else
         {
-          ServiceController service = ServiceController.GetServices().FirstOrDefault(s => s.ServiceName == "docker");
+          ServiceController serviceController = GetDockerService();
 
-          if (service != null)
+          if (serviceController != null)
           {
-            service.Stop();
+            serviceController.Stop();
 
-            foreach (Process process in Process.GetProcessesByName("Docker Desktop"))
+            foreach (Process process in Process.GetProcessesByName(DockerProcessName))
             {
               process.Kill();
             }
 
+            RunTimerElapsed(4000);
             Timer.Start();
             return true;
           }
         }
+
         Timer.Start();
         return false;
       }
@@ -317,6 +325,12 @@ namespace SIM
         Timer.Start();
         return false;
       }
+    }
+
+    private static void RunTimerElapsed(int timeout)
+    {
+      Thread.Sleep(timeout);
+      Timer_Elapsed(null, null);
     }
 
     #endregion
@@ -398,9 +412,9 @@ namespace SIM
     {
       try
       {
-        using (var sc = new ServiceController("W3SVC"))
+        using (ServiceController serviceController = new ServiceController(IisServiceName))
         {
-          if (sc.Status.Equals(ServiceControllerStatus.Running))
+          if (serviceController.Status.Equals(ServiceControllerStatus.Running))
           {
             return true;
           }
@@ -417,9 +431,9 @@ namespace SIM
     {
       try
       {
-        ServiceController service = ServiceController.GetServices().FirstOrDefault(s => s.ServiceName == "docker");
+        ServiceController serviceController = GetDockerService();
 
-        if (service != null && service.Status.Equals(ServiceControllerStatus.Running))
+        if (serviceController != null && serviceController.Status.Equals(ServiceControllerStatus.Running))
         {
           return true;
         }
@@ -430,6 +444,11 @@ namespace SIM
       {
         return false;
       }
+    }
+
+    private static ServiceController GetDockerService()
+    {
+      return ServiceController.GetServices().FirstOrDefault(s => s.ServiceName == DockerServiceName);
     }
 
     private static void OnIisStatusChanged([CallerMemberName] string name = null)

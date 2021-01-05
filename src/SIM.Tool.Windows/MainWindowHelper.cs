@@ -1112,7 +1112,12 @@ namespace SIM.Tool.Windows
 
     private static void StartIisOnClick()
     {
-      if (!ApplicationManager.StartStopIis(true))
+      bool isRunning = false;
+      WindowHelper.LongRunningTask(() =>
+      {
+        isRunning = ApplicationManager.StartStopIis(true);
+      }, "Start IIS", MainWindow.Instance, "Starting IIS", "", true);
+      if (!isRunning)
       {
         ShowStatusMessage("Cannot start IIS. The on-premise instances will not be displayed in the list.",
           MessageBoxButton.OK,
@@ -1122,14 +1127,18 @@ namespace SIM.Tool.Windows
 
     private static void StopIisOnClick()
     {
-      if (!ApplicationManager.StartStopIis(false))
+      bool isStopped = false;
+      WindowHelper.LongRunningTask(() =>
+      {
+        isStopped = ApplicationManager.StartStopIis(false);
+      }, "Stop IIS", MainWindow.Instance, "Stopping IIS", "", true);
+      if (!isStopped)
       {
         ShowStatusMessage("Cannot stop IIS. The on-premise instances will be displayed in the list.",
           MessageBoxButton.OK,
           MessageBoxImage.Warning);
       }
     }
-
 
     private static void AddStartStopIisOnClickHandler()
     {
@@ -1189,9 +1198,15 @@ namespace SIM.Tool.Windows
 
     private static void StartDockerOnClick()
     {
-      if (!ApplicationManager.StartStopDocker(true))
+      bool isRunning = false;
+      WindowHelper.LongRunningTask(() =>
       {
-        ShowStatusMessage("Cannot start Docker. The containerized instances will not be displayed in the list.",
+        isRunning = ApplicationManager.StartStopDocker(true);
+      }, "Start Docker", MainWindow.Instance, "Starting Docker", "", true);
+      if (!isRunning)
+      {
+        ShowStatusMessage("Cannot start Docker. The containerized instances will not be displayed in the list. " +
+                          $"Please make sure that Docker Desktop for Windows is installed (the \"{ApplicationManager.DockerDesktopPath}\" file must exist).",
           MessageBoxButton.OK,
           MessageBoxImage.Warning);
       }
@@ -1199,14 +1214,18 @@ namespace SIM.Tool.Windows
 
     private static void StopDockerOnClick()
     {
-      if (!ApplicationManager.StartStopDocker(false))
+      bool isStopped = false;
+      WindowHelper.LongRunningTask(() =>
+      {
+        isStopped = ApplicationManager.StartStopDocker(false);
+      }, "Stop Docker", MainWindow.Instance, "Stopping Docker", "", true);
+      if (!isStopped)
       {
         ShowStatusMessage("Cannot stop Docker. The containerized instances will be displayed in the list.",
           MessageBoxButton.OK,
           MessageBoxImage.Warning);
       }
     }
-
 
     private static void AddStartStopDockerOnClickHandler()
     {
