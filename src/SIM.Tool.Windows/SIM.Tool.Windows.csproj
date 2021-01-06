@@ -214,6 +214,7 @@
     <Compile Include="MainWindowComponents\Buttons\SettingsButton.cs" />
     <Compile Include="MainWindowComponents\Buttons\UpdateLicenseButton.cs" />
     <Compile Include="MainWindowComponents\Buttons\InstallContainerButton.cs" />
+    <Compile Include="MainWindowComponents\MainWindowButtonFactory.cs" />
     <Compile Include="MainWindowData.cs" />
     <Compile Include="Pipelines\Download8\Download8Args.cs" />
     <Compile Include="Pipelines\Download8\DownloadProcessor.cs" />

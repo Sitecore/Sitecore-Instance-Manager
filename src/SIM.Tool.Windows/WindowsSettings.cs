@@ -58,9 +58,6 @@ namespace SIM.Tool.Windows
     public static readonly AdvancedProperty<string> AppToolsConfigEditor = AdvancedSettings.Create("App/Tools/ConfigEditor", string.Empty);
 
     [NotNull]
-    public static readonly AdvancedProperty<string> AppUiMainWindowDoubleClick = AdvancedSettings.Create("App/UI/InstanceDoubleClick", @"SIM.Tool.Windows.MainWindowComponents.Buttons.BrowseHomePageButton, SIM.Tool.Windows");
-
-    [NotNull]
     public static readonly AdvancedProperty<int> AppUiMainWindowWidth = AdvancedSettings.Create("App/UI/MainWindowWidth", -1);
 
     #endregion
