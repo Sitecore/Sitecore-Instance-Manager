@@ -22,6 +22,28 @@
 
     public string Name { get; set; }
 
+    public string Image
+    {
+      get
+      {
+        switch (EnvType)
+        {
+          case EnvironmentType.OnPrem:
+          {
+            return @"pack://application:,,,/SIM.Tool.Windows;component/Images/16/iis.png";
+          }
+          case EnvironmentType.Container:
+          {
+            return @"pack://application:,,,/SIM.Tool.Windows;component/Images/16/docker.png";
+          }
+          default:
+          {
+            return null;
+          }
+        }
+      }
+    }
+
     public List<SitecoreEnvironmentMember> Members { get; set; }
 
     public string UnInstallDataPath { get; set; }
