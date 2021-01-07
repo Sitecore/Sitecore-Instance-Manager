@@ -196,20 +196,6 @@ namespace SIM.Tool
 
       CoreApp.LogMainInfo();
 
-      if (!EnvironmentHelper.IsIisRunning())
-      {
-        WindowHelper.ShowMessage(
-          "Cannot connect to IIS. The on-premise instances will not be displayed in the list.", 
-          MessageBoxButton.OK, 
-          MessageBoxImage.Information);
-
-        ApplicationManager.IsIisRunning = false;
-      }
-      else
-      {
-        ApplicationManager.IsIisRunning = true;
-      }
-
       // Initializing pipelines from Pipelines.config and WizardPipelines.config files
       if (!InitializePipelines())
       {

@@ -86,6 +86,20 @@ namespace SIM.Tool.Windows
           MainWindow.Instance.Width = d;
         }
 
+        ApplicationManager.IisStatusChanged += (sender, args) =>
+        {
+          RefreshIisStatus();
+        };
+        ApplicationManager.DockerStatusChanged += (sender, args) =>
+        {
+          RefreshDockerStatus();
+        };
+        UpdateIisStatus(ApplicationManager.IsIisRunning, MainWindow.Instance);
+        UpdateDockerStatus(ApplicationManager.IsDockerRunning, MainWindow.Instance);
+
+        AddStartStopIisOnClickHandler();
+        AddStartStopDockerOnClickHandler();
+
         RefreshInstances();
         RefreshInstaller();
       }
@@ -270,11 +284,14 @@ namespace SIM.Tool.Windows
 
     public static void RefreshInstances()
     {
+      var mainWindow = MainWindow.Instance;
+      RefreshInstances(mainWindow);
+    }
+
+    public static void RefreshInstances(MainWindow mainWindow)
+    {
       using (new ProfileSection("Refresh instances"))
       {
-        ApplicationManager.IsIisRunning = EnvironmentHelper.IsIisRunning();
-
-        var mainWindow = MainWindow.Instance;
         var tabIndex = mainWindow.MainRibbon.SelectedTabIndex;
         var instance = SelectedInstance;
         var name = instance != null ? instance.Name : null;
@@ -283,7 +300,7 @@ namespace SIM.Tool.Windows
         WindowHelper.LongRunningTask(() =>
         {
             InstanceManager.Default.Initialize(instancesFolder);
-        }, "Refresh Sitecore web sites", mainWindow, "Scanning IIS applications to find Sitecore web sites", "", true);
+        }, "Refresh Sitecore web sites", mainWindow, "Scanning Sitecore web sites", "", true);
 
         Search();
         if (string.IsNullOrEmpty(name))
@@ -1062,6 +1079,187 @@ namespace SIM.Tool.Windows
       {
         WindowHelper.HandleError($"Cannot find any installation package. {message}", false, null);
       }
+    }
+
+    private static void RefreshIisStatus()
+    {
+      Invoke((mainWindow) =>
+      {
+        UpdateIisStatus(ApplicationManager.IsIisRunning, mainWindow);
+        RefreshInstances(mainWindow);
+      });
+    }
+
+    private static void UpdateIisStatus(bool isIisRunning, MainWindow mainWindow)
+    {
+      if (isIisRunning)
+      {
+        string toolTip = "IIS is running, so the on-premise instances are displayed in the list. Click here to stop IIS.";
+        mainWindow.IisStatusEllipse.Fill = new SolidColorBrush(Color.FromRgb(0, 128, 0));
+        mainWindow.IisStatusEllipse.ToolTip = toolTip;
+        mainWindow.IisStatusTextBlock.Text = "IIS is running";
+        mainWindow.IisStatusTextBlock.ToolTip = toolTip;
+      }
+      else
+      {
+        string toolTip = "IIS is stopped, so the on-premise instances are not displayed in the list. Click here to start IIS.";
+        mainWindow.IisStatusEllipse.Fill = new SolidColorBrush(Color.FromRgb(255, 0, 0));
+        mainWindow.IisStatusEllipse.ToolTip = toolTip;
+        mainWindow.IisStatusTextBlock.Text = "IIS is stopped";
+        mainWindow.IisStatusTextBlock.ToolTip = toolTip;
+      }
+    }
+
+    private static void StartIisOnClick()
+    {
+      bool isRunning = false;
+      WindowHelper.LongRunningTask(() =>
+      {
+        isRunning = ApplicationManager.StartStopIis(true);
+      }, "Start IIS", MainWindow.Instance, "Starting IIS", "", true);
+      if (!isRunning)
+      {
+        ShowStatusMessage("Cannot start IIS. The on-premise instances will not be displayed in the list.",
+          MessageBoxButton.OK,
+          MessageBoxImage.Warning);
+      }
+    }
+
+    private static void StopIisOnClick()
+    {
+      bool isStopped = false;
+      WindowHelper.LongRunningTask(() =>
+      {
+        isStopped = ApplicationManager.StartStopIis(false);
+      }, "Stop IIS", MainWindow.Instance, "Stopping IIS", "", true);
+      if (!isStopped)
+      {
+        ShowStatusMessage("Cannot stop IIS. The on-premise instances will be displayed in the list.",
+          MessageBoxButton.OK,
+          MessageBoxImage.Warning);
+      }
+    }
+
+    private static void AddStartStopIisOnClickHandler()
+    {
+      MainWindow.Instance.IisStatusTextBlock.MouseLeftButtonDown += (sender, args) =>
+      {
+        args.Handled = true;
+
+        if (ApplicationManager.IsIisRunning)
+        {
+          if (ShowStatusMessage("Do you want to stop IIS? In this case, the on-premise instances will be hidden in the list.",
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Question) == MessageBoxResult.Yes)
+          {
+            StopIisOnClick();
+          }
+        }
+        else
+        {
+          if (ShowStatusMessage("Do you want to start IIS? In this case, the on-premise instances will be displayed in the list.",
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Question) == MessageBoxResult.Yes)
+          {
+            StartIisOnClick();
+          }
+        }
+      };
+    }
+
+    private static void RefreshDockerStatus()
+    {
+      Invoke((mainWindow) =>
+      {
+        UpdateDockerStatus(ApplicationManager.IsDockerRunning, mainWindow);
+        RefreshInstances(mainWindow);
+      });
+    }
+
+    private static void UpdateDockerStatus(bool isDockerRunning, MainWindow mainWindow)
+    {
+      if (isDockerRunning)
+      {
+        string toolTip = "Docker is running, so the containerized instances are displayed in the list. Click here to stop Docker.";
+        mainWindow.DockerStatusEllipse.Fill = new SolidColorBrush(Color.FromRgb(0, 128, 0));
+        mainWindow.DockerStatusEllipse.ToolTip = toolTip;
+        mainWindow.DockerStatusTextBlock.Text = "Docker is running";
+        mainWindow.DockerStatusTextBlock.ToolTip = toolTip;
+      }
+      else
+      {
+        string toolTip = "Docker is stopped, so the containerized instances are not displayed in the list. Click here to start Docker.";
+        mainWindow.DockerStatusEllipse.Fill = new SolidColorBrush(Color.FromRgb(255, 0, 0));
+        mainWindow.DockerStatusEllipse.ToolTip = toolTip;
+        mainWindow.DockerStatusTextBlock.Text = "Docker is stopped";
+        mainWindow.DockerStatusTextBlock.ToolTip = toolTip;
+      }
+    }
+
+    private static void StartDockerOnClick()
+    {
+      bool isRunning = false;
+      WindowHelper.LongRunningTask(() =>
+      {
+        isRunning = ApplicationManager.StartStopDocker(true);
+      }, "Start Docker", MainWindow.Instance, "Starting Docker", "", true);
+      if (!isRunning)
+      {
+        ShowStatusMessage("Cannot start Docker. The containerized instances will not be displayed in the list. " +
+                          $"Please make sure that Docker Desktop for Windows is installed (the \"{ApplicationManager.DockerDesktopPath}\" file must exist).",
+          MessageBoxButton.OK,
+          MessageBoxImage.Warning);
+      }
+    }
+
+    private static void StopDockerOnClick()
+    {
+      bool isStopped = false;
+      WindowHelper.LongRunningTask(() =>
+      {
+        isStopped = ApplicationManager.StartStopDocker(false);
+      }, "Stop Docker", MainWindow.Instance, "Stopping Docker", "", true);
+      if (!isStopped)
+      {
+        ShowStatusMessage("Cannot stop Docker. The containerized instances will be displayed in the list.",
+          MessageBoxButton.OK,
+          MessageBoxImage.Warning);
+      }
+    }
+
+    private static void AddStartStopDockerOnClickHandler()
+    {
+      MainWindow.Instance.DockerStatusTextBlock.MouseLeftButtonDown += (sender, args) =>
+      {
+        args.Handled = true;
+
+        if (ApplicationManager.IsDockerRunning)
+        {
+          if (ShowStatusMessage("Do you want to stop Docker? In this case, the containerized instances will be hidden in the list.",
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Question) == MessageBoxResult.Yes)
+          {
+            StopDockerOnClick();
+          }
+        }
+        else
+        {
+          if (ShowStatusMessage("Do you want to start Docker? In this case, the containerized instances will be displayed in the list.",
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Question) == MessageBoxResult.Yes)
+          {
+            StartDockerOnClick();
+          }
+        }
+      };
+    }
+
+    private static MessageBoxResult ShowStatusMessage(string message, MessageBoxButton messageBoxButton, MessageBoxImage messageBoxImage)
+    {
+      return WindowHelper.ShowMessage(
+        message,
+        messageBoxButton,
+        messageBoxImage);
     }
 
     #endregion
