@@ -13,6 +13,7 @@
   using JetBrains.Annotations;
   using Sitecore.Diagnostics.Logging;
   using SIM.Extensions;
+  using SIM.Tool.Windows.MainWindowComponents;
 
   #region
 
@@ -62,7 +63,7 @@
     {
       get
       {
-        return _DoubleClickHandler ?? (_DoubleClickHandler = (IMainWindowButton)WindowsSettings.AppUiMainWindowDoubleClick.Value.With(x => Plugin.CreateInstance(x)));
+        return _DoubleClickHandler ?? (_DoubleClickHandler = MainWindowButtonFactory.GetBrowseButton(MainWindowHelper.SelectedInstance));
       }
     }
 

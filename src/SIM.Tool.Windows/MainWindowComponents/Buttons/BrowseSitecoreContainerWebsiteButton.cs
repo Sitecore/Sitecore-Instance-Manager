@@ -10,39 +10,41 @@ namespace SIM.Tool.Windows.MainWindowComponents.Buttons
   [UsedImplicitly]
   public class BrowseSitecoreContainerWebsiteButton : InstanceOnlyButton
   {
-    private SitecoreRole sitecoreRole = SitecoreRole.Unknown;
-
     public override void OnClick(Window mainWindow, Instance instance)
     {
-      if (instance != null && this.sitecoreRole != SitecoreRole.Unknown)
+      if (instance != null)
       {
-        string filePath = Path.Combine(instance.WebRootPath, ".env");
-        EnvModel model = EnvModel.LoadFromFile(filePath);
-        switch (this.sitecoreRole)
+        SitecoreRole sitecoreRole = GetInstanceRole(instance);
+        if (sitecoreRole != SitecoreRole.Unknown)
         {
-          case SitecoreRole.Cm:
+          string filePath = Path.Combine(instance.WebRootPath, ".env");
+          EnvModel model = EnvModel.LoadFromFile(filePath);
+          switch (sitecoreRole)
           {
-            if (!string.IsNullOrEmpty(model.CmHost))
+            case SitecoreRole.Cm:
             {
-              CoreApp.OpenInBrowser($"https://{model.CmHost}", true, null, new string[0]);
+              if (!string.IsNullOrEmpty(model.CmHost))
+              {
+                CoreApp.OpenInBrowser($"https://{model.CmHost}", true, null, new string[0]);
+              }
+              break;
             }
-            break;
-          }
-          case SitecoreRole.Cd:
-          {
-            if (!string.IsNullOrEmpty(model.CdHost))
+            case SitecoreRole.Cd:
             {
-              CoreApp.OpenInBrowser($"https://{model.CdHost}", true, null, new string[0]);
+              if (!string.IsNullOrEmpty(model.CdHost))
+              {
+                CoreApp.OpenInBrowser($"https://{model.CdHost}", true, null, new string[0]);
+              }
+              break;
             }
-            break;
-          }
-          case SitecoreRole.Id:
-          {
-            if (!string.IsNullOrEmpty(model.IdHost))
+            case SitecoreRole.Id:
             {
-              CoreApp.OpenInBrowser($"https://{model.IdHost}", true, null, new string[0]);
+              if (!string.IsNullOrEmpty(model.IdHost))
+              {
+                CoreApp.OpenInBrowser($"https://{model.IdHost}", true, null, new string[0]);
+              }
+              break;
             }
-            break;
           }
         }
       }
@@ -52,19 +54,8 @@ namespace SIM.Tool.Windows.MainWindowComponents.Buttons
     {
       if (base.IsVisible(mainWindow, instance))
       {
-        if (instance.Name.EndsWith("-cm"))
+        if (this.GetInstanceRole(instance) != SitecoreRole.Unknown)
         {
-          this.sitecoreRole = SitecoreRole.Cm;
-          return true;
-        }
-        if (instance.Name.EndsWith("-cd"))
-        {
-          this.sitecoreRole = SitecoreRole.Cd;
-          return true;
-        }
-        if (instance.Name.EndsWith("-id"))
-        {
-          this.sitecoreRole = SitecoreRole.Id;
           return true;
         }
       }
@@ -78,6 +69,26 @@ namespace SIM.Tool.Windows.MainWindowComponents.Buttons
       Cd,
       Id,
       Unknown
+    }
+
+    private SitecoreRole GetInstanceRole(Instance instance)
+    {
+      if (instance.Name.EndsWith("-cm"))
+      {
+        return SitecoreRole.Cm;
+      }
+      
+      if (instance.Name.EndsWith("-cd"))
+      {
+        return SitecoreRole.Cd;
+      }
+
+      if (instance.Name.EndsWith("-id"))
+      {
+        return SitecoreRole.Id;
+      }
+      
+      return SitecoreRole.Unknown;
     }
   }
 }
