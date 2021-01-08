@@ -4,6 +4,7 @@ using Sitecore.Diagnostics.Base;
 using System;
 using SIM.ContainerInstaller;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Management.Automation;
 using SIM.Loggers;
 
@@ -36,6 +37,10 @@ namespace SIM.Pipelines.Install.Containers
 
     private const string PathToCertFolder = "traefik\\certs";
 
+    private const string PathToDynamicConfigFolder = "traefik\\config\\dynamic";
+
+    private const string CertsConfigFileName = "certs_config.yaml";
+
     protected override void Process([NotNull] ProcessorArgs arguments)
     {
       Assert.ArgumentNotNull(arguments, "arguments");
@@ -50,6 +55,8 @@ namespace SIM.Pipelines.Install.Containers
 
       Assert.ArgumentNotNullOrEmpty(destinationFolder, "destinationFolder");
 
+      UpdateTlsDynamicConfig(args);
+
       string script = GetScript(args);
 
       PSExecutor ps = new PSScriptExecutor(destinationFolder, script);
@@ -57,19 +64,73 @@ namespace SIM.Pipelines.Install.Containers
       ExecuteScript(() => ps.Execute());
     }
 
-    protected virtual string GetScript(InstallContainerArgs args)
+    private void UpdateTlsDynamicConfig(InstallContainerArgs args)
+    {
+      string yamlContent = GetConfig(args);
+
+      string yamlFileName = Path.Combine(args.Destination, PathToDynamicConfigFolder, CertsConfigFileName);
+
+      try
+      {
+        UpdateConfigFile(yamlFileName, yamlContent);
+      }
+      catch (Exception ex)
+      {
+        args.Logger.Error($"Could not update the '{CertsConfigFileName}' file. Message: {ex.Message}");
+
+        throw;
+      }
+    }
+
+    private string GetConfig(InstallContainerArgs args)
     {
       Topology topology = args.Topology;
-      string path = args.Destination;
+
+      string pathToCerts = @"C:\etc\traefik\certs";
 
       switch (topology)
       {
         case Topology.Xm1:
-          return GetXm1Script(args.EnvModel["CM_HOST"], args.EnvModel["CD_HOST"], args.EnvModel["ID_HOST"]);
-        case Topology.Xp0:
-          return GetXp0Script(args.EnvModel["CM_HOST"], args.EnvModel["ID_HOST"]);
         case Topology.Xp1:
-          return GetXp1Script(args.EnvModel["CM_HOST"], args.EnvModel["CD_HOST"], args.EnvModel["ID_HOST"]);
+          return $@"tls:
+  certificates:
+    - certFile: {pathToCerts}\{args.EnvModel.CmHost}.crt
+      keyFile: {pathToCerts}\{args.EnvModel.CmHost}.key
+    - certFile: {pathToCerts}\{args.EnvModel.CdHost}.crt
+      keyFile: {pathToCerts}\{args.EnvModel.CdHost}.key
+    - certFile: {pathToCerts}\{args.EnvModel.IdHost}.crt
+      keyFile: {pathToCerts}\{args.EnvModel.IdHost}.key
+";
+        case Topology.Xp0:
+          return $@"tls:
+  certificates:
+    - certFile: {pathToCerts}\{args.EnvModel.CmHost}.crt
+      keyFile: {pathToCerts}\{args.EnvModel.CmHost}.key
+    - certFile: {pathToCerts}\{args.EnvModel.IdHost}.crt
+      keyFile: {pathToCerts}\{args.EnvModel.IdHost}.key
+";
+        default:
+          throw new InvalidOperationException("Config is not defined for '" + topology.ToString() + "' topology.");
+      }
+    }
+
+    private void UpdateConfigFile(string fileName, string content)
+    {
+      File.WriteAllText(fileName, content);
+    }
+
+    protected virtual string GetScript(InstallContainerArgs args)
+    {
+      Topology topology = args.Topology;
+
+      switch (topology)
+      {
+        case Topology.Xm1:
+          return GetXm1Script(args.EnvModel.CmHost, args.EnvModel.CdHost, args.EnvModel.IdHost);
+        case Topology.Xp0:
+          return GetXp0Script(args.EnvModel.CmHost, args.EnvModel.IdHost);
+        case Topology.Xp1:
+          return GetXp1Script(args.EnvModel.CmHost, args.EnvModel.CdHost, args.EnvModel.IdHost);
         default:
           throw new InvalidOperationException("Generate certificates script cannot be resolved for '" + topology.ToString() + "'");
       }
