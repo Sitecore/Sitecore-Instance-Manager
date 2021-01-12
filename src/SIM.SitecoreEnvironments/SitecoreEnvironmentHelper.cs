@@ -90,6 +90,7 @@ namespace SIM.SitecoreEnvironments
       return GetExistingSitecoreEnvironment(instanceName)?? new SitecoreEnvironment(instanceName);
     }
 
+    [CanBeNull]
     public static SitecoreEnvironment GetExistingSitecoreEnvironment(string instanceName)
     {
       foreach (SitecoreEnvironment sitecoreEnvironment in SitecoreEnvironments)
