@@ -470,7 +470,7 @@
     {
       get
       {
-        if (SitecoreEnvironmentHelper.GetExistingSitecoreEnvironment(this.Name).EnvType == SitecoreEnvironment.EnvironmentType.Container)
+        if (SitecoreEnvironmentHelper.GetExistingSitecoreEnvironment(this.Name)?.EnvType == SitecoreEnvironment.EnvironmentType.Container)
         {
           return InstanceType.SitecoreContainer;
         }

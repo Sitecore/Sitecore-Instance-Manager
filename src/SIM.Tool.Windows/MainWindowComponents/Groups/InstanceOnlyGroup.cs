@@ -53,7 +53,7 @@ namespace SIM.Tool.Windows.MainWindowComponents.Groups
 
     protected bool IsSitecoreContainer(Instance selectedInstance)
     {
-      if (SitecoreEnvironmentHelper.GetExistingSitecoreEnvironment(selectedInstance.Name).EnvType == SitecoreEnvironment.EnvironmentType.Container)
+      if (SitecoreEnvironmentHelper.GetExistingSitecoreEnvironment(selectedInstance.Name)?.EnvType == SitecoreEnvironment.EnvironmentType.Container)
       {
         return true;
       }
