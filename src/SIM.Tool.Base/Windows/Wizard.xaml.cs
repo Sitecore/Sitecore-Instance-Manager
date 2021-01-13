@@ -1000,12 +1000,12 @@
     {
       if (this.InstallationDetailsRow.Height.Value == 20)
       {
-        this.ShowHideInstallationDetailsTextBlock.Text = "Hide Installation Details";
+        this.ShowHideInstallationDetailsTextBlock.Text = "Hide Details";
         this.InstallationDetailsRow.Height = new GridLength(120);
       }
       else if (this.InstallationDetailsRow.Height.Value == 120)
       {
-        this.ShowHideInstallationDetailsTextBlock.Text = "Show Installation Details";
+        this.ShowHideInstallationDetailsTextBlock.Text = "Show Details";
         this.InstallationDetailsRow.Height = new GridLength(20);
       }
     }
