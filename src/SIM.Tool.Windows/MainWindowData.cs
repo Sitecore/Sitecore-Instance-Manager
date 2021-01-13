@@ -62,7 +62,7 @@ namespace SIM.Tool.Windows
           {
             new ButtonDefinition
             {
-              Label = "Install on-premise",
+              Label = "Install on-prem",
               Image = "/Images/$lg/add_domain.png, SIM.Tool.Windows",
               Handler = new Install9InstanceButton(),
               Buttons = new[]
