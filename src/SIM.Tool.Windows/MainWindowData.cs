@@ -62,7 +62,7 @@ namespace SIM.Tool.Windows
           {
             new ButtonDefinition
             {
-              Label = "Install SC XP 9",
+              Label = "Install on-prem",
               Image = "/Images/$lg/add_domain.png, SIM.Tool.Windows",
               Handler = new Install9InstanceButton(),
               Buttons = new[]
@@ -75,17 +75,17 @@ namespace SIM.Tool.Windows
                 },
                 new ButtonDefinition
                 {
-                  Label = "Install Sitecore XP 8.2 and earlier",
+                  Label = "Install Sitecore XP 8 and earlier",
                   Image = "/Images/$lg/add_domain.png, SIM.Tool.Windows",
                   Handler = new InstallInstanceButton()
-                },
-                new ButtonDefinition
-                {
-                  Label = "Deploy Sitecore XP in container",
-                  Image = "/Images/$lg/add_domain.png, SIM.Tool.Windows",
-                  Handler = new SIM.Tool.Windows.MainWindowComponents.InstallContainerButton()
                 }
               }
+            },
+            new ButtonDefinition
+            {
+              Label = "Deploy to Docker",
+              Image = "/Images/$lg/docker_logo.png, SIM.Tool.Windows",
+              Handler = new SIM.Tool.Windows.MainWindowComponents.InstallContainerButton()
             },
             new ButtonDefinition
             {

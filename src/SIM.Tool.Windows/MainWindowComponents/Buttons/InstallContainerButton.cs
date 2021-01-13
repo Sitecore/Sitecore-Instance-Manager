@@ -2,7 +2,6 @@
 {
   using System.Linq;
   using System.Windows;
-  using SIM.Core.Common;
   using SIM.Instances;
   using SIM.Products;
   using SIM.Tool.Base;
@@ -31,15 +30,31 @@
     public void OnClick(Window mainWindow, Instance instance)
     {
       Assert.IsTrue(ProfileManager.IsValid, "Some of configuration settings are invalid - please fix them in Settings dialog and try again");
-      Assert.IsTrue(ProductManager.ContainerProducts.Any(),
-        $@"You don't have any container product package in your repository. 
 
- If you already have them then you can either: 
+      if (!ProductManager.ContainerProducts.Any())
+      {
+        string message =
+$@"You don't have any container product package in your repository. 
+
+If you already have them then you can either: 
 
 * change the local repository folder (Ribbon -> Home -> Settings button) to the one that contains the files 
 
-* put the files into the current local repository folder: 
-{ProfileManager.Profile.LocalRepository}");
+* download a package from 'https://github.com/Sitecore/container-deployment/releases', put the file into the current local repository folder: '{ProfileManager.Profile.LocalRepository}'";
+
+        MessageBox.Show(message, "", MessageBoxButton.OK, MessageBoxImage.Information);
+
+        return;
+      }
+
+      if (!ApplicationManager.IsDockerRunning)
+      {
+        string message = "The 'Docker Desktop' application is not running. Please start the app and re-run the deployment Sitecore to Docker.";
+
+        MessageBox.Show(message, "", MessageBoxButton.OK, MessageBoxImage.Information);
+
+        return;
+      }
 
       if (EnvironmentHelper.CheckSqlServer())
       {
