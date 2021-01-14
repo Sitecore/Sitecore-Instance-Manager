@@ -59,14 +59,14 @@
     <StackPanel Grid.Row="4">
         <Label Name="ShowHideInstallationDetails" HorizontalAlignment="Center" Padding="0">
             <Hyperlink Click="ShowHideInstallationDetails_OnClick">
-                <TextBlock Name="ShowHideInstallationDetailsTextBlock" Text="Show Installation Details" Margin="0"/>
+                <TextBlock Name="ShowHideInstallationDetailsTextBlock" Text="Show Details" Margin="0"/>
             </Hyperlink>
         </Label>
         <ScrollViewer Name="InstallationDetailsScrollViewer" Margin="18 0 18 0" Height="98" Background="White"
                       HorizontalScrollBarVisibility="Visible" 
                       VerticalScrollBarVisibility="Visible"
                       CanContentScroll="True">
-            <TextBlock Name="InstallationDetailsTextBlock" HorizontalAlignment="Left" VerticalAlignment="Top" Text="Installation Details can be written by long running processors" MouseDown="InstallationDetailsTextBlock_OnMouseDown">
+            <TextBlock Name="InstallationDetailsTextBlock" HorizontalAlignment="Left" VerticalAlignment="Top" Text="Details can be written by processors" MouseDown="InstallationDetailsTextBlock_OnMouseDown">
                 <TextBlock.ContextMenu>
                     <ContextMenu>
                         <MenuItem Header="Copy Text" Icon="pack://application:,,,/SIM.Tool.Windows;component/Images/16/copy.png" Click="MenuItem_OnClick"/>
