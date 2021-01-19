@@ -38,7 +38,7 @@
     }
 
     //Indicates if the installation has been completed
-    public bool HasInstallationBeenCompleted { get; set; }
+    public bool ShouldRefreshInstancesList { get; set; }
 
     #endregion
 

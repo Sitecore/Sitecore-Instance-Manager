@@ -47,7 +47,7 @@ namespace SIM.Tool.Windows.MainWindowComponents.Buttons
             return;
           }
 
-          if (install.HasInstallationBeenCompleted)
+          if (install.ShouldRefreshInstancesList)
           {
             MainWindowHelper.SoftlyRefreshInstances();
           }
