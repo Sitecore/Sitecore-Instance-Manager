@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using JetBrains.Annotations;
 
 namespace SIM.ContainerInstaller
 {
@@ -67,6 +68,18 @@ namespace SIM.ContainerInstaller
       set
       {
         this["SQL_SA_PASSWORD"] = value;
+      }
+    }
+
+    public string ReportingApiKey
+    {
+      get
+      {
+        return this["REPORTING_API_KEY"];
+      }
+      set
+      {
+        this["REPORTING_API_KEY"] = value;
       }
     }
 
@@ -227,6 +240,11 @@ namespace SIM.ContainerInstaller
       }
 
       return model;
+    }
+
+    public bool KeyExists([NotNull]string key)
+    {
+      return this.GetNames().Contains(key);
     }
 
     public IEnumerator<NameValuePair> GetEnumerator()

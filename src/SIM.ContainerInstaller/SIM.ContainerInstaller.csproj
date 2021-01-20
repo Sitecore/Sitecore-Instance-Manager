@@ -68,12 +68,13 @@
     <Compile Include="IdentityServerValuesGenerator.cs" />
     <Compile Include="IIdentityServerValuesGenerator.cs" />
     <Compile Include="ISitecoreLicenseConverter.cs" />
-    <Compile Include="ITelerikKeyGenerator.cs" />
+    <Compile Include="IKeyGenerator.cs" />
     <Compile Include="NameValuePair.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PSExecutor.cs" />
     <Compile Include="PSFileExecutor.cs" />
     <Compile Include="PSScriptExecutor.cs" />
+    <Compile Include="ReportingApiKeyGenerator.cs" />
     <Compile Include="Repositories\TagRepository\GitHubTagRepository.cs" />
     <Compile Include="Repositories\TagRepository\ITagRepository.cs" />
     <Compile Include="Repositories\TagRepository\Models\SitecoreTagsEntity.cs" />
