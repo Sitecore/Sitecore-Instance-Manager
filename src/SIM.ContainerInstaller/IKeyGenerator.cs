@@ -1,6 +1,6 @@
 ﻿namespace SIM.ContainerInstaller
 {
-  public interface ITelerikKeyGenerator
+  public interface IKeyGenerator
   {
     string Generate();
   }

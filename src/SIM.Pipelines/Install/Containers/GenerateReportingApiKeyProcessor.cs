@@ -6,16 +6,21 @@ using Sitecore.Diagnostics.Base;
 namespace SIM.Pipelines.Install.Containers
 {
   [UsedImplicitly]
-  public class GenerateTelerikKeyProcessor : Processor
+  public class GenerateReportingApiKeyProcessor : Processor
   {
-    private readonly IKeyGenerator _generator = new TelerikKeyGenerator();
+    private const string Key = "REPORTING_API_KEY";
+
+    private readonly IKeyGenerator _generator = new ReportingApiKeyGenerator();
     protected override void Process([NotNull] ProcessorArgs arguments)
     {
       Assert.ArgumentNotNull(arguments, "arguments");
 
       InstallContainerArgs args = (InstallContainerArgs)arguments;
 
-      args.EnvModel.TelerikKey = this._generator.Generate();
+      if (args.EnvModel.KeyExists(Key))
+      {
+        args.EnvModel[Key] = this._generator.Generate();
+      }
     }
   }
 }

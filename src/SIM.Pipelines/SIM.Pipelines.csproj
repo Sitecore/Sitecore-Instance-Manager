@@ -112,6 +112,7 @@
     <Compile Include="Install\Containers\GenerateCertificatesProcessor.cs" />
     <Compile Include="Install\Containers\GenerateEnvironmentData.cs" />
     <Compile Include="Install\Containers\GenerateIdEnvValuesProcessor.cs" />
+    <Compile Include="Install\Containers\GenerateReportingApiKeyProcessor.cs" />
     <Compile Include="Install\Containers\GenerateTelerikKeyProcessor.cs" />
     <Compile Include="Install\Containers\InstallDockerToolsProcessor.cs" />
     <Compile Include="Delete\Containers\RemoveFromDocker.cs" />
