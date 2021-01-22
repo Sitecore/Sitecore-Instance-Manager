@@ -44,8 +44,6 @@
           }
         }
       }
-
-      wizardArgs.HasInstallationBeenCompleted = true;
     }
 
     #endregion

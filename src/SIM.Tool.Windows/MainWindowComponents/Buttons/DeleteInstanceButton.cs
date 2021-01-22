@@ -48,7 +48,14 @@ namespace SIM.Tool.Windows.MainWindowComponents.Buttons
             mainWindow, 
             null, 
             null, 
-            (ignore) => OnWizardCompleted(index, deleteContainersWizardArgs.HasInstallationBeenCompleted), () => deleteContainersWizardArgs);
+            (ignore) => {
+              if (deleteContainersWizardArgs.ShouldRefreshInstancesList)
+              {
+                MainWindowHelper.RefreshInstances();
+              }
+            }, 
+            () => deleteContainersWizardArgs
+            );
         }
         else
         {
@@ -76,7 +83,7 @@ namespace SIM.Tool.Windows.MainWindowComponents.Buttons
           }
 
           Delete9WizardArgs delete9WizardArgsargs = new Delete9WizardArgs(instance, connectionString, uninstallPath);
-          WizardPipelineManager.Start("delete9", mainWindow, null, null, (ignore) => OnWizardCompleted(index, delete9WizardArgsargs.HasInstallationBeenCompleted),() => delete9WizardArgsargs);
+          WizardPipelineManager.Start("delete9", mainWindow, null, null, (ignore) => OnWizardCompleted(index, delete9WizardArgsargs.ShouldRefreshInstancesList),() => delete9WizardArgsargs);
         }
       }
     }

@@ -73,9 +73,9 @@ If you already have them then you can either:
             return;
           }
 
-          if (install.HasInstallationBeenCompleted)
+          if (install.ShouldRefreshInstancesList)
           {
-            MainWindowHelper.SoftlyRefreshInstances();
+            MainWindowHelper.RefreshInstances();
           }
         }, () => new InstallContainerWizardArgs());
       }
