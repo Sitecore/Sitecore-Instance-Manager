@@ -1,4 +1,4 @@
-﻿namespace SIM.Tool.Windows.MainWindowComponents
+﻿namespace SIM.Tool.Windows.MainWindowComponents.Buttons
 {
   using System.Windows;
   using SIM.Core.Common;

@@ -21,7 +21,7 @@ namespace SIM.Tool.Windows.MainWindowComponents.Buttons
         var install = (InstallWizardArgs)args;
         var product = install.Product;
 
-        if (install.HasInstallationBeenCompleted)
+        if (install.ShouldRefreshInstancesList)
         {
           MainWindowHelper.SoftlyRefreshInstances();
         }

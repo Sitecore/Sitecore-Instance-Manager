@@ -23,6 +23,7 @@
   using SIM.Tool.Base;
   using SIM.Tool.Base.Wizards;
   using SIM.Pipelines.Install;
+  using SIM.Loggers;
 
   #endregion
 
@@ -57,6 +58,14 @@
         if (WizardArgs != null)
         {
           WizardArgs.WizardWindow = this;
+          this.WizardArgs.Logger = new Logger((message) =>
+          {
+            this.Dispatcher.Invoke(() =>
+            {
+              this.InstallationDetailsTextBlock.Text += Environment.NewLine + message;
+              this.InstallationDetailsScrollViewer.ScrollToEnd();
+            });
+          });
         }
 
         WizardPipeline = wizardPipeline;
@@ -662,10 +671,14 @@
             
           if (!PipelineManager.Definitions.ContainsKey(WizardPipeline.Name))
           {
+            SetInstallationDetailsVisibility(false);
             Finish("Done.", true);
 
             return;
           }
+
+          // In case we run a pipeline we have to refresh the instances list disregard the results of the installation.
+          this.WizardArgs.ShouldRefreshInstancesList = true;
 
           PipelineManager.StartPipeline(pipelineName, _ProcessorArgs, this);
           backButton.Visibility = Visibility.Hidden;
@@ -674,6 +687,7 @@
           NextButton.Content = "Retry";
           NextButton.Click -= MoveNextClick;
           NextButton.Click += RetryClick;
+          SetInstallationDetailsVisibility(true);
         }
       }
     }
@@ -969,6 +983,54 @@
       {
         SetActive(control);
       }
+    }
+
+    private void SetInstallationDetailsVisibility(bool isInstallationDetailsVisible)
+    {
+      if (isInstallationDetailsVisible)
+      {
+        this.InstallationDetailsRow.Height = new GridLength(20);
+        ResizeMode = ResizeMode.CanResizeWithGrip;
+      }
+      else
+      {
+        this.InstallationDetailsRow.Height = new GridLength(0);
+        ResizeMode = ResizeMode.CanMinimize;
+      }
+    }
+
+    private void ShowHideInstallationDetails_OnClick(object sender, RoutedEventArgs e)
+    {
+      if (this.InstallationDetailsRow.Height.Value == 20)
+      {
+        this.ShowHideInstallationDetailsTextBlock.Text = "Hide Details";
+        this.InstallationDetailsRow.Height = new GridLength(120);
+      }
+      else if (this.InstallationDetailsRow.Height.Value == 120)
+      {
+        this.ShowHideInstallationDetailsTextBlock.Text = "Show Details";
+        this.InstallationDetailsRow.Height = new GridLength(20);
+      }
+    }
+
+    private void InstallationDetailsTextBlock_OnMouseDown(object sender, MouseButtonEventArgs e)
+    {
+      if (e.ChangedButton == MouseButton.Left)
+      {
+        TextBlock textBlock = sender as TextBlock;
+        ContextMenu contextMenu = textBlock?.ContextMenu;
+        if (contextMenu != null)
+        {
+          contextMenu.PlacementTarget = textBlock;
+          contextMenu.IsOpen = true;
+          e.Handled = true;
+        }
+      }
+    }
+
+    private void MenuItem_OnClick(object sender, RoutedEventArgs e)
+    {
+      Clipboard.SetText(InstallationDetailsTextBlock.Text);
     }
 
     #endregion

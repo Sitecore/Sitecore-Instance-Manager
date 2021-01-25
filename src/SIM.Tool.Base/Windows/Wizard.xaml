@@ -1,5 +1,6 @@
 ﻿<Window x:Class="SIM.Tool.Base.Windows.Wizard" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Height="388" Width="499" Background="#FFF0F0F0" Icon="/Images/Wizard.ico" Closing="OnClosing" ResizeMode="NoResize" Loaded="WindowLoaded" ContentRendered="WindowContentRendered" Padding="0" KeyUp="WindowKeyUp" Closed="WindowClosed">
+        Height="388" MinHeight="388" MaxHeight="600" Width="499" MinWidth="499" MaxWidth="700" Background="#FFF0F0F0" Icon="/Images/Wizard.ico" 
+        Closing="OnClosing" ResizeMode="NoResize" Loaded="WindowLoaded" ContentRendered="WindowContentRendered" Padding="0" KeyUp="WindowKeyUp" Closed="WindowClosed">
   <Window.TaskbarItemInfo>
     <TaskbarItemInfo />
   </Window.TaskbarItemInfo>
@@ -9,6 +10,7 @@
       <RowDefinition Height="1px" />
       <RowDefinition Height="1px" />
       <RowDefinition Height="*" />
+      <RowDefinition Height="0px" Name="InstallationDetailsRow" />
       <RowDefinition Height="1px" />
       <RowDefinition Height="1px" />
       <RowDefinition Height="46px" />
@@ -54,9 +56,28 @@
         </TabItem>
       </TabControl.Items>
     </TabControl>
-    <Grid Background="#FFA0A0A0" DockPanel.Dock="Top" Margin="0" Grid.Row="4" />
-    <Grid Background="White" DockPanel.Dock="Top" Margin="0" Grid.Row="5" />
-    <Grid Grid.Row="6">
+    <StackPanel Grid.Row="4">
+        <Label Name="ShowHideInstallationDetails" HorizontalAlignment="Center" Padding="0">
+            <Hyperlink Click="ShowHideInstallationDetails_OnClick">
+                <TextBlock Name="ShowHideInstallationDetailsTextBlock" Text="Show Details" Margin="0"/>
+            </Hyperlink>
+        </Label>
+        <ScrollViewer Name="InstallationDetailsScrollViewer" Margin="18 0 18 0" Height="98" Background="White"
+                      HorizontalScrollBarVisibility="Visible" 
+                      VerticalScrollBarVisibility="Visible"
+                      CanContentScroll="True">
+            <TextBlock Name="InstallationDetailsTextBlock" HorizontalAlignment="Left" VerticalAlignment="Top" Text="Details can be written by processors" MouseDown="InstallationDetailsTextBlock_OnMouseDown">
+                <TextBlock.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="Copy Text" Icon="pack://application:,,,/SIM.Tool.Windows;component/Images/16/copy.png" Click="MenuItem_OnClick"/>
+                    </ContextMenu>
+                </TextBlock.ContextMenu>
+            </TextBlock>
+        </ScrollViewer>
+    </StackPanel>
+    <Grid Background="#FFA0A0A0" DockPanel.Dock="Top" Margin="0" Grid.Row="5" />
+    <Grid Background="White" DockPanel.Dock="Top" Margin="0" Grid.Row="6" />
+    <Grid Grid.Row="7">
       <Grid Margin="23,11,21,12">
         <Button Content="Custom Button" Click="CustomButtonClick" Width="90" Margin="0, 0, 4, 0" HorizontalAlignment="Left" Visibility="Hidden" Name="CustomButton" />
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">

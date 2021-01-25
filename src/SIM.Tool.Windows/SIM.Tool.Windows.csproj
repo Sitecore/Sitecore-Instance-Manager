@@ -135,6 +135,9 @@
     <Compile Include="Dialogs\DatabasesOperationsDialog.xaml.cs">
       <DependentUpon>DatabasesOperationsDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Dialogs\ContainerVariablesEditor.xaml.cs">
+      <DependentUpon>ContainerVariablesEditor.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Dialogs\GridEditor.xaml.cs">
       <DependentUpon>GridEditor.xaml</DependentUpon>
     </Compile>
@@ -146,9 +149,12 @@
     <Compile Include="MainWindowComponents\Buttons\AboutButton.cs" />
     <Compile Include="MainWindowComponents\Buttons\AbstractInstanceButton.cs" />
     <Compile Include="MainWindowComponents\Buttons\AppStateButton.cs" />
+    <Compile Include="MainWindowComponents\Buttons\BrowseSitecoreContainerWebsiteButton.cs" />
+    <Compile Include="MainWindowComponents\Buttons\BrowseHomePageButton.cs" />
     <Compile Include="MainWindowComponents\Buttons\CreateSupportHotfixButton.cs" />
     <Compile Include="MainWindowComponents\Buttons\InstanceDummyButton.cs" />
     <Compile Include="MainWindowComponents\Buttons\LogFilesButton.cs" />
+    <Compile Include="MainWindowComponents\Buttons\OpenContainerFolderButton.cs" />
     <Compile Include="MainWindowComponents\Groups\AppsGroup.cs" />
     <Compile Include="MainWindowComponents\Groups\BackupGroup.cs" />
     <Compile Include="MainWindowComponents\Groups\FileSystemGroup.cs" />
@@ -181,8 +187,8 @@
     <Compile Include="MainWindowComponents\Buttons\ImportInstanceButton.cs" />
     <Compile Include="MainWindowComponents\Buttons\Install9InstanceButton.cs" />
     <Compile Include="MainWindowComponents\Buttons\InstallInstanceButton.cs" />
-    <Compile Include="MainWindowComponents\UninstallPublishingServiceButton.cs" />
-    <Compile Include="MainWindowComponents\InstallPublishingServiceButton.cs" />
+    <Compile Include="MainWindowComponents\Buttons\UninstallPublishingServiceButton.cs" />
+    <Compile Include="MainWindowComponents\Buttons\InstallPublishingServiceButton.cs" />
     <Compile Include="MainWindowComponents\Buttons\InstallModulesButton.cs" />
     <Compile Include="MainWindowComponents\Buttons\InstallMongoDb.cs" />
     <Compile Include="MainWindowComponents\Buttons\InstallSolrButton.cs" />
@@ -209,6 +215,8 @@
     <Compile Include="MainWindowComponents\Buttons\RestoreInstanceButton.cs" />
     <Compile Include="MainWindowComponents\Buttons\SettingsButton.cs" />
     <Compile Include="MainWindowComponents\Buttons\UpdateLicenseButton.cs" />
+    <Compile Include="MainWindowComponents\Buttons\InstallContainerButton.cs" />
+    <Compile Include="MainWindowComponents\MainWindowButtonFactory.cs" />
     <Compile Include="MainWindowData.cs" />
     <Compile Include="Pipelines\Download8\Download8Args.cs" />
     <Compile Include="Pipelines\Download8\DownloadProcessor.cs" />
@@ -250,6 +258,9 @@
     <Compile Include="UserControls\ConfirmStepUserControl.xaml.cs">
       <DependentUpon>ConfirmStepUserControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\Delete\Containers\DeleteDetails.xaml.cs">
+      <DependentUpon>DeleteDetails.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\Delete\Delete9Details.xaml.cs">
       <DependentUpon>Delete9Details.xaml</DependentUpon>
     </Compile>
@@ -276,6 +287,12 @@
     <Compile Include="UserControls\Import\ImportWizardArgs.cs" />
     <Compile Include="UserControls\Import\SetWebsiteBindings.xaml.cs">
       <DependentUpon>SetWebsiteBindings.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Install\Containers\ContainerDetails.xaml.cs">
+      <DependentUpon>ContainerDetails.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Install\Containers\SelectTag.xaml.cs">
+      <DependentUpon>SelectTag.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\Install\Instance9Details.xaml.cs">
       <DependentUpon>Instance9Details.xaml</DependentUpon>
@@ -330,6 +347,9 @@
     <Compile Include="UserControls\MultipleDeletion\MultipleDeletionWizardArgs.cs" />
     <Compile Include="UserControls\MultipleDeletion\SelectInstances.xaml.cs">
       <DependentUpon>SelectInstances.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Reinstall\Containers\ReinstallDetails.xaml.cs">
+      <DependentUpon>ReinstallDetails.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\Reinstall\Reinstall9Confirmation.xaml.cs">
       <DependentUpon>Reinstall9Confirmation.xaml</DependentUpon>
@@ -600,6 +620,11 @@
     <Resource Include="Images\9\minus_on_hover.png" />
     <Resource Include="Images\9\plus.png" />
     <Resource Include="Images\9\plus_on_hover.png" />
+    <Resource Include="Images\16\docker.png" />
+    <Resource Include="Images\16\sitecore_black.png" />
+    <Resource Include="Images\16\iis.png" />
+    <Resource Include="Images\32\docker_logo.png" />
+    <Resource Include="Images\48\docker_logo.png" />
     <Content Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -622,6 +647,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Dialogs\ContainerVariablesEditor.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Dialogs\GridEditor.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -630,7 +659,19 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="UserControls\Delete\Containers\DeleteDetails.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="UserControls\Delete\Delete9Details.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\Install\Containers\ContainerDetails.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\Install\Containers\SelectTag.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -679,6 +720,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\Install\Validation\ValidationDetails.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\Reinstall\Containers\ReinstallDetails.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -810,6 +855,10 @@
       <Project>{CA40C57A-EF4F-474D-BE8B-98E51AE62C1F}</Project>
       <Name>SIM.Adapters</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SIM.ContainerInstaller\SIM.ContainerInstaller.csproj">
+      <Project>{d9ad90f9-bf6d-4c46-8546-3bed9ff93450}</Project>
+      <Name>SIM.ContainerInstaller</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SIM.Core\SIM.Core.csproj">
       <Project>{a124d359-b9bf-44f4-98cb-c40d3d490839}</Project>
       <Name>SIM.Core</Name>
@@ -818,13 +867,13 @@
       <Project>{02B6C2D7-3083-4DF3-B86D-B6D4728C4EF2}</Project>
       <Name>SIM.FileSystem</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SIM.Instances\SIM.Instances.csproj">
+      <Project>{cca7b157-a743-4a5a-a03b-b6b27cb2be1c}</Project>
+      <Name>SIM.Instances</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SIM.Products\SIM.Products.csproj">
       <Project>{BC8B4EE5-C053-42E1-A5BA-07F8C41915A9}</Project>
       <Name>SIM.Products</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SIM.Instances\SIM.Instances.csproj">
-      <Project>{CCA7B157-A743-4A5A-A03B-B6B27CB2BE1C}</Project>
-      <Name>SIM.Instances</Name>
     </ProjectReference>
     <ProjectReference Include="..\SIM.Pipelines\SIM.Pipelines.csproj">
       <Project>{7A3FEDF8-DF96-4426-AA01-C2D4FD3E68C8}</Project>

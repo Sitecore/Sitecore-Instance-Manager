@@ -20,6 +20,55 @@
     </step>
 </reinstall9>
 
+<installContainer title=""Deploying new container environment"">
+    <step>
+      <processor type=""SIM.Pipelines.Install.Containers.InstallDockerToolsProcessor, SIM.Pipelines"" title=""Install 'SitecoreDockerTools' ps module""/>      
+      <processor type=""SIM.Pipelines.Install.Containers.CopyFilesToDestination, SIM.Pipelines"" title=""Copy files to destination folder""/>      
+    </step>
+    <step>
+      <processor type=""SIM.Pipelines.Install.Containers.ConvertLicenseProcessor, SIM.Pipelines"" title=""Convert sitecore license""/>
+      <processor type=""SIM.Pipelines.Install.Containers.GenerateIdEnvValuesProcessor, SIM.Pipelines"" title=""Generate 'SITECORE_ID*' .env values""/>
+      <processor type=""SIM.Pipelines.Install.Containers.GenerateTelerikKeyProcessor, SIM.Pipelines"" title=""Generate 'TELERIK_ENCRYPTION_KEY' .env value""/>
+      <processor type=""SIM.Pipelines.Install.Containers.GenerateReportingApiKeyProcessor, SIM.Pipelines"" title=""Generate 'REPORTING_API_KEY' .env value""/>
+      <processor type=""SIM.Pipelines.Install.Containers.GenerateCertificatesProcessor, SIM.Pipelines"" title=""Generate certificates""/>
+      <processor type=""SIM.Pipelines.Install.Containers.AddHostsProcessor, SIM.Pipelines"" title=""Update hosts file""/>
+    </step>
+    <step>
+      <processor type=""SIM.Pipelines.Install.Containers.WriteEnvFileProcessor, SIM.Pipelines"" title=""Write .env file""/>
+      <processor type=""SIM.Pipelines.Install.Containers.GenerateEnvironmentData, SIM.Pipelines"" title=""Add Sitecore environment data""/>
+    </step>
+    <step>
+      <processor type=""SIM.Pipelines.Install.Containers.RunDockerProcessor, SIM.Pipelines"" title=""Run docker""/>
+    </step>
+</installContainer>
+<deleteContainer title=""Uninstalling container environment"">
+    <step>
+            <processor type=""SIM.Pipelines.Delete.Containers.RemoveFromDocker, SIM.Pipelines"" title=""Remove environment from Docker""/>
+    </step>
+    <step>
+            <processor type=""SIM.Pipelines.Delete.Containers.RemoveHostsProcessor, SIM.Pipelines"" title=""Update hosts file""/>
+    </step>
+    <step>
+            <processor type=""SIM.Pipelines.Delete.Containers.RemoveEnvironmentFolder, SIM.Pipelines"" title=""Remove environment folder""/>
+    </step>
+    <step>
+            <processor type=""SIM.Pipelines.Delete.Containers.CleanupEnvironmentData, SIM.Pipelines"" title=""Cleanup environment data""/>
+    </step>
+</deleteContainer>
+<reinstallContainer title=""Reinstalling container environment"">
+    <step>
+            <processor type=""SIM.Pipelines.Reinstall.Containers.RemoveFromDockerProcessor, SIM.Pipelines"" title=""Remove environment from docker""/>
+    </step>
+    <step>
+            <processor type=""SIM.Pipelines.Reinstall.Containers.CleanupSolrDataProcessor, SIM.Pipelines"" title=""Remove Solr data""/>
+            <processor type=""SIM.Pipelines.Reinstall.Containers.CleanupSqlDataProcessor, SIM.Pipelines"" title=""Remove SQL data""/>
+    </step>
+    <step>
+            <processor type=""SIM.Pipelines.Reinstall.Containers.RunDockerProcessor, SIM.Pipelines"" title=""Start environment in Docker""/>            
+    </step>
+
+</reinstallContainer>
+
 <install9 title=""Installing the instance"">
     <step>
       <processor type=""SIM.Pipelines.Install.GenerateUnInstallParameters, SIM.Pipelines"" title=""Generate Uninstall data"" />

@@ -54,6 +54,7 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
     <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceProcess" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
@@ -78,6 +79,9 @@
     <Compile Include="IAdvancedSettingsStorage.cs" />
     <Compile Include="IProfile.cs" />
     <Compile Include="IValidateable.cs" />
+    <Compile Include="Loggers\EmptyLogger.cs" />
+    <Compile Include="Loggers\ILogger.cs" />
+    <Compile Include="Loggers\Logger.cs" />
     <Compile Include="RenderInDataGreedAttribute.cs" />
     <Compile Include="Safe.cs" />
     <Compile Include="Parameters.cs" />

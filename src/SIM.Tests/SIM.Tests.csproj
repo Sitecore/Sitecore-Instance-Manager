@@ -96,6 +96,7 @@
     <Compile Include="Pipelines\ConditionEvaluatorTests.cs" />
     <Compile Include="Pipelines\CreateSolrCoreTests.cs" />
     <Compile Include="Pipelines\Export\ExportArgsTests.cs" />
+    <Compile Include="Pipelines\InstallContainer\DockerComposeRepositoryTests.cs" />
     <Compile Include="Pipelines\SolrInformationTests.cs" />
     <Compile Include="Pipelines\SwitchConfigsToSolrTests.cs" />
     <Compile Include="Products\ProductTest.cs" />
@@ -110,6 +111,10 @@
     <ProjectReference Include="..\SIM.Adapters\SIM.Adapters.csproj">
       <Project>{CA40C57A-EF4F-474D-BE8B-98E51AE62C1F}</Project>
       <Name>SIM.Adapters</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SIM.ContainerInstaller\SIM.ContainerInstaller.csproj">
+      <Project>{d9ad90f9-bf6d-4c46-8546-3bed9ff93450}</Project>
+      <Name>SIM.ContainerInstaller</Name>
     </ProjectReference>
     <ProjectReference Include="..\SIM.Pipelines\SIM.Pipelines.csproj">
       <Project>{7A3FEDF8-DF96-4426-AA01-C2D4FD3E68C8}</Project>

@@ -1,4 +1,6 @@
-﻿namespace SIM.Products
+﻿using SIM.Products.ProductParsers;
+
+namespace SIM.Products
 {
   using System;
   using System.Collections.Generic;
@@ -22,6 +24,8 @@
 
     #endregion
 
+    private static IProductParser[] _productParsers;
+
     #region Properties
 
     [NotNull]
@@ -31,6 +35,28 @@
       {
         return Products.Where(p => p.IsStandalone).OrderByDescending(p => p.SortOrder);
       }
+    }
+
+    public static IEnumerable<Product> ContainerProducts
+    {
+      get
+      {
+        return Products.Where(p => p.IsContainer).OrderByDescending(p => p.SortOrder);
+      }
+    }
+
+    public static IProductParser[] ProductParsers
+    {
+      get
+      {
+        if (_productParsers == null)
+        {
+          _productParsers = new IProductParser[] {new ContainerProductParser()};
+        }
+
+        return _productParsers;
+      }
+      
     }
 
     #endregion
@@ -215,6 +241,31 @@
 
       var distributive = products.FirstOrDefault();
       return distributive;
+    }
+
+    public static Product GetOrCreateProduct(
+      string originalName,
+      string packagePath,
+      string twoVersion,
+      string triVersion,
+      string revision
+    )
+    {
+      Assert.ArgumentNotNullOrEmpty(originalName, nameof(originalName));
+      Assert.ArgumentNotNullOrEmpty(packagePath, nameof(packagePath));
+      Assert.ArgumentNotNullOrEmpty(twoVersion, nameof(twoVersion));
+      Assert.ArgumentNotNullOrEmpty(triVersion, nameof(triVersion));
+      Assert.ArgumentNotNullOrEmpty(revision, nameof(revision));
+
+      return Products.FirstOrDefault(p => p.OriginalName.Equals(originalName) && p.Revision.EqualsIgnoreCase(revision))
+             ?? new Product
+             {
+               OriginalName = originalName,
+               PackagePath = packagePath,
+               TwoVersion = twoVersion,
+               TriVersion = triVersion,
+               Revision = revision
+             };
     }
   }
 }
