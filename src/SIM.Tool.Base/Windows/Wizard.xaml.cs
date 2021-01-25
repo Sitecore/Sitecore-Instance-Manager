@@ -775,7 +775,7 @@
         catch (Exception ex)
         {
           WindowHelper.HandleError(
-            $"Something went wrong with Wizard logic. It is to be closed. {Environment.NewLine}{Environment.NewLine}{ex.Message}{ex.StackTrace}", false, ex);
+            $"Something went wrong with Wizard logic. It is to be closed. {Environment.NewLine}{Environment.NewLine}{ex.Message}", false, ex);
           Close();
         }
       }
