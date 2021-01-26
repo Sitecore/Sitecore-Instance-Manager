@@ -61,7 +61,7 @@ If you already have them then you can either:
         string urlToWikiPage = "https://github.com/Sitecore/Sitecore-Instance-Manager/wiki/Troubleshooting";
 
         string message = $@"The IIS is running now. 
-It may prevent 'docker-compose' from spinning up Sitecore in Docker, due to the HTTPS(443) port usage conflict.
+It may prevent 'docker-compose' from spinning up Sitecore in Docker, due to the HTTPS port 443 usage conflict.
 Please visit the '{urlToWikiPage}' for details.
 
 Please stop the IIS and continue the installation.

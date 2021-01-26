@@ -25,7 +25,7 @@ namespace SIM.Tool.Windows.MainWindowComponents.Buttons
         string urlToWikiPage = "https://github.com/Sitecore/Sitecore-Instance-Manager/wiki/Troubleshooting";
 
         string message = $@"The 'Docker Desktop' is running now. 
-It may prevent the Sitecore installation process, due to the HTTPS(443) port usage conflict.
+It may prevent the Sitecore installation process, due to the HTTPS port 443 usage conflict.
 Please visit the '{urlToWikiPage}' for details.
 
 Please stop the 'Docker Desktop' and continue the installation.
