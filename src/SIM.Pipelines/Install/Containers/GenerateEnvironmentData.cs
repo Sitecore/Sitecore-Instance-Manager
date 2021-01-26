@@ -19,6 +19,7 @@ namespace SIM.Pipelines.Install.Containers
     {
       "id",
       "cm",
+      "cd",
       "xconnect",
       "prc",
       "rep",
