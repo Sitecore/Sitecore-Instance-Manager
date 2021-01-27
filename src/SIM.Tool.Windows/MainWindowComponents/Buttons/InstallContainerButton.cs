@@ -56,6 +56,25 @@ If you already have them then you can either:
         return;
       }
 
+      if (ApplicationManager.IsIisRunning)
+      {
+        string urlToWikiPage = "https://github.com/Sitecore/Sitecore-Instance-Manager/wiki/Troubleshooting";
+
+        string message = $@"The IIS is running now. 
+It may prevent 'docker-compose' from spinning up Sitecore in Docker, due to the HTTPS port 443 usage conflict.
+Please visit the '{urlToWikiPage}' for details.
+
+Please stop the IIS and continue the installation.
+
+Do you want to proceed with the installation process?";
+
+        if (MessageBox.Show(message, "", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
+        {
+          return;
+        }
+      }
+
+
       if (EnvironmentHelper.CheckSqlServer())
       {
         WizardPipelineManager.Start("installContainer", mainWindow, null, null, (args) =>

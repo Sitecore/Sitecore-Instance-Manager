@@ -30,6 +30,15 @@ namespace SIM.Tool.Windows.MainWindowComponents.Buttons
 * put the files into the current local repository folder: 
 {ProfileManager.Profile.LocalRepository}");
 
+      if (!ApplicationManager.IsIisRunning)
+      {
+        string message = "The 'IIS' application is not running. Please start the app and re-run the Sitecore installation.";
+
+        MessageBox.Show(message, "", MessageBoxButton.OK, MessageBoxImage.Information);
+
+        return;
+      }
+
       if (EnvironmentHelper.CheckSqlServer())
       {
         WizardPipelineManager.Start("install", mainWindow, null, null, (args) =>
