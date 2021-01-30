@@ -21,7 +21,7 @@ namespace SIM.Tool.Windows.MainWindowComponents.Buttons
     public override void OnClick(Window mainWindow, Instance instance)
     {
       if (instance?.Name != null &&
-          SitecoreEnvironmentHelper.GetExistingSitecoreEnvironment(instance.Name).EnvType ==
+          SitecoreEnvironmentHelper.GetExistingSitecoreEnvironment(instance.Name)?.EnvType ==
           SitecoreEnvironment.EnvironmentType.Container
       )
       {
