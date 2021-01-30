@@ -31,6 +31,7 @@
   {
     #region Fields
 
+    [CanBeNull]
     public WizardArgs WizardArgs { get; }
 
     private ProcessorArgs Args { get; }
@@ -678,7 +679,10 @@
           }
 
           // In case we run a pipeline we have to refresh the instances list disregard the results of the installation.
-          this.WizardArgs.ShouldRefreshInstancesList = true;
+          if (this.WizardArgs != null)
+          {
+            this.WizardArgs.ShouldRefreshInstancesList = true;
+          }
 
           PipelineManager.StartPipeline(pipelineName, _ProcessorArgs, this);
           backButton.Visibility = Visibility.Hidden;
