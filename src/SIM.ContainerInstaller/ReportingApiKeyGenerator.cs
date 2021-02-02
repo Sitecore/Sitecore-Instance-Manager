@@ -11,7 +11,7 @@ namespace SIM.ContainerInstaller
   {
     public string Generate()
     {
-      string scriptFile = Path.Combine(Directory.GetCurrentDirectory(), "ContainerFiles/scripts/ReportingApiKeyGenerator.ps1");
+      string scriptFile = Path.Combine(Directory.GetCurrentDirectory(), "ContainerFiles/scripts/ReportingApiKeyGenerator.txt");
       PSFileExecutor ps = new PSFileExecutor(scriptFile, Directory.GetCurrentDirectory());
       Collection<PSObject> results = ps.Execute();
 
