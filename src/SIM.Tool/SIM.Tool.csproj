@@ -520,7 +520,7 @@
     <Content Include="ContainerFiles\Scripts\ReportingApiKeyGenerator.ps1">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="ContainerFiles\Scripts\SqlAdminPasswordGenerator.ps1">
+    <Content Include="ContainerFiles\Scripts\SqlAdminPasswordGenerator.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="GlobalParamsConfig\XP\GlobalParams_10.0_XP0_SXA.json">

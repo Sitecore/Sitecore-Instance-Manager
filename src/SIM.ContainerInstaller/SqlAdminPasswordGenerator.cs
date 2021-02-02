@@ -9,7 +9,7 @@ namespace SIM.ContainerInstaller
   {
     public string Generate()
     {
-      string scriptFile = Path.Combine(Directory.GetCurrentDirectory(), "ContainerFiles/scripts/SqlAdminPasswordGenerator.ps1");
+      string scriptFile = Path.Combine(Directory.GetCurrentDirectory(), "ContainerFiles/scripts/SqlAdminPasswordGenerator.txt");
       PSFileExecutor ps = new PSFileExecutor(scriptFile, Directory.GetCurrentDirectory());
       Collection<PSObject> results = ps.Execute();
 
