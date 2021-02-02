@@ -7,7 +7,7 @@ using JetBrains.Annotations;
 namespace SIM.ContainerInstaller
 {
   [UsedImplicitly]
-  public class TelerikKeyGenerator : IKeyGenerator
+  public class TelerikKeyGenerator : IGenerator
   {
     public string Generate()
     {
