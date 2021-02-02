@@ -226,7 +226,7 @@
     <Content Include="Configurations\Configuration - Sitecore 8.2 - ContentSearch - Solr.manifest.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="ContainerFiles\Scripts\IdentityServerScript.ps1">
+    <Content Include="ContainerFiles\Scripts\IdentityServerScript.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="ContainerFiles\Scripts\LicenseScript.txt">
@@ -508,16 +508,16 @@
     <Content Include="GlobalParamsConfig\Solr\GlobalParams_solr.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="ContainerFiles\Scripts\InstallDockerToolsModuleScript.ps1">
+    <Content Include="ContainerFiles\Scripts\InstallDockerToolsModuleScript.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="ContainerFiles\Scripts\TelerikKeyGeneratorScript.ps1">
+    <Content Include="ContainerFiles\Scripts\TelerikKeyGeneratorScript.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="ButtonsConfiguration\ButtonsConfiguration.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="ContainerFiles\Scripts\ReportingApiKeyGenerator.ps1">
+    <Content Include="ContainerFiles\Scripts\ReportingApiKeyGenerator.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="GlobalParamsConfig\XP\GlobalParams_10.0_XP0_SXA.json">

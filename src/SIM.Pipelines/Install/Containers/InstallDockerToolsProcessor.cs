@@ -10,7 +10,7 @@ namespace SIM.Pipelines.Install.Containers
   {
     protected override void Process(ProcessorArgs args)
     {
-      string scriptFile = Path.Combine(Directory.GetCurrentDirectory(), "ContainerFiles/scripts/InstallDockerToolsModuleScript.ps1");
+      string scriptFile = Path.Combine(Directory.GetCurrentDirectory(), "ContainerFiles/scripts/InstallDockerToolsModuleScript.txt");
       PSFileExecutor ps = new PSFileExecutor(scriptFile, Directory.GetCurrentDirectory());
 
       ps.Execute();

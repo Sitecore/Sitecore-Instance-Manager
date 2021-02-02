@@ -18,7 +18,7 @@ namespace SIM.ContainerInstaller
     {
       Assert.ArgumentNotNull(targetFolder, "targetFolder");
 
-      string scriptFile = Path.Combine(Directory.GetCurrentDirectory(), "ContainerFiles/scripts/IdentityServerScript.ps1");
+      string scriptFile = Path.Combine(Directory.GetCurrentDirectory(), "ContainerFiles/scripts/IdentityServerScript.txt");
       PSFileExecutor ps = new PSFileExecutor(scriptFile, Path.GetDirectoryName(targetFolder));
       Collection<PSObject> results = ps.Execute();
 
