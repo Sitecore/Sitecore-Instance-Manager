@@ -1,25 +1,23 @@
-﻿using SIM.ContainerInstaller;
-using JetBrains.Annotations;
+﻿using JetBrains.Annotations;
+using SIM.ContainerInstaller;
 using SIM.Pipelines.Processors;
 using Sitecore.Diagnostics.Base;
 
 namespace SIM.Pipelines.Install.Containers
 {
   [UsedImplicitly]
-  public class GenerateReportingApiKeyProcessor : Processor
+  public class GenerateSqlAdminPasswordProcessor : Processor
   {
-    private const string Key = "REPORTING_API_KEY";
-
-    private readonly IGenerator _generator = new ReportingApiKeyGenerator();
+    private readonly IGenerator _generator = new SqlAdminPasswordGenerator();
     protected override void Process([NotNull] ProcessorArgs arguments)
     {
       Assert.ArgumentNotNull(arguments, "arguments");
 
       InstallContainerArgs args = (InstallContainerArgs)arguments;
 
-      if (args.EnvModel.KeyExists(Key))
+      if (string.IsNullOrEmpty(args.EnvModel.SqlAdminPassword))
       {
-        args.EnvModel[Key] = this._generator.Generate();
+        args.EnvModel.SqlAdminPassword = this._generator.Generate();
       }
     }
   }

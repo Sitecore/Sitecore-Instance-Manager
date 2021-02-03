@@ -28,6 +28,7 @@
     <step>
       <processor type=""SIM.Pipelines.Install.Containers.ConvertLicenseProcessor, SIM.Pipelines"" title=""Convert sitecore license""/>
       <processor type=""SIM.Pipelines.Install.Containers.GenerateIdEnvValuesProcessor, SIM.Pipelines"" title=""Generate 'SITECORE_ID*' .env values""/>
+      <processor type=""SIM.Pipelines.Install.Containers.GenerateSqlAdminPasswordProcessor, SIM.Pipelines"" title=""Generate 'SQL_SA_PASSWORD' .env value""/>
       <processor type=""SIM.Pipelines.Install.Containers.GenerateTelerikKeyProcessor, SIM.Pipelines"" title=""Generate 'TELERIK_ENCRYPTION_KEY' .env value""/>
       <processor type=""SIM.Pipelines.Install.Containers.GenerateReportingApiKeyProcessor, SIM.Pipelines"" title=""Generate 'REPORTING_API_KEY' .env value""/>
       <processor type=""SIM.Pipelines.Install.Containers.GenerateCertificatesProcessor, SIM.Pipelines"" title=""Generate certificates""/>
