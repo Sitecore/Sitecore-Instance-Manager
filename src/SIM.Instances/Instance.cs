@@ -36,7 +36,6 @@
     public Instance([NotNull] int id)
       : base(id)
     {
-      this.SitecoreEnvironment = SitecoreEnvironmentHelper.GetExistingOrNewSitecoreEnvironment(this.Name);
     }
 
 
@@ -261,7 +260,10 @@
 
 
     [NotNull]
-    public virtual SitecoreEnvironment SitecoreEnvironment { get; }
+    public virtual SitecoreEnvironment SitecoreEnvironment
+    {
+      get { return SitecoreEnvironmentHelper.GetExistingOrNewSitecoreEnvironment(this.Name); }
+    }
 
     [NotNull]
     public virtual Product Product
@@ -468,6 +470,11 @@
     {
       get
       {
+        if (SitecoreEnvironmentHelper.GetExistingSitecoreEnvironment(this.Name)?.EnvType == SitecoreEnvironment.EnvironmentType.Container)
+        {
+          return InstanceType.SitecoreContainer;
+        }
+
         if (Product == Product.Undefined || Product.Release == null)
         {
           return InstanceType.SitecoreMember;
@@ -492,6 +499,7 @@
       Sitecore8AndEarlier,
       Sitecore9AndLater,
       SitecoreMember,
+      SitecoreContainer,
       Unknown
     }
 

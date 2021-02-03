@@ -1,9 +1,4 @@
-﻿using System.Diagnostics;
-using System.Threading;
-using System.Threading.Tasks;
-using SIM.Extensions;
-
-namespace SIM.Instances
+﻿namespace SIM.Instances
 {
   using System;
   using System.Collections.Generic;
@@ -15,7 +10,6 @@ namespace SIM.Instances
   using Sitecore.Diagnostics.Base.Extensions.EnumerableExtensions;
   using Sitecore.Diagnostics.Logging;
   using SIM.SitecoreEnvironments;
-  using System.Collections.ObjectModel;
 
   #region
 
@@ -23,9 +17,6 @@ namespace SIM.Instances
 
   public class InstanceManager
   {
-    public InstanceManager()
-    {
-    }
     #region Fields
 
     private IDictionary<string, Instance> _CachedInstances;
@@ -76,7 +67,7 @@ namespace SIM.Instances
         }
 
         _CachedInstances = new Dictionary<string, Instance>();
-        Instances.ForEach(x => { _CachedInstances.Add(x.Name, new PartiallyCachedInstance((int) x.ID)); });
+        Instances.ForEach(x => { _CachedInstances.Add(x.Name, new PartiallyCachedInstance((int)x.ID)); });
 
         return _CachedInstances;
       }
@@ -100,14 +91,11 @@ namespace SIM.Instances
 
     public static InstanceManager Default { get; } = new InstanceManager();
 
-    public RangeObservableCollection<Instance> InstancesObservableCollection { get; } = new RangeObservableCollection<Instance>();
-
-
     #endregion
 
     #endregion
 
-    #region Methods
+    #region Public Methods
 
     #region Public methods
 
@@ -134,17 +122,49 @@ namespace SIM.Instances
     {
       SitecoreEnvironmentHelper.RefreshEnvironments();
 
+      List<Instance> instances = new List<Instance>();
+
+      if(ApplicationManager.IsIisRunning) {instances.AddRange(GetIISInstances());}
+
+      if(ApplicationManager.IsDockerRunning) {instances.AddRange(GetContainerizedInstances());}
+
+      Dictionary<string, Instance> partiallyCachedInstances = instances.ToDictionary(i => i.Name);
+
+      PartiallyCachedInstances = partiallyCachedInstances;
+
+      Instances = instances;
+    }
+
+    private IEnumerable<Instance> GetContainerizedInstances()
+    {
+      List<SitecoreEnvironment> environments =
+        SitecoreEnvironmentHelper.SitecoreEnvironments.
+          Where(e => e.EnvType == SitecoreEnvironment.EnvironmentType.Container).ToList();
+
+      List<Instance> instances = environments.SelectMany(e => e.Members).Select(m => MemberToInstance(m)).ToList();
+
+      return instances;
+    }
+
+    private Instance MemberToInstance(SitecoreEnvironmentMember member)
+    {
+      Instance instance = new ContainerizedInstance(member.Name);
+
+      return instance;
+    }
+
+    private IEnumerable<Instance> GetIISInstances([CanBeNull] string defaultRootFolder = null)
+    {
       using (WebServerManager.WebServerContext context = WebServerManager.CreateContext())
       {
         ProfileSection.Argument("defaultRootFolder", defaultRootFolder);
 
         IEnumerable<Site> sites = GetOperableSites(context, defaultRootFolder);
-        PartiallyCachedInstances = GetPartiallyCachedInstances(sites);
-        Instances = GetInstances();
+
+        return GetPartiallyCachedInstances(sites);
       }
     }
-
-
+    
     public void InitializeWithSoftListRefresh([CanBeNull] string defaultRootFolder = null)
     {
       SitecoreEnvironmentHelper.RefreshEnvironments();
@@ -167,62 +187,8 @@ namespace SIM.Instances
               GetPartiallyCachedInstance(site))
             .Where(IsSitecoreOrSitecoreEnvironmentMember)
             .Where(IsNotHidden).ToDictionary(value => value.Name);
-    
+
           Instances = PartiallyCachedInstances?.Values.Select(x => GetInstance(x.ID)).ToArray();
-        }
-      }
-    }
-
-    public Instance GetInstance(long id)
-    {
-      using (new ProfileSection("Get instance by id"))
-      {
-        ProfileSection.Argument("id", id);
-
-        var instance = new Instance((int)id);
-
-        return ProfileSection.Result(instance);
-      }
-    }
-
-    public void AddNewInstance(string instanceName, bool isSitecore8Instance)
-    {
-      using (WebServerManager.WebServerContext context = WebServerManager.CreateContext())
-      {
-        SiteCollection sites = context.Sites;
-        List<Instance> instances = new List<Instance>();
-
-        if (isSitecore8Instance)
-        {
-
-          Site site = sites.FirstOrDefault(s => s.Name == instanceName);
-          if (site != null)
-          {
-            instances.Add(new Instance((int)site.Id));
-          }
-        }
-        else
-        {
-          SitecoreEnvironment environment =
-            SitecoreEnvironmentHelper.SitecoreEnvironments.FirstOrDefault(e => e.Name == instanceName);
-          if (environment != null && environment.Members != null && environment.Members.Count != 0)
-          {
-            foreach (var member in environment.Members.Where(x=>x.Type== SitecoreEnvironmentMember.Types.Site.ToString()))
-            {
-              Site site = sites.FirstOrDefault(s => s.Name == member.Name);
-              if (site != null)
-              {
-                instances.Add(new Instance((int)site.Id));
-              }
-            }
-          }
-        }
-
-        foreach (var instance in instances)
-        {
-          this.InstancesObservableCollection.Add(instance);
-          this.PartiallyCachedInstances?.Add(instance.Name, instance);
-          this.Instances = this.Instances.Add(instance);
         }
       }
     }
@@ -241,19 +207,25 @@ namespace SIM.Instances
       }
     }
 
-    private IDictionary<string, Instance> GetPartiallyCachedInstances(IEnumerable<Site> sites)
+    private IEnumerable<Instance> GetPartiallyCachedInstances(IEnumerable<Site> sites)
     {
       using (new ProfileSection("Getting partially cached Sitecore instances"))
       {
         ProfileSection.Argument("sites", sites);
 
-        IDictionary<string, Instance> partiallyCachedInstances = sites.Select(GetPartiallyCachedInstance)
+        IEnumerable<Instance> partiallyCachedInstances = sites.Select(GetPartiallyCachedInstance)
           .Where(IsSitecoreOrSitecoreEnvironmentMember)
-          .Where(IsNotHidden).ToDictionary(value => value.Name);
+          .Where(IsNotHidden);
 
         return partiallyCachedInstances;
       }
     }
+
+    #endregion
+
+    #endregion
+
+    #region Methods
 
     private IEnumerable<Site> GetOperableSites([NotNull] WebServerManager.WebServerContext context, [CanBeNull] string defaultRootFolder = null)
     {
@@ -304,6 +276,20 @@ namespace SIM.Instances
     }
 
     #endregion
+
+    #region Public methods
+
+    public Instance GetInstance(long id)
+    {
+      using (new ProfileSection("Get instance by id"))
+      {
+        ProfileSection.Argument("id", id);
+
+        var instance = new Instance((int)id);
+
+        return ProfileSection.Result(instance);
+      }
+    }
 
     #endregion
   }

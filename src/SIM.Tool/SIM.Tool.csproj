@@ -226,6 +226,12 @@
     <Content Include="Configurations\Configuration - Sitecore 8.2 - ContentSearch - Solr.manifest.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="ContainerFiles\Scripts\IdentityServerScript.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ContainerFiles\Scripts\LicenseScript.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="first-run.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -386,6 +392,10 @@
     <Content Include="Manifests\Standalone\Sitecore Foundry 4.0.0 rev. 121206.manifest.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Manifests\Standalone\SitecoreContainerDeployment.manifest.xml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Manifests\Standalone\Sitecore.manifest.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
@@ -498,7 +508,19 @@
     <Content Include="GlobalParamsConfig\Solr\GlobalParams_solr.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="ContainerFiles\Scripts\InstallDockerToolsModuleScript.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ContainerFiles\Scripts\TelerikKeyGeneratorScript.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="ButtonsConfiguration\ButtonsConfiguration.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ContainerFiles\Scripts\ReportingApiKeyGenerator.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ContainerFiles\Scripts\SqlAdminPasswordGenerator.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="GlobalParamsConfig\XP\GlobalParams_10.0_XP0_SXA.json">

@@ -70,7 +70,6 @@ namespace SIM.Tool
       SIM.FileSystem.FileSystem.Local.Directory.Ensure(path);
       return path;
     }
-
     #endregion
 
     #region Protected methods
@@ -196,15 +195,6 @@ namespace SIM.Tool
       CoreApp.WriteLastRunVersion();
 
       CoreApp.LogMainInfo();
-
-      if (!CheckIis())
-      {
-        WindowHelper.ShowMessage("Cannot connect to IIS. Make sure it is installed and running.", MessageBoxButton.OK, MessageBoxImage.Exclamation);
-
-        Environment.Exit(0);
-
-        return;
-      }
 
       // Initializing pipelines from Pipelines.config and WizardPipelines.config files
       if (!InitializePipelines())
@@ -353,29 +343,6 @@ namespace SIM.Tool
       var processes = Process.GetProcessesByName(Path.GetFileNameWithoutExtension(Assembly.GetExecutingAssembly().CodeBase));
 
       return processes.Count(x => x.SessionId == currentSessionId && !x.HasExited && x.PrivateMemorySize64 > 5000000) <= count;
-    }
-
-    private static bool CheckIis()
-    {
-      try
-      {
-        using (var sc = new ServiceController("W3SVC"))
-        {
-          Log.Info($"IIS.Name: {sc.DisplayName}");
-          Log.Info($"IIS.Status: {sc.Status}");
-          Log.Info($"IIS.MachineName: {sc.MachineName}");
-          Log.Info($"IIS.ServiceName: {sc.ServiceName}");
-          Log.Info($"IIS.ServiceType: {sc.ServiceType}");
-
-          return sc.Status.Equals(ServiceControllerStatus.Running);
-        }
-      }
-      catch (Exception ex)
-      {
-        Log.Error(ex, "Error during checking IIS state");
-
-        return false;
-      }
     }
 
     private static bool CheckPermissions()

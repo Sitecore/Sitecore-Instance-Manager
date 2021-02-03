@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using JetBrains.Annotations;
 using Newtonsoft.Json;
 using Sitecore.Diagnostics.Logging;
 
@@ -88,6 +90,7 @@ namespace SIM.SitecoreEnvironments
       return GetExistingSitecoreEnvironment(instanceName)?? new SitecoreEnvironment(instanceName);
     }
 
+    [CanBeNull]
     public static SitecoreEnvironment GetExistingSitecoreEnvironment(string instanceName)
     {
       foreach (SitecoreEnvironment sitecoreEnvironment in SitecoreEnvironments)
@@ -102,6 +105,13 @@ namespace SIM.SitecoreEnvironments
       }
 
       return null;
+    }
+
+    public static bool TryGetEnvironmentById(Guid environmentId, [CanBeNull]out SitecoreEnvironment environment)
+    {
+      environment = SitecoreEnvironments.FirstOrDefault(e => e.ID.Equals(environmentId));
+
+      return environment != null;
     }
   }
 }

@@ -26,8 +26,6 @@ namespace SIM.Tool.Windows.Pipelines.Install
         actions.Add(action);
       }
 
-      args.HasInstallationBeenCompleted = true;
-
       return actions;
     }
   }

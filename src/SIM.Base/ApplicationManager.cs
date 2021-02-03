@@ -9,10 +9,15 @@ namespace SIM
   using Sitecore.Diagnostics.Base;
   using JetBrains.Annotations;
   using SIM.Extensions;
+  using System.Timers;
+  using System.ServiceProcess;
+  using System.Linq;
+  using System.Runtime.CompilerServices;
+  using System.Threading;
 
   #region
 
-  
+
 
   #endregion
 
@@ -29,6 +34,10 @@ namespace SIM
     public const string AppDataRoot = @"%AppData%\Sitecore\Sitecore Instance Manager";
     public const string DefaultConfigurations = "Configurations";
     public const string DefaultPackages = "Packages";
+    public const string DockerDesktopPath = @"C:\Program Files\Docker\Docker\Docker Desktop.exe";
+    public const string DockerProcessName = "Docker Desktop";
+    public const string DockerServiceName = "docker";
+    public const string IisServiceName = "W3SVC";
 
     #endregion
 
@@ -82,6 +91,18 @@ namespace SIM
 
     public static string AppsFolder { get; }
 
+    public static bool IsIisRunning { get; set; }
+
+    public static bool IsDockerRunning { get; set; }
+
+    public static event PropertyChangedEventHandler IisStatusChanged;
+
+    public static event PropertyChangedEventHandler DockerStatusChanged;
+
+    private static readonly System.Timers.Timer Timer;
+
+    private const double TimerInterval = 10000;
+
     #endregion
 
     #region Constructors
@@ -108,6 +129,11 @@ namespace SIM
       AppLabel = GetLabel();
       UnInstallParamsFolder = InitializeDataFolder("UnInstallParams");
       TempFolder = InitializeDataFolder("Temp");
+      IsIisRunning = GetIisStatus();
+      IsDockerRunning = GetDockerStatus();
+      Timer = new System.Timers.Timer(TimerInterval);
+      Timer.Elapsed += Timer_Elapsed;
+      Timer.Enabled = true;
     }
 
     #endregion
@@ -224,6 +250,89 @@ namespace SIM
       EventHelper.RaiseEvent(AttemptToClose, typeof(ApplicationManager), e);
     }
 
+    public static bool StartStopIis(bool start)
+    {
+      Timer.Stop();
+      try
+      {
+        using (ServiceController serviceController = new ServiceController(IisServiceName))
+        {
+          if (start)
+          {
+            serviceController.Start();
+            serviceController.WaitForStatus(ServiceControllerStatus.Running, TimeSpan.FromMilliseconds(TimerInterval));
+          }
+          else
+          {
+            serviceController.Stop();
+            serviceController.WaitForStatus(ServiceControllerStatus.Stopped, TimeSpan.FromMilliseconds(TimerInterval));
+          }
+        }
+
+        RunTimerElapsed(4000);
+        Timer.Start();
+        return true;
+      }
+      catch
+      {
+        Timer.Start();
+        return false;
+      }
+    }
+
+    public static bool StartStopDocker(bool start)
+    {
+      Timer.Stop();
+      try
+      {
+        if (start)
+        {
+          if (File.Exists(DockerDesktopPath))
+          {
+            Process process = Process.Start(DockerDesktopPath);
+            if (process != null)
+            {
+              RunTimerElapsed(10000);
+              Timer.Start();
+              return true;
+            }
+          }
+        }
+        else
+        {
+          ServiceController serviceController = GetDockerService();
+
+          if (serviceController != null)
+          {
+            serviceController.Stop();
+
+            foreach (Process process in Process.GetProcessesByName(DockerProcessName))
+            {
+              process.Kill();
+            }
+
+            RunTimerElapsed(4000);
+            Timer.Start();
+            return true;
+          }
+        }
+
+        Timer.Start();
+        return false;
+      }
+      catch
+      {
+        Timer.Start();
+        return false;
+      }
+    }
+
+    private static void RunTimerElapsed(int timeout)
+    {
+      Thread.Sleep(timeout);
+      Timer_Elapsed(null, null);
+    }
+
     #endregion
 
     #region Private methods
@@ -280,6 +389,76 @@ namespace SIM
 
       var version = versionAttribute[0] as AssemblyFileVersionAttribute;
       return version != null ? version.Version : string.Empty;
+    }
+
+    private static void Timer_Elapsed(object sender, ElapsedEventArgs e)
+    {
+      bool iisStatus = GetIisStatus();
+      if (IsIisRunning != iisStatus)
+      {
+        IsIisRunning = iisStatus;
+        OnIisStatusChanged();
+      }
+      
+      bool dockerStatus = GetDockerStatus();
+      if (IsDockerRunning != dockerStatus)
+      {
+        IsDockerRunning = dockerStatus;
+        OnDockerStatusChanged();
+      }
+    }
+
+    private static bool GetIisStatus()
+    {
+      try
+      {
+        using (ServiceController serviceController = new ServiceController(IisServiceName))
+        {
+          if (serviceController.Status.Equals(ServiceControllerStatus.Running))
+          {
+            return true;
+          }
+          return false;
+        }
+      }
+      catch
+      {
+        return false;
+      }
+    }
+
+    private static bool GetDockerStatus()
+    {
+      try
+      {
+        ServiceController serviceController = GetDockerService();
+
+        if (serviceController != null && serviceController.Status.Equals(ServiceControllerStatus.Running))
+        {
+          return true;
+        }
+
+        return false;
+      }
+      catch
+      {
+        return false;
+      }
+    }
+
+    private static ServiceController GetDockerService()
+    {
+      return ServiceController.GetServices().FirstOrDefault(s => s.ServiceName == DockerServiceName);
+    }
+
+    private static void OnIisStatusChanged([CallerMemberName] string name = null)
+    {
+      IisStatusChanged?.Invoke(null, new PropertyChangedEventArgs(name));
+    }
+
+    private static void OnDockerStatusChanged([CallerMemberName] string name = null)
+    {
+      DockerStatusChanged?.Invoke(null, new PropertyChangedEventArgs(name));
     }
 
     #endregion

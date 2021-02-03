@@ -111,7 +111,7 @@ namespace SIM.Tool.Windows.MainWindowComponents.Buttons
         CommandButtons = new[]
         {
           // 0
-          "Refresh sites list\nReading IIS metabase to find Sitecore instances", 
+          "Refresh sites list\nReading metadata to find Sitecore instances", 
           
           // 1
           "Refresh installer\nLooking for *.zip files in your local repository", 

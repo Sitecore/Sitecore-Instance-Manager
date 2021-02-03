@@ -42,6 +42,10 @@ namespace SIM.Tool.Windows.MainWindowComponents.Buttons
           {
             return ButtonsConfiguration.Instance.Sitecore8AndEarlierButtons.Contains(this._label);
           }
+          case Instance.InstanceType.SitecoreContainer:
+          {
+            return ButtonsConfiguration.Instance.SitecoreContainersButtons.Contains(this._label);
+          }
         }
       }
 

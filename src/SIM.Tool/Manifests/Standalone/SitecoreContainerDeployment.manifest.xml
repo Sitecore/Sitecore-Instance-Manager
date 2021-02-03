@@ -1,0 +1,12 @@
+<manifest version="1.4">
+  <container>
+    <name>Sitecore container deployment package</name>
+    <shortName>sc container</shortName>
+    <limitations>
+      <framework>
+        <supportedVersion attr="1">v4.0</supportedVersion>
+        <supportedVersion attr="2">v4.0 32bit</supportedVersion>
+      </framework>
+    </limitations>
+  </container>
+</manifest>

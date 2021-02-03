@@ -1,9 +1,14 @@
-﻿using System.Windows;
+﻿using System.IO;
+using System.Windows;
 using JetBrains.Annotations;
+using SIM.ContainerInstaller;
 using SIM.Extensions;
 using SIM.Instances;
+using SIM.SitecoreEnvironments;
 using SIM.Tool.Base;
+using SIM.Tool.Base.Pipelines;
 using SIM.Tool.Base.Profiles;
+using SIM.Tool.Base.Wizards;
 using Sitecore.Diagnostics.Base;
 
 namespace SIM.Tool.Windows.MainWindowComponents.Buttons
@@ -15,6 +20,30 @@ namespace SIM.Tool.Windows.MainWindowComponents.Buttons
 
     public override void OnClick(Window mainWindow, Instance instance)
     {
+      if (instance?.Name != null &&
+          SitecoreEnvironmentHelper.GetExistingSitecoreEnvironment(instance.Name)?.EnvType ==
+          SitecoreEnvironment.EnvironmentType.Container
+      )
+      {
+        DeleteContainersWizardArgs deleteContainersWizardArgs = new DeleteContainersWizardArgs()
+        {
+          DestinationFolder = SitecoreEnvironmentHelper.GetExistingSitecoreEnvironment(instance.Name).UnInstallDataPath,
+          EnvironmentId = SitecoreEnvironmentHelper.GetExistingSitecoreEnvironment(instance.Name).ID,
+          Env = EnvModel.LoadFromFile(Path.Combine(
+            SitecoreEnvironmentHelper.GetExistingSitecoreEnvironment(instance.Name).UnInstallDataPath, ".env"))
+        };
+
+        WizardPipelineManager.Start(
+          "reinstallContainer",
+          mainWindow,
+          null,
+          null,
+          null,
+          () => deleteContainersWizardArgs);
+
+        return;
+      }
+
       if (instance != null)
       {
         if (!MainWindowHelper.IsInstallerReady())

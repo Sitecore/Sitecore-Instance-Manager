@@ -62,7 +62,7 @@ namespace SIM.Tool.Windows
           {
             new ButtonDefinition
             {
-              Label = "Install SC XP 9",
+              Label = "Install on-prem",
               Image = "/Images/$lg/add_domain.png, SIM.Tool.Windows",
               Handler = new Install9InstanceButton(),
               Buttons = new[]
@@ -75,11 +75,17 @@ namespace SIM.Tool.Windows
                 },
                 new ButtonDefinition
                 {
-                  Label = "Install Sitecore XP 8.2 and earlier",
+                  Label = "Install Sitecore XP 8 and earlier",
                   Image = "/Images/$lg/add_domain.png, SIM.Tool.Windows",
                   Handler = new InstallInstanceButton()
-                },
+                }
               }
+            },
+            new ButtonDefinition
+            {
+              Label = "Deploy to Docker",
+              Image = "/Images/$lg/docker_logo.png, SIM.Tool.Windows",
+              Handler = new SIM.Tool.Windows.MainWindowComponents.InstallContainerButton()
             },
             new ButtonDefinition
             {
@@ -271,7 +277,7 @@ namespace SIM.Tool.Windows
                 {
                   Label = "Front-end Site",
                   Image = "/Images/$sm/earth2.png, SIM.Tool.Windows",
-                  Handler = new BrowseButton()
+                  Handler = new BrowseHomePageButton()
                 },
                 new ButtonDefinition(),
                 new ButtonDefinition
@@ -457,6 +463,12 @@ namespace SIM.Tool.Windows
           Handler = new FileSystemGroup(),
           Buttons = new[]
           {
+            new ButtonDefinition
+            {
+              Label = "Container Folder",
+              Image = "/Images/$lg/folder_open.png, SIM.Tool.Windows",
+              Handler = new OpenContainerFolderButton()
+            },
             new ButtonDefinition
             {
               Label = "Website Folder",
@@ -1112,7 +1124,8 @@ namespace SIM.Tool.Windows
 
     internal static ButtonDefinition[] MenuItems { get; } = 
     {
-      new ButtonDefinition { Label = "Browse Sitecore Website", Image = "/Images/$sm/earth2.png, SIM.Tool.Windows", Handler = new BrowseButton() },
+      new ButtonDefinition { Label = "Browse Sitecore Container Website", Image = "/Images/$sm/earth2.png, SIM.Tool.Windows", Handler = new BrowseSitecoreContainerWebsiteButton() },
+      new ButtonDefinition { Label = "Browse Website", Image = "/Images/$sm/earth2.png, SIM.Tool.Windows", Handler = new BrowseHomePageButton() },
       new ButtonDefinition { Label = "Browse Sitecore Client", Image = "/Images/$sm/Sitecore.png, SIM.Tool.Windows", Handler = new BrowseButton("/sitecore") },
       new ButtonDefinition { Label = "Log in admin", Image = "/Images/$sm/log_in.png, SIM.Tool.Windows", Handler = new LoginAdminButton("/sitecore"), Buttons = new [] {
         new ButtonDefinition { Label = "Google Chrome", Image = "/Images/$lg/chrome.png, SIM.Tool.Windows", Handler = new LoginAdminButton("/sitecore:chrome") },
@@ -1126,6 +1139,7 @@ namespace SIM.Tool.Windows
       }}, 
       new ButtonDefinition { Label = "Sitecore Admin", Image = "/Images/$lg/toolbox.png, SIM.Tool.Windows", Handler = new OpenToolboxButton() },
       new ButtonDefinition { Label = "Open Folder", Image = "/Images/$sm/folder_open.png, SIM.Tool.Windows", Handler = new OpenFolderButton("$(website)") },
+      new ButtonDefinition { Label = "Open Container Folder", Image = "/Images/$sm/folder_open.png, SIM.Tool.Windows", Handler = new OpenContainerFolderButton() },
       new ButtonDefinition { Label = "Open Visual Studio", Image = "/Images/$sm/vs.png, SIM.Tool.Windows", Handler = new OpenVisualStudioButton() },
       new ButtonDefinition { Handler = new OpenWebConfigButton() },
       new ButtonDefinition { Label = "Analyze log files", Image = "/Images/$lg/zoom_vertical.png, SIM.Tool.Windows", Handler = new OpenLogsButton() },
