@@ -115,10 +115,6 @@ namespace SIM.Tool.Windows.UserControls.Install.Containers
     private EnvModel CreateModel(string envPath)
     {
       EnvModel model = EnvModel.LoadFromFile(envPath);
-      if (string.IsNullOrWhiteSpace(model.SqlAdminPassword))
-      {
-        model.SqlAdminPassword = ProfileManager.Profile.SqlPassword;
-      }
 
       if (string.IsNullOrWhiteSpace(model.SitecoreAdminPassword))
       {

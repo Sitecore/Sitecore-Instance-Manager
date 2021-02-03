@@ -7,7 +7,7 @@ using JetBrains.Annotations;
 namespace SIM.ContainerInstaller
 {
   [UsedImplicitly]
-  public class ReportingApiKeyGenerator : IKeyGenerator
+  public class ReportingApiKeyGenerator : IGenerator
   {
     public string Generate()
     {

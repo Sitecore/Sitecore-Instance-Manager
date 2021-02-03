@@ -8,7 +8,7 @@ namespace SIM.Pipelines.Install.Containers
   [UsedImplicitly]
   public class GenerateTelerikKeyProcessor : Processor
   {
-    private readonly IKeyGenerator _generator = new TelerikKeyGenerator();
+    private readonly IGenerator _generator = new TelerikKeyGenerator();
     protected override void Process([NotNull] ProcessorArgs arguments)
     {
       Assert.ArgumentNotNull(arguments, "arguments");
