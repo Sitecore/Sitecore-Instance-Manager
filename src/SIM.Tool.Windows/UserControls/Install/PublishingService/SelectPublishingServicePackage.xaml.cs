@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Windows.Controls;
 using System.Windows.Navigation;
+using SIM.Tool.Base;
 
 namespace SIM.Tool.Windows.UserControls.Install.PublishingService
 {
@@ -37,7 +38,14 @@ namespace SIM.Tool.Windows.UserControls.Install.PublishingService
     public bool OnMovingNext(WizardArgs wizardArgs)
     {
       InstallSPSWizardArgs args = (InstallSPSWizardArgs)wizardArgs;
-      args.SPSPackage = ((ComboBoxItem)SPSPackageComboBox.SelectedItem).Tag.ToString();
+      args.SPSPackage = ((ComboBoxItem)SPSPackageComboBox.SelectedItem)?.Tag.ToString();
+
+      if (args.SPSPackage == null)
+      {
+        WindowHelper.ShowMessage("Please select a package before continuing!");
+        return false;
+      }
+
       return true;
     }
 
