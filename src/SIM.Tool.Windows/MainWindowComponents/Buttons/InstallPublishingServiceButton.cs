@@ -1,4 +1,9 @@
-﻿namespace SIM.Tool.Windows.MainWindowComponents.Buttons
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.VisualBasic.Logging;
+using SIM.Tool.Base;
+
+namespace SIM.Tool.Windows.MainWindowComponents.Buttons
 {
   using System.Windows;
   using SIM.Core.Common;
@@ -20,7 +25,7 @@
 
     public bool IsVisible(Window mainWindow, Instance instance)
     {
-      return true;
+      return instance != null && instance.IsContentManagementInstance;
     }
 
     public void OnClick(Window mainWindow, Instance instance)
@@ -33,5 +38,13 @@
     }
 
     #endregion
+
+    #region Private Methods
+
+
+
+    #endregion
+
+
   }
 }

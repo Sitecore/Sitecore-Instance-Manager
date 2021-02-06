@@ -494,12 +494,86 @@
       }
     }
 
+    /// <summary>
+    /// A collection of server roles this instance is defined as
+    /// </summary>
+    public ICollection<InstanceRole> Roles
+    {
+      get
+      {
+        ICollection<InstanceRole> InstanceRoles = new List<InstanceRole>();
+
+        //Find role by name
+        string instanceName = this.Name;
+        if (instanceName.Contains(".identityserver"))
+        {
+          InstanceRoles.Add(InstanceRole.IdentityServer);
+          return InstanceRoles;
+        }
+        if (instanceName.Contains(".xconnect"))
+        {
+          InstanceRoles.Add(InstanceRole.XConnect);
+          return InstanceRoles;
+        }
+
+        //Find role by 'role:define' key in web.config
+        string roleDefine = this.GetWebConfig().GetElementAttributeValue("/configuration/appSettings/add[@key='role:define']", "value").ToLower();
+        if (string.IsNullOrEmpty(roleDefine))
+        {
+          InstanceRoles.Add((InstanceRole.Unknown));  //If 'role:define' is not present, this is likely a pre-version 9 solution, and we don't know the role
+          return InstanceRoles;
+        }
+        if (roleDefine.Contains("standalone"))
+        {
+          InstanceRoles.Add(InstanceRole.Standalone);
+        }
+        if (roleDefine.Contains("contentmanagement"))
+        {
+          InstanceRoles.Add(InstanceRole.ContentManagement);
+        }
+        if (roleDefine.Contains("contentdelivery"))
+        {
+          InstanceRoles.Add(InstanceRole.ContentDelivery);
+        }
+        if (roleDefine.Contains("reporting"))
+        {
+          InstanceRoles.Add(InstanceRole.Reporting);
+        }
+        if (roleDefine.Contains("processing"))
+        {
+          InstanceRoles.Add(InstanceRole.Processing);
+        }
+        if (roleDefine.Contains("indexing"))
+        {
+          InstanceRoles.Add(InstanceRole.Indexing);
+        }
+
+        return InstanceRoles;
+      }
+    }
+    public bool IsContentManagementInstance =>  this.Roles.Contains(InstanceRole.Standalone) || 
+                                                this.Roles.Contains(InstanceRole.ContentManagement) ||
+                                                this.Roles.Contains(InstanceRole.Unknown);
+
     public enum InstanceType
     {
       Sitecore8AndEarlier,
       Sitecore9AndLater,
       SitecoreMember,
       SitecoreContainer,
+      Unknown
+    }
+
+    public enum InstanceRole
+    {
+      Standalone,
+      ContentManagement,
+      ContentDelivery,
+      Reporting,
+      Processing,
+      Indexing,
+      XConnect,
+      IdentityServer,
       Unknown
     }
 
