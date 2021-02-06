@@ -70,7 +70,7 @@ namespace SIM.Tool.Windows.UserControls.Install.PublishingService
       KBForSXACompatibilityPriorWithSPS.NavigateUri = new Uri(KB_SXA_COMPATIBILITY_WITH_SPS);
 
       //Populate ComboBox
-      foreach (string packagePath in Directory.GetFiles(ProfileManager.Profile.LocalRepository, "Sitecore Publishing Service*.zip"))
+      foreach (string packagePath in Directory.GetFiles(ProfileManager.Profile.LocalRepository, "Sitecore Publishing Service*.zip", SearchOption.AllDirectories))
       {
         SPSPackageComboBox.Items.Add(new ComboBoxItem()
         {
