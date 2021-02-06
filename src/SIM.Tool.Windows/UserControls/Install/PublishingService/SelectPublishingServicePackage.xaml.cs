@@ -2,8 +2,11 @@
 using SIM.Tool.Base.Profiles;
 using SIM.Tool.Base.Wizards;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
+using System.Text.RegularExpressions;
 using System.Windows.Controls;
 using System.Windows.Navigation;
 using SIM.Tool.Base;
@@ -27,6 +30,23 @@ namespace SIM.Tool.Windows.UserControls.Install.PublishingService
 
     public void InitializeStep(WizardArgs wizardArgs)
     {
+      InstallSPSWizardArgs args = (InstallSPSWizardArgs)wizardArgs;
+      int cmsVersionInt = args.Instance.Product?.Release?.Version.MajorMinorUpdateInt ?? -1;
+
+      //Populate ComboBox
+      foreach (string packagePath in Directory.GetFiles(ProfileManager.Profile.LocalRepository, "Sitecore Publishing Service*.zip", SearchOption.AllDirectories))
+      {
+        string spsPackageName = Path.GetFileNameWithoutExtension(packagePath);
+        if (IsCompatible(spsPackageName, cmsVersionInt))
+        {
+          SPSPackageComboBox.Items.Add(new ComboBoxItem()
+          {
+            Content = spsPackageName,
+            Tag = packagePath
+          });
+        }
+      }
+
       return;
     }
 
@@ -69,16 +89,51 @@ namespace SIM.Tool.Windows.UserControls.Install.PublishingService
       KBForSPSCompatibility410AndLater.NavigateUri = new Uri(KB_SPS_COMPATIBILTY_410_AND_LATER);
       KBForSXACompatibilityPriorWithSPS.NavigateUri = new Uri(KB_SXA_COMPATIBILITY_WITH_SPS);
 
-      //Populate ComboBox
-      foreach (string packagePath in Directory.GetFiles(ProfileManager.Profile.LocalRepository, "Sitecore Publishing Service*.zip", SearchOption.AllDirectories))
-      {
-        SPSPackageComboBox.Items.Add(new ComboBoxItem()
-        {
-         Content = Path.GetFileNameWithoutExtension(packagePath),
-         Tag = packagePath
-        });
-      }
       return;
+    }
+
+    private bool IsCompatible(string spsPackageName, int cmsVersionInt)
+    {
+      Regex versionPattern = new Regex("\\d+\\.\\d+\\.\\d+");
+      int spsPackageVersionInt = int.Parse(versionPattern.Match(spsPackageName).Value.Replace(".", ""));
+
+      //sps version 410 and above
+      if (spsPackageVersionInt >= 410)
+      {
+        /*
+         * If cmsVersionInt is negative, it means there was an error getting the version, and we should not restrict options.
+         * This can happen if a new version of Sitecore is released and SIM cannot parse its version number yet.
+         * Since we are assuming this is a new version of Sitecore, it is still safe to allow compatibility for SPS version 4.1.0 and above
+         */
+        return cmsVersionInt >= 910 || cmsVersionInt < 0;
+      }
+
+      //sps version 400 and below
+      return (from pair in LegacySPSCompatibilityTable where spsPackageVersionInt == pair.Key //Get the array of compatible cms versions for the given sps version
+        select pair.Value.Any(i => i == cmsVersionInt)).FirstOrDefault();                 //Check if the selected instance's version is in this array
+    }
+
+    private static Dictionary<int, int[]> LegacySPSCompatibilityTable
+    {
+      get
+      {
+        return new Dictionary<int, int[]>()
+        {
+          { 111, new [] { 820, 821 }},
+          { 200, new [] { 822, 823 }},
+          { 201, new [] { 822, 823, 824, 825 }},
+          { 210, new [] { 822, 823, 824, 825, 826 }},
+          { 220, new [] { 822, 823, 824, 825, 826, 827 }},
+          { 221, new [] { 822, 823, 824, 825, 826, 827 }},
+          { 300, new [] { 900 }},
+          { 310, new [] { 900, 901, 902 }},
+          { 311, new [] { 900, 901, 902 }},
+          { 312, new [] { 900, 901, 902 }},
+          { 313, new [] { 900, 901, 902 }},
+          { 314, new [] { 900, 901, 902 }},
+          { 400, new [] { 910, 911 }}
+        };
+      }
     }
   }
 }
