@@ -685,27 +685,6 @@ namespace SIM.Tool.Windows
               Image = "/Images/$lg/install.png, SIM.Tool.Windows",
               Handler = new InstallModulesButton()
             },
-            new ButtonDefinition
-            {
-              Label = "Publishing Service",
-              Image = "/Images/$lg/install.png, SIM.Tool.Windows",
-              Handler = new SIM.Tool.Windows.MainWindowComponents.Buttons.InstallSPSButton(),
-              Buttons = new[]
-              {
-                new ButtonDefinition
-                {
-                  Label = "Install",
-                  Image = "/Images/$lg/install.png, SIM.Tool.Windows",
-                  Handler = new SIM.Tool.Windows.MainWindowComponents.Buttons.InstallSPSButton(),
-                },
-                new ButtonDefinition
-                {
-                  Label = "Uninstall",
-                  Image = "/Images/$lg/uninstall.png, SIM.Tool.Windows",
-                  Handler = new SIM.Tool.Windows.MainWindowComponents.Buttons.UninstallSPSButton(),
-                }
-              }
-            },
           }
         },
         GetManageGroupDefinition(),
@@ -942,6 +921,27 @@ namespace SIM.Tool.Windows
                   Image = "/Images/$lg/wrench.png, SIM.Tool.Windows",
                   Handler = new ManagedArgsTracerButton()
                 },
+              }
+            },
+            new ButtonDefinition
+            {
+              Label = "Publishing Service",
+              Image = "/Images/$lg/install.png, SIM.Tool.Windows",
+              Handler = new InstallSPSButton(),
+              Buttons = new[]
+              {
+                new ButtonDefinition
+                {
+                  Label = "Install",
+                  Image = "/Images/$lg/install.png, SIM.Tool.Windows",
+                  Handler = new InstallSPSButton(),
+                },
+                new ButtonDefinition
+                {
+                  Label = "Uninstall",
+                  Image = "/Images/$lg/uninstall.png, SIM.Tool.Windows",
+                  Handler = new UninstallSPSButton(),
+                }
               }
             },
           }
