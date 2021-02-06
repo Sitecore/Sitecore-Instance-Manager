@@ -459,16 +459,16 @@ http://{Your Publishing Service Hostname}/api/publishing/operations/status
 
 A response with a status of 0 means your publishing service is running without any issues. "">
       <steps>
-        <step name=""STEP # 1 of 2 - SELECT PUBLISHING SERVICE PACKAGE""
+        <step name=""STEP 1 of 2 - SELECT PUBLISHING SERVICE PACKAGE""
               type=""SIM.Tool.Windows.UserControls.Install.PublishingService.SelectPublishingServicePackage, SIM.Tool.Windows"" />
-        <step name=""STEP # 2 of 2 - CONFIGURE REQUIRED PARAMETERS""
+        <step name=""STEP 2 of 2 - CONFIGURE REQUIRED PARAMETERS""
               type=""SIM.Tool.Windows.UserControls.Install.PublishingService.ConfigureParameters, SIM.Tool.Windows"" />
       </steps>
     </installpublishingservice>
     <uninstallpublishingservice title=""Uninstalling Publishing Service"" startButton=""Uninstall""
     finishText=""The publishing service was uninstalled"">
       <steps>
-        <step name=""STEP # 1 of 1 - SPECIFY WHICH PUBLISHING SERVICE TO UNINSTALL""
+        <step name=""STEP 1 of 1 - SPECIFY WHICH PUBLISHING SERVICE TO UNINSTALL""
               type=""SIM.Tool.Windows.UserControls.Install.PublishingService.SelectServiceToUninstall, SIM.Tool.Windows"" />
       </steps>
     </uninstallpublishingservice>
