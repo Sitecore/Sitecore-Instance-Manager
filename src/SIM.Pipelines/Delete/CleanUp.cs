@@ -30,6 +30,29 @@ namespace SIM.Pipelines.Delete
       {
         Directory.Delete(param.Value, true);
       }
+      else if (param != null)
+      {
+        this.DeleteDirectoryWithFiles(param.Value);
+      }
+
+    }
+
+    private void DeleteDirectoryWithFiles(string target)
+    {
+      string[] files = Directory.GetFiles(target);
+      string[] dirs = Directory.GetDirectories(target);
+
+      foreach (string file in files)
+      {
+        File.Delete(file);
+      }
+
+      foreach (string dir in dirs)
+      {
+        DeleteDirectoryWithFiles(dir);
+      }
+
+      Directory.Delete(target, false);
     }
   }
 }
