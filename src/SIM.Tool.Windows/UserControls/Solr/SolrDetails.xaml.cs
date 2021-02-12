@@ -71,7 +71,14 @@ namespace SIM.Tool.Windows.UserControls.Install
         tasker.GlobalParams.First(p => p.Name == "SolrInstallRoot").Value = this.solrFolderSelector.Text;
       }
 
-      tasker.GlobalParams.First(p => p.Name == "JavaHome").Value = Environment.GetEnvironmentVariable("JAVA_HOME");
+      string javaHomeVariable = Environment.GetEnvironmentVariable("JAVA_HOME");
+      if (string.IsNullOrEmpty(javaHomeVariable))
+      {
+        MessageBox.Show("Required JAVA_HOME system variable was not found.\nIt seems Java Runtime Environment (JRE) has not been installed.", "Warning");
+        return false;
+      }
+
+      tasker.GlobalParams.First(p => p.Name == "JavaHome").Value = javaHomeVariable;
       Install9WizardArgs args = (Install9WizardArgs)wizardArgs;
       args.Tasker = this.tasker;
       return true;
