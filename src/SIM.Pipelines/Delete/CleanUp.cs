@@ -26,33 +26,25 @@ namespace SIM.Pipelines.Delete
 
       Directory.Delete(arguments.Tasker.UnInstallParamsPath, true);
       InstallParam param = arguments.Tasker.GlobalParams.FirstOrDefault(p => p.Name == "DeployRoot");
-      if (param!=null&&!Directory.GetFileSystemEntries(param.Value).Any())
+      if (param!=null)
       {
-        Directory.Delete(param.Value, true);
+        RetryAction(() =>
+        {
+          if (Directory.Exists(param.Value))
+          {
+            Directory.Delete(param.Value, true);
+          }
+        }, 3, 10000);
+        
       }
-      else if (param != null)
-      {
-        this.DeleteDirectoryWithFiles(param.Value);
-      }
-
     }
-
-    private void DeleteDirectoryWithFiles(string target)
+    async void RetryAction(Action action, int retrisNumber, int delayMs)
     {
-      string[] files = Directory.GetFiles(target);
-      string[] dirs = Directory.GetDirectories(target);
-
-      foreach (string file in files)
+      for (int i = 0; i < retrisNumber; i++)
       {
-        File.Delete(file);
+        action();
+        await Task.Delay(delayMs);
       }
-
-      foreach (string dir in dirs)
-      {
-        DeleteDirectoryWithFiles(dir);
-      }
-
-      Directory.Delete(target, false);
     }
   }
 }
