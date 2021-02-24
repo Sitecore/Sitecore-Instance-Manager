@@ -77,6 +77,11 @@ namespace SIM.Tool.Windows.UserControls.Install
         MessageBox.Show("Required JAVA_HOME system variable was not found.\nIt seems Java Runtime Environment (JRE) has not been installed.", "Warning");
         return false;
       }
+      else if(!Directory.Exists(Path.Combine(javaHomeVariable, "bin")) || Directory.GetFiles(Path.Combine(javaHomeVariable, "bin"),"java.exe").Length==0)
+      {
+        MessageBox.Show($"Java Runtime Environment (JRE) was not found.\nMissing file: {Path.Combine(javaHomeVariable, "bin", "java.exe")}", "Warning");
+        return false;
+      }
 
       tasker.GlobalParams.First(p => p.Name == "JavaHome").Value = javaHomeVariable;
       Install9WizardArgs args = (Install9WizardArgs)wizardArgs;
