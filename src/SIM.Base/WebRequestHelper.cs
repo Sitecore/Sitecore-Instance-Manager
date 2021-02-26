@@ -16,6 +16,8 @@
     public const int Minute = 60 * Second;
     public const int Second = 1000;
 
+    public static string AuthToken;
+
     #endregion
 
     #region Public methods
@@ -219,6 +221,12 @@
       var webRequest = (HttpWebRequest)WebRequest.Create(url);
       webRequest.Timeout = timeout ?? Settings.CoreWebDownloadConnectionTimeout.Value;
       webRequest.ReadWriteTimeout = readWriteTimeout ?? Settings.CoreWebDownloadTimeoutMinutes.Value * Minute;
+
+      if (AuthToken != null)
+      {
+        webRequest.Headers.Add("Authorization", AuthToken);
+      }
+
       if (cookies != null)
       {
         webRequest.Headers.Add(HttpRequestHeader.Cookie, cookies);

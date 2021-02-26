@@ -52,7 +52,7 @@
         new
         {
           FileName = AgentFiles.InstallPackageFileName, 
-          Contents = AgentFiles.InstallPackageContents
+          Contents = instance.Type == Instance.InstanceType.Sitecore9AndLater ? AgentFiles.InstallPackageContentsForSitecore9AndLater : AgentFiles.InstallPackageContents
         }, 
         new
         {

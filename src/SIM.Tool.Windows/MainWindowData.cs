@@ -685,6 +685,12 @@ namespace SIM.Tool.Windows
               Image = "/Images/$lg/install.png, SIM.Tool.Windows",
               Handler = new InstallModulesButton()
             },
+            new ButtonDefinition
+            {
+              Label = "Install Packages",
+              Image = "/Images/$lg/install.png, SIM.Tool.Windows",
+              Handler = new InstallModulesForSitecore9AndLaterButton()
+            },
           }
         },
         GetManageGroupDefinition(),
@@ -1154,6 +1160,8 @@ namespace SIM.Tool.Windows
       new ButtonDefinition { Label = "Export", Image = "/Images/$sm/download.png, SIM.Tool.Windows", Handler = new ExportInstanceButton() },
       new ButtonDefinition { Handler = new InstallModulesButton() },
       new ButtonDefinition { Label = "Install modules", Image = "/Images/$sm/install.png, SIM.Tool.Windows", Handler = new InstallModulesButton() },
+      new ButtonDefinition { Handler = new InstallModulesButton() },
+      new ButtonDefinition { Label = "Install modules", Image = "/Images/$sm/install.png, SIM.Tool.Windows", Handler = new InstallModulesForSitecore9AndLaterButton() },
       new ButtonDefinition { Handler = new ReinstallInstanceButton() },
       new ButtonDefinition { Label = "Reinstall instance", Image = "/Images/$sm/redo.png, SIM.Tool.Windows", Handler = new ReinstallInstanceButton() },
       new ButtonDefinition { Handler = new DeleteInstanceButton() },
