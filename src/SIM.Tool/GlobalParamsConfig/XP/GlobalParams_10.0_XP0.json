@@ -70,7 +70,6 @@
     "TelerikEncryptionKey": "",
     "SqlMessagingUser": "",
 
-    //"CertificateName": "$GlobalParams.SqlDbPrefix+\"xconnect_client\"",
     "XConnectCert": "$GlobalParams.SqlDbPrefix+\"xconnect_client\"",
     "XConnectCollectionSearchService": "https://\"+$GlobalParams.SqlDbPrefix+\"XConnect.local",
     "XConnectCollectionService": "https://\"+$GlobalParams.SqlDbPrefix+\"XConnect.local",
