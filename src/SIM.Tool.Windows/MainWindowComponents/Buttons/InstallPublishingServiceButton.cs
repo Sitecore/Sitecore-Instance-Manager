@@ -32,12 +32,5 @@ namespace SIM.Tool.Windows.MainWindowComponents.Buttons
 
     #endregion
 
-    #region Private Methods
-
-
-
-    #endregion
-
-
   }
 }
