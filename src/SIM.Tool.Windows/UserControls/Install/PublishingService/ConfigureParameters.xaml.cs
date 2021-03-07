@@ -24,7 +24,7 @@ namespace SIM.Tool.Windows.UserControls.Install.PublishingService
       InstallSPSWizardArgs args = (InstallSPSWizardArgs)wizardArgs;
 
       InitConnectrionStringsListBox(args);
-      InitSiteName();
+      InitSiteName(args.InstanceName);
       InitPort();
     }
 
@@ -107,11 +107,11 @@ namespace SIM.Tool.Windows.UserControls.Install.PublishingService
       }
     }
 
-    private void InitSiteName()
+    private void InitSiteName(string instanceName)
     {
       if (string.IsNullOrEmpty(SiteNameTextBox.Text.Trim()))
       {
-        SiteNameTextBox.Text = "sitecore.publishing";
+        SiteNameTextBox.Text = $"{instanceName}.publishing";
       }
     }
 
