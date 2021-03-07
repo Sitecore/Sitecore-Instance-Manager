@@ -61,15 +61,8 @@ namespace SIM.Tool.Windows.UserControls.Install.PublishingService
 
       if (site == null && !args.SkipSPSSite)
       {
-        if (!args.SkipSPSSite)
-        {
           WindowHelper.ShowMessage($"The site {SiteNameTextBox.Text} was not found in IIS");
           return false;
-        }
-        else
-        {
-
-        }
       }
 
       if (appPool == null && !args.SkipSPSAppPool)
