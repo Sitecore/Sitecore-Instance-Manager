@@ -450,7 +450,7 @@ But the confirmation will be required if the databases are attached to:
         <hive type=""SIM.Tool.Windows.Pipelines.Install.InstallModulesFinishActionHive, SIM.Tool.Windows"" />
       </finish>
     </installmodules>
-    <installpublishingservice title=""Installing Publishing Service for the {InstanceName} instance"" startButton=""Install""
+    <installpublishingservice title=""Install Publishing Service for {InstanceName}"" startButton=""Install""
     finishText=""Publishing service installation completed.  Please login into Sitecore and install the Publishing Module via the wizard:
 Sitecore Launchpad > Control Panel > ADMINISTRATION > Install a package
 
@@ -465,7 +465,7 @@ A response with a status of 0 means your publishing service is running without a
               type=""SIM.Tool.Windows.UserControls.Install.PublishingService.ConfigureParameters, SIM.Tool.Windows"" />
       </steps>
     </installpublishingservice>
-    <uninstallpublishingservice title=""Uninstalling Publishing Service"" startButton=""Uninstall""
+    <uninstallpublishingservice title=""Uninstall {InstanceName}"" startButton=""Uninstall""
     finishText=""The publishing service was uninstalled"">
       <steps>
         <step name=""STEP 1 of 1 - CONFIRM UNINSTALL PARAMETERS""
