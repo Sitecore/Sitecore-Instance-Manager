@@ -61,8 +61,15 @@ namespace SIM.Tool.Windows.UserControls.Install.PublishingService
 
       if (site == null && !args.SkipSPSSite)
       {
-        WindowHelper.ShowMessage($"The site {SiteNameTextBox.Text} was not found in IIS");
-        return false;
+        if (!args.SkipSPSSite)
+        {
+          WindowHelper.ShowMessage($"The site {SiteNameTextBox.Text} was not found in IIS");
+          return false;
+        }
+        else
+        {
+
+        }
       }
 
       if (appPool == null && !args.SkipSPSAppPool)
@@ -77,8 +84,8 @@ namespace SIM.Tool.Windows.UserControls.Install.PublishingService
         return false;
       }
 
-      args.SPSSiteName = site.Name;
-      args.SPSAppPoolName = appPool.Name;
+      args.SPSSiteName = site?.Name ?? "";
+      args.SPSAppPoolName = appPool?.Name ?? "";
       args.SPSWebroot = webroot;
       return true;
     }

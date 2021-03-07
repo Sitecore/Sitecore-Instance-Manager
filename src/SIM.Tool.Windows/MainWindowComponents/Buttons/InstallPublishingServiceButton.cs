@@ -1,18 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.VisualBasic.Logging;
-using SIM.Tool.Base;
-
+﻿using System.Windows;
+using SIM.Instances;
+using SIM.Tool.Base.Plugins;
+using JetBrains.Annotations;
+using SIM.Tool.Base.Pipelines;
+using SIM.Tool.Base.Wizards;
 namespace SIM.Tool.Windows.MainWindowComponents.Buttons
 {
-  using System.Windows;
-  using SIM.Core.Common;
-  using SIM.Instances;
-  using SIM.Tool.Base.Plugins;
-  using JetBrains.Annotations;
-  using SIM.Tool.Base.Pipelines;
-  using SIM.Tool.Base.Wizards;
-
   [UsedImplicitly]
   public class InstallSPSButton : IMainWindowButton
   {

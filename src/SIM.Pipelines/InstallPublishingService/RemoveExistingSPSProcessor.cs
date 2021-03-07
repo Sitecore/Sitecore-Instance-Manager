@@ -1,15 +1,4 @@
-﻿using JetBrains.Annotations;
-using Microsoft.Web.Administration;
-using SIM.Adapters.WebServer;
-using SIM.Pipelines.UninstallPublishingService;
-using Sitecore.Diagnostics.Logging;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using SIM.Pipelines.UninstallPublishingService;
 
 namespace SIM.Pipelines.InstallPublishingService
 {

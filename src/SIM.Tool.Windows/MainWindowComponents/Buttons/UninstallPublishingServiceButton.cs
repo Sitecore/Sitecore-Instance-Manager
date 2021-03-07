@@ -1,13 +1,12 @@
-﻿namespace SIM.Tool.Windows.MainWindowComponents.Buttons
-{
-  using System.Windows;
-  using SIM.Core.Common;
-  using SIM.Instances;
-  using SIM.Tool.Base.Plugins;
-  using JetBrains.Annotations;
-  using SIM.Tool.Base.Pipelines;
-  using SIM.Tool.Base.Wizards;
+﻿using System.Windows;
+using SIM.Instances;
+using SIM.Tool.Base.Plugins;
+using JetBrains.Annotations;
+using SIM.Tool.Base.Pipelines;
+using SIM.Tool.Base.Wizards;
 
+namespace SIM.Tool.Windows.MainWindowComponents.Buttons
+{
   [UsedImplicitly]
   public class UninstallSPSButton : IMainWindowButton
   {
