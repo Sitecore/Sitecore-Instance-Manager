@@ -1170,9 +1170,6 @@ namespace SIM.Tool.Windows
       new ButtonDefinition { Label = "Reinstall instance", Image = "/Images/$sm/redo.png, SIM.Tool.Windows", Handler = new ReinstallInstanceButton() },
       new ButtonDefinition { Handler = new DeleteInstanceButton() },
       new ButtonDefinition { Label = "Delete", Image = "/Images/$sm/uninstall.png, SIM.Tool.Windows", Handler = new DeleteInstanceButton() },
-      new ButtonDefinition(),
-      new ButtonDefinition { Label = "Install Publishing Service", Image = "/Images/$sm/install.png, SIM.Tool.Windows", Handler = new InstallSPSButton() },
-      new ButtonDefinition { Label = "Uninstall Publishing Service", Image = "/Images/$sm/uninstall.png, SIM.Tool.Windows", Handler = new UninstallSPSButton() },
     };
 
     public static TabDefinition[] Tabs { get; } = {
