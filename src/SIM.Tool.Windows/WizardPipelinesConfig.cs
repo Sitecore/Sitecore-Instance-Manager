@@ -468,7 +468,7 @@ A response with a status of 0 means your publishing service is running without a
     <uninstallpublishingservice title=""Uninstalling Publishing Service"" startButton=""Uninstall""
     finishText=""The publishing service was uninstalled"">
       <steps>
-        <step name=""STEP 1 of 1 - SPECIFY WHICH PUBLISHING SERVICE TO UNINSTALL""
+        <step name=""STEP 1 of 1 - CONFIRM UNINSTALL PARAMETERS""
               type=""SIM.Tool.Windows.UserControls.Install.PublishingService.SelectServiceToUninstall, SIM.Tool.Windows"" />
       </steps>
     </uninstallpublishingservice>

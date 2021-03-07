@@ -23,7 +23,7 @@ namespace SIM.Pipelines.UninstallPublishingService
         catch (IOException ex)
         {
           //Unlikely user scenario, but it can occur when you create an instance, then immediately try to overwrite it without restarting SIM
-          throw new Exception($"SIM may be locking the {args.SPSWebroot} folder if it was just created.  Try restarting SIM and installing publishing service again", ex);
+          throw new Exception($"SIM may be locking the {args.SPSWebroot} folder if it was just created.  Try restarting SIM and running the operation again", ex);
         }
       }
     }

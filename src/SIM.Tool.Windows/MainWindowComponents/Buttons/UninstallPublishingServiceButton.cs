@@ -20,7 +20,7 @@
 
     public bool IsVisible(Window mainWindow, Instance instance)
     {
-      return true;
+      return instance != null && instance.Roles.Contains((Instance.InstanceRole.PublishingService));
     }
 
     public void OnClick(Window mainWindow, Instance instance)

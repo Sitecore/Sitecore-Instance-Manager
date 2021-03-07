@@ -23,18 +23,16 @@ namespace SIM.Tool.Windows.UserControls.Install.PublishingService
       UninstallSPSWizardArgs args = (UninstallSPSWizardArgs)wizardArgs;
       this.InstanceFolder = args.SPSInstanceFolder;
 
-      if (string.IsNullOrEmpty(SiteNameTextBox.Text))
+      
+
+      using (ServerManager sm = new ServerManager())
       {
-        SiteNameTextBox.Text = "sitecore.publishing";
+        Site spsSite = sm.Sites.FirstOrDefault(s => s.Name.Equals(args.InstanceName));
+        SiteNameTextBox.Text = spsSite?.Name ?? args.InstanceName;
+        AppPoolTextBox.Text = spsSite?.Applications.FirstOrDefault()?.ApplicationPoolName  ?? args.InstanceName;
+        WebrootTextBox.Text = args.Instance.WebRootPath;
       }
-      if (string.IsNullOrEmpty(AppPoolTextBox.Text))
-      {
-        AppPoolTextBox.Text = "sitecore.publishing";
-      }
-      if (string.IsNullOrEmpty(WebrootTextBox.Text))
-      {
-        WebrootTextBox.Text = Path.Combine(InstanceFolder, "sitecore.publishing");
-      }
+
       return;
     }
 

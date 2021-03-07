@@ -168,7 +168,7 @@
             }
           }
 
-          return false;
+          return FileSystem.FileSystem.Local.File.Exists(ProductHelper.GetPublishingHostPath(WebRootPath));
         }
         catch (Exception ex)
         {
@@ -504,15 +504,23 @@
         ICollection<InstanceRole> InstanceRoles = new List<InstanceRole>();
 
         //Find role by name
-        string instanceName = this.Name;
-        if (instanceName.Contains(".identityserver"))
+        string instanceName = this.Name.ToLower();
+        if (instanceName.Contains("identityserver"))
         {
           InstanceRoles.Add(InstanceRole.IdentityServer);
           return InstanceRoles;
         }
-        if (instanceName.Contains(".xconnect"))
+        if (instanceName.Contains("xconnect"))
         {
           InstanceRoles.Add(InstanceRole.XConnect);
+          return InstanceRoles;
+        }
+
+        //Check if sitecore publishing service
+        string spsRole = this.GetWebConfig().GetElementAttributeValue("/configuration/system.webServer/aspNetCore", "processPath").ToLower();
+        if (!spsRole.IsNullOrEmpty() && spsRole.Contains("sitecore.framework.publishing.host"))
+        {
+          InstanceRoles.Add(InstanceRole.PublishingService);
           return InstanceRoles;
         }
 
@@ -523,6 +531,8 @@
           InstanceRoles.Add((InstanceRole.Unknown));  //If 'role:define' is not present, this is likely a pre-version 9 solution, and we don't know the role
           return InstanceRoles;
         }
+
+        //Add any many roles that apply
         if (roleDefine.Contains("standalone"))
         {
           InstanceRoles.Add(InstanceRole.Standalone);
@@ -574,7 +584,8 @@
       Indexing,
       XConnect,
       IdentityServer,
-      Unknown
+      Unknown,
+      PublishingService
     }
 
     #endregion

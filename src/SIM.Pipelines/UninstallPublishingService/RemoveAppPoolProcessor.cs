@@ -22,7 +22,7 @@ namespace SIM.Pipelines.UninstallPublishingService
 
         if (!DeleteAppPool(sm, spsAppPool, args.MaxRetries, args.RetryInterval))
         {
-          throw new Exception($"Could not stop site with the name {args.SPSAppPoolName}.  Please remove it manually in IIS.");
+          throw new Exception($"Could not stop application pool with the name {args.SPSAppPoolName}.  Please remove it manually in IIS.");
         }
 
         sm.CommitChanges();

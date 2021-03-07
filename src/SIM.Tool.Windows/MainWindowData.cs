@@ -925,24 +925,15 @@ namespace SIM.Tool.Windows
             },
             new ButtonDefinition
             {
-              Label = "Publishing Service",
+              Label = "Install Publishing Service",
               Image = "/Images/$lg/install.png, SIM.Tool.Windows",
               Handler = new InstallSPSButton(),
-              Buttons = new[]
-              {
-                new ButtonDefinition
-                {
-                  Label = "Install",
-                  Image = "/Images/$lg/install.png, SIM.Tool.Windows",
-                  Handler = new InstallSPSButton(),
-                },
-                new ButtonDefinition
-                {
-                  Label = "Uninstall",
-                  Image = "/Images/$lg/uninstall.png, SIM.Tool.Windows",
-                  Handler = new UninstallSPSButton(),
-                }
-              }
+            },
+            new ButtonDefinition
+            {
+              Label = "Uninstall Publishing Service",
+              Image = "/Images/$lg/uninstall.png, SIM.Tool.Windows",
+              Handler = new UninstallSPSButton(),
             },
           }
         };
