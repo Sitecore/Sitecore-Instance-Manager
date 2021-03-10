@@ -83,6 +83,8 @@
     </step>
     <step>
       <processor type=""SIM.Pipelines.Delete.CleanUp, SIM.Pipelines"" title=""Clean Up"" />
+    </step>
+    <step>
       <processor type=""SIM.Pipelines.Delete.DeleteSitecoreEnvironmentData, SIM.Pipelines"" title=""Delete Sitecore environment data"" />
     </step>
   </delete9>
