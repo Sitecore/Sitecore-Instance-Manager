@@ -26,12 +26,11 @@ namespace SIM.Pipelines.Delete
         return;
       }
 
-      Directory.Delete(arguments.Tasker.UnInstallParamsPath, true);
       InstallParam param = arguments.Tasker.GlobalParams.FirstOrDefault(p => p.Name == "DeployRoot");
       if (param!=null)
       {
-        int retrisNumber = 3;
-        for (int i=0;i<= retrisNumber; i++)
+        int retriesNumber = 3;
+        for (int i=0;i<= retriesNumber; i++)
         {
           if (Directory.Exists(param.Value))
           {
@@ -45,7 +44,7 @@ namespace SIM.Pipelines.Delete
             }
             if (Directory.Exists(param.Value))
             {
-              if (retrisNumber==i)
+              if (retriesNumber == i)
               {
                 throw new Exception($"Can't remove directory: {param.Value}");
               }
@@ -58,6 +57,8 @@ namespace SIM.Pipelines.Delete
           }
         }
       }
+
+      Directory.Delete(arguments.Tasker.UnInstallParamsPath, true);
     }
   }
 }
