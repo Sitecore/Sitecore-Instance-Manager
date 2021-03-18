@@ -101,7 +101,7 @@
 
     #region Package installation
 
-    public static void InstallPackage([NotNull] Instance instance, [NotNull] Product module)
+    public static void InstallPackage([NotNull] Instance instance, [NotNull] Product module, [CanBeNull] string cookies = null, [CanBeNull] Dictionary<string, string> headers = null)
     {
       Assert.ArgumentNotNull(instance, nameof(instance));
       Assert.ArgumentNotNull(module, nameof(module));
@@ -113,10 +113,10 @@
 
       var statusUrl = GetUrl(instance, AgentFiles.StatusFileName);
 
-      ExecuteAgent(AgentFiles.StatusFileName, statusUrl, AgentFiles.InstallPackageFileName, installPackageUrl, PackageInstalling, PackageInstalled);
+      ExecuteAgent(AgentFiles.StatusFileName, statusUrl, AgentFiles.InstallPackageFileName, installPackageUrl, PackageInstalling, PackageInstalled, cookies: cookies, headers: headers);
     }
 
-    public static void PerformPostStepAction([NotNull] Instance instance, [NotNull] Product module)
+    public static void PerformPostStepAction([NotNull] Instance instance, [NotNull] Product module, [CanBeNull] string cookies = null, [CanBeNull] Dictionary<string, string> headers = null)
     {
       XmlDocument xmlDocument = module.Manifest;
       bool skipPostActions = module.SkipPostActions;
@@ -160,7 +160,7 @@
         {
           var value = custom.Aggregate(string.Empty, (current, pair) => current + ($";{pair[0]}-{pair[1]}"));
           var postInstallUrl = GetUrl(instance, AgentFiles.PostInstallActionsFileName, value.TrimStart(';'), "custom");
-          ExecuteAgent(AgentFiles.StatusFileName, statusUrl, AgentFiles.PostInstallActionsFileName, postInstallUrl, ActionsPerforming, ActionsPerformed);
+          ExecuteAgent(AgentFiles.StatusFileName, statusUrl, AgentFiles.PostInstallActionsFileName, postInstallUrl, ActionsPerforming, ActionsPerformed, cookies: cookies, headers: headers);
           return;
         }
       }
@@ -174,7 +174,7 @@
       var fileName = Path.GetFileName(module.PackagePath);
       Assert.IsNotNull(fileName, nameof(fileName));
       var url = GetUrl(instance, AgentFiles.PostInstallActionsFileName, fileName);
-      ExecuteAgent(AgentFiles.StatusFileName, statusUrl, AgentFiles.PostInstallActionsFileName, url, ActionsPerforming, ActionsPerformed);
+      ExecuteAgent(AgentFiles.StatusFileName, statusUrl, AgentFiles.PostInstallActionsFileName, url, ActionsPerforming, ActionsPerformed, cookies: cookies, headers: headers);
     }
 
     #endregion
@@ -190,7 +190,7 @@
     }
 
     [NotNull]
-    public static string Request([NotNull] string url, [NotNull] string pageName)
+    public static string Request([NotNull] string url, [NotNull] string pageName, [CanBeNull] string cookies = null, [CanBeNull] Dictionary<string, string> headers = null)
     {
       Assert.ArgumentNotNull(url, nameof(url));
       Assert.ArgumentNotNullOrEmpty(pageName, nameof(pageName));
@@ -200,7 +200,7 @@
       try
       {
         Log.Info($"Requesting URL {url}");
-        result = WebRequestHelper.DownloadString(url).Trim();
+        result = WebRequestHelper.DownloadString(url, cookies: cookies, headers: headers).Trim();
         if (result.ToLower().StartsWith("error:"))
         {
           throw new InvalidOperationException(errorPrefix + result);
@@ -222,10 +222,10 @@
 
     #region Private methods
 
-    private static void ExecuteAgent(string statusFileName, string statusUrl, string agentName, string operationUrl, string operationStartedStatus, string operationCompletedStatus)
+    private static void ExecuteAgent(string statusFileName, string statusUrl, string agentName, string operationUrl, string operationStartedStatus, string operationCompletedStatus, string cookies = null, Dictionary<string, string> headers = null)
     {
       // Call agent main operation
-      var status = Request(operationUrl, agentName);
+      var status = Request(operationUrl, agentName, cookies: cookies, headers: headers);
 
       // If the package installation process takes more than http timeout, retrive status
       if (status != operationCompletedStatus)
@@ -233,7 +233,7 @@
         // Retrive status while the previous request timed out, status is in progress or package is already being installed
         while (status == TimedOut || status == InProgress || status == operationStartedStatus)
         {
-          status = Request(statusUrl, statusFileName);
+          status = Request(statusUrl, statusFileName, cookies: cookies, headers: headers);
           Thread.Sleep(2000);
         }
 

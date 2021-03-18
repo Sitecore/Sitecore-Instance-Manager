@@ -9,22 +9,22 @@ namespace SIM.Tool.Windows.UserControls.Helpers
 {
   public static class SitecoreIdServerAuth
   {
-    public static async Task<string> GetToken(string idServerUri, string clientId, string clientSecret, string grantType, string username, string password)
+    public static async Task<string> GetToken(string idServerUri, string userName, string password)
     {
-      using (var client = new HttpClient())
+      using (HttpClient authClient = new HttpClient())
       {
-        client.BaseAddress = new Uri(idServerUri);
-        client.DefaultRequestHeaders.Accept.Clear();
-        client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+        authClient.BaseAddress = new Uri(idServerUri);
+        authClient.DefaultRequestHeaders.Accept.Clear();
+        authClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         var content = new FormUrlEncodedContent(new[]
         {
-          new KeyValuePair<string, string>("client_id", clientId),
-          new KeyValuePair<string, string>("client_secret", clientSecret),
-          new KeyValuePair<string, string>("grant_type", grantType),
-          new KeyValuePair<string, string>("username", username),
+          new KeyValuePair<string, string>("client_id", "SitecorePassword"),
+          new KeyValuePair<string, string>("client_secret", "SIF-Default"),
+          new KeyValuePair<string, string>("grant_type", "password"),
+          new KeyValuePair<string, string>("username", userName),
           new KeyValuePair<string, string>("password", password)
         });
-        var response = await client.PostAsync("connect/token", content);
+        var response = await authClient.PostAsync("connect/token", content);
         var result = JsonConvert.DeserializeObject<TokenResponse>(response.Content.ReadAsStringAsync().Result);
         return $"Bearer {result.access_token}";
       }

@@ -281,6 +281,7 @@
     <Compile Include="UserControls\Export\ExportWizardArgs.cs" />
     <Compile Include="UserControls\Export\FinishActions.cs" />
     <Compile Include="UserControls\Helpers\InstallTasksHelper.cs" />
+    <Compile Include="UserControls\Helpers\SitecoreServicesClientAuth.cs" />
     <Compile Include="UserControls\Helpers\SitecoreIdServerAuth.cs" />
     <Compile Include="UserControls\Import\ImportWebsite.xaml.cs">
       <DependentUpon>ImportWebsite.xaml</DependentUpon>

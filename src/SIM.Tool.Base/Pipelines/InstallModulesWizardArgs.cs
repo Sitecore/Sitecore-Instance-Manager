@@ -21,6 +21,10 @@
 
     private string _WebRootPath;
 
+    public string Cookies { get; }
+
+    public Dictionary<string, string> Headers { get; }
+
     #endregion
 
     #region Constructors
@@ -29,13 +33,16 @@
     { 
     }
 
-    public InstallModulesWizardArgs(Instance instance)
+    public InstallModulesWizardArgs(Instance instance, string cookies = null, Dictionary<string, string> headers = null)
     {
       Instance = instance;
       if (instance != null)
       {
         WebRootPath = instance.WebRootPath;
       }
+
+      Cookies = cookies;
+      Headers = headers;
     }
 
     #endregion
@@ -81,7 +88,7 @@
         products.Add(product);
       }
 
-      return new InstallModulesArgs(Instance, products, connectionString);
+      return new InstallModulesArgs(Instance, products, connectionString, Cookies, Headers);
     }
 
     #endregion

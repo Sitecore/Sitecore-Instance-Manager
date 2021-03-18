@@ -35,7 +35,7 @@ namespace SIM.Pipelines.InstallModules
           continue;
         }
 
-        AgentHelper.InstallPackage(args.Instance, module);
+        AgentHelper.InstallPackage(args.Instance, module, args.Cookies, args.Headers);
 
         _Done.Add(module);
       }

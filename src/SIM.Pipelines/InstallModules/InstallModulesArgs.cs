@@ -23,11 +23,15 @@
 
     private string instanceName { get; }
 
+    public string Cookies { get; }
+
+    public Dictionary<string, string> Headers { get; }
+
     #endregion
 
     #region Constructors
 
-    public InstallModulesArgs([NotNull] Instance instance, [NotNull] IEnumerable<Product> modules, [CanBeNull] SqlConnectionStringBuilder connectionString = null)
+    public InstallModulesArgs([NotNull] Instance instance, [NotNull] IEnumerable<Product> modules, [CanBeNull] SqlConnectionStringBuilder connectionString = null, [CanBeNull] string cookies = null, [CanBeNull] Dictionary<string, string> headers = null)
     {
       Assert.ArgumentNotNull(instance, nameof(instance));
       Assert.ArgumentNotNull(modules, nameof(modules));
@@ -36,6 +40,8 @@
       ConnectionString = connectionString;
       Instance = instance;
       instanceName = instance.Name;
+      Cookies = cookies;
+      Headers = headers;
     }
 
     #endregion

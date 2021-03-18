@@ -7,6 +7,7 @@
   using System.Threading;
   using Sitecore.Diagnostics.Base;
   using Sitecore.Diagnostics.Logging;
+  using System.Collections.Generic;
 
   public static class WebRequestHelper
   {
@@ -15,8 +16,6 @@
     public const int Hour = 60 * Minute;
     public const int Minute = 60 * Second;
     public const int Second = 1000;
-
-    public static string AuthToken;
 
     #endregion
 
@@ -132,9 +131,9 @@
       }
     }
 
-    public static string DownloadString(string url, int? timeout = null, int? readWriteTimeout = null)
+    public static string DownloadString(string url, int? timeout = null, int? readWriteTimeout = null, string cookies = null, Dictionary<string, string> headers = null)
     {
-      using (var response = RequestAndGetResponse(url, timeout, readWriteTimeout))
+      using (var response = RequestAndGetResponse(url, timeout, readWriteTimeout, cookies: cookies, headers: headers))
       {
         Assert.IsNotNull(response, "No response provided");
         var stream = response.GetResponseStream();
@@ -195,14 +194,14 @@
       return GetCookieValue(contentDisposition, "filename").Trim('"');
     }
 
-    public static HttpWebResponse RequestAndGetResponse(string url, int? timeout = null, int? readWriteTimeout = null, string cookies = null)
+    public static HttpWebResponse RequestAndGetResponse(string url, int? timeout = null, int? readWriteTimeout = null, string cookies = null, Dictionary<string, string> headers = null)
     {
-      return RequestAndGetResponse(new Uri(url), timeout, readWriteTimeout, cookies);
+      return RequestAndGetResponse(new Uri(url), timeout, readWriteTimeout, cookies, headers);
     }
 
-    public static HttpWebResponse RequestAndGetResponse(Uri uri, int? timeout = null, int? readWriteTimeout = null, string cookies = null)
+    public static HttpWebResponse RequestAndGetResponse(Uri uri, int? timeout = null, int? readWriteTimeout = null, string cookies = null, Dictionary<string, string> headers = null)
     {
-      var webRequest = CreateRequest(uri, timeout, readWriteTimeout, cookies);
+      var webRequest = CreateRequest(uri, timeout, readWriteTimeout, cookies, headers);
 
       return webRequest.GetResponse() as HttpWebResponse;
     }
@@ -216,20 +215,23 @@
       return CreateRequest(new Uri(url), timeout, readWriteTimeout, cookies);
     }
 
-    private static HttpWebRequest CreateRequest(Uri url, int? timeout = null, int? readWriteTimeout = null, string cookies = null)
+    private static HttpWebRequest CreateRequest(Uri url, int? timeout = null, int? readWriteTimeout = null, string cookies = null, Dictionary<string, string> headers = null)
     {
       var webRequest = (HttpWebRequest)WebRequest.Create(url);
       webRequest.Timeout = timeout ?? Settings.CoreWebDownloadConnectionTimeout.Value;
       webRequest.ReadWriteTimeout = readWriteTimeout ?? Settings.CoreWebDownloadTimeoutMinutes.Value * Minute;
 
-      if (AuthToken != null)
-      {
-        webRequest.Headers.Add("Authorization", AuthToken);
-      }
-
       if (cookies != null)
       {
         webRequest.Headers.Add(HttpRequestHeader.Cookie, cookies);
+      }
+
+      if (headers != null)
+      {
+        foreach (KeyValuePair<string, string> header in headers)
+        {
+          webRequest.Headers.Add(header.Key, header.Value);
+        }
       }
 
       return webRequest;
