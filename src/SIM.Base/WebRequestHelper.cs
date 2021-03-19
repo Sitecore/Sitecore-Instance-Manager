@@ -131,7 +131,7 @@
       }
     }
 
-    public static string DownloadString(string url, int? timeout = null, int? readWriteTimeout = null, string cookies = null, Dictionary<string, string> headers = null)
+    public static string DownloadString(string url, int? timeout = null, int? readWriteTimeout = null, string cookies = null, IDictionary<string, string> headers = null)
     {
       using (var response = RequestAndGetResponse(url, timeout, readWriteTimeout, cookies: cookies, headers: headers))
       {
@@ -194,12 +194,12 @@
       return GetCookieValue(contentDisposition, "filename").Trim('"');
     }
 
-    public static HttpWebResponse RequestAndGetResponse(string url, int? timeout = null, int? readWriteTimeout = null, string cookies = null, Dictionary<string, string> headers = null)
+    public static HttpWebResponse RequestAndGetResponse(string url, int? timeout = null, int? readWriteTimeout = null, string cookies = null, IDictionary<string, string> headers = null)
     {
       return RequestAndGetResponse(new Uri(url), timeout, readWriteTimeout, cookies, headers);
     }
 
-    public static HttpWebResponse RequestAndGetResponse(Uri uri, int? timeout = null, int? readWriteTimeout = null, string cookies = null, Dictionary<string, string> headers = null)
+    public static HttpWebResponse RequestAndGetResponse(Uri uri, int? timeout = null, int? readWriteTimeout = null, string cookies = null, IDictionary<string, string> headers = null)
     {
       var webRequest = CreateRequest(uri, timeout, readWriteTimeout, cookies, headers);
 
@@ -215,7 +215,7 @@
       return CreateRequest(new Uri(url), timeout, readWriteTimeout, cookies);
     }
 
-    private static HttpWebRequest CreateRequest(Uri url, int? timeout = null, int? readWriteTimeout = null, string cookies = null, Dictionary<string, string> headers = null)
+    private static HttpWebRequest CreateRequest(Uri url, int? timeout = null, int? readWriteTimeout = null, string cookies = null, IDictionary<string, string> headers = null)
     {
       var webRequest = (HttpWebRequest)WebRequest.Create(url);
       webRequest.Timeout = timeout ?? Settings.CoreWebDownloadConnectionTimeout.Value;

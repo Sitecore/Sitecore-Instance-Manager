@@ -23,7 +23,7 @@
 
     public string Cookies { get; }
 
-    public Dictionary<string, string> Headers { get; }
+    public IDictionary<string, string> Headers { get; }
 
     #endregion
 
@@ -33,7 +33,7 @@
     { 
     }
 
-    public InstallModulesWizardArgs(Instance instance, string cookies = null, Dictionary<string, string> headers = null)
+    public InstallModulesWizardArgs(Instance instance, string cookies = null, IDictionary<string, string> headers = null)
     {
       Instance = instance;
       if (instance != null)

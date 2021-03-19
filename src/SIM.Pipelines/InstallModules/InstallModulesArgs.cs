@@ -25,13 +25,13 @@
 
     public string Cookies { get; }
 
-    public Dictionary<string, string> Headers { get; }
+    public IDictionary<string, string> Headers { get; }
 
     #endregion
 
     #region Constructors
 
-    public InstallModulesArgs([NotNull] Instance instance, [NotNull] IEnumerable<Product> modules, [CanBeNull] SqlConnectionStringBuilder connectionString = null, [CanBeNull] string cookies = null, [CanBeNull] Dictionary<string, string> headers = null)
+    public InstallModulesArgs([NotNull] Instance instance, [NotNull] IEnumerable<Product> modules, [CanBeNull] SqlConnectionStringBuilder connectionString = null, [CanBeNull] string cookies = null, [CanBeNull] IDictionary<string, string> headers = null)
     {
       Assert.ArgumentNotNull(instance, nameof(instance));
       Assert.ArgumentNotNull(modules, nameof(modules));

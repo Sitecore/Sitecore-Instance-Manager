@@ -101,7 +101,7 @@
 
     #region Package installation
 
-    public static void InstallPackage([NotNull] Instance instance, [NotNull] Product module, [CanBeNull] string cookies = null, [CanBeNull] Dictionary<string, string> headers = null)
+    public static void InstallPackage([NotNull] Instance instance, [NotNull] Product module, [CanBeNull] string cookies = null, [CanBeNull] IDictionary<string, string> headers = null)
     {
       Assert.ArgumentNotNull(instance, nameof(instance));
       Assert.ArgumentNotNull(module, nameof(module));
@@ -116,7 +116,7 @@
       ExecuteAgent(AgentFiles.StatusFileName, statusUrl, AgentFiles.InstallPackageFileName, installPackageUrl, PackageInstalling, PackageInstalled, cookies: cookies, headers: headers);
     }
 
-    public static void PerformPostStepAction([NotNull] Instance instance, [NotNull] Product module, [CanBeNull] string cookies = null, [CanBeNull] Dictionary<string, string> headers = null)
+    public static void PerformPostStepAction([NotNull] Instance instance, [NotNull] Product module, [CanBeNull] string cookies = null, [CanBeNull] IDictionary<string, string> headers = null)
     {
       XmlDocument xmlDocument = module.Manifest;
       bool skipPostActions = module.SkipPostActions;
@@ -190,7 +190,7 @@
     }
 
     [NotNull]
-    public static string Request([NotNull] string url, [NotNull] string pageName, [CanBeNull] string cookies = null, [CanBeNull] Dictionary<string, string> headers = null)
+    public static string Request([NotNull] string url, [NotNull] string pageName, [CanBeNull] string cookies = null, [CanBeNull] IDictionary<string, string> headers = null)
     {
       Assert.ArgumentNotNull(url, nameof(url));
       Assert.ArgumentNotNullOrEmpty(pageName, nameof(pageName));
@@ -222,7 +222,7 @@
 
     #region Private methods
 
-    private static void ExecuteAgent(string statusFileName, string statusUrl, string agentName, string operationUrl, string operationStartedStatus, string operationCompletedStatus, string cookies = null, Dictionary<string, string> headers = null)
+    private static void ExecuteAgent(string statusFileName, string statusUrl, string agentName, string operationUrl, string operationStartedStatus, string operationCompletedStatus, string cookies = null, IDictionary<string, string> headers = null)
     {
       // Call agent main operation
       var status = Request(operationUrl, agentName, cookies: cookies, headers: headers);
