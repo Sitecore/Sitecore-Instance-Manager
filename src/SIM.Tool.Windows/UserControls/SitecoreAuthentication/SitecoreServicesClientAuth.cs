@@ -6,7 +6,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
-namespace SIM.Tool.Windows.UserControls.Helpers
+namespace SIM.Tool.Windows.UserControls.SitecoreAuthentication
 {
   public static class SitecoreServicesClientAuth
   {

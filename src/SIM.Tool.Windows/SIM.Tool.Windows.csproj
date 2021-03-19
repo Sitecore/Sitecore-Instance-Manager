@@ -127,6 +127,10 @@
     <Compile Include="Dialogs\AddSolrDialog.xaml.cs">
       <DependentUpon>AddSolrDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Dialogs\CredentialsContext.cs" />
+    <Compile Include="Dialogs\CredentialsDialog.xaml.cs">
+      <DependentUpon>CredentialsDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Dialogs\DatabaseQueryExecutionDialog.xaml.cs">
       <DependentUpon>DatabaseQueryExecutionDialog.xaml</DependentUpon>
     </Compile>
@@ -281,8 +285,8 @@
     <Compile Include="UserControls\Export\ExportWizardArgs.cs" />
     <Compile Include="UserControls\Export\FinishActions.cs" />
     <Compile Include="UserControls\Helpers\InstallTasksHelper.cs" />
-    <Compile Include="UserControls\Helpers\SitecoreServicesClientAuth.cs" />
-    <Compile Include="UserControls\Helpers\SitecoreIdServerAuth.cs" />
+    <Compile Include="UserControls\SitecoreAuthentication\SitecoreServicesClientAuth.cs" />
+    <Compile Include="UserControls\SitecoreAuthentication\SitecoreIdServerAuth.cs" />
     <Compile Include="UserControls\Import\ImportWebsite.xaml.cs">
       <DependentUpon>ImportWebsite.xaml</DependentUpon>
     </Compile>
@@ -625,6 +629,10 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="Dialogs\AddSolrDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dialogs\CredentialsDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -5,7 +5,7 @@ using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
-namespace SIM.Tool.Windows.UserControls.Helpers
+namespace SIM.Tool.Windows.UserControls.SitecoreAuthentication
 {
   public static class SitecoreIdServerAuth
   {
@@ -26,6 +26,10 @@ namespace SIM.Tool.Windows.UserControls.Helpers
         });
         var response = await authClient.PostAsync("connect/token", content);
         var result = JsonConvert.DeserializeObject<TokenResponse>(response.Content.ReadAsStringAsync().Result);
+        if (string.IsNullOrEmpty(result.access_token))
+        {
+          return null;
+        }
         return $"Bearer {result.access_token}";
       }
     }
