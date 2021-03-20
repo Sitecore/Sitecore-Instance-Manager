@@ -29,6 +29,8 @@
 
     private Product _Product;
 
+    private ICollection<InstanceRole> _instanceRoles;
+
     #endregion
 
     #region Constructors
@@ -501,66 +503,86 @@
     {
       get
       {
-        ICollection<InstanceRole> InstanceRoles = new List<InstanceRole>();
-
-        //Find role by name
-        string instanceName = this.Name.ToLower();
-        if (instanceName.Contains("identityserver"))
+        if (_instanceRoles != null)
         {
-          InstanceRoles.Add(InstanceRole.IdentityServer);
-          return InstanceRoles;
+          return _instanceRoles;
         }
-        if (instanceName.Contains("xconnect"))
+
+        _instanceRoles = new List<InstanceRole>();
+
+        //Check if sitecore identity server
+        if (this.GetWebConfig().ElementAttributeContains("/configuration/system.webServer/aspNetCore", "arguments", "sitecore.identityServer.host"))
         {
-          InstanceRoles.Add(InstanceRole.XConnect);
-          return InstanceRoles;
+          _instanceRoles.Add(InstanceRole.IdentityServer);
+          return _instanceRoles;
+        }
+
+        //Check if xconnect
+        string instanceName = this.Name.ToLower();
+        if (instanceName.Contains(".xconnect"))
+        {
+          _instanceRoles.Add(InstanceRole.XConnect);
+          return _instanceRoles;
         }
 
         //Check if sitecore publishing service
-        string spsRole = this.GetWebConfig().GetElementAttributeValue("/configuration/system.webServer/aspNetCore", "processPath").ToLower();
-        if (!spsRole.IsNullOrEmpty() && spsRole.Contains("sitecore.framework.publishing.host"))
+        if (this.GetWebConfig().ElementAttributeContains("/configuration/system.webServer/aspNetCore", "processPath", "sitecore.framework.publishing.host"))
         {
-          InstanceRoles.Add(InstanceRole.PublishingService);
-          return InstanceRoles;
+          _instanceRoles.Add(InstanceRole.PublishingService);
+          return _instanceRoles;
         }
 
         //Find role by 'role:define' key in web.config
         string roleDefine = this.GetWebConfig().GetElementAttributeValue("/configuration/appSettings/add[@key='role:define']", "value").ToLower();
         if (string.IsNullOrEmpty(roleDefine))
         {
-          InstanceRoles.Add((InstanceRole.Unknown));  //If 'role:define' is not present, this is likely a pre-version 9 solution, and we don't know the role
-          return InstanceRoles;
+          _instanceRoles.Add((InstanceRole.Unknown));  //If 'role:define' is not present, this is likely a pre-version 9 solution, and we don't know the role
+          return _instanceRoles;
         }
 
-        //Add any many roles that apply
+        //Add any and all roles that apply
+        foreach (InstanceRole role in Enum.GetValues(typeof(InstanceRole)).Cast<InstanceRole>())
+        {
+          if (roleDefine.Contains(role.ToString().ToLower()))
+          {
+            _instanceRoles.Add(role);
+          }
+        }
+
+        /*
         if (roleDefine.Contains("standalone"))
         {
-          InstanceRoles.Add(InstanceRole.Standalone);
+          _instanceRoles.Add(InstanceRole.Standalone);
         }
         if (roleDefine.Contains("contentmanagement"))
         {
-          InstanceRoles.Add(InstanceRole.ContentManagement);
+          _instanceRoles.Add(InstanceRole.ContentManagement);
         }
         if (roleDefine.Contains("contentdelivery"))
         {
-          InstanceRoles.Add(InstanceRole.ContentDelivery);
+          _instanceRoles.Add(InstanceRole.ContentDelivery);
         }
         if (roleDefine.Contains("reporting"))
         {
-          InstanceRoles.Add(InstanceRole.Reporting);
+          _instanceRoles.Add(InstanceRole.Reporting);
         }
         if (roleDefine.Contains("processing"))
         {
-          InstanceRoles.Add(InstanceRole.Processing);
+          _instanceRoles.Add(InstanceRole.Processing);
         }
         if (roleDefine.Contains("indexing"))
         {
-          InstanceRoles.Add(InstanceRole.Indexing);
+          _instanceRoles.Add(InstanceRole.Indexing);
         }
-
-        return InstanceRoles;
+        if (roleDefine.Contains("dedicateddispatch"))
+        {
+          _instanceRoles.Add(InstanceRole.DedicatedDispatch);
+        }
+        */
+        return _instanceRoles;
       }
     }
+
     public bool IsContentManagementInstance =>  this.Roles.Contains(InstanceRole.Standalone) || 
                                                 this.Roles.Contains(InstanceRole.ContentManagement) ||
                                                 this.Roles.Contains(InstanceRole.Unknown);
@@ -582,10 +604,11 @@
       Reporting,
       Processing,
       Indexing,
+      DedicatedDispatch,
       XConnect,
       IdentityServer,
-      Unknown,
-      PublishingService
+      PublishingService,
+      Unknown
     }
 
     #endregion

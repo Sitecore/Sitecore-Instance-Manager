@@ -212,6 +212,12 @@
       element.InnerText = value;
     }
 
+    public bool ElementAttributeContains(string xpath, string attributeName, string substring)
+    {
+      string value = this.GetElementAttributeValue(xpath, attributeName).ToLower();
+      return !string.IsNullOrEmpty(value) && value.Contains(substring.ToLower());
+    }
+
     #endregion
 
     #region Private methods
