@@ -19,7 +19,7 @@
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="65"/>
+                    <ColumnDefinition Width="30"/>
                     <ColumnDefinition Width="50"/>
                 </Grid.ColumnDefinitions>
                 <TextBox Grid.Column="0" x:Name="SiteNameTextBox"></TextBox>
