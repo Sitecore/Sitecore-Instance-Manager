@@ -20,18 +20,18 @@
             <ComboBox x:Name="SPSPackageComboBox"></ComboBox>
         </GroupBox>
         <TextBlock Grid.Row="1" Grid.Column="1" TextWrapping="Wrap">
-            You can
+            Get 
             <Hyperlink x:Name="DownloadSPSLink" RequestNavigate="Hyperlink_RequestNavigate">
-                get publishing service packages here.
+                publishing service packages
             </Hyperlink>
-            Then place them into 
+            and put them in 
             <Hyperlink x:Name="OpenLocalRepoLink" RequestNavigate="Hyperlink_RequestNavigate">
                 SIM's local repository 
             </Hyperlink>
             to populate the dropdown.
         </TextBlock>
         <TextBlock Grid.Row="2" Grid.Column="1" TextWrapping="Wrap">
-            Please check the compatibility tables to ensure your selected version is compatible with your instance:<LineBreak/>
+            Sitecore publishing service compatibility tables:<LineBreak/>
             <Hyperlink x:Name="KBForSPSCompatibilityPriorTo410" RequestNavigate="Hyperlink_RequestNavigate">
                 Sitecore Publishing Service – compatibility tables (for SPS prior to 4.1.0)
             </Hyperlink><LineBreak/>

@@ -9,7 +9,9 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows.Controls;
 using System.Windows.Navigation;
+using Microsoft.VisualBasic.Logging;
 using SIM.Tool.Base;
+using Log = Sitecore.Diagnostics.Logging.Log;
 
 namespace SIM.Tool.Windows.UserControls.Install.PublishingService
 {
@@ -94,23 +96,49 @@ namespace SIM.Tool.Windows.UserControls.Install.PublishingService
 
     private bool IsCompatible(string spsPackageName, int cmsVersionInt)
     {
-      Regex versionPattern = new Regex("\\d+\\.\\d+\\.\\d+");
-      int spsPackageVersionInt = int.Parse(versionPattern.Match(spsPackageName).Value.Replace(".", ""));
-
-      //sps version 410 and above
-      if (spsPackageVersionInt >= 410)
+      try
       {
-        /*
-         * If cmsVersionInt is negative, it means there was an error getting the version, and we should not restrict options.
-         * This can happen if a new version of Sitecore is released and SIM cannot parse its version number yet.
-         * Since we are assuming this is a new version of Sitecore, it is still safe to allow compatibility for SPS version 4.1.0 and above
-         */
-        return cmsVersionInt >= 910 || cmsVersionInt < 0;
-      }
+        int spsPackageVersionInt = -1;
 
-      //sps version 400 and below
-      return (from pair in LegacySPSCompatibilityTable where spsPackageVersionInt == pair.Key //Get the array of compatible cms versions for the given sps version
-        select pair.Value.Any(i => i == cmsVersionInt)).FirstOrDefault();                 //Check if the selected instance's version is in this array
+        //Check for special cases in naming convention
+        if (spsPackageName.StartsWith("Sitecore Publishing Service 312"))
+        {
+          spsPackageVersionInt = 312;
+        }
+        else
+        {
+          Regex versionPattern = new Regex("\\d+\\.\\d+\\.\\d+");
+          spsPackageVersionInt = int.Parse(versionPattern.Match(spsPackageName).Value.Replace(".", ""));
+        }
+
+        //sps version 410 and above
+        if (spsPackageVersionInt >= 410)
+        {
+          /*
+           * If cmsVersionInt is negative, it means there was an error getting the version, and we should not restrict options.
+           * This can happen if a new version of Sitecore is released and SIM cannot parse its version number yet.
+           * Since we are assuming this is a new version of Sitecore, it is still safe to allow compatibility for SPS version 4.1.0 and above
+           */
+          return cmsVersionInt >= 910 || cmsVersionInt < 0;
+        }
+
+        //sps version 400 and below
+        return (from pair in LegacySPSCompatibilityTable
+            where spsPackageVersionInt == pair.Key //Get the array of compatible cms versions for the given sps version
+            select pair.Value.Any(i => i == cmsVersionInt))
+          .FirstOrDefault(); //Check if the selected instance's version is in this array
+      }
+      catch (Exception ex)
+      {
+        string message = $"Something went wrong while trying to resolve compatible SPS versions.\nThe package '{spsPackageName}' may not be valid.\n" +
+          $"As a result all options are shown.  Consult the compatibility tables to ensure your SPS and Sitecore version are compatible.";
+
+        WindowHelper.ShowMessage(message);
+        Log.Error($"{message}\n{ex}");
+        
+        return true;  //If we can't determine compatibility, let's not restrict anything
+      }
+      
     }
 
     private static Dictionary<int, int[]> LegacySPSCompatibilityTable
