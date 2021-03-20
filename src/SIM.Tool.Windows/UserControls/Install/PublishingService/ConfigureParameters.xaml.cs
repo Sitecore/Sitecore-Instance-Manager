@@ -26,7 +26,7 @@ namespace SIM.Tool.Windows.UserControls.Install.PublishingService
       InstallSPSWizardArgs args = (InstallSPSWizardArgs)wizardArgs;
 
       InitConnectrionStringsListBox(args);
-      InitSiteName(args.InstanceName);
+      InitSiteName(args.InstanceName, args.SPSVersionInt);
       InitPort();
     }
 
@@ -123,11 +123,13 @@ namespace SIM.Tool.Windows.UserControls.Install.PublishingService
       }
     }
 
-    private void InitSiteName(string instanceName)
+    private void InitSiteName(string instanceName, int spsVersion)
     {
       if (string.IsNullOrEmpty(SiteNameTextBox.Text.Trim()))
       {
-        SiteNameTextBox.Text = $"{instanceName}.publishing";
+        string prefix = instanceName.Contains(".") ? instanceName.Substring(0, instanceName.IndexOf(".")) : instanceName;
+        string version = spsVersion > 0 ? spsVersion.ToString() : "";
+        SiteNameTextBox.Text = $"{prefix}.sps{version}";
       }
     }
 

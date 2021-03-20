@@ -68,6 +68,8 @@ namespace SIM.Tool.Windows.UserControls.Install.PublishingService
         return false;
       }
 
+      args.SPSVersionInt = GetSPSVersionInt(args.SPSPackage);
+
       return true;
     }
 
@@ -94,11 +96,12 @@ namespace SIM.Tool.Windows.UserControls.Install.PublishingService
       return;
     }
 
-    private bool IsCompatible(string spsPackageName, int cmsVersionInt)
+    private int GetSPSVersionInt(string spsPackageName)
     {
+      int spsPackageVersionInt = -1;
+
       try
       {
-        int spsPackageVersionInt = -1;
 
         //Check for special cases in naming convention
         if (spsPackageName.StartsWith("Sitecore Publishing Service 312"))
@@ -110,6 +113,20 @@ namespace SIM.Tool.Windows.UserControls.Install.PublishingService
           Regex versionPattern = new Regex("\\d+\\.\\d+\\.\\d+");
           spsPackageVersionInt = int.Parse(versionPattern.Match(spsPackageName).Value.Replace(".", ""));
         }
+      }
+      catch (Exception ex)
+      {
+        Log.Error(ex, $"The version of the package '{spsPackageName}' could not be resolved");
+      }
+
+      return spsPackageVersionInt;
+    }
+
+    private bool IsCompatible(string spsPackageName, int cmsVersionInt)
+    {
+      try
+      {
+        int spsPackageVersionInt = GetSPSVersionInt(spsPackageName);
 
         //sps version 410 and above
         if (spsPackageVersionInt >= 410)
@@ -130,8 +147,7 @@ namespace SIM.Tool.Windows.UserControls.Install.PublishingService
       }
       catch (Exception ex)
       {
-        string message = $"Something went wrong while trying to resolve compatible SPS versions.\nThe package '{spsPackageName}' may not be valid.\n" +
-          $"As a result all options are shown.  Consult the compatibility tables to ensure your SPS and Sitecore version are compatible.";
+        string message = "Something went wrong while trying to resolve compatible SPS versions.\nAs a result all options are shown.  Consult the compatibility tables to ensure your SPS and Sitecore version are compatible.";
 
         WindowHelper.ShowMessage(message);
         Log.Error($"{message}\n{ex}");

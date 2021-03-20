@@ -43,6 +43,8 @@ namespace SIM.Tool.Base.Pipelines
       get { return Path.GetFileNameWithoutExtension(_spsPackagePath); }
       set { _spsPackagePath = value; }
     }
+
+    public int SPSVersionInt { get; set; }
     public string SPSName { get; set; }
     public int SPSPort { get; set; }
     public Dictionary<string, SqlConnectionStringBuilder> SPSConnectionStrings { get; set; } = new Dictionary<string, SqlConnectionStringBuilder>();
