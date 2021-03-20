@@ -1,4 +1,5 @@
-﻿using SIM.Adapters.WebServer;
+﻿using System.Collections.Generic;
+using SIM.Adapters.WebServer;
 using SIM.Tool.Base;
 using SIM.Tool.Base.Pipelines;
 using SIM.Tool.Base.Wizards;
@@ -92,7 +93,7 @@ namespace SIM.Tool.Windows.UserControls.Install.PublishingService
     {
       if (ConnectionStringsListBox.Items.Count < 1)
       {
-        foreach (var connString in args.InstanceConnectionStrings)
+        foreach (var connString in GetSPSConnectionStringCandidates(args.InstanceConnectionStrings))
         {
           switch (connString.Name.ToLower().Trim())
           {
@@ -123,6 +124,24 @@ namespace SIM.Tool.Windows.UserControls.Install.PublishingService
       }
     }
 
+    private IEnumerable<ConnectionString> GetSPSConnectionStringCandidates(ConnectionStringCollection connectionStrings)
+    {
+      return connectionStrings.Where(cs => cs.IsSqlConnectionString && IsAllowedConnectionStringName(cs.Name));
+    }
+
+    private bool IsAllowedConnectionStringName(string name)
+    {
+      string[] disallowedPrefixes = new string[] { "xdb.", "exm.", "security", "messaging", "reporting", "experienceforms" };
+      foreach (string prefix in disallowedPrefixes)
+      {
+        if (name.StartsWith(prefix))
+        {
+          return false;
+        }
+      }
+
+      return true;
+    }
     #endregion
   }
 }

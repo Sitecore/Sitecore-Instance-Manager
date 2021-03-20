@@ -9,9 +9,9 @@ namespace SIM.Pipelines.InstallPublishingService
     private const string SCHEMA_RESET = "schema reset --force";
     private const string IIS_INSTALL = "iis install --sitename \"{0}\" --apppool \"{1}\" --port \"{2}\" --hosts --force";
 
-    public static void SetConnectionString(string connectionStringName, string connectrionStringValue)
+    public static void SetConnectionString(string connectionStringName, string connectionStringValue)
     {
-      ExecuteCommand(SET_CONNECTION_STRING, connectionStringName, connectrionStringValue);
+      ExecuteCommand(SET_CONNECTION_STRING, connectionStringName, connectionStringValue);
     }
 
     public static void SchemaUpgrade()

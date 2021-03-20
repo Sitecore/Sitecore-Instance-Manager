@@ -1,4 +1,6 @@
-﻿namespace SIM.Tool.Base.Pipelines
+﻿using System.Linq;
+
+namespace SIM.Tool.Base.Pipelines
 {
   using System.Collections.Generic;
   using System.Data.SqlClient;
