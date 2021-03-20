@@ -9,7 +9,6 @@ namespace SIM.Pipelines.InstallPublishingService
     //Using the admin credentials for connection strings is necessary to upgrade and reset the database schema
     protected override void ProcessCore(InstallSPSProcessorArgs args)
     {
-      Directory.SetCurrentDirectory(args.SPSWebroot);
       foreach (KeyValuePair<string, SqlConnectionStringBuilder> connString in args.SPSConnectionStrings)
       {
         string AdminConnString = new SqlConnectionStringBuilder(connString.Value.ToString())

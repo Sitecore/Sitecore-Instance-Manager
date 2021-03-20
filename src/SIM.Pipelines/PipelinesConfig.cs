@@ -267,7 +267,7 @@
     </processor>
   </import>
   <installpublishingservice title=""Installing Publishing Service"">
-    <processor type=""SIM.Pipelines.InstallPublishingService.UnzipSPSPackageProcessor, SIM.Pipelines"" 
+    <processor type=""SIM.Pipelines.InstallPublishingService.PrepareInstallationProcessor, SIM.Pipelines"" 
                 title=""Unzipping package"" />
     <processor type=""SIM.Pipelines.InstallPublishingService.SetAdminConnectionStringsProcessor, SIM.Pipelines"" 
                 title=""Setting admin connection strings"" />

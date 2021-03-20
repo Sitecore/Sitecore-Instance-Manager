@@ -8,7 +8,6 @@ namespace SIM.Pipelines.InstallPublishingService
   {
     protected override void ProcessCore(InstallSPSProcessorArgs args)
     {
-      Directory.SetCurrentDirectory(args.SPSWebroot);
       foreach (KeyValuePair<string, SqlConnectionStringBuilder> connString in args.SPSConnectionStrings)
       {
         Commands.SetConnectionString(connString.Key, connString.Value.ToString());

@@ -114,7 +114,7 @@
     <Compile Include="InstallPublishingService\Commands.cs" />
     <Compile Include="InstallPublishingService\SetActualConnectionStringsProcessor.cs" />
     <Compile Include="InstallPublishingService\SetAdminConnectionStringsProcessor.cs" />
-    <Compile Include="InstallPublishingService\UnzipSPSPackageProcessor.cs" />
+    <Compile Include="InstallPublishingService\PrepareInstallationProcessor.cs" />
     <Compile Include="InstallPublishingService\ResetDatabaseSchemaProcessor.cs" />
     <Compile Include="InstallPublishingService\UpgradeDatabaseSchemaProcessor.cs" />
     <Compile Include="InstallPublishingService\VerifyInstallationProcessor.cs" />
