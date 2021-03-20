@@ -510,75 +510,56 @@
 
         _instanceRoles = new List<InstanceRole>();
 
-        //Check if sitecore identity server
-        if (this.GetWebConfig().ElementAttributeContains("/configuration/system.webServer/aspNetCore", "arguments", "sitecore.identityServer.host"))
+        try
         {
-          _instanceRoles.Add(InstanceRole.IdentityServer);
-          return _instanceRoles;
-        }
-
-        //Check if xconnect
-        string instanceName = this.Name.ToLower();
-        if (instanceName.Contains(".xconnect"))
-        {
-          _instanceRoles.Add(InstanceRole.XConnect);
-          return _instanceRoles;
-        }
-
-        //Check if sitecore publishing service
-        if (this.GetWebConfig().ElementAttributeContains("/configuration/system.webServer/aspNetCore", "processPath", "sitecore.framework.publishing.host"))
-        {
-          _instanceRoles.Add(InstanceRole.PublishingService);
-          return _instanceRoles;
-        }
-
-        //Find role by 'role:define' key in web.config
-        string roleDefine = this.GetWebConfig().GetElementAttributeValue("/configuration/appSettings/add[@key='role:define']", "value").ToLower();
-        if (string.IsNullOrEmpty(roleDefine))
-        {
-          _instanceRoles.Add((InstanceRole.Unknown));  //If 'role:define' is not present, this is likely a pre-version 9 solution, and we don't know the role
-          return _instanceRoles;
-        }
-
-        //Add any and all roles that apply
-        foreach (InstanceRole role in Enum.GetValues(typeof(InstanceRole)).Cast<InstanceRole>())
-        {
-          if (roleDefine.Contains(role.ToString().ToLower()))
+          //Check if sitecore identity server
+          if (this.GetWebConfig().ElementAttributeContains("/configuration/system.webServer/aspNetCore", "arguments",
+            "sitecore.identityServer.host"))
           {
-            _instanceRoles.Add(role);
+            _instanceRoles.Add(InstanceRole.IdentityServer);
+            return _instanceRoles;
+          }
+
+          //Check if xconnect
+          string instanceName = this.Name.ToLower();
+          if (instanceName.Contains(".xconnect"))
+          {
+            _instanceRoles.Add(InstanceRole.XConnect);
+            return _instanceRoles;
+          }
+
+          //Check if sitecore publishing service
+          if (this.GetWebConfig().ElementAttributeContains("/configuration/system.webServer/aspNetCore", "processPath",
+            "sitecore.framework.publishing.host"))
+          {
+            _instanceRoles.Add(InstanceRole.PublishingService);
+            return _instanceRoles;
+          }
+
+          //Find role by 'role:define' key in web.config
+          string roleDefine = this.GetWebConfig()
+            .GetElementAttributeValue("/configuration/appSettings/add[@key='role:define']", "value").ToLower();
+          if (string.IsNullOrEmpty(roleDefine))
+          {
+            _instanceRoles.Add((InstanceRole
+              .Unknown)); //If 'role:define' is not present, this is likely a pre-version 9 solution, and we don't know the role
+            return _instanceRoles;
+          }
+
+          //Add any and all roles that are found in the role:define key
+          foreach (InstanceRole role in Enum.GetValues(typeof(InstanceRole)).Cast<InstanceRole>())
+          {
+            if (roleDefine.Contains(role.ToString().ToLower()))
+            {
+              _instanceRoles.Add(role);
+            }
           }
         }
-
-        /*
-        if (roleDefine.Contains("standalone"))
+        catch (Exception ex)
         {
-          _instanceRoles.Add(InstanceRole.Standalone);
+          _instanceRoles.Add(InstanceRole.Unknown);
+          Log.Error(ex, "Instance role could not be resolved and was set to 'Unknown'");
         }
-        if (roleDefine.Contains("contentmanagement"))
-        {
-          _instanceRoles.Add(InstanceRole.ContentManagement);
-        }
-        if (roleDefine.Contains("contentdelivery"))
-        {
-          _instanceRoles.Add(InstanceRole.ContentDelivery);
-        }
-        if (roleDefine.Contains("reporting"))
-        {
-          _instanceRoles.Add(InstanceRole.Reporting);
-        }
-        if (roleDefine.Contains("processing"))
-        {
-          _instanceRoles.Add(InstanceRole.Processing);
-        }
-        if (roleDefine.Contains("indexing"))
-        {
-          _instanceRoles.Add(InstanceRole.Indexing);
-        }
-        if (roleDefine.Contains("dedicateddispatch"))
-        {
-          _instanceRoles.Add(InstanceRole.DedicatedDispatch);
-        }
-        */
         return _instanceRoles;
       }
     }
