@@ -19,7 +19,6 @@ namespace SIM.Pipelines.InstallPublishingService
     public string SPSWebroot { get; set; }
     public int SPSPort { get; set; }
     public Dictionary<string, SqlConnectionStringBuilder> SPSConnectionStrings { get; set; }
-    public bool OverwriteExisting { get; set; }
 
     #endregion
   }

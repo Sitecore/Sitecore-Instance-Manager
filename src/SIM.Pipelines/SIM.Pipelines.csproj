@@ -112,7 +112,6 @@
     <Compile Include="InstallPublishingService\SPSProcessor.cs" />
     <Compile Include="InstallPublishingService\InstallSPSProcessorArgs.cs" />
     <Compile Include="InstallPublishingService\Commands.cs" />
-    <Compile Include="InstallPublishingService\RemoveExistingSPSProcessor.cs" />
     <Compile Include="InstallPublishingService\SetActualConnectionStringsProcessor.cs" />
     <Compile Include="InstallPublishingService\SetAdminConnectionStringsProcessor.cs" />
     <Compile Include="InstallPublishingService\UnzipSPSPackageProcessor.cs" />

@@ -7,6 +7,7 @@ using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
 using System.Windows.Controls;
+using Microsoft.Web.Administration;
 
 namespace SIM.Tool.Windows.UserControls.Install.PublishingService
 {
@@ -54,15 +55,29 @@ namespace SIM.Tool.Windows.UserControls.Install.PublishingService
     #region Private methods
     private void ValidateAndSetSiteName(InstallSPSWizardArgs args, ref bool isValid)
     {
-      args.SPSSiteName = SiteNameTextBox.Text.Trim();
-      args.OverwriteExisting = OverwriteIfExistsCheckBox.IsChecked ?? false;
+      args.SPSName = SiteNameTextBox.Text.Trim();
 
-      string newWebroot = Path.Combine(args.SPSInstanceFolder, args.SPSSiteName);
-      if (Directory.Exists(newWebroot) && !args.OverwriteExisting)
+      string newWebroot = Path.Combine(args.SPSInstanceFolder, args.SPSName);
+      if (Directory.Exists(newWebroot))
       {
-        WindowHelper.ShowMessage($"{newWebroot} already exists, please delete the existing instance, choose a different name, or select the" +
-          $"\"Overwrite\" checkbox to replace the existing solution");
+        WindowHelper.ShowMessage($"The webroot path '{newWebroot}' already exists.  Stop the instance using this path and uninstall it, or choose a different name");
         isValid = false;
+        return;
+      }
+
+      using (ServerManager sm = new ServerManager())
+      {
+        if (sm.Sites.FirstOrDefault(s => s.Name.Equals(args.SPSName)) != null)
+        {
+          WindowHelper.ShowMessage($"The site '{args.SPSName}' already exists. Stop the instance using this site and uninstall it, or choose a different name");
+          isValid = false;
+        }
+
+        else if (sm.ApplicationPools.FirstOrDefault(a => a.Name.Equals(args.SPSName)) != null)
+        {
+          WindowHelper.ShowMessage($"The application pool '{args.SPSName}' already exists. Stop the instance using this application pool and uninstall it, or choose a different name");
+          isValid = false;
+        }
       }
     }
 

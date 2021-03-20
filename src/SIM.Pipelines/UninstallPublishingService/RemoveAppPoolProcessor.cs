@@ -18,7 +18,7 @@ namespace SIM.Pipelines.UninstallPublishingService
 
       using (ServerManager sm = new ServerManager())
       {
-        ApplicationPool spsAppPool = sm.ApplicationPools.FirstOrDefault(s => s.Name.Equals(args.SPSAppPoolName));
+        ApplicationPool spsAppPool = sm.ApplicationPools.FirstOrDefault(a => a.Name.Equals(args.SPSAppPoolName));
 
         if (!DeleteAppPool(sm, spsAppPool, args.MaxRetries, args.RetryInterval))
         {

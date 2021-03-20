@@ -38,13 +38,12 @@ namespace SIM.Tool.Base.Pipelines
 
 
     //From User Input
-    public bool OverwriteExisting { get; set; }
     public string SPSPackage
     {
       get { return Path.GetFileNameWithoutExtension(_spsPackagePath); }
       set { _spsPackagePath = value; }
     }
-    public string SPSSiteName { get; set; }
+    public string SPSName { get; set; }
     public int SPSPort { get; set; }
     public Dictionary<string, SqlConnectionStringBuilder> SPSConnectionStrings { get; set; } = new Dictionary<string, SqlConnectionStringBuilder>();
 
@@ -69,17 +68,16 @@ namespace SIM.Tool.Base.Pipelines
       return new InstallSPSProcessorArgs()
       {
         InstanceName = this.InstanceName,
-        SPSSiteName = this.SPSSiteName,
-        SPSAppPoolName = this.SPSSiteName,
-        SPSWebroot = Path.Combine(this.SPSInstanceFolder, this.SPSSiteName),
+        SPSSiteName = this.SPSName,
+        SPSAppPoolName = this.SPSName,
+        SPSWebroot = Path.Combine(this.SPSInstanceFolder, this.SPSName),
         SPSPort = this.SPSPort,
         InstanceFolder = this.InstanceFolder,
         SPSInstanceFolder = this.SPSInstanceFolder,
         SPSPackagePath = this._spsPackagePath,
         SqlAdminUsername = this.SqlAdminUsername,
         SqlAdminPassword = this.SqlAdminPassword,
-        SPSConnectionStrings = this.SPSConnectionStrings,
-        OverwriteExisting = this.OverwriteExisting
+        SPSConnectionStrings = this.SPSConnectionStrings
       };
     }
 
