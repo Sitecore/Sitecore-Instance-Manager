@@ -26,11 +26,16 @@ namespace SIM.Tool.Windows.MainWindowComponents.Buttons
       if (instance != null)
       {
         var id = MainWindowHelper.GetListItemID(instance.ID);
-        WizardPipelineManager.Start("installpublishingservice", mainWindow, null, null, ignore => MainWindowHelper.MakeInstanceSelected(id), () => new InstallSPSWizardArgs(instance));
+        WizardPipelineManager.Start("installpublishingservice", mainWindow, null, null, ignore =>
+        {
+          MainWindowHelper.MakeInstanceSelected(id);
+          MainWindowHelper.SoftlyRefreshInstances();
+        }, () => new InstallSPSWizardArgs(instance));
       }
     }
 
     #endregion
+
 
   }
 }
