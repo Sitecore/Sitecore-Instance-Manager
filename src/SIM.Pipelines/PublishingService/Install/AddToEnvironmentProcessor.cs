@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using SIM.SitecoreEnvironments;
 using Sitecore.Diagnostics.Logging;
 
-namespace SIM.Pipelines.InstallPublishingService
+namespace SIM.Pipelines.PublishingService.Install
 {
   public class AddToEnvironmentProcessor : SPSProcessor<InstallSPSProcessorArgs>
   {

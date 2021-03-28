@@ -1,11 +1,12 @@
-﻿namespace SIM.Tool.Base.Pipelines
+﻿using SIM.Pipelines.PublishingService.Install;
+
+namespace SIM.Tool.Base.Pipelines
 {
   using System.Collections.Generic;
   using System.Data.SqlClient;
   using System.IO;
   using SIM.Adapters.WebServer;
   using SIM.Instances;
-  using SIM.Pipelines.InstallPublishingService;
   using SIM.Pipelines.Processors;
   using SIM.Tool.Base.Profiles;
   using SIM.Tool.Base.Wizards;

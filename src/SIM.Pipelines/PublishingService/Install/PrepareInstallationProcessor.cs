@@ -1,6 +1,6 @@
 ﻿using System.IO.Compression;
 
-namespace SIM.Pipelines.InstallPublishingService
+namespace SIM.Pipelines.PublishingService.Install
 {
   public class PrepareInstallationProcessor : SPSProcessor<InstallSPSProcessorArgs>
   {

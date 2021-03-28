@@ -1,7 +1,7 @@
 ﻿using SIM.Instances;
 using SIM.Pipelines.Processors;
 
-namespace SIM.Pipelines.UninstallPublishingService
+namespace SIM.Pipelines.PublishingService.Uninstall
 {
   public class UninstallSPSProcessorArgs : ProcessorArgs
   {

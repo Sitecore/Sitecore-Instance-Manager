@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Linq;
-using SIM.Pipelines.InstallPublishingService;
 using SIM.SitecoreEnvironments;
 using Sitecore.Diagnostics.Logging;
 
-namespace SIM.Pipelines.UninstallPublishingService
+namespace SIM.Pipelines.PublishingService.Uninstall
 {
   public class RemoveFromEnvironmentProcessor : SPSProcessor<UninstallSPSProcessorArgs>
   {

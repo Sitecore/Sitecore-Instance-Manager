@@ -1,4 +1,4 @@
-﻿namespace SIM.Pipelines.InstallPublishingService
+﻿namespace SIM.Pipelines.PublishingService.Install
 {
   public class CreateIISiteProcessor : SPSProcessor<InstallSPSProcessorArgs>
   {

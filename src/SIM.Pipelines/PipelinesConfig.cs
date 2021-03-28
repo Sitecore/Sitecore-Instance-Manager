@@ -267,31 +267,31 @@
     </processor>
   </import>
   <installpublishingservice title=""Installing Publishing Service"">
-    <processor type=""SIM.Pipelines.InstallPublishingService.AddToEnvironmentProcessor, SIM.Pipelines"" 
+    <processor type=""SIM.Pipelines.PublishingService.Install.AddToEnvironmentProcessor, SIM.Pipelines"" 
                 title=""Adding SPS instance to CM environment package"" />
-    <processor type=""SIM.Pipelines.InstallPublishingService.PrepareInstallationProcessor, SIM.Pipelines"" 
+    <processor type=""SIM.Pipelines.PublishingService.Install.PrepareInstallationProcessor, SIM.Pipelines"" 
                 title=""Unzipping package"" />
-    <processor type=""SIM.Pipelines.InstallPublishingService.SetAdminConnectionStringsProcessor, SIM.Pipelines"" 
+    <processor type=""SIM.Pipelines.PublishingService.Install.SetAdminConnectionStringsProcessor, SIM.Pipelines"" 
                 title=""Setting admin connection strings"" />
-    <processor type=""SIM.Pipelines.InstallPublishingService.UpgradeDatabaseSchemaProcessor, SIM.Pipelines""
+    <processor type=""SIM.Pipelines.PublishingService.Install.UpgradeDatabaseSchemaProcessor, SIM.Pipelines""
                 title=""Upgrading database schema"" />
-    <processor type=""SIM.Pipelines.InstallPublishingService.ResetDatabaseSchemaProcessor, SIM.Pipelines""
+    <processor type=""SIM.Pipelines.PublishingService.Install.ResetDatabaseSchemaProcessor, SIM.Pipelines""
                 title=""Resetting database schema"" />
-    <processor type=""SIM.Pipelines.InstallPublishingService.SetActualConnectionStringsProcessor, SIM.Pipelines""
+    <processor type=""SIM.Pipelines.PublishingService.Install.SetActualConnectionStringsProcessor, SIM.Pipelines""
                 title=""Setting actual connection strings"" />
-    <processor type=""SIM.Pipelines.InstallPublishingService.CreateIISiteProcessor, SIM.Pipelines""
+    <processor type=""SIM.Pipelines.PublishingService.Install.CreateIISiteProcessor, SIM.Pipelines""
                 title=""Creating IIS site"" />
-    <processor type=""SIM.Pipelines.InstallPublishingService.VerifyInstallationProcessor, SIM.Pipelines""
+    <processor type=""SIM.Pipelines.PublishingService.Install.VerifyInstallationProcessor, SIM.Pipelines""
                 title=""Checking status endpoint for errors"" />
   </installpublishingservice>
   <uninstallpublishingservice title=""Removing Publishing Service"">
-    <processor type=""SIM.Pipelines.UninstallPublishingService.RemoveFromEnvironmentProcessor, SIM.Pipelines"" 
+    <processor type=""SIM.Pipelines.PublishingService.Uninstall.RemoveFromEnvironmentProcessor, SIM.Pipelines"" 
                 title=""Removing SPS instance from CM environment"" />
-    <processor type=""SIM.Pipelines.UninstallPublishingService.RemoveIISSiteProcessor, SIM.Pipelines"" 
+    <processor type=""SIM.Pipelines.PublishingService.Uninstall.RemoveIISSiteProcessor, SIM.Pipelines"" 
                 title=""Removing iis site"" />
-    <processor type=""SIM.Pipelines.UninstallPublishingService.RemoveAppPoolProcessor, SIM.Pipelines"" 
+    <processor type=""SIM.Pipelines.PublishingService.Uninstall.RemoveAppPoolProcessor, SIM.Pipelines"" 
                 title=""Removing application pool"" />
-    <processor type=""SIM.Pipelines.UninstallPublishingService.RemoveWebrootFolderProcessor, SIM.Pipelines"" 
+    <processor type=""SIM.Pipelines.PublishingService.Uninstall.RemoveWebrootFolderProcessor, SIM.Pipelines"" 
                 title=""Removing webroot folder"" />
   </uninstallpublishingservice>
 </pipelines>";

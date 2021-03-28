@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.IO;
 
-namespace SIM.Pipelines.InstallPublishingService
+namespace SIM.Pipelines.PublishingService.Install
 {
   public class SetAdminConnectionStringsProcessor : SPSProcessor<InstallSPSProcessorArgs>
   {

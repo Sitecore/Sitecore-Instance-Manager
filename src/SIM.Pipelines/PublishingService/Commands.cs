@@ -1,6 +1,6 @@
 ﻿using System.Management.Automation;
 
-namespace SIM.Pipelines.InstallPublishingService
+namespace SIM.Pipelines.PublishingService
 {
   public static class Commands
   {

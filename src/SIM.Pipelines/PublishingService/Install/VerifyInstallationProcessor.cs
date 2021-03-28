@@ -1,9 +1,9 @@
-﻿using Newtonsoft.Json.Linq;
-using Sitecore.Diagnostics.Logging;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Net;
+using Newtonsoft.Json.Linq;
+using Sitecore.Diagnostics.Logging;
 
-namespace SIM.Pipelines.InstallPublishingService
+namespace SIM.Pipelines.PublishingService.Install
 {
   public class VerifyInstallationProcessor : SPSProcessor<InstallSPSProcessorArgs>
   {

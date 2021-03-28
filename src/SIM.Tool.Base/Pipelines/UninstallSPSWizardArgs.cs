@@ -1,4 +1,6 @@
-﻿namespace SIM.Tool.Base.Pipelines
+﻿using SIM.Pipelines.PublishingService.Uninstall;
+
+namespace SIM.Tool.Base.Pipelines
 {
   using System;
   using System.Collections.Generic;
@@ -7,7 +9,6 @@
   using SIM.Adapters.WebServer;
   using SIM.Instances;
   using SIM.Pipelines.Install;
-  using SIM.Pipelines.UninstallPublishingService;
   using SIM.Pipelines.Processors;
   using SIM.Services;
   using SIM.Tool.Base.Converters;

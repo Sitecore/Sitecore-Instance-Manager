@@ -1,11 +1,10 @@
-﻿using JetBrains.Annotations;
-using Microsoft.Web.Administration;
-using SIM.Pipelines.InstallPublishingService;
-using System;
+﻿using System;
 using System.Linq;
 using System.Threading;
+using JetBrains.Annotations;
+using Microsoft.Web.Administration;
 
-namespace SIM.Pipelines.UninstallPublishingService
+namespace SIM.Pipelines.PublishingService.Uninstall
 {
   public class RemoveIISSiteProcessor : SPSProcessor<UninstallSPSProcessorArgs>
   {

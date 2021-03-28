@@ -1,6 +1,4 @@
-﻿using System.IO;
-
-namespace SIM.Pipelines.InstallPublishingService
+﻿namespace SIM.Pipelines.PublishingService.Install
 {
   public class ResetDatabaseSchemaProcessor : SPSProcessor<InstallSPSProcessorArgs>
   {

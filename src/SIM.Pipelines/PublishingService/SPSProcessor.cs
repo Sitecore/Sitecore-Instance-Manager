@@ -1,7 +1,7 @@
 ﻿using JetBrains.Annotations;
 using SIM.Pipelines.Processors;
 
-namespace SIM.Pipelines.InstallPublishingService
+namespace SIM.Pipelines.PublishingService
 {
   public abstract class SPSProcessor<T> : Processor where T : ProcessorArgs
   {

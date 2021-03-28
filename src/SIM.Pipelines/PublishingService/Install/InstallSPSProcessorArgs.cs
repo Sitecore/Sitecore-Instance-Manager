@@ -1,9 +1,9 @@
-﻿using SIM.Pipelines.Processors;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data.SqlClient;
 using SIM.Instances;
+using SIM.Pipelines.Processors;
 
-namespace SIM.Pipelines.InstallPublishingService
+namespace SIM.Pipelines.PublishingService.Install
 {
   public class InstallSPSProcessorArgs : ProcessorArgs
   {

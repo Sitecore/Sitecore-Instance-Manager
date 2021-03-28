@@ -1,9 +1,8 @@
-﻿using JetBrains.Annotations;
-using SIM.Pipelines.InstallPublishingService;
-using System;
+﻿using System;
 using System.IO;
+using JetBrains.Annotations;
 
-namespace SIM.Pipelines.UninstallPublishingService
+namespace SIM.Pipelines.PublishingService.Uninstall
 {
   public class RemoveWebrootFolderProcessor : SPSProcessor<UninstallSPSProcessorArgs>
   {
