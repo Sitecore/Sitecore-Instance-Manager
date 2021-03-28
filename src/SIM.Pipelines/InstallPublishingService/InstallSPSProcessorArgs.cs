@@ -1,14 +1,14 @@
 ﻿using SIM.Pipelines.Processors;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using SIM.Instances;
 
 namespace SIM.Pipelines.InstallPublishingService
 {
   public class InstallSPSProcessorArgs : ProcessorArgs
   {
     #region Properties
-    //Populated from InstallPublishingServiceWizardArgs
-    public string InstanceName { get; set; }
+    public Instance CMInstance { get; set; }
     public string InstanceFolder { get; set; }
     public string SPSInstanceFolder { get; set; }
     public string SqlAdminUsername { get; set; }

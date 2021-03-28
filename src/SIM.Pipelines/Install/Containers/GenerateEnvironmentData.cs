@@ -59,7 +59,7 @@ namespace SIM.Pipelines.Install.Containers
       string environmentName = args.EnvModel.ProjectName;
       Assert.ArgumentNotNullOrEmpty(environmentName, "projectName");
 
-      this.AddEnvironment(this.CreateEnvironment(environmentName, destinationFolder));
+      SitecoreEnvironmentHelper.AddSitecoreEnvironment(this.CreateEnvironment(environmentName, destinationFolder));
     }
 
     private SitecoreEnvironment CreateEnvironment(string environmentName, string destinationFolder)
@@ -109,20 +109,6 @@ namespace SIM.Pipelines.Install.Containers
       }
 
       return null;
-    }
-
-    private void AddEnvironment(SitecoreEnvironment environment)
-    {
-      foreach (SitecoreEnvironment se in SitecoreEnvironmentHelper.SitecoreEnvironments)
-      {
-        if (se.Name == environment.Name)
-        {
-          return;
-        }
-      }
-
-      SitecoreEnvironmentHelper.SitecoreEnvironments.Add(environment);
-      SitecoreEnvironmentHelper.SaveSitecoreEnvironmentData(SitecoreEnvironmentHelper.SitecoreEnvironments);
     }
   }
 }

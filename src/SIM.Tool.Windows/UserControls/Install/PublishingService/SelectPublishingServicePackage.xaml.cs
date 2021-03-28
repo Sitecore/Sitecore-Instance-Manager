@@ -35,7 +35,7 @@ namespace SIM.Tool.Windows.UserControls.Install.PublishingService
     public void InitializeStep(WizardArgs wizardArgs)
     {
       InstallSPSWizardArgs args = (InstallSPSWizardArgs)wizardArgs;
-      int cmsVersionInt = args.Instance.Product?.Release?.Version.MajorMinorUpdateInt ?? -1;
+      int cmsVersionInt = args.CMInstance.Product?.Release?.Version.MajorMinorUpdateInt ?? -1;
 
       //Populate ComboBox
       foreach (string packagePath in Directory.GetFiles(ProfileManager.Profile.LocalRepository, "Sitecore Publishing Service*.zip", SearchOption.AllDirectories))

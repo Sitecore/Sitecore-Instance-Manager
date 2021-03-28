@@ -1,10 +1,12 @@
-﻿using SIM.Pipelines.Processors;
+﻿using SIM.Instances;
+using SIM.Pipelines.Processors;
 
 namespace SIM.Pipelines.UninstallPublishingService
 {
   public class UninstallSPSProcessorArgs : ProcessorArgs
   {
     #region Properties
+    public Instance Instance { get; set; }
     public string SPSSiteName { get; set; }
     public string SPSAppPoolName { get; set; }
     public string SPSWebroot { get; set; }

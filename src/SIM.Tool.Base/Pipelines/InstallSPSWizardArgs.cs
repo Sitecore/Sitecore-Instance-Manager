@@ -1,31 +1,26 @@
-﻿using System.Linq;
-
-namespace SIM.Tool.Base.Pipelines
+﻿namespace SIM.Tool.Base.Pipelines
 {
   using System.Collections.Generic;
   using System.Data.SqlClient;
   using System.IO;
   using SIM.Adapters.WebServer;
   using SIM.Instances;
-  using SIM.Pipelines.Install;
   using SIM.Pipelines.InstallPublishingService;
   using SIM.Pipelines.Processors;
-  using SIM.Services;
-  using SIM.Tool.Base.Converters;
   using SIM.Tool.Base.Profiles;
   using SIM.Tool.Base.Wizards;
   public class InstallSPSWizardArgs : WizardArgs
   {
     private string _spsPackagePath;
-    public InstallSPSWizardArgs(Instance instance)
+    public InstallSPSWizardArgs(Instance cmInstance)
     {
-      Initialize(instance);
+      Initialize(cmInstance);
     }
 
     #region Properties
 
     //From Instance
-    public Instance Instance { get; private set; }
+    public Instance CMInstance { get; private set; }
     public string InstanceName { get; private set; }
     public ConnectionStringCollection InstanceConnectionStrings { get; private set; }
 
@@ -54,7 +49,7 @@ namespace SIM.Tool.Base.Pipelines
     #region Methods
     private void Initialize(Instance instance)
     {
-      this.Instance = instance;
+      this.CMInstance = instance;
       this.InstanceName = instance.Name;
       this.InstanceFolder = ProfileManager.Profile.InstancesFolder;
       this.InstanceConnectionStrings = instance.Configuration.ConnectionStrings;
@@ -69,7 +64,7 @@ namespace SIM.Tool.Base.Pipelines
     {
       return new InstallSPSProcessorArgs()
       {
-        InstanceName = this.InstanceName,
+        CMInstance = this.CMInstance,
         SPSSiteName = this.SPSName,
         SPSAppPoolName = this.SPSName,
         SPSWebroot = Path.Combine(this.SPSInstanceFolder, this.SPSName),

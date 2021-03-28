@@ -38,6 +38,7 @@
     {
       return new UninstallSPSProcessorArgs()
       {
+        Instance = this.Instance,
         SPSSiteName = this.SPSSiteName,
         SPSAppPoolName = this.SPSAppPoolName,
         SPSWebroot = this.SPSWebroot,

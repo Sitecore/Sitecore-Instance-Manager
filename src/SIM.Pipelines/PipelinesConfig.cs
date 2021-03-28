@@ -267,6 +267,8 @@
     </processor>
   </import>
   <installpublishingservice title=""Installing Publishing Service"">
+    <processor type=""SIM.Pipelines.InstallPublishingService.AddToEnvironmentProcessor, SIM.Pipelines"" 
+                title=""Adding SPS instance to CM environment package"" />
     <processor type=""SIM.Pipelines.InstallPublishingService.PrepareInstallationProcessor, SIM.Pipelines"" 
                 title=""Unzipping package"" />
     <processor type=""SIM.Pipelines.InstallPublishingService.SetAdminConnectionStringsProcessor, SIM.Pipelines"" 
@@ -283,6 +285,8 @@
                 title=""Checking status endpoint for errors"" />
   </installpublishingservice>
   <uninstallpublishingservice title=""Removing Publishing Service"">
+    <processor type=""SIM.Pipelines.UninstallPublishingService.RemoveFromEnvironmentProcessor, SIM.Pipelines"" 
+                title=""Removing SPS instance from CM environment"" />
     <processor type=""SIM.Pipelines.UninstallPublishingService.RemoveIISSiteProcessor, SIM.Pipelines"" 
                 title=""Removing iis site"" />
     <processor type=""SIM.Pipelines.UninstallPublishingService.RemoveAppPoolProcessor, SIM.Pipelines"" 
