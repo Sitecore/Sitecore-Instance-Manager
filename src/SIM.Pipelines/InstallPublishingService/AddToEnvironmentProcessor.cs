@@ -16,8 +16,9 @@ namespace SIM.Pipelines.InstallPublishingService
         {
           se.Members = new List<SitecoreEnvironmentMember>();
         }
+
         se.Members.Add(new SitecoreEnvironmentMember(args.SPSSiteName, SitecoreEnvironmentMember.Types.Site.ToString()));
-        SitecoreEnvironmentHelper.AddSitecoreEnvironment(se);
+        SitecoreEnvironmentHelper.AddOrUpdateSitecoreEnvironment(se);
       }
       catch (Exception ex)
       {

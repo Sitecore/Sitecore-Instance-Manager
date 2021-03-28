@@ -128,5 +128,20 @@ namespace SIM.SitecoreEnvironments
       SitecoreEnvironments.Add(sitecoreEnvironment);
       SaveSitecoreEnvironmentData(SitecoreEnvironments);
     }
+
+    public static void AddOrUpdateSitecoreEnvironment(SitecoreEnvironment sitecoreEnvironment)
+    {
+      SitecoreEnvironment Environment = SitecoreEnvironments.FirstOrDefault(se => se.Name == sitecoreEnvironment.Name);
+      if (Environment == null)
+      {
+        AddSitecoreEnvironment(sitecoreEnvironment);
+      }
+      else
+      {
+        int envIndex = SitecoreEnvironments.IndexOf(Environment);
+        SitecoreEnvironments[envIndex] = sitecoreEnvironment;
+        SaveSitecoreEnvironmentData(SitecoreEnvironments);
+      }
+    }
   }
 }

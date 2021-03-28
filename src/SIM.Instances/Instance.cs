@@ -169,8 +169,7 @@
               }
             }
           }
-
-          return FileSystem.FileSystem.Local.File.Exists(ProductHelper.GetPublishingHostPath(WebRootPath));
+          return false;
         }
         catch (Exception ex)
         {
