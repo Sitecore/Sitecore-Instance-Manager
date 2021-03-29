@@ -59,6 +59,6 @@ namespace SIM.Tool.Base.Configuration
       }
     }
 
-    public Dictionary<string, int[]> LegacySPSCompatibilityTable => this.settingsDoc["LegacySPSCompatibilityTable"].ToObject<Dictionary<string, int[]>>();
+    public Dictionary<string, int[]> SitecorePublishingServiceCompatibility => this.settingsDoc["SitecorePublishingServiceCompatibility"].ToObject<Dictionary<string, int[]>>();
   }
 }

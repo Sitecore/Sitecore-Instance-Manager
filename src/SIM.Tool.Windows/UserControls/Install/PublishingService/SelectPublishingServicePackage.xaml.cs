@@ -24,7 +24,7 @@ namespace SIM.Tool.Windows.UserControls.Install.PublishingService
     private const string KB_SPS_COMPATIBILTY_410_AND_LATER = @"https://kb.sitecore.net/articles/761308";
     private const string KB_SXA_COMPATIBILITY_WITH_SPS = @"https://kb.sitecore.net/articles/180187#CompatibilityWithSitecorePublishingService";
 
-    private static readonly Dictionary<string, int[]> LegacySPSCompatibilityTable = Configuration.Instance.LegacySPSCompatibilityTable;
+    private static readonly Dictionary<string, int[]> CompatibilityTable = Configuration.Instance.SitecorePublishingServiceCompatibility;
 
     public SelectPublishingServicePackage()
     {
@@ -130,20 +130,10 @@ namespace SIM.Tool.Windows.UserControls.Install.PublishingService
       {
         string spsPackageVersion = GetSPSVersion(spsPackageName);
 
-        //sps version 410 and above
-        if (int.Parse(spsPackageVersion) >= 410)
-        {
-          /*
-           * If cmsVersionInt is negative, it means there was an error getting the version, and we should not restrict options.
-           * This can happen if a new version of Sitecore is released and SIM cannot parse its version number yet.
-           * Since we are assuming this is a new version of Sitecore, it is still safe to allow compatibility for SPS version 4.1.0 and above
-           */
-          return cmsVersionInt >= 910 || cmsVersionInt < 0;
-        }
-
-        //sps version 400 and below
-        return (from pair in LegacySPSCompatibilityTable where spsPackageVersion == pair.Key  //Get the array of compatible cms versions for the given sps version
-            select pair.Value.Any(i => i == cmsVersionInt)).FirstOrDefault();             //Check if the selected instance's version is in this array
+        //Get the array of compatible cms versions for the given sps version, then check if the selected instance's version is in this array
+        return (from pair in CompatibilityTable 
+          where spsPackageVersion == pair.Key 
+          select pair.Value.Any(i => i == cmsVersionInt)).FirstOrDefault();   
       }
       catch (Exception ex)
       {
