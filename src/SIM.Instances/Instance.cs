@@ -475,19 +475,33 @@
           return InstanceType.SitecoreContainer;
         }
 
-        if (Product == Product.Undefined || Product.Release == null)
+        if (Product == Product.Undefined)
         {
           return InstanceType.SitecoreMember;
         }
 
-        if (Product.Release.Version.MajorMinorInt < 90)
+        int version;
+
+        if (Product.Release != null)
         {
-          return InstanceType.Sitecore8AndEarlier;
+          version = Product.Release.Version.MajorMinorInt;
+        }
+        else
+        {
+          int.TryParse(Product.ShortVersion, out version);
         }
 
-        if (Product.Release.Version.MajorMinorInt >= 90)
+        if (version != default(int))
         {
-          return InstanceType.Sitecore9AndLater;
+          if (version < 90)
+          {
+            return InstanceType.Sitecore8AndEarlier;
+          }
+
+          if (version >= 90)
+          {
+            return InstanceType.Sitecore9AndLater;
+          }
         }
 
         return InstanceType.Unknown;

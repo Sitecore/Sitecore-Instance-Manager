@@ -63,7 +63,7 @@ namespace SIM.Tool.Windows.MainWindowComponents.Groups
 
     protected bool IsSitecoreMember(Instance selectedInstance)
     {
-      if (selectedInstance.Product == Product.Undefined || selectedInstance.Product.Release == null)
+      if (selectedInstance.Product == Product.Undefined)
       {
         return true;
       }
@@ -73,7 +73,9 @@ namespace SIM.Tool.Windows.MainWindowComponents.Groups
 
     protected bool IsSitecore9AndLater(Instance selectedInstance)
     {
-      if (selectedInstance.Product.Release.Version.MajorMinorInt >= 90)
+      int version = this.GetSitecoreVersion(selectedInstance);
+
+      if (version != default(int) && version >= 90)
       {
         return true;
       }
@@ -83,12 +85,30 @@ namespace SIM.Tool.Windows.MainWindowComponents.Groups
 
     protected bool IsSitecore8AndEarlier(Instance selectedInstance)
     {
-      if (selectedInstance.Product.Release.Version.MajorMinorInt < 90)
+      int version = this.GetSitecoreVersion(selectedInstance);
+
+      if (version != default(int) && version < 90)
       {
         return true;
       }
 
       return false;
+    }
+
+    protected int GetSitecoreVersion(Instance selectedInstance)
+    {
+      int version;
+
+      if (selectedInstance.Product.Release != null)
+      {
+        version = selectedInstance.Product.Release.Version.MajorMinorInt;
+      }
+      else
+      {
+        int.TryParse(selectedInstance.Product.ShortVersion, out version);
+      }
+
+      return version;
     }
 
     #endregion
