@@ -1,7 +1,7 @@
 ﻿{
   "Parameters": {
     //global
-    "SIFVersion": "2.0.0",
+    "SIFVersion": "2.1.0",
     "SqlServer": "",
     "SqlAdminUser": "",
     "SqlAdminPassword": "",
@@ -112,7 +112,7 @@
     "InstallSIF": {
       "Type": "SIM.Sitecore9Installer.Tasks.InstallSIFTask, SIM.Sitecore9Installer",
       "TaskOptions": {
-        "InstallVersion": "2.0.0",
+        "InstallVersion": "2.1.0",
         "Repository": "https://sitecore.myget.org/F/sc-powershell/api/v2",
         "ExecutionOrder": "-100"
       }
