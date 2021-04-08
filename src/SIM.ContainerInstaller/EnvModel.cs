@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -232,9 +231,16 @@ namespace SIM.ContainerInstaller
         while (!string.IsNullOrEmpty(line))
         {
           int num = line.IndexOf('=');
-          string key = line.Substring(0, num);
-          string value = line.Substring(num + 1);
-          model[key] = value;
+
+          if (num > 0)
+          {
+            string key = line.Substring(0, num);
+
+            string value = line.Substring(num + 1);
+
+            model[key] = value;
+          }
+
           line = reader.ReadLine();
         }
       }
