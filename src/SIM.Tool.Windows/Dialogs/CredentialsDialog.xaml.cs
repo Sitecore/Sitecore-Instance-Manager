@@ -23,7 +23,7 @@ namespace SIM.Tool.Windows.Dialogs
       if (string.IsNullOrEmpty(credentialsContext.Uri))
       {
         IdentityServerUriRow.Height = new GridLength(0);
-        this.Height = 112;
+        this.Height = 116;
       }
       else
       {
