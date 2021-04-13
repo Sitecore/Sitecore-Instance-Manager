@@ -5,11 +5,14 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using Sitecore.Diagnostics.Logging;
 
 namespace SIM.Tool.Windows.UserControls.SitecoreAuthentication
 {
   public static class SitecoreServicesClientAuth
   {
+    public static HttpStatusCode CurrentHttpStatusCode { get; private set; }
+
     public static async Task<string> GetCookie(string idServerUri, string userName, string password)
     {
       CookieContainer cookieContainer = new CookieContainer();
@@ -35,9 +38,29 @@ namespace SIM.Tool.Windows.UserControls.SitecoreAuthentication
           new KeyValuePair<string, string>("username", name),
           new KeyValuePair<string, string>("password", password)
         });
-        await authClient.PostAsync(uri, content);
-        Cookie authCookie = cookieContainer.GetCookies(uri).Cast<Cookie>().FirstOrDefault(x => x.Name == ".ASPXAUTH");
-        return authCookie?.ToString();
+
+        try
+        {
+          var response = await authClient.PostAsync(uri, content);
+          Cookie authCookie = cookieContainer.GetCookies(uri).Cast<Cookie>().FirstOrDefault(x => x.Name == ".ASPXAUTH");
+          CurrentHttpStatusCode = response.StatusCode;
+          if (response.IsSuccessStatusCode)
+          {
+            return authCookie?.ToString();
+          }
+        }
+        catch (OperationCanceledException ex)
+        {
+          Log.Error(ex, ex.Message);
+          CurrentHttpStatusCode = HttpStatusCode.RequestTimeout;
+        }
+        catch (Exception ex)
+        {
+          Log.Error(ex, ex.Message);
+          CurrentHttpStatusCode = HttpStatusCode.InternalServerError;
+        }
+
+        return null;
       }
     }
 
