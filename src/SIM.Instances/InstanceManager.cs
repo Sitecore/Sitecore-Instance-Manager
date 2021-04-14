@@ -105,17 +105,23 @@
       Assert.ArgumentNotNull(name, nameof(name));
       Log.Debug($"InstanceManager:GetInstance('{name}')");
 
-      if (Instances == null)
+      if (PartiallyCachedInstances == null)
       {
         Initialize();
       }
 
-      if (Instances == null)
+      if (PartiallyCachedInstances == null)
       {
         return null;
       }
 
-      return PartiallyCachedInstances?[name];
+      // This is needed to make sure that the newly installed Sitecore instance is added to the collection.
+      if (!PartiallyCachedInstances.Keys.Contains(name))
+      {
+        Initialize();
+      }
+
+      return PartiallyCachedInstances.Keys.Contains(name) ? PartiallyCachedInstances[name] : null;
     }
 
     public void Initialize([CanBeNull] string defaultRootFolder = null)
