@@ -414,25 +414,30 @@
     {
       get
       {
-        try
+        if (this.Type == InstanceType.Sitecore8AndEarlier)
         {
-          var omsVersions = new[] {"6.2", "6.3", "6.4"};
-          var dmsVersions = new[] {"6.5", "6.6", "7.0", "7.1", "7.2"};
-          var dmsName = omsVersions.Any(x => ProductFullName.Contains(x))
-            ? "OMS"
-            : (dmsVersions.Any(x => ProductFullName.Contains(x)) ? "DMS" : "xDB");
+          try
+          {
+            var omsVersions = new[] { "6.2", "6.3", "6.4" };
+            var dmsVersions = new[] { "6.5", "6.6", "7.0", "7.1", "7.2" };
+            var dmsName = omsVersions.Any(x => ProductFullName.Contains(x))
+              ? "OMS"
+              : (dmsVersions.Any(x => ProductFullName.Contains(x)) ? "DMS" : "xDB");
 
-          var modulesNames = Modules.Select(x => x.Name.TrimStart("Sitecore "));
-          return (string.Join(", ", modulesNames) +
-                  (File.Exists(Path.Combine(WebRootPath, "App_Config\\Include\\Sitecore.Analytics.config"))
-                    ? $", {dmsName}"
-                    : string.Empty)).TrimStart(" ,".ToCharArray());
+            var modulesNames = Modules.Select(x => x.Name.TrimStart("Sitecore "));
+            return (string.Join(", ", modulesNames) +
+                    (File.Exists(Path.Combine(WebRootPath, "App_Config\\Include\\Sitecore.Analytics.config"))
+                      ? $", {dmsName}"
+                      : string.Empty)).TrimStart(" ,".ToCharArray());
+          }
+          catch (Exception ex)
+          {
+            Log.Error(ex, $"Issue with reading ModulesNames propery of {this.Name} instance.");
+            return string.Empty;
+          }
         }
-        catch (Exception ex)
-        {
-          Log.Error(ex, $"Issue with reading ModulesNames propery of {this.Name} instance.");
-          return string.Empty;
-        }
+
+        return string.Empty;
       }
     }
 
