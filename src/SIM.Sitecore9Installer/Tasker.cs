@@ -331,14 +331,14 @@ namespace SIM.Sitecore9Installer
         string realName = GetTaskRealName(param);
         string taskFile = Directory.GetFiles(path, string.Format("{0}.json", realName), SearchOption.AllDirectories)
           .FirstOrDefault();
-          if (!string.IsNullOrEmpty(taskFile))
+        if (!string.IsNullOrEmpty(taskFile))
+        {
+          if (!string.IsNullOrEmpty(deployRoot))
           {
-            if (!string.IsNullOrEmpty(deployRoot))
-            {
-              InjectLocalDeploymentRoot(taskFile);
-              InjectGlobalDeploymentRoot(deployRoot);
-            }
+            InjectLocalDeploymentRoot(taskFile);
+            InjectGlobalDeploymentRoot(deployRoot);
           }
+        }
 
         Task t = this.CreateTask(order, param, path);
         t.UnInstall = UnInstall;
