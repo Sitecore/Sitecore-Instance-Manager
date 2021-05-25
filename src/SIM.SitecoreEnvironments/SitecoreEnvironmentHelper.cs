@@ -113,5 +113,35 @@ namespace SIM.SitecoreEnvironments
 
       return environment != null;
     }
+
+    public static void AddSitecoreEnvironment(SitecoreEnvironment sitecoreEnvironment)
+    {
+      // Do not add new Sitecore environment if its name already exists in the Environments.json file
+      foreach (SitecoreEnvironment se in SitecoreEnvironments)
+      {
+        if (se.Name == sitecoreEnvironment.Name)
+        {
+          return;
+        }
+      }
+
+      SitecoreEnvironments.Add(sitecoreEnvironment);
+      SaveSitecoreEnvironmentData(SitecoreEnvironments);
+    }
+
+    public static void AddOrUpdateSitecoreEnvironment(SitecoreEnvironment sitecoreEnvironment)
+    {
+      SitecoreEnvironment Environment = SitecoreEnvironments.FirstOrDefault(se => se.Name == sitecoreEnvironment.Name);
+      if (Environment == null)
+      {
+        AddSitecoreEnvironment(sitecoreEnvironment);
+      }
+      else
+      {
+        int envIndex = SitecoreEnvironments.IndexOf(Environment);
+        SitecoreEnvironments[envIndex] = sitecoreEnvironment;
+        SaveSitecoreEnvironmentData(SitecoreEnvironments);
+      }
+    }
   }
 }

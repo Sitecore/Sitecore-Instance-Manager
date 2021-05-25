@@ -29,6 +29,8 @@
 
     private Product _Product;
 
+    private ICollection<InstanceRole> _instanceRoles;
+
     #endregion
 
     #region Constructors
@@ -167,7 +169,6 @@
               }
             }
           }
-
           return false;
         }
         catch (Exception ex)
@@ -513,12 +514,99 @@
       }
     }
 
+    /// <summary>
+    /// A collection of server roles this instance is defined as
+    /// </summary>
+    public ICollection<InstanceRole> Roles
+    {
+      get
+      {
+        if (_instanceRoles != null)
+        {
+          return _instanceRoles;
+        }
+
+        _instanceRoles = new List<InstanceRole>();
+
+        try
+        {
+          //Check if sitecore identity server
+          if (this.GetWebConfig().ElementAttributeContains("/configuration/system.webServer/aspNetCore", "arguments",
+            "sitecore.identityServer.host"))
+          {
+            _instanceRoles.Add(InstanceRole.IdentityServer);
+            return _instanceRoles;
+          }
+
+          //Check if xconnect
+          string instanceName = this.Name.ToLower();
+          if (instanceName.Contains(".xconnect"))
+          {
+            _instanceRoles.Add(InstanceRole.XConnect);
+            return _instanceRoles;
+          }
+
+          //Check if sitecore publishing service
+          if (this.GetWebConfig().ElementAttributeContains("/configuration/system.webServer/aspNetCore", "processPath",
+            "sitecore.framework.publishing.host"))
+          {
+            _instanceRoles.Add(InstanceRole.PublishingService);
+            return _instanceRoles;
+          }
+
+          //Find role by 'role:define' key in web.config
+          string roleDefine = this.GetWebConfig()
+            .GetElementAttributeValue("/configuration/appSettings/add[@key='role:define']", "value").ToLower();
+          if (string.IsNullOrEmpty(roleDefine))
+          {
+            _instanceRoles.Add((InstanceRole
+              .Unknown)); //If 'role:define' is not present, this is likely a pre-version 9 solution, and we don't know the role
+            return _instanceRoles;
+          }
+
+          //Add any and all roles that are found in the role:define key
+          foreach (InstanceRole role in Enum.GetValues(typeof(InstanceRole)).Cast<InstanceRole>())
+          {
+            if (roleDefine.Contains(role.ToString().ToLower()))
+            {
+              _instanceRoles.Add(role);
+            }
+          }
+        }
+        catch (Exception ex)
+        {
+          _instanceRoles.Add(InstanceRole.Unknown);
+          Log.Error(ex, "Instance role could not be resolved and was set to 'Unknown'");
+        }
+        return _instanceRoles;
+      }
+    }
+
+    public bool IsContentManagementInstance =>  this.Roles.Contains(InstanceRole.Standalone) || 
+                                                this.Roles.Contains(InstanceRole.ContentManagement) ||
+                                                this.Roles.Contains(InstanceRole.Unknown);
+
     public enum InstanceType
     {
       Sitecore8AndEarlier,
       Sitecore9AndLater,
       SitecoreMember,
       SitecoreContainer,
+      Unknown
+    }
+
+    public enum InstanceRole
+    {
+      Standalone,
+      ContentManagement,
+      ContentDelivery,
+      Reporting,
+      Processing,
+      Indexing,
+      DedicatedDispatch,
+      XConnect,
+      IdentityServer,
+      PublishingService,
       Unknown
     }
 
