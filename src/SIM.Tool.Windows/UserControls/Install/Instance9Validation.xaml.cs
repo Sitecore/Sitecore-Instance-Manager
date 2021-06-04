@@ -34,6 +34,8 @@ namespace SIM.Tool.Windows.UserControls.Install
       Install9WizardArgs args = (Install9WizardArgs)wizardArgs;
       this.owner = args.WizardWindow;
       this.tasker = args.Tasker;
+      this.Caption.Text = "Validation in progress.";
+      this.Stats.Visibility = Visibility.Hidden;
       if (args.Validate)
       {
         TaskDialogResult result= WindowHelper.LongRunningTask(() => this.RunValidation(), "Running validation", owner);
