@@ -179,9 +179,6 @@ Sitecore License Agreement. July 1, 2013
 By clicking 'Next' you accept the License Agreement."" />
         <step name=""Choose versions to download""
               type=""SIM.Tool.Windows.UserControls.Download8.Downloads, SIM.Tool.Windows"" />
-        <step name=""Provide your dev.sitecore.net credentials""
-              type=""SIM.Tool.Windows.UserControls.Download8.Login, SIM.Tool.Windows""
-              param=""The following credentials will be used for authenticating in dev.sitecore.net and performing downloading selected Sitecore versions on behalf of you. "" />
       </steps>
     </download8>
 

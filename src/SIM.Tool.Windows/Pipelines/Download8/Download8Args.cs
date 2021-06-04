@@ -12,7 +12,7 @@
   {
     #region Fields
 
-    [NotNull]
+    [CanBeNull]
     public string Cookies { get; }
 
     [NotNull]
@@ -28,9 +28,8 @@
 
     #region Constructors
 
-    public Download8Args([NotNull] string cookies, [NotNull] ReadOnlyCollection<Uri> links, [NotNull] string localRepository)
+    public Download8Args([CanBeNull] string cookies, [NotNull] ReadOnlyCollection<Uri> links, [NotNull] string localRepository)
     {
-      Assert.ArgumentNotNull(cookies, nameof(cookies));
       Assert.ArgumentNotNull(links, nameof(links));
       Assert.ArgumentNotNull(localRepository, nameof(localRepository));
       LocalRepository = localRepository;
