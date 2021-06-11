@@ -43,13 +43,13 @@
     [UsedImplicitly]
     public static void OpenBrowser(InstallWizardArgs args)
     {
-      InstanceHelperEx.BrowseInstance(args.Instance, args.WizardWindow, String.Empty, true);
+      InstanceHelperEx.BrowseInstance(args.Instance, args.WizardWindow.Owner, String.Empty, true);
     }
 
     [UsedImplicitly]
     public static void OpenSitecoreClient(InstallWizardArgs args)
     {
-      InstanceHelperEx.BrowseInstance(args.Instance, args.WizardWindow, "/sitecore", false);
+      InstanceHelperEx.BrowseInstance(args.Instance, args.WizardWindow.Owner, "/sitecore", false);
     }
 
     [UsedImplicitly]
