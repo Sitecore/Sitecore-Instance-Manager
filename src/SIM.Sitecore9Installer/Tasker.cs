@@ -50,7 +50,7 @@ namespace SIM.Sitecore9Installer
       this.GlobalParams = new GlobalParameters(this.doc, this.FilesRoot);
       EventManager.Instance.ParamValueUpdated += this.GlobalParamValueUpdated;
       UnInstall = unInstall;
-      LoadTasks();
+      LoadTasks(this.FilesRoot);
     }
 
     public Tasker(string unInstallParamsPath) : this()
@@ -89,7 +89,7 @@ namespace SIM.Sitecore9Installer
         }
       }
 
-      this.LoadTasks();
+      this.LoadTasks(unInstallTasksPath);
       List<string> uninstallTasksNames = Directory.GetFiles(unInstallParamsPath, "*.json")
         .Where(name => !Path.GetFileName(name).Equals("globals.json", StringComparison.InvariantCultureIgnoreCase))
         .ToList();
@@ -122,10 +122,10 @@ namespace SIM.Sitecore9Installer
       EventManager.Instance.ParamValueUpdated += this.GlobalParamValueUpdated;
     }
 
-    private Task CreateTask(int order, JProperty taskDescriptor)
+    private Task CreateTask(int order, JProperty taskDescriptor, string taskFolder)
     {
       TaskDefinition definition = new TaskDefinition(taskDescriptor);
-      return definition.CreateTask(order, this.GlobalParams, this.FilesRoot, this.UnInstall, this.mapping);
+      return definition.CreateTask(order, this.GlobalParams, taskFolder, this.UnInstall, this.mapping);
     }
 
     private void LoadValidators()
@@ -323,13 +323,13 @@ namespace SIM.Sitecore9Installer
         }
     }
 
-    private void LoadTasks()
+    private void LoadTasks(string path)
     {
       int order = 0;
       foreach (JProperty param in doc["ExecSequense"].Children())
       {        
         string realName = GetTaskRealName(param);
-        string taskFile = Directory.GetFiles(FilesRoot, string.Format("{0}.json", realName), SearchOption.AllDirectories)
+        string taskFile = Directory.GetFiles(path, string.Format("{0}.json", realName), SearchOption.AllDirectories)
           .FirstOrDefault();
         if (!string.IsNullOrEmpty(taskFile))
         {
@@ -340,7 +340,7 @@ namespace SIM.Sitecore9Installer
           }
         }
 
-        Task t = this.CreateTask(order, param);
+        Task t = this.CreateTask(order, param, path);
         t.UnInstall = UnInstall;
         this.Tasks.Add(t);
         if (order != t.ExecutionOrder && t.ExecutionOrder >= 0)

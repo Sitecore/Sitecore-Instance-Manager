@@ -6,13 +6,14 @@ namespace SIM.Pipelines.Install.Modules
   using SIM.Products;
   using Sitecore.Diagnostics.Base;
   using JetBrains.Annotations;
+  using SIM.Pipelines.InstallModules;
 
   #region
 
   #endregion
 
   [UsedImplicitly]
-  public class InstallPackages : InstallProcessor
+  public class InstallPackages : InstallModulesProcessor
   {
     #region Fields
 
@@ -22,7 +23,7 @@ namespace SIM.Pipelines.Install.Modules
 
     #region Methods
 
-    protected override void Process([NotNull] InstallArgs args)
+    protected override void Process([NotNull] InstallModulesArgs args)
     {
       Assert.ArgumentNotNull(args, nameof(args));
 
@@ -35,7 +36,7 @@ namespace SIM.Pipelines.Install.Modules
           continue;
         }
 
-        AgentHelper.InstallPackage(args.Instance, module);
+        AgentHelper.InstallPackage(args.Instance, module, args.Cookies, args.Headers);
 
         _Done.Add(module);
       }

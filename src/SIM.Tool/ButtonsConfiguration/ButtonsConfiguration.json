@@ -94,6 +94,7 @@
     "ManagedArgsTracerButton"
   ],
   "Sitecore9AndLaterButtons": [
+    "InstallModulesForSitecore9AndLaterButton",
     "RefreshButton",
     "InstallInstanceButton",
     "Install9InstanceButton",
@@ -172,6 +173,7 @@
     "BackupGroup"
   ],
   "Sitecore9AndLaterGroups": [
+    "InstallGroup",
     "PageGroup",
     "FileSystemGroup",
     "AppsGroup",

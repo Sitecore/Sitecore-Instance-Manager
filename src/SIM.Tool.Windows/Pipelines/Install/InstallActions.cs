@@ -25,31 +25,23 @@
     #region Public methods
 
     [UsedImplicitly]
-    public static void BackupInstance(InstallModulesWizardArgs args)
-    {
-      var id = MainWindowHelper.GetListItemID(args.Instance.ID);
-      Assert.IsTrue(id >= 0, "id ({0}) should be >= 0".FormatWith(id));
-      WizardPipelineManager.Start("backup", args.WizardWindow, new BackupArgs(args.Instance, ProfileManager.GetConnectionString(), null, true, true), null, ignore => MainWindowHelper.MakeInstanceSelected(id), () => new BackupSettingsWizardArgs(args.Instance));
-    }
-
-    [UsedImplicitly]
     public static void BackupInstance(InstallWizardArgs args)
     {
       var id = MainWindowHelper.GetListItemID(args.Instance.ID);
       Assert.IsTrue(id >= 0, "id ({0}) should be >= 0".FormatWith(id));
-      WizardPipelineManager.Start("backup", args.WizardWindow, new BackupArgs(args.Instance, ProfileManager.GetConnectionString(), null, true, true), null, ignore => MainWindowHelper.MakeInstanceSelected(id), () => new BackupSettingsWizardArgs(args.Instance));
+      WizardPipelineManager.Start("backup", args.WizardWindow.Owner, new BackupArgs(args.Instance, ProfileManager.GetConnectionString(), null, true, true), null, ignore => MainWindowHelper.MakeInstanceSelected(id), () => new BackupSettingsWizardArgs(args.Instance));
     }
 
     [UsedImplicitly]
     public static void OpenBrowser(InstallWizardArgs args)
     {
-      InstanceHelperEx.BrowseInstance(args.Instance, args.WizardWindow, String.Empty, true);
+      InstanceHelperEx.BrowseInstance(args.Instance, args.WizardWindow.Owner, String.Empty, true);
     }
 
     [UsedImplicitly]
     public static void OpenSitecoreClient(InstallWizardArgs args)
     {
-      InstanceHelperEx.BrowseInstance(args.Instance, args.WizardWindow, "/sitecore", false);
+      InstanceHelperEx.BrowseInstance(args.Instance, args.WizardWindow.Owner, "/sitecore", false);
     }
 
     [UsedImplicitly]

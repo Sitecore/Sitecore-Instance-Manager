@@ -15,13 +15,13 @@
     [UsedImplicitly]
     public static void OpenBrowser(ReinstallWizardArgs args)
     {
-      InstanceHelperEx.BrowseInstance(args.Instance, args.WizardWindow, string.Empty, true);
+      InstanceHelperEx.BrowseInstance(args.Instance, args.WizardWindow.Owner, string.Empty, true);
     }
 
     [UsedImplicitly]
     public static void OpenSitecoreClient(ReinstallWizardArgs args)
     {
-      InstanceHelperEx.BrowseInstance(args.Instance, args.WizardWindow, "/sitecore", false);
+      InstanceHelperEx.BrowseInstance(args.Instance, args.WizardWindow.Owner, "/sitecore", false);
     }
 
     [UsedImplicitly]

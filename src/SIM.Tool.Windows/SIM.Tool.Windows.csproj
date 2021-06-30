@@ -99,6 +99,7 @@
     <Reference Include="System.IO.Compression" />
     <Reference Include="System.IO.Compression.FileSystem" />
     <Reference Include="System.Net" />
+    <Reference Include="System.Net.Http" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\ControlzEx.2.0.1.61\lib\net45\System.Windows.Interactivity.dll</HintPath>
@@ -126,6 +127,10 @@
     <Compile Include="Dialogs\AddSolrDialog.xaml.cs">
       <DependentUpon>AddSolrDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Dialogs\CredentialsContext.cs" />
+    <Compile Include="Dialogs\CredentialsDialog.xaml.cs">
+      <DependentUpon>CredentialsDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Dialogs\DatabaseQueryExecutionDialog.xaml.cs">
       <DependentUpon>DatabaseQueryExecutionDialog.xaml</DependentUpon>
     </Compile>
@@ -152,6 +157,7 @@
     <Compile Include="MainWindowComponents\Buttons\BrowseSitecoreContainerWebsiteButton.cs" />
     <Compile Include="MainWindowComponents\Buttons\BrowseHomePageButton.cs" />
     <Compile Include="MainWindowComponents\Buttons\CreateSupportHotfixButton.cs" />
+    <Compile Include="MainWindowComponents\Buttons\InstallModulesForSitecore9AndLaterButton.cs" />
     <Compile Include="MainWindowComponents\Buttons\InstanceDummyButton.cs" />
     <Compile Include="MainWindowComponents\Buttons\LogFilesButton.cs" />
     <Compile Include="MainWindowComponents\Buttons\OpenContainerFolderButton.cs" />
@@ -266,9 +272,6 @@
       <DependentUpon>Downloads.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\Download8\DownloadWizardArgs.xaml.cs" />
-    <Compile Include="UserControls\Download8\Login.xaml.cs">
-      <DependentUpon>Login.xaml</DependentUpon>
-    </Compile>
     <Compile Include="UserControls\Download8\ProductDownload8InCheckbox.cs" />
     <Compile Include="UserControls\Export\ExportDatabases.xaml.cs">
       <DependentUpon>ExportDatabases.xaml</DependentUpon>
@@ -279,6 +282,8 @@
     <Compile Include="UserControls\Export\ExportWizardArgs.cs" />
     <Compile Include="UserControls\Export\FinishActions.cs" />
     <Compile Include="UserControls\Helpers\InstallTasksHelper.cs" />
+    <Compile Include="UserControls\SitecoreAuthentication\SitecoreServicesClientAuth.cs" />
+    <Compile Include="UserControls\SitecoreAuthentication\SitecoreIdServerAuth.cs" />
     <Compile Include="UserControls\Import\ImportWebsite.xaml.cs">
       <DependentUpon>ImportWebsite.xaml</DependentUpon>
     </Compile>
@@ -624,6 +629,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Dialogs\CredentialsDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Dialogs\DatabaseQueryExecutionDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -757,10 +766,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="UserControls\Export\ExportDatabases.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="UserControls\Download8\Login.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
