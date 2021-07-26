@@ -12,8 +12,6 @@
 4. [Developer Center](https://github.com/Sitecore/Sitecore-Instance-Manager/wiki/API)
 5. [Contact Us](https://github.com/Sitecore/Sitecore-Instance-Manager/wiki/Support)
 
-Note, we are in progress of migrating from bitbucket to github so don't be confused by some of the links pointing back to bitbucket.
-
 ### Features
 
 #### Global Features
@@ -21,27 +19,29 @@ Note, we are in progress of migrating from bitbucket to github so don't be confu
 1. **List** Sitecore websites installed locally and their modules
 2. **Install** new Sitecore standalone product
 3. **Install** Sitecore modules and packages
-4. **Download** Sitecore products from SDN and DEV
-5. **Back up** Sitecore websites, and **Restore** them
-6. **Export** Sitecore website and **Import** it on remote computer
+4. **Download** Sitecore products from https://dev.sitecore.net
+5. **Back up** Sitecore websites, and **Restore** them *(available only for Sitecore 8.2 and earlier)*
+6. **Export** Sitecore website and **Import** it on remote computer *(available only for Sitecore 8.2 and earlier)*
 7. **Delete** Sitecore websites
-8. **Reinstall** Sitecore website
+8. **Reinstall** Sitecore websites
+9. **Install** Solr
+10. **Deploy** Sitecore to Docker
 
 #### Open in Browser
 
 * Open website 
 * Open Sitecore Client 
 * Open Sitecore Client ([bypassing security, logging in as admin](https://github.com/Sitecore/Sitecore-Instance-Manager/wiki/Log-in-admin))
-* Open [Support Toolbox](https://bitbucket.org/sitecoresupport/sitecore-support-toolbox)
+* Open [Support Toolbox](https://bitbucket.org/sitecoresupport/sitecore-support-toolbox) *(available only for Sitecore 8.2 and earlier)*
 
 #### Open applications
 
 * Open Website folder
-* Open Visual Studio 2012 project (create project if missing)
+* Open Visual Studio project (create project if missing)
 * Open web.config and other *.config files
 * Open `showconfig.xml` configuration
 * Open current log file in Dynamic Log Viewer
-* Open entire log files in [Sitecore Log Analyzer](http://marketplace.sitecore.net/Modules/Sitecore_Log_Analyzer.aspx)
+* Open entire log files in [Sitecore Log Analyzer](http://dl.sitecore.net/updater/scla)
 
 #### Change website
 
@@ -80,8 +80,8 @@ Note, we are in progress of migrating from bitbucket to github so don't be confu
 * Predefined configurations (Enable MVC, Scaling ...)
 * Delete All Instances - wizard for deleting all installed Sitecore instances
 * Update Licenses - Updating Sitecore license file in all installed Sitecore instances
-* [SSPG](https://marketplace.sitecore.net/en/Modules/Sitecore_Support_Package_Generator.aspx) - Sitecore Support Package Generator for collecting detailed information about an instance
-* Publish Dialog - executing Sitecore publishing in application
+* [SSPG](https://dl.sitecore.net/updater/sspg) - Sitecore Support Package Generator for collecting detailed information about an instance
+* Publish Dialog - executing Sitecore publishing in application *(available only for Sitecore 8.2 and earlier)*
 
 ### Prerequisites
 
@@ -89,7 +89,7 @@ SIM will only work:
 
 * on **Windows 7+**, or **Windows Server 2008 R2+** 
 * with `Administrator` permissions
-* with direct internet access (no proxy)
+* with direct Internet access (no proxy)
 * when **IIS is pre-configured** with all necessary features (check Sitecore installation guide for details)
 
 For `Sitecore 9.0`:
