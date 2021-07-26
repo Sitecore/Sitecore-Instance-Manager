@@ -32,7 +32,7 @@
 * Open website 
 * Open Sitecore Client 
 * Open Sitecore Client ([bypassing security, logging in as admin](https://github.com/Sitecore/Sitecore-Instance-Manager/wiki/Log-in-admin))
-* Open [Support Toolbox](https://bitbucket.org/sitecoresupport/sitecore-support-toolbox) *(available only for Sitecore 8.2 and earlier)*
+* Open [administrative tools](https://doc.sitecore.com/en/developers/101/platform-administration-and-architecture/enable-and-disable-an-administrative-tool.html)
 
 #### Open applications
 
