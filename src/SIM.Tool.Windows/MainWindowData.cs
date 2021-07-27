@@ -504,6 +504,12 @@ namespace SIM.Tool.Windows
                 new ButtonDefinition(),
                 new ButtonDefinition
                 {
+                  Label = "bin Folder",
+                  Image = "/Images/$sm/folder_open.png, SIM.Tool.Windows",
+                  Handler = new OpenBinFolderButton("$(website)/bin")
+                },
+                new ButtonDefinition
+                {
                   Label = "App_Config Folder",
                   Image = "/Images/$sm/folder_open.png, SIM.Tool.Windows",
                   Handler = new SitecoreMemberOpenFolderButton("$(website)/App_Config")

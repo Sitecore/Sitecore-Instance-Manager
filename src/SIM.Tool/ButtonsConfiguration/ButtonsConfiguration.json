@@ -13,6 +13,7 @@
     /*SIM Logs, SIM Data Folder, Website Folder, Root Folder, Data Folder, Databases Folder, App_Config Folder, Include Folder, zzz Folder*/
     "OpenFolderButton",
     "SitecoreMemberOpenFolderButton",
+    "OpenBinFolderButton",
     /*Hosts Editor*/
     "OpenHostsButton",
     /*MS SQL Manager*/
@@ -102,6 +103,7 @@
     "Download8Button",
     "OpenFolderButton",
     "SitecoreMemberOpenFolderButton",
+    "OpenBinFolderButton",
     "OpenHostsButton",
     "DatabaseManagerButton",
     "UpdateLicenseButton",
@@ -137,6 +139,7 @@
     "ImportInstanceButton",
     "Download8Button",
     "SitecoreMemberOpenFolderButton",
+    "OpenBinFolderButton",
     "OpenHostsButton",
     "DatabaseManagerButton",
     "UpdateLicenseButton",
