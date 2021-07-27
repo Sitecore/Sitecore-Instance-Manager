@@ -18,7 +18,7 @@
 
 1. **List** Sitecore websites installed locally and their modules
 2. **Install** new Sitecore standalone product
-3. **Install** Sitecore modules and packages
+3. [**Install** Sitecore modules and packages](https://github.com/Sitecore/Sitecore-Instance-Manager/wiki/Install-packages)
 4. **Download** Sitecore products from https://dev.sitecore.net
 5. **Back up** Sitecore websites, and **Restore** them *(available only for Sitecore 8.2 and earlier)*
 6. **Export** Sitecore website and **Import** it on remote computer *(available only for Sitecore 8.2 and earlier)*
