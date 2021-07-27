@@ -86,6 +86,14 @@ namespace SIM.Tool.Windows
           MainWindow.Instance.Width = d;
         }
 
+        // This is needed to get Windows display scale setting in percent and to set SIM width depending on it
+        int displayScalingSize = (int)(100 * Screen.PrimaryScreen.Bounds.Width / SystemParameters.PrimaryScreenWidth);
+        if (displayScalingSize > 100)
+        {
+          MainWindow.Instance.MaxWidth = MainWindow.Instance.MaxWidth + MainWindow.Instance.MaxWidth / 10000 * displayScalingSize;
+          MainWindow.Instance.Width = MainWindow.Instance.Width + MainWindow.Instance.Width / 10000 * displayScalingSize;
+        }
+
         ApplicationManager.IisStatusChanged += (sender, args) =>
         {
           RefreshIisStatus();
