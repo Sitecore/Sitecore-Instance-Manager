@@ -160,6 +160,7 @@
     <Compile Include="MainWindowComponents\Buttons\InstallModulesForSitecore9AndLaterButton.cs" />
     <Compile Include="MainWindowComponents\Buttons\InstanceDummyButton.cs" />
     <Compile Include="MainWindowComponents\Buttons\LogFilesButton.cs" />
+    <Compile Include="MainWindowComponents\Buttons\OpenBinFolderButton.cs" />
     <Compile Include="MainWindowComponents\Buttons\OpenContainerFolderButton.cs" />
     <Compile Include="MainWindowComponents\Groups\AppsGroup.cs" />
     <Compile Include="MainWindowComponents\Groups\BackupGroup.cs" />
