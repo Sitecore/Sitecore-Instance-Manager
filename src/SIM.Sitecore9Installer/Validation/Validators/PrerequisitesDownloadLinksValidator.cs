@@ -15,6 +15,8 @@ namespace SIM.Sitecore9Installer.Validation.Validators
     // parameter to validate the following known issue: https://github.com/Sitecore/Sitecore-Instance-Manager/wiki/Known-Issue-Outdated-Download-Link-to-Microsoft-Web-Platform-Installer
     public virtual string WebPlatformDownload => "WebPlatformDownload";
 
+    public virtual string KnownIssueLink => "https://github.com/Sitecore/Sitecore-Instance-Manager/wiki/Known-Issue-Outdated-Download-Link-to-Microsoft-Web-Platform-Installer";
+
     protected override IEnumerable<ValidationResult> GetErrorsForTask(Task task, IEnumerable<InstallParam> paramsToValidate)
     {
       string paramNamePostfix = string.Empty;
@@ -42,13 +44,13 @@ namespace SIM.Sitecore9Installer.Validation.Validators
                 if (installParam.Name == this.WebPlatformDownload)
                 {
                   yield return new ValidationResult(ValidatorState.Warning,
-                    $"{TaskName}: the '{installParam.Name}' parameter contains the following invalid link that is not accessible:\n\n{installParam.Value}\n\nThis behavior looks to be related to the following known issue:\n\nhttps://github.com/Sitecore/Sitecore-Instance-Manager/wiki/Known-Issue-Outdated-Download-Link-to-Microsoft-Web-Platform-Installer\n\nPlease try to apply the solution mentioned there.",
+                    $"{TaskName}: the '{installParam.Name}' parameter contains the following invalid link that is not accessible:\n\n{installParam.Value}\n\nThis behavior looks to be related to the following known issue:\n\n{KnownIssueLink}\n\nPlease try to apply the solution mentioned there.",
                     null);
                 }
                 else
                 {
                   yield return new ValidationResult(ValidatorState.Warning,
-                    $"{TaskName}: the '{installParam.Name}' parameter contains the following invalid link that is not accessible:\n\n{installParam.Value}\n\nThis behavior may occur due to similar symptoms described in the following known issue:\n\nhttps://github.com/Sitecore/Sitecore-Instance-Manager/wiki/Known-Issue-Outdated-Download-Link-to-Microsoft-Web-Platform-Installer",
+                    $"{TaskName}: the '{installParam.Name}' parameter contains the following invalid link that is not accessible:\n\n{installParam.Value}\n\nThis behavior may occur due to similar symptoms described in the following known issue:\n\n{KnownIssueLink}",
                     null);
                 }
               }

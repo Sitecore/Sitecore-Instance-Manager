@@ -11,9 +11,9 @@ namespace SIM.Sitecore9Installer.Tests.Validation.Validators
 {
   public class PrerequisitesDownloadLinksValidatorTests
   {
-    private const string KnownIssueMessage = "{0}: the '{1}' parameter contains the following invalid link that is not accessible:\n\n{2}\n\nThis behavior looks to be related to the following known issue:\n\nhttps://github.com/Sitecore/Sitecore-Instance-Manager/wiki/Known-Issue-Outdated-Download-Link-to-Microsoft-Web-Platform-Installer\n\nPlease try to apply the solution mentioned there.";
+    private const string KnownIssueMessage = "{0}: the '{1}' parameter contains the following invalid link that is not accessible:\n\n{2}\n\nThis behavior looks to be related to the following known issue:\n\n{3}\n\nPlease try to apply the solution mentioned there.";
 
-    private const string InvalidLinkMessage = "{0}: the '{1}' parameter contains the following invalid link that is not accessible:\n\n{2}\n\nThis behavior may occur due to similar symptoms described in the following known issue:\n\nhttps://github.com/Sitecore/Sitecore-Instance-Manager/wiki/Known-Issue-Outdated-Download-Link-to-Microsoft-Web-Platform-Installer";
+    private const string InvalidLinkMessage = "{0}: the '{1}' parameter contains the following invalid link that is not accessible:\n\n{2}\n\nThis behavior may occur due to similar symptoms described in the following known issue:\n\n{3}";
 
     private const string InvalidValueMessage = "{0}: the '{1}' parameter contains the following invalid value:\n\n{2}\n\nIt should contain download link that starts with '{3}'.";
 
@@ -50,14 +50,21 @@ namespace SIM.Sitecore9Installer.Tests.Validation.Validators
 
       // Assert
       Assert.Equal(warnings.Count(), warningsCount);
-      this.ValidateMessage(warnings, message, taskName, paramName, paramValue, string.Join("' or '", paramValuePrefixes));
+      if (message == KnownIssueMessage || message == InvalidLinkMessage)
+      {
+        this.ValidateMessage(warnings, message, taskName, paramName, paramValue, validator.KnownIssueLink);
+      }
+      else
+      {
+        this.ValidateMessage(warnings, message, taskName, paramName, paramValue, string.Join("' or '", paramValuePrefixes));
+      }
     }
 
-    private void ValidateMessage(IEnumerable<ValidationResult> warnings, string message, string taskName, string paramName, string paramValue, string paramValuePrefixes)
+    private void ValidateMessage(IEnumerable<ValidationResult> warnings, string message, string taskName, string paramName, string paramValue, string paramChangeable)
     {
       if (!string.IsNullOrEmpty(message))
       {
-        message = string.Format(message, taskName, paramName, paramValue, paramValuePrefixes);
+        message = string.Format(message, taskName, paramName, paramValue, paramChangeable);
         Assert.Contains(warnings, warning => warning.Message.Equals(message));
       }
     }
