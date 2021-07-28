@@ -11,8 +11,7 @@
 			<RowDefinition Height="*"/>
 			<RowDefinition Height="20"/>
 		</Grid.RowDefinitions>
-		<!--<TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Top" Name="TextBlock" TextWrapping="Wrap"  />-->
-		<TextBox HorizontalAlignment="Stretch" VerticalAlignment="Top" Name="TextBlock" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" IsReadOnly="True" BorderThickness="0" Background="Transparent" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2"/><!-- Background="#FFF0F0F0" -->
+		<TextBox HorizontalAlignment="Stretch" VerticalAlignment="Top" Name="TextBlock" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" IsReadOnly="True" BorderThickness="0" Background="Transparent" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2"/>
 		<TextBlock Text="Reinstall Prerequisites:" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="4,1" Height="18" Grid.Column="0" Grid.Row="1"/>
 		<CheckBox Name="ReinstallPrerequisites" IsChecked="False" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="1,2" Height="14" Grid.Column="1" Grid.Row="1"/>
 	</Grid>
