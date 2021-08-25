@@ -102,8 +102,12 @@ For `Sitecore 7.5, 8.0, 8.1 and 8.2`:
 
 ### Known Issues
 
-* [SQL Server integrated security is not supported](https://github.com/Sitecore/Sitecore-Instance-Manager/wiki/KnownIssue-IntegratedSecurity)
-* [IIS ip bindings are not supported](https://github.com/Sitecore/Sitecore-Instance-Manager/wiki/KnownIssue-IpBindings)
+* [Outdated download link to Microsoft Web Platform Installer](https://github.com/Sitecore/Sitecore-Instance-Manager/wiki/Known-Issue-Outdated-Download-Link-to-Microsoft-Web-Platform-Installer)
+* [SQL Server integrated security is not supported](https://github.com/Sitecore/Sitecore-Instance-Manager/wiki/Known-Issue-Integrated-Security)
+* [HTTPS or IP-based Bindings are not supported](https://github.com/Sitecore/Sitecore-Instance-Manager/wiki/Known-Issue-IP-Bindings)
+* [Sitecore environment can use only the default HTTPS port 443](https://github.com/Sitecore/Sitecore-Instance-Manager/wiki/Known-Issue-Sitecore-Uses-Only-Default-HTTPS-port)
+* [SQL Server 2012 or 2014 default user account is not supported](https://github.com/Sitecore/Sitecore-Instance-Manager/wiki/Known-Issue-Sql-Server-Default-Account)
+* [Automatic upgrade to SIM 1.6 is not supported](https://github.com/Sitecore/Sitecore-Instance-Manager/wiki/Known-Issue-Upgrade-to-SIM-1.6)
 
 ### Supported Products
 
