@@ -1150,7 +1150,7 @@ namespace SIM.Tool.Windows
         new ButtonDefinition { Label = "Copy URL", Image = "/Images/$lg/astrologer.png, SIM.Tool.Windows", Handler = new LoginAdminButton("$(clipboard)") },
       }}, 
       new ButtonDefinition { Label = "Sitecore Admin", Image = "/Images/$lg/toolbox.png, SIM.Tool.Windows", Handler = new OpenToolboxButton() },
-      new ButtonDefinition { Label = "Open Folder", Image = "/Images/$sm/folder_open.png, SIM.Tool.Windows", Handler = new OpenFolderButton("$(website)") },
+      new ButtonDefinition { Label = "Open Folder", Image = "/Images/$sm/folder_open.png, SIM.Tool.Windows", Handler = new SitecoreMemberOpenFolderButton("$(website)") },
       new ButtonDefinition { Label = "Open Container Folder", Image = "/Images/$sm/folder_open.png, SIM.Tool.Windows", Handler = new OpenContainerFolderButton() },
       new ButtonDefinition { Label = "Open Visual Studio", Image = "/Images/$sm/vs.png, SIM.Tool.Windows", Handler = new OpenVisualStudioButton() },
       new ButtonDefinition { Handler = new OpenWebConfigButton() },
