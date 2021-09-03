@@ -12,7 +12,7 @@
 			<RowDefinition Height="20"/>
 		</Grid.RowDefinitions>
 		<TextBox HorizontalAlignment="Stretch" VerticalAlignment="Top" Name="TextBlock" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" IsReadOnly="True" BorderThickness="0" Background="Transparent" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2"/>
-		<TextBlock Text="Reinstall Prerequisites:" TextWrapping="Wrap" VerticalAlignment="Center" HorizontalAlignment="Right" Height="16" Grid.Column="0" Grid.Row="1"/>
-		<CheckBox Name="ReinstallPrerequisites" IsChecked="False" VerticalAlignment="Center" HorizontalAlignment="Left" Height="15" Grid.Column="1" Grid.Row="1"/>
+		<TextBlock Name="ReinstallPrerequisitesTextBlock" Text="Reinstall Prerequisites:" TextWrapping="Wrap" VerticalAlignment="Center" HorizontalAlignment="Right" Height="16" Grid.Column="0" Grid.Row="1"/>
+		<CheckBox Name="ReinstallPrerequisitesCheckBox" IsChecked="False" VerticalAlignment="Center" HorizontalAlignment="Left" Height="15" Grid.Column="1" Grid.Row="1"/>
 	</Grid>
 </UserControl>

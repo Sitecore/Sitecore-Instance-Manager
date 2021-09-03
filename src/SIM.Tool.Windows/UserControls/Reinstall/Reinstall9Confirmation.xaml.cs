@@ -8,6 +8,7 @@ using Sitecore.Diagnostics.Base;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Windows;
 
 namespace SIM.Tool.Windows.UserControls.Reinstall
 {
@@ -16,6 +17,8 @@ namespace SIM.Tool.Windows.UserControls.Reinstall
   /// </summary>
   public partial class Reinstall9Confirmation: IWizardStep, IFlowControl
   {
+    private const string PrerequisitesTaskName = "Prerequisites";
+
     #region Constructors
 
     public Reinstall9Confirmation()
@@ -80,6 +83,12 @@ namespace SIM.Tool.Windows.UserControls.Reinstall
 
       this.TextBlock.Text = displayText.ToString();
       args.InstanceName = args.Tasker.GlobalParams.First(p => p.Name == "SqlDbPrefix").Value;
+
+      if (args.Tasker.Tasks.All(task => task.Name != PrerequisitesTaskName))
+      {
+        this.ReinstallPrerequisitesTextBlock.Visibility = Visibility.Hidden;
+        this.ReinstallPrerequisitesCheckBox.Visibility = Visibility.Hidden;
+      }
     }
 
     public bool OnMovingBack(WizardArgs wizardArgs)
@@ -91,11 +100,13 @@ namespace SIM.Tool.Windows.UserControls.Reinstall
     {
       Assert.ArgumentNotNull(wizardArgs, nameof(wizardArgs));
       ReinstallWizardArgs args = (ReinstallWizardArgs)wizardArgs;
-      if (!this.ReinstallPrerequisites.IsChecked.Value)
+      if (this.ReinstallPrerequisitesCheckBox.Visibility == Visibility.Visible && 
+          this.ReinstallPrerequisitesCheckBox.IsChecked != null && 
+          !this.ReinstallPrerequisitesCheckBox.IsChecked.Value)
       {
         foreach (Task task in args.Tasker.Tasks)
         {
-          if (task.Name == "Prerequisites")
+          if (task.Name == PrerequisitesTaskName)
           {
             task.ShouldRun = false;
           }
