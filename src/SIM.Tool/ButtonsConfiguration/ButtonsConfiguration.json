@@ -22,8 +22,6 @@
     "UpdateLicenseButton",
     /*Multiple Deletion*/
     "MultipleDeletionButton",
-    /*Log Analyzer*/
-    "OpenLogsButton",
     /*SSPG*/
     "OpenSSPGButton",
     /*Config Builder*/
@@ -58,7 +56,7 @@
     "AppStateButton",
     /*Current Log file*/
     "OpenCurrentLogButton",
-    /*Entire Log files*/
+    /*Log Analyzer, Entire Log files*/
     "OpenLogsButton",
     /*Visual Studio*/
     "OpenVisualStudioButton",
