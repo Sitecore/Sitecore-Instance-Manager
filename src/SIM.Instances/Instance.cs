@@ -649,19 +649,12 @@
         }
         // This exception occurs when the RuntimeSettingsAccessor.GetWebConfigResult method fails due to missing <sitecore> node (e.g. in xConnect, Identity Server, etc.)
         // In this case, the logs folder can be resolved manually
-        catch (InvalidOperationException ex)
+        catch (InvalidOperationException)
         {
           string rootData = FileSystem.FileSystem.Local.Directory.MapPath("App_data", WebRootPath);
           if (FileSystem.FileSystem.Local.Directory.Exists(rootData))
           {
             return rootData;
-          }
-
-          // xConnect contains the logs folder in the root folder 
-          rootData = FileSystem.FileSystem.Local.Directory.MapPath("logs", WebRootPath);
-          if (FileSystem.FileSystem.Local.Directory.Exists(rootData))
-          {
-            return WebRootPath;
           }
 
           throw new InvalidOperationException($"Cannot get data folder of {WebRootPath}");
