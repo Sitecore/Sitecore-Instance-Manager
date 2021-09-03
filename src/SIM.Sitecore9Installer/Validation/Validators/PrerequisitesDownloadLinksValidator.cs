@@ -44,13 +44,13 @@ namespace SIM.Sitecore9Installer.Validation.Validators
                 if (installParam.Name == this.WebPlatformDownload)
                 {
                   yield return new ValidationResult(ValidatorState.Warning,
-                    $"{TaskName}: the '{installParam.Name}' parameter contains the following invalid link that is not accessible:\n\n{installParam.Value}\n\nThis behavior looks to be related to the following known issue:\n\n{KnownIssueLink}\n\nPlease try to apply the solution mentioned there.",
+                    $"{TaskName}: the '{installParam.Name}' parameter contains the following link that is not accessible:\n\n{installParam.Value}\n\nThis behavior looks to be related to the following known issue:\n\n{KnownIssueLink}\n\nPlease try to apply the solution mentioned there.",
                     null);
                 }
                 else
                 {
                   yield return new ValidationResult(ValidatorState.Warning,
-                    $"{TaskName}: the '{installParam.Name}' parameter contains the following invalid link that is not accessible:\n\n{installParam.Value}\n\nThis behavior may occur due to similar symptoms described in the following known issue:\n\n{KnownIssueLink}",
+                    $"{TaskName}: the '{installParam.Name}' parameter contains the following link that is not accessible:\n\n{installParam.Value}\n\nPlease check the Internet connection and the link accessibility in a browser.\n\nThis behavior may also occur due to similar symptoms described in the following known issue:\n\n{KnownIssueLink}",
                     null);
                 }
               }

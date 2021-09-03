@@ -11,9 +11,9 @@ namespace SIM.Sitecore9Installer.Tests.Validation.Validators
 {
   public class PrerequisitesDownloadLinksValidatorTests
   {
-    private const string KnownIssueMessage = "{0}: the '{1}' parameter contains the following invalid link that is not accessible:\n\n{2}\n\nThis behavior looks to be related to the following known issue:\n\n{3}\n\nPlease try to apply the solution mentioned there.";
+    private const string KnownIssueMessage = "{0}: the '{1}' parameter contains the following link that is not accessible:\n\n{2}\n\nThis behavior looks to be related to the following known issue:\n\n{3}\n\nPlease try to apply the solution mentioned there.";
 
-    private const string InvalidLinkMessage = "{0}: the '{1}' parameter contains the following invalid link that is not accessible:\n\n{2}\n\nThis behavior may occur due to similar symptoms described in the following known issue:\n\n{3}";
+    private const string InvalidLinkMessage = "{0}: the '{1}' parameter contains the following link that is not accessible:\n\n{2}\n\nPlease check the Internet connection and the link accessibility in a browser.\n\nThis behavior may also occur due to similar symptoms described in the following known issue:\n\n{3}";
 
     private const string InvalidValueMessage = "{0}: the '{1}' parameter contains the following invalid value:\n\n{2}\n\nIt should contain download link that starts with '{3}'.";
 
