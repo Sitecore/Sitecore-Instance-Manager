@@ -41,7 +41,7 @@ namespace SIM.Tool.Windows.MainWindowComponents.Buttons
     {
       if (instance != null)
       {
-        string logs = new LogFileFolderResolver(instance).GetLogFolder();
+        string logs = LogFileFolderFactory.GetResolver(instance).GetLogFolder();
 
         if (string.IsNullOrEmpty(logs))
         {

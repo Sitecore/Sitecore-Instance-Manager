@@ -2,8 +2,16 @@
 
 namespace SIM.Tool.Windows.LogFileFolder
 {
-  public abstract class LogFileFolderFactory
+  public static class LogFileFolderFactory
   {
-    public abstract string GetLogFolder(Instance instance);
+    public static LogFileFolderResolver GetResolver(Instance instance)
+    {
+      if (instance.Type == Instance.InstanceType.SitecoreMember)
+      {
+        return new SitecoreMembersLogFileFolderResolver(instance);
+      }
+
+      return new SitecoreDefaultLogFileFolderResolver(instance);
+    }
   }
 }
