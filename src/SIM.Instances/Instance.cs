@@ -647,31 +647,37 @@
 
           return MapPath(dataFolder);
         }
-        // This exception occurs when the RuntimeSettingsAccessor.GetWebConfigResult method fails due to missing <sitecore> node (e.g. in xConnect, Identity Server, etc.)
-        // In this case, the logs folder can be resolved manually
-        catch (InvalidOperationException)
+        catch (Exception ex)
         {
-          string rootData = FileSystem.FileSystem.Local.Directory.MapPath("App_data", WebRootPath);
-          if (FileSystem.FileSystem.Local.Directory.Exists(rootData))
+          string rootData = Path.Combine(Path.GetDirectoryName(WebRootPath), "Data");
+          if (this.IsValidDataFolderPath(rootData, ex))
           {
             return rootData;
           }
 
-          throw new InvalidOperationException($"Cannot get data folder of {WebRootPath}");
-        }
-        catch (Exception ex)
-        {
-          var rootData = Path.Combine(Path.GetDirectoryName(WebRootPath), "Data");
-          if (FileSystem.FileSystem.Local.Directory.Exists(rootData))
+          // InvalidOperationException occurs when the RuntimeSettingsAccessor.GetWebConfigResult method fails due to missing <sitecore> node (e.g. in xConnect, Identity Server, etc.)
+          // In this case, the log file folder can be resolved manually
+          rootData = FileSystem.FileSystem.Local.Directory.MapPath("App_data", WebRootPath);
+          if (this.IsValidDataFolderPath(rootData, ex))
           {
-            Log.Error(ex, $"Cannot get data folder of {WebRootPath}");
-
             return rootData;
           }
 
           throw new InvalidOperationException($"Cannot get data folder of {WebRootPath}");
         }
       }
+    }
+
+    private bool IsValidDataFolderPath(string rootData, Exception ex)
+    {
+      if (FileSystem.FileSystem.Local.Directory.Exists(rootData))
+      {
+        Log.Error(ex, $"Cannot get data folder of {WebRootPath}");
+
+        return true;
+      }
+
+      return false;
     }
 
     protected virtual bool GetIsHidden()
