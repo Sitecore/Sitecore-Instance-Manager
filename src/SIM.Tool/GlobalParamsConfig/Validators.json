@@ -202,6 +202,14 @@
       "Data": {
         "LicenseFileVariable": "LicenseFile"
       }
+    },
+    {
+      "Name": "PrerequisitesDownloadLinksValidator",
+      "Type": "SIM.Sitecore9Installer.Validation.Validators.PrerequisitesDownloadLinksValidator",
+      "Data": {
+        "ParamNamePostfix": "Download",
+        "ParamValuePrefixes": "http://|https://"
+      }
     }
   ],
   "ValidatorLists": {
@@ -241,22 +249,26 @@
     "Sitecore_9.1": [
       "9.1_SqlCompatibilityValidator",
       "9.1_SolrVersionValidator",
-      "CmIdentityServerSiteNameValidator"
+      "CmIdentityServerSiteNameValidator",
+      "PrerequisitesDownloadLinksValidator"
     ],
     "Sitecore_9.2": [
       "9.2_SqlCompatibilityValidator",
       "9.2_SolrVersionValidator",
-      "CmIdentityServerSiteNameValidator"
+      "CmIdentityServerSiteNameValidator",
+      "PrerequisitesDownloadLinksValidator"
     ],
     "Sitecore_9.3": [
       "9.3_SqlCompatibilityValidator",
       "9.3_SolrVersionValidator",
-      "CmIdentityServerSiteNameValidator"
+      "CmIdentityServerSiteNameValidator",
+      "PrerequisitesDownloadLinksValidator"
     ],
     "Sitecore_10.0": [
       "9.3_SqlCompatibilityValidator",
       "10.0_SolrVersionValidator",
-      "CmIdentityServerSiteNameValidator"
+      "CmIdentityServerSiteNameValidator",
+      "PrerequisitesDownloadLinksValidator"
     ]
   }
 }
