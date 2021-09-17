@@ -20,7 +20,7 @@ namespace SIM.Tool.Windows.LogFileFolder
         return logsPath;
       }
 
-      return new SitecoreDefaultLogFileFolderResolver(_instance).GetLogFolder();
+      return null;
     }
   }
 }

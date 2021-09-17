@@ -13,5 +13,10 @@ namespace SIM.Tool.Windows.LogFileFolder
 
       return new SitecoreDefaultLogFileFolderResolver(instance);
     }
+
+    public static LogFileFolderResolver GetDefaultResolver(Instance instance)
+    {
+      return new SitecoreDefaultLogFileFolderResolver(instance);
+    }
   }
 }
