@@ -532,7 +532,7 @@ namespace SIM.Tool.Windows
             {
               Label = "Config Files",
               Image = "/Images/$lg/copy.png, SIM.Tool.Windows",
-              Handler = new OpenWebConfigButton(),
+              Handler = new ConfigFilesButton(),
               Buttons = new[]
               {
                 new ButtonDefinition

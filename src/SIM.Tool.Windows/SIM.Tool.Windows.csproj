@@ -157,6 +157,7 @@
     <Compile Include="MainWindowComponents\Buttons\AppStateButton.cs" />
     <Compile Include="MainWindowComponents\Buttons\BrowseSitecoreContainerWebsiteButton.cs" />
     <Compile Include="MainWindowComponents\Buttons\BrowseHomePageButton.cs" />
+    <Compile Include="MainWindowComponents\Buttons\ConfigFilesButton.cs" />
     <Compile Include="MainWindowComponents\Buttons\CreateSupportHotfixButton.cs" />
     <Compile Include="MainWindowComponents\Buttons\InstallModulesForSitecore9AndLaterButton.cs" />
     <Compile Include="MainWindowComponents\Buttons\InstanceDummyButton.cs" />
