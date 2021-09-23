@@ -44,7 +44,9 @@
     "OpenToolboxButton",
     /*Log in admin, Copy URL*/
     "LoginAdminButton",
-    /*Config Files, web.config*/
+    /*Config Files*/ 
+    "ConfigFilesButton",
+    /*web.config*/
     "OpenWebConfigButton",
     /*Global.asax, ConnectionStrings.config, Sitecore.config*/
     "OpenFileButton",
@@ -117,6 +119,7 @@
     "BrowseHomePageButton",
     "OpenToolboxButton",
     "LoginAdminButton",
+    "ConfigFilesButton",
     "OpenWebConfigButton",
     "OpenFileButton",
     "ConfigBuilderButton",
@@ -147,6 +150,7 @@
     "InstallMongoDbButton",
     "SettingsButton",
     "CreateSupportHotfixButton",
+    "OpenWebConfigButton",
     "OpenFileButton",
     "ConfigBuilderButton",
     "OpenLogsButton",
