@@ -51,7 +51,7 @@ namespace SIM.Tool.Windows.MainWindowComponents.Buttons
 
     #region Private methods
 
-    private string ExpandPath(Instance instance)
+    protected string ExpandPath(Instance instance)
     {
       var path = Folder;
       if (!string.IsNullOrEmpty(path) && !RequiresInstance(path))

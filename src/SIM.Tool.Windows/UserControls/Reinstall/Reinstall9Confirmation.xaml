@@ -3,7 +3,16 @@
              mc:Ignorable="d" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" d:DesignHeight="269" d:DesignWidth="421">
 	<Grid>
-		<!--<TextBlock HorizontalAlignment="Stretch" VerticalAlignment="Top" Name="TextBlock" TextWrapping="Wrap"  />-->
-        <TextBox HorizontalAlignment="Stretch" VerticalAlignment="Top" Name="TextBlock" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" IsReadOnly="True" BorderThickness="0" Background="Transparent" /><!-- Background="#FFF0F0F0" -->
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="124"/>
+			<ColumnDefinition Width="*"/>
+		</Grid.ColumnDefinitions>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="*"/>
+			<RowDefinition Height="20"/>
+		</Grid.RowDefinitions>
+		<TextBox HorizontalAlignment="Stretch" VerticalAlignment="Top" Name="TextBlock" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" IsReadOnly="True" BorderThickness="0" Background="Transparent" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2"/>
+		<TextBlock Name="ReinstallPrerequisitesTextBlock" Text="Reinstall Prerequisites:" TextWrapping="Wrap" VerticalAlignment="Center" HorizontalAlignment="Right" Height="16" Grid.Column="0" Grid.Row="1"/>
+		<CheckBox Name="ReinstallPrerequisitesCheckBox" IsChecked="False" VerticalAlignment="Center" HorizontalAlignment="Left" Height="15" Grid.Column="1" Grid.Row="1"/>
 	</Grid>
 </UserControl>

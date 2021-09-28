@@ -31,7 +31,8 @@
 
     public override ProcessorArgs ToProcessorArgs()
     {
-      if (int.Parse(this.Instance.Product.ShortVersion) >= 90)
+      Instance.InstanceType instanceType = this.Instance.Type;
+      if (instanceType == Instance.InstanceType.Sitecore9AndLater || instanceType == Instance.InstanceType.SitecoreMember)
       {
         return new Reinstall9Args(this.Tasker);
       }

@@ -13,6 +13,7 @@
     /*SIM Logs, SIM Data Folder, Website Folder, Root Folder, Data Folder, Databases Folder, App_Config Folder, Include Folder, zzz Folder*/
     "OpenFolderButton",
     "SitecoreMemberOpenFolderButton",
+    "OpenBinFolderButton",
     /*Hosts Editor*/
     "OpenHostsButton",
     /*MS SQL Manager*/
@@ -21,8 +22,6 @@
     "UpdateLicenseButton",
     /*Multiple Deletion*/
     "MultipleDeletionButton",
-    /*Log Analyzer*/
-    "OpenLogsButton",
     /*SSPG*/
     "OpenSSPGButton",
     /*Config Builder*/
@@ -45,7 +44,9 @@
     "OpenToolboxButton",
     /*Log in admin, Copy URL*/
     "LoginAdminButton",
-    /*Config Files, web.config*/
+    /*Config Files*/ 
+    "ConfigFilesButton",
+    /*web.config*/
     "OpenWebConfigButton",
     /*Global.asax, ConnectionStrings.config, Sitecore.config*/
     "OpenFileButton",
@@ -57,7 +58,7 @@
     "AppStateButton",
     /*Current Log file*/
     "OpenCurrentLogButton",
-    /*Entire Log files*/
+    /*Log Analyzer, Entire Log files*/
     "OpenLogsButton",
     /*Visual Studio*/
     "OpenVisualStudioButton",
@@ -102,11 +103,11 @@
     "Download8Button",
     "OpenFolderButton",
     "SitecoreMemberOpenFolderButton",
+    "OpenBinFolderButton",
     "OpenHostsButton",
     "DatabaseManagerButton",
     "UpdateLicenseButton",
     "MultipleDeletionButton",
-    "OpenLogsButton",
     "OpenSSPGButton",
     "ConfigBuilderButton",
     "InstallSolrButton",
@@ -118,6 +119,7 @@
     "BrowseHomePageButton",
     "OpenToolboxButton",
     "LoginAdminButton",
+    "ConfigFilesButton",
     "OpenWebConfigButton",
     "OpenFileButton",
     "ConfigBuilderButton",
@@ -137,20 +139,20 @@
     "ImportInstanceButton",
     "Download8Button",
     "SitecoreMemberOpenFolderButton",
+    "OpenBinFolderButton",
     "OpenHostsButton",
     "DatabaseManagerButton",
     "UpdateLicenseButton",
     "MultipleDeletionButton",
-    "OpenLogsButton",
     "OpenSSPGButton",
     "ConfigBuilderButton",
     "InstallSolrButton",
     "InstallMongoDbButton",
     "SettingsButton",
     "CreateSupportHotfixButton",
+    "OpenWebConfigButton",
     "OpenFileButton",
     "ConfigBuilderButton",
-    "OpenCurrentLogButton",
     "OpenLogsButton",
     "OpenVisualStudioButton",
     "ControlAppPoolButton",

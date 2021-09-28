@@ -3,6 +3,8 @@ using System.Windows;
 using JetBrains.Annotations;
 using SIM.Extensions;
 using SIM.Instances;
+using SIM.Tool.Base;
+using SIM.Tool.Windows.LogFileFolder;
 
 namespace SIM.Tool.Windows.MainWindowComponents.Buttons
 {
@@ -39,11 +41,16 @@ namespace SIM.Tool.Windows.MainWindowComponents.Buttons
     {
       if (instance != null)
       {
-        var dataFolderPath = instance.DataFolderPath;
-        FileSystem.FileSystem.Local.Directory.AssertExists(dataFolderPath, "The data folder ({0}) of the {1} instance doesn't exist".FormatWith(dataFolderPath, instance.Name));
+        string logs = LogFileFolderFactory.GetResolver(instance).GetLogFolder() ?? LogFileFolderFactory.GetDefaultResolver(instance).GetLogFolder();
 
-        var logs = Path.Combine(dataFolderPath, "logs");
-        RunApp(mainWindow, logs);
+        if (string.IsNullOrEmpty(logs))
+        {
+          WindowHelper.ShowMessage($"Unable to find the logs folder under '{instance.WebRootPath}'.", MessageBoxButton.OK, MessageBoxImage.Warning);
+        }
+        else
+        {
+          RunApp(mainWindow, logs);
+        }
 
         return;
       }

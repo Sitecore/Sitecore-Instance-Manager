@@ -92,6 +92,7 @@
     <Compile Include="Validation\Validators\LicenseFileValidatorTests.cs" />
     <Compile Include="Validation\Validators\NugetToolPresenceValidatorTests.cs" />
     <Compile Include="Validation\Validators\PathExistsValidatorTests.cs" />
+    <Compile Include="Validation\Validators\PrerequisitesDownloadLinksValidatorTests.cs" />
     <Compile Include="Validation\Validators\SolrServiceValidatorTests.cs" />
     <Compile Include="Validation\Validators\SqlPefixValidatorTests.cs" />
     <Compile Include="Validation\Validators\SqlVersionValidatorTests.cs" />
