@@ -97,6 +97,13 @@
       return Path.Combine(webRootPath, "bin\\Sitecore.Kernel.dll");
     }
 
+    [NotNull]
+    public static string GetPublishingHostPath([NotNull] string webRootPath)
+    {
+      Assert.ArgumentNotNullOrEmpty(webRootPath, nameof(webRootPath));
+
+      return Path.Combine(webRootPath, "Sitecore.Framework.Publishing.Host.exe");
+    }
     #endregion
 
     #region Methods

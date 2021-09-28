@@ -935,6 +935,18 @@ namespace SIM.Tool.Windows
                 },
               }
             },
+            new ButtonDefinition
+            {
+              Label = "Install Publishing Service",
+              Image = "/Images/$lg/install.png, SIM.Tool.Windows",
+              Handler = new InstallSPSButton(),
+            },
+            new ButtonDefinition
+            {
+              Label = "Uninstall Publishing Service",
+              Image = "/Images/$lg/uninstall.png, SIM.Tool.Windows",
+              Handler = new UninstallSPSButton(),
+            },
           }
         };
       }

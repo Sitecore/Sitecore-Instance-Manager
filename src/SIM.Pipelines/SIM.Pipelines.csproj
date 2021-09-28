@@ -60,6 +60,9 @@
       <HintPath>..\packages\mongocsharpdriver.1.10.1\lib\net35\MongoDB.Driver.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="Sitecore.Diagnostics.Base, Version=2.0.1.171, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Sitecore.Diagnostics.Base.2.0.1.171\lib\Sitecore.Diagnostics.Base.dll</HintPath>
     </Reference>
@@ -105,6 +108,17 @@
     <Compile Include="Import\ImportRestoreMongoDatabases.cs" />
     <Compile Include="Import\UpdateConnectionStrings.cs" />
     <Compile Include="Import\UpdateDataFolder.cs" />
+    <Compile Include="PublishingService\Install\AddToEnvironmentProcessor.cs" />
+    <Compile Include="PublishingService\Install\CreateIISiteProcessor.cs" />
+    <Compile Include="PublishingService\SPSProcessor.cs" />
+    <Compile Include="PublishingService\Install\InstallSPSProcessorArgs.cs" />
+    <Compile Include="PublishingService\Commands.cs" />
+    <Compile Include="PublishingService\Install\SetActualConnectionStringsProcessor.cs" />
+    <Compile Include="PublishingService\Install\SetAdminConnectionStringsProcessor.cs" />
+    <Compile Include="PublishingService\Install\PrepareInstallationProcessor.cs" />
+    <Compile Include="PublishingService\Install\ResetDatabaseSchemaProcessor.cs" />
+    <Compile Include="PublishingService\Install\UpgradeDatabaseSchemaProcessor.cs" />
+    <Compile Include="PublishingService\Install\VerifyInstallationProcessor.cs" />
     <Compile Include="Install\Containers\AddHostsProcessor.cs" />
     <Compile Include="Install\Containers\ConvertLicenseProcessor.cs" />
     <Compile Include="Install\Containers\CopyFilesToDestination.cs" />
@@ -216,6 +230,11 @@
     <Compile Include="Reinstall\0500 Delete.DeleteWebsite.cs" />
     <Compile Include="Reinstall\0600 Delete.DeleteWebsiteFolder.cs" />
     <Compile Include="Reinstall\0800 Install.Extract.cs" />
+    <Compile Include="PublishingService\Uninstall\RemoveAppPoolProcessor.cs" />
+    <Compile Include="PublishingService\Uninstall\RemoveFromEnvironmentProcessor.cs" />
+    <Compile Include="PublishingService\Uninstall\RemoveWebrootFolderProcessor.cs" />
+    <Compile Include="PublishingService\Uninstall\RemoveIISSiteProcessor.cs" />
+    <Compile Include="PublishingService\Uninstall\UninstallSPSProcessorArgs.cs" />
     <Compile Include="UpdateWebConfigHelper.cs" />
     <Compile Include="Reinstall\ReinstallArgs.cs" />
     <Compile Include="Reinstall\ReinstallProcessor.cs" />

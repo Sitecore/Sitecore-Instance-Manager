@@ -27,7 +27,7 @@ namespace SIM.Pipelines.Install
       InstallParam sqlDbPrefixParam = arguments.Tasker.GlobalParams.FirstOrDefault(p => p.Name == SqlDbPrefix);
       if (sqlDbPrefixParam != null && !string.IsNullOrEmpty(sqlDbPrefixParam.Value))
       {
-        this.AddSitecoreEnvironment(this.CreateSitecoreEnvironment(arguments.Tasker, sqlDbPrefixParam.Value,arguments.UnInstallDataPath));
+        SitecoreEnvironmentHelper.AddSitecoreEnvironment(this.CreateSitecoreEnvironment(arguments.Tasker, sqlDbPrefixParam.Value,arguments.UnInstallDataPath));
       }
     }
 
@@ -51,21 +51,6 @@ namespace SIM.Pipelines.Install
       sitecoreEnvironment.Members = sitecoreEnvironment.Members.Distinct(new SitecoreEnvironmentMemberComparer()).ToList();
 
       return sitecoreEnvironment;
-    }
-
-    private void AddSitecoreEnvironment(SitecoreEnvironment sitecoreEnvironment)
-    {
-      // Do not add new Sitecore environment if its name already exists in the Environments.json file
-      foreach (SitecoreEnvironment se in SitecoreEnvironmentHelper.SitecoreEnvironments)
-      {
-        if (se.Name == sitecoreEnvironment.Name)
-        {
-          return;
-        }
-      }
-
-      SitecoreEnvironmentHelper.SitecoreEnvironments.Add(sitecoreEnvironment);
-      SitecoreEnvironmentHelper.SaveSitecoreEnvironmentData(SitecoreEnvironmentHelper.SitecoreEnvironments);
     }
   }
 }

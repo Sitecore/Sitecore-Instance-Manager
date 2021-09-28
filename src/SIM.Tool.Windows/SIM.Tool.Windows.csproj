@@ -196,6 +196,8 @@
     <Compile Include="MainWindowComponents\Buttons\ImportInstanceButton.cs" />
     <Compile Include="MainWindowComponents\Buttons\Install9InstanceButton.cs" />
     <Compile Include="MainWindowComponents\Buttons\InstallInstanceButton.cs" />
+    <Compile Include="MainWindowComponents\Buttons\UninstallPublishingServiceButton.cs" />
+    <Compile Include="MainWindowComponents\Buttons\InstallPublishingServiceButton.cs" />
     <Compile Include="MainWindowComponents\Buttons\InstallModulesButton.cs" />
     <Compile Include="MainWindowComponents\Buttons\InstallMongoDb.cs" />
     <Compile Include="MainWindowComponents\Buttons\InstallSolrButton.cs" />
@@ -339,6 +341,15 @@
     </Compile>
     <Compile Include="UserControls\Install\ParametersEditor\Install9ParametersEditor.xaml.cs">
       <DependentUpon>Install9ParametersEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Install\PublishingService\ConfigureParameters.xaml.cs">
+      <DependentUpon>ConfigureParameters.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Install\PublishingService\SelectPublishingServicePackage.xaml.cs">
+      <DependentUpon>SelectPublishingServicePackage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Install\PublishingService\SelectServiceToUninstall.xaml.cs">
+      <DependentUpon>SelectServiceToUninstall.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\Install\Validation\ValidationDetails.xaml.cs">
       <DependentUpon>ValidationDetails.xaml</DependentUpon>
@@ -711,6 +722,18 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="UserControls\Install\PublishingService\ConfigureParameters.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\Install\PublishingService\SelectPublishingServicePackage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\Install\PublishingService\SelectServiceToUninstall.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UserControls\Install\Validation\ValidationDetails.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -855,13 +878,13 @@
       <Project>{02B6C2D7-3083-4DF3-B86D-B6D4728C4EF2}</Project>
       <Name>SIM.FileSystem</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SIM.Instances\SIM.Instances.csproj">
+      <Project>{cca7b157-a743-4a5a-a03b-b6b27cb2be1c}</Project>
+      <Name>SIM.Instances</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SIM.Products\SIM.Products.csproj">
       <Project>{BC8B4EE5-C053-42E1-A5BA-07F8C41915A9}</Project>
       <Name>SIM.Products</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SIM.Instances\SIM.Instances.csproj">
-      <Project>{CCA7B157-A743-4A5A-A03B-B6B27CB2BE1C}</Project>
-      <Name>SIM.Instances</Name>
     </ProjectReference>
     <ProjectReference Include="..\SIM.Pipelines\SIM.Pipelines.csproj">
       <Project>{7A3FEDF8-DF96-4426-AA01-C2D4FD3E68C8}</Project>
