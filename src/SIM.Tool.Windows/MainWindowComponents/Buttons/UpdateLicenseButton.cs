@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using JetBrains.Annotations;
 using SIM.Instances;
-using SIM.Tool.Base;
+using SIM.Tool.Base.Tools.License;
 
 namespace SIM.Tool.Windows.MainWindowComponents.Buttons
 {
@@ -12,7 +12,7 @@ namespace SIM.Tool.Windows.MainWindowComponents.Buttons
 
     public override void OnClick(Window mainWindow, Instance instance)
     {
-      LicenseUpdater.Update(mainWindow, instance);
+      new LicenseManager().Update(mainWindow, instance);
     }
 
     #endregion
