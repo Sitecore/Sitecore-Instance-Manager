@@ -5,7 +5,7 @@ namespace SIM.Sitecore9Installer.Validation.Validators
 {
   public class PathExistsValidator : BaseValidator
   {
-    public override string SuccessMessage => "Path exists on file system.";
+    public override string SuccessMessage => null;
 
     protected override IEnumerable<ValidationResult> GetErrorsForTask(Tasks.Task task, IEnumerable<InstallParam> paramsToValidate)
     {
@@ -13,7 +13,11 @@ namespace SIM.Sitecore9Installer.Validation.Validators
       {
         if (!this.PathExists(p.Value))
         {
-          yield return new ValidationResult(ValidatorState.Error, $"Path {p.Value} does not exist.", null);
+          yield return new ValidationResult(ValidatorState.Error, $"The following path does not exist:\n{p.Value}", null);
+        }
+        else
+        {
+          yield return new ValidationResult(ValidatorState.Success, $"The following path exists:\n{p.Value}", null);
         }
       }
     }
