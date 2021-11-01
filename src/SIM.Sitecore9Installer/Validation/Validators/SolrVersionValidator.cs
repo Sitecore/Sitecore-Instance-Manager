@@ -11,7 +11,8 @@ namespace SIM.Sitecore9Installer.Validation.Validators
 {
   public class SolrVersionValidator : IValidator
   {
-    public virtual string SuccessMessage => "Sitecore XP and 'Solr' versions are compatible.";
+    public virtual string SuccessMessage => "Sitecore and Solr versions are compatible.";
+
     public string SolrUrl { get => this.Data["Solr"]; }
 
     public Dictionary<string, string> Data { get; set; }
@@ -50,8 +51,8 @@ namespace SIM.Sitecore9Installer.Validation.Validators
       if (errors.oldSolrTaskNames.Any())
       {
         yield return new ValidationResult(ValidatorState.Error,
-          $"'Solr' version is older than expected. Please consider a newer version. " +
-          $"Recommended 'Solr' versions: {Data["Versions"]}. " +
+          $"Solr version is older than expected. Please consider a newer version. " +
+          $"Recommended Solr versions: {Data["Versions"]}. " +
           $"Installation tasks related to the problematic Solr versions: {string.Join(", ", errors.oldSolrTaskNames)}",
           null);
       }
@@ -59,18 +60,18 @@ namespace SIM.Sitecore9Installer.Validation.Validators
       if (errors.unresolvedSolrTaskNames.Any())
       {
         yield return new ValidationResult(ValidatorState.Error,
-          $"Unable to resolve 'Solr' versions for the following tasks: {string.Join(", ", errors.unresolvedSolrTaskNames)}",
+          $"Unable to resolve Solr versions for the following tasks: {string.Join(", ", errors.unresolvedSolrTaskNames)}",
           null);
       }
 
       if (errors.untestedSolrTaskNames.Any())
       {
         yield return new ValidationResult(ValidatorState.Warning,
-          $"Sitecore XP and 'Solr' versions have not been tested together. They might be incompatible. " +
-          $"Recommended 'Solr' versions: {Data["Versions"]}. " +
-          $"Installation tasks related to the problematic Solr versions: {string.Join(", ", errors.untestedSolrTaskNames)}", 
+          $"Sitecore and Solr versions have not been tested together. They might be incompatible. " +
+          $"Recommended Solr versions: {Data["Versions"]}. " +
+          $"Installation tasks related to the problematic Solr versions: {string.Join(", ", errors.untestedSolrTaskNames)}",
           null);
-      }   
+      }
     }
 
     private SolrVersionValidatorErrors GetErrors(IEnumerable<Tasks.Task> tasks, string[] compatibleVersions)
