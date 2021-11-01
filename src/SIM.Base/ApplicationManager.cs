@@ -366,8 +366,18 @@ namespace SIM
       }
 
       var revision = revisionAttribute[0] as AssemblyInformationalVersionAttribute;
-      var rev = "rev. ";
-      return revision != null ? revision.InformationalVersion.Remove(0, revision.InformationalVersion.IndexOf(rev, StringComparison.Ordinal) + rev.Length) : string.Empty;
+      if (revision == null)
+      {
+        return String.Empty;
+      }
+
+      int revisionLength = revision.InformationalVersion.LastIndexOf(".", StringComparison.Ordinal);
+      if (revisionLength != -1)
+      {
+        return revision.InformationalVersion.Substring(revisionLength + 1);
+      }
+
+      return String.Empty;
     }
 
     private static string GetShortVersion()
@@ -389,7 +399,7 @@ namespace SIM
         return string.Empty;
       }
 
-      int threePartVersionLength = version.LastIndexOf(".");
+      int threePartVersionLength = version.LastIndexOf(".", StringComparison.Ordinal);
       if (threePartVersionLength != -1)
       {
         return version.Substring(0, threePartVersionLength);
