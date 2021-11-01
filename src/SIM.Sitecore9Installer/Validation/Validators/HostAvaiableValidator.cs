@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
-using SIM.Sitecore9Installer.Tasks;
 
 namespace SIM.Sitecore9Installer.Validation.Validators
 {
   public class HostAvaiableValidator : BaseValidator
   {
-    public override string SuccessMessage => "Host response is 200";
+    public override string SuccessMessage => null;
 
     protected override IEnumerable<ValidationResult> GetErrorsForTask(Tasks.Task task, IEnumerable<InstallParam> paramsToValidate)
     {
@@ -29,13 +24,17 @@ namespace SIM.Sitecore9Installer.Validation.Validators
 
         if (error != null)
         {
-          yield return new ValidationResult(ValidatorState.Error, $"Unable to connect to host {p.Value}", error);
+          yield return new ValidationResult(ValidatorState.Error, $"Unable to connect to the following host:\n{p.Value}", error);
           yield break;
         }
 
         if (resp.StatusCode != HttpStatusCode.OK)
         {
-          yield return new ValidationResult(ValidatorState.Error, $"Host {p.Value} did not return 200.",null);
+          yield return new ValidationResult(ValidatorState.Error, $"The following host did not return status code 200:\n{p.Value}",null);
+        }
+        else
+        {
+          yield return new ValidationResult(ValidatorState.Success, $"The following host returned status code 200:\n{p.Value}", null);
         }
       }
     }
