@@ -15,7 +15,7 @@ namespace SIM.Sitecore9Installer.Validation.Validators
     // parameter to validate the following known issue: https://github.com/Sitecore/Sitecore-Instance-Manager/wiki/Known-Issue-Outdated-Download-Link-to-Microsoft-Web-Platform-Installer
     public virtual string WebPlatformDownload => "WebPlatformDownload";
 
-    public virtual string OutdatedDownloadLinksKnownIssueLink => "https://github.com/Sitecore/Sitecore-Instance-Manager/wiki/Known-Issue-Outdated-Download-Link-to-Microsoft-Web-Platform-Installer";
+    public virtual string OutdatedDownloadLinksKnownIssueLink => "https://github.com/Sitecore/Sitecore-Instance-Manager/wiki/Known-Issue-Outdated-download-links-in-Prerequisites.json";
 
     public virtual string InternetAccessKnownIssueLink => "https://github.com/Sitecore/Sitecore-Instance-Manager/wiki/Known-Issue-Prerequisites-require-Internet-access-to-be-installed";
 
