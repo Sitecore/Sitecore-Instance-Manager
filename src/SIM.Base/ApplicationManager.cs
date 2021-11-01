@@ -55,6 +55,9 @@ namespace SIM
     public static string AppShortVersion { get; }
 
     [NotNull]
+    public static string AppThreePartVersion { get; }
+
+    [NotNull]
     public static string AppVersion { get; }
 
     [NotNull]
@@ -126,6 +129,7 @@ namespace SIM
       AppRevision = GetRevision();
       AppVersion = GetVersion();
       AppShortVersion = GetShortVersion();
+      AppThreePartVersion = GetThreePartVersion();
       AppLabel = GetLabel();
       UnInstallParamsFolder = InitializeDataFolder("UnInstallParams");
       TempFolder = InitializeDataFolder("Temp");
@@ -375,6 +379,23 @@ namespace SIM
       }
 
       return version.Substring(0, 3);
+    }
+
+    private static string GetThreePartVersion()
+    {
+      var version = GetVersion();
+      if (string.IsNullOrEmpty(version))
+      {
+        return string.Empty;
+      }
+
+      int threePartVersionLength = version.LastIndexOf(".");
+      if (threePartVersionLength != -1)
+      {
+        return version.Substring(0, threePartVersionLength);
+      }
+
+      return version;
     }
 
     private static string GetVersion()
