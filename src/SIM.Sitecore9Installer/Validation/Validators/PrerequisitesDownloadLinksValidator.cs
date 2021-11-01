@@ -15,7 +15,9 @@ namespace SIM.Sitecore9Installer.Validation.Validators
     // parameter to validate the following known issue: https://github.com/Sitecore/Sitecore-Instance-Manager/wiki/Known-Issue-Outdated-Download-Link-to-Microsoft-Web-Platform-Installer
     public virtual string WebPlatformDownload => "WebPlatformDownload";
 
-    public virtual string KnownIssueLink => "https://github.com/Sitecore/Sitecore-Instance-Manager/wiki/Known-Issue-Outdated-Download-Link-to-Microsoft-Web-Platform-Installer";
+    public virtual string OutdatedDownloadLinksKnownIssueLink => "https://github.com/Sitecore/Sitecore-Instance-Manager/wiki/Known-Issue-Outdated-Download-Link-to-Microsoft-Web-Platform-Installer";
+
+    public virtual string InternetAccessKnownIssueLink => "https://github.com/Sitecore/Sitecore-Instance-Manager/wiki/Known-Issue-Prerequisites-require-Internet-access-to-be-installed";
 
     protected override IEnumerable<ValidationResult> GetErrorsForTask(Task task, IEnumerable<InstallParam> paramsToValidate)
     {
@@ -44,13 +46,13 @@ namespace SIM.Sitecore9Installer.Validation.Validators
                 if (installParam.Name == this.WebPlatformDownload)
                 {
                   yield return new ValidationResult(ValidatorState.Warning,
-                    $"{TaskName}: the '{installParam.Name}' parameter contains the following link that is not accessible:\n\n{installParam.Value}\n\nThis behavior looks to be related to the following known issue:\n\n{KnownIssueLink}\n\nPlease try to apply the solution mentioned there.",
+                    $"{TaskName}: the '{installParam.Name}' parameter contains the following link that is not accessible:\n\n{installParam.Value}\n\nThis behavior looks to be related to the following known issue:\n\n{OutdatedDownloadLinksKnownIssueLink}\n\nPlease try to apply the solution mentioned there.",
                     null);
                 }
                 else
                 {
                   yield return new ValidationResult(ValidatorState.Warning,
-                    $"{TaskName}: the '{installParam.Name}' parameter contains the following link that is not accessible:\n\n{installParam.Value}\n\nPlease check the Internet connection and the link accessibility in a browser.\n\nThis behavior may also occur due to similar symptoms described in the following known issue:\n\n{KnownIssueLink}",
+                    $"{TaskName}: the '{installParam.Name}' parameter contains the following link that is not accessible:\n\n{installParam.Value}\n\nPlease check the link accessibility in a browser and solution mentioned in the following known issue:\n\n{InternetAccessKnownIssueLink}",
                     null);
                 }
               }
