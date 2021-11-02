@@ -11,7 +11,7 @@ namespace SIM.Tool.Base.Tools.License
     {
       try
       {
-        FileSystem.FileSystem.Local.File.Copy(oldLicenseFilePath, newLicenseFilePath, true);
+        FileSystem.FileSystem.Local.File.Copy(newLicenseFilePath, oldLicenseFilePath, true);
       }
       catch (Exception ex)
       {

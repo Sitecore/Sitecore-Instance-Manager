@@ -45,7 +45,7 @@ namespace SIM.Tool.Base.Tools.License
 
       foreach (var fileToUpdate in filesToUpdate)
       {
-        this.UpdateLicenseFile(licenseFilePath, fileToUpdate);
+        this.UpdateLicenseFile(fileToUpdate, licenseFilePath);
       }
 
       return true;
