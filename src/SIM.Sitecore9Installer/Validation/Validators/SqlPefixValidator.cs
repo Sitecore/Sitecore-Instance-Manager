@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
-using System.Text;
-
 using SIM.Sitecore9Installer.Tasks;
 
 namespace SIM.Sitecore9Installer.Validation.Validators
@@ -41,7 +39,7 @@ namespace SIM.Sitecore9Installer.Validation.Validators
       {
         if (this.GetDbList(set.Item1, set.Item2, set.Item3, set.Item4).Any())
         {
-          yield return new ValidationResult(ValidatorState.Error, $"Database with prefix {set.Item4} already exists on server {set.Item1}",null);
+          yield return new ValidationResult(ValidatorState.Error, $"Database with the '{set.Item4}' prefix already exists on the '{set.Item1}' server.", null);
         }
       }
 
