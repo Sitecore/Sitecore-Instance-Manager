@@ -18,7 +18,7 @@ namespace SIM.Sitecore9Installer.Validation.Validators
         if (service != null && service.Status != ServiceControllerStatus.Running)
         {
           yield return new ValidationResult(ValidatorState.Error,
-            $"Service '{param.Value}' required for '{task.Name}' is not running", null);
+            $"The '{param.Value}' service required for the '{task.Name}' installation task is not running.", null);
         }
       }
     }
