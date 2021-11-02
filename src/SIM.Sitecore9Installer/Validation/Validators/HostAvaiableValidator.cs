@@ -24,17 +24,17 @@ namespace SIM.Sitecore9Installer.Validation.Validators
 
         if (error != null)
         {
-          yield return new ValidationResult(ValidatorState.Error, $"Unable to connect to the following host:\n{p.Value}", error);
+          yield return new ValidationResult(ValidatorState.Error, $"Unable to connect to the '{p.Value}' host defined in the '{p.Name}' parameter of the '{task.Name}' installation task.", error);
           yield break;
         }
 
         if (resp.StatusCode != HttpStatusCode.OK)
         {
-          yield return new ValidationResult(ValidatorState.Error, $"The following host did not return status code 200:\n{p.Value}",null);
+          yield return new ValidationResult(ValidatorState.Error, $"The '{p.Value}' host defined in the '{p.Name}' parameter of the '{task.Name}' installation task did not return status code 200.", null);
         }
         else
         {
-          yield return new ValidationResult(ValidatorState.Success, $"The following host returned status code 200:\n{p.Value}", null);
+          yield return new ValidationResult(ValidatorState.Success, $"The '{p.Value}' host defined in the '{p.Name}' parameter of the '{task.Name}' installation task returned status code 200.", null);
         }
       }
     }

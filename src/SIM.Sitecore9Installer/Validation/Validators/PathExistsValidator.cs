@@ -13,11 +13,11 @@ namespace SIM.Sitecore9Installer.Validation.Validators
       {
         if (!this.PathExists(p.Value))
         {
-          yield return new ValidationResult(ValidatorState.Error, $"The following path does not exist:\n{p.Value}", null);
+          yield return new ValidationResult(ValidatorState.Error, $"The '{p.Value}' path defined in the '{p.Name}' parameter of the '{task.Name}' installation task does not exist.", null);
         }
         else
         {
-          yield return new ValidationResult(ValidatorState.Success, $"The following path exists:\n{p.Value}", null);
+          yield return new ValidationResult(ValidatorState.Success, $"The '{p.Value}' path defined in the '{p.Name}' parameter of the '{task.Name}' installation task exists.", null);
         }
       }
     }
