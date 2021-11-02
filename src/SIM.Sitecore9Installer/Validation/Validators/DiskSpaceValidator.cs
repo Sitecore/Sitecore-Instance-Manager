@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SIM.Sitecore9Installer.Tasks;
 using Task = SIM.Sitecore9Installer.Tasks.Task;
 
 namespace SIM.Sitecore9Installer.Validation.Validators
@@ -42,7 +38,7 @@ namespace SIM.Sitecore9Installer.Validation.Validators
          if (freeSpace < hardDriveErrorLimit)
         {
           errors = true;
-          yield return new ValidationResult(ValidatorState.Error, $"Hard disk '{drive}' does not have enough free space to continue installation.", null);
+          yield return new ValidationResult(ValidatorState.Error, $"Hard disk '{drive}' does not have enough free space to continue the installation.", null);
         }
         else
          if (freeSpace < hardDriveWarningLimit)
