@@ -10,6 +10,8 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Threading;
+using SIM.Sitecore9Installer.Validation;
+using SIM.Tool.Windows.Dialogs;
 using TaskDialogInterop;
 
 namespace SIM.Tool.Windows.UserControls.Install
@@ -155,7 +157,8 @@ namespace SIM.Tool.Windows.UserControls.Install
 
     public void CustomButtonClick()
     {
-      WindowHelper.ShowDialog<ValidationDetails>(this.Messages, this.owner);
+      GridEditorContext gridEditorContext = new GridEditorContext(typeof(ValidationResult), this.Messages, "Advanced installation parameters", "Advanced installation parameters.");
+      WindowHelper.ShowDialog<ValidationDetails>(gridEditorContext, this.owner);
     }
   }
 }

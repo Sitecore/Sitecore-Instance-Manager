@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SIM.Sitecore9Installer.Validation
 {
@@ -13,6 +9,7 @@ namespace SIM.Sitecore9Installer.Validation
     Warning,
     Success
   };
+
   public class ValidationResult
   {
     public ValidationResult(ValidatorState state, string message, Exception error)
@@ -21,9 +18,14 @@ namespace SIM.Sitecore9Installer.Validation
       this.Message = message;
       this.Error = error;
     }
-    public ValidatorState State { get; }
-    public string Message { get; }
-    public Exception Error { get; }
-   
+
+    [RenderInDataGreed]
+    public ValidatorState State { get; set; }
+
+    [RenderInDataGreed]
+    public string Message { get; set; }
+
+    [RenderInDataGreed]
+    public Exception Error { get; set; }
   }
 }

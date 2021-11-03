@@ -1,18 +1,12 @@
-﻿using SIM.Sitecore9Installer;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using SIM.Sitecore9Installer.Tasks;
+using SIM.Tool.Windows.Dialogs;
+using Sitecore.Diagnostics.Base;
 
 namespace SIM.Tool.Windows.UserControls.Install.Validation
 {
@@ -25,20 +19,23 @@ namespace SIM.Tool.Windows.UserControls.Install.Validation
     {
       InitializeComponent();
     }
-    
-    private void ScrollViewer_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
-    {
-      ScrollViewer scrollviewer = sender as ScrollViewer;
-      if (e.Delta > 0)
-        scrollviewer.LineLeft();
-      else
-        scrollviewer.LineRight();
-      e.Handled = true;
-    }    
 
     private void Btn_Close_Click(object sender, RoutedEventArgs e)
     {
       this.Close();
+    }
+
+    private void ValidationDetails_OnLoaded(object sender, RoutedEventArgs e)
+    {
+      GridEditorContext editContext = this.DataContext as GridEditorContext;
+      Assert.ArgumentNotNull(editContext, nameof(editContext));
+
+      //Bind properties to be able to copy and paste
+      IEnumerable<PropertyInfo> propertiesToRender = editContext.ElementType.GetProperties().Where(prop => Attribute.IsDefined(prop, typeof(RenderInDataGreedAttribute)));
+      foreach (var propertyToRender in propertiesToRender)
+      {
+        this.MessagesList.Columns.Add(new DataGridTextColumn() { Binding = new Binding(propertyToRender.Name), Header = propertyToRender.Name });
+      }
     }
   }
 }

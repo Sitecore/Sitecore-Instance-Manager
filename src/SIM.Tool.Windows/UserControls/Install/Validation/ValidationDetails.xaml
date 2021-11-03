@@ -3,9 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:SIM.Tool.Windows.UserControls.Install.ParametersEditor"
         mc:Ignorable="d"
-        Title="Advanced installation parameters" Height="450" Width="800" >
+        Title="Advanced installation parameters" Height="450" Width="800" Loaded="ValidationDetails_OnLoaded">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="40" />
@@ -17,25 +16,8 @@
             <Bold FontSize="15">Validation details</Bold>
             </TextBlock>
         </StackPanel>
-        <DataGrid Grid.Row="1" SelectionUnit="Cell" IsEnabled="True" Name="MessagesList" ItemsSource="{Binding Mode=OneWay}" 
-                  VerticalAlignment="Top" Margin="10,0,10,0" AutoGenerateColumns="False" >
-            <DataGrid.Columns>
-                <DataGridTextColumn Binding="{Binding State, Mode=OneWay}" Header="Result" Width="70"/>
-                <DataGridTextColumn Binding="{Binding Message, Mode=OneWay}" Header="Message" Width="*">
-                    <DataGridTextColumn.ElementStyle>
-                        <Style>
-                            <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
-                        </Style>
-                    </DataGridTextColumn.ElementStyle>
-                </DataGridTextColumn>
-                <DataGridTextColumn Binding="{Binding Error, Mode=OneWay}" Header="Error" Width="*">
-                    <DataGridTextColumn.ElementStyle>
-                        <Style>
-                            <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
-                        </Style>
-                    </DataGridTextColumn.ElementStyle>
-                </DataGridTextColumn>
-            </DataGrid.Columns>
+        <DataGrid Grid.Row="1" SelectionUnit="Cell" IsEnabled="True" Name="MessagesList"
+                  VerticalAlignment="Top" Margin="10,0,10,0" AutoGenerateColumns="False" ItemsSource="{Binding GridItems}">
         </DataGrid>
         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
             <Button Name="Btn_Close" Click="Btn_Close_Click" Content="Close" HorizontalAlignment="Left" Margin="24,11,21,12" Width="72"></Button>
