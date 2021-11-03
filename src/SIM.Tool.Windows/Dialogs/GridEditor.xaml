@@ -14,22 +14,19 @@
             <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
 
-
-        <TextBlock Name="DescriptionText" Grid.Row="0" Margin="10,10,10,0"   VerticalAlignment="Center" />
+        <TextBlock Name="DescriptionText" Grid.Row="0" Margin="10,10,10,0" VerticalAlignment="Center" />
         <StackPanel Grid.Row="1" >
-            <DataGrid Name="DataGrid"  ItemsSource="{Binding GridItems}" VerticalAlignment="Top" AutoGenerateColumns="False" CanUserAddRows="False" >
+            <DataGrid Name="DataGrid" ItemsSource="{Binding GridItems}" VerticalAlignment="Top" HorizontalAlignment="Left" AutoGenerateColumns="False" CanUserAddRows="False" ColumnWidth="*">
                 <DataGrid.RowValidationErrorTemplate>
                     <ControlTemplate>
                         <Grid Margin="0,-2,0,-2"
-                          ToolTip="{Binding RelativeSource={RelativeSource
-      FindAncestor, AncestorType={x:Type DataGridRow}},
-      Path=(Validation.Errors)[0].ErrorContent}">
+                          ToolTip="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRow}}, Path=(Validation.Errors)[0].ErrorContent}">
                             <Ellipse StrokeThickness="0" Fill="Red" 
                                  Width="{TemplateBinding FontSize}" 
                                  Height="{TemplateBinding FontSize}" />
                             <TextBlock Text="!" FontSize="{TemplateBinding FontSize}" 
                                    FontWeight="Bold" Foreground="White" 
-                                   HorizontalAlignment="Center"  />
+                                   HorizontalAlignment="Center" />
                         </Grid>
                     </ControlTemplate>
                 </DataGrid.RowValidationErrorTemplate>
@@ -37,10 +34,10 @@
                     <local:GridObjectValidationRule ValidationStep="UpdatedValue"/>
                 </DataGrid.RowValidationRules>
                 <DataGrid.Columns>
-                    <DataGridTemplateColumn>
+                    <DataGridTemplateColumn MaxWidth="30">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <Button Content="-" Height="20" Width="20" IsEnabled="True" Click="DeleteRow_Click"  />
+                                <Button Content="-" Height="20" Width="20" IsEnabled="True" Click="DeleteRow_Click" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
@@ -49,9 +46,9 @@
             <WrapPanel>
                 <Button Name="Add" Content="Add" Margin="10,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="80" Click="AddRow_Click" Background="#FFDDDDDD" />
                 <Button Name="InstallSolr" Content="Install new" Margin="10,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="80" Click="InstallSolr_OnClick" Visibility="Hidden" Background="#FFDDDDDD" />
+                <Button Name="CheckSolr" Content="Check state" Margin="10,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="80" Click="CheckSolr_OnClick" Visibility="Hidden" Background="#FFDDDDDD" />
             </WrapPanel>
         </StackPanel>
-        <Button Name="Ok"  Grid.Row="3"  Margin="0,0,10,10"  Content="OK" Click="Ok_Click" HorizontalAlignment="Right" Width="72" Height="23" VerticalAlignment="Bottom" >
-        </Button>
+        <Button Name="Ok" Grid.Row="2" Margin="0,0,10,10" Content="OK" Click="Ok_Click" HorizontalAlignment="Right" Width="72" Height="23" VerticalAlignment="Bottom" />
     </Grid>
 </Window>
