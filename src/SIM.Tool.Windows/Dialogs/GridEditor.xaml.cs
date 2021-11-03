@@ -43,8 +43,6 @@ namespace SIM.Tool.Windows.Dialogs
         this.Add.Content = "Add existing";
         this.InstallSolr.Visibility = Visibility.Visible;
         this.CheckSolr.Visibility = Visibility.Visible;
-        this.Width = 650;
-        this.Left -= 100; // this is needed to center window position after changing width
       }
 
       if (editContext.ElementType.Name == "SolrState")
@@ -53,7 +51,7 @@ namespace SIM.Tool.Windows.Dialogs
         this.Add.Click += RefreshSolrState_OnClick;
         this.DataGrid.Columns[0].Visibility = Visibility.Hidden; // hides the first column with the '-' buttons
         this.Width = 550;
-        this.Left -= 50; // this is needed to center window position after changing width
+        this.Left += 50; // this is needed to center window position after changing width
         this.UpdateDataGridRowColor();
       }
     }
@@ -164,15 +162,16 @@ namespace SIM.Tool.Windows.Dialogs
 
       WindowHelper.LongRunningTask(() =>
       {
+        SolrStateResolver solrStateResolver = new SolrStateResolver();
         foreach (SolrDefinition solrDefinition in ProfileManager.Profile.Solrs)
         {
           SolrState solrState = new SolrState();
           solrState.Name = solrDefinition.Name;
           solrState.Url = solrDefinition.Url;
-          solrState.State = SolrStateResolver.GetServiceState(solrDefinition.Service);
+          solrState.State = solrStateResolver.GetServiceState(solrDefinition.Service);
           if (solrState.State == SolrState.CurrentState.Running)
           {
-            solrState.Version = SolrStateResolver.GetVersion(solrDefinition.Url);
+            solrState.Version = solrStateResolver.GetVersion(solrDefinition.Url);
           }
           else
           {
@@ -186,10 +185,10 @@ namespace SIM.Tool.Windows.Dialogs
           if (solrState.State == SolrState.CurrentState.Stopped && !solrStates.Any(s =>
             s.State == SolrState.CurrentState.Running && s.Url == solrState.Url))
           {
-            solrState.State = SolrStateResolver.GetUrlState(solrState.Url);
+            solrState.State = solrStateResolver.GetUrlState(solrState.Url);
             if (solrState.State == SolrState.CurrentState.Running)
             {
-              solrState.Version = SolrStateResolver.GetVersion(solrState.Url);
+              solrState.Version = solrStateResolver.GetVersion(solrState.Url);
             }
           }
         }
@@ -225,11 +224,11 @@ namespace SIM.Tool.Windows.Dialogs
           SolrState.CurrentState state = (this.DataGrid.Items[i] as SolrState).State;
           if (state == SolrState.CurrentState.Running)
           {
-            row.Background = (SolidColorBrush)new BrushConverter().ConvertFrom("#77dd77");
+            row.Background = (SolidColorBrush)new BrushConverter().ConvertFrom("#ccffcc");
           }
           else if (state == SolrState.CurrentState.Stopped)
           {
-            row.Background = (SolidColorBrush)new BrushConverter().ConvertFrom("#ff574d");
+            row.Background = (SolidColorBrush)new BrushConverter().ConvertFrom("#f2f2f2");
           }
         }
       }

@@ -6,49 +6,47 @@
         xmlns:local="clr-namespace:SIM.Tool.Windows.Dialogs"
         mc:Ignorable="d"
         ResizeMode="NoResize"
-        Height="450" Width="450" Loaded="Window_Loaded">
-    <Grid Background="#FFF0F0F0" >
-        <Grid.RowDefinitions>
-            <RowDefinition Height="50"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="50"/>
-        </Grid.RowDefinitions>
+        Height="355" Width="650" Loaded="Window_Loaded">
+	<Grid Background="#FFF0F0F0" >
+	    <Grid.RowDefinitions>
+			<RowDefinition Height="40"/>
+			<RowDefinition Height="*"/>
+			<RowDefinition Height="42"/>
+	    </Grid.RowDefinitions>
 
-        <TextBlock Name="DescriptionText" Grid.Row="0" Margin="10,10,10,0" VerticalAlignment="Center" />
-        <StackPanel Grid.Row="1" >
-            <DataGrid Name="DataGrid" ItemsSource="{Binding GridItems}" VerticalAlignment="Top" HorizontalAlignment="Left" AutoGenerateColumns="False" CanUserAddRows="False" ColumnWidth="*">
-                <DataGrid.RowValidationErrorTemplate>
-                    <ControlTemplate>
-                        <Grid Margin="0,-2,0,-2"
-                          ToolTip="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRow}}, Path=(Validation.Errors)[0].ErrorContent}">
-                            <Ellipse StrokeThickness="0" Fill="Red" 
-                                 Width="{TemplateBinding FontSize}" 
-                                 Height="{TemplateBinding FontSize}" />
-                            <TextBlock Text="!" FontSize="{TemplateBinding FontSize}" 
-                                   FontWeight="Bold" Foreground="White" 
-                                   HorizontalAlignment="Center" />
-                        </Grid>
-                    </ControlTemplate>
-                </DataGrid.RowValidationErrorTemplate>
-                <DataGrid.RowValidationRules >
-                    <local:GridObjectValidationRule ValidationStep="UpdatedValue"/>
-                </DataGrid.RowValidationRules>
-                <DataGrid.Columns>
-                    <DataGridTemplateColumn MaxWidth="30">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <Button Content="-" Height="20" Width="20" IsEnabled="True" Click="DeleteRow_Click" />
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                </DataGrid.Columns>
-            </DataGrid>
-            <WrapPanel>
-                <Button Name="Add" Content="Add" Margin="10,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="80" Click="AddRow_Click" Background="#FFDDDDDD" />
-                <Button Name="InstallSolr" Content="Install new" Margin="10,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="80" Click="InstallSolr_OnClick" Visibility="Hidden" Background="#FFDDDDDD" />
-                <Button Name="CheckSolr" Content="Check state" Margin="10,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="80" Click="CheckSolr_OnClick" Visibility="Hidden" Background="#FFDDDDDD" />
-            </WrapPanel>
-        </StackPanel>
-        <Button Name="Ok" Grid.Row="2" Margin="0,0,10,10" Content="OK" Click="Ok_Click" HorizontalAlignment="Right" Width="72" Height="23" VerticalAlignment="Bottom" />
-    </Grid>
+		<TextBlock Name="DescriptionText" Grid.Row="0" Margin="10,5,10,5" VerticalAlignment="Center" />
+		<StackPanel Grid.Row="1" >
+			<DataGrid Name="DataGrid" ItemsSource="{Binding GridItems}" VerticalAlignment="Top" HorizontalAlignment="Left" AutoGenerateColumns="False" CanUserAddRows="False" 
+			          ColumnWidth="*" Margin="10,0,10,0" MaxHeight="188" VerticalScrollBarVisibility="Auto">
+				<DataGrid.RowValidationErrorTemplate>
+					<ControlTemplate>
+						<Grid Margin="0,-2,0,-2" 
+						      ToolTip="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRow}}, Path=(Validation.Errors)[0].ErrorContent}">
+							<Ellipse StrokeThickness="0" Fill="Red" Width="{TemplateBinding FontSize}" Height="{TemplateBinding FontSize}" />
+							<TextBlock Text="!" FontSize="{TemplateBinding FontSize}" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center" />
+						</Grid>
+					</ControlTemplate>
+				</DataGrid.RowValidationErrorTemplate>
+				<DataGrid.RowValidationRules>
+					<local:GridObjectValidationRule ValidationStep="UpdatedValue"/>
+				</DataGrid.RowValidationRules>
+				<DataGrid.Columns>
+					<DataGridTemplateColumn MinWidth="30" MaxWidth="30">
+						<DataGridTemplateColumn.CellTemplate>
+							<DataTemplate>
+								<Button Content="-" Height="20" Width="20" IsEnabled="True" Click="DeleteRow_Click" />
+							</DataTemplate>
+						</DataGridTemplateColumn.CellTemplate>
+					</DataGridTemplateColumn>
+				</DataGrid.Columns>
+			</DataGrid>
+			<WrapPanel>
+				<Button Name="Add" Content="Add" Margin="10,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="80" Click="AddRow_Click" Background="#FFDDDDDD" />
+				<Button Name="InstallSolr" Content="Install new" Margin="10,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="80" Click="InstallSolr_OnClick" Visibility="Hidden" Background="#FFDDDDDD" />
+				<Button Name="CheckSolr" Content="Check state" Margin="10,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="80" Click="CheckSolr_OnClick" Visibility="Hidden" Background="#FFDDDDDD" />
+			</WrapPanel>
+		</StackPanel>
+		<Separator Grid.Row="1" VerticalAlignment="Bottom" />
+		<Button Name="Ok" Grid.Row="2" Margin="0,0,10,10" Content="OK" Click="Ok_Click" HorizontalAlignment="Right" Width="72" Height="23" VerticalAlignment="Bottom" />
+	</Grid>
 </Window>
