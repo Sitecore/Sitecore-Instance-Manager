@@ -8,9 +8,9 @@ using Newtonsoft.Json;
 
 namespace SIM
 {
-  public static class SolrStateResolver
+  public class SolrStateResolver
   {
-    public static SolrState.CurrentState GetServiceState(string solrServiceName)
+    public virtual SolrState.CurrentState GetServiceState(string solrServiceName)
     {
       ServiceControllerWrapper service = GetService(solrServiceName);
 
@@ -27,7 +27,7 @@ namespace SIM
       return SolrState.CurrentState.Running;
     }
 
-    public static SolrState.CurrentState GetUrlState(string solrUrl)
+    public virtual SolrState.CurrentState GetUrlState(string solrUrl)
     {
       HttpWebRequest httpWebRequest = (HttpWebRequest)WebRequest.Create(solrUrl);
       HttpWebResponse httpWebResponse;
@@ -48,7 +48,7 @@ namespace SIM
       return SolrState.CurrentState.Running;
     }
 
-    public static string GetVersion(string solrUrl)
+    public virtual string GetVersion(string solrUrl)
     {
       HttpClient client = new HttpClient();
 
@@ -69,7 +69,7 @@ namespace SIM
       return string.Empty;
     }
 
-    public static ServiceControllerWrapper GetService(string serviceName)
+    public virtual ServiceControllerWrapper GetService(string serviceName)
     {
       ServiceController service = ServiceController.GetServices().FirstOrDefault(s => s.ServiceName == serviceName);
       if (service == null)

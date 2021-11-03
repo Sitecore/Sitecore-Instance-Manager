@@ -170,6 +170,10 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\SIM.Base\SIM.Base.csproj">
+      <Project>{ca9339a0-9a7d-4900-839e-f21b7269bdaa}</Project>
+      <Name>SIM.Base</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SIM.Products\SIM.Products.csproj">
       <Project>{bc8b4ee5-c053-42e1-a5ba-07f8c41915a9}</Project>
       <Name>SIM.Products</Name>

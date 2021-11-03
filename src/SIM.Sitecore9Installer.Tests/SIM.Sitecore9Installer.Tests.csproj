@@ -106,6 +106,10 @@
     <Analyzer Include="..\packages\xunit.analyzers.0.10.0\analyzers\dotnet\cs\xunit.analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\SIM.Base\SIM.Base.csproj">
+      <Project>{ca9339a0-9a7d-4900-839e-f21b7269bdaa}</Project>
+      <Name>SIM.Base</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SIM.Sitecore9Installer\SIM.Sitecore9Installer.csproj">
       <Project>{5c870ab3-89f2-4e24-ae5d-3593ec816495}</Project>
       <Name>SIM.Sitecore9Installer</Name>
