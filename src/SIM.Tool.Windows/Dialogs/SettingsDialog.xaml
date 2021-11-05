@@ -67,18 +67,18 @@
                 <Button Grid.Column="1" Content="..." Click="PickLicenseFile" />
             </Grid>
             <TextBlock TextWrapping="Wrap">
-				<Bold>Local repository*</Bold> - the folder contains a set of "ZIP archive of the Sitecore CMS site root" install packages and module packages
+				<Bold>Local Repository*</Bold> - the folder contains a set of "ZIP archive of the Sitecore CMS site root" install packages and module packages
             </TextBlock>
             <Grid HorizontalAlignment="Stretch" Margin="0 4 0 4">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
                     <ColumnDefinition Width="24" />
                 </Grid.ColumnDefinitions>
-                <TextBox Grid.Column="0" Name="localRepository" Margin="0 0 4 0" Text="{Binding Path=LocalRepository, Mode=TwoWay, ValidatesOnExceptions=True}" KeyUp="TextboxKeyUp" />
+                <TextBox Grid.Column="0" Name="LocalRepository" Margin="0 0 4 0" Text="{Binding Path=LocalRepository, Mode=TwoWay, ValidatesOnExceptions=True}" KeyUp="TextboxKeyUp" />
                 <Button Grid.Column="1" Content="..." Click="PickInstallsFolder" />
             </Grid>
             <TextBlock TextWrapping="Wrap">
-				<Bold>Solrs*</Bold> - List of available solr servers (Url+root+service name).
+				<Bold>Solr Servers*</Bold> - list of available Solr servers
             </TextBlock>
             <Grid>
                 <Grid.ColumnDefinitions>
