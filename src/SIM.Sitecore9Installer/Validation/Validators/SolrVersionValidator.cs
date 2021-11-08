@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Net.Http;
 using System.Text.RegularExpressions;
-using Newtonsoft.Json;
 using SIM.Sitecore9Installer.Tasks;
 
 namespace SIM.Sitecore9Installer.Validation.Validators
@@ -77,6 +74,7 @@ namespace SIM.Sitecore9Installer.Validation.Validators
     private SolrVersionValidatorErrors GetErrors(IEnumerable<Tasks.Task> tasks, string[] compatibleVersions)
     {
       SolrVersionValidatorErrors errors = new SolrVersionValidatorErrors();
+      SolrStateResolver solrStateResolver = new SolrStateResolver();
       foreach (Task task in tasks.Where(t => t.LocalParams.Any(p => p.Name == SolrUrl)))
       {
         string solrUrl = task.LocalParams.Single(p => p.Name == SolrUrl).Value;
@@ -84,7 +82,7 @@ namespace SIM.Sitecore9Installer.Validation.Validators
 
         try
         {
-          solrVersion = GetSolrVersion(solrUrl);
+          solrVersion = solrStateResolver.GetVersion(solrUrl);
         }
         catch
         {
@@ -106,29 +104,6 @@ namespace SIM.Sitecore9Installer.Validation.Validators
       }
 
       return errors;
-    }
-
-    private string GetSolrVersion(string solrUrl)
-    {
-      HttpClient client = new HttpClient();
-
-      using (Stream stream = client.GetStreamAsync($"{solrUrl}/admin/info/system?wt=json").Result)
-      using (StreamReader streamReader = new StreamReader(stream))
-      using (JsonReader reader = new JsonTextReader(streamReader))
-      {
-        while (reader.Read())
-        {
-          if (string.Equals(reader.Path, "lucene.solr-spec-version",
-            StringComparison.OrdinalIgnoreCase)
-            && !string.Equals((string)reader.Value, "solr-spec-version",
-            StringComparison.OrdinalIgnoreCase))
-          {
-            return (string)reader.Value;
-          }
-        }
-      }
-
-      return string.Empty;
     }
   }
 }

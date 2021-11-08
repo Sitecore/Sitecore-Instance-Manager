@@ -16,7 +16,7 @@
     public AboutDialog()
     {
       InitializeComponent();
-      VersionNumber.Text = ApplicationManager.AppVersion;
+      VersionNumber.Text = ApplicationManager.AppThreePartVersion;
       RevisionNumber.Text = ApplicationManager.AppRevision;
 
       var label = ApplicationManager.AppLabel;

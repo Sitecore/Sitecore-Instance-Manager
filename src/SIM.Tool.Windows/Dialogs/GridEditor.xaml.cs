@@ -7,6 +7,8 @@ using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Media;
+using SIM.Tool.Base;
 using SIM.Tool.Base.Profiles;
 using SIM.Tool.Windows.MainWindowComponents.Buttons;
 
@@ -40,11 +42,28 @@ namespace SIM.Tool.Windows.Dialogs
       {
         this.Add.Content = "Add existing";
         this.InstallSolr.Visibility = Visibility.Visible;
+        this.CheckSolr.Visibility = Visibility.Visible;
+      }
+
+      if (editContext.ElementType.Name == "SolrState")
+      {
+        this.Add.Content = "Refresh";
+        this.Add.Click += RefreshSolrState_OnClick;
+        this.DataGrid.Columns[0].Visibility = Visibility.Hidden; // hides the first column with the '-' buttons
+        this.Width = 550;
+        this.Left += 50; // this is needed to center window position after changing width
+        this.UpdateDataGridRowColor();
       }
     }
 
     private void Ok_Click(object sender, RoutedEventArgs e)
     {
+      if ((this.DataContext as GridEditorContext).ElementType.Name == "SolrState")
+      {
+        this.Close();
+        return;
+      }
+
       var errors = (from c in
             (from object i in DataGrid.ItemsSource
               select DataGrid.ItemContainerGenerator.ContainerFromItem(i))
@@ -118,6 +137,101 @@ namespace SIM.Tool.Windows.Dialogs
     {
       this.DataGrid.DataContext = null;
       this.DataGrid.DataContext = editContext;
+    }
+
+    private void CheckSolr_OnClick(object sender, RoutedEventArgs e)
+    {
+      List<SolrState> solrStates = GetSolrStates();
+      if (this.IsSolrStatesCountValid(solrStates))
+      {
+        GridEditorContext context = this.GetSolrStatesContext(solrStates);
+        WindowHelper.ShowDialog<GridEditor>(context, this);
+      }
+    }
+
+    private void RefreshSolrState_OnClick(object sender, RoutedEventArgs e)
+    {
+      List<SolrState> solrStates = GetSolrStates();
+      this.ReinitializeDataContext(this.GetSolrStatesContext(solrStates));
+      this.UpdateDataGridRowColor();
+    }
+
+    private List<SolrState> GetSolrStates()
+    {
+      List<SolrState> solrStates = new List<SolrState>();
+
+      WindowHelper.LongRunningTask(() =>
+      {
+        SolrStateResolver solrStateResolver = new SolrStateResolver();
+        foreach (SolrDefinition solrDefinition in ProfileManager.Profile.Solrs)
+        {
+          SolrState solrState = new SolrState();
+          solrState.Name = solrDefinition.Name;
+          solrState.Url = solrDefinition.Url;
+          solrState.State = solrStateResolver.GetServiceState(solrDefinition.Service);
+          if (solrState.State == SolrState.CurrentState.Running)
+          {
+            solrState.Version = solrStateResolver.GetVersion(solrDefinition.Url);
+          }
+          else
+          {
+            solrState.Version = "N/A";
+          }
+          solrStates.Add(solrState);
+        }
+        // If Solr service is not running, possibly Solr is started using CMD, in this case Solr Url accesibility can be checked
+        foreach (SolrState solrState in solrStates)
+        {
+          if (solrState.State == SolrState.CurrentState.Stopped && !solrStates.Any(s =>
+            s.State == SolrState.CurrentState.Running && s.Url == solrState.Url))
+          {
+            solrState.State = solrStateResolver.GetUrlState(solrState.Url);
+            if (solrState.State == SolrState.CurrentState.Running)
+            {
+              solrState.Version = solrStateResolver.GetVersion(solrState.Url);
+            }
+          }
+        }
+      }, "Checking states of Solr instances", this);
+
+      return solrStates;
+    }
+
+    private bool IsSolrStatesCountValid(List<SolrState> solrStates)
+    {
+      if (solrStates.Count == 0)
+      {
+        WindowHelper.ShowMessage("Unable to get states of Solr instances.", MessageBoxButton.OK, MessageBoxImage.Warning);
+        return false;
+      }
+
+      return true;
+    }
+
+    private GridEditorContext GetSolrStatesContext(List<SolrState> solrStates)
+    {
+      return new GridEditorContext(typeof(SolrState), solrStates, "Solr", "States of Solr instances.");
+    }
+
+    private void UpdateDataGridRowColor()
+    {
+      this.DataGrid.UpdateLayout();
+      for (int i = 0; i < this.DataGrid.Items.Count; i++)
+      {
+        DataGridRow row = (DataGridRow)this.DataGrid.ItemContainerGenerator.ContainerFromIndex(i);
+        if (row != null)
+        {
+          SolrState.CurrentState state = (this.DataGrid.Items[i] as SolrState).State;
+          if (state == SolrState.CurrentState.Running)
+          {
+            row.Background = (SolidColorBrush)new BrushConverter().ConvertFrom("#ccffcc");
+          }
+          else if (state == SolrState.CurrentState.Stopped)
+          {
+            row.Background = (SolidColorBrush)new BrushConverter().ConvertFrom("#f2f2f2");
+          }
+        }
+      }
     }
   }
 
