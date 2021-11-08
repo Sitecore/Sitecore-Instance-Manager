@@ -3,10 +3,8 @@ using NSubstitute;
 using SIM.Sitecore9Installer.Tasks;
 using SIM.Sitecore9Installer.Validation;
 using SIM.Sitecore9Installer.Validation.Validators;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Xunit;
 
 namespace SIM.Sitecore9Installer.Tests.Validation.Validators

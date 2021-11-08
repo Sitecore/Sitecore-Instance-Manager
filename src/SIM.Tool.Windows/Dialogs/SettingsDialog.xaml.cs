@@ -79,7 +79,7 @@ namespace SIM.Tool.Windows.Dialogs
       Assert.ArgumentNotNull(sender, nameof(sender));
       Assert.ArgumentNotNull(e, nameof(e));
 
-      WindowHelper.PickFolder("Choose folder with Sitecore zip installation packages", localRepository, DoneButton);
+      WindowHelper.PickFolder("Choose folder with Sitecore zip installation packages", LocalRepository, DoneButton);
     }
 
     private void PickInstancesFolder([NotNull] object sender, [NotNull] RoutedEventArgs e)
@@ -171,7 +171,7 @@ namespace SIM.Tool.Windows.Dialogs
         editCollection.Add((SolrDefinition)solr.Clone());
       }
 
-      GridEditorContext context = new GridEditorContext(typeof(SolrDefinition), editCollection, "Solr", "List of available solr servers (Url+root+service name).");
+      GridEditorContext context = new GridEditorContext(typeof(SolrDefinition), editCollection, "Solr", "List of available Solr servers.");
       object result=WindowHelper.ShowDialog<GridEditor>(context, this);
       bool? dialogresult = result as bool?;
       if ((result!=null&&dialogresult==null)||(dialogresult.HasValue && dialogresult.Value))
@@ -201,7 +201,7 @@ namespace SIM.Tool.Windows.Dialogs
         }
         else
         {
-          this.SolrsText.Text = "No solrs configured. Click '...' to add one.";
+          this.SolrsText.Text = "No Solr servers configured. Click '...' to add one.";
         }
       }
     }

@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.ServiceProcess;
-using System.Text;
 using NSubstitute;
 using SIM.Sitecore9Installer.Tasks;
 using SIM.Sitecore9Installer.Validation;
@@ -16,19 +12,21 @@ namespace SIM.Sitecore9Installer.Tests.Validation.Validators
   {
     [Theory]
     [ClassData(typeof(ValidatorTestSetup))]
-    public void ServiceDoesNotExist(IEnumerable<Task> tasks)
+    public void ServiceIsStopped(IEnumerable<Task> tasks)
     {
       foreach (Task t in tasks)
       {
-        t.LocalParams.AddOrUpdateParam("SolrService", "nope",InstallParamType.String);
+        t.LocalParams.AddOrUpdateParam("SolrUrl", "https://localhost:8983/solr", InstallParamType.String);
       }
 
       SolrServiceValidator val = Substitute.ForPartsOf<SolrServiceValidator>();
-      val.Data["ParamNames"] = Guid.NewGuid().ToString();
-      ServiceControllerWrapper s = null;
-      val.GetService(Arg.Any<string>()).ReturnsForAnyArgs(s);
+      val.Data["Solr"] = "SolrUrl";
+      val.Data["Versions"] = "8.4.*";
+      SolrStateResolver solrStateResolver = Substitute.ForPartsOf<SolrStateResolver>();
+      solrStateResolver.GetServiceState(Arg.Any<string>()).ReturnsForAnyArgs(SolrState.CurrentState.Stopped);
+      val.SolrStateResolver.Returns(solrStateResolver);
       IEnumerable<ValidationResult> res = val.Evaluate(tasks);
-      Assert.Equal(0, res.Count(r => r.State == ValidatorState.Error));
+      Assert.Equal(2, res.Count(r => r.State == ValidatorState.Error));
     }
 
     [Theory]
@@ -37,15 +35,15 @@ namespace SIM.Sitecore9Installer.Tests.Validation.Validators
     {
       foreach (Task t in tasks)
       {
-        t.LocalParams.AddOrUpdateParam("SolrService", "nope",InstallParamType.String);
+        t.LocalParams.AddOrUpdateParam("SolrUrl", "https://localhost:8983/solr", InstallParamType.String);
       }
 
       SolrServiceValidator val = Substitute.ForPartsOf<SolrServiceValidator>();
-      val.Data["ParamNames"] = Guid.NewGuid().ToString();
-      ServiceController c = null;
-      ServiceControllerWrapper s = Substitute.For<ServiceControllerWrapper>(c);
-      s.Status.Returns(ServiceControllerStatus.Running);
-      val.GetService(Arg.Any<string>()).ReturnsForAnyArgs(s);
+      val.Data["Solr"] = "SolrUrl";
+      val.Data["Versions"] = "8.1.*";
+      SolrStateResolver solrStateResolver = Substitute.ForPartsOf<SolrStateResolver>();
+      solrStateResolver.GetServiceState(Arg.Any<string>()).ReturnsForAnyArgs(SolrState.CurrentState.Running);
+      val.SolrStateResolver.Returns(solrStateResolver);
       IEnumerable<ValidationResult> res = val.Evaluate(tasks);
       Assert.Equal(0, res.Count(r => r.State == ValidatorState.Error));
     }

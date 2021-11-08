@@ -12,7 +12,7 @@ namespace SIM.Sitecore9Installer.Validation.Validators
 
     public Dictionary<string, string> Data { get; set; }
 
-    public virtual string SuccessMessage => "'AllowedCorsOrigins' and 'PasswordRecoveryUrl' were set properly for 'IdentityServer' installation task.";
+    public virtual string SuccessMessage => "The 'AllowedCorsOrigins' and 'PasswordRecoveryUrl' parameters were set properly for the 'IdentityServer' installation task.";
 
     public CmIdentityServerSiteNameValidator()
     {

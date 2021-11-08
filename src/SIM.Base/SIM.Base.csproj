@@ -25,6 +25,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
+    <LangVersion>7.0</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -34,6 +35,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
+    <LangVersion>7.0</LangVersion>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Ionic.Zip.Reduced, Version=1.9.1.8, Culture=neutral, PublicKeyToken=edbe51ad942a3f5c, processorArchitecture=MSIL">
@@ -43,16 +45,20 @@
     <Reference Include="JetBrains.Annotations, Version=11.1.0.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
       <HintPath>..\packages\JetBrains.Annotations.11.1.0\lib\net20\JetBrains.Annotations.dll</HintPath>
     </Reference>
-    <Reference Include="Sitecore.Diagnostics.Base, Version=2.0.1.171, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Sitecore.Diagnostics.Base.2.0.1.171\lib\Sitecore.Diagnostics.Base.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="Sitecore.Diagnostics.Logging, Version=2.0.1.171, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Sitecore.Diagnostics.Logging.2.0.1.171\lib\Sitecore.Diagnostics.Logging.dll</HintPath>
+    <Reference Include="Sitecore.Diagnostics.Base, Version=2.1.4.203, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Sitecore.Diagnostics.Base.2.1.4.203\lib\Sitecore.Diagnostics.Base.dll</HintPath>
+    </Reference>
+    <Reference Include="Sitecore.Diagnostics.Logging, Version=2.1.4.203, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Sitecore.Diagnostics.Logging.2.1.4.203\lib\Sitecore.Diagnostics.Logging.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceProcess" />
     <Reference Include="System.Xml" />
@@ -109,6 +115,8 @@
     <Compile Include="Services\ConnectionString.cs" />
     <Compile Include="Services\SqlConnectionString.cs" />
     <Compile Include="SolrDefinition.cs" />
+    <Compile Include="SolrState.cs" />
+    <Compile Include="SolrStateResolver.cs" />
     <Compile Include="VersionToSolr.cs" />
     <Compile Include="WebRequestHelper.cs" />
     <Compile Include="XmlBasedAdvancedSettingsStorage.cs" />

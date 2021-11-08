@@ -11,17 +11,17 @@ namespace SIM.Sitecore9Installer.Tests.Validation.Validators
 {
   public class PrerequisitesDownloadLinksValidatorTests
   {
-    private const string KnownIssueMessage = "{0}: the '{1}' parameter contains the following link that is not accessible:\n\n{2}\n\nThis behavior looks to be related to the following known issue:\n\n{3}\n\nPlease try to apply the solution mentioned there.";
+    private const string OutdatedDownloadLinksKnownIssueMessage = "{0}: the '{1}' parameter contains the following link that is not accessible:\n\n{2}\n\nThis behavior looks to be related to the following known issue:\n\n{3}\n\nPlease try to apply the solution mentioned there.";
 
-    private const string InvalidLinkMessage = "{0}: the '{1}' parameter contains the following link that is not accessible:\n\n{2}\n\nPlease check the Internet connection and the link accessibility in a browser.\n\nThis behavior may also occur due to similar symptoms described in the following known issue:\n\n{3}";
+    private const string InternetAccessKnownIssueMessage = "{0}: the '{1}' parameter contains the following link that is not accessible:\n\n{2}\n\nPlease check the link accessibility in a browser and solution mentioned in the following known issue:\n\n{3}";
 
     private const string InvalidValueMessage = "{0}: the '{1}' parameter contains the following invalid value:\n\n{2}\n\nIt should contain download link that starts with '{3}'.";
 
     [Theory]
-    [InlineData("Prerequisites", "WebPlatformDownload", "https://download.microsoft.com/download/C/F/F/CFF3A0B8-99D4-41A2-AE1A-496C08BEB904/WebPlatformInstaller_amd64_en-US.msi", 1, KnownIssueMessage)]
+    [InlineData("Prerequisites", "WebPlatformDownload", "https://download.microsoft.com/download/C/F/F/CFF3A0B8-99D4-41A2-AE1A-496C08BEB904/WebPlatformInstaller_amd64_en-US.msi", 1, OutdatedDownloadLinksKnownIssueMessage)]
     [InlineData("Global", "WebPlatformDownload", "https://download.microsoft.com/download/C/F/F/CFF3A0B8-99D4-41A2-AE1A-496C08BEB904/WebPlatformInstaller_amd64_en-US.msi", 0, "")]
     [InlineData("Prerequisites", "SQLODBCDriversx64", "https://download.microsoft.com/download/D/5/E/D5EEF288-A277-45C8-855B-8E2CB7E25B96/x64/msodbcsql.msi", 0, "")]
-    [InlineData("Prerequisites", "SQLODBCDriversx64", "https://download.microsoft.com/download/test", 1, InvalidLinkMessage)]
+    [InlineData("Prerequisites", "SQLODBCDriversx64", "https://download.microsoft.com/download/test", 1, InternetAccessKnownIssueMessage)]
     [InlineData("Prerequisites", "SQLODBCDriversx64", "test", 0, "")]
     [InlineData("Prerequisites", "DotNetHostingDownload", "https://download.microsoft.com/download/6/E/B/6EBD972D-2E2F-41EB-9668-F73F5FDDC09C/dotnet-hosting-2.1.3-win.exe", 0, "")]
     [InlineData("Prerequisites", "DotNetHostingDownload", "test", 1, InvalidValueMessage)]
@@ -50,9 +50,13 @@ namespace SIM.Sitecore9Installer.Tests.Validation.Validators
 
       // Assert
       Assert.Equal(warnings.Count(), warningsCount);
-      if (message == KnownIssueMessage || message == InvalidLinkMessage)
+      if (message == OutdatedDownloadLinksKnownIssueMessage)
       {
-        this.ValidateMessage(warnings, message, taskName, paramName, paramValue, validator.KnownIssueLink);
+        this.ValidateMessage(warnings, message, taskName, paramName, paramValue, validator.OutdatedDownloadLinksKnownIssueLink);
+      }
+      else if (message == InternetAccessKnownIssueMessage)
+      {
+        this.ValidateMessage(warnings, message, taskName, paramName, paramValue, validator.InternetAccessKnownIssueLink);
       }
       else
       {

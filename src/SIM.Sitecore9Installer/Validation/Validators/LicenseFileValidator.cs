@@ -1,5 +1,4 @@
-﻿using SIM.Sitecore9Installer.Tasks;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
@@ -26,7 +25,7 @@ namespace SIM.Sitecore9Installer.Validation.Validators
       {
         if (!FileExists(path))
         {
-          yield return new ValidationResult(ValidatorState.Error, $"Unable to locate {path} license file.", null);
+          yield return new ValidationResult(ValidatorState.Error, $"Unable to locate the '{path}' license file.", null);
           hasErrors = true;
         }
       }
