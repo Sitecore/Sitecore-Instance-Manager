@@ -1,9 +1,6 @@
 ﻿using NSubstitute;
 using SIM.Sitecore9Installer.Validation;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using SIM.Sitecore9Installer.Tasks;
 using SIM.Sitecore9Installer.Validation.Validators;
 using Xunit;

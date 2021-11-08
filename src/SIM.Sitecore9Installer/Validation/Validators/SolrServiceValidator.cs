@@ -17,7 +17,7 @@ namespace SIM.Sitecore9Installer.Validation.Validators
         if (SolrStateResolver.GetServiceState(param.Value) == SolrState.CurrentState.Stopped)
         {
           yield return new ValidationResult(ValidatorState.Error,
-            $"Service '{param.Value}' required for '{task.Name}' is not running", null);
+            $"The '{param.Value}' service required for the '{task.Name}' installation task is not running.", null);
         }
       }
     }

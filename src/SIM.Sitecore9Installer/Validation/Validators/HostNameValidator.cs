@@ -6,7 +6,8 @@ namespace SIM.Sitecore9Installer.Validation.Validators
 {
   public class HostNameValidator : BaseValidator
   {
-    public override string SuccessMessage => "'Uri.CheckHostName()' validation has been finished successfully.";
+    public override string SuccessMessage => "Hosts defined in parameters of installations tasks are valid DNS names.";
+
     protected override IEnumerable<ValidationResult> GetErrorsForTask(Task task, IEnumerable<InstallParam> paramsToValidate)
     {
       foreach (InstallParam param in paramsToValidate)
@@ -14,7 +15,7 @@ namespace SIM.Sitecore9Installer.Validation.Validators
         if (Uri.CheckHostName(param.Value) != UriHostNameType.Dns)
         {
           ValidationResult r = new ValidationResult(ValidatorState.Error,
-            string.Format("Invalid host in '{0}' of '{1}'", param.Name, task.Name), null);
+            string.Format("Invalid host is defined in the '{0}' parameter of the '{1}' installation task.", param.Name, task.Name), null);
           yield return r;
         }
       }

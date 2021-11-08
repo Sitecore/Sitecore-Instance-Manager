@@ -32,7 +32,7 @@ namespace SIM.Sitecore9Installer.Validation.Validators
       {
         ValidationResult result = new ValidationResult(
           state: ValidatorState.Error,
-          message: $"{TaskName}: nuget.exe is not a recognized as an internal or external command. To fix: download the NuGet.exe from https://www.nuget.org/downloads and set the local path of NuGet.exe into your path environment variable.",
+          message: $"{TaskName}: nuget.exe is not a recognized as an internal or external command. To fix: download 'nuget.exe' from https://www.nuget.org/downloads and set the local path of 'nuget.exe' into your path environment variable.",
           error: null);
 
         yield return result;
@@ -41,7 +41,7 @@ namespace SIM.Sitecore9Installer.Validation.Validators
       {
         ValidationResult result = new ValidationResult(
           state: ValidatorState.Error,
-          message: $"{TaskName}: The '{psError}' error occurred when 'nuget.exe' was invoked from PowerShell.",
+          message: $"{TaskName}: the '{psError}' error occurred when 'nuget.exe' was invoked from PowerShell.",
           error: null);
 
         yield return result;
