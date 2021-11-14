@@ -14,13 +14,21 @@ namespace SIM.Pipelines.Install.Containers
 
   public class InstallContainerArgs : ProcessorArgs
   {
-    public InstallContainerArgs(EnvModel model, string destination, string filesRoot, string topology, ILogger logger)
+    public InstallContainerArgs(
+      EnvModel model,
+      string destination,
+      string filesRoot,
+      string topology,
+      ILogger logger,
+      bool scriptsOnly
+      )
     {
       this.EnvModel = model;
       this.FilesRoot = filesRoot;
       this.Destination = destination;
       this.Topology = (Topology)Enum.Parse(typeof(Topology), topology, true);
       this.Logger = logger;
+      this.ScriptsOnly = scriptsOnly;
     }
 
     public EnvModel EnvModel { get; }
@@ -41,5 +49,7 @@ namespace SIM.Pipelines.Install.Containers
     {
       get; set;
     }
+
+    public bool ScriptsOnly { get; }
   }
 }
