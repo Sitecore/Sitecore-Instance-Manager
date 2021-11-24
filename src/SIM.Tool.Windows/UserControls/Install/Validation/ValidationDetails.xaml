@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="Advanced installation parameters" Height="500" MaxHeight="500" Width="800" MaxWidth="800" 
+        Height="500" MaxHeight="500" Width="800" MaxWidth="800" 
 		ResizeMode="NoResize" Loaded="ValidationDetails_OnLoaded">
     <Grid>
         <Grid.RowDefinitions>

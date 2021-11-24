@@ -31,6 +31,8 @@ namespace SIM.Tool.Windows.UserControls.Install.Validation
       GridEditorContext editContext = this.DataContext as GridEditorContext;
       Assert.ArgumentNotNull(editContext, nameof(editContext));
 
+      this.Title = editContext.Title;
+
       // Bind properties to be able to copy and paste data from DataGrid
       IEnumerable<PropertyInfo> propertiesToRender = editContext.ElementType.GetProperties().Where(prop => Attribute.IsDefined(prop, typeof(RenderInDataGreedAttribute)));
       foreach (var propertyToRender in propertiesToRender)

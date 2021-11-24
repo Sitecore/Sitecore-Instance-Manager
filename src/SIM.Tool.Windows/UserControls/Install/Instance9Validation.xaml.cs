@@ -157,7 +157,7 @@ namespace SIM.Tool.Windows.UserControls.Install
 
     public void CustomButtonClick()
     {
-      GridEditorContext gridEditorContext = new GridEditorContext(typeof(ValidationResult), this.Messages, "Advanced installation parameters", "Advanced installation parameters.");
+      GridEditorContext gridEditorContext = new GridEditorContext(typeof(ValidationResult), this.Messages, "Parameters validation", "Parameters validation.");
       WindowHelper.ShowDialog<ValidationDetails>(gridEditorContext, this.owner);
     }
   }
