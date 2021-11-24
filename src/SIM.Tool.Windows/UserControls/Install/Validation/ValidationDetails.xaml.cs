@@ -86,22 +86,22 @@ namespace SIM.Tool.Windows.UserControls.Install.Validation
           {
             case Sitecore9Installer.Validation.ValidatorState.Success:
             {
-              row.Background = (SolidColorBrush)new BrushConverter().ConvertFrom("#ccffcc");
+              row.Background = (SolidColorBrush)new BrushConverter().ConvertFrom(WindowsSettings.AppThemeBackgroundSuccess.Value);
               break;
             }
             case Sitecore9Installer.Validation.ValidatorState.Error:
             {
-              row.Background = (SolidColorBrush)new BrushConverter().ConvertFrom("#e86f6d");
+              row.Background = (SolidColorBrush)new BrushConverter().ConvertFrom(WindowsSettings.AppThemeBackgroundError.Value);
               break;
             }
             case Sitecore9Installer.Validation.ValidatorState.Warning:
             {
-              row.Background = (SolidColorBrush)new BrushConverter().ConvertFrom("#e8e39a");
+              row.Background = (SolidColorBrush)new BrushConverter().ConvertFrom(WindowsSettings.AppThemeBackgroundWarning.Value);
               break;
             }
             case Sitecore9Installer.Validation.ValidatorState.Pending:
             {
-              row.Background = (SolidColorBrush)new BrushConverter().ConvertFrom("#e8e39a");
+              row.Background = (SolidColorBrush)new BrushConverter().ConvertFrom(WindowsSettings.AppThemeBackgroundPending.Value);
               break;
             }
             default: break;
