@@ -12,11 +12,11 @@ namespace SIM.Sitecore9Installer.Validation
 
   public class ValidationResult
   {
-    public ValidationResult(ValidatorState state, string message, Exception error)
+    public ValidationResult(ValidatorState state, string message, Exception exception)
     {
       this.State = state;
       this.Message = message;
-      this.Error = error;
+      this.Exception = exception;
     }
 
     [RenderInDataGreed]
@@ -26,6 +26,6 @@ namespace SIM.Sitecore9Installer.Validation
     public string Message { get; set; }
 
     [RenderInDataGreed]
-    public Exception Error { get; set; }
+    public Exception Exception { get; set; }
   }
 }
