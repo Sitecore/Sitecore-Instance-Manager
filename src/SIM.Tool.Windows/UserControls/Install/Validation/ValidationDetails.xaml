@@ -21,7 +21,7 @@
                   VerticalAlignment="Top" HorizontalAlignment="Left"
 				  Margin="10,0,10,0" AutoGenerateColumns="False"
 				  EnableColumnVirtualization="False" EnableRowVirtualization="False"
-				  CanUserAddRows="False" ColumnWidth="*" ItemsSource="{Binding GridItems}" >
+				  CanUserAddRows="False" CanUserSortColumns="False" ColumnWidth="*" ItemsSource="{Binding GridItems}"  >
 		</DataGrid>
         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
             <Button Name="Btn_Close" Click="Btn_Close_Click" Content="Close" HorizontalAlignment="Left" Margin="24,11,21,12" Width="72"></Button>
