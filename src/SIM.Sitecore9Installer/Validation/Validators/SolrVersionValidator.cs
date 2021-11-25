@@ -2,17 +2,22 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using SIM.Products;
 using SIM.Sitecore9Installer.Tasks;
 
 namespace SIM.Sitecore9Installer.Validation.Validators
 {
   public class SolrVersionValidator : IValidator
   {
+    public virtual SolrStateResolver SolrStateResolver => new SolrStateResolver();
+
     public virtual string SuccessMessage => "Sitecore and Solr versions are compatible.";
 
-    public string SolrUrl { get => this.Data["Solr"]; }
-
     public Dictionary<string, string> Data { get; set; }
+
+    public string SolrUrl { get => this.Data["SolrUrl"]; }
+
+    public string FilesRoot { get => this.Data["FilesRoot"]; }
 
     public SolrVersionValidator()
     {
@@ -21,60 +26,89 @@ namespace SIM.Sitecore9Installer.Validation.Validators
 
     private class SolrVersionValidatorErrors
     {
-      internal List<string> oldSolrTaskNames = new List<string>();
-      internal List<string> unresolvedSolrTaskNames = new List<string>();
-      internal List<string> untestedSolrTaskNames = new List<string>();
+      internal List<string> unresolvedSolrTasks = new List<string>();
+      internal List<string> incompatibleSolrTasks = new List<string>();
     }
 
-    public IEnumerable<ValidationResult> Evaluate(IEnumerable<Tasks.Task> tasks)
+    public IEnumerable<ValidationResult> Evaluate(IEnumerable<Task> tasks)
     {
-      string[] compatibleVersions = Data["Versions"].Split(',');
-      Array.Sort(compatibleVersions);
+      Task globalTask = tasks.FirstOrDefault(t => t.GlobalParams.Any(p => p.Name.Equals(FilesRoot, StringComparison.InvariantCultureIgnoreCase)));
 
-      if (compatibleVersions.Length == 0)
-      {
-        yield return new ValidationResult(ValidatorState.Success, this.SuccessMessage, null);
-      }
-
-      SolrVersionValidatorErrors errors = GetErrors(tasks, compatibleVersions);
-
-      if (!errors.oldSolrTaskNames.Any() 
-        && !errors.unresolvedSolrTaskNames.Any() 
-        && !errors.untestedSolrTaskNames.Any())
-      {
-        yield return new ValidationResult(ValidatorState.Success, this.SuccessMessage, null);
-      }
-
-      if (errors.oldSolrTaskNames.Any())
-      {
-        yield return new ValidationResult(ValidatorState.Error,
-          $"Solr version is older than expected. Please consider a newer version. " +
-          $"Recommended Solr versions: {Data["Versions"]}. " +
-          $"Installation tasks related to the problematic Solr versions: {string.Join(", ", errors.oldSolrTaskNames)}",
-          null);
-      }
-
-      if (errors.unresolvedSolrTaskNames.Any())
-      {
-        yield return new ValidationResult(ValidatorState.Error,
-          $"Unable to resolve Solr versions for the following tasks: {string.Join(", ", errors.unresolvedSolrTaskNames)}",
-          null);
-      }
-
-      if (errors.untestedSolrTaskNames.Any())
+      if (globalTask == null)
       {
         yield return new ValidationResult(ValidatorState.Warning,
-          $"Sitecore and Solr versions have not been tested together. They might be incompatible. " +
-          $"Recommended Solr versions: {Data["Versions"]}. " +
-          $"Installation tasks related to the problematic Solr versions: {string.Join(", ", errors.untestedSolrTaskNames)}",
-          null);
+          $"Cannot find installation task that contains the '{FilesRoot}' parameter to get Sitecore version and to validate Solr version.", null);
+        yield break;
+      }
+
+      Regex productRegex = Product.ProductRegex;
+      Match match = productRegex.Match(globalTask.GlobalParams[FilesRoot].Value);
+      string sitecoreVersion = match.Groups[2].Value;
+
+      if (string.IsNullOrEmpty(sitecoreVersion))
+      {
+        yield return new ValidationResult(ValidatorState.Warning,
+          $"Cannot resolve Sitecore version using the '{FilesRoot}' parameter of the '{globalTask.Name}' installation task to validate Solr version.", null);
+        yield break;
+      }
+
+      Dictionary<string, string> solrVersionMaps = Configuration.Configuration.Instance.SolrMap;
+
+      if (solrVersionMaps == null || solrVersionMaps.Count < 1)
+      {
+        yield return new ValidationResult(ValidatorState.Warning, 
+          "Cannot resolve Sitecore and Solr versions mappings from the 'GlobalSettings.json' file to validate Solr version.", null);
+        yield break;
+      }
+
+      KeyValuePair<string, string> solrVersionsMap = new KeyValuePair<string, string>();
+
+      foreach (string value in solrVersionMaps.Values)
+      {
+        string[] splittedValues = value.Split(',');
+        foreach (string splittedValue in splittedValues)
+        {
+          if (Regex.Match(sitecoreVersion, splittedValue).Success)
+          {
+            solrVersionsMap = solrVersionMaps.FirstOrDefault(keyValuePair => keyValuePair.Value.Contains(splittedValue));
+            break;
+          }
+        }
+      }
+
+      if (string.IsNullOrEmpty(solrVersionsMap.Key))
+      {
+        yield return new ValidationResult(ValidatorState.Warning, 
+          $"Cannot resolve Sitecore version {sitecoreVersion} from 'SolrVersionsMap' in the 'GlobalSettings.json' file to validate Solr version.", null);
+        yield break;
+      }
+
+      SolrVersionValidatorErrors errors = this.GetErrors(tasks, solrVersionsMap);
+
+      if (!errors.unresolvedSolrTasks.Any() && !errors.incompatibleSolrTasks.Any())
+      {
+        yield return new ValidationResult(ValidatorState.Success, this.SuccessMessage, null);
+        yield break;
+      }
+
+      if (errors.unresolvedSolrTasks.Any())
+      {
+        yield return new ValidationResult(ValidatorState.Error,
+          $"Unable to resolve Solr versions for the following tasks:\n\n{string.Join("\n", errors.unresolvedSolrTasks)}", null);
+      }
+
+      if (errors.incompatibleSolrTasks.Any())
+      {
+        yield return new ValidationResult(ValidatorState.Warning,
+          $"Sitecore version {sitecoreVersion} and Solr versions defined in the following installation tasks have not been tested together:\n\n{string.Join("\n", errors.incompatibleSolrTasks)}\n\n" +
+          $"The recommended compatible Solr version is {solrVersionsMap.Key}.", null);
       }
     }
 
-    private SolrVersionValidatorErrors GetErrors(IEnumerable<Tasks.Task> tasks, string[] compatibleVersions)
+    private SolrVersionValidatorErrors GetErrors(IEnumerable<Task> tasks, KeyValuePair<string, string> solrVersionsMap)
     {
       SolrVersionValidatorErrors errors = new SolrVersionValidatorErrors();
-      SolrStateResolver solrStateResolver = new SolrStateResolver();
+
       foreach (Task task in tasks.Where(t => t.LocalParams.Any(p => p.Name == SolrUrl)))
       {
         string solrUrl = task.LocalParams.Single(p => p.Name == SolrUrl).Value;
@@ -82,24 +116,16 @@ namespace SIM.Sitecore9Installer.Validation.Validators
 
         try
         {
-          solrVersion = solrStateResolver.GetVersion(solrUrl);
+          solrVersion = SolrStateResolver.GetVersion(solrUrl);
         }
         catch
         {
-          errors.unresolvedSolrTaskNames.Add(task.Name);
+          errors.unresolvedSolrTasks.Add($"{task.Name} ({solrUrl})");
         }
 
-        if (!string.IsNullOrEmpty(solrVersion) 
-          && !compatibleVersions.Any(v => Regex.Match(solrVersion, v).Success))
+        if (!string.IsNullOrEmpty(solrVersion) && !Regex.Match(solrVersion, solrVersionsMap.Key).Success)
         {
-          if (string.Compare(solrVersion, compatibleVersions[0], StringComparison.OrdinalIgnoreCase) < 0)
-          {
-            errors.oldSolrTaskNames.Add($"{task.Name}({solrVersion})");
-          }
-          else
-          {
-            errors.untestedSolrTaskNames.Add($"{task.Name}({solrVersion})");
-          }
+          errors.incompatibleSolrTasks.Add($"{task.Name} ({solrUrl} - {solrVersion})");
         }
       }
 

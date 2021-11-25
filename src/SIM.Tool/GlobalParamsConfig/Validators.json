@@ -44,6 +44,14 @@
       "Type": "SIM.Sitecore9Installer.Validation.Validators.NugetToolPresenceValidator"
     },
     {
+      "Name": "SolrVersionValidator",
+      "Type": "SIM.Sitecore9Installer.Validation.Validators.SolrVersionValidator",
+      "Data": {
+        "SolrUrl": "SolrUrl",
+        "FilesRoot": "FilesRoot"
+      }
+    },
+    {
       "Name": "9.0_SqlCompatibilityValidator",
       "Type": "SIM.Sitecore9Installer.Validation.Validators.SqlVersionValidator",
       "Data": {
@@ -51,14 +59,6 @@
         "User": "SqlAdminUser",
         "Password": "SqlAdminPassword",
         "Versions": "13.0.4*"
-      }
-    },
-    {
-      "Name": "9.0_SolrVersionValidator",
-      "Type": "SIM.Sitecore9Installer.Validation.Validators.SolrVersionValidator",
-      "Data": {
-        "Solr": "SolrUrl",
-        "Versions": "6.6.*"
       }
     },
     {
@@ -72,14 +72,6 @@
       }
     },
     {
-      "Name": "9.1_SolrVersionValidator",
-      "Type": "SIM.Sitecore9Installer.Validation.Validators.SolrVersionValidator",
-      "Data": {
-        "Solr": "SolrUrl",
-        "Versions": "7.2.*"
-      }
-    },
-    {
       "Name": "9.2_SqlCompatibilityValidator",
       "Type": "SIM.Sitecore9Installer.Validation.Validators.SqlVersionValidator",
       "Data": {
@@ -90,14 +82,6 @@
       }
     },
     {
-      "Name": "9.2_SolrVersionValidator",
-      "Type": "SIM.Sitecore9Installer.Validation.Validators.SolrVersionValidator",
-      "Data": {
-        "Solr": "SolrUrl",
-        "Versions": "7.5.*"
-      }
-    },
-    {
       "Name": "9.3_SqlCompatibilityValidator",
       "Type": "SIM.Sitecore9Installer.Validation.Validators.SqlVersionValidator",
       "Data": {
@@ -105,22 +89,6 @@
         "User": "SqlAdminUser",
         "Password": "SqlAdminPassword",
         "Versions": "13.0.5*,14.0.*,15.0.*"
-      }
-    },
-    {
-      "Name": "9.3_SolrVersionValidator",
-      "Type": "SIM.Sitecore9Installer.Validation.Validators.SolrVersionValidator",
-      "Data": {
-        "Solr": "SolrUrl",
-        "Versions": "8.1.*"
-      }
-    },
-    {
-      "Name": "10.0_SolrVersionValidator",
-      "Type": "SIM.Sitecore9Installer.Validation.Validators.SolrVersionValidator",
-      "Data": {
-        "Solr": "SolrUrl",
-        "Versions": "8.4.*"
       }
     },
     {
@@ -234,6 +202,7 @@
       "DiskSpaceValidator",
       "SolrRootExistsValidator",
       "SolrAvailableValidator",
+      "SolrVersionValidator",
       "CorePrefixDoesNotExistValidator"
     ],
     "DDS": [
@@ -244,29 +213,24 @@
     ],
     "Sitecore_9.0": [
       "9.0_SqlCompatibilityValidator",
-      "9.0_SolrVersionValidator"
     ],
     "Sitecore_9.1": [
       "9.1_SqlCompatibilityValidator",
-      "9.1_SolrVersionValidator",
       "CmIdentityServerSiteNameValidator",
       "PrerequisitesDownloadLinksValidator"
     ],
     "Sitecore_9.2": [
       "9.2_SqlCompatibilityValidator",
-      "9.2_SolrVersionValidator",
       "CmIdentityServerSiteNameValidator",
       "PrerequisitesDownloadLinksValidator"
     ],
     "Sitecore_9.3": [
       "9.3_SqlCompatibilityValidator",
-      "9.3_SolrVersionValidator",
       "CmIdentityServerSiteNameValidator",
       "PrerequisitesDownloadLinksValidator"
     ],
     "Sitecore_10.0": [
       "9.3_SqlCompatibilityValidator",
-      "10.0_SolrVersionValidator",
       "CmIdentityServerSiteNameValidator",
       "PrerequisitesDownloadLinksValidator"
     ]
