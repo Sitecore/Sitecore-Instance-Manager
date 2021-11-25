@@ -20,8 +20,6 @@ namespace SIM.Sitecore9Installer.Tests.Validation.Validators
       }
 
       SolrServiceValidator val = Substitute.ForPartsOf<SolrServiceValidator>();
-      val.Data["Solr"] = "SolrUrl";
-      val.Data["Versions"] = "8.4.*";
       SolrStateResolver solrStateResolver = Substitute.ForPartsOf<SolrStateResolver>();
       solrStateResolver.GetServiceState(Arg.Any<string>()).ReturnsForAnyArgs(SolrState.CurrentState.Stopped);
       val.SolrStateResolver.Returns(solrStateResolver);
@@ -39,8 +37,6 @@ namespace SIM.Sitecore9Installer.Tests.Validation.Validators
       }
 
       SolrServiceValidator val = Substitute.ForPartsOf<SolrServiceValidator>();
-      val.Data["Solr"] = "SolrUrl";
-      val.Data["Versions"] = "8.1.*";
       SolrStateResolver solrStateResolver = Substitute.ForPartsOf<SolrStateResolver>();
       solrStateResolver.GetServiceState(Arg.Any<string>()).ReturnsForAnyArgs(SolrState.CurrentState.Running);
       val.SolrStateResolver.Returns(solrStateResolver);
