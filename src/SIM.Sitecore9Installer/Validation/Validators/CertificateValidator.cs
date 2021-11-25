@@ -6,7 +6,7 @@ namespace SIM.Sitecore9Installer.Validation.Validators
 {
   public class CertificateValidator : BaseValidator
   {
-    public override string SuccessMessage => $"Invalid certificates have not been found in {this.Data["StoreName"]}.";
+    public override string SuccessMessage => $"Invalid certificates have not been found in the '{this.Data["StoreName"]}' store.";
 
     protected override IEnumerable<ValidationResult> GetErrorsForTask(Task task, IEnumerable<InstallParam> paramsToValidate)
     {
@@ -26,7 +26,7 @@ namespace SIM.Sitecore9Installer.Validation.Validators
           bool isValid = this.ValidateCertificate(x509);
           if (!isValid)
           {
-            yield return new ValidationResult(ValidatorState.Error, string.Format("Certificate {0} - {1} is not valid", x509.SubjectName.Name, x509.Thumbprint), null);
+            yield return new ValidationResult(ValidatorState.Error, string.Format("Certificate '{0} - {1}' is not valid.", x509.SubjectName.Name, x509.Thumbprint), null);
           }
           x509.Reset();
         }

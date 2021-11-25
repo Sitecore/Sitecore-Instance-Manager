@@ -51,14 +51,14 @@ namespace SIM.Sitecore9Installer.Validation.Validators
 
         if (errorGetcores != null)
         {
-          yield return new ValidationResult(ValidatorState.Error, $"Unable to get cores from solr {item.Item1}", errorGetcores);
+          yield return new ValidationResult(ValidatorState.Error, $"Unable to get cores from Solr '{item.Item1}'.", errorGetcores);
           continue;
         }
 
         if (coreNames.Any(cn => cn.StartsWith(item.Item2, StringComparison.InvariantCultureIgnoreCase)))
         {
           errors = true;
-          yield return new ValidationResult(ValidatorState.Error, $"Core with prefix {item.Item2} already exists in solr {item.Item1}",null);
+          yield return new ValidationResult(ValidatorState.Error, $"Core with the '{item.Item2}' prefix already exists in Solr '{item.Item1}'.", null);
         }
       }
 
