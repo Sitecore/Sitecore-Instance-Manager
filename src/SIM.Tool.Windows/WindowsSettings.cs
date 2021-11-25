@@ -60,6 +60,21 @@ namespace SIM.Tool.Windows
     [NotNull]
     public static readonly AdvancedProperty<int> AppUiMainWindowWidth = AdvancedSettings.Create("App/UI/MainWindowWidth", -1);
 
+    [NotNull]
+    public static readonly AdvancedProperty<string> AppThemeBackgroundPending = AdvancedSettings.Create("App/Theme/Background/Pending", "#e8e39a");
+
+    [NotNull]
+    public static readonly AdvancedProperty<string> AppThemeBackgroundError = AdvancedSettings.Create("App/Theme/Background/Error", "#e86f6d");
+
+    [NotNull]
+    public static readonly AdvancedProperty<string> AppThemeBackgroundWarning = AdvancedSettings.Create("App/Theme/Background/Warning", "#e8e39a");
+
+    [NotNull]
+    public static readonly AdvancedProperty<string> AppThemeBackgroundSuccess = AdvancedSettings.Create("App/Theme/Background/Success", "#ccffcc");
+
+    [NotNull]
+    public static readonly AdvancedProperty<string> AppThemeBackgroundDisabled = AdvancedSettings.Create("App/Theme/Background/Disabled", "#f2f2f2");
+
     #endregion
   }
 }

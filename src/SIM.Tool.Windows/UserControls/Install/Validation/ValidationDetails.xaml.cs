@@ -1,18 +1,13 @@
-﻿using SIM.Sitecore9Installer;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using SIM.Sitecore9Installer.Tasks;
+using SIM.Tool.Windows.Dialogs;
+using Sitecore.Diagnostics.Base;
 
 namespace SIM.Tool.Windows.UserControls.Install.Validation
 {
@@ -25,20 +20,96 @@ namespace SIM.Tool.Windows.UserControls.Install.Validation
     {
       InitializeComponent();
     }
-    
-    private void ScrollViewer_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
-    {
-      ScrollViewer scrollviewer = sender as ScrollViewer;
-      if (e.Delta > 0)
-        scrollviewer.LineLeft();
-      else
-        scrollviewer.LineRight();
-      e.Handled = true;
-    }    
 
     private void Btn_Close_Click(object sender, RoutedEventArgs e)
     {
       this.Close();
+    }
+
+    private void ValidationDetails_OnLoaded(object sender, RoutedEventArgs e)
+    {
+      GridEditorContext editContext = this.DataContext as GridEditorContext;
+      Assert.ArgumentNotNull(editContext, nameof(editContext));
+
+      this.Title = editContext.Title;
+
+      // Bind properties to be able to copy and paste data from DataGrid
+      IEnumerable<PropertyInfo> propertiesToRender = editContext.ElementType.GetProperties().Where(prop => Attribute.IsDefined(prop, typeof(RenderInDataGreedAttribute)));
+      foreach (var propertyToRender in propertiesToRender)
+      {
+        if (propertyToRender.Name == "State")
+        {
+          this.MessagesList.Columns.Add(new DataGridTextColumn() { Binding = new Binding(propertyToRender.Name), Header = propertyToRender.Name, IsReadOnly = true, MinWidth = 58, MaxWidth = 58 });
+        }
+        else
+        {
+          this.MessagesList.Columns.Add(new DataGridTextColumn() { Binding = new Binding(propertyToRender.Name) { Mode = BindingMode.OneTime }, Header = propertyToRender.Name, 
+            ElementStyle = this.GetElementStyle(), EditingElementStyle = this.GetEditingElementStyle() });
+        }
+      }
+
+      this.UpdateDataGridRowColor(); 
+    }
+
+    private Style GetElementStyle()
+    {
+      Style elementStyle = new Style(typeof(TextBlock));
+      Setter elementStyleSetter = new Setter()
+      {
+        Property = TextBlock.TextWrappingProperty,
+        Value = TextWrapping.Wrap
+      };
+      elementStyle.Setters.Add(elementStyleSetter);
+      return elementStyle;
+    }
+
+    private Style GetEditingElementStyle()
+    {
+      Style editingElementStyle = new Style(typeof(TextBox));
+      Setter editingElementStyleSetter = new Setter()
+      {
+        Property = TextBox.TextWrappingProperty,
+        Value = TextWrapping.Wrap
+      };
+      editingElementStyle.Setters.Add(editingElementStyleSetter);
+      return editingElementStyle;
+    }
+
+    private void UpdateDataGridRowColor()
+    {
+      this.MessagesList.UpdateLayout();
+      for (int i = 0; i < this.MessagesList.Items.Count; i++)
+      {
+        DataGridRow row = (DataGridRow)this.MessagesList.ItemContainerGenerator.ContainerFromIndex(i);
+        if (row != null)
+        {
+          Sitecore9Installer.Validation.ValidatorState validatorState = (this.MessagesList.Items[i] as Sitecore9Installer.Validation.ValidationResult).State;
+          switch (validatorState)
+          {
+            case Sitecore9Installer.Validation.ValidatorState.Success:
+            {
+              row.Background = (SolidColorBrush)new BrushConverter().ConvertFrom(WindowsSettings.AppThemeBackgroundSuccess.Value);
+              break;
+            }
+            case Sitecore9Installer.Validation.ValidatorState.Error:
+            {
+              row.Background = (SolidColorBrush)new BrushConverter().ConvertFrom(WindowsSettings.AppThemeBackgroundError.Value);
+              break;
+            }
+            case Sitecore9Installer.Validation.ValidatorState.Warning:
+            {
+              row.Background = (SolidColorBrush)new BrushConverter().ConvertFrom(WindowsSettings.AppThemeBackgroundWarning.Value);
+              break;
+            }
+            case Sitecore9Installer.Validation.ValidatorState.Pending:
+            {
+              row.Background = (SolidColorBrush)new BrushConverter().ConvertFrom(WindowsSettings.AppThemeBackgroundPending.Value);
+              break;
+            }
+            default: break;
+          }
+        }
+      }
     }
   }
 }
