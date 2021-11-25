@@ -16,7 +16,7 @@ namespace SIM
 
       if (service == null)
       {
-        return SolrState.CurrentState.Stopped;
+        return SolrState.CurrentState.ServiceNotExist;
       }
 
       if (service.Status != ServiceControllerStatus.Running)

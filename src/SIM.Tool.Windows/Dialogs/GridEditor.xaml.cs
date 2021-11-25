@@ -182,7 +182,7 @@ namespace SIM.Tool.Windows.Dialogs
         // If Solr service is not running, possibly Solr is started using CMD, in this case Solr Url accesibility can be checked
         foreach (SolrState solrState in solrStates)
         {
-          if (solrState.State == SolrState.CurrentState.Stopped && !solrStates.Any(s =>
+          if (solrState.State != SolrState.CurrentState.Running && !solrStates.Any(s =>
             s.State == SolrState.CurrentState.Running && s.Url == solrState.Url))
           {
             solrState.State = solrStateResolver.GetUrlState(solrState.Url);
@@ -226,7 +226,7 @@ namespace SIM.Tool.Windows.Dialogs
           {
             row.Background = (SolidColorBrush)new BrushConverter().ConvertFrom("#ccffcc");
           }
-          else if (state == SolrState.CurrentState.Stopped)
+          else if (state == SolrState.CurrentState.Stopped || state == SolrState.CurrentState.ServiceNotExist)
           {
             row.Background = (SolidColorBrush)new BrushConverter().ConvertFrom("#f2f2f2");
           }

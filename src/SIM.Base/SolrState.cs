@@ -17,7 +17,8 @@
     public enum CurrentState
     {
       Running,
-      Stopped
+      Stopped,
+      ServiceNotExist
     }
   }
 }
