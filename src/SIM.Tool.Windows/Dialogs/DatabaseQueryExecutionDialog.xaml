@@ -19,7 +19,7 @@
         </Grid.RowDefinitions>
         <StackPanel Background="White" Grid.Row="0" Margin="0">
             <StackPanel Background="{DynamicResource Sitecore}" Margin="0">
-                <TextBlock FontSize="14" FontWeight="Bold" HorizontalAlignment="Left" Margin="4" Name="Header" Text="SQL Server Manager - SQL Shell" />
+                <TextBlock FontSize="14" FontWeight="Bold" HorizontalAlignment="Left" Margin="16,4" Name="Header" Text="SQL Server Manager - SQL Shell" />
               <TextBlock HorizontalAlignment="Left" Margin="16,0,120,15" Name="HeaderDetails" TextTrimming="None" TextWrapping="Wrap">You can execute an SQL query here.</TextBlock>
             </StackPanel>
         </StackPanel>

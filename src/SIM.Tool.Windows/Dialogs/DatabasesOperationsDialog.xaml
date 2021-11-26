@@ -8,7 +8,7 @@
   </Window.Resources>
   <Grid Height="227" Background="#2CA7A7A7">
     <StackPanel Background="{DynamicResource Sitecore}" Margin="10,12,12,158">
-      <TextBlock FontSize="14" FontWeight="Bold" HorizontalAlignment="Left" Margin="4" Name="Header">SQL Server Manager - Databases</TextBlock>
+      <TextBlock FontSize="14" FontWeight="Bold" HorizontalAlignment="Left" Margin="16,4" Name="Header">SQL Server Manager - Databases</TextBlock>
       <TextBlock HorizontalAlignment="Left" Margin="16,0,120,15" Name="HeaderDetails" TextTrimming="None" TextWrapping="Wrap">You can manage SQL Server databases</TextBlock>
     </StackPanel>
     <Grid Height="126" HorizontalAlignment="Left" Margin="10,75,0,0" VerticalAlignment="Top" Width="409">
