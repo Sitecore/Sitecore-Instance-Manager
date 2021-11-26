@@ -168,14 +168,16 @@ namespace SIM.Tool.Windows.Dialogs
           SolrState solrState = new SolrState();
           solrState.Name = solrDefinition.Name;
           solrState.Url = solrDefinition.Url;
-          solrState.State = solrStateResolver.GetServiceState(solrDefinition.Service);
+          solrState.State = solrStateResolver.GetServiceState(solrStateResolver.GetService(solrDefinition.Service));
           if (solrState.State == SolrState.CurrentState.Running)
           {
             solrState.Version = solrStateResolver.GetVersion(solrDefinition.Url);
+            solrState.Type = SolrState.CurrentType.Service;
           }
           else
           {
             solrState.Version = "N/A";
+            solrState.Type = SolrState.CurrentType.Unknown;
           }
           solrStates.Add(solrState);
         }
@@ -189,6 +191,7 @@ namespace SIM.Tool.Windows.Dialogs
             if (solrState.State == SolrState.CurrentState.Running)
             {
               solrState.Version = solrStateResolver.GetVersion(solrState.Url);
+              solrState.Type = SolrState.CurrentType.Local;
             }
           }
         }
@@ -222,13 +225,19 @@ namespace SIM.Tool.Windows.Dialogs
         if (row != null)
         {
           SolrState.CurrentState state = (this.DataGrid.Items[i] as SolrState).State;
-          if (state == SolrState.CurrentState.Running)
+          switch (state)
           {
-            row.Background = (SolidColorBrush)new BrushConverter().ConvertFrom("#ccffcc");
-          }
-          else if (state == SolrState.CurrentState.Stopped || state == SolrState.CurrentState.ServiceNotExist)
-          {
-            row.Background = (SolidColorBrush)new BrushConverter().ConvertFrom("#f2f2f2");
+            case SolrState.CurrentState.Running:
+            {
+              row.Background = (SolidColorBrush)new BrushConverter().ConvertFrom("#ccffcc");
+              break;
+            }
+            case SolrState.CurrentState.Stopped:
+            {
+              row.Background = (SolidColorBrush)new BrushConverter().ConvertFrom("#f2f2f2");
+              break;
+            }
+            default: break;
           }
         }
       }

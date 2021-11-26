@@ -14,11 +14,20 @@
     [RenderInDataGreed]
     public string Url { get; set; }
 
+    [RenderInDataGreed]
+    public CurrentType Type { get; set; }
+
     public enum CurrentState
     {
       Running,
-      Stopped,
-      ServiceNotExist
+      Stopped
+    }
+
+    public enum CurrentType
+    {
+      Local,
+      Service,
+      Unknown
     }
   }
 }

@@ -10,21 +10,28 @@ namespace SIM
 {
   public class SolrStateResolver
   {
-    public virtual SolrState.CurrentState GetServiceState(string solrServiceName)
+    public virtual SolrState.CurrentState GetServiceState(ServiceControllerWrapper service)
     {
-      ServiceControllerWrapper service = GetService(solrServiceName);
-
-      if (service == null)
+      if (service != null)
       {
-        return SolrState.CurrentState.ServiceNotExist;
+        if (service.Status == ServiceControllerStatus.Running)
+        {
+          return SolrState.CurrentState.Running;
+        }
       }
 
-      if (service.Status != ServiceControllerStatus.Running)
+      return SolrState.CurrentState.Stopped;
+    }
+
+    public virtual ServiceControllerWrapper GetService(string solrServiceName)
+    {
+      ServiceController serviceController = ServiceController.GetServices().FirstOrDefault(s => s.ServiceName == solrServiceName);
+      if (serviceController == null)
       {
-        return SolrState.CurrentState.Stopped;
+        return null;
       }
 
-      return SolrState.CurrentState.Running;
+      return new ServiceControllerWrapper(serviceController);
     }
 
     public virtual SolrState.CurrentState GetUrlState(string solrUrl)
@@ -67,17 +74,6 @@ namespace SIM
       }
 
       return string.Empty;
-    }
-
-    public virtual ServiceControllerWrapper GetService(string serviceName)
-    {
-      ServiceController service = ServiceController.GetServices().FirstOrDefault(s => s.ServiceName == serviceName);
-      if (service == null)
-      {
-        return null;
-      }
-
-      return new ServiceControllerWrapper(service);
     }
   }
 
