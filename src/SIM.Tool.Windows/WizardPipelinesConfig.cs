@@ -137,11 +137,11 @@ By clicking 'Next' you accept the License Agreement."" />
     <download8 title=""Download Sitecore Wizard"" startButton=""Next"" finishText=""Done"" cancelButton=""Exit"">
       <steps>
         <step name=""Welcome message"" type=""SIM.Tool.Windows.UserControls.ConfirmStepUserControl, SIM.Tool.Windows""
-              param=""This wizard helps you to download packages ('ZIP archive of the Sitecore CMS site root') of the Sitecore CMS versions that Sitecore Instance Manager will be able to install for you. It will require your credentials from dev.sitecore.net because all downloads are protected from being downloaded by anonymous users. 
+              param=""This wizard helps you to download packages ('ZIP archive of the Sitecore site root') of the Sitecore versions that Sitecore Instance Manager will be able to install for you.
               
-Note that due to the large size of each installation package the whole download operation may require much time. With a slow internet connection it may require up to 30 minutes per one Sitecore CMS version.
+Note that due to the large size of each installation package the whole download operation may require much time. With a slow internet connection it may require up to 30 minutes per one Sitecore version.
 
-In addition, you may download these files from dev.sitecore.net to your local repository folder manually using your browser and/or any download program"" />
+In addition, you may download these files from dev.sitecore.net to your local repository folder manually using your browser and/or any download program."" />
         <step name=""License agreement from dev.sitecore.net""
               type=""SIM.Tool.Windows.UserControls.ConfirmStepUserControl, SIM.Tool.Windows""
               param=""Please note that if you are an existing or new licensee or Sitecore Solution Partner with a valid agreement to use the Sitecore Software (“Existing Agreement”), the below license agreement is not intended to in any way modify or replace your Existing Agreement. If your Existing Agreement conflicts with the below license agreement, the terms of your Existing Agreement will prevail.  
