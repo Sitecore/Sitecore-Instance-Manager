@@ -17,7 +17,7 @@
     </Grid.RowDefinitions>
     <StackPanel Background="White" Grid.Row="0" Margin="0">
       <StackPanel Background="{DynamicResource SitecoreBackground}" Margin="0">
-        <TextBlock Name="Header" FontWeight="Bold" FontSize="14" Margin="4" HorizontalAlignment="Left">
+        <TextBlock Name="Header" FontWeight="Bold" FontSize="14" Margin="16,4" HorizontalAlignment="Left">
 				Instance installation
         </TextBlock>
         <TextBlock Name="HeaderDetails" Margin="16,-3,0,18" TextTrimming="None" TextWrapping="Wrap" HorizontalAlignment="Left" Width="400">

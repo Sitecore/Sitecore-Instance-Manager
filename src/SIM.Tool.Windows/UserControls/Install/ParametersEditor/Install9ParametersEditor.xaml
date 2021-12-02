@@ -13,8 +13,8 @@
             <RowDefinition Height="46"/>
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0">
-        <TextBlock Margin="4">
-            <Bold FontSize="15">All changes are applied immediately.</Bold>         
+        <TextBlock Margin="16,4">
+            <Bold FontSize="15">All changes are applied immediately</Bold>         
         </TextBlock>
             <TextBlock Margin="16,-3,0,18">                        
             Updating a parameter on Global tab propagates the change to all other tabs.

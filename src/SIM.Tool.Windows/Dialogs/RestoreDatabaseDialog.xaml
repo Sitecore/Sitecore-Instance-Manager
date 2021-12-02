@@ -21,7 +21,7 @@
     </Grid.RowDefinitions>
     <StackPanel Background="White" Grid.Row="0" Margin="0">
       <StackPanel Background="{DynamicResource Sitecore}" Margin="0">
-        <TextBlock Name="Header" FontWeight="Bold" FontSize="14" Margin="4" HorizontalAlignment="Left">
+        <TextBlock Name="Header" FontWeight="Bold" FontSize="14" Margin="16,4" HorizontalAlignment="Left">
 				Restore database from backup
         </TextBlock>
         <TextBlock Name="HeaderDetails" Margin="16,0,120,15" TextTrimming="None" TextWrapping="Wrap" HorizontalAlignment="Left">
