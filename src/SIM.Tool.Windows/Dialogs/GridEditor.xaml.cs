@@ -48,7 +48,10 @@ namespace SIM.Tool.Windows.Dialogs
       if (editContext.ElementType.Name == "SolrState")
       {
         this.Add.Content = "Refresh";
-        this.Add.Click += RefreshSolrState_OnClick;
+        this.Add.Click -= this.AddRow_Click;
+        this.Add.Click += this.RefreshSolrState_OnClick;
+        this.DataGrid.IsReadOnly = true;
+        this.DataGrid.CanUserSortColumns = false;
         this.DataGrid.Columns[0].Visibility = Visibility.Hidden; // hides the first column with the '-' buttons
         this.Width = 550;
         this.Left += 50; // this is needed to center window position after changing width
@@ -229,12 +232,12 @@ namespace SIM.Tool.Windows.Dialogs
           {
             case SolrState.CurrentState.Running:
             {
-              row.Background = (SolidColorBrush)new BrushConverter().ConvertFrom("#ccffcc");
+              row.Background = (SolidColorBrush)new BrushConverter().ConvertFrom(WindowsSettings.AppThemeBackgroundSuccess.Value);
               break;
             }
             case SolrState.CurrentState.Stopped:
             {
-              row.Background = (SolidColorBrush)new BrushConverter().ConvertFrom("#f2f2f2");
+              row.Background = (SolidColorBrush)new BrushConverter().ConvertFrom(WindowsSettings.AppThemeBackgroundDisabled.Value);
               break;
             }
             default: break;
