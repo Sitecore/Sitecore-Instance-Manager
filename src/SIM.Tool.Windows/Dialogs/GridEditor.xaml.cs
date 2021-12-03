@@ -229,12 +229,12 @@ namespace SIM.Tool.Windows.Dialogs
           {
             case SolrState.CurrentState.Running:
             {
-              row.Background = (SolidColorBrush)new BrushConverter().ConvertFrom("#ccffcc");
+              row.Background = (SolidColorBrush)new BrushConverter().ConvertFrom(WindowsSettings.AppThemeBackgroundSuccess.Value);
               break;
             }
             case SolrState.CurrentState.Stopped:
             {
-              row.Background = (SolidColorBrush)new BrushConverter().ConvertFrom("#f2f2f2");
+              row.Background = (SolidColorBrush)new BrushConverter().ConvertFrom(WindowsSettings.AppThemeBackgroundDisabled.Value);
               break;
             }
             default: break;
