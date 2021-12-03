@@ -16,9 +16,7 @@
 
 		<TextBlock Name="DescriptionText" Grid.Row="0" Margin="10,5,10,5" VerticalAlignment="Center" />
 		<StackPanel Grid.Row="1" >
-			<DataGrid Name="DataGrid" ItemsSource="{Binding GridItems}" VerticalAlignment="Top" HorizontalAlignment="Left" 
-					  AutoGenerateColumns="False" CanUserAddRows="False" CanUserSortColumns="False"
-					  EnableColumnVirtualization="False" EnableRowVirtualization="False" IsReadOnly="True"
+			<DataGrid Name="DataGrid" ItemsSource="{Binding GridItems}" VerticalAlignment="Top" HorizontalAlignment="Left" AutoGenerateColumns="False" CanUserAddRows="False" 
 			          ColumnWidth="*" Margin="10,0,10,0" MaxHeight="188" VerticalScrollBarVisibility="Auto">
 				<DataGrid.RowValidationErrorTemplate>
 					<ControlTemplate>

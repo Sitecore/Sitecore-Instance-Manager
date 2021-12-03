@@ -50,6 +50,8 @@ namespace SIM.Tool.Windows.Dialogs
         this.Add.Content = "Refresh";
         this.Add.Click -= this.AddRow_Click;
         this.Add.Click += this.RefreshSolrState_OnClick;
+        this.DataGrid.IsReadOnly = true;
+        this.DataGrid.CanUserSortColumns = false;
         this.DataGrid.Columns[0].Visibility = Visibility.Hidden; // hides the first column with the '-' buttons
         this.Width = 550;
         this.Left += 50; // this is needed to center window position after changing width
