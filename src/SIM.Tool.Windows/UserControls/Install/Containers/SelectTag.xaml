@@ -12,12 +12,14 @@
             <RowDefinition Height="40"></RowDefinition>
             <RowDefinition Height="40"></RowDefinition>
             <RowDefinition Height="40"></RowDefinition>
+            <RowDefinition Height="40"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="70"></ColumnDefinition>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
+        <CheckBox Name="ScriptsOnly" Grid.Row="4" Grid.Column="1" VerticalAlignment="Center" Content="Scripts only" />
         <CheckBox Name="ProjectName" Grid.Row="3" Grid.Column="1" VerticalAlignment="Center" Content="Include topology and tag to the project name" Checked="ProjectName_Checked" Unchecked="ProjectName_OnUnchecked" />
         <ComboBox Name="Tags" Grid.Row="2" ItemsSource="{Binding}" Grid.Column="1" SelectionChanged="Tags_SelectionChanged"  />
         <TextBlock Grid.Row="2" Grid.Column="0" Text="Tag:" VerticalAlignment="Center" HorizontalAlignment="Left" />

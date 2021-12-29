@@ -13,7 +13,6 @@ using System.Windows;
 using SIM.Tool.Windows.Dialogs;
 using SIM.ContainerInstaller.Repositories.TagRepository;
 using SIM.Tool.Base;
-using Sitecore.Diagnostics.InfoService.Client.Helpers;
 
 namespace SIM.Tool.Windows.UserControls.Install.Containers
 {
@@ -47,6 +46,7 @@ namespace SIM.Tool.Windows.UserControls.Install.Containers
       this.Topologies.SelectedIndex = 0;
       this.defaultProjectName = args.InstanceName;
       this.ProjectName.IsChecked = true;
+      this.ScriptsOnly.IsChecked = false;
     }
 
     public bool OnMovingBack(WizardArgs wizardArgs)
@@ -62,6 +62,7 @@ namespace SIM.Tool.Windows.UserControls.Install.Containers
       args.DockerRoot = ((NameValueModel)this.Topologies.SelectedItem).Value;
       this.envModel.SitecoreVersion = args.Tag;
       args.EnvModel = this.envModel;
+      args.ScriptsOnly = this.ScriptsOnly.IsChecked ?? false;
       args.Topology = ((NameValueModel)this.Topologies.SelectedItem).Name.ToString();
 
       return true;

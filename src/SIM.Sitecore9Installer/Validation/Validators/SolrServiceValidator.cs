@@ -14,7 +14,14 @@ namespace SIM.Sitecore9Installer.Validation.Validators
     {
       foreach (InstallParam param in paramsToValidate)
       {
-        if (SolrStateResolver.GetServiceState(param.Value) == SolrState.CurrentState.Stopped)
+        ServiceControllerWrapper serviceControllerWrapper = SolrStateResolver.GetService(param.Value);
+        if (serviceControllerWrapper == null)
+        {
+          yield return new ValidationResult(ValidatorState.Success, 
+            $"The '{param.Value}' service defined in the '{task.Name}' installation task does not exist, so the validation has been skipped.", null);
+
+        }
+        else if (SolrStateResolver.GetServiceState(serviceControllerWrapper) == SolrState.CurrentState.Stopped)
         {
           yield return new ValidationResult(ValidatorState.Error,
             $"The '{param.Value}' service required for the '{task.Name}' installation task is not running.", null);

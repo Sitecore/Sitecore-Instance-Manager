@@ -2,6 +2,7 @@
 using JetBrains.Annotations;
 using SIM.Pipelines.Processors;
 using SIM.Pipelines.BaseProcessors;
+using Sitecore.Diagnostics.Base;
 
 namespace SIM.Pipelines.Install.Containers
 {
@@ -24,7 +25,18 @@ namespace SIM.Pipelines.Install.Containers
     {
       InstallContainerArgs args = (InstallContainerArgs)procArgs;
 
+      Assert.IsNotNull(args, nameof(args));
+
       return args.Logger;
+    }
+
+    public override bool IsRequireProcessing([NotNull] ProcessorArgs procArgs)
+    {
+      InstallContainerArgs args = (InstallContainerArgs)procArgs;
+
+      Assert.IsNotNull(args, nameof(args));
+
+      return !args.ScriptsOnly;
     }
   }
 }
