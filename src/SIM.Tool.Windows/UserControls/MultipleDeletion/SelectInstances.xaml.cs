@@ -59,7 +59,7 @@
 
     void IWizardStep.InitializeStep(WizardArgs wizardArgs)
     {
-      Instances.DataContext = InstanceManager.Default.Instances.OrderBy(instance => instance.Name);
+      Instances.DataContext = InstanceManager.Default.Instances.Where(instance => instance.Type == Instance.InstanceType.Sitecore8AndEarlier).OrderBy(instance => instance.Name);
     }
 
     private void OnChecked(object sender, RoutedEventArgs e)
