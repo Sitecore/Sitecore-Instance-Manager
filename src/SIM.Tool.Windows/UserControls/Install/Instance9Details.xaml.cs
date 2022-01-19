@@ -308,6 +308,12 @@ namespace SIM.Tool.Windows.UserControls.Install
       var name = instanceName.Text.EmptyToNull();
       Assert.IsNotNull(name, @"Instance name isn't set");
 
+      if (!Uri.IsWellFormedUriString("https://" + name, UriKind.Absolute))
+      {
+        Alert($"The '{name}' site name contains special characters that are not allowed to generate URI.");
+        return null;
+      }
+
       var websiteExists = WebServerManager.WebsiteExists(name);
       if (websiteExists)
       {
@@ -350,7 +356,7 @@ namespace SIM.Tool.Windows.UserControls.Install
       Assert.ArgumentNotNull(message, nameof(message));
       Assert.ArgumentNotNull(args, nameof(args));
 
-      WindowHelper.ShowMessage(message.FormatWith(args), "Conflict is found", MessageBoxButton.OK, MessageBoxImage.Stop);
+      WindowHelper.ShowMessage(message.FormatWith(args), "Conflict is found", MessageBoxButton.OK, MessageBoxImage.Warning);
     }
 
     #endregion
@@ -396,7 +402,8 @@ namespace SIM.Tool.Windows.UserControls.Install
         }
 
         var name = product.DefaultInstanceName;
-        InstanceName.Text = name;
+        // Truncate the (WDP XP1 packages) string in case package name has similar format to Sitecore 10.2.0 rev. 006766 (WDP XP1 packages)
+        InstanceName.Text = name.Split()[0];
 
         var frameworkVersions = new ObservableCollection<string>(_AllFrameworkVersions);
 
