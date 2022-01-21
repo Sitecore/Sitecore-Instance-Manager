@@ -1139,6 +1139,7 @@ namespace SIM.Tool.Windows
       new ButtonDefinition { Label = "Browse Sitecore Container Website", Image = "/Images/$sm/earth2.png, SIM.Tool.Windows", Handler = new BrowseSitecoreContainerWebsiteButton() },
       new ButtonDefinition { Label = "Browse Website", Image = "/Images/$sm/earth2.png, SIM.Tool.Windows", Handler = new BrowseHomePageButton() },
       new ButtonDefinition { Label = "Browse Sitecore Client", Image = "/Images/$sm/Sitecore.png, SIM.Tool.Windows", Handler = new BrowseButton("/sitecore") },
+      new ButtonDefinition { Label = "Browse Sitecore Desktop", Image = "/Images/$sm/Windows Table.png, SIM.Tool.Windows", Handler = new BrowseButton("/sitecore/shell") },
       new ButtonDefinition { Label = "Log in admin", Image = "/Images/$sm/log_in.png, SIM.Tool.Windows", Handler = new LoginAdminButton("/sitecore"), Buttons = new [] {
         new ButtonDefinition { Label = "Google Chrome", Image = "/Images/$lg/chrome.png, SIM.Tool.Windows", Handler = new LoginAdminButton("/sitecore:chrome") },
         new ButtonDefinition { Label = "Mozilla Firefox", Image = "/Images/$lg/firefox.png, SIM.Tool.Windows", Handler = new LoginAdminButton("/sitecore:firefox") },
