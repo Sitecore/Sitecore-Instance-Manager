@@ -25,7 +25,8 @@
       // workaround for #179
       var types = new[]
       {
-        typeof(SIM.Core.CoreAppSettings), 
+        typeof(SIM.Core.CoreAppSettings),
+        typeof(SIM.Instances.InstanceSettings),
         typeof(SIM.Tool.Base.WinAppSettings), 
         typeof(SIM.Tool.Windows.Properties.Settings), 
         typeof(SIM.Tool.Windows.WindowsSettings), 
