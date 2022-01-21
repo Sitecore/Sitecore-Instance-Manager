@@ -88,6 +88,12 @@
       <processor type=""SIM.Pipelines.Delete.DeleteSitecoreEnvironmentData, SIM.Pipelines"" title=""Delete Sitecore environment data"" />
     </step>
   </delete9>
+  <multipleDeletion9 title=""Multiple deletion Sitecore 9 and later"">
+    <step>
+      <processor type=""SIM.Pipelines.MultipleDeletion.MultipleDeletion9, SIM.Pipelines""
+                  title=""Deleting the selected Sitecore environments"" />
+    </step>
+  </multipleDeletion9>
   <install title=""Installing the {InstanceName} instance"">
     <step>
       <processor type=""SIM.Pipelines.Install.CheckPackageIntegrity, SIM.Pipelines"" title=""Validating install package"" />
@@ -140,7 +146,7 @@
                   title=""Starting instance"" param=""nowait"" />
     </step>
   </install>
-  <multipleDeletion title=""Multiple deletion"">
+  <multipleDeletion title=""Multiple deletion Sitecore 8 and earlier"">
     <step>
       <processor type=""SIM.Pipelines.MultipleDeletion.MultipleDeletion, SIM.Pipelines""
                   title=""Deleting the selected instances"" />

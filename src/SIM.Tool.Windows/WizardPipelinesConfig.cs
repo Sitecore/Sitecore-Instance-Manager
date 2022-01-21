@@ -209,6 +209,15 @@ By clicking 'Next' you accept the License Agreement."" />
          <hive type=""SIM.Tool.Windows.Pipelines.Install.Install9ActionsHive, SIM.Tool.Windows"" />
      </finish>
     </delete9>
+    <multipleDeletion9 title=""Multiple deletion Sitecore 9 and later"" startButton=""Delete""
+                      finishText=""Detailed information about deletion can be found below"">
+      <steps>
+        <step name=""Select the Sitecore environments that you want to delete""
+              type=""SIM.Tool.Windows.UserControls.MultipleDeletion.SelectSitecore9Environments, SIM.Tool.Windows"" />
+        <step name=""Confirmation"" type=""SIM.Tool.Windows.UserControls.ConfirmStepUserControl, SIM.Tool.Windows""
+              param=""Are you sure you want to delete the selected Sitecore environments?"" />
+      </steps>
+    </multipleDeletion9>
     <reinstall9 title=""Reinstalling {InstanceName}"" startButton=""Reinstall""
              finishText=""The re-installation was successfully completed"">    
       <args type=""SIM.Tool.Base.Pipelines.ReinstallWizardArgs, SIM.Tool.Base""/>
@@ -311,7 +320,7 @@ But the confirmation will be required if the databases are attached to:
 * - the SQL Server instance specified by connection string in the Settings dialog"" />
       </steps>
     </delete>
-    <multipleDeletion title=""Multiple deletion"" startButton=""Delete""
+    <multipleDeletion title=""Multiple deletion Sitecore 8 and earlier"" startButton=""Delete""
                       finishText=""The deleting was successfully completed"">
       <steps>
         <step name=""Information"" type=""SIM.Tool.Windows.UserControls.ConfirmStepUserControl, SIM.Tool.Windows""
