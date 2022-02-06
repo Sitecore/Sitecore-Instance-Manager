@@ -81,6 +81,7 @@
   <ItemGroup>
     <Compile Include="ContainerizedInstance.cs" />
     <Compile Include="InstanceHelper.cs" />
+    <Compile Include="InstanceSettings.cs" />
     <Compile Include="InstanceState.cs" />
     <Compile Include="PartiallyCachedInstance.cs" />
     <Compile Include="Instance.cs" />
