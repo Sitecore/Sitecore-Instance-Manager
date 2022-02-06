@@ -140,6 +140,9 @@
     <Compile Include="Install\Settings.cs" />
     <Compile Include="Install\RunPSTasksProcessor.cs" />
     <Compile Include="MongoHelper.cs" />
+    <Compile Include="MultipleDeletion\MultipleDeletion9.cs" />
+    <Compile Include="MultipleDeletion\MultipleDeletion9Args.cs" />
+    <Compile Include="MultipleDeletion\MultipleDeletion9Processor.cs" />
     <Compile Include="MultipleDeletion\MultipleDeletionArgs.cs" />
     <Compile Include="MultipleDeletion\MultipleDeletionProcessor.cs" />
     <Compile Include="MultipleDeletion\MultipleDeletion.cs" />

@@ -158,9 +158,16 @@ namespace SIM.Tool.Windows
                 },
                 new ButtonDefinition
                 {
-                  Label = "Multiple Deletion",
+                  Label = "Multi deletion Sitecore 8 and earlier",
                   Image = "/Images/$lg/delete.png, SIM.Tool.Windows",
                   Handler = new MultipleDeletionButton(),
+                  Width = "55"
+                },
+                new ButtonDefinition
+                {
+                  Label = "Multi deletion Sitecore 9 and later",
+                  Image = "/Images/$lg/delete.png, SIM.Tool.Windows",
+                  Handler = new MultipleDeletionForSitecore9AndLaterButton(),
                   Width = "55"
                 },
                 new ButtonDefinition(),
