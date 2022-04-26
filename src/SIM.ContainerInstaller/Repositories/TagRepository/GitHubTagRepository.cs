@@ -47,5 +47,31 @@ namespace SIM.ContainerInstaller.Repositories.TagRepository
 
       return new List<string>();
     }
+
+    public IEnumerable<string> GetToolsTags(string nameParam, string namespaceParam)
+    {
+      IEnumerable<string> speTags = SitecoreTagsEntities?.Where(entity => entity.Name == nameParam && entity.Namespace == namespaceParam)
+        .Select(entity => entity.Tags).SelectMany(tags => tags.Select(tag => tag.Tag));
+      if (speTags != null)
+      {
+        Regex regex = new Regex(_shortTagPattern);
+        return speTags.Where(tag => regex.IsMatch(tag)).Distinct().OrderBy(tag => tag);
+      }
+
+      return new List<string>();
+    }
+
+    public IEnumerable<string> GetSpeOrSxaTags(IEnumerable<string> nameParams, string namespaceParam)
+    {
+      IEnumerable<string> speTags = SitecoreTagsEntities?.Where(entity => nameParams.Contains(entity.Name) && entity.Namespace == namespaceParam)
+        .Select(entity => entity.Tags).SelectMany(tags => tags.Select(tag => tag.Tag));
+      if (speTags != null)
+      {
+        Regex regex = new Regex(_shortTagPattern);
+        return speTags.Where(tag => regex.IsMatch(tag)).Distinct().OrderBy(tag => tag);
+      }
+
+      return new List<string>();
+    }
   }
 }

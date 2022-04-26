@@ -64,12 +64,16 @@
     <Compile Include="DockerCompose\IRepository.cs" />
     <Compile Include="DockerCompose\DockerComposeRepository.cs" />
     <Compile Include="DockerCompose\Model\DockerComposeModel.cs" />
+    <Compile Include="DockerfileGenerator.cs" />
     <Compile Include="EnvModel.cs" />
     <Compile Include="IdentityServerValuesGenerator.cs" />
     <Compile Include="IIdentityServerValuesGenerator.cs" />
     <Compile Include="ISitecoreLicenseConverter.cs" />
     <Compile Include="IGenerator.cs" />
+    <Compile Include="Modules\IModuleHelper.cs" />
+    <Compile Include="Modules\SXAHelper.cs" />
     <Compile Include="NameValuePair.cs" />
+    <Compile Include="OverrideYamlFileGenerator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PSExecutor.cs" />
     <Compile Include="PSFileExecutor.cs" />

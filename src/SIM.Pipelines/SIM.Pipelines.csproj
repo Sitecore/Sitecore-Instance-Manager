@@ -106,6 +106,7 @@
     <Compile Include="Import\UpdateConnectionStrings.cs" />
     <Compile Include="Import\UpdateDataFolder.cs" />
     <Compile Include="Install\Containers\AddHostsProcessor.cs" />
+    <Compile Include="Install\Containers\GenerateModulesData.cs" />
     <Compile Include="Install\Containers\ConvertLicenseProcessor.cs" />
     <Compile Include="Install\Containers\CopyFilesToDestination.cs" />
     <Compile Include="Delete\Containers\DeleteContainersArgs.cs" />

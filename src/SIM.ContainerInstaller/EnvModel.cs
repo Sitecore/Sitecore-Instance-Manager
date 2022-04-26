@@ -177,6 +177,66 @@ namespace SIM.ContainerInstaller
         this["ID_HOST"] = value;
       }
     }
+
+    public string SitecoreToolsRegistry
+    {
+      get
+      {
+        return this["SITECORE_TOOLS_REGISTRY"];
+      }
+      set
+      {
+        this["SITECORE_TOOLS_REGISTRY"] = value;
+      }
+    }
+
+    public string SitecoreModuleRegistry
+    {
+      get
+      {
+        return this["SITECORE_MODULE_REGISTRY"];
+      }
+      set
+      {
+        this["SITECORE_MODULE_REGISTRY"] = value;
+      }
+    }
+
+    public string ToolsVersion
+    {
+      get
+      {
+        return this["TOOLS_VERSION"];
+      }
+      set
+      {
+        this["TOOLS_VERSION"] = value;
+      }
+    }
+
+    public string SpeVersion
+    {
+      get
+      {
+        return this["SPE_VERSION"];
+      }
+      set
+      {
+        this["SPE_VERSION"] = value;
+      }
+    }
+
+    public string SxaVersion
+    {
+      get
+      {
+        return this["SXA_VERSION"];
+      }
+      set
+      {
+        this["SXA_VERSION"] = value;
+      }
+    }
     #endregion
 
     public string this[string Name]

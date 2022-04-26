@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.ComponentModel;
 using SIM.ContainerInstaller;
 using SIM.Loggers;
 using SIM.Pipelines.Processors;
@@ -12,6 +14,18 @@ namespace SIM.Pipelines.Install.Containers
     Xp1
   }
 
+  public enum Module
+  {
+    [Description("SXA")]
+    SXA,
+    [Description("JSS")]
+    JSS,
+    [Description("Horizon")]
+    Horizon,
+    [Description("Publishing Service")]
+    PublishingService
+  }
+
   public class InstallContainerArgs : ProcessorArgs
   {
     public InstallContainerArgs(
@@ -20,7 +34,8 @@ namespace SIM.Pipelines.Install.Containers
       string filesRoot,
       string topology,
       ILogger logger,
-      bool scriptsOnly
+      bool scriptsOnly,
+      IEnumerable<Module> modules
       )
     {
       this.EnvModel = model;
@@ -29,6 +44,7 @@ namespace SIM.Pipelines.Install.Containers
       this.Topology = (Topology)Enum.Parse(typeof(Topology), topology, true);
       this.Logger = logger;
       this.ScriptsOnly = scriptsOnly;
+      this.Modules = modules;
     }
 
     public EnvModel EnvModel { get; }
@@ -51,5 +67,10 @@ namespace SIM.Pipelines.Install.Containers
     }
 
     public bool ScriptsOnly { get; }
+
+    public IEnumerable<Module> Modules
+    {
+      get; set;
+    }
   }
 }
