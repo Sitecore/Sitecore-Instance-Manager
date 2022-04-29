@@ -35,7 +35,8 @@ namespace SIM.Pipelines.Install.Containers
       string topology,
       ILogger logger,
       bool scriptsOnly,
-      IEnumerable<Module> modules
+      List<Module> modules,
+      string shortVersion
       )
     {
       this.EnvModel = model;
@@ -45,6 +46,7 @@ namespace SIM.Pipelines.Install.Containers
       this.Logger = logger;
       this.ScriptsOnly = scriptsOnly;
       this.Modules = modules;
+      this.VersionAndTopology = shortVersion + topology;
     }
 
     public EnvModel EnvModel { get; }
@@ -68,9 +70,8 @@ namespace SIM.Pipelines.Install.Containers
 
     public bool ScriptsOnly { get; }
 
-    public IEnumerable<Module> Modules
-    {
-      get; set;
-    }
+    public List<Module> Modules { get; }
+
+    public string VersionAndTopology { get; }
   }
 }

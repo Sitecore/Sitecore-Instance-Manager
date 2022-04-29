@@ -178,63 +178,73 @@ namespace SIM.ContainerInstaller
       }
     }
 
+    public const string SitecoreToolsRegistryName = "SITECORE_TOOLS_REGISTRY";
+
     public string SitecoreToolsRegistry
     {
       get
       {
-        return this["SITECORE_TOOLS_REGISTRY"];
+        return this[SitecoreToolsRegistryName];
       }
       set
       {
-        this["SITECORE_TOOLS_REGISTRY"] = value;
+        this[SitecoreToolsRegistryName] = value;
       }
     }
+
+    public const string SitecoreModuleRegistryName = "SITECORE_MODULE_REGISTRY";
 
     public string SitecoreModuleRegistry
     {
       get
       {
-        return this["SITECORE_MODULE_REGISTRY"];
+        return this[SitecoreModuleRegistryName];
       }
       set
       {
-        this["SITECORE_MODULE_REGISTRY"] = value;
+        this[SitecoreModuleRegistryName] = value;
       }
     }
+
+    public const string ToolsVersionName = "TOOLS_VERSION";
 
     public string ToolsVersion
     {
       get
       {
-        return this["TOOLS_VERSION"];
+        return this[ToolsVersionName];
       }
       set
       {
-        this["TOOLS_VERSION"] = value;
+        this[ToolsVersionName] = value;
       }
     }
+
+    public const string SpeVersionName = "SPE_VERSION";
 
     public string SpeVersion
     {
       get
       {
-        return this["SPE_VERSION"];
+        return this[SpeVersionName];
       }
       set
       {
-        this["SPE_VERSION"] = value;
+        this[SpeVersionName] = value;
       }
     }
+
+    public const string SxaVersionName = "SXA_VERSION";
 
     public string SxaVersion
     {
       get
       {
-        return this["SXA_VERSION"];
+        return this[SxaVersionName];
       }
       set
       {
-        this["SXA_VERSION"] = value;
+        this[SxaVersionName] = value;
       }
     }
     #endregion
@@ -326,6 +336,15 @@ namespace SIM.ContainerInstaller
     private NameValuePair GetPairOrNull(string name)
     {
       return this.variables.FirstOrDefault(v => v.Name == name);
+    }
+
+    public void Remove(string name)
+    {
+      NameValuePair pair = this.GetPairOrNull(name);
+      if (pair != null)
+      {
+        this.variables.Remove(pair);
+      }
     }
   }
 }

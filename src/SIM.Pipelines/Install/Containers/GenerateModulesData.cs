@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.IO;
 using JetBrains.Annotations;
 using SIM.ContainerInstaller;
 using SIM.ContainerInstaller.Modules;
@@ -10,9 +9,9 @@ namespace SIM.Pipelines.Install.Containers
 {
   public class GenerateModulesData : Processor
   {
-    private readonly OverrideYamlFileGenerator overrideYamlFileGenerator = new OverrideYamlFileGenerator();
+    private List<IYamlFileGeneratorHelper> yamlFileGeneratorHelpers;
 
-    private readonly DockerfileGenerator dockerfileGenerator = new DockerfileGenerator();
+    private List<IDockerfileGeneratorHelper> dockerfileGeneratorHelpers;
 
     protected override void Process([NotNull] ProcessorArgs arguments)
     {
@@ -22,24 +21,37 @@ namespace SIM.Pipelines.Install.Containers
 
       Assert.ArgumentNotNull(args, nameof(args));
 
-      foreach (Module module in args.Modules)
+      if (args.Modules != null && args.Modules.Count > 0)
       {
-        switch (module)
+        string topology = args.Topology.ToString().ToLower();
+
+        yamlFileGeneratorHelpers = new List<IYamlFileGeneratorHelper>();
+        dockerfileGeneratorHelpers = new List<IDockerfileGeneratorHelper>();
+
+        yamlFileGeneratorHelpers.Add(new ToolsYamlFileGeneratorHelper());
+        dockerfileGeneratorHelpers.Add(new ToolsDockerfileGeneratorHelper());
+
+        foreach (Module module in args.Modules)
         {
-          case Module.SXA:
-            SXAHelper sxaHelper = new SXAHelper();
-            overrideYamlFileGenerator.Generate(args.Destination, sxaHelper);
-            dockerfileGenerator.Generate(args.Destination, sxaHelper);
-            break;
-          case Module.JSS:
-            break;
-          case Module.Horizon:
-            break;
-          case Module.PublishingService:
-            break;
-          default:
-            break;
+          switch (module)
+          {
+            case Module.SXA:
+              yamlFileGeneratorHelpers.Add(new SxaYamlFileGeneratorHelper(topology));
+              dockerfileGeneratorHelpers.Add(new SxaDockerfileGeneratorHelper());
+              break;
+            case Module.JSS:
+              break;
+            case Module.Horizon:
+              break;
+            case Module.PublishingService:
+              break;
+            default:
+              break;
+          }
         }
+
+        new YamlFileGenerator(topology).Generate(args.Destination, yamlFileGeneratorHelpers, args.VersionAndTopology);
+        new DockerfileGenerator().Generate(args.Destination, dockerfileGeneratorHelpers, args.VersionAndTopology);
       }
     }
   }

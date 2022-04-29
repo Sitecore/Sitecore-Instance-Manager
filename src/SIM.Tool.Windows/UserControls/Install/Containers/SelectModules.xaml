@@ -7,20 +7,19 @@
              d:DesignHeight="258.311" d:DesignWidth="426.703">
 	<Grid>
 		<Grid.RowDefinitions>
-			<RowDefinition Height="28"></RowDefinition>
-			<RowDefinition Height="28"></RowDefinition>
-			<RowDefinition Height="28"></RowDefinition>
-			<RowDefinition Height="28"></RowDefinition>
-			<RowDefinition Height="28"></RowDefinition>
-			<RowDefinition Height="28"></RowDefinition>
-			<RowDefinition Height="28"></RowDefinition>
+			<RowDefinition Height="30"></RowDefinition>
+			<RowDefinition Height="30"></RowDefinition>
+			<RowDefinition Height="30"></RowDefinition>
+			<RowDefinition Height="30"></RowDefinition>
+			<RowDefinition Height="30"></RowDefinition>
+			<RowDefinition Height="30"></RowDefinition>
 		</Grid.RowDefinitions>
 		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="140"></ColumnDefinition>
+			<ColumnDefinition Width="160"></ColumnDefinition>
 			<ColumnDefinition Width="80"></ColumnDefinition>
 			<ColumnDefinition/>
 		</Grid.ColumnDefinitions>
-		<TextBlock Grid.Row="0" Grid.Column="0" Text="Modules:" VerticalAlignment="Center" HorizontalAlignment="Left" />
+		<TextBlock Grid.Row="0" Grid.Column="0" Text="Modules:" VerticalAlignment="Top" Margin="0,7" HorizontalAlignment="Left" />
 		<ListBox Name="Modules" Grid.Row="1" Grid.Column="0" Grid.RowSpan="5" ItemsSource="{Binding}">
 			<ListBox.ItemContainerStyle>
 				<Style TargetType="{x:Type ListBoxItem}">
@@ -33,18 +32,21 @@
 				</DataTemplate>
 			</ListBox.ItemTemplate>
 		</ListBox>
-		<TextBlock Name="TagsTextBlock" Text="Tags:" Grid.Row="0" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Left" />
-		<TextBlock Name="ToolsTagsTextBlock" Text="Tools Tags:" Grid.Row="1" Grid.Column="1" Margin="4" VerticalAlignment="Top" HorizontalAlignment="Left" Visibility="Hidden" />
-		<ComboBox Name="ToolsTagsComboBox" Grid.Row="1" Grid.Column="2" Height="20" VerticalAlignment="Top" ItemsSource="{Binding}" SelectionChanged="ToolsTagsComboBox_SelectionChanged" Visibility="Hidden" />
-		<TextBlock Name="SpeTagsTextBlock" Text="SPE Tags:" Grid.Row="2" Grid.Column="1" Margin="4" VerticalAlignment="Top" HorizontalAlignment="Left" Visibility="Hidden" />
-		<ComboBox Name="SpeTagsComboBox" Grid.Row="2" Grid.Column="2" Height="20" VerticalAlignment="Top" ItemsSource="{Binding}" SelectionChanged="SpeTagsComboBox_SelectionChanged" Visibility="Hidden" />
-		<TextBlock Name="SxaTagsTextBlock" Text="SXA Tags:" Grid.Row="3" Grid.Column="1" Margin="4" VerticalAlignment="Top" HorizontalAlignment="Left" Visibility="Hidden" />
-		<ComboBox Name="SxaTagsComboBox" Grid.Row="3" Grid.Column="2" Height="20" VerticalAlignment="Top" ItemsSource="{Binding}" SelectionChanged="SxaTagsComboBox_SelectionChanged" Visibility="Hidden" />
-		<TextBlock Name="JssTagsTextBlock" Text="JSS Tags:" Grid.Row="4" Grid.Column="1" Margin="4" VerticalAlignment="Top" HorizontalAlignment="Left" Visibility="Hidden" />
-		<ComboBox Name="JssTagsComboBox" Grid.Row="4" Grid.Column="2" Height="20" VerticalAlignment="Top" ItemsSource="{Binding}" Visibility="Hidden" />
-		<TextBlock Name="HorizonTagsTextBlock" Text="Horizon Tags:" Grid.Row="5" Grid.Column="1" Margin="4" VerticalAlignment="Top" HorizontalAlignment="Left" Visibility="Hidden" />
-		<ComboBox Name="HorizonTagsComboBox" Grid.Row="5" Grid.Column="2" Height="20" VerticalAlignment="Top" ItemsSource="{Binding}" Visibility="Hidden" />
-		<TextBlock Name="PsTagsTextBlock" Text="PS Tags:" Grid.Row="6" Grid.Column="1" Margin="4" VerticalAlignment="Top" HorizontalAlignment="Left" Visibility="Hidden" />
-		<ComboBox Name="PsTagsComboBox" Grid.Row="6" Grid.Column="2" Height="20" VerticalAlignment="Top" ItemsSource="{Binding}" Visibility="Hidden" />
+		<StackPanel Grid.Row="0" Grid.Column="1" Grid.RowSpan="6">
+			<TextBlock Name="ToolsTagsTextBlock" Text="Tools tags:" Margin="4,7" VerticalAlignment="Top" HorizontalAlignment="Left" />
+			<TextBlock Name="SpeTagsTextBlock" Text="SPE tags:" Margin="4,7" VerticalAlignment="Top" HorizontalAlignment="Left" />
+			<TextBlock Name="SxaTagsTextBlock" Text="SXA tags:" Margin="4,7" VerticalAlignment="Top" HorizontalAlignment="Left" />
+			<TextBlock Name="JssTagsTextBlock" Text="JSS tags:" Margin="4,7" VerticalAlignment="Top" HorizontalAlignment="Left" />
+			<TextBlock Name="HorizonTagsTextBlock" Text="Horizon tags:" Margin="4,7" VerticalAlignment="Top" HorizontalAlignment="Left" />
+			<TextBlock Name="PsTagsTextBlock" Text="PS tags:" Margin="4,7" VerticalAlignment="Top" HorizontalAlignment="Left" />
+		</StackPanel>
+		<StackPanel Grid.Row="0" Grid.Column="2" Grid.RowSpan="6">
+			<ComboBox Name="ToolsTagsComboBox" Height="22" Margin="4" VerticalAlignment="Top" ItemsSource="{Binding}" SelectionChanged="ToolsTagsComboBox_SelectionChanged" />
+			<ComboBox Name="SpeTagsComboBox" Height="22" Margin="4" VerticalAlignment="Top" ItemsSource="{Binding}" SelectionChanged="SpeTagsComboBox_SelectionChanged" />
+			<ComboBox Name="SxaTagsComboBox" Height="22" Margin="4" VerticalAlignment="Top" ItemsSource="{Binding}" SelectionChanged="SxaTagsComboBox_SelectionChanged" />
+			<ComboBox Name="JssTagsComboBox" Height="22" Margin="4" VerticalAlignment="Top" ItemsSource="{Binding}" />
+			<ComboBox Name="HorizonTagsComboBox" Height="22" Margin="4" VerticalAlignment="Top" ItemsSource="{Binding}"  />
+			<ComboBox Name="PsTagsComboBox" Height="22" Margin="4" VerticalAlignment="Top" ItemsSource="{Binding}" />
+		</StackPanel>
 	</Grid>
 </UserControl>

@@ -41,37 +41,28 @@ namespace SIM.ContainerInstaller.Repositories.TagRepository
       IEnumerable<string> tags = this.GetSitecoreTags(sitecoreVersionParam, namespaceParam);
       if (tags != null)
       {
-        Regex regex = new Regex(_shortTagPattern);
-        return tags.Where(tag => regex.IsMatch(tag)).Distinct().OrderBy(tag => tag);
+        return this.FilterTagsByShortTagPattern(tags);
       }
 
       return new List<string>();
     }
 
-    public IEnumerable<string> GetToolsTags(string nameParam, string namespaceParam)
+    public IEnumerable<string> GetSortedShortTags(string nameParam, string namespaceParam)
     {
-      IEnumerable<string> speTags = SitecoreTagsEntities?.Where(entity => entity.Name == nameParam && entity.Namespace == namespaceParam)
+      IEnumerable<string> sitecoreTags = SitecoreTagsEntities?.Where(entity => entity.Name == nameParam && entity.Namespace == namespaceParam)
         .Select(entity => entity.Tags).SelectMany(tags => tags.Select(tag => tag.Tag));
-      if (speTags != null)
+      if (sitecoreTags != null)
       {
-        Regex regex = new Regex(_shortTagPattern);
-        return speTags.Where(tag => regex.IsMatch(tag)).Distinct().OrderBy(tag => tag);
+        return this.FilterTagsByShortTagPattern(sitecoreTags);
       }
 
       return new List<string>();
     }
 
-    public IEnumerable<string> GetSpeOrSxaTags(IEnumerable<string> nameParams, string namespaceParam)
+    private IEnumerable<string> FilterTagsByShortTagPattern(IEnumerable<string> sitecoreTags)
     {
-      IEnumerable<string> speTags = SitecoreTagsEntities?.Where(entity => nameParams.Contains(entity.Name) && entity.Namespace == namespaceParam)
-        .Select(entity => entity.Tags).SelectMany(tags => tags.Select(tag => tag.Tag));
-      if (speTags != null)
-      {
-        Regex regex = new Regex(_shortTagPattern);
-        return speTags.Where(tag => regex.IsMatch(tag)).Distinct().OrderBy(tag => tag);
-      }
-
-      return new List<string>();
+      Regex regex = new Regex(_shortTagPattern);
+      return sitecoreTags.Where(tag => regex.IsMatch(tag)).Distinct().OrderBy(tag => tag);
     }
   }
 }

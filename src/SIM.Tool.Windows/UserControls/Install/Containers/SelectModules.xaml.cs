@@ -18,13 +18,16 @@ namespace SIM.Tool.Windows.UserControls.Install.Containers
     private EnvModel envModel;
     private ITagRepository tagRepository;
     private List<Module> selectedModules;
-    private const string sitecoreToolsRegistry = "scr.sitecore.com/tools/";
-    private const string sitecoreModuleRegistry = "scr.sitecore.com/sxp/modules/";
-    private IEnumerable<string> sitecoreSpeRegistryNames = new List<string> { "sxp/modules/spe-assets", "sxp/modules/sitecore-spe-assets" };
-    private const string sitecoreToolsRegistryName = "tools/sitecore-docker-tools-assets";
-    private IEnumerable<string> sitecoreSxaRegistryNames = new List<string> { "sxp/modules/sxa-xm1-assets", "sxp/modules/sitecore-sxa-xm1-assets", "sxp/modules/sxa-xp1-assets", "sxp/modules/sitecore-sxa-xp1-assets" };
-    private const string sitecoreToolsRegistryNamespace = "tools";
-    private const string sitecoreModuleRegistryNamespace = "sxp/modules";
+    private const string SitecoreContainerRegistryHost = "scr.sitecore.com";
+    private const string SitecoreToolsRegistryNamespace = "tools";
+    private const string SitecoreModuleRegistryNamespace = "sxp/modules";
+    private string SitecoreToolsRegistryName = $"{SitecoreToolsRegistryNamespace}/sitecore-docker-tools-assets";
+    private string SpeRegistryName = $"{SitecoreModuleRegistryNamespace}/spe-assets";
+    private string SitecoreSpeRegistryName = $"{SitecoreModuleRegistryNamespace}/sitecore-spe-assets";
+    private string SxaRegistryNameXm1 = $"{SitecoreModuleRegistryNamespace}/sxa-xm1-assets";
+    private string SitecoreSxaRegistryNameXm1 = $"{SitecoreModuleRegistryNamespace}/sitecore-sxa-xm1-assets";
+    private string SxaRegistryNameXp = $"{SitecoreModuleRegistryNamespace}/sxa-xp1-assets";
+    private string SitecoreSxaRegistryNameXp = $"{SitecoreModuleRegistryNamespace}/sitecore-sxa-xp1-assets";
 
     public SelectModules()
     {
@@ -35,19 +38,19 @@ namespace SIM.Tool.Windows.UserControls.Install.Containers
     {
       Assert.ArgumentNotNull(wizardArgs, nameof(wizardArgs));
       InstallContainerWizardArgs args = (InstallContainerWizardArgs)wizardArgs;
-      this.owner = args.WizardWindow;
-      this.envModel = args.EnvModel;
-      this.Modules.ItemsSource = new List<Module>() { Module.SXA, Module.JSS, Module.Horizon, Module.PublishingService };
-      this.selectedModules = new List<Module>();
-      this.tagRepository = args.TagRepository;
-      this.GetToolsTags();
-      this.GetSpeTags();
-      this.GetSxaTags();
+      owner = args.WizardWindow;
+      envModel = args.EnvModel;
+      HideTagsControls();
+      Modules.ItemsSource = new List<Module>() { Module.SXA }; // Module.JSS, Module.Horizon, Module.PublishingService
+      selectedModules = new List<Module>();
+      tagRepository = args.TagRepository;
+      GetToolsTags();
+      GetSpeAndSxaTags(args.Product.ShortVersion, args.Topology);
     }
 
     public bool OnMovingBack(WizardArgs wizardArgs)
     {
-      this.HideTagsControls();
+      HideTagsControls();
       return true;
     }
 
@@ -55,8 +58,8 @@ namespace SIM.Tool.Windows.UserControls.Install.Containers
     {
       Assert.ArgumentNotNull(wizardArgs, nameof(wizardArgs));
       InstallContainerWizardArgs args = (InstallContainerWizardArgs)wizardArgs;
-      args.EnvModel = this.envModel;
-      args.Modules = this.selectedModules;
+      args.EnvModel = envModel;
+      args.Modules = selectedModules;
 
       return true;
     }
@@ -70,37 +73,37 @@ namespace SIM.Tool.Windows.UserControls.Install.Containers
 
     public void CustomButtonClick()
     {
-      WindowHelper.ShowDialog<ContainerVariablesEditor>(this.envModel.ToList(), this.owner);
+      WindowHelper.ShowDialog<ContainerVariablesEditor>(envModel.ToList(), owner);
     }
 
     private void Module_Checked(object sender, RoutedEventArgs e)
     {
       var module = ((System.Windows.Controls.CheckBox)sender).Content;
-      if (module is Module && !this.selectedModules.Contains((Module)module))
+      if (module is Module && !selectedModules.Contains((Module)module))
       {
-        this.selectedModules.Add((Module)module);
+        selectedModules.Add((Module)module);
+
+        ShowOrHideToolsTagsControls(Visibility.Visible);
+
+        envModel.SitecoreToolsRegistry = $"{SitecoreContainerRegistryHost}/{SitecoreToolsRegistryNamespace}/";
+        envModel.SitecoreModuleRegistry = $"{SitecoreContainerRegistryHost}/{SitecoreModuleRegistryNamespace}/";
+        envModel.ToolsVersion = ToolsTagsComboBox.SelectedItem.ToString();
+
         switch (module)
         {
           case Module.SXA:
-            this.ShowOrHideToolsTagsControls(Visibility.Visible);
-            this.ShowOrHideSpeAndSxaTagsControls(Visibility.Visible);
-            this.envModel.SitecoreToolsRegistry = sitecoreToolsRegistry;
-            this.envModel.SitecoreModuleRegistry = sitecoreModuleRegistry;
-            this.envModel.ToolsVersion = this.ToolsTagsComboBox.SelectedItem.ToString();//"10.1 - 1809"
-            this.envModel.SpeVersion = this.SpeTagsComboBox.SelectedItem.ToString(); // "6.2 - 1809"
-            this.envModel.SxaVersion = this.SxaTagsComboBox.SelectedItem.ToString();//"10.1 - 1809"
+            ShowOrHideSpeAndSxaTagsControls(Visibility.Visible);
+            envModel.SpeVersion = SpeTagsComboBox.SelectedItem.ToString();
+            envModel.SxaVersion = SxaTagsComboBox.SelectedItem.ToString();
             break;
           case Module.JSS:
-            this.ShowOrHideToolsTagsControls(Visibility.Visible);
-            this.ShowOrHideJssTagsControls(Visibility.Visible);
+            ShowOrHideJssTagsControls(Visibility.Visible);
             break;
           case Module.Horizon:
-            this.ShowOrHideToolsTagsControls(Visibility.Visible);
-            this.ShowOrHideHorizonTagsControls(Visibility.Visible);
+            ShowOrHideHorizonTagsControls(Visibility.Visible);
             break;
           case Module.PublishingService:
-            this.ShowOrHideToolsTagsControls(Visibility.Visible);
-            this.ShowOrHidePublishingServiceTagsControls(Visibility.Visible);
+            ShowOrHidePublishingServiceTagsControls(Visibility.Visible);
             break;
           default:
             break;
@@ -113,29 +116,29 @@ namespace SIM.Tool.Windows.UserControls.Install.Containers
       var module = ((System.Windows.Controls.CheckBox)sender).Content;
       if (module is Module)
       {
-        this.selectedModules.Remove((Module)module);
-        if (this.selectedModules.Count < 1)
+        selectedModules.Remove((Module)module);
+        if (selectedModules.Count < 1)
         {
-          this.ShowOrHideToolsTagsControls(Visibility.Hidden);
+          ShowOrHideToolsTagsControls(Visibility.Collapsed);
         }
         switch (module)
         {
           case Module.SXA:
-            this.ShowOrHideSpeAndSxaTagsControls(Visibility.Hidden);
-            this.envModel.SitecoreToolsRegistry = null;
-            this.envModel.SitecoreModuleRegistry = null;
-            this.envModel.ToolsVersion = null;
-            this.envModel.SpeVersion = null;
-            this.envModel.SxaVersion = null;
+            ShowOrHideSpeAndSxaTagsControls(Visibility.Collapsed);
+            envModel.Remove(EnvModel.SitecoreToolsRegistryName);
+            envModel.Remove(EnvModel.SitecoreModuleRegistryName);
+            envModel.Remove(EnvModel.ToolsVersionName);
+            envModel.Remove(EnvModel.SpeVersionName);
+            envModel.Remove(EnvModel.SxaVersionName);
             break;
           case Module.JSS:
-            this.ShowOrHideJssTagsControls(Visibility.Hidden);
+            ShowOrHideJssTagsControls(Visibility.Collapsed);
             break;
           case Module.Horizon:
-            this.ShowOrHideHorizonTagsControls(Visibility.Hidden);
+            ShowOrHideHorizonTagsControls(Visibility.Collapsed);
             break;
           case Module.PublishingService:
-            this.ShowOrHidePublishingServiceTagsControls(Visibility.Hidden);
+            ShowOrHidePublishingServiceTagsControls(Visibility.Collapsed);
             break;
           default:
             break;
@@ -145,97 +148,125 @@ namespace SIM.Tool.Windows.UserControls.Install.Containers
 
     private void HideTagsControls()
     {
-      this.ToolsTagsTextBlock.Visibility = Visibility.Hidden;
-      this.ToolsTagsComboBox.Visibility = Visibility.Hidden;
-      this.SpeTagsTextBlock.Visibility = Visibility.Hidden;
-      this.SpeTagsComboBox.Visibility = Visibility.Hidden;
-      this.SxaTagsTextBlock.Visibility = Visibility.Hidden;
-      this.SxaTagsComboBox.Visibility = Visibility.Hidden;
-      this.JssTagsTextBlock.Visibility = Visibility.Hidden;
-      this.JssTagsComboBox.Visibility = Visibility.Hidden;
-      this.HorizonTagsTextBlock.Visibility = Visibility.Hidden;
-      this.HorizonTagsComboBox.Visibility = Visibility.Hidden;
-      this.PsTagsTextBlock.Visibility = Visibility.Hidden;
-      this.PsTagsComboBox.Visibility = Visibility.Hidden;
+      ToolsTagsTextBlock.Visibility = Visibility.Collapsed;
+      ToolsTagsComboBox.Visibility = Visibility.Collapsed;
+      SpeTagsTextBlock.Visibility = Visibility.Collapsed;
+      SpeTagsComboBox.Visibility = Visibility.Collapsed;
+      SxaTagsTextBlock.Visibility = Visibility.Collapsed;
+      SxaTagsComboBox.Visibility = Visibility.Collapsed;
+      JssTagsTextBlock.Visibility = Visibility.Collapsed;
+      JssTagsComboBox.Visibility = Visibility.Collapsed;
+      HorizonTagsTextBlock.Visibility = Visibility.Collapsed;
+      HorizonTagsComboBox.Visibility = Visibility.Collapsed;
+      PsTagsTextBlock.Visibility = Visibility.Collapsed;
+      PsTagsComboBox.Visibility = Visibility.Collapsed;
     }
 
     private void ShowOrHideToolsTagsControls(Visibility visibility)
     {
-      this.ToolsTagsTextBlock.Visibility = visibility;
-      this.ToolsTagsComboBox.Visibility = visibility;
+      ToolsTagsTextBlock.Visibility = visibility;
+      ToolsTagsComboBox.Visibility = visibility;
     }
 
     private void ShowOrHideSpeAndSxaTagsControls(Visibility visibility)
     {
-      this.SpeTagsTextBlock.Visibility = visibility;
-      this.SpeTagsComboBox.Visibility = visibility;
-      this.SxaTagsTextBlock.Visibility = visibility;
-      this.SxaTagsComboBox.Visibility = visibility;
+      SpeTagsTextBlock.Visibility = visibility;
+      SpeTagsComboBox.Visibility = visibility;
+      SxaTagsTextBlock.Visibility = visibility;
+      SxaTagsComboBox.Visibility = visibility;
     }
 
     private void ShowOrHideJssTagsControls(Visibility visibility)
     {
-      this.JssTagsTextBlock.Visibility = visibility;
-      this.JssTagsComboBox.Visibility = visibility;
+      JssTagsTextBlock.Visibility = visibility;
+      JssTagsComboBox.Visibility = visibility;
     }
 
     private void ShowOrHideHorizonTagsControls(Visibility visibility)
     {
-      this.HorizonTagsTextBlock.Visibility = visibility;
-      this.HorizonTagsComboBox.Visibility = visibility;
+      HorizonTagsTextBlock.Visibility = visibility;
+      HorizonTagsComboBox.Visibility = visibility;
     }
 
     private void ShowOrHidePublishingServiceTagsControls(Visibility visibility)
     {
-      this.PsTagsTextBlock.Visibility = visibility;
-      this.PsTagsComboBox.Visibility = visibility;
+      PsTagsTextBlock.Visibility = visibility;
+      PsTagsComboBox.Visibility = visibility;
     }
 
     private void ToolsTagsComboBox_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
     {
-      if (this.ToolsTagsComboBox.SelectedItem == null || this.selectedModules.Count < 1)
+      if (ToolsTagsComboBox.SelectedItem == null || selectedModules.Count < 1)
       {
         return;
       }
 
-      this.envModel.ToolsVersion = this.ToolsTagsComboBox.SelectedItem.ToString();
-    }
-    private void GetToolsTags()
-    {
-      this.ToolsTagsComboBox.DataContext = this.tagRepository.GetToolsTags(sitecoreToolsRegistryName, sitecoreToolsRegistryNamespace).ToArray();
-      this.ToolsTagsComboBox.SelectedIndex = 0;
+      envModel.ToolsVersion = ToolsTagsComboBox.SelectedItem.ToString();
     }
 
     private void SpeTagsComboBox_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
     {
-      if (this.SpeTagsComboBox.SelectedItem == null || !this.selectedModules.Contains(Module.SXA))
+      if (SpeTagsComboBox.SelectedItem == null || !selectedModules.Contains(Module.SXA))
       {
         return;
       }
 
-      this.envModel.SpeVersion = this.SpeTagsComboBox.SelectedItem.ToString();
-    }
-
-    private void GetSpeTags()
-    {
-      this.SpeTagsComboBox.DataContext = this.tagRepository.GetSpeOrSxaTags(sitecoreSpeRegistryNames, sitecoreModuleRegistryNamespace).ToArray();
-      this.SpeTagsComboBox.SelectedIndex = 0;
+      envModel.SpeVersion = SpeTagsComboBox.SelectedItem.ToString();
     }
 
     private void SxaTagsComboBox_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
     {
-      if (this.SxaTagsComboBox.SelectedItem == null || !this.selectedModules.Contains(Module.SXA))
+      if (SxaTagsComboBox.SelectedItem == null || !selectedModules.Contains(Module.SXA))
       {
         return;
       }
 
-      this.envModel.SxaVersion = this.SxaTagsComboBox.SelectedItem.ToString();
+      envModel.SxaVersion = SxaTagsComboBox.SelectedItem.ToString();
     }
 
-    private void GetSxaTags()
+    private void GetToolsTags()
     {
-      this.SxaTagsComboBox.DataContext = this.tagRepository.GetSpeOrSxaTags(sitecoreSxaRegistryNames, sitecoreModuleRegistryNamespace).ToArray();
-      this.SxaTagsComboBox.SelectedIndex = 0;
+      ToolsTagsComboBox.DataContext = tagRepository.GetSortedShortTags(SitecoreToolsRegistryName, SitecoreToolsRegistryNamespace).ToArray();
+      ToolsTagsComboBox.SelectedIndex = 0;
+    }
+    private void GetSpeAndSxaTags(string shortVersion, string topology)
+    {
+      if (int.Parse(shortVersion) > 101)
+      {
+        GetSpeTags(SitecoreSpeRegistryName);
+        if (topology == "xm1")
+        {
+          GetSxaTags(SitecoreSxaRegistryNameXm1);
+        }
+        else
+        {
+          GetSxaTags(SitecoreSxaRegistryNameXp);
+        }
+      }
+      else
+      {
+        GetSpeTags(SpeRegistryName);
+        if (topology == "xm1")
+        {
+          GetSxaTags(SxaRegistryNameXm1);
+        }
+        else
+        {
+          GetSxaTags(SxaRegistryNameXp);
+        }
+      }
+    }
+
+    private void GetSpeTags(string speRegistryName)
+    {
+      SpeTagsComboBox.DataContext = tagRepository.GetSortedShortTags(speRegistryName, SitecoreModuleRegistryNamespace).ToArray();
+      SpeTagsComboBox.SelectedIndex = 0;
+    }
+
+    private void GetSxaTags(string sxaRegistryName)
+    {
+      SxaTagsComboBox.DataContext = tagRepository.GetSortedShortTags(sxaRegistryName, SitecoreModuleRegistryNamespace).ToArray();
+      SxaTagsComboBox.SelectedIndex = 0;
     }
   }
 }

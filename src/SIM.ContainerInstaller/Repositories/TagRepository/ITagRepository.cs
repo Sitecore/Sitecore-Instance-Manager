@@ -8,8 +8,6 @@ namespace SIM.ContainerInstaller.Repositories.TagRepository
 
     IEnumerable<string> GetSortedShortSitecoreTags(string sitecoreVersionParam, string namespaceParam);
 
-    IEnumerable<string> GetToolsTags(string nameParam, string namespaceParam);
-
-    IEnumerable<string> GetSpeOrSxaTags(IEnumerable<string> nameParams, string namespaceParam);
+    IEnumerable<string> GetSortedShortTags(string nameParam, string namespaceParam);
   }
 }
