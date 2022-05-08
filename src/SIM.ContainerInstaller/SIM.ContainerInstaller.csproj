@@ -70,6 +70,7 @@
     <Compile Include="IIdentityServerValuesGenerator.cs" />
     <Compile Include="ISitecoreLicenseConverter.cs" />
     <Compile Include="IGenerator.cs" />
+    <Compile Include="Modules\DockerSettings.cs" />
     <Compile Include="Modules\IDockerfileGeneratorHelper.cs" />
     <Compile Include="Modules\IYamlFileGeneratorHelper.cs" />
     <Compile Include="Modules\SxaDockerfileGeneratorHelper.cs" />

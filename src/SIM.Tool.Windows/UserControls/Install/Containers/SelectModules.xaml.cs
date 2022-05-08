@@ -9,6 +9,7 @@ using SIM.Tool.Windows.Dialogs;
 using SIM.Tool.Base;
 using SIM.Pipelines.Install.Containers;
 using SIM.ContainerInstaller.Repositories.TagRepository;
+using SIM.ContainerInstaller.Modules;
 
 namespace SIM.Tool.Windows.UserControls.Install.Containers
 {
@@ -18,16 +19,6 @@ namespace SIM.Tool.Windows.UserControls.Install.Containers
     private EnvModel envModel;
     private ITagRepository tagRepository;
     private List<Module> selectedModules;
-    private const string SitecoreContainerRegistryHost = "scr.sitecore.com";
-    private const string SitecoreToolsRegistryNamespace = "tools";
-    private const string SitecoreModuleRegistryNamespace = "sxp/modules";
-    private string SitecoreToolsRegistryName = $"{SitecoreToolsRegistryNamespace}/sitecore-docker-tools-assets";
-    private string SpeRegistryName = $"{SitecoreModuleRegistryNamespace}/spe-assets";
-    private string SitecoreSpeRegistryName = $"{SitecoreModuleRegistryNamespace}/sitecore-spe-assets";
-    private string SxaRegistryNameXm1 = $"{SitecoreModuleRegistryNamespace}/sxa-xm1-assets";
-    private string SitecoreSxaRegistryNameXm1 = $"{SitecoreModuleRegistryNamespace}/sitecore-sxa-xm1-assets";
-    private string SxaRegistryNameXp = $"{SitecoreModuleRegistryNamespace}/sxa-xp1-assets";
-    private string SitecoreSxaRegistryNameXp = $"{SitecoreModuleRegistryNamespace}/sitecore-sxa-xp1-assets";
 
     public SelectModules()
     {
@@ -85,8 +76,8 @@ namespace SIM.Tool.Windows.UserControls.Install.Containers
 
         ShowOrHideToolsTagsControls(Visibility.Visible);
 
-        envModel.SitecoreToolsRegistry = $"{SitecoreContainerRegistryHost}/{SitecoreToolsRegistryNamespace}/";
-        envModel.SitecoreModuleRegistry = $"{SitecoreContainerRegistryHost}/{SitecoreModuleRegistryNamespace}/";
+        envModel.SitecoreToolsRegistry = $"{DockerSettings.SitecoreContainerRegistryHost}/{DockerSettings.SitecoreToolsNamespace}/";
+        envModel.SitecoreModuleRegistry = $"{DockerSettings.SitecoreContainerRegistryHost}/{DockerSettings.SitecoreModuleNamespace}/";
         envModel.ToolsVersion = ToolsTagsComboBox.SelectedItem.ToString();
 
         switch (module)
@@ -226,46 +217,46 @@ namespace SIM.Tool.Windows.UserControls.Install.Containers
 
     private void GetToolsTags()
     {
-      ToolsTagsComboBox.DataContext = tagRepository.GetSortedShortTags(SitecoreToolsRegistryName, SitecoreToolsRegistryNamespace).ToArray();
+      ToolsTagsComboBox.DataContext = tagRepository.GetSortedShortTags(DockerSettings.SitecoreToolsImagePath, DockerSettings.SitecoreToolsNamespace).ToArray();
       ToolsTagsComboBox.SelectedIndex = 0;
     }
     private void GetSpeAndSxaTags(string shortVersion, string topology)
     {
       if (int.Parse(shortVersion) > 101)
       {
-        GetSpeTags(SitecoreSpeRegistryName);
+        GetSpeTags(DockerSettings.SitecoreSpeImagePath);
         if (topology == "xm1")
         {
-          GetSxaTags(SitecoreSxaRegistryNameXm1);
+          GetSxaTags(DockerSettings.SitecoreSxaXm1ImagePath);
         }
         else
         {
-          GetSxaTags(SitecoreSxaRegistryNameXp);
+          GetSxaTags(DockerSettings.SitecoreSxaXpImagePath);
         }
       }
       else
       {
-        GetSpeTags(SpeRegistryName);
+        GetSpeTags(DockerSettings.SpeImagePath);
         if (topology == "xm1")
         {
-          GetSxaTags(SxaRegistryNameXm1);
+          GetSxaTags(DockerSettings.SxaXm1ImagePath);
         }
         else
         {
-          GetSxaTags(SxaRegistryNameXp);
+          GetSxaTags(DockerSettings.SxaXpImagePath);
         }
       }
     }
 
-    private void GetSpeTags(string speRegistryName)
+    private void GetSpeTags(string speImagePath)
     {
-      SpeTagsComboBox.DataContext = tagRepository.GetSortedShortTags(speRegistryName, SitecoreModuleRegistryNamespace).ToArray();
+      SpeTagsComboBox.DataContext = tagRepository.GetSortedShortTags(speImagePath, DockerSettings.SitecoreModuleNamespace).ToArray();
       SpeTagsComboBox.SelectedIndex = 0;
     }
 
-    private void GetSxaTags(string sxaRegistryName)
+    private void GetSxaTags(string sxaImagePath)
     {
-      SxaTagsComboBox.DataContext = tagRepository.GetSortedShortTags(sxaRegistryName, SitecoreModuleRegistryNamespace).ToArray();
+      SxaTagsComboBox.DataContext = tagRepository.GetSortedShortTags(sxaImagePath, DockerSettings.SitecoreModuleNamespace).ToArray();
       SxaTagsComboBox.SelectedIndex = 0;
     }
   }

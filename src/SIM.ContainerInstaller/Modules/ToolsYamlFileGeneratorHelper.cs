@@ -7,7 +7,7 @@ namespace SIM.ContainerInstaller.Modules
   {
     private readonly List<KeyValuePair<YamlNode, YamlNode>> EmptyList;
     private const string ToolingImageNode = "TOOLING_IMAGE";
-    private const string ToolingImage = "${SITECORE_TOOLS_REGISTRY}sitecore-docker-tools-assets:${TOOLS_VERSION}";
+    private const string ToolingImagePath = "${SITECORE_TOOLS_REGISTRY}" + DockerSettings.SitecoreToolsImage + ":${TOOLS_VERSION}";
 
     public ToolsYamlFileGeneratorHelper()
     {
@@ -18,7 +18,7 @@ namespace SIM.ContainerInstaller.Modules
     {
       return new List<KeyValuePair<YamlNode, YamlNode>>()
       {
-        new KeyValuePair<YamlNode, YamlNode>(new YamlScalarNode(ToolingImageNode), new YamlScalarNode(ToolingImage))
+        new KeyValuePair<YamlNode, YamlNode>(new YamlScalarNode(ToolingImageNode), new YamlScalarNode(ToolingImagePath))
       };
     }
 

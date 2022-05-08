@@ -8,25 +8,25 @@ namespace SIM.ContainerInstaller.Modules
     private readonly List<KeyValuePair<YamlNode, YamlNode>> EmptyList;
     private const string SpeImageNode = "SPE_IMAGE";
     private const string SxaImageNode = "SXA_IMAGE";
-    private readonly string SpeImage;
-    private readonly string SxaImage;
-    private readonly string SitecoreSpeImage;
-    private readonly string SitecoreSxaImage;
+    private readonly string SpeImagePath;
+    private readonly string SxaImagePath;
+    private readonly string SitecoreSpeImagePath;
+    private readonly string SitecoreSxaImagePath;
 
     public SxaYamlFileGeneratorHelper(string toplogy)
     {
       EmptyList = new List<KeyValuePair<YamlNode, YamlNode>>();
-      SpeImage = "${SITECORE_MODULE_REGISTRY}spe-assets:${SPE_VERSION}";
-      SitecoreSpeImage = "${SITECORE_MODULE_REGISTRY}sitecore-spe-assets:${SPE_VERSION}";
+      SpeImagePath = "${SITECORE_MODULE_REGISTRY}" + DockerSettings.SpeImage + ":${SPE_VERSION}";
+      SitecoreSpeImagePath = "${SITECORE_MODULE_REGISTRY}" + DockerSettings.SitecoreSpeImage + ":${SPE_VERSION}";
       if (toplogy == "xm1")
       {
-        SxaImage = "${SITECORE_MODULE_REGISTRY}sxa-xm1-assets:${SXA_VERSION}";
-        SitecoreSxaImage = "${SITECORE_MODULE_REGISTRY}sitecore-sxa-xm1-assets:${SXA_VERSION}";
+        SxaImagePath = "${SITECORE_MODULE_REGISTRY}" + DockerSettings.SxaXm1Image + ":${SXA_VERSION}";
+        SitecoreSxaImagePath = "${SITECORE_MODULE_REGISTRY}" + DockerSettings.SitecoreSxaXm1Image + ":${SXA_VERSION}";
       }
       else
       {
-        SxaImage = "${SITECORE_MODULE_REGISTRY}sxa-xp1-assets:${SXA_VERSION}";
-        SitecoreSxaImage = "${SITECORE_MODULE_REGISTRY}sitecore-sxa-xp1-assets:${SXA_VERSION}";
+        SxaImagePath = "${SITECORE_MODULE_REGISTRY}" + DockerSettings.SxaXpImage + ":${SXA_VERSION}";
+        SitecoreSxaImagePath = "${SITECORE_MODULE_REGISTRY}" + DockerSettings.SitecoreSxaXpImage + ":${SXA_VERSION}";
       }
     }
 
@@ -34,8 +34,8 @@ namespace SIM.ContainerInstaller.Modules
     {
       return new List<KeyValuePair<YamlNode, YamlNode>>()
       {
-        new KeyValuePair<YamlNode, YamlNode>(new YamlScalarNode(SpeImageNode), new YamlScalarNode(SpeImage)),
-        new KeyValuePair<YamlNode, YamlNode>(new YamlScalarNode(SxaImageNode), new YamlScalarNode(SxaImage))
+        new KeyValuePair<YamlNode, YamlNode>(new YamlScalarNode(SpeImageNode), new YamlScalarNode(SpeImagePath)),
+        new KeyValuePair<YamlNode, YamlNode>(new YamlScalarNode(SxaImageNode), new YamlScalarNode(SxaImagePath))
       };
     }
 
@@ -43,7 +43,7 @@ namespace SIM.ContainerInstaller.Modules
     {
       return new List<KeyValuePair<YamlNode, YamlNode>>()
       {
-        new KeyValuePair<YamlNode, YamlNode>(new YamlScalarNode(SxaImageNode), new YamlScalarNode(SxaImage))
+        new KeyValuePair<YamlNode, YamlNode>(new YamlScalarNode(SxaImageNode), new YamlScalarNode(SxaImagePath))
       };
     }
 
@@ -51,8 +51,8 @@ namespace SIM.ContainerInstaller.Modules
     {
       return new List<KeyValuePair<YamlNode, YamlNode>>()
       {
-        new KeyValuePair<YamlNode, YamlNode>(new YamlScalarNode(SpeImageNode), new YamlScalarNode(SitecoreSpeImage)),
-        new KeyValuePair<YamlNode, YamlNode>(new YamlScalarNode(SxaImageNode), new YamlScalarNode(SitecoreSxaImage))
+        new KeyValuePair<YamlNode, YamlNode>(new YamlScalarNode(SpeImageNode), new YamlScalarNode(SitecoreSpeImagePath)),
+        new KeyValuePair<YamlNode, YamlNode>(new YamlScalarNode(SxaImageNode), new YamlScalarNode(SitecoreSxaImagePath))
       };
     }
 
@@ -60,7 +60,7 @@ namespace SIM.ContainerInstaller.Modules
     {
       return new List<KeyValuePair<YamlNode, YamlNode>>()
       {
-        new KeyValuePair<YamlNode, YamlNode>(new YamlScalarNode(SpeImageNode), new YamlScalarNode(SitecoreSpeImage)),
+        new KeyValuePair<YamlNode, YamlNode>(new YamlScalarNode(SpeImageNode), new YamlScalarNode(SitecoreSpeImagePath)),
       };
     }
 
@@ -68,7 +68,7 @@ namespace SIM.ContainerInstaller.Modules
     {
       return new List<KeyValuePair<YamlNode, YamlNode>>()
       {
-        new KeyValuePair<YamlNode, YamlNode>(new YamlScalarNode(SxaImageNode), new YamlScalarNode(SitecoreSxaImage))
+        new KeyValuePair<YamlNode, YamlNode>(new YamlScalarNode(SxaImageNode), new YamlScalarNode(SitecoreSxaImagePath))
       };
     }
 
