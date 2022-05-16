@@ -1,31 +1,12 @@
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using SIM.ContainerInstaller;
+using SIM.ContainerInstaller.Modules;
 using SIM.Loggers;
 using SIM.Pipelines.Processors;
 
 namespace SIM.Pipelines.Install.Containers
 {
-  public enum Topology
-  {
-    Xm1,
-    Xp0,
-    Xp1
-  }
-
-  public enum Module
-  {
-    [Description("SXA")]
-    SXA,
-    [Description("JSS")]
-    JSS,
-    [Description("Horizon")]
-    Horizon,
-    [Description("Publishing Service")]
-    PublishingService
-  }
-
   public class InstallContainerArgs : ProcessorArgs
   {
     public InstallContainerArgs(
@@ -46,7 +27,7 @@ namespace SIM.Pipelines.Install.Containers
       this.Logger = logger;
       this.ScriptsOnly = scriptsOnly;
       this.Modules = modules;
-      this.VersionAndTopology = shortVersion + topology;
+      this.ShortVersion = int.Parse(shortVersion);
     }
 
     public EnvModel EnvModel { get; }
@@ -72,6 +53,6 @@ namespace SIM.Pipelines.Install.Containers
 
     public List<Module> Modules { get; }
 
-    public string VersionAndTopology { get; }
+    public int ShortVersion { get; }
   }
 }

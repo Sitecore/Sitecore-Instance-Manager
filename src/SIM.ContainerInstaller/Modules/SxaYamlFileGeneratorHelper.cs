@@ -30,7 +30,7 @@ namespace SIM.ContainerInstaller.Modules
       }
     }
 
-    private IEnumerable<KeyValuePair<YamlNode, YamlNode>> GenerateSpeAndSxaImagesArgsXm1()
+    private IEnumerable<KeyValuePair<YamlNode, YamlNode>> GenerateSpeAndSxaImagesArgs()
     {
       return new List<KeyValuePair<YamlNode, YamlNode>>()
       {
@@ -39,7 +39,7 @@ namespace SIM.ContainerInstaller.Modules
       };
     }
 
-    private IEnumerable<KeyValuePair<YamlNode, YamlNode>> GenerateSxaImageArgsXm1()
+    private IEnumerable<KeyValuePair<YamlNode, YamlNode>> GenerateSxaImageArgs()
     {
       return new List<KeyValuePair<YamlNode, YamlNode>>()
       {
@@ -47,7 +47,7 @@ namespace SIM.ContainerInstaller.Modules
       };
     }
 
-    private IEnumerable<KeyValuePair<YamlNode, YamlNode>> GenerateSitecoreSpeAndSxaImagesArgsXm1()
+    private IEnumerable<KeyValuePair<YamlNode, YamlNode>> GenerateSitecoreSpeAndSxaImagesArgs()
     {
       return new List<KeyValuePair<YamlNode, YamlNode>>()
       {
@@ -56,7 +56,7 @@ namespace SIM.ContainerInstaller.Modules
       };
     }
 
-    private IEnumerable<KeyValuePair<YamlNode, YamlNode>> GenerateSitecoreSpeImageArgsXm1()
+    private IEnumerable<KeyValuePair<YamlNode, YamlNode>> GenerateSitecoreSpeImageArgs()
     {
       return new List<KeyValuePair<YamlNode, YamlNode>>()
       {
@@ -64,7 +64,7 @@ namespace SIM.ContainerInstaller.Modules
       };
     }
 
-    private IEnumerable<KeyValuePair<YamlNode, YamlNode>> GenerateSitecoreSxaImageArgsXm1()
+    private IEnumerable<KeyValuePair<YamlNode, YamlNode>> GenerateSitecoreSxaImageArgs()
     {
       return new List<KeyValuePair<YamlNode, YamlNode>>()
       {
@@ -72,69 +72,70 @@ namespace SIM.ContainerInstaller.Modules
       };
     }
 
-    public IEnumerable<KeyValuePair<YamlNode, YamlNode>> GenerateMsSqlArgsFor100()
+    public IEnumerable<KeyValuePair<YamlNode, YamlNode>> GenerateMsSqlArgs(int shortVersion, Topology topology)
     {
-      return GenerateSpeAndSxaImagesArgsXm1();
-    }
-
-    public IEnumerable<KeyValuePair<YamlNode, YamlNode>> GenerateSolrArgsFor100()
-    {
-      return GenerateSxaImageArgsXm1();
-    }
-
-    public IEnumerable<KeyValuePair<YamlNode, YamlNode>> GenerateCdArgsFor100()
-    {
-      return GenerateSxaImageArgsXm1();
-    }
-
-    public IEnumerable<KeyValuePair<YamlNode, YamlNode>> GenerateCmArgsFor100()
-    {
-      return GenerateSpeAndSxaImagesArgsXm1();
-    }
-
-    public IEnumerable<KeyValuePair<YamlNode, YamlNode>> GenerateMsSqlArgsFor101()
-    {
-      return GenerateSpeAndSxaImagesArgsXm1();
-    }
-
-    public IEnumerable<KeyValuePair<YamlNode, YamlNode>> GenerateSolrInitArgsFor101()
-    {
-      return GenerateSxaImageArgsXm1();
-    }
-
-    public IEnumerable<KeyValuePair<YamlNode, YamlNode>> GenerateCdArgsFor101()
-    {
-      return GenerateSxaImageArgsXm1();
-    }
-
-    public IEnumerable<KeyValuePair<YamlNode, YamlNode>> GenerateCmArgsFor101()
-    {
-      return GenerateSpeAndSxaImagesArgsXm1();
-    }
-
-    public IEnumerable<KeyValuePair<YamlNode, YamlNode>> GenerateMsSqlArgsFor102()
-    {
+      if (shortVersion >= 100 && shortVersion < 102)
+      {
+        return GenerateSpeAndSxaImagesArgs();
+      }
       return EmptyList;
     }
 
-    public IEnumerable<KeyValuePair<YamlNode, YamlNode>> GenerateMsSqlInitArgsFor102()
+    public IEnumerable<KeyValuePair<YamlNode, YamlNode>> GenerateMsSqlInitArgs(int shortVersion, Topology topology)
     {
-      return GenerateSitecoreSpeImageArgsXm1();
+      if (shortVersion >= 102)
+      {
+        return GenerateSitecoreSpeImageArgs();
+      }
+      return EmptyList;
     }
 
-    public IEnumerable<KeyValuePair<YamlNode, YamlNode>> GenerateSolrInitArgsFor102()
+    public IEnumerable<KeyValuePair<YamlNode, YamlNode>> GenerateSolrArgs(int shortVersion, Topology topology)
     {
-      return GenerateSitecoreSxaImageArgsXm1();
+      if (shortVersion == 100)
+      {
+        return GenerateSxaImageArgs();
+      }
+      return EmptyList;
     }
 
-    public IEnumerable<KeyValuePair<YamlNode, YamlNode>> GenerateCdArgsFor102()
+    public IEnumerable<KeyValuePair<YamlNode, YamlNode>> GenerateSolrInitArgs(int shortVersion, Topology topology)
     {
-      return GenerateSitecoreSxaImageArgsXm1();
+      if (shortVersion == 101)
+      {
+        return GenerateSxaImageArgs();
+      }
+      else if (shortVersion >= 102)
+      {
+        return GenerateSitecoreSxaImageArgs();
+      }
+      return EmptyList;
     }
 
-    public IEnumerable<KeyValuePair<YamlNode, YamlNode>> GenerateCmArgsFor102()
+    public IEnumerable<KeyValuePair<YamlNode, YamlNode>> GenerateCdArgs(int shortVersion, Topology topology)
     {
-      return GenerateSitecoreSpeAndSxaImagesArgsXm1();
+      if (shortVersion >= 100 && shortVersion < 102)
+      {
+        return GenerateSxaImageArgs();
+      }
+      else if (shortVersion >= 102)
+      {
+        return GenerateSitecoreSxaImageArgs();
+      }
+      return EmptyList;
+    }
+
+    public IEnumerable<KeyValuePair<YamlNode, YamlNode>> GenerateCmArgs(int shortVersion, Topology topology)
+    {
+      if (shortVersion >= 100 && shortVersion < 102)
+      {
+        return GenerateSpeAndSxaImagesArgs();
+      }
+      else if (shortVersion >= 102)
+      {
+        return GenerateSitecoreSpeAndSxaImagesArgs();
+      }
+      return EmptyList;
     }
   }
 }

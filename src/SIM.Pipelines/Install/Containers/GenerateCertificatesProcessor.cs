@@ -7,6 +7,7 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Management.Automation;
 using SIM.Loggers;
+using SIM.ContainerInstaller.Modules;
 
 namespace SIM.Pipelines.Install.Containers
 {

@@ -22,69 +22,42 @@ namespace SIM.ContainerInstaller.Modules
       };
     }
 
-    public IEnumerable<KeyValuePair<YamlNode, YamlNode>> GenerateMsSqlArgsFor100()
+    public IEnumerable<KeyValuePair<YamlNode, YamlNode>> GenerateMsSqlArgs(int shortVersion, Topology topology)
     {
       return EmptyList;
     }
 
-    public IEnumerable<KeyValuePair<YamlNode, YamlNode>> GenerateSolrArgsFor100()
+    public IEnumerable<KeyValuePair<YamlNode, YamlNode>> GenerateMsSqlInitArgs(int shortVersion, Topology topology)
     {
       return EmptyList;
     }
 
-    public IEnumerable<KeyValuePair<YamlNode, YamlNode>> GenerateCdArgsFor100()
-    {
-      return GenerateToolingImageArgs();
-    }
-
-    public IEnumerable<KeyValuePair<YamlNode, YamlNode>> GenerateCmArgsFor100()
-    {
-      return GenerateToolingImageArgs();
-    }
-
-    public IEnumerable<KeyValuePair<YamlNode, YamlNode>> GenerateMsSqlArgsFor101()
+    public IEnumerable<KeyValuePair<YamlNode, YamlNode>> GenerateSolrArgs(int shortVersion, Topology topology)
     {
       return EmptyList;
     }
 
-    public IEnumerable<KeyValuePair<YamlNode, YamlNode>> GenerateSolrInitArgsFor101()
+    public IEnumerable<KeyValuePair<YamlNode, YamlNode>> GenerateSolrInitArgs(int shortVersion, Topology topology)
     {
       return EmptyList;
     }
 
-    public IEnumerable<KeyValuePair<YamlNode, YamlNode>> GenerateCdArgsFor101()
+    public IEnumerable<KeyValuePair<YamlNode, YamlNode>> GenerateCdArgs(int shortVersion, Topology topology)
     {
-      return GenerateToolingImageArgs();
-    }
-
-    public IEnumerable<KeyValuePair<YamlNode, YamlNode>> GenerateCmArgsFor101()
-    {
-      return GenerateToolingImageArgs();
-    }
-
-    public IEnumerable<KeyValuePair<YamlNode, YamlNode>> GenerateMsSqlArgsFor102()
-    {
+      if (shortVersion >= 100)
+      {
+        return GenerateToolingImageArgs();
+      }
       return EmptyList;
     }
 
-    public IEnumerable<KeyValuePair<YamlNode, YamlNode>> GenerateMsSqlInitArgsFor102()
+    public IEnumerable<KeyValuePair<YamlNode, YamlNode>> GenerateCmArgs(int shortVersion, Topology topology)
     {
+      if (shortVersion >= 100)
+      {
+        return GenerateToolingImageArgs();
+      }
       return EmptyList;
-    }
-
-    public IEnumerable<KeyValuePair<YamlNode, YamlNode>> GenerateSolrInitArgsFor102()
-    {
-      return EmptyList;
-    }
-
-    public IEnumerable<KeyValuePair<YamlNode, YamlNode>> GenerateCdArgsFor102()
-    {
-      return GenerateToolingImageArgs();
-    }
-
-    public IEnumerable<KeyValuePair<YamlNode, YamlNode>> GenerateCmArgsFor102()
-    {
-      return GenerateToolingImageArgs();
     }
   }
 }

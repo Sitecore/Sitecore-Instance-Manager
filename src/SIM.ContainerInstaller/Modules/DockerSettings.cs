@@ -1,5 +1,26 @@
-﻿namespace SIM.ContainerInstaller.Modules
+﻿using System.ComponentModel;
+
+namespace SIM.ContainerInstaller.Modules
 {
+  public enum Topology
+  {
+    Xm1,
+    Xp0,
+    Xp1
+  }
+
+  public enum Module
+  {
+    [Description("SXA")]
+    SXA,
+    [Description("JSS")]
+    JSS,
+    [Description("Horizon")]
+    Horizon,
+    [Description("Publishing Service")]
+    PublishingService
+  }
+
   public static class DockerSettings
   {
     public const string SitecoreContainerRegistryHost = "scr.sitecore.com";

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using JetBrains.Annotations;
 using SIM.ContainerInstaller;
 using SIM.ContainerInstaller.Modules;
@@ -46,12 +47,12 @@ namespace SIM.Pipelines.Install.Containers
             case Module.PublishingService:
               break;
             default:
-              break;
+              throw new NotImplementedException($"The '{module}' module's data cannot be generated, because related implementation cannot be found.");
           }
         }
 
-        new YamlFileGenerator(topology).Generate(args.Destination, yamlFileGeneratorHelpers, args.VersionAndTopology);
-        new DockerfileGenerator().Generate(args.Destination, dockerfileGeneratorHelpers, args.VersionAndTopology);
+        new YamlFileGenerator(topology).Generate(args.Destination, yamlFileGeneratorHelpers, args.ShortVersion, args.Topology);
+        new DockerfileGenerator().Generate(args.Destination, dockerfileGeneratorHelpers, args.ShortVersion, args.Topology);
       }
     }
   }

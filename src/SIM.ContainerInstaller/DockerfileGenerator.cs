@@ -17,40 +17,87 @@ namespace SIM.ContainerInstaller
     private const string SolrDockerfileFilePath = @"docker\build\solr";
     private const string SolrInitDockerfileFilePath = @"docker\build\solr-init";
 
-    public void Generate(string path, List<IDockerfileGeneratorHelper> helpers, string versionAndTopology)
+    public void Generate(string path, List<IDockerfileGeneratorHelper> helpers, int shortVersion, Topology topology)
     {
-      switch (versionAndTopology)
+
+      if (ShouldMsSqlDockerfileBeGenerated(shortVersion))
       {
-        case "100xm1":
-          GenerateDockerfilesFor100Xm1(path, helpers);
-          break;
-        case "100xp0":
-          GenerateDockerfilesFor100Xp0(path, helpers);
-          break;
-        case "100xp1":
-          GenerateDockerfilesFor100Xp1(path, helpers);
-          break;
-        case "101xm1":
-          GenerateDockerfilesFor101Xm1(path, helpers);
-          break;
-        case "101xp0":
-          GenerateDockerfilesFor101Xp0(path, helpers);
-          break;
-        case "101xp1":
-          GenerateDockerfilesFor101Xp1(path, helpers);
-          break;
-        case "102xm1":
-          GenerateDockerfilesFor102Xm1(path, helpers);
-          break;
-        case "102xp0":
-          GenerateDockerfilesFor102Xp0(path, helpers);
-          break;
-        case "102xp1":
-          GenerateDockerfilesFor102Xp1(path, helpers);
-          break;
-        default:
-          break;
+        GenerateMsSqlDockerfile(path, helpers);
       }
+      if (ShouldMsSqlInitDockerfileBeGenerated(shortVersion))
+      {
+        GenerateMsSqlInitDockerfile(path, helpers);
+      }
+      if (ShouldSolrDockerfileBeGenerated(shortVersion))
+      {
+        GenerateSolrDockerfile(path, helpers);
+      }
+      if (ShouldSolrInitDockerfileBeGenerated(shortVersion))
+      {
+        GenerateSolrInitDockerfile(path, helpers);
+      }
+      if (ShouldCdDockerfileBeGenerated(shortVersion, topology))
+      {
+        GenerateCdDockerfile(path, helpers);
+      }
+      if (ShouldCmDockerfileBeGenerated(shortVersion))
+      {
+        GenerateCmDockerfile(path, helpers);
+      }
+    }
+
+    private bool ShouldMsSqlDockerfileBeGenerated(int shortVersion)
+    {
+      if (shortVersion >= 100 && shortVersion < 102)
+      {
+        return true;
+      }
+      return false;
+    }
+
+    private bool ShouldMsSqlInitDockerfileBeGenerated(int shortVersion)
+    {
+      if (shortVersion >= 102)
+      {
+        return true;
+      }
+      return false;
+    }
+
+    private bool ShouldSolrDockerfileBeGenerated(int shortVersion)
+    {
+      if (shortVersion == 100)
+      {
+        return true;
+      }
+      return false;
+    }
+
+    private bool ShouldSolrInitDockerfileBeGenerated(int shortVersion)
+    {
+      if (shortVersion >= 101)
+      {
+        return true;
+      }
+      return false;
+    }
+
+    private bool ShouldCdDockerfileBeGenerated(int shortVersion, Topology topology)
+    {
+      if (shortVersion >= 100 && (topology == Topology.Xm1 || topology == Topology.Xp1))
+      {
+        return true;
+      }
+      return false;
+    }
+
+    private bool ShouldCmDockerfileBeGenerated(int shortVersion)
+    {
+      if (shortVersion >= 100)
+      {
+        return true;
+      }
+      return false;
     }
 
     private StringBuilder GenerateDockerfile(StringBuilder args, StringBuilder froms, StringBuilder commands)
@@ -73,34 +120,6 @@ namespace SIM.ContainerInstaller
       {
         writer.WriteLine(dockerfileText);
       }
-    }
-
-    private void GenerateCmDockerfile(string rootFolderPath, List<IDockerfileGeneratorHelper> helpers)
-    {
-      StringBuilder args = new StringBuilder();
-      StringBuilder froms = new StringBuilder();
-      StringBuilder commands = new StringBuilder();
-      foreach (IDockerfileGeneratorHelper helper in helpers)
-      {
-        args.Append(helper.GenerateCmArgs());
-        froms.Append(helper.GenerateCmFroms());
-        commands.Append(helper.GenerateCmCommands());
-      }
-      GenerateSpecificDockerfile(rootFolderPath, CmDockerfileFilePath, GenerateDockerfile(args, froms, commands));
-    }
-
-    private void GenerateCdDockerfile(string rootFolderPath, List<IDockerfileGeneratorHelper> helpers)
-    {
-      StringBuilder args = new StringBuilder();
-      StringBuilder froms = new StringBuilder();
-      StringBuilder commands = new StringBuilder();
-      foreach (IDockerfileGeneratorHelper helper in helpers)
-      {
-        args.Append(helper.GenerateCdArgs());
-        froms.Append(helper.GenerateCdFroms());
-        commands.Append(helper.GenerateCdCommands());
-      }
-      GenerateSpecificDockerfile(rootFolderPath, CdDockerfileFilePath, GenerateDockerfile(args, froms, commands));
     }
 
     private void GenerateMsSqlDockerfile(string rootFolderPath, List<IDockerfileGeneratorHelper> helpers)
@@ -159,73 +178,32 @@ namespace SIM.ContainerInstaller
       GenerateSpecificDockerfile(rootFolderPath, SolrInitDockerfileFilePath, GenerateDockerfile(args, froms, commands));
     }
 
-    public void GenerateDockerfilesFor100Xm1(string rootFolderPath, List<IDockerfileGeneratorHelper> helpers)
+    private void GenerateCdDockerfile(string rootFolderPath, List<IDockerfileGeneratorHelper> helpers)
     {
-      GenerateCmDockerfile(rootFolderPath, helpers);
-      GenerateCdDockerfile(rootFolderPath, helpers);
-      GenerateMsSqlDockerfile(rootFolderPath, helpers);
-      GenerateSolrDockerfile(rootFolderPath, helpers);
+      StringBuilder args = new StringBuilder();
+      StringBuilder froms = new StringBuilder();
+      StringBuilder commands = new StringBuilder();
+      foreach (IDockerfileGeneratorHelper helper in helpers)
+      {
+        args.Append(helper.GenerateCdArgs());
+        froms.Append(helper.GenerateCdFroms());
+        commands.Append(helper.GenerateCdCommands());
+      }
+      GenerateSpecificDockerfile(rootFolderPath, CdDockerfileFilePath, GenerateDockerfile(args, froms, commands));
     }
 
-    public void GenerateDockerfilesFor100Xp0(string rootFolderPath, List<IDockerfileGeneratorHelper> helpers)
+    private void GenerateCmDockerfile(string rootFolderPath, List<IDockerfileGeneratorHelper> helpers)
     {
-      GenerateCmDockerfile(rootFolderPath, helpers);
-      GenerateMsSqlDockerfile(rootFolderPath, helpers);
-      GenerateSolrDockerfile(rootFolderPath, helpers);
-    }
-
-    public void GenerateDockerfilesFor100Xp1(string rootFolderPath, List<IDockerfileGeneratorHelper> helpers)
-    {
-      GenerateCmDockerfile(rootFolderPath, helpers);
-      GenerateCdDockerfile(rootFolderPath, helpers);
-      GenerateMsSqlDockerfile(rootFolderPath, helpers);
-      GenerateSolrDockerfile(rootFolderPath, helpers);
-    }
-
-    public void GenerateDockerfilesFor101Xm1(string rootFolderPath, List<IDockerfileGeneratorHelper> helpers)
-    {
-      GenerateCmDockerfile(rootFolderPath, helpers);
-      GenerateCdDockerfile(rootFolderPath, helpers);
-      GenerateMsSqlDockerfile(rootFolderPath, helpers);
-      GenerateSolrInitDockerfile(rootFolderPath, helpers);
-    }
-
-    public void GenerateDockerfilesFor101Xp0(string rootFolderPath, List<IDockerfileGeneratorHelper> helpers)
-    {
-      GenerateCmDockerfile(rootFolderPath, helpers);
-      GenerateMsSqlDockerfile(rootFolderPath, helpers);
-      GenerateSolrInitDockerfile(rootFolderPath, helpers);
-    }
-
-    public void GenerateDockerfilesFor101Xp1(string rootFolderPath, List<IDockerfileGeneratorHelper> helpers)
-    {
-      GenerateCmDockerfile(rootFolderPath, helpers);
-      GenerateCdDockerfile(rootFolderPath, helpers);
-      GenerateMsSqlDockerfile(rootFolderPath, helpers);
-      GenerateSolrInitDockerfile(rootFolderPath, helpers);
-    }
-
-    public void GenerateDockerfilesFor102Xm1(string rootFolderPath, List<IDockerfileGeneratorHelper> helpers)
-    {
-      GenerateCmDockerfile(rootFolderPath, helpers);
-      GenerateCdDockerfile(rootFolderPath, helpers);
-      GenerateMsSqlInitDockerfile(rootFolderPath, helpers);
-      GenerateSolrInitDockerfile(rootFolderPath, helpers);
-    }
-
-    public void GenerateDockerfilesFor102Xp0(string rootFolderPath, List<IDockerfileGeneratorHelper> helpers)
-    {
-      GenerateCmDockerfile(rootFolderPath, helpers);
-      GenerateMsSqlInitDockerfile(rootFolderPath, helpers);
-      GenerateSolrInitDockerfile(rootFolderPath, helpers);
-    }
-
-    public void GenerateDockerfilesFor102Xp1(string rootFolderPath, List<IDockerfileGeneratorHelper> helpers)
-    {
-      GenerateCmDockerfile(rootFolderPath, helpers);
-      GenerateCdDockerfile(rootFolderPath, helpers);
-      GenerateMsSqlInitDockerfile(rootFolderPath, helpers);
-      GenerateSolrInitDockerfile(rootFolderPath, helpers);
+      StringBuilder args = new StringBuilder();
+      StringBuilder froms = new StringBuilder();
+      StringBuilder commands = new StringBuilder();
+      foreach (IDockerfileGeneratorHelper helper in helpers)
+      {
+        args.Append(helper.GenerateCmArgs());
+        froms.Append(helper.GenerateCmFroms());
+        commands.Append(helper.GenerateCmCommands());
+      }
+      GenerateSpecificDockerfile(rootFolderPath, CmDockerfileFilePath, GenerateDockerfile(args, froms, commands));
     }
 
     private void CreateFolder(string path)
