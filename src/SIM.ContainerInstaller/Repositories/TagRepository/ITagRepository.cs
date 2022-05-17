@@ -7,5 +7,7 @@ namespace SIM.ContainerInstaller.Repositories.TagRepository
     IEnumerable<string> GetTags();
 
     IEnumerable<string> GetSortedShortSitecoreTags(string sitecoreVersionParam, string namespaceParam);
+
+    IEnumerable<string> GetSortedShortTags(string nameParam, string namespaceParam);
   }
 }

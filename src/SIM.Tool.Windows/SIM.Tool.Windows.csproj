@@ -289,6 +289,9 @@
     <Compile Include="UserControls\Export\ExportWizardArgs.cs" />
     <Compile Include="UserControls\Export\FinishActions.cs" />
     <Compile Include="UserControls\Helpers\InstallTasksHelper.cs" />
+    <Compile Include="UserControls\Install\Containers\SelectModules.xaml.cs">
+      <DependentUpon>SelectModules.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\MultipleDeletion\MultipleDeletion9WizardArgs.cs" />
     <Compile Include="UserControls\MultipleDeletion\SelectSitecore9Environments.xaml.cs">
       <DependentUpon>SelectSitecore9Environments.xaml</DependentUpon>
@@ -677,6 +680,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="UserControls\Install\Containers\ContainerDetails.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\Install\Containers\SelectModules.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

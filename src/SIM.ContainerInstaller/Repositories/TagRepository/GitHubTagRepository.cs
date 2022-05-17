@@ -41,11 +41,28 @@ namespace SIM.ContainerInstaller.Repositories.TagRepository
       IEnumerable<string> tags = this.GetSitecoreTags(sitecoreVersionParam, namespaceParam);
       if (tags != null)
       {
-        Regex regex = new Regex(_shortTagPattern);
-        return tags.Where(tag => regex.IsMatch(tag)).Distinct().OrderBy(tag => tag);
+        return this.FilterTagsByShortTagPattern(tags);
       }
 
       return new List<string>();
+    }
+
+    public IEnumerable<string> GetSortedShortTags(string nameParam, string namespaceParam)
+    {
+      IEnumerable<string> sitecoreTags = SitecoreTagsEntities?.Where(entity => entity.Name == nameParam && entity.Namespace == namespaceParam)
+        .Select(entity => entity.Tags).SelectMany(tags => tags.Select(tag => tag.Tag));
+      if (sitecoreTags != null)
+      {
+        return this.FilterTagsByShortTagPattern(sitecoreTags);
+      }
+
+      return new List<string>();
+    }
+
+    private IEnumerable<string> FilterTagsByShortTagPattern(IEnumerable<string> sitecoreTags)
+    {
+      Regex regex = new Regex(_shortTagPattern);
+      return sitecoreTags.Where(tag => regex.IsMatch(tag)).Distinct().OrderBy(tag => tag);
     }
   }
 }

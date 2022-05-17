@@ -1,17 +1,12 @@
 using System;
+using System.Collections.Generic;
 using SIM.ContainerInstaller;
+using SIM.ContainerInstaller.Modules;
 using SIM.Loggers;
 using SIM.Pipelines.Processors;
 
 namespace SIM.Pipelines.Install.Containers
 {
-  public enum Topology
-  {
-    Xm1,
-    Xp0,
-    Xp1
-  }
-
   public class InstallContainerArgs : ProcessorArgs
   {
     public InstallContainerArgs(
@@ -20,7 +15,9 @@ namespace SIM.Pipelines.Install.Containers
       string filesRoot,
       string topology,
       ILogger logger,
-      bool scriptsOnly
+      bool scriptsOnly,
+      List<Module> modules,
+      string shortVersion
       )
     {
       this.EnvModel = model;
@@ -29,6 +26,8 @@ namespace SIM.Pipelines.Install.Containers
       this.Topology = (Topology)Enum.Parse(typeof(Topology), topology, true);
       this.Logger = logger;
       this.ScriptsOnly = scriptsOnly;
+      this.Modules = modules;
+      this.ShortVersion = int.Parse(shortVersion);
     }
 
     public EnvModel EnvModel { get; }
@@ -51,5 +50,9 @@ namespace SIM.Pipelines.Install.Containers
     }
 
     public bool ScriptsOnly { get; }
+
+    public List<Module> Modules { get; }
+
+    public int ShortVersion { get; }
   }
 }
