@@ -13,7 +13,6 @@ using System.Windows;
 using SIM.Tool.Windows.Dialogs;
 using SIM.ContainerInstaller.Repositories.TagRepository;
 using SIM.Tool.Base;
-using SIM.ContainerInstaller.Modules;
 
 namespace SIM.Tool.Windows.UserControls.Install.Containers
 {

@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using SIM.ContainerInstaller;
-using SIM.ContainerInstaller.Modules;
 using SIM.Loggers;
 using SIM.Pipelines.Processors;
 

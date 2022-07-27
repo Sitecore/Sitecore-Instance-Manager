@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace SIM.ContainerInstaller.Modules
+namespace SIM.ContainerInstaller
 {
   public enum Topology
   {

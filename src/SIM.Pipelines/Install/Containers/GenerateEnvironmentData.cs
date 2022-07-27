@@ -7,7 +7,7 @@ using SIM.SitecoreEnvironments;
 using System.Collections.Generic;
 using System.Linq;
 using SIM.ContainerInstaller.DockerCompose;
-using SIM.ContainerInstaller.Modules;
+using SIM.ContainerInstaller;
 
 namespace SIM.Pipelines.Install.Containers
 {
