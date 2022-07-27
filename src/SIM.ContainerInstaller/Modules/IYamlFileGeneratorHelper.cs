@@ -16,5 +16,7 @@ namespace SIM.ContainerInstaller.Modules
     IEnumerable<KeyValuePair<YamlNode, YamlNode>> GenerateCdArgs(int shortVersion, Topology topology);
 
     IEnumerable<KeyValuePair<YamlNode, YamlNode>> GenerateCmArgs(int shortVersion, Topology topology);
+
+    IDictionary<string, string> GetEnvironmentVariables(Role role);
   }
 }

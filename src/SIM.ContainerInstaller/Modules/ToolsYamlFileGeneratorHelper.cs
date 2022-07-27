@@ -42,6 +42,11 @@ namespace SIM.ContainerInstaller.Modules
       return EmptyList;
     }
 
+    public IEnumerable<KeyValuePair<YamlNode, YamlNode>> GenerateIdArgs(int shortVersion, Topology topology)
+    {
+      return EmptyList;
+    }
+
     public IEnumerable<KeyValuePair<YamlNode, YamlNode>> GenerateCdArgs(int shortVersion, Topology topology)
     {
       if (shortVersion >= 100)
@@ -58,6 +63,11 @@ namespace SIM.ContainerInstaller.Modules
         return GenerateToolingImageArgs();
       }
       return EmptyList;
+    }
+
+    public IDictionary<string, string> GetEnvironmentVariables(Role role)
+    {
+      return null;
     }
   }
 }

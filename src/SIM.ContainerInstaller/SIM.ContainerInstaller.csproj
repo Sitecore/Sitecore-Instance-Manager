@@ -71,6 +71,8 @@
     <Compile Include="ISitecoreLicenseConverter.cs" />
     <Compile Include="IGenerator.cs" />
     <Compile Include="Modules\DockerSettings.cs" />
+    <Compile Include="Modules\HorizonDockerfileGeneratorHelper.cs" />
+    <Compile Include="Modules\HorizonYamlFileGeneratorHelper.cs" />
     <Compile Include="Modules\IDockerfileGeneratorHelper.cs" />
     <Compile Include="Modules\IYamlFileGeneratorHelper.cs" />
     <Compile Include="Modules\SxaDockerfileGeneratorHelper.cs" />

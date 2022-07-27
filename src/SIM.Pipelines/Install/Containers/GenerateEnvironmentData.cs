@@ -6,9 +6,8 @@ using Sitecore.Diagnostics.Base;
 using SIM.SitecoreEnvironments;
 using System.Collections.Generic;
 using System.Linq;
-using MongoDB.Bson.Serialization.Conventions;
 using SIM.ContainerInstaller.DockerCompose;
-using SIM.ContainerInstaller.DockerCompose.Model;
+using SIM.ContainerInstaller.Modules;
 
 namespace SIM.Pipelines.Install.Containers
 {
@@ -24,7 +23,8 @@ namespace SIM.Pipelines.Install.Containers
       "prc",
       "rep",
       "xdbcollection",
-      "xdbsearch"
+      "xdbsearch",
+      "hrz"
     };
 
     private IList<string> serviceTypes => new List<string>()
@@ -67,7 +67,17 @@ namespace SIM.Pipelines.Install.Containers
     {
       SitecoreEnvironment environment = new SitecoreEnvironment(environmentName, SitecoreEnvironment.EnvironmentType.Container);
       environment.UnInstallDataPath = destinationFolder;
-      environment.Members = GetEnvironmentMembers(environmentName, destinationFolder).ToList();
+      // Add support of new installed services like Horizon
+      List<SitecoreEnvironmentMember> dockerComposeOverrideServiceTypes = GetEnvironmentMembers(environmentName, destinationFolder, DockerSettings.DockerComposeOverrideFileName).ToList();
+      List<SitecoreEnvironmentMember> dockerComposeServiceTypes = GetEnvironmentMembers(environmentName, destinationFolder).ToList();
+      foreach (SitecoreEnvironmentMember sitecoreEnvironmentMember in dockerComposeOverrideServiceTypes)
+      {
+        if (!dockerComposeServiceTypes.Any(sem => sem.Name == sitecoreEnvironmentMember.Name))
+        {
+          dockerComposeServiceTypes.Add(sitecoreEnvironmentMember);
+        }
+      }
+      environment.Members = dockerComposeServiceTypes;
 
       return environment;
     }

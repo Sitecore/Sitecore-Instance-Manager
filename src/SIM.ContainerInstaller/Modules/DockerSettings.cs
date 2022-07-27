@@ -21,6 +21,17 @@ namespace SIM.ContainerInstaller.Modules
     PublishingService
   }
 
+  public enum Role
+  {
+    MsSql,
+    MsSqlInit,
+    Solr,
+    SolrInit,
+    Id,
+    Cd,
+    Cm
+  }
+
   public static class DockerSettings
   {
     public const string SitecoreContainerRegistryHost = "scr.sitecore.com";
@@ -33,6 +44,10 @@ namespace SIM.ContainerInstaller.Modules
     public const string SitecoreSxaXm1Image = "sitecore-sxa-xm1-assets";
     public const string SxaXpImage = "sxa-xp1-assets";
     public const string SitecoreSxaXpImage = "sitecore-sxa-xp1-assets";
+    public const string SitecoreHorizonImage = "sitecore-horizon";
+    public const string SitecoreHorizonAssetsXm1Image = "horizon-integration-xm1-assets";
+    public const string SitecoreHorizonAssetsXp0Image = "horizon-integration-xp0-assets";
+    public const string SitecoreHorizonAssetsXp1Image = "horizon-integration-xp1-assets";
 
     public static string SitecoreToolsImagePath = $"{SitecoreToolsNamespace}/{SitecoreToolsImage}";
     public static string SpeImagePath = $"{SitecoreModuleNamespace}/{SpeImage}";
@@ -41,5 +56,16 @@ namespace SIM.ContainerInstaller.Modules
     public static string SitecoreSxaXm1ImagePath = $"{SitecoreModuleNamespace}/{SitecoreSxaXm1Image}";
     public static string SxaXpImagePath = $"{SitecoreModuleNamespace}/{SxaXpImage}";
     public static string SitecoreSxaXpImagePath = $"{SitecoreModuleNamespace}/{SitecoreSxaXpImage}";
+    public static string SitecoreHorizonImagePath = $"{SitecoreModuleNamespace}/{SitecoreHorizonImage}";
+    public static string SitecoreHorizonAssetsXm1ImagePath = $"{SitecoreModuleNamespace}/{SitecoreHorizonAssetsXm1Image}";
+    public static string SitecoreHorizonAssetsXp0ImagePath = $"{SitecoreModuleNamespace}/{SitecoreHorizonAssetsXp0Image}";
+    public static string SitecoreHorizonAssetsXp1ImagePath = $"{SitecoreModuleNamespace}/{SitecoreHorizonAssetsXp1Image}";
+
+    public const string DockerComposeOverrideFileName = "docker-compose.override.yml";
+    // This value must be the same as in the "SIM.Pipelines.Install.Containers.GenerateEnvironmentData.siteTypes" list.
+    public const string HorizonServiceName = "hrz";
+    // Horizon only works correctly if its, Identity Server and Content Management instances belong to the same site (domain) as mentioned in Horizon Installation Guide.
+    public const string HostNameTemplate = "{0}.{1}";
+    public const string HostNameKeyPattern = "([A-Za-z0-9]{1,3})_HOST";
   }
 }

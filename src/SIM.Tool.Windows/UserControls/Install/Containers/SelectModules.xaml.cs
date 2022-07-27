@@ -7,7 +7,6 @@ using System.Linq;
 using System.Windows;
 using SIM.Tool.Windows.Dialogs;
 using SIM.Tool.Base;
-using SIM.Pipelines.Install.Containers;
 using SIM.ContainerInstaller.Repositories.TagRepository;
 using SIM.ContainerInstaller.Modules;
 
@@ -32,11 +31,13 @@ namespace SIM.Tool.Windows.UserControls.Install.Containers
       owner = args.WizardWindow;
       envModel = args.EnvModel;
       HideTagsControls();
-      Modules.ItemsSource = new List<Module>() { Module.SXA }; // Module.JSS, Module.Horizon, Module.PublishingService
+      Modules.ItemsSource = new List<Module>() { Module.SXA, Module.Horizon }; // Module.JSS, Module.PublishingService
       selectedModules = new List<Module>();
       tagRepository = args.TagRepository;
       GetToolsTags();
       GetSpeAndSxaTags(args.Product.ShortVersion, args.Topology);
+      GetHorizonTags();
+      GetHorizonAssetsTags(args.Topology);
     }
 
     public bool OnMovingBack(WizardArgs wizardArgs)
@@ -73,16 +74,14 @@ namespace SIM.Tool.Windows.UserControls.Install.Containers
       if (module is Module && !selectedModules.Contains((Module)module))
       {
         selectedModules.Add((Module)module);
-
-        ShowOrHideToolsTagsControls(Visibility.Visible);
-
-        envModel.SitecoreToolsRegistry = $"{DockerSettings.SitecoreContainerRegistryHost}/{DockerSettings.SitecoreToolsNamespace}/";
         envModel.SitecoreModuleRegistry = $"{DockerSettings.SitecoreContainerRegistryHost}/{DockerSettings.SitecoreModuleNamespace}/";
-        envModel.ToolsVersion = ToolsTagsComboBox.SelectedItem.ToString();
 
         switch (module)
         {
           case Module.SXA:
+            ShowOrHideToolsTagsControls(Visibility.Visible);
+            envModel.SitecoreToolsRegistry = $"{DockerSettings.SitecoreContainerRegistryHost}/{DockerSettings.SitecoreToolsNamespace}/";
+            envModel.ToolsVersion = ToolsTagsComboBox.SelectedItem.ToString();
             ShowOrHideSpeAndSxaTagsControls(Visibility.Visible);
             envModel.SpeVersion = SpeTagsComboBox.SelectedItem.ToString();
             envModel.SxaVersion = SxaTagsComboBox.SelectedItem.ToString();
@@ -92,6 +91,9 @@ namespace SIM.Tool.Windows.UserControls.Install.Containers
             break;
           case Module.Horizon:
             ShowOrHideHorizonTagsControls(Visibility.Visible);
+            envModel.HorizonHost = string.Format(DockerSettings.HostNameTemplate, DockerSettings.HorizonServiceName, envModel.ProjectName);
+            envModel.HorizonVersion = HorizonTagsComboBox.SelectedItem.ToString();
+            envModel.HorizonAssetsVersion = HorizonAssetsTagsComboBox.SelectedItem.ToString();
             break;
           case Module.PublishingService:
             ShowOrHidePublishingServiceTagsControls(Visibility.Visible);
@@ -110,14 +112,15 @@ namespace SIM.Tool.Windows.UserControls.Install.Containers
         selectedModules.Remove((Module)module);
         if (selectedModules.Count < 1)
         {
-          ShowOrHideToolsTagsControls(Visibility.Collapsed);
+          envModel.Remove(EnvModel.SitecoreModuleRegistryName);
         }
+
         switch (module)
         {
           case Module.SXA:
+            ShowOrHideToolsTagsControls(Visibility.Collapsed);
             ShowOrHideSpeAndSxaTagsControls(Visibility.Collapsed);
             envModel.Remove(EnvModel.SitecoreToolsRegistryName);
-            envModel.Remove(EnvModel.SitecoreModuleRegistryName);
             envModel.Remove(EnvModel.ToolsVersionName);
             envModel.Remove(EnvModel.SpeVersionName);
             envModel.Remove(EnvModel.SxaVersionName);
@@ -127,6 +130,9 @@ namespace SIM.Tool.Windows.UserControls.Install.Containers
             break;
           case Module.Horizon:
             ShowOrHideHorizonTagsControls(Visibility.Collapsed);
+            envModel.Remove(EnvModel.HorizonHostName);
+            envModel.Remove(EnvModel.HorizonVersionName);
+            envModel.Remove(EnvModel.HorizonAssetsVersionName);
             break;
           case Module.PublishingService:
             ShowOrHidePublishingServiceTagsControls(Visibility.Collapsed);
@@ -149,6 +155,8 @@ namespace SIM.Tool.Windows.UserControls.Install.Containers
       JssTagsComboBox.Visibility = Visibility.Collapsed;
       HorizonTagsTextBlock.Visibility = Visibility.Collapsed;
       HorizonTagsComboBox.Visibility = Visibility.Collapsed;
+      HorizonAssetsTagsTextBlock.Visibility= Visibility.Collapsed;
+      HorizonAssetsTagsComboBox.Visibility = Visibility.Collapsed;
       PsTagsTextBlock.Visibility = Visibility.Collapsed;
       PsTagsComboBox.Visibility = Visibility.Collapsed;
     }
@@ -177,6 +185,8 @@ namespace SIM.Tool.Windows.UserControls.Install.Containers
     {
       HorizonTagsTextBlock.Visibility = visibility;
       HorizonTagsComboBox.Visibility = visibility;
+      HorizonAssetsTagsTextBlock.Visibility = visibility;
+      HorizonAssetsTagsComboBox.Visibility = visibility;
     }
 
     private void ShowOrHidePublishingServiceTagsControls(Visibility visibility)
@@ -220,6 +230,7 @@ namespace SIM.Tool.Windows.UserControls.Install.Containers
       ToolsTagsComboBox.DataContext = tagRepository.GetSortedShortTags(DockerSettings.SitecoreToolsImagePath, DockerSettings.SitecoreToolsNamespace).ToArray();
       ToolsTagsComboBox.SelectedIndex = 0;
     }
+
     private void GetSpeAndSxaTags(string shortVersion, string topology)
     {
       if (int.Parse(shortVersion) > 101)
@@ -258,6 +269,58 @@ namespace SIM.Tool.Windows.UserControls.Install.Containers
     {
       SxaTagsComboBox.DataContext = tagRepository.GetSortedShortTags(sxaImagePath, DockerSettings.SitecoreModuleNamespace).ToArray();
       SxaTagsComboBox.SelectedIndex = 0;
+    }
+
+    private void HorizonTagsComboBox_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+    {
+      if (HorizonTagsComboBox.SelectedItem == null || selectedModules.Count < 1)
+      {
+        return;
+      }
+
+      envModel.HorizonVersion = HorizonTagsComboBox.SelectedItem.ToString();
+    }
+
+    private void HorizonAssetsTagsComboBox_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+    {
+      if (HorizonAssetsTagsComboBox.SelectedItem == null || selectedModules.Count < 1)
+      {
+        return;
+      }
+
+      envModel.HorizonAssetsVersion = HorizonAssetsTagsComboBox.SelectedItem.ToString();
+    }
+
+    private void GetHorizonTags()
+    {
+      HorizonTagsComboBox.DataContext = tagRepository.GetSortedShortTags(DockerSettings.SitecoreHorizonImagePath, DockerSettings.SitecoreModuleNamespace).ToArray();
+      HorizonTagsComboBox.SelectedIndex = 0;
+    }
+
+    private void GetHorizonAssetsTags(string topology)
+    {
+      string horizonAssetsImagePath = null;
+
+      switch (topology)
+      {
+        case "xm1":
+          horizonAssetsImagePath = DockerSettings.SitecoreHorizonAssetsXm1ImagePath;
+          break;
+        case "xp0":
+          horizonAssetsImagePath = DockerSettings.SitecoreHorizonAssetsXp0ImagePath;
+          break;
+        case "xp1":
+          horizonAssetsImagePath = DockerSettings.SitecoreHorizonAssetsXp1ImagePath;
+          break;
+        default:
+          break;
+      }
+
+      if (!string.IsNullOrEmpty(horizonAssetsImagePath))
+      {
+        HorizonAssetsTagsComboBox.DataContext = tagRepository.GetSortedShortTags(horizonAssetsImagePath, DockerSettings.SitecoreModuleNamespace).ToArray();
+        HorizonAssetsTagsComboBox.SelectedIndex = 0;
+      }
     }
   }
 }

@@ -137,5 +137,10 @@ namespace SIM.ContainerInstaller.Modules
       }
       return EmptyList;
     }
+
+    public IDictionary<string, string> GetEnvironmentVariables(Role role)
+    {
+      return null;
+    }
   }
 }

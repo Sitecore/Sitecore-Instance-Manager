@@ -93,6 +93,20 @@ namespace SIM.Pipelines.Install.Containers
       {
         case Topology.Xm1:
         case Topology.Xp1:
+          if (args.Modules.Contains(Module.Horizon))
+          {
+            return $@"tls:
+  certificates:
+    - certFile: {pathToCerts}\{args.EnvModel.CmHost}.crt
+      keyFile: {pathToCerts}\{args.EnvModel.CmHost}.key
+    - certFile: {pathToCerts}\{args.EnvModel.CdHost}.crt
+      keyFile: {pathToCerts}\{args.EnvModel.CdHost}.key
+    - certFile: {pathToCerts}\{args.EnvModel.IdHost}.crt
+      keyFile: {pathToCerts}\{args.EnvModel.IdHost}.key
+    - certFile: {pathToCerts}\{args.EnvModel.HorizonHost}.crt
+      keyFile: {pathToCerts}\{args.EnvModel.HorizonHost}.key
+";
+          }
           return $@"tls:
   certificates:
     - certFile: {pathToCerts}\{args.EnvModel.CmHost}.crt
@@ -103,6 +117,18 @@ namespace SIM.Pipelines.Install.Containers
       keyFile: {pathToCerts}\{args.EnvModel.IdHost}.key
 ";
         case Topology.Xp0:
+          if (args.Modules.Contains(Module.Horizon))
+          {
+            return $@"tls:
+  certificates:
+    - certFile: {pathToCerts}\{args.EnvModel.CmHost}.crt
+      keyFile: {pathToCerts}\{args.EnvModel.CmHost}.key
+    - certFile: {pathToCerts}\{args.EnvModel.IdHost}.crt
+      keyFile: {pathToCerts}\{args.EnvModel.IdHost}.key
+    - certFile: {pathToCerts}\{args.EnvModel.HorizonHost}.crt
+      keyFile: {pathToCerts}\{args.EnvModel.HorizonHost}.key
+";
+          }
           return $@"tls:
   certificates:
     - certFile: {pathToCerts}\{args.EnvModel.CmHost}.crt
@@ -127,11 +153,18 @@ namespace SIM.Pipelines.Install.Containers
       switch (topology)
       {
         case Topology.Xm1:
-          return GetXm1Script(args.EnvModel.CmHost, args.EnvModel.CdHost, args.EnvModel.IdHost);
-        case Topology.Xp0:
-          return GetXp0Script(args.EnvModel.CmHost, args.EnvModel.IdHost);
         case Topology.Xp1:
-          return GetXp1Script(args.EnvModel.CmHost, args.EnvModel.CdHost, args.EnvModel.IdHost);
+          if (args.Modules.Contains(Module.Horizon))
+          {
+            return GetXm1OrXp1AndHorizonScript(args.EnvModel.CmHost, args.EnvModel.CdHost, args.EnvModel.IdHost, args.EnvModel.HorizonHost);
+          }
+          return GetXm1OrXp1Script(args.EnvModel.CmHost, args.EnvModel.CdHost, args.EnvModel.IdHost);
+        case Topology.Xp0:
+          if (args.Modules.Contains(Module.Horizon))
+          {
+            return GetXp0AndHorizonScript(args.EnvModel.CmHost, args.EnvModel.IdHost, args.EnvModel.HorizonHost);
+          }
+          return GetXp0Script(args.EnvModel.CmHost, args.EnvModel.IdHost);
         default:
           throw new InvalidOperationException("Generate certificates script cannot be resolved for '" + topology.ToString() + "'");
       }
@@ -160,11 +193,6 @@ namespace SIM.Pipelines.Install.Containers
       }
     }
 
-    private string GetXp1Script(string cmHost, string cdHost, string idHost)
-    {
-      return GetXm1Script(cmHost, cdHost, idHost);
-    }
-
     private string GetXp0Script(string cmHost, string idHost)
     {
       string template = @"
@@ -174,7 +202,7 @@ mkcert -cert-file {0}\{2}.crt -key-file {0}\{2}.key ""{2}""";
       return string.Format(template, PathToCertFolder, cmHost, idHost);
     }
 
-    private string GetXm1Script(string cmHost, string cdHost, string idHost)
+    private string GetXm1OrXp1Script(string cmHost, string cdHost, string idHost)
     {
       string template = @"
 mkcert -cert-file {0}\{1}.crt -key-file {0}\{1}.key ""{1}""
@@ -182,6 +210,27 @@ mkcert -cert-file {0}\{2}.crt -key-file {0}\{2}.key ""{2}""
 mkcert -cert-file {0}\{3}.crt -key-file {0}\{3}.key ""{3}""";
 
       return string.Format(template, PathToCertFolder, cmHost, idHost, cdHost);
+    }
+
+    private string GetXp0AndHorizonScript(string cmHost, string idHost, string hrzHost)
+    {
+      string template = @"
+mkcert -cert-file {0}\{1}.crt -key-file {0}\{1}.key ""{1}""
+mkcert -cert-file {0}\{2}.crt -key-file {0}\{2}.key ""{2}""
+mkcert -cert-file {0}\{3}.crt -key-file {0}\{3}.key ""{3}""";
+
+      return string.Format(template, PathToCertFolder, cmHost, idHost, hrzHost);
+    }
+
+    private string GetXm1OrXp1AndHorizonScript(string cmHost, string cdHost, string idHost, string hrzHost)
+    {
+      string template = @"
+mkcert -cert-file {0}\{1}.crt -key-file {0}\{1}.key ""{1}""
+mkcert -cert-file {0}\{2}.crt -key-file {0}\{2}.key ""{2}""
+mkcert -cert-file {0}\{3}.crt -key-file {0}\{3}.key ""{3}""
+mkcert -cert-file {0}\{4}.crt -key-file {0}\{4}.key ""{4}""";
+
+      return string.Format(template, PathToCertFolder, cmHost, idHost, cdHost, hrzHost);
     }
   }
 }
