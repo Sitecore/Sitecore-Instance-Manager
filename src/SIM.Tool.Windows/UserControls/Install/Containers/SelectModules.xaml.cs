@@ -29,14 +29,24 @@ namespace SIM.Tool.Windows.UserControls.Install.Containers
       InstallContainerWizardArgs args = (InstallContainerWizardArgs)wizardArgs;
       owner = args.WizardWindow;
       envModel = args.EnvModel;
-      HideTagsControls();
-      Modules.ItemsSource = new List<Module>() { Module.SXA, Module.Horizon }; // Module.JSS, Module.PublishingService
-      selectedModules = new List<Module>();
       tagRepository = args.TagRepository;
-      GetToolsTags();
-      GetSpeAndSxaTags(args.Product.ShortVersion, args.Topology);
-      GetHorizonTags();
-      GetHorizonAssetsTags(args.Topology);
+      HideTagsControls();
+      selectedModules = new List<Module>();
+      // Horizon is available for Docker deployment only from 10.1.0
+      if (int.Parse(args.Product.ShortVersion) >= 101)
+      {
+        Modules.ItemsSource = new List<Module>() { Module.SXA, Module.Horizon };
+        GetToolsTags();
+        GetSpeAndSxaTags(args.Product.ShortVersion, args.Topology);
+        GetHorizonTags();
+        GetHorizonAssetsTags(args.Topology);
+      }
+      else
+      {
+        Modules.ItemsSource = new List<Module>() { Module.SXA }; // Module.JSS, Module.PublishingService
+        GetToolsTags();
+        GetSpeAndSxaTags(args.Product.ShortVersion, args.Topology);
+      }
     }
 
     public bool OnMovingBack(WizardArgs wizardArgs)

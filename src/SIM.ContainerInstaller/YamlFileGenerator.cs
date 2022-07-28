@@ -104,7 +104,7 @@ namespace SIM.ContainerInstaller
       {
         services.Add(cmService);
       }
-      KeyValuePair<YamlNode, YamlNode> hrzService = GenerateHorizonService(helpers, shortVersion, topology);
+      KeyValuePair<YamlNode, YamlNode> hrzService = GenerateHorizonService(helpers);
       if (hrzService.Key != null)
       {
         services.Add(hrzService);
@@ -125,118 +125,104 @@ namespace SIM.ContainerInstaller
 
     private KeyValuePair<YamlNode, YamlNode> GenerateMsSqlService(List<IYamlFileGeneratorHelper> helpers, int shortVersion, Topology topology)
     {
-      if (helpers.OfType<SxaYamlFileGeneratorHelper>().Any())
+      if (shortVersion >= 100 && shortVersion < 102)
       {
-        if (shortVersion >= 100 && shortVersion < 102)
+        List<KeyValuePair<YamlNode, YamlNode>> msSqlArgsForModules = new List<KeyValuePair<YamlNode,YamlNode>>();
+        foreach (IYamlFileGeneratorHelper helper in helpers)
         {
-          List<KeyValuePair<YamlNode, YamlNode>> msSqlArgs = GenerateBaseImageArgs(BaseMsSqlImage);
-          foreach (IYamlFileGeneratorHelper helper in helpers)
-          {
-            msSqlArgs.AddRange(helper.GenerateMsSqlArgs(shortVersion, topology));
-          }
-          return GenerateService("mssql", NewMsSqlImage, MsSqlContext, msSqlArgs, "2GB", MsSqlVolumes);
+          msSqlArgsForModules.AddRange(helper.GenerateMsSqlArgs(shortVersion, topology));
         }
-        else if (shortVersion >= 102)
-        {
-          return GenerateService("mssql", null, null, null, "2GB", MsSqlVolumes);
-        }
+        return GenerateService("mssql", BaseMsSqlImage, NewMsSqlImage, MsSqlContext, msSqlArgsForModules, "2GB", MsSqlVolumes);
+      }
+      else if (shortVersion >= 102 && helpers.OfType<SxaYamlFileGeneratorHelper>().Any())
+      {
+        return GenerateService("mssql", null, null, null, null, "2GB", MsSqlVolumes);
       }
       return EmptyKeyValuePair;
     }
 
     private KeyValuePair<YamlNode, YamlNode> GenerateMsSqlInitService(List<IYamlFileGeneratorHelper> helpers, int shortVersion, Topology topology)
     {
-      if (shortVersion >= 102 && helpers.OfType<SxaYamlFileGeneratorHelper>().Any())
+      if (shortVersion >= 102)
       {
-        List<KeyValuePair<YamlNode, YamlNode>> msSqlInitArgs = GenerateBaseImageArgs(BaseMsSqlInitImage);
+        List<KeyValuePair<YamlNode, YamlNode>> msSqlInitArgsForModules = new List<KeyValuePair<YamlNode, YamlNode>>();
         foreach (IYamlFileGeneratorHelper helper in helpers)
         {
-          msSqlInitArgs.AddRange(helper.GenerateMsSqlInitArgs(shortVersion, topology));
+          msSqlInitArgsForModules.AddRange(helper.GenerateMsSqlInitArgs(shortVersion, topology));
         }
-        return GenerateService("mssql-init", NewMsSqlInitImage, MsSqlInitContext, msSqlInitArgs, null, null);
+        return GenerateService("mssql-init", BaseMsSqlInitImage, NewMsSqlInitImage, MsSqlInitContext, msSqlInitArgsForModules, null, null);
       }
       return EmptyKeyValuePair;
     }
 
     private KeyValuePair<YamlNode, YamlNode> GenerateSolrService(List<IYamlFileGeneratorHelper> helpers, int shortVersion, Topology topology)
     {
-      if (shortVersion == 100 && helpers.OfType<SxaYamlFileGeneratorHelper>().Any())
+      if (shortVersion == 100)
       {
-        List<KeyValuePair<YamlNode, YamlNode>> solrArgs = GenerateBaseImageArgs(BaseSolrImage);
+        List<KeyValuePair<YamlNode, YamlNode>> solrArgsForModules = new List<KeyValuePair<YamlNode, YamlNode>>();
         foreach (IYamlFileGeneratorHelper helper in helpers)
         {
-          solrArgs.AddRange(helper.GenerateSolrArgs(shortVersion, topology));
+          solrArgsForModules.AddRange(helper.GenerateSolrArgs(shortVersion, topology));
         }
-        return GenerateService("solr", NewSolrImage, SolrContext, solrArgs, "1GB", SolrVolumes);
+        return GenerateService("solr", BaseSolrImage, NewSolrImage, SolrContext, solrArgsForModules, "1GB", SolrVolumes);
       }
       return EmptyKeyValuePair;
     }
 
     private KeyValuePair<YamlNode, YamlNode> GenerateSolrInitService(List<IYamlFileGeneratorHelper> helpers, int shortVersion, Topology topology)
     {
-      if (shortVersion >= 101 && helpers.OfType<SxaYamlFileGeneratorHelper>().Any())
+      if (shortVersion >= 101)
       {
-        List<KeyValuePair<YamlNode, YamlNode>> solrInitArgs = GenerateBaseImageArgs(BaseSolrInitImage);
+        List<KeyValuePair<YamlNode, YamlNode>> solrInitArgsForModules = new List<KeyValuePair<YamlNode, YamlNode>>();
         foreach (IYamlFileGeneratorHelper helper in helpers)
         {
-          solrInitArgs.AddRange(helper.GenerateSolrInitArgs(shortVersion, topology));
+          solrInitArgsForModules.AddRange(helper.GenerateSolrInitArgs(shortVersion, topology));
         }
-        return GenerateService("solr-init", NewSolrInitImage, SolrInitContext, solrInitArgs, null, null);
+        return GenerateService("solr-init", BaseSolrInitImage, NewSolrInitImage, SolrInitContext, solrInitArgsForModules, null, null);
       }
       return EmptyKeyValuePair;
     }
 
     private KeyValuePair<YamlNode, YamlNode> GenerateIdService(List<IYamlFileGeneratorHelper> helpers, int shortVersion)
     {
-      if (shortVersion >= 100 && helpers.OfType<HorizonYamlFileGeneratorHelper>().Any())
+      if (shortVersion >= 100)
       {
-        Dictionary<string, string> envenvironmentVariables = GetEnvironmentVariables(helpers, Role.Id);
-
-        if (envenvironmentVariables != null && envenvironmentVariables.Count > 0)
-        {
-          List<KeyValuePair<YamlNode, YamlNode>> idArgs = GenerateBaseImageArgs(BaseIdImage);
-          return GenerateService("id", NewIdImage, IdContext, idArgs, null, null, envenvironmentVariables);
-        }
+        return GenerateService("id", BaseIdImage, NewIdImage, IdContext, null, null, null, GetEnvironmentVariables(helpers, Service.Id));
       }
       return EmptyKeyValuePair;
     }
 
     private KeyValuePair<YamlNode, YamlNode> GenerateCdService(List<IYamlFileGeneratorHelper> helpers, int shortVersion, Topology topology)
     {
-      if (shortVersion >= 100 && (topology == Topology.Xm1 || topology == Topology.Xp1) && helpers.OfType<SxaYamlFileGeneratorHelper>().Any())
+      if (shortVersion >= 100 && (topology == Topology.Xm1 || topology == Topology.Xp1))
       {
-        List<KeyValuePair<YamlNode, YamlNode>> cdArgs = GenerateBaseImageArgs(BaseCdImage);
-
+        List<KeyValuePair<YamlNode, YamlNode>> cdArgsForModules = new List<KeyValuePair<YamlNode, YamlNode>>();
         foreach (IYamlFileGeneratorHelper helper in helpers)
         {
-          cdArgs.AddRange(helper.GenerateCdArgs(shortVersion, topology));
+          cdArgsForModules.AddRange(helper.GenerateCdArgs(shortVersion, topology));
         }
-        return GenerateService("cd", NewCdImage, CdContext, cdArgs, null, null);
+        return GenerateService("cd", BaseCdImage, NewCdImage, CdContext, cdArgsForModules, null, null);
       }
       return EmptyKeyValuePair;
     }
 
     private KeyValuePair<YamlNode, YamlNode> GenerateCmService(List<IYamlFileGeneratorHelper> helpers, int shortVersion, Topology topology)
     {
-      if (shortVersion >= 100 && (helpers.OfType<SxaYamlFileGeneratorHelper>().Any() || helpers.OfType<HorizonYamlFileGeneratorHelper>().Any()))
+      if (shortVersion >= 100)
       {
-        List<KeyValuePair<YamlNode, YamlNode>> cmArgs = GenerateBaseImageArgs(BaseCmImage);
-
+        List<KeyValuePair<YamlNode, YamlNode>> cmArgsForModules = new List<KeyValuePair<YamlNode, YamlNode>>();
         foreach (IYamlFileGeneratorHelper helper in helpers)
         {
-          cmArgs.AddRange(helper.GenerateCmArgs(shortVersion, topology));
+          cmArgsForModules.AddRange(helper.GenerateCmArgs(shortVersion, topology));
         }
-
-        Dictionary<string, string> envenvironmentVariables = GetEnvironmentVariables(helpers, Role.Cm);
-
-        return GenerateService("cm", NewCmImage, CmContext, cmArgs, null, null, envenvironmentVariables);
+        return GenerateService("cm", BaseCmImage, NewCmImage, CmContext, cmArgsForModules, null, null, GetEnvironmentVariables(helpers, Service.Cm));
       }
       return EmptyKeyValuePair;
     }
 
-    private KeyValuePair<YamlNode, YamlNode> GenerateHorizonService(List<IYamlFileGeneratorHelper> helpers, int shortVersion, Topology topology)
+    private KeyValuePair<YamlNode, YamlNode> GenerateHorizonService(List<IYamlFileGeneratorHelper> helpers)
     {
-      if (shortVersion >= 100 && helpers.OfType<HorizonYamlFileGeneratorHelper>().Any())
+      if (helpers.OfType<HorizonYamlFileGeneratorHelper>().Any())
       {
         HorizonYamlFileGeneratorHelper horizonYamlFileGeneratorHelper = helpers.OfType<HorizonYamlFileGeneratorHelper>().FirstOrDefault();
 
@@ -299,26 +285,41 @@ namespace SIM.ContainerInstaller
        );
     }
 
-    private KeyValuePair<YamlNode, YamlNode> GenerateService(string service, string image = null, 
-      string context = null, List<KeyValuePair<YamlNode, YamlNode>> args = null, string memoryLimit = null, 
+    private KeyValuePair<YamlNode, YamlNode> GenerateService(string service, string baseImage = null, string newImage = null, 
+      string context = null, List<KeyValuePair<YamlNode, YamlNode>> argsForModules = null, string memoryLimit = null, 
       IEnumerable<string> volumes = null, IDictionary<string, string> environmentVariables = null)
     {
       List<KeyValuePair<YamlNode, YamlNode>> nodes = new List<KeyValuePair<YamlNode, YamlNode>>();
 
-      if (image != null)
+      if (!string.IsNullOrEmpty(newImage))
       {
-        nodes.Add(new KeyValuePair<YamlNode, YamlNode>(new YamlScalarNode("image"), new YamlScalarNode(image)));
+        nodes.Add(new KeyValuePair<YamlNode, YamlNode>(new YamlScalarNode("image"), new YamlScalarNode(newImage)));
       }
 
-      if (context != null && args != null)
+      bool includeEnvironmentVariables = environmentVariables != null && environmentVariables.Any();
+
+      if (!string.IsNullOrEmpty(context) && !string.IsNullOrEmpty(baseImage))
       {
-        nodes.Add(new KeyValuePair<YamlNode, YamlNode>(new YamlScalarNode("build"), new YamlMappingNode(
-          new YamlScalarNode("context"), new YamlScalarNode(context),
-          new YamlScalarNode("args"), new YamlMappingNode(args)
-        )));
+        List<KeyValuePair<YamlNode, YamlNode>> baseImageArgs = null;
+        if (argsForModules == null && includeEnvironmentVariables)
+        {
+          baseImageArgs = GenerateBaseImageArgs(baseImage);
+        }
+        else if (argsForModules != null && argsForModules.Any(arg => arg.Key != null))
+        {
+          baseImageArgs = GenerateBaseImageArgs(baseImage);
+          baseImageArgs.AddRange(argsForModules);
+        }
+        if (baseImageArgs != null && baseImageArgs.Any(arg => arg.Key != null))
+        {
+          nodes.Add(new KeyValuePair<YamlNode, YamlNode>(new YamlScalarNode("build"), new YamlMappingNode(
+            new YamlScalarNode("context"), new YamlScalarNode(context),
+            new YamlScalarNode("args"), new YamlMappingNode(baseImageArgs)
+          )));
+        }
       }
 
-      if (memoryLimit != null)
+      if (!string.IsNullOrEmpty(memoryLimit))
       {
         nodes.Add(new KeyValuePair<YamlNode, YamlNode>(new YamlScalarNode("mem_limit"), new YamlScalarNode(memoryLimit)));
       }
@@ -333,7 +334,7 @@ namespace SIM.ContainerInstaller
         nodes.Add(new KeyValuePair<YamlNode, YamlNode>(new YamlScalarNode("volumes"), yamlSequenceNode));
       }
 
-      if (environmentVariables != null && environmentVariables.Count > 0)
+      if (includeEnvironmentVariables)
       {
         YamlMappingNode yamlMappingNode = new YamlMappingNode();
         foreach (KeyValuePair<string, string> envVariable in environmentVariables)
@@ -343,7 +344,11 @@ namespace SIM.ContainerInstaller
         nodes.Add(new KeyValuePair<YamlNode, YamlNode>(new YamlScalarNode("environment"), yamlMappingNode));
       }
 
-      return new KeyValuePair<YamlNode, YamlNode>(new YamlScalarNode(service), new YamlMappingNode(nodes));
+      if (nodes.Count > 1 && nodes.Any(node => node.Key != null))
+      {
+        return new KeyValuePair<YamlNode, YamlNode>(new YamlScalarNode(service), new YamlMappingNode(nodes));
+      }
+      return EmptyKeyValuePair;
     }
 
     private List<KeyValuePair<YamlNode, YamlNode>> GenerateBaseImageArgs(string baseImage)
@@ -354,14 +359,14 @@ namespace SIM.ContainerInstaller
       };
     }
 
-    private Dictionary<string, string> GetEnvironmentVariables(List<IYamlFileGeneratorHelper> helpers, Role role)
+    private Dictionary<string, string> GetEnvironmentVariables(List<IYamlFileGeneratorHelper> helpers, Service service)
     {
 
       Dictionary<string, string> environmentVariables = new Dictionary<string, string>();
 
       foreach (IYamlFileGeneratorHelper helper in helpers)
       {
-        foreach (KeyValuePair<string, string> envVariable in helper.GetEnvironmentVariables(role))
+        foreach (KeyValuePair<string, string> envVariable in helper.GetEnvironmentVariables(service))
         {
           environmentVariables.Add(envVariable.Key, envVariable.Value);
         }

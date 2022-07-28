@@ -34,6 +34,21 @@ namespace SIM.ContainerInstaller.Modules
       return new StringBuilder().Append(@"# Copy development tools and entrypoint").AppendLine().Append(@"COPY --from=tooling \tools\ \tools\").AppendLine().AppendLine();
     }
 
+    public StringBuilder GenerateIdArgs()
+    {
+      return null;
+    }
+
+    public StringBuilder GenerateIdFroms()
+    {
+      return null;
+    }
+
+    public StringBuilder GenerateIdCommands()
+    {
+      return null;
+    }
+
     public StringBuilder GenerateMsSqlArgs()
     {
       return null;

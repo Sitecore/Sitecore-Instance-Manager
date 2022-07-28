@@ -138,9 +138,9 @@ namespace SIM.ContainerInstaller.Modules
       return EmptyList;
     }
 
-    public IDictionary<string, string> GetEnvironmentVariables(Role role)
+    public IDictionary<string, string> GetEnvironmentVariables(Service service)
     {
-      return null;
+      return new Dictionary<string, string>();
     }
   }
 }

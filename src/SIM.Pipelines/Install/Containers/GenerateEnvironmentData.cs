@@ -67,14 +67,17 @@ namespace SIM.Pipelines.Install.Containers
     {
       SitecoreEnvironment environment = new SitecoreEnvironment(environmentName, SitecoreEnvironment.EnvironmentType.Container);
       environment.UnInstallDataPath = destinationFolder;
-      // Add support of new installed services like Horizon
-      List<SitecoreEnvironmentMember> dockerComposeOverrideServiceTypes = GetEnvironmentMembers(environmentName, destinationFolder, DockerSettings.DockerComposeOverrideFileName).ToList();
       List<SitecoreEnvironmentMember> dockerComposeServiceTypes = GetEnvironmentMembers(environmentName, destinationFolder).ToList();
-      foreach (SitecoreEnvironmentMember sitecoreEnvironmentMember in dockerComposeOverrideServiceTypes)
+      // Add support of new installed services like Horizon
+      if (File.Exists(Path.Combine(destinationFolder, DockerSettings.DockerComposeOverrideFileName)))
       {
-        if (!dockerComposeServiceTypes.Any(sem => sem.Name == sitecoreEnvironmentMember.Name))
+        List<SitecoreEnvironmentMember> dockerComposeOverrideServiceTypes = GetEnvironmentMembers(environmentName, destinationFolder, DockerSettings.DockerComposeOverrideFileName).ToList();
+        foreach (SitecoreEnvironmentMember sitecoreEnvironmentMember in dockerComposeOverrideServiceTypes)
         {
-          dockerComposeServiceTypes.Add(sitecoreEnvironmentMember);
+          if (!dockerComposeServiceTypes.Any(sem => sem.Name == sitecoreEnvironmentMember.Name))
+          {
+            dockerComposeServiceTypes.Add(sitecoreEnvironmentMember);
+          }
         }
       }
       environment.Members = dockerComposeServiceTypes;
@@ -85,7 +88,7 @@ namespace SIM.Pipelines.Install.Containers
     private IEnumerable<SitecoreEnvironmentMember> GetEnvironmentMembers(
       string environmentName, 
       string destinationFolder, 
-      string fileName = "docker-compose.yml"
+      string fileName = DockerSettings.DockerComposeFileName
       )
     {
       string pathToComposeFile = Path.Combine(destinationFolder, fileName);

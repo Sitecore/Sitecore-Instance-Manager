@@ -6,19 +6,19 @@ namespace SIM.ContainerInstaller.Modules
   {
     public StringBuilder GenerateCmArgs()
     {
-      return new StringBuilder().Append(@"ARG HORIZON_RESOURCES_IMAGE").AppendLine();
+      return new StringBuilder().Append(@"ARG HORIZON_IMAGE").AppendLine();
     }
 
     public StringBuilder GenerateCmFroms()
     {
-      return new StringBuilder().Append(@"FROM ${HORIZON_RESOURCES_IMAGE} as horizon_resources").AppendLine();
+      return new StringBuilder().Append(@"FROM ${HORIZON_IMAGE} as horizon").AppendLine();
     }
 
     public StringBuilder GenerateCmCommands()
     {
-      return new StringBuilder().Append(@"WORKDIR C:\inetpub\wwwroot").AppendLine().AppendLine()
+      return new StringBuilder()
         .Append(@"# Add Horizon module").AppendLine()
-        .Append(@"COPY --from=horizon_resources \module\cm\content .\").AppendLine().AppendLine();
+        .Append(@"COPY --from=horizon C:\module\cm\content C:\inetpub\wwwroot").AppendLine().AppendLine();
     }
 
     public StringBuilder GenerateCdArgs()
@@ -36,19 +36,39 @@ namespace SIM.ContainerInstaller.Modules
       return null;
     }
 
-    public StringBuilder GenerateMsSqlArgs()
+    public StringBuilder GenerateIdArgs()
     {
       return null;
+    }
+
+    public StringBuilder GenerateIdFroms()
+    {
+      return new StringBuilder()
+        .Append($@"# This Dockerfile is only needed to add environment variables defined in {DockerSettings.DockerComposeOverrideFileName}").AppendLine();
+    }
+
+    public StringBuilder GenerateIdCommands()
+    {
+      return null;
+    }
+
+    public StringBuilder GenerateMsSqlArgs()
+    {
+      return new StringBuilder().Append(@"ARG HORIZON_IMAGE").AppendLine();
     }
 
     public StringBuilder GenerateMsSqlFroms()
     {
-      return null;
+      return new StringBuilder().Append(@"FROM ${HORIZON_IMAGE} as horizon").AppendLine();
     }
 
     public StringBuilder GenerateMsSqlCommands()
     {
-      return null;
+      return new StringBuilder()
+        .Append(@"# Add Horizon module").AppendLine()
+        .Append(@"COPY --from=horizon C:\module\db C:\horizon_integration_data").AppendLine()
+        .Append(@"RUN C:\DeployDatabases.ps1 -ResourcesDirectory C:\horizon_integration_data; `").AppendLine()
+        .Append(@"    Remove-Item -Path C:\horizon_integration_data -Recurse -Force;").AppendLine().AppendLine();
     }
 
     public StringBuilder GenerateMsSqlInitArgs()

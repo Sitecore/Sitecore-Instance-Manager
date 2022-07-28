@@ -21,7 +21,7 @@ namespace SIM.ContainerInstaller
     PublishingService
   }
 
-  public enum Role
+  public enum Service
   {
     MsSql,
     MsSqlInit,
@@ -29,7 +29,8 @@ namespace SIM.ContainerInstaller
     SolrInit,
     Id,
     Cd,
-    Cm
+    Cm,
+    Hrz
   }
 
   public static class DockerSettings
@@ -61,6 +62,7 @@ namespace SIM.ContainerInstaller
     public static string SitecoreHorizonAssetsXp0ImagePath = $"{SitecoreModuleNamespace}/{SitecoreHorizonAssetsXp0Image}";
     public static string SitecoreHorizonAssetsXp1ImagePath = $"{SitecoreModuleNamespace}/{SitecoreHorizonAssetsXp1Image}";
 
+    public const string DockerComposeFileName = "docker-compose.yml";
     public const string DockerComposeOverrideFileName = "docker-compose.override.yml";
     // This value must be the same as in the "SIM.Pipelines.Install.Containers.GenerateEnvironmentData.siteTypes" list.
     public const string HorizonServiceName = "hrz";

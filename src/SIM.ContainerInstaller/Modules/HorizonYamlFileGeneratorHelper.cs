@@ -9,7 +9,7 @@ namespace SIM.ContainerInstaller.Modules
     private const string IdHostVariable = "https://${ID_HOST}";
     private const string CmHostVariable = "https://${CM_HOST}";
     private const string HorizonHostVariable = "https://${HORIZON_HOST}";
-    private const string HorizonAssetsImageNode = "HORIZON_RESOURCES_IMAGE";
+    private const string HorizonAssetsImageNode = "HORIZON_IMAGE";
     private readonly string HorizonAssetsImagePath;
     public readonly string HorizonImagePath;
     public readonly string IsolationNode = "${ISOLATION}";
@@ -17,7 +17,7 @@ namespace SIM.ContainerInstaller.Modules
     public HorizonYamlFileGeneratorHelper(string topology)
     {
       EmptyList = new List<KeyValuePair<YamlNode, YamlNode>>();
-
+      HorizonImagePath = "${SITECORE_MODULE_REGISTRY}" + DockerSettings.SitecoreHorizonImage + ":${HORIZON_VERSION}";
       switch (topology)
       {
         case "xm1":
@@ -32,13 +32,19 @@ namespace SIM.ContainerInstaller.Modules
         default:
           break;
       }
+    }
 
-      HorizonImagePath = "${SITECORE_MODULE_REGISTRY}" + DockerSettings.SitecoreHorizonImage + ":${HORIZON_VERSION}";
+    private IEnumerable<KeyValuePair<YamlNode, YamlNode>> GenerateHorizonImageArgs()
+    {
+      return new List<KeyValuePair<YamlNode, YamlNode>>()
+      {
+        new KeyValuePair<YamlNode, YamlNode>(new YamlScalarNode(HorizonAssetsImageNode), new YamlScalarNode(HorizonAssetsImagePath))
+      };
     }
 
     public IEnumerable<KeyValuePair<YamlNode, YamlNode>> GenerateMsSqlArgs(int shortVersion, Topology topology)
     {
-      return EmptyList;
+      return GenerateHorizonImageArgs();
     }
 
     public IEnumerable<KeyValuePair<YamlNode, YamlNode>> GenerateMsSqlInitArgs(int shortVersion, Topology topology)
@@ -63,22 +69,19 @@ namespace SIM.ContainerInstaller.Modules
 
     public IEnumerable<KeyValuePair<YamlNode, YamlNode>> GenerateCmArgs(int shortVersion, Topology topology)
     {
-      return new List<KeyValuePair<YamlNode, YamlNode>>()
-      {
-        new KeyValuePair<YamlNode, YamlNode>(new YamlScalarNode(HorizonAssetsImageNode), new YamlScalarNode(HorizonAssetsImagePath))
-      };
+      return GenerateHorizonImageArgs();
     }
 
-    public IDictionary<string, string> GetEnvironmentVariables(Role role)
+    public IDictionary<string, string> GetEnvironmentVariables(Service service)
     {
       Dictionary<string, string> environmentVariables = new Dictionary<string, string>();
 
-      switch (role)
+      switch (service)
       {
-        case Role.Id:
+        case Service.Id:
           environmentVariables.Add("Sitecore_Sitecore__IdentityServer__Clients__DefaultClient__AllowedCorsOrigins__AllowedCorsOriginsGroup2", HorizonHostVariable);
           break;
-        case Role.Cm:
+        case Service.Cm:
           environmentVariables.Add("Sitecore_Horizon_ClientHost", HorizonHostVariable);
           break;
         default:
