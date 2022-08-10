@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using YamlDotNet.RepresentationModel;
 
 namespace SIM.ContainerInstaller.Modules
@@ -91,7 +92,58 @@ namespace SIM.ContainerInstaller.Modules
       return environmentVariables;
     }
 
-    public IDictionary<string, string> GetHorizonEnvironmentVariables(bool includeSXA, bool includeSCCH)
+    public KeyValuePair<YamlNode, YamlNode> GenerateService(IEnumerable<IYamlFileGeneratorHelper> helpers)
+    {
+      HorizonYamlFileGeneratorHelper horizonYamlFileGeneratorHelper = helpers.OfType<HorizonYamlFileGeneratorHelper>().FirstOrDefault();
+
+      List<KeyValuePair<YamlNode, YamlNode>> nodes = new List<KeyValuePair<YamlNode, YamlNode>>();
+
+      nodes.Add(new KeyValuePair<YamlNode, YamlNode>(new YamlScalarNode("image"), new YamlScalarNode(horizonYamlFileGeneratorHelper.HorizonImagePath)));
+      nodes.Add(new KeyValuePair<YamlNode, YamlNode>(new YamlScalarNode("isolation"), new YamlScalarNode(horizonYamlFileGeneratorHelper.IsolationNode)));
+
+      bool includeSXA = false;
+      if (helpers.OfType<SxaYamlFileGeneratorHelper>().Any())
+      {
+        includeSXA = true;
+      }
+
+      bool includeSCCH = false;
+      // For future implementation when support of Sitecore Connected for Content Hub will be added
+      /*if (helpers.OfType<SCCHYamlFileGeneratorHelper>().Any())
+      {
+        includeSCCH = true;
+      }*/
+
+      YamlMappingNode environmentYamlMappingNode = new YamlMappingNode();
+      foreach (KeyValuePair<string, string> envVariable in horizonYamlFileGeneratorHelper.GetHorizonEnvironmentVariables(includeSXA, includeSCCH))
+      {
+        if (bool.TryParse(envVariable.Value, out bool result))
+        {
+          environmentYamlMappingNode.Add(new YamlScalarNode(envVariable.Key), new YamlScalarNode(envVariable.Value) { Style = YamlDotNet.Core.ScalarStyle.SingleQuoted });
+        }
+        else
+        {
+          environmentYamlMappingNode.Add(new YamlScalarNode(envVariable.Key), new YamlScalarNode(envVariable.Value));
+        }
+      }
+      nodes.Add(new KeyValuePair<YamlNode, YamlNode>(new YamlScalarNode("environment"), environmentYamlMappingNode));
+
+      nodes.Add(new KeyValuePair<YamlNode, YamlNode>(new YamlScalarNode("depends_on"), new YamlMappingNode(
+        new YamlScalarNode("id"), new YamlMappingNode(new YamlScalarNode("condition"), new YamlScalarNode("service_started")),
+        new YamlScalarNode("cm"), new YamlMappingNode(new YamlScalarNode("condition"), new YamlScalarNode("service_started"))
+      )));
+
+      YamlSequenceNode labelsYamlSequenceNode = new YamlSequenceNode();
+      foreach (string label in horizonYamlFileGeneratorHelper.GetHorizonLabels())
+      {
+        labelsYamlSequenceNode.Add(new YamlScalarNode(label) { Style = YamlDotNet.Core.ScalarStyle.DoubleQuoted });
+      }
+      nodes.Add(new KeyValuePair<YamlNode, YamlNode>(new YamlScalarNode("labels"), labelsYamlSequenceNode));
+
+      return new KeyValuePair<YamlNode, YamlNode>(new YamlScalarNode(DockerSettings.HorizonServiceName), new YamlMappingNode(nodes));
+    }
+
+    private IDictionary<string, string> GetHorizonEnvironmentVariables(bool includeSXA, bool includeSCCH)
     {
       Dictionary<string, string> environmentVariables = new Dictionary<string, string>();
       environmentVariables.Add("Sitecore_License", "${SITECORE_LICENSE}");
@@ -116,7 +168,7 @@ namespace SIM.ContainerInstaller.Modules
       return environmentVariables;
     }
 
-    public IEnumerable<string> GetHorizonLabels()
+    private IEnumerable<string> GetHorizonLabels()
     {
       return new List<string>()
       {

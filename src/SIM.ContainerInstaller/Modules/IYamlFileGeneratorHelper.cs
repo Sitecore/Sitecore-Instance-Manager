@@ -18,5 +18,7 @@ namespace SIM.ContainerInstaller.Modules
     IEnumerable<KeyValuePair<YamlNode, YamlNode>> GenerateCmArgs(int shortVersion, Topology topology);
 
     IDictionary<string, string> GetEnvironmentVariables(Service service);
+
+    KeyValuePair<YamlNode, YamlNode> GenerateService(IEnumerable<IYamlFileGeneratorHelper> helpers);
   }
 }

@@ -64,5 +64,10 @@ namespace SIM.ContainerInstaller.Modules
     {
       return new Dictionary<string, string>();
     }
+
+    public KeyValuePair<YamlNode, YamlNode> GenerateService(IEnumerable<IYamlFileGeneratorHelper> helpers)
+    {
+      return new KeyValuePair<YamlNode, YamlNode>();
+    }
   }
 }

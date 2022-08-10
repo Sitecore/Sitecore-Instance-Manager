@@ -67,22 +67,28 @@ namespace SIM.Pipelines.Install.Containers
     {
       SitecoreEnvironment environment = new SitecoreEnvironment(environmentName, SitecoreEnvironment.EnvironmentType.Container);
       environment.UnInstallDataPath = destinationFolder;
-      List<SitecoreEnvironmentMember> dockerComposeServiceTypes = GetEnvironmentMembers(environmentName, destinationFolder).ToList();
-      // Add support of new installed services like Horizon
+      List<SitecoreEnvironmentMember> environmentMembersFromDockerCompose = GetEnvironmentMembers(environmentName, destinationFolder).ToList();
+      environment.Members = GetEnvironmentMembersFromOverrideFile(environmentName, destinationFolder, environmentMembersFromDockerCompose);
+
+      return environment;
+    }
+
+    // Add support of new installed services like Horizon
+    private List<SitecoreEnvironmentMember> GetEnvironmentMembersFromOverrideFile(string environmentName, string destinationFolder, List<SitecoreEnvironmentMember> environmentMembersFromDockerCompose)
+    {
       if (File.Exists(Path.Combine(destinationFolder, DockerSettings.DockerComposeOverrideFileName)))
       {
-        List<SitecoreEnvironmentMember> dockerComposeOverrideServiceTypes = GetEnvironmentMembers(environmentName, destinationFolder, DockerSettings.DockerComposeOverrideFileName).ToList();
-        foreach (SitecoreEnvironmentMember sitecoreEnvironmentMember in dockerComposeOverrideServiceTypes)
+        List<SitecoreEnvironmentMember> environmentMembersFromOverrideFile = GetEnvironmentMembers(environmentName, destinationFolder, DockerSettings.DockerComposeOverrideFileName).ToList();
+        foreach (SitecoreEnvironmentMember sitecoreEnvironmentMember in environmentMembersFromOverrideFile)
         {
-          if (!dockerComposeServiceTypes.Any(sem => sem.Name == sitecoreEnvironmentMember.Name))
+          if (!environmentMembersFromDockerCompose.Any(sem => sem.Name == sitecoreEnvironmentMember.Name))
           {
-            dockerComposeServiceTypes.Add(sitecoreEnvironmentMember);
+            environmentMembersFromDockerCompose.Add(sitecoreEnvironmentMember);
           }
         }
       }
-      environment.Members = dockerComposeServiceTypes;
 
-      return environment;
+      return environmentMembersFromDockerCompose;
     }
 
     private IEnumerable<SitecoreEnvironmentMember> GetEnvironmentMembers(
