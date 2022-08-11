@@ -31,22 +31,33 @@ namespace SIM.Tool.Windows.UserControls.Install.Containers
       envModel = args.EnvModel;
       tagRepository = args.TagRepository;
       HideTagsControls();
-      selectedModules = new List<Module>();
-      // Horizon is available for Docker deployment only from 10.1.0
-      if (int.Parse(args.Product.ShortVersion) >= 101)
+      
+      int shortVersion = int.Parse(args.Product.ShortVersion);
+      if (shortVersion < 100)
       {
-        Modules.ItemsSource = new List<Module>() { Module.SXA, Module.Horizon };
-        GetToolsTags();
-        GetSpeAndSxaTags(args.Product.ShortVersion, args.Topology);
-        GetHorizonTags();
-        GetHorizonAssetsTags(args.Topology);
+        ModulesTextBlock.Text = "No modules are available.";
+        ModulesListBox.Visibility = Visibility.Collapsed;
+        return;
       }
       else
       {
-        Modules.ItemsSource = new List<Module>() { Module.SXA }; // Module.JSS, Module.PublishingService
-        GetToolsTags();
-        GetSpeAndSxaTags(args.Product.ShortVersion, args.Topology);
+        ModulesTextBlock.Text = "Modules:";
+        ModulesListBox.Visibility = Visibility.Visible;
       }
+
+      selectedModules = new List<Module>();
+      List<Module> availableModules = new List<Module>() { Module.SXA }; // Module.JSS, Module.PublishingService
+      GetToolsTags();
+      GetSpeAndSxaTags(args.Product.ShortVersion, args.Topology);
+      // Horizon is available for Docker deployment only from 10.1.0
+      if (shortVersion >= 101)
+      {
+        availableModules.Add(Module.Horizon);
+        GetHorizonTags();
+        GetHorizonAssetsTags(args.Topology);
+      }
+
+      ModulesListBox.ItemsSource = availableModules;
     }
 
     public bool OnMovingBack(WizardArgs wizardArgs)
@@ -206,7 +217,7 @@ namespace SIM.Tool.Windows.UserControls.Install.Containers
 
     private void ToolsTagsComboBox_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
     {
-      if (ToolsTagsComboBox.SelectedItem == null || selectedModules.Count < 1)
+      if (ToolsTagsComboBox.SelectedItem == null || !selectedModules.Contains(Module.SXA))
       {
         return;
       }
@@ -282,7 +293,7 @@ namespace SIM.Tool.Windows.UserControls.Install.Containers
 
     private void HorizonTagsComboBox_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
     {
-      if (HorizonTagsComboBox.SelectedItem == null || selectedModules.Count < 1)
+      if (HorizonTagsComboBox.SelectedItem == null || !selectedModules.Contains(Module.Horizon))
       {
         return;
       }
@@ -292,7 +303,7 @@ namespace SIM.Tool.Windows.UserControls.Install.Containers
 
     private void HorizonAssetsTagsComboBox_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
     {
-      if (HorizonAssetsTagsComboBox.SelectedItem == null || selectedModules.Count < 1)
+      if (HorizonAssetsTagsComboBox.SelectedItem == null || !selectedModules.Contains(Module.Horizon))
       {
         return;
       }
