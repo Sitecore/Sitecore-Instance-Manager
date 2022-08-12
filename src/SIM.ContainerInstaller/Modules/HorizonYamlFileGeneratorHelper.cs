@@ -94,12 +94,10 @@ namespace SIM.ContainerInstaller.Modules
 
     public KeyValuePair<YamlNode, YamlNode> GenerateService(IEnumerable<IYamlFileGeneratorHelper> helpers)
     {
-      HorizonYamlFileGeneratorHelper horizonYamlFileGeneratorHelper = helpers.OfType<HorizonYamlFileGeneratorHelper>().FirstOrDefault();
-
       List<KeyValuePair<YamlNode, YamlNode>> nodes = new List<KeyValuePair<YamlNode, YamlNode>>();
 
-      nodes.Add(new KeyValuePair<YamlNode, YamlNode>(new YamlScalarNode("image"), new YamlScalarNode(horizonYamlFileGeneratorHelper.HorizonImagePath)));
-      nodes.Add(new KeyValuePair<YamlNode, YamlNode>(new YamlScalarNode("isolation"), new YamlScalarNode(horizonYamlFileGeneratorHelper.IsolationNode)));
+      nodes.Add(new KeyValuePair<YamlNode, YamlNode>(new YamlScalarNode("image"), new YamlScalarNode(HorizonImagePath)));
+      nodes.Add(new KeyValuePair<YamlNode, YamlNode>(new YamlScalarNode("isolation"), new YamlScalarNode(IsolationNode)));
 
       bool includeSXA = false;
       if (helpers.OfType<SxaYamlFileGeneratorHelper>().Any())
@@ -115,7 +113,7 @@ namespace SIM.ContainerInstaller.Modules
       }*/
 
       YamlMappingNode environmentYamlMappingNode = new YamlMappingNode();
-      foreach (KeyValuePair<string, string> envVariable in horizonYamlFileGeneratorHelper.GetHorizonEnvironmentVariables(includeSXA, includeSCCH))
+      foreach (KeyValuePair<string, string> envVariable in GetHorizonEnvironmentVariables(includeSXA, includeSCCH))
       {
         if (bool.TryParse(envVariable.Value, out bool result))
         {
@@ -134,7 +132,7 @@ namespace SIM.ContainerInstaller.Modules
       )));
 
       YamlSequenceNode labelsYamlSequenceNode = new YamlSequenceNode();
-      foreach (string label in horizonYamlFileGeneratorHelper.GetHorizonLabels())
+      foreach (string label in GetHorizonLabels())
       {
         labelsYamlSequenceNode.Add(new YamlScalarNode(label) { Style = YamlDotNet.Core.ScalarStyle.DoubleQuoted });
       }
