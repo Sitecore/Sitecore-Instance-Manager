@@ -51,6 +51,7 @@ namespace SIM.Tool.Windows.UserControls.Install.Containers
 
     public bool OnMovingBack(WizardArgs wizardArgs)
     {
+      this.lastRegistry = null;
       return true;
     }
 
