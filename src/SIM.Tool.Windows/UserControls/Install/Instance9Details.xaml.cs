@@ -44,6 +44,7 @@ namespace SIM.Tool.Windows.UserControls.Install
     private Window owner;
     private InstallWizardArgs _InstallParameters = null;
     private IEnumerable<Product> _StandaloneProducts;
+    private char[] _InvalidChars;
 
     // According to the following document the maximum length for a path in Windows systems is defined as 260 characters:
     // https://docs.microsoft.com/en-us/windows/win32/fileio/naming-a-file
@@ -57,6 +58,7 @@ namespace SIM.Tool.Windows.UserControls.Install
     public Instance9Details()
     {
       InitializeComponent();
+      _InvalidChars = Path.GetInvalidFileNameChars();
     }
 
     #endregion
@@ -760,6 +762,18 @@ namespace SIM.Tool.Windows.UserControls.Install
         this.Solrs.DataContext = null;
         this.Solrs.DataContext = ProfileManager.Profile.Solrs;
         this.Solrs.SelectedItem = solr;
+      }
+    }
+
+    private void InstanceName_PreviewTextInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
+    {
+      if (e.Text.Any(c => _InvalidChars.Contains(c)))
+      {
+        WindowHelper.ShowMessage($"The enetered '{e.Text}' character is invalid for the site name.",
+          messageBoxImage: MessageBoxImage.Warning,
+          messageBoxButton: MessageBoxButton.OK
+        );
+        e.Handled = true;
       }
     }
   }
