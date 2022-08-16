@@ -200,12 +200,22 @@
           IEnumerable<Site> sites = GetOperableSites(context, defaultRootFolder);
 
           // The trick is in reused PartiallyCachedInstances. We use site ID as identificator that cached instance may be reused. If we can't fetch instance from cache, we create new.
-          PartiallyCachedInstances = sites.Select(site =>
+          List<Instance> instances = sites.Select(site =>
               PartiallyCachedInstances?.Values.FirstOrDefault(cachedInst => cachedInst.ID == site.Id) ??
               GetPartiallyCachedInstance(site))
             .Where(IsSitecoreOrSitecoreEnvironmentMember)
-            .Where(IsNotHidden).ToDictionary(value => value.Name);
+            .Where(IsNotHidden).ToList();
 
+          if (!InstanceSettings.CoreInstancesShowWithoutEnviorenmentMembers.Value)
+          {
+            List<Instance> instancesWithoutMembers = instances.Where(instance => instance.Type != Instance.InstanceType.Sitecore8AndEarlier && instance.SitecoreEnvironment.Members == null).ToList();
+            PartiallyCachedInstances = instances.Except(instancesWithoutMembers).ToDictionary(value => value.Name);
+          }
+          else
+          {
+            PartiallyCachedInstances = instances.ToDictionary(value => value.Name);
+          }
+          
           Instances = PartiallyCachedInstances?.Values.Select(x => GetInstance(x.ID)).ToArray();
         }
       }
