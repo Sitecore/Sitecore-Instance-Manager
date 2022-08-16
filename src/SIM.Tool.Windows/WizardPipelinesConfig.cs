@@ -209,6 +209,15 @@ By clicking 'Next' you accept the License Agreement."" />
          <hive type=""SIM.Tool.Windows.Pipelines.Install.Install9ActionsHive, SIM.Tool.Windows"" />
      </finish>
     </delete9>
+    <multipleDeletion9 title=""Multiple deletion Sitecore 9 and later"" startButton=""Delete""
+                      finishText=""Detailed information about deletion can be found below"">
+      <steps>
+        <step name=""Select the Sitecore environments that you want to delete""
+              type=""SIM.Tool.Windows.UserControls.MultipleDeletion.SelectSitecore9Environments, SIM.Tool.Windows"" />
+        <step name=""Confirmation"" type=""SIM.Tool.Windows.UserControls.ConfirmStepUserControl, SIM.Tool.Windows""
+              param=""Are you sure you want to delete the selected Sitecore environments?"" />
+      </steps>
+    </multipleDeletion9>
     <reinstall9 title=""Reinstalling {InstanceName}"" startButton=""Reinstall""
              finishText=""The re-installation was successfully completed"">    
       <args type=""SIM.Tool.Base.Pipelines.ReinstallWizardArgs, SIM.Tool.Base""/>
@@ -235,10 +244,12 @@ By clicking 'Next' you accept the License Agreement."" />
     <installContainer title=""Installing new instance"" startButton=""Install""
              finishText=""The installation was successfully completed"">
       <steps>
-        <step name=""STEP 1 of 2 - DETAILS"" 
+        <step name=""STEP 1 of 3 - DETAILS"" 
               type=""SIM.Tool.Windows.UserControls.Install.Containers.ContainerDetails, SIM.Tool.Windows"" />
-        <step name=""STEP 2 of 2 - SELECT TOPOLOGY AND TAG"" 
+        <step name=""STEP 2 of 3 - SELECT TOPOLOGY AND TAG"" 
               type=""SIM.Tool.Windows.UserControls.Install.Containers.SelectTag, SIM.Tool.Windows"" />
+        <step name=""STEP 3 of 3 - SELECT MODULES"" 
+              type=""SIM.Tool.Windows.UserControls.Install.Containers.SelectModules, SIM.Tool.Windows"" />
      </steps>   
     </installContainer>
     <deleteContainer title=""Deleting the environment"" startButton=""Delete""
@@ -311,7 +322,7 @@ But the confirmation will be required if the databases are attached to:
 * - the SQL Server instance specified by connection string in the Settings dialog"" />
       </steps>
     </delete>
-    <multipleDeletion title=""Multiple deletion"" startButton=""Delete""
+    <multipleDeletion title=""Multiple deletion Sitecore 8 and earlier"" startButton=""Delete""
                       finishText=""The deleting was successfully completed"">
       <steps>
         <step name=""Information"" type=""SIM.Tool.Windows.UserControls.ConfirmStepUserControl, SIM.Tool.Windows""

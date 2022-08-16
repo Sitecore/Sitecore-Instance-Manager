@@ -130,7 +130,19 @@
 
       List<Instance> instances = new List<Instance>();
 
-      if(ApplicationManager.IsIisRunning) {instances.AddRange(GetIISInstances());}
+      if(ApplicationManager.IsIisRunning) 
+      {
+        List<Instance> iisInstances = GetIISInstances().ToList();
+        if (!InstanceSettings.CoreInstancesShowWithoutEnviorenmentMembers.Value)
+        {
+          List<Instance> instancesWithoutMembers = iisInstances.Where(instance => instance.Type != Instance.InstanceType.Sitecore8AndEarlier && instance.SitecoreEnvironment.Members == null).ToList();
+          instances.AddRange(iisInstances.Except(instancesWithoutMembers));
+        }
+        else
+        {
+          instances.AddRange(iisInstances);
+        }
+      }
 
       if(ApplicationManager.IsDockerRunning) {instances.AddRange(GetContainerizedInstances());}
 

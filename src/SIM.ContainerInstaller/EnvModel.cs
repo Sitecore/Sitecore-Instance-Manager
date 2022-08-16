@@ -177,6 +177,76 @@ namespace SIM.ContainerInstaller
         this["ID_HOST"] = value;
       }
     }
+
+    public const string SitecoreToolsRegistryName = "SITECORE_TOOLS_REGISTRY";
+
+    public string SitecoreToolsRegistry
+    {
+      get
+      {
+        return this[SitecoreToolsRegistryName];
+      }
+      set
+      {
+        this[SitecoreToolsRegistryName] = value;
+      }
+    }
+
+    public const string SitecoreModuleRegistryName = "SITECORE_MODULE_REGISTRY";
+
+    public string SitecoreModuleRegistry
+    {
+      get
+      {
+        return this[SitecoreModuleRegistryName];
+      }
+      set
+      {
+        this[SitecoreModuleRegistryName] = value;
+      }
+    }
+
+    public const string ToolsVersionName = "TOOLS_VERSION";
+
+    public string ToolsVersion
+    {
+      get
+      {
+        return this[ToolsVersionName];
+      }
+      set
+      {
+        this[ToolsVersionName] = value;
+      }
+    }
+
+    public const string SpeVersionName = "SPE_VERSION";
+
+    public string SpeVersion
+    {
+      get
+      {
+        return this[SpeVersionName];
+      }
+      set
+      {
+        this[SpeVersionName] = value;
+      }
+    }
+
+    public const string SxaVersionName = "SXA_VERSION";
+
+    public string SxaVersion
+    {
+      get
+      {
+        return this[SxaVersionName];
+      }
+      set
+      {
+        this[SxaVersionName] = value;
+      }
+    }
     #endregion
 
     public string this[string Name]
@@ -266,6 +336,15 @@ namespace SIM.ContainerInstaller
     private NameValuePair GetPairOrNull(string name)
     {
       return this.variables.FirstOrDefault(v => v.Name == name);
+    }
+
+    public void Remove(string name)
+    {
+      NameValuePair pair = this.GetPairOrNull(name);
+      if (pair != null)
+      {
+        this.variables.Remove(pair);
+      }
     }
   }
 }

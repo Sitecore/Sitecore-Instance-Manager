@@ -64,6 +64,7 @@ namespace SIM.Tool.Windows.UserControls.Install.Containers
       args.EnvModel = this.envModel;
       args.ScriptsOnly = this.ScriptsOnly.IsChecked ?? false;
       args.Topology = ((NameValueModel)this.Topologies.SelectedItem).Name.ToString();
+      args.TagRepository = this.tagRepository;
 
       return true;
     }

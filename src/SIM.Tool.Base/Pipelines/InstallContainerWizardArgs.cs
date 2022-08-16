@@ -1,7 +1,10 @@
 using SIM.ContainerInstaller;
+using SIM.ContainerInstaller.Modules;
+using SIM.ContainerInstaller.Repositories.TagRepository;
 using SIM.Instances;
 using SIM.Pipelines.Install.Containers;
 using SIM.Pipelines.Processors;
+using System.Collections.Generic;
 
 namespace SIM.Tool.Base.Pipelines
 {
@@ -22,6 +25,8 @@ namespace SIM.Tool.Base.Pipelines
     public EnvModel EnvModel { get; set; }
     public bool ScriptsOnly { get; set; }
     public string Topology { get; set; }
+    public List<Module> Modules { get; set; }
+    public ITagRepository TagRepository { get; set; }
 
     public override ProcessorArgs ToProcessorArgs()
     {
@@ -31,7 +36,9 @@ namespace SIM.Tool.Base.Pipelines
         this.DockerRoot,
         this.Topology,
         this.Logger,
-        this.ScriptsOnly
+        this.ScriptsOnly,
+        this.Modules,
+        this.Product.ShortVersion
         );
     }
   }

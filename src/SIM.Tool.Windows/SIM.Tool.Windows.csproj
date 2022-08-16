@@ -162,6 +162,7 @@
     <Compile Include="MainWindowComponents\Buttons\InstallModulesForSitecore9AndLaterButton.cs" />
     <Compile Include="MainWindowComponents\Buttons\InstanceDummyButton.cs" />
     <Compile Include="MainWindowComponents\Buttons\LogFilesButton.cs" />
+    <Compile Include="MainWindowComponents\Buttons\MultipleDeletionForSitecore9AndLaterButton.cs" />
     <Compile Include="MainWindowComponents\Buttons\OpenBinFolderButton.cs" />
     <Compile Include="MainWindowComponents\Buttons\OpenContainerFolderButton.cs" />
     <Compile Include="MainWindowComponents\Groups\AppsGroup.cs" />
@@ -288,6 +289,13 @@
     <Compile Include="UserControls\Export\ExportWizardArgs.cs" />
     <Compile Include="UserControls\Export\FinishActions.cs" />
     <Compile Include="UserControls\Helpers\InstallTasksHelper.cs" />
+    <Compile Include="UserControls\Install\Containers\SelectModules.xaml.cs">
+      <DependentUpon>SelectModules.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\MultipleDeletion\MultipleDeletion9WizardArgs.cs" />
+    <Compile Include="UserControls\MultipleDeletion\SelectSitecore9Environments.xaml.cs">
+      <DependentUpon>SelectSitecore9Environments.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\SitecoreAuthentication\SitecoreServicesClientAuth.cs" />
     <Compile Include="UserControls\SitecoreAuthentication\SitecoreIdServerAuth.cs" />
     <Compile Include="UserControls\Import\ImportWebsite.xaml.cs">
@@ -675,6 +683,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="UserControls\Install\Containers\SelectModules.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="UserControls\Install\Containers\SelectTag.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -712,6 +724,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\Install\Validation\ValidationDetails.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\MultipleDeletion\SelectSitecore9Environments.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

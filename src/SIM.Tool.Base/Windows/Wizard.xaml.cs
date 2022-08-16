@@ -678,12 +678,6 @@
             return;
           }
 
-          // In case we run a pipeline we have to refresh the instances list disregard the results of the installation.
-          if (this.WizardArgs != null)
-          {
-            this.WizardArgs.ShouldRefreshInstancesList = true;
-          }
-
           PipelineManager.StartPipeline(pipelineName, _ProcessorArgs, this);
           backButton.Visibility = Visibility.Hidden;
           CancelButton.Content = "Cancel";
@@ -692,6 +686,17 @@
           NextButton.Click -= MoveNextClick;
           NextButton.Click += RetryClick;
           SetInstallationDetailsVisibility(true);
+
+          // In case we run a pipeline we have to refresh the instances list disregard the results of the installation.
+          if (this.WizardArgs != null)
+          {
+            this.WizardArgs.ShouldRefreshInstancesList = true;
+            // Show installation details automatically when a logger is actively used in a processor
+            if (this.WizardArgs.IsInstallationDetailsShown)
+            {
+              ShowHideInstallationDetails_OnClick(null, null);
+            }
+          }
         }
       }
     }

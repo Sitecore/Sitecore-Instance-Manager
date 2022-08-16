@@ -37,7 +37,7 @@
         return true;
       }
 
-      MessageBox.Show("You haven't selected any of the instances");
+      MessageBox.Show("You haven't selected any of the instances", "Multiple deletion Sitecore 8 and earlier", MessageBoxButton.OK, MessageBoxImage.Warning);
       return false;
     }
 
@@ -59,7 +59,7 @@
 
     void IWizardStep.InitializeStep(WizardArgs wizardArgs)
     {
-      Instances.DataContext = InstanceManager.Default.Instances.OrderBy(instance => instance.Name);
+      Instances.DataContext = ((MultipleDeletionWizardArgs)wizardArgs)._Instances;
     }
 
     private void OnChecked(object sender, RoutedEventArgs e)

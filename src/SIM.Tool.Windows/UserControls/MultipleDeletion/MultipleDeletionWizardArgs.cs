@@ -1,6 +1,8 @@
 ﻿namespace SIM.Tool.Windows.UserControls.MultipleDeletion
 {
   using System.Collections.Generic;
+  using System.Linq;
+  using SIM.Instances;
   using SIM.Pipelines.MultipleDeletion;
   using SIM.Pipelines.Processors;
   using SIM.Tool.Base.Profiles;
@@ -9,6 +11,8 @@
   public class MultipleDeletionWizardArgs : WizardArgs
   {
     #region Fields
+
+    public IOrderedEnumerable<Instance> _Instances;
 
     public List<string> _SelectedInstances;
 

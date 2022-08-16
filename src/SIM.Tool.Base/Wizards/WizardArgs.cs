@@ -37,6 +37,8 @@
       }
     }
 
+    public bool IsInstallationDetailsShown { get; set; }
+
     //Indicates if the installation has been completed
     public bool ShouldRefreshInstancesList { get; set; }
 
