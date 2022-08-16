@@ -29,20 +29,21 @@ namespace SIM.Pipelines.Install.Containers
         yamlFileGeneratorHelpers = new List<IYamlFileGeneratorHelper>();
         dockerfileGeneratorHelpers = new List<IDockerfileGeneratorHelper>();
 
-        yamlFileGeneratorHelpers.Add(new ToolsYamlFileGeneratorHelper());
-        dockerfileGeneratorHelpers.Add(new ToolsDockerfileGeneratorHelper());
-
         foreach (Module module in args.Modules)
         {
           switch (module)
           {
             case Module.SXA:
+              yamlFileGeneratorHelpers.Add(new ToolsYamlFileGeneratorHelper());
+              dockerfileGeneratorHelpers.Add(new ToolsDockerfileGeneratorHelper());
               yamlFileGeneratorHelpers.Add(new SxaYamlFileGeneratorHelper(topology));
               dockerfileGeneratorHelpers.Add(new SxaDockerfileGeneratorHelper());
               break;
             case Module.JSS:
               break;
             case Module.Horizon:
+              yamlFileGeneratorHelpers.Add(new HorizonYamlFileGeneratorHelper(topology));
+              dockerfileGeneratorHelpers.Add(new HorizonDockerfileGeneratorHelper());
               break;
             case Module.PublishingService:
               break;

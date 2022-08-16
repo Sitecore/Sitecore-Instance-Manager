@@ -2,36 +2,38 @@
 
 namespace SIM.ContainerInstaller.Modules
 {
-  public class ToolsDockerfileGeneratorHelper : IDockerfileGeneratorHelper
+  public class HorizonDockerfileGeneratorHelper : IDockerfileGeneratorHelper
   {
     public StringBuilder GenerateCmArgs()
     {
-      return new StringBuilder().Append(@"ARG TOOLING_IMAGE").AppendLine();
+      return new StringBuilder().Append(@"ARG HORIZON_IMAGE").AppendLine();
     }
 
     public StringBuilder GenerateCmFroms()
     {
-      return new StringBuilder().Append(@"FROM ${TOOLING_IMAGE} as tooling").AppendLine();
+      return new StringBuilder().Append(@"FROM ${HORIZON_IMAGE} as horizon").AppendLine();
     }
 
     public StringBuilder GenerateCmCommands()
     {
-      return new StringBuilder().Append(@"# Copy development tools and entrypoint").AppendLine().Append(@"COPY --from=tooling \tools\ \tools\").AppendLine().AppendLine();
+      return new StringBuilder()
+        .Append(@"# Add Horizon module").AppendLine()
+        .Append(@"COPY --from=horizon C:\module\cm\content C:\inetpub\wwwroot").AppendLine().AppendLine();
     }
 
     public StringBuilder GenerateCdArgs()
     {
-      return new StringBuilder().Append(@"ARG TOOLING_IMAGE").AppendLine();
+      return null;
     }
 
     public StringBuilder GenerateCdFroms()
     {
-      return new StringBuilder().Append(@"FROM ${TOOLING_IMAGE} as tooling").AppendLine();
+      return null;
     }
 
     public StringBuilder GenerateCdCommands()
     {
-      return new StringBuilder().Append(@"# Copy development tools and entrypoint").AppendLine().Append(@"COPY --from=tooling \tools\ \tools\").AppendLine().AppendLine();
+      return null;
     }
 
     public StringBuilder GenerateIdArgs()
@@ -41,7 +43,8 @@ namespace SIM.ContainerInstaller.Modules
 
     public StringBuilder GenerateIdFroms()
     {
-      return null;
+      return new StringBuilder()
+        .Append($@"# This Dockerfile is only needed to add environment variables defined in {DockerSettings.DockerComposeOverrideFileName}").AppendLine();
     }
 
     public StringBuilder GenerateIdCommands()
@@ -51,17 +54,21 @@ namespace SIM.ContainerInstaller.Modules
 
     public StringBuilder GenerateMsSqlArgs()
     {
-      return null;
+      return new StringBuilder().Append(@"ARG HORIZON_IMAGE").AppendLine();
     }
 
     public StringBuilder GenerateMsSqlFroms()
     {
-      return null;
+      return new StringBuilder().Append(@"FROM ${HORIZON_IMAGE} as horizon").AppendLine();
     }
 
     public StringBuilder GenerateMsSqlCommands()
     {
-      return null;
+      return new StringBuilder()
+        .Append(@"# Add Horizon module").AppendLine()
+        .Append(@"COPY --from=horizon C:\module\db C:\horizon_integration_data").AppendLine()
+        .Append(@"RUN C:\DeployDatabases.ps1 -ResourcesDirectory C:\horizon_integration_data; `").AppendLine()
+        .Append(@"    Remove-Item -Path C:\horizon_integration_data -Recurse -Force;").AppendLine().AppendLine();
     }
 
     public StringBuilder GenerateMsSqlInitArgs()

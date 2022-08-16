@@ -137,5 +137,15 @@ namespace SIM.ContainerInstaller.Modules
       }
       return EmptyList;
     }
+
+    public IDictionary<string, string> GetEnvironmentVariables(Service service)
+    {
+      return new Dictionary<string, string>();
+    }
+
+    public KeyValuePair<YamlNode, YamlNode> GenerateService(IEnumerable<IYamlFileGeneratorHelper> helpers)
+    {
+      return new KeyValuePair<YamlNode, YamlNode>();
+    }
   }
 }

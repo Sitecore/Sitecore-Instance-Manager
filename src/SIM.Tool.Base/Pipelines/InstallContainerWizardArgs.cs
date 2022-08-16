@@ -1,5 +1,4 @@
 using SIM.ContainerInstaller;
-using SIM.ContainerInstaller.Modules;
 using SIM.ContainerInstaller.Repositories.TagRepository;
 using SIM.Instances;
 using SIM.Pipelines.Install.Containers;

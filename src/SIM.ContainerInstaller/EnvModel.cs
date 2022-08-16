@@ -247,6 +247,48 @@ namespace SIM.ContainerInstaller
         this[SxaVersionName] = value;
       }
     }
+
+    public const string HorizonHostName = "HORIZON_HOST";
+
+    public string HorizonHost
+    {
+      get
+      {
+        return this[HorizonHostName];
+      }
+      set
+      {
+        this[HorizonHostName] = value;
+      }
+    }
+
+    public const string HorizonVersionName = "HORIZON_VERSION";
+
+    public string HorizonVersion
+    {
+      get
+      {
+        return this[HorizonVersionName];
+      }
+      set
+      {
+        this[HorizonVersionName] = value;
+      }
+    }
+
+    public const string HorizonAssetsVersionName = "HORIZON_ASSETS_VERSION";
+
+    public string HorizonAssetsVersion
+    {
+      get
+      {
+        return this[HorizonAssetsVersionName];
+      }
+      set
+      {
+        this[HorizonAssetsVersionName] = value;
+      }
+    }
     #endregion
 
     public string this[string Name]

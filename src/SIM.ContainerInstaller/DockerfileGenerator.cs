@@ -2,6 +2,7 @@
 using SIM.ContainerInstaller.Modules;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 
 namespace SIM.ContainerInstaller
@@ -10,6 +11,7 @@ namespace SIM.ContainerInstaller
   public class DockerfileGenerator
   {
     private const string DockerfileFileName = "Dockerfile";
+    private const string IdDockerfileFilePath = @"docker\build\id";
     private const string CmDockerfileFilePath = @"docker\build\cm";
     private const string CdDockerfileFilePath = @"docker\build\cd";
     private const string MsSqlDockerfileFilePath = @"docker\build\mssql";
@@ -35,6 +37,10 @@ namespace SIM.ContainerInstaller
       if (ShouldSolrInitDockerfileBeGenerated(shortVersion))
       {
         GenerateSolrInitDockerfile(path, helpers);
+      }
+      if (ShouldIdDockerfileBeGenerated(shortVersion, helpers))
+      {
+        GenerateIdDockerfile(path, helpers);
       }
       if (ShouldCdDockerfileBeGenerated(shortVersion, topology))
       {
@@ -82,6 +88,15 @@ namespace SIM.ContainerInstaller
       return false;
     }
 
+    private bool ShouldIdDockerfileBeGenerated(int shortVersion, List<IDockerfileGeneratorHelper> helpers)
+    {
+      if (shortVersion >= 100)
+      {
+        return true;
+      }
+      return false;
+    }
+
     private bool ShouldCdDockerfileBeGenerated(int shortVersion, Topology topology)
     {
       if (shortVersion >= 100 && (topology == Topology.Xm1 || topology == Topology.Xp1))
@@ -100,15 +115,31 @@ namespace SIM.ContainerInstaller
       return false;
     }
 
-    private StringBuilder GenerateDockerfile(StringBuilder args, StringBuilder froms, StringBuilder commands)
+    private StringBuilder GenerateBaseDockerfile(StringBuilder args, StringBuilder froms, StringBuilder commands)
     {
-      return new StringBuilder().Append(@"# escape=`").AppendLine().AppendLine()
-        .Append(@"ARG BASE_IMAGE").AppendLine()
-        .Append(args).AppendLine()
-        .Append(froms)
-        .Append(@"FROM ${BASE_IMAGE}").AppendLine().AppendLine()
-        .Append("SHELL [\"powershell\", \"-Command\", \"$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';\"]").AppendLine().AppendLine()
-        .Append(commands);
+      StringBuilder dockerfile = new StringBuilder();
+      dockerfile.Append(@"# escape=`").AppendLine().AppendLine()
+        .Append(@"ARG BASE_IMAGE").AppendLine();
+
+      if (!string.IsNullOrEmpty(args.ToString()))
+      {
+        dockerfile.Append(args).AppendLine();
+      }
+
+      if (!string.IsNullOrEmpty(froms.ToString()))
+      {
+        dockerfile.Append(froms);
+      }
+
+      dockerfile.Append(@"FROM ${BASE_IMAGE}").AppendLine().AppendLine();
+
+      if (!string.IsNullOrEmpty(commands.ToString()))
+      {
+        dockerfile.Append("SHELL [\"powershell\", \"-Command\", \"$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';\"]")
+          .AppendLine().AppendLine().Append(commands);
+      }
+
+      return dockerfile;
     }
 
     public void GenerateSpecificDockerfile(string rootFolderPath, string dockerfileFilePath, StringBuilder dockerfileText)
@@ -118,92 +149,116 @@ namespace SIM.ContainerInstaller
 
       using (StreamWriter writer = new StreamWriter(Path.Combine(path, DockerfileFileName)))
       {
-        writer.WriteLine(dockerfileText);
+        writer.WriteLine(dockerfileText.ToString().TrimEnd());
+      }
+    }
+
+    public void GenerateDockerfile(Service service, string rootFolderPath, string dockerfileFilePath, List<IDockerfileGeneratorHelper> helpers)
+    {
+      StringBuilder args = new StringBuilder();
+      StringBuilder froms = new StringBuilder();
+      StringBuilder commands = new StringBuilder();
+      switch (service)
+      {
+        case Service.MsSql:
+          foreach (IDockerfileGeneratorHelper helper in helpers)
+          {
+            args.Append(helper.GenerateMsSqlArgs());
+            froms.Append(helper.GenerateMsSqlFroms());
+            commands.Append(helper.GenerateMsSqlCommands());
+          }
+          break;
+        case Service.MsSqlInit:
+          foreach (IDockerfileGeneratorHelper helper in helpers)
+          {
+            args.Append(helper.GenerateMsSqlInitArgs());
+            froms.Append(helper.GenerateMsSqlInitFroms());
+            commands.Append(helper.GenerateMsSqlInitCommands());
+          }
+          break;
+        case Service.Solr:
+          foreach (IDockerfileGeneratorHelper helper in helpers)
+          {
+            args.Append(helper.GenerateSolrArgs());
+            froms.Append(helper.GenerateSolrFroms());
+            commands.Append(helper.GenerateSolrCommands());
+          }
+          break;
+        case Service.SolrInit:
+          foreach (IDockerfileGeneratorHelper helper in helpers)
+          {
+            args.Append(helper.GenerateSolrInitArgs());
+            froms.Append(helper.GenerateSolrInitFroms());
+            commands.Append(helper.GenerateSolrInitCommands());
+          }
+          break;
+        case Service.Id:
+          foreach (IDockerfileGeneratorHelper helper in helpers)
+          {
+            args.Append(helper.GenerateIdArgs());
+            froms.Append(helper.GenerateIdFroms());
+            commands.Append(helper.GenerateIdCommands());
+          }
+          break;
+        case Service.Cd:
+          foreach (IDockerfileGeneratorHelper helper in helpers)
+          {
+            args.Append(helper.GenerateCdArgs());
+            froms.Append(helper.GenerateCdFroms());
+            commands.Append(helper.GenerateCdCommands());
+          }
+          break;
+        case Service.Cm:
+          foreach (IDockerfileGeneratorHelper helper in helpers)
+          {
+            args.Append(helper.GenerateCmArgs());
+            froms.Append(helper.GenerateCmFroms());
+            commands.Append(helper.GenerateCmCommands());
+          }
+          break;
+        default:
+          break;
+      }
+
+      if (args.Length > 0 || froms.Length > 0 || commands.Length > 0)
+      {
+        GenerateSpecificDockerfile(rootFolderPath, dockerfileFilePath, GenerateBaseDockerfile(args, froms, commands));
       }
     }
 
     private void GenerateMsSqlDockerfile(string rootFolderPath, List<IDockerfileGeneratorHelper> helpers)
     {
-      StringBuilder args = new StringBuilder();
-      StringBuilder froms = new StringBuilder();
-      StringBuilder commands = new StringBuilder();
-      foreach (IDockerfileGeneratorHelper helper in helpers)
-      {
-        args.Append(helper.GenerateMsSqlArgs());
-        froms.Append(helper.GenerateMsSqlFroms());
-        commands.Append(helper.GenerateMsSqlCommands());
-      }
-      GenerateSpecificDockerfile(rootFolderPath, MsSqlDockerfileFilePath, GenerateDockerfile(args, froms, commands));
+      GenerateDockerfile(Service.MsSql, rootFolderPath, MsSqlDockerfileFilePath, helpers);
     }
 
     private void GenerateMsSqlInitDockerfile(string rootFolderPath, List<IDockerfileGeneratorHelper> helpers)
     {
-      StringBuilder args = new StringBuilder();
-      StringBuilder froms = new StringBuilder();
-      StringBuilder commands = new StringBuilder();
-      foreach (IDockerfileGeneratorHelper helper in helpers)
-      {
-        args.Append(helper.GenerateMsSqlInitArgs());
-        froms.Append(helper.GenerateMsSqlInitFroms());
-        commands.Append(helper.GenerateMsSqlInitCommands());
-      }
-      GenerateSpecificDockerfile(rootFolderPath, MsSqlInitDockerfileFilePath, GenerateDockerfile(args, froms, commands));
+      GenerateDockerfile(Service.MsSqlInit, rootFolderPath, MsSqlInitDockerfileFilePath, helpers);
     }
 
     private void GenerateSolrDockerfile(string rootFolderPath, List<IDockerfileGeneratorHelper> helpers)
     {
-      StringBuilder args = new StringBuilder();
-      StringBuilder froms = new StringBuilder();
-      StringBuilder commands = new StringBuilder();
-      foreach (IDockerfileGeneratorHelper helper in helpers)
-      {
-        args.Append(helper.GenerateSolrArgs());
-        froms.Append(helper.GenerateSolrFroms());
-        commands.Append(helper.GenerateSolrCommands());
-      }
-      GenerateSpecificDockerfile(rootFolderPath, SolrDockerfileFilePath, GenerateDockerfile(args, froms, commands));
+      GenerateDockerfile(Service.Solr, rootFolderPath, SolrDockerfileFilePath, helpers);
     }
 
     private void GenerateSolrInitDockerfile(string rootFolderPath, List<IDockerfileGeneratorHelper> helpers)
     {
-      StringBuilder args = new StringBuilder();
-      StringBuilder froms = new StringBuilder();
-      StringBuilder commands = new StringBuilder();
-      foreach (IDockerfileGeneratorHelper helper in helpers)
-      {
-        args.Append(helper.GenerateSolrInitArgs());
-        froms.Append(helper.GenerateSolrInitFroms());
-        commands.Append(helper.GenerateSolrInitCommands());
-      }
-      GenerateSpecificDockerfile(rootFolderPath, SolrInitDockerfileFilePath, GenerateDockerfile(args, froms, commands));
+      GenerateDockerfile(Service.SolrInit, rootFolderPath, SolrInitDockerfileFilePath, helpers);
+    }
+
+    private void GenerateIdDockerfile(string rootFolderPath, List<IDockerfileGeneratorHelper> helpers)
+    {
+      GenerateDockerfile(Service.Id, rootFolderPath, IdDockerfileFilePath, helpers);
     }
 
     private void GenerateCdDockerfile(string rootFolderPath, List<IDockerfileGeneratorHelper> helpers)
     {
-      StringBuilder args = new StringBuilder();
-      StringBuilder froms = new StringBuilder();
-      StringBuilder commands = new StringBuilder();
-      foreach (IDockerfileGeneratorHelper helper in helpers)
-      {
-        args.Append(helper.GenerateCdArgs());
-        froms.Append(helper.GenerateCdFroms());
-        commands.Append(helper.GenerateCdCommands());
-      }
-      GenerateSpecificDockerfile(rootFolderPath, CdDockerfileFilePath, GenerateDockerfile(args, froms, commands));
+      GenerateDockerfile(Service.Cd, rootFolderPath, CdDockerfileFilePath, helpers);
     }
 
     private void GenerateCmDockerfile(string rootFolderPath, List<IDockerfileGeneratorHelper> helpers)
     {
-      StringBuilder args = new StringBuilder();
-      StringBuilder froms = new StringBuilder();
-      StringBuilder commands = new StringBuilder();
-      foreach (IDockerfileGeneratorHelper helper in helpers)
-      {
-        args.Append(helper.GenerateCmArgs());
-        froms.Append(helper.GenerateCmFroms());
-        commands.Append(helper.GenerateCmCommands());
-      }
-      GenerateSpecificDockerfile(rootFolderPath, CmDockerfileFilePath, GenerateDockerfile(args, froms, commands));
+      GenerateDockerfile(Service.Cm, rootFolderPath, CmDockerfileFilePath, helpers);
     }
 
     private void CreateFolder(string path)

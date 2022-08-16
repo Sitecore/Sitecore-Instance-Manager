@@ -16,6 +16,12 @@ namespace SIM.ContainerInstaller.Modules
 
     StringBuilder GenerateCdCommands();
 
+    StringBuilder GenerateIdArgs();
+
+    StringBuilder GenerateIdFroms();
+
+    StringBuilder GenerateIdCommands();
+
     StringBuilder GenerateMsSqlArgs();
 
     StringBuilder GenerateMsSqlFroms();
