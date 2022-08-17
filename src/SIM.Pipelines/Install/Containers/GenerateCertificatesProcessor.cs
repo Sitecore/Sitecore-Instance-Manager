@@ -7,6 +7,11 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Management.Automation;
 using SIM.Loggers;
+using YamlDotNet.RepresentationModel;
+using System.Collections.Generic;
+using System.Text.RegularExpressions;
+using System.Linq;
+using YamlDotNet.Serialization;
 
 namespace SIM.Pipelines.Install.Containers
 {
@@ -35,6 +40,8 @@ namespace SIM.Pipelines.Install.Containers
       }
     }
 
+    private const string PathToCerts = @"C:\etc\traefik\certs";
+
     private const string PathToCertFolder = "traefik\\certs";
 
     private const string PathToDynamicConfigFolder = "traefik\\config\\dynamic";
@@ -55,24 +62,29 @@ namespace SIM.Pipelines.Install.Containers
 
       Assert.ArgumentNotNullOrEmpty(destinationFolder, "destinationFolder");
 
-      UpdateTlsDynamicConfig(args);
+      UpdateCertsConfigFile(args);
 
-      string script = GetScript(args);
+      string script = GetScript(args.EnvModel);
 
       PSExecutor ps = new PSScriptExecutor(destinationFolder, script);
 
       ExecuteScript(() => ps.Execute());
     }
 
-    private void UpdateTlsDynamicConfig(InstallContainerArgs args)
+    private void UpdateCertsConfigFile(InstallContainerArgs args)
     {
-      string yamlContent = GetConfig(args);
+      YamlDocument yamlDocument = GenerateCertsConfigFile(args.EnvModel);
 
-      string yamlFileName = Path.Combine(args.Destination, PathToDynamicConfigFolder, CertsConfigFileName);
+      string yamlFilePath = Path.Combine(args.Destination, PathToDynamicConfigFolder, CertsConfigFileName);
 
       try
       {
-        UpdateConfigFile(yamlFileName, yamlContent);
+        Serializer serializer = new Serializer();
+        using (FileStream fileStream = File.OpenWrite(yamlFilePath))
+        using (StreamWriter streamWriter = new StreamWriter(fileStream))
+        {
+          serializer.Serialize(streamWriter, yamlDocument.RootNode);
+        }
       }
       catch (Exception ex)
       {
@@ -82,91 +94,52 @@ namespace SIM.Pipelines.Install.Containers
       }
     }
 
-    private string GetConfig(InstallContainerArgs args)
+    private List<string> GetHostnames(EnvModel envModel)
     {
-      Topology topology = args.Topology;
+      Regex regex = new Regex(DockerSettings.HostNameKeyPattern);
 
-      string pathToCerts = @"C:\etc\traefik\certs";
+      string[] keys = envModel.GetNames().ToArray();
 
-      switch (topology)
+      IEnumerable<string> hostNamesKeys = keys.Where(n => regex.IsMatch(n));
+
+      List<string> hostNames = new List<string>();
+
+      foreach (string hostName in hostNamesKeys)
       {
-        case Topology.Xm1:
-        case Topology.Xp1:
-          if (args.Modules.Contains(Module.Horizon))
-          {
-            return $@"tls:
-  certificates:
-    - certFile: {pathToCerts}\{args.EnvModel.CmHost}.crt
-      keyFile: {pathToCerts}\{args.EnvModel.CmHost}.key
-    - certFile: {pathToCerts}\{args.EnvModel.CdHost}.crt
-      keyFile: {pathToCerts}\{args.EnvModel.CdHost}.key
-    - certFile: {pathToCerts}\{args.EnvModel.IdHost}.crt
-      keyFile: {pathToCerts}\{args.EnvModel.IdHost}.key
-    - certFile: {pathToCerts}\{args.EnvModel.HorizonHost}.crt
-      keyFile: {pathToCerts}\{args.EnvModel.HorizonHost}.key
-";
-          }
-          return $@"tls:
-  certificates:
-    - certFile: {pathToCerts}\{args.EnvModel.CmHost}.crt
-      keyFile: {pathToCerts}\{args.EnvModel.CmHost}.key
-    - certFile: {pathToCerts}\{args.EnvModel.CdHost}.crt
-      keyFile: {pathToCerts}\{args.EnvModel.CdHost}.key
-    - certFile: {pathToCerts}\{args.EnvModel.IdHost}.crt
-      keyFile: {pathToCerts}\{args.EnvModel.IdHost}.key
-";
-        case Topology.Xp0:
-          if (args.Modules.Contains(Module.Horizon))
-          {
-            return $@"tls:
-  certificates:
-    - certFile: {pathToCerts}\{args.EnvModel.CmHost}.crt
-      keyFile: {pathToCerts}\{args.EnvModel.CmHost}.key
-    - certFile: {pathToCerts}\{args.EnvModel.IdHost}.crt
-      keyFile: {pathToCerts}\{args.EnvModel.IdHost}.key
-    - certFile: {pathToCerts}\{args.EnvModel.HorizonHost}.crt
-      keyFile: {pathToCerts}\{args.EnvModel.HorizonHost}.key
-";
-          }
-          return $@"tls:
-  certificates:
-    - certFile: {pathToCerts}\{args.EnvModel.CmHost}.crt
-      keyFile: {pathToCerts}\{args.EnvModel.CmHost}.key
-    - certFile: {pathToCerts}\{args.EnvModel.IdHost}.crt
-      keyFile: {pathToCerts}\{args.EnvModel.IdHost}.key
-";
-        default:
-          throw new InvalidOperationException("Config is not defined for '" + topology.ToString() + "' topology.");
+        hostNames.Add(envModel[hostName]);
       }
+
+      return hostNames;
     }
 
-    private void UpdateConfigFile(string fileName, string content)
+    private YamlDocument GenerateCertsConfigFile(EnvModel envModel)
     {
-      File.WriteAllText(fileName, content);
+      List<YamlNode> certificates = new List<YamlNode>();
+
+      foreach (string hostName in GetHostnames(envModel))
+      {
+        certificates.Add(new YamlMappingNode(
+          new YamlScalarNode("certFile"), new YamlScalarNode($@"{PathToCerts}\{hostName}.crt"),
+          new YamlScalarNode("keyFile"), new YamlScalarNode($@"{PathToCerts}\{hostName}.key")
+        ));
+      }
+
+      return new YamlDocument(
+         new YamlMappingNode(
+           new YamlScalarNode("tls"), new YamlMappingNode(
+             new YamlScalarNode("certificates"), new YamlSequenceNode(certificates))));
     }
 
-    protected virtual string GetScript(InstallContainerArgs args)
+    protected virtual string GetScript(EnvModel envModel)
     {
-      Topology topology = args.Topology;
+      string template = string.Empty;
 
-      switch (topology)
+      foreach (string hostName in GetHostnames(envModel))
       {
-        case Topology.Xm1:
-        case Topology.Xp1:
-          if (args.Modules.Contains(Module.Horizon))
-          {
-            return GetXm1OrXp1AndHorizonScript(args.EnvModel.CmHost, args.EnvModel.CdHost, args.EnvModel.IdHost, args.EnvModel.HorizonHost);
-          }
-          return GetXm1OrXp1Script(args.EnvModel.CmHost, args.EnvModel.CdHost, args.EnvModel.IdHost);
-        case Topology.Xp0:
-          if (args.Modules.Contains(Module.Horizon))
-          {
-            return GetXp0AndHorizonScript(args.EnvModel.CmHost, args.EnvModel.IdHost, args.EnvModel.HorizonHost);
-          }
-          return GetXp0Script(args.EnvModel.CmHost, args.EnvModel.IdHost);
-        default:
-          throw new InvalidOperationException("Generate certificates script cannot be resolved for '" + topology.ToString() + "'");
+        template += Environment.NewLine + $@"mkcert -cert-file {PathToCertFolder}\{hostName}.crt -key-file {PathToCertFolder}\{hostName}.key ""{hostName}""";
       }
+
+      return template;
     }
 
     private void ExecuteScript(Func<Collection<PSObject>> p)
@@ -190,46 +163,6 @@ namespace SIM.Pipelines.Install.Containers
 
         throw;
       }
-    }
-
-    private string GetXp0Script(string cmHost, string idHost)
-    {
-      string template = @"
-mkcert -cert-file {0}\{1}.crt -key-file {0}\{1}.key ""{1}""
-mkcert -cert-file {0}\{2}.crt -key-file {0}\{2}.key ""{2}""";
-
-      return string.Format(template, PathToCertFolder, cmHost, idHost);
-    }
-
-    private string GetXm1OrXp1Script(string cmHost, string cdHost, string idHost)
-    {
-      string template = @"
-mkcert -cert-file {0}\{1}.crt -key-file {0}\{1}.key ""{1}""
-mkcert -cert-file {0}\{2}.crt -key-file {0}\{2}.key ""{2}""
-mkcert -cert-file {0}\{3}.crt -key-file {0}\{3}.key ""{3}""";
-
-      return string.Format(template, PathToCertFolder, cmHost, idHost, cdHost);
-    }
-
-    private string GetXp0AndHorizonScript(string cmHost, string idHost, string hrzHost)
-    {
-      string template = @"
-mkcert -cert-file {0}\{1}.crt -key-file {0}\{1}.key ""{1}""
-mkcert -cert-file {0}\{2}.crt -key-file {0}\{2}.key ""{2}""
-mkcert -cert-file {0}\{3}.crt -key-file {0}\{3}.key ""{3}""";
-
-      return string.Format(template, PathToCertFolder, cmHost, idHost, hrzHost);
-    }
-
-    private string GetXm1OrXp1AndHorizonScript(string cmHost, string cdHost, string idHost, string hrzHost)
-    {
-      string template = @"
-mkcert -cert-file {0}\{1}.crt -key-file {0}\{1}.key ""{1}""
-mkcert -cert-file {0}\{2}.crt -key-file {0}\{2}.key ""{2}""
-mkcert -cert-file {0}\{3}.crt -key-file {0}\{3}.key ""{3}""
-mkcert -cert-file {0}\{4}.crt -key-file {0}\{4}.key ""{4}""";
-
-      return string.Format(template, PathToCertFolder, cmHost, idHost, cdHost, hrzHost);
     }
   }
 }
