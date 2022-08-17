@@ -19,6 +19,6 @@ namespace SIM.ContainerInstaller.Modules
 
     IDictionary<string, string> GetEnvironmentVariables(Service service);
 
-    KeyValuePair<YamlNode, YamlNode> GenerateService(IEnumerable<IYamlFileGeneratorHelper> helpers);
+    IEnumerable<KeyValuePair<YamlNode, YamlNode>> GenerateServices(int shortVersion, IEnumerable<IYamlFileGeneratorHelper> helpers);
   }
 }

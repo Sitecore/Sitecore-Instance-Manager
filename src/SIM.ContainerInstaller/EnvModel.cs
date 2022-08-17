@@ -178,20 +178,6 @@ namespace SIM.ContainerInstaller
       }
     }
 
-    public const string SitecoreToolsRegistryName = "SITECORE_TOOLS_REGISTRY";
-
-    public string SitecoreToolsRegistry
-    {
-      get
-      {
-        return this[SitecoreToolsRegistryName];
-      }
-      set
-      {
-        this[SitecoreToolsRegistryName] = value;
-      }
-    }
-
     public const string SitecoreModuleRegistryName = "SITECORE_MODULE_REGISTRY";
 
     public string SitecoreModuleRegistry
@@ -203,20 +189,6 @@ namespace SIM.ContainerInstaller
       set
       {
         this[SitecoreModuleRegistryName] = value;
-      }
-    }
-
-    public const string ToolsVersionName = "TOOLS_VERSION";
-
-    public string ToolsVersion
-    {
-      get
-      {
-        return this[ToolsVersionName];
-      }
-      set
-      {
-        this[ToolsVersionName] = value;
       }
     }
 
@@ -287,6 +259,48 @@ namespace SIM.ContainerInstaller
       set
       {
         this[HorizonAssetsVersionName] = value;
+      }
+    }
+
+    public const string JssVersionName = "JSS_VERSION";
+
+    public string JssVersion
+    {
+      get
+      {
+        return this[JssVersionName];
+      }
+      set
+      {
+        this[JssVersionName] = value;
+      }
+    }
+
+    public const string SpsVersionName = "SPS_VERSION";
+
+    public string SpsVersion
+    {
+      get
+      {
+        return this[SpsVersionName];
+      }
+      set
+      {
+        this[SpsVersionName] = value;
+      }
+    }
+
+    public const string SpsAssetsVersionName = "SPS_ASSETS_VERSION";
+
+    public string SpsAssetsVersion
+    {
+      get
+      {
+        return this[SpsAssetsVersionName];
+      }
+      set
+      {
+        this[SpsAssetsVersionName] = value;
       }
     }
     #endregion

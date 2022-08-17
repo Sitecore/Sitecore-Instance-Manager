@@ -92,7 +92,12 @@ namespace SIM.ContainerInstaller.Modules
       return environmentVariables;
     }
 
-    public KeyValuePair<YamlNode, YamlNode> GenerateService(IEnumerable<IYamlFileGeneratorHelper> helpers)
+    public IEnumerable<KeyValuePair<YamlNode, YamlNode>> GenerateServices(int shortVersion, IEnumerable<IYamlFileGeneratorHelper> helpers)
+    {
+      yield return GenerateHorizonService(helpers);
+    }
+
+    private KeyValuePair<YamlNode, YamlNode> GenerateHorizonService(IEnumerable<IYamlFileGeneratorHelper> helpers)
     {
       List<KeyValuePair<YamlNode, YamlNode>> nodes = new List<KeyValuePair<YamlNode, YamlNode>>();
 

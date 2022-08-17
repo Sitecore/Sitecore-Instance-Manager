@@ -16,8 +16,8 @@
 			<RowDefinition Height="30"></RowDefinition>
 		</Grid.RowDefinitions>
 		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="160"></ColumnDefinition>
-			<ColumnDefinition Width="80"></ColumnDefinition>
+			<ColumnDefinition Width="140"></ColumnDefinition>
+			<ColumnDefinition Width="120"></ColumnDefinition>
 			<ColumnDefinition/>
 		</Grid.ColumnDefinitions>
 		<TextBlock Name="ModulesTextBlock" Grid.Row="0" Grid.Column="0" Text="Modules:" VerticalAlignment="Top" Margin="0,7" HorizontalAlignment="Left" />
@@ -34,22 +34,22 @@
 			</ListBox.ItemTemplate>
 		</ListBox>
 		<StackPanel Grid.Row="0" Grid.Column="1" Grid.RowSpan="7">
-			<TextBlock Name="ToolsTagsTextBlock" Text="Tools tags:" Margin="4,7" VerticalAlignment="Top" HorizontalAlignment="Left" />
 			<TextBlock Name="SpeTagsTextBlock" Text="SPE tags:" Margin="4,7" VerticalAlignment="Top" HorizontalAlignment="Left" />
 			<TextBlock Name="SxaTagsTextBlock" Text="SXA tags:" Margin="4,7" VerticalAlignment="Top" HorizontalAlignment="Left" />
 			<TextBlock Name="JssTagsTextBlock" Text="JSS tags:" Margin="4,7" VerticalAlignment="Top" HorizontalAlignment="Left" />
 			<TextBlock Name="HorizonTagsTextBlock" Text="Horizon tags:" Margin="4,7" VerticalAlignment="Top" HorizontalAlignment="Left" />
-			<TextBlock Name="HorizonAssetsTagsTextBlock" Text="Assets tags:" Margin="4,7" VerticalAlignment="Top" HorizontalAlignment="Left" />
-			<TextBlock Name="PsTagsTextBlock" Text="PS tags:" Margin="4,7" VerticalAlignment="Top" HorizontalAlignment="Left" />
+			<TextBlock Name="HorizonAssetsTagsTextBlock" Text="Horizon assets tags:" Margin="4,7" VerticalAlignment="Top" HorizontalAlignment="Left" />
+			<TextBlock Name="SpsTagsTextBlock" Text="SPS tags:" Margin="4,7" VerticalAlignment="Top" HorizontalAlignment="Left" />
+			<TextBlock Name="SpsAssetsTagsTextBlock" Text="SPS assets tags:" Margin="4,7" VerticalAlignment="Top" HorizontalAlignment="Left" />
 		</StackPanel>
 		<StackPanel Grid.Row="0" Grid.Column="2" Grid.RowSpan="7">
-			<ComboBox Name="ToolsTagsComboBox" Height="22" Margin="4" VerticalAlignment="Top" ItemsSource="{Binding}" SelectionChanged="ToolsTagsComboBox_SelectionChanged" />
 			<ComboBox Name="SpeTagsComboBox" Height="22" Margin="4" VerticalAlignment="Top" ItemsSource="{Binding}" SelectionChanged="SpeTagsComboBox_SelectionChanged" />
 			<ComboBox Name="SxaTagsComboBox" Height="22" Margin="4" VerticalAlignment="Top" ItemsSource="{Binding}" SelectionChanged="SxaTagsComboBox_SelectionChanged" />
-			<ComboBox Name="JssTagsComboBox" Height="22" Margin="4" VerticalAlignment="Top" ItemsSource="{Binding}" />
+			<ComboBox Name="JssTagsComboBox" Height="22" Margin="4" VerticalAlignment="Top" ItemsSource="{Binding}" SelectionChanged="JssTagsComboBox_SelectionChanged" />
 			<ComboBox Name="HorizonTagsComboBox" Height="22" Margin="4" VerticalAlignment="Top" ItemsSource="{Binding}" SelectionChanged="HorizonTagsComboBox_SelectionChanged" />
 			<ComboBox Name="HorizonAssetsTagsComboBox" Height="22" Margin="4" VerticalAlignment="Top" ItemsSource="{Binding}" SelectionChanged="HorizonAssetsTagsComboBox_SelectionChanged" />
-			<ComboBox Name="PsTagsComboBox" Height="22" Margin="4" VerticalAlignment="Top" ItemsSource="{Binding}" />
+			<ComboBox Name="SpsTagsComboBox" Height="22" Margin="4" VerticalAlignment="Top" ItemsSource="{Binding}" SelectionChanged="SpsTagsComboBox_SelectionChanged"  />
+			<ComboBox Name="SpsAssetsTagsComboBox" Height="22" Margin="4" VerticalAlignment="Top" ItemsSource="{Binding}" SelectionChanged="SpsAssetsTagsComboBox_SelectionChanged"  />
 		</StackPanel>
 	</Grid>
 </UserControl>

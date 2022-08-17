@@ -143,9 +143,9 @@ namespace SIM.ContainerInstaller.Modules
       return new Dictionary<string, string>();
     }
 
-    public KeyValuePair<YamlNode, YamlNode> GenerateService(IEnumerable<IYamlFileGeneratorHelper> helpers)
+    public IEnumerable<KeyValuePair<YamlNode, YamlNode>> GenerateServices(int shortVersion, IEnumerable<IYamlFileGeneratorHelper> helpers)
     {
-      return new KeyValuePair<YamlNode, YamlNode>();
+      return EmptyList;
     }
   }
 }
