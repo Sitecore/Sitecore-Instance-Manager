@@ -77,27 +77,20 @@ namespace SIM.Pipelines.Install.Containers
 
       string yamlFilePath = Path.Combine(args.Destination, PathToDynamicConfigFolder, CertsConfigFileName);
 
-      if (yamlDocument != null)
+      try
       {
-        try
+        Serializer serializer = new Serializer();
+        using (FileStream fileStream = File.OpenWrite(yamlFilePath))
+        using (StreamWriter streamWriter = new StreamWriter(fileStream))
         {
-          Serializer serializer = new Serializer();
-          using (FileStream fileStream = File.OpenWrite(yamlFilePath))
-          using (StreamWriter streamWriter = new StreamWriter(fileStream))
-          {
-            serializer.Serialize(streamWriter, yamlDocument.RootNode);
-          }
-        }
-        catch (Exception ex)
-        {
-          args.Logger.Error($"Could not update the '{CertsConfigFileName}' file. Message: {ex.Message}");
-
-          throw;
+          serializer.Serialize(streamWriter, yamlDocument.RootNode);
         }
       }
-      else
+      catch (Exception ex)
       {
-        args.Logger.Error($"Could not generate paths to the '.cert' and '.key' files to update the '{CertsConfigFileName}' file.");
+        args.Logger.Error($"Could not update the '{CertsConfigFileName}' file. Message: {ex.Message}");
+
+        throw;
       }
     }
 
