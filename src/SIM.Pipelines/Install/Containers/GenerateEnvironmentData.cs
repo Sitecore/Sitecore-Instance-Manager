@@ -24,7 +24,8 @@ namespace SIM.Pipelines.Install.Containers
       "rep",
       "xdbcollection",
       "xdbsearch",
-      "hrz"
+      DockerSettings.HorizonServiceName,
+      DockerSettings.SpsServiceName
     };
 
     private IList<string> serviceTypes => new List<string>()

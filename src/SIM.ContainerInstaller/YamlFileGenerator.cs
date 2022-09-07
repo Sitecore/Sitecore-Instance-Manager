@@ -106,10 +106,13 @@ namespace SIM.ContainerInstaller
       }
       foreach(IYamlFileGeneratorHelper helper in helpers)
       {
-        KeyValuePair<YamlNode, YamlNode> service = helper.GenerateService(helpers);
-        if (service.Key != null)
+        IEnumerable<KeyValuePair<YamlNode, YamlNode>> newServices = helper.GenerateServices(shortVersion, helpers);
+        foreach (KeyValuePair<YamlNode, YamlNode> service in newServices)
         {
-          services.Add(service);
+          if (service.Key != null)
+          {
+            services.Add(service);
+          }
         }
       }
 
