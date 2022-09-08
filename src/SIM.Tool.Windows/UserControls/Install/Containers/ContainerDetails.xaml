@@ -34,7 +34,7 @@
         <ComboBox Grid.Row="2" Name="ProductRevision" DisplayMemberPath="RevisionAndLabel" SelectionChanged="ProductRevisionChanged" Grid.Column="5" Margin="0.2,0.4,0,0.4"  />
 
         <TextBlock Grid.Row="0" Grid.Column="4" Text="Project Name: " VerticalAlignment="Center" HorizontalAlignment="Left" Width="77" Grid.RowSpan="2" Height="16" Margin="1.6,6,0,6" Grid.ColumnSpan="2" />
-        <TextBox Grid.Row="0" Grid.Column="5" Name="InstanceName" Text="{Binding ElementName=ProductRevision, Path=SelectedValue, Converter={x:Static converters:Product._DefaultInstanceName}, Mode=OneWay}" Grid.RowSpan="2"  />
+		<TextBox Grid.Row="0" Grid.Column="5" Name="InstanceName" Text="{Binding ElementName=ProductRevision, Path=SelectedValue, Converter={x:Static converters:Product._DefaultInstanceName}, Mode=OneWay}" Grid.RowSpan="2" PreviewTextInput="InstanceName_PreviewTextInput" />
         <TextBlock Grid.Row="3" TextWrapping="Wrap" Text="Location:"  HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,4.6,0,4.2" Height="16" Width="48"/>
         <Button Name="LocationBtn" Click="LocationBtn_Click" Content="..." HorizontalAlignment="Left" Margin="53,2.6,0,0" Grid.Row="3" VerticalAlignment="Top" Width="24" Height="20"/>
         <TextBox Name="LocationText" Text="{Binding ElementName=InstanceName, Path=Text, Mode=OneWay, Converter={x:Static converters:InstanceNameToLocation.Instance}}" Grid.Row="3" Grid.Column="1" TextWrapping="Wrap" Grid.ColumnSpan="5"  />

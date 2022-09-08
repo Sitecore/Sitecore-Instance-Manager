@@ -6,6 +6,7 @@ using SIM.Tool.Base;
 using SIM.Tool.Base.Pipelines;
 using SIM.Tool.Base.Profiles;
 using SIM.Tool.Base.Wizards;
+using SIM.Tool.Windows.UserControls.Helpers;
 using Sitecore.Diagnostics.Base;
 using Sitecore.Diagnostics.Logging;
 using System;
@@ -503,6 +504,14 @@ namespace SIM.Tool.Windows.UserControls.Install.Containers
     private void LocationBtn_Click(object sender, RoutedEventArgs e)
     {
       WindowHelper.PickFolder("Choose location folder", this.LocationText, null);
+    }
+
+    private void InstanceName_PreviewTextInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
+    {
+      if (!NameCharsHelper.IsValidNameChar(e.Text, "project name"))
+      {
+        e.Handled = true;
+      }
     }
   }
 }
