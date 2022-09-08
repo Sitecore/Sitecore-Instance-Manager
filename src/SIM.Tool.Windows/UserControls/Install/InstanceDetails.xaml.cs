@@ -21,6 +21,7 @@ namespace SIM.Tool.Windows.UserControls.Install
   using JetBrains.Annotations;
   using Sitecore.Diagnostics.Logging;
   using SIM.Extensions;
+  using SIM.Tool.Windows.UserControls.Helpers;
 
   #region
 
@@ -336,6 +337,14 @@ namespace SIM.Tool.Windows.UserControls.Install
         RootName.Text = name;
         SqlPrefix.Text = name;
         HostNames.Text = string.Join("\r\n", GenerateHostNames(name));
+      }
+    }
+
+    private void InstanceName_PreviewTextInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
+    {
+      if (!NameCharsHelper.IsValidNameChar(e.Text, "site name"))
+      {
+        e.Handled = true;
       }
     }
 

@@ -28,7 +28,7 @@
 		<ComboBox Grid.Row="2" Grid.Column="1" Name="ProductRevision" DisplayMemberPath="RevisionAndLabel" SelectionChanged="ProductRevisionChanged" />
 
 		<TextBlock Grid.Row="0" Grid.Column="2" Text="Site Name: " />
-		<TextBox Grid.Row="0" Grid.Column="3" Name="InstanceName" Text="{Binding ElementName=ProductRevision, Path=SelectedValue, Converter={x:Static converters:Product._DefaultInstanceName}, Mode=OneWay}" TextChanged="InstanceNameTextChanged" />
+		<TextBox Grid.Row="0" Grid.Column="3" Name="InstanceName" Text="{Binding ElementName=ProductRevision, Path=SelectedValue, Converter={x:Static converters:Product._DefaultInstanceName}, Mode=OneWay}" TextChanged="InstanceNameTextChanged" PreviewTextInput="InstanceName_PreviewTextInput" />
 
     <TextBlock Grid.Row="1" Grid.Column="2" Text="Host name(s): " />
     <TextBox Name="HostNames" AcceptsReturn="true" Grid.Row="1" Grid.Column="3" Grid.RowSpan="2" Height="50" VerticalScrollBarVisibility="Auto"/>
