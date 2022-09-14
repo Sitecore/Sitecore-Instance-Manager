@@ -390,7 +390,8 @@ namespace SIM.Tool.Windows.UserControls.Install.Containers
 
     private void GetSpsTags()
     {
-      SpsTagsComboBox.DataContext = tagRepository.GetSortedShortTags(DockerSettings.SpsImagePath, DockerSettings.SitecoreModuleNamespace).ToArray();
+      // Add support only of PS 6.0.0 and later since the previous version 5.0.0 contains significant bugs and 'SITECORE_Sitecore' duplicated environment varialbes for the 'sps-mssql-init' and 'sps' services
+      SpsTagsComboBox.DataContext = tagRepository.GetSortedShortTags(DockerSettings.SpsImagePath, DockerSettings.SitecoreModuleNamespace).Where(tag => !tag.StartsWith("5.0")).ToArray();
       SpsTagsComboBox.SelectedIndex = 0;
     }
 
