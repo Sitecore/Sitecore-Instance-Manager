@@ -55,9 +55,10 @@ namespace SIM.Tool.Windows.UserControls.Install.Containers
         availableModules.Add(Module.Horizon);
         GetHorizonTags();
         GetHorizonAssetsTags(args.Topology);
-        availableModules.Add(Module.PublishingService);
-        GetSpsTags();
-        GetSpsAssetsTags(args.Topology);
+        // Disable the support of Publishing Service till the issue #694 is not fixed
+        //availableModules.Add(Module.PublishingService);
+        //GetSpsTags();
+        //GetSpsAssetsTags(args.Topology);
       }
 
       ModulesListBox.ItemsSource = availableModules;
