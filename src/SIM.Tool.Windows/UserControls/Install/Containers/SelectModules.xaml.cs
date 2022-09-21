@@ -55,9 +55,10 @@ namespace SIM.Tool.Windows.UserControls.Install.Containers
         availableModules.Add(Module.Horizon);
         GetHorizonTags();
         GetHorizonAssetsTags(args.Topology);
-        availableModules.Add(Module.PublishingService);
-        GetSpsTags();
-        GetSpsAssetsTags(args.Topology);
+        // Disable the support of Publishing Service till the issue #694 is not fixed
+        //availableModules.Add(Module.PublishingService);
+        //GetSpsTags();
+        //GetSpsAssetsTags(args.Topology);
       }
 
       ModulesListBox.ItemsSource = availableModules;
@@ -390,7 +391,8 @@ namespace SIM.Tool.Windows.UserControls.Install.Containers
 
     private void GetSpsTags()
     {
-      SpsTagsComboBox.DataContext = tagRepository.GetSortedShortTags(DockerSettings.SpsImagePath, DockerSettings.SitecoreModuleNamespace).ToArray();
+      // Add support only of PS 6.0.0 and later since the previous version 5.0.0 contains significant bugs and 'SITECORE_Sitecore' duplicated environment varialbes for the 'sps-mssql-init' and 'sps' services
+      SpsTagsComboBox.DataContext = tagRepository.GetSortedShortTags(DockerSettings.SpsImagePath, DockerSettings.SitecoreModuleNamespace).Where(tag => !tag.StartsWith("5.0")).ToArray();
       SpsTagsComboBox.SelectedIndex = 0;
     }
 
