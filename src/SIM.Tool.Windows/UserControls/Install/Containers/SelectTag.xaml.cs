@@ -178,6 +178,7 @@ namespace SIM.Tool.Windows.UserControls.Install.Containers
     private void ProjectName_OnUnchecked(object sender, RoutedEventArgs e)
     {
       this.envModel.ProjectName = this.defaultProjectName;
+      this.UpdateHosts();
     }
 
     private void UpdateProjectName()
