@@ -762,5 +762,13 @@ namespace SIM.Tool.Windows.UserControls.Install
         this.Solrs.SelectedItem = solr;
       }
     }
+
+    private void InstanceName_PreviewTextInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
+    {
+      if (!NameCharsHelper.IsValidNameChar(e.Text, "site name"))
+      {
+        e.Handled = true;
+      }
+    }
   }
 }

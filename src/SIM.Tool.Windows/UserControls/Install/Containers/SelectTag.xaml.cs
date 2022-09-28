@@ -51,6 +51,7 @@ namespace SIM.Tool.Windows.UserControls.Install.Containers
 
     public bool OnMovingBack(WizardArgs wizardArgs)
     {
+      this.lastRegistry = null;
       return true;
     }
 
@@ -146,10 +147,7 @@ namespace SIM.Tool.Windows.UserControls.Install.Containers
 
     private void UpdateHosts()
     {
-      string hostNameTemplate = "{0}-{1}";
-      string hostNameKeyPattern = "([A-Za-z0-9]{1,3})_HOST";
-
-      Regex regex = new Regex(hostNameKeyPattern);
+      Regex regex = new Regex(DockerSettings.HostNameKeyPattern);
 
       if (string.IsNullOrEmpty(this.envModel.ProjectName))
       {
@@ -167,7 +165,7 @@ namespace SIM.Tool.Windows.UserControls.Install.Containers
         if (string.IsNullOrEmpty(serviceName))
           continue;
 
-        this.envModel[hostNameKey] = string.Format(hostNameTemplate, this.envModel.ProjectName, serviceName.ToLower());
+        this.envModel[hostNameKey] = string.Format(DockerSettings.HostNameTemplate, serviceName.ToLower(), this.envModel.ProjectName);
       }
     }
 
@@ -180,6 +178,7 @@ namespace SIM.Tool.Windows.UserControls.Install.Containers
     private void ProjectName_OnUnchecked(object sender, RoutedEventArgs e)
     {
       this.envModel.ProjectName = this.defaultProjectName;
+      this.UpdateHosts();
     }
 
     private void UpdateProjectName()

@@ -34,7 +34,7 @@
         <ComboBox Grid.Row="3" Grid.Column="1" Name="ProductRevision" DisplayMemberPath="RevisionAndLabel" SelectionChanged="ProductRevisionChanged" />
 
         <TextBlock Grid.Row="0" Grid.Column="3" Text="Site Name: " VerticalAlignment="Center" HorizontalAlignment="Left" Width="77" Grid.RowSpan="2" Height="16" Margin="0,6" Grid.ColumnSpan="3" />
-        <TextBox Grid.Row="0" Grid.Column="5" Name="InstanceName" Text="{Binding ElementName=ProductRevision, Path=SelectedValue, Converter={x:Static converters:Product._DefaultInstanceName}, Mode=OneWay}" Grid.RowSpan="2"  />
+        <TextBox Grid.Row="0" Grid.Column="5" Name="InstanceName" Text="{Binding ElementName=ProductRevision, Path=SelectedValue, Converter={x:Static converters:Product._DefaultInstanceName}, Mode=OneWay}" Grid.RowSpan="2" PreviewTextInput="InstanceName_PreviewTextInput" />
 
         <TextBlock Grid.Column="3" Grid.Row="2" TextWrapping="Wrap" VerticalAlignment="Center" HorizontalAlignment="Left" Width="30" Margin="0,5" Height="16"><Run Text="Solr:"/></TextBlock>
         <Button Grid.Column="4" Grid.Row="2" Content="+" Margin="0,3,0,2" Click="AddSolr_Click" HorizontalAlignment="Right" Width="23" />

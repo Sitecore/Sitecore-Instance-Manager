@@ -29,9 +29,6 @@ namespace SIM.Pipelines.Install.Containers
         yamlFileGeneratorHelpers = new List<IYamlFileGeneratorHelper>();
         dockerfileGeneratorHelpers = new List<IDockerfileGeneratorHelper>();
 
-        yamlFileGeneratorHelpers.Add(new ToolsYamlFileGeneratorHelper());
-        dockerfileGeneratorHelpers.Add(new ToolsDockerfileGeneratorHelper());
-
         foreach (Module module in args.Modules)
         {
           switch (module)
@@ -41,10 +38,16 @@ namespace SIM.Pipelines.Install.Containers
               dockerfileGeneratorHelpers.Add(new SxaDockerfileGeneratorHelper());
               break;
             case Module.JSS:
+              yamlFileGeneratorHelpers.Add(new JssYamlFileGeneratorHelper(topology));
+              dockerfileGeneratorHelpers.Add(new JssDockerfileGeneratorHelper());
               break;
             case Module.Horizon:
+              yamlFileGeneratorHelpers.Add(new HorizonYamlFileGeneratorHelper(topology));
+              dockerfileGeneratorHelpers.Add(new HorizonDockerfileGeneratorHelper());
               break;
             case Module.PublishingService:
+              yamlFileGeneratorHelpers.Add(new SpsYamlFileGeneratorHelper(topology));
+              dockerfileGeneratorHelpers.Add(new SpsDockerfileGeneratorHelper());
               break;
             default:
               throw new NotImplementedException($"The '{module}' module's data cannot be generated, because related implementation cannot be found.");

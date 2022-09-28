@@ -6,9 +6,8 @@ using Sitecore.Diagnostics.Base;
 using SIM.SitecoreEnvironments;
 using System.Collections.Generic;
 using System.Linq;
-using MongoDB.Bson.Serialization.Conventions;
 using SIM.ContainerInstaller.DockerCompose;
-using SIM.ContainerInstaller.DockerCompose.Model;
+using SIM.ContainerInstaller;
 
 namespace SIM.Pipelines.Install.Containers
 {
@@ -24,7 +23,9 @@ namespace SIM.Pipelines.Install.Containers
       "prc",
       "rep",
       "xdbcollection",
-      "xdbsearch"
+      "xdbsearch",
+      DockerSettings.HorizonServiceName,
+      DockerSettings.SpsServiceName
     };
 
     private IList<string> serviceTypes => new List<string>()
@@ -67,15 +68,34 @@ namespace SIM.Pipelines.Install.Containers
     {
       SitecoreEnvironment environment = new SitecoreEnvironment(environmentName, SitecoreEnvironment.EnvironmentType.Container);
       environment.UnInstallDataPath = destinationFolder;
-      environment.Members = GetEnvironmentMembers(environmentName, destinationFolder).ToList();
+      List<SitecoreEnvironmentMember> environmentMembersFromDockerCompose = GetEnvironmentMembers(environmentName, destinationFolder).ToList();
+      environment.Members = GetEnvironmentMembersFromOverrideFile(environmentName, destinationFolder, environmentMembersFromDockerCompose);
 
       return environment;
+    }
+
+    // Add support of new installed services like Horizon
+    private List<SitecoreEnvironmentMember> GetEnvironmentMembersFromOverrideFile(string environmentName, string destinationFolder, List<SitecoreEnvironmentMember> environmentMembersFromDockerCompose)
+    {
+      if (File.Exists(Path.Combine(destinationFolder, DockerSettings.DockerComposeOverrideFileName)))
+      {
+        List<SitecoreEnvironmentMember> environmentMembersFromOverrideFile = GetEnvironmentMembers(environmentName, destinationFolder, DockerSettings.DockerComposeOverrideFileName).ToList();
+        foreach (SitecoreEnvironmentMember sitecoreEnvironmentMember in environmentMembersFromOverrideFile)
+        {
+          if (!environmentMembersFromDockerCompose.Any(sem => sem.Name == sitecoreEnvironmentMember.Name))
+          {
+            environmentMembersFromDockerCompose.Add(sitecoreEnvironmentMember);
+          }
+        }
+      }
+
+      return environmentMembersFromDockerCompose;
     }
 
     private IEnumerable<SitecoreEnvironmentMember> GetEnvironmentMembers(
       string environmentName, 
       string destinationFolder, 
-      string fileName = "docker-compose.yml"
+      string fileName = DockerSettings.DockerComposeFileName
       )
     {
       string pathToComposeFile = Path.Combine(destinationFolder, fileName);
