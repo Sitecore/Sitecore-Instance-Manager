@@ -92,7 +92,7 @@ namespace SIM.ContainerInstaller.Modules
       return environmentVariables;
     }
 
-    public IEnumerable<KeyValuePair<YamlNode, YamlNode>> GenerateServices(int shortVersion, IEnumerable<IYamlFileGeneratorHelper> helpers)
+    public IEnumerable<KeyValuePair<YamlNode, YamlNode>> GenerateServices(int shortVersion, IEnumerable<IYamlFileGeneratorHelper> helpers, string newCmImage)
     {
       yield return GenerateHorizonService(helpers);
     }
@@ -132,8 +132,8 @@ namespace SIM.ContainerInstaller.Modules
       nodes.Add(new KeyValuePair<YamlNode, YamlNode>(new YamlScalarNode("environment"), environmentYamlMappingNode));
 
       nodes.Add(new KeyValuePair<YamlNode, YamlNode>(new YamlScalarNode("depends_on"), new YamlMappingNode(
-        new YamlScalarNode("id"), new YamlMappingNode(new YamlScalarNode("condition"), new YamlScalarNode("service_started")),
-        new YamlScalarNode("cm"), new YamlMappingNode(new YamlScalarNode("condition"), new YamlScalarNode("service_started"))
+        new YamlScalarNode(DockerSettings.IdServiceName), new YamlMappingNode(new YamlScalarNode("condition"), new YamlScalarNode("service_started")),
+        new YamlScalarNode(DockerSettings.CmServiceName), new YamlMappingNode(new YamlScalarNode("condition"), new YamlScalarNode("service_started"))
       )));
 
       YamlSequenceNode labelsYamlSequenceNode = new YamlSequenceNode();

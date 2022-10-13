@@ -16,9 +16,9 @@ namespace SIM.Pipelines.Install.Containers
   {
     private IList<string> siteTypes => new List<string>()
     {
-      "id",
-      "cm",
-      "cd",
+      DockerSettings.IdServiceName,
+      DockerSettings.CmServiceName,
+      DockerSettings.CdServiceName,
       "xconnect",
       "prc",
       "rep",
