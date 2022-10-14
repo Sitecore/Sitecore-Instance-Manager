@@ -24,6 +24,7 @@ using SIM.IO.Real;
 using SIM.Sitecore9Installer;
 using SIM.Tool.Windows.Dialogs;
 using SIM.Tool.Windows.UserControls.Helpers;
+using SIM.Sitecore9Installer.Tasks;
 
 namespace SIM.Tool.Windows.UserControls.Install
 {
@@ -230,6 +231,13 @@ namespace SIM.Tool.Windows.UserControls.Install
       if (solrUrl != null)
       {
         solrUrl.Value = args.SolrUrl;
+      }
+
+      // Uncheck the "Prerequisites" checbox on the next step
+      Task prerequisitesTask = tasker.Tasks.FirstOrDefault(p => p.Name == "Prerequisites");
+      if (prerequisitesTask != null)
+      {
+        prerequisitesTask.ShouldRun = false;
       }
 
       args.ScriptsOnly = this.scriptsOnly.IsChecked ?? false;
