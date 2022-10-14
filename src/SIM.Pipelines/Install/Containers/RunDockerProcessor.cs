@@ -11,7 +11,7 @@ namespace SIM.Pipelines.Install.Containers
   {
     protected override string GetCommand(ProcessorArgs procArgs)
     {
-      return "docker-compose.exe up -d";
+      return "docker-compose.exe build --no-cache && docker-compose.exe up -d";
     }
 
     protected override string GetExecutionFolder(ProcessorArgs procArgs)
