@@ -106,7 +106,7 @@ namespace SIM.ContainerInstaller
       }
       foreach(IYamlFileGeneratorHelper helper in helpers)
       {
-        IEnumerable<KeyValuePair<YamlNode, YamlNode>> newServices = helper.GenerateServices(shortVersion, helpers);
+        IEnumerable<KeyValuePair<YamlNode, YamlNode>> newServices = helper.GenerateServices(shortVersion, helpers, NewCmImage);
         foreach (KeyValuePair<YamlNode, YamlNode> service in newServices)
         {
           if (service.Key != null)
@@ -138,11 +138,11 @@ namespace SIM.ContainerInstaller
         {
           msSqlArgsForModules.AddRange(helper.GenerateMsSqlArgs(shortVersion, topology));
         }
-        return GenerateService("mssql", BaseMsSqlImage, NewMsSqlImage, MsSqlContext, msSqlArgsForModules, "2GB", MsSqlVolumes);
+        return GenerateService(DockerSettings.MsSqlServiceName, BaseMsSqlImage, NewMsSqlImage, MsSqlContext, msSqlArgsForModules, "2GB", MsSqlVolumes);
       }
       else if (shortVersion >= 102 && helpers.OfType<SxaYamlFileGeneratorHelper>().Any())
       {
-        return GenerateService("mssql", null, null, null, null, "2GB", MsSqlVolumes);
+        return GenerateService(DockerSettings.MsSqlServiceName, null, null, null, null, "2GB", MsSqlVolumes);
       }
       return EmptyKeyValuePair;
     }
@@ -156,7 +156,7 @@ namespace SIM.ContainerInstaller
         {
           msSqlInitArgsForModules.AddRange(helper.GenerateMsSqlInitArgs(shortVersion, topology));
         }
-        return GenerateService("mssql-init", BaseMsSqlInitImage, NewMsSqlInitImage, MsSqlInitContext, msSqlInitArgsForModules, null, null);
+        return GenerateService(DockerSettings.MsSqlInitServiceName, BaseMsSqlInitImage, NewMsSqlInitImage, MsSqlInitContext, msSqlInitArgsForModules, null, null);
       }
       return EmptyKeyValuePair;
     }
@@ -170,7 +170,7 @@ namespace SIM.ContainerInstaller
         {
           solrArgsForModules.AddRange(helper.GenerateSolrArgs(shortVersion, topology));
         }
-        return GenerateService("solr", BaseSolrImage, NewSolrImage, SolrContext, solrArgsForModules, "1GB", SolrVolumes);
+        return GenerateService(DockerSettings.SolrServiceName, BaseSolrImage, NewSolrImage, SolrContext, solrArgsForModules, "1GB", SolrVolumes);
       }
       return EmptyKeyValuePair;
     }
@@ -184,7 +184,7 @@ namespace SIM.ContainerInstaller
         {
           solrInitArgsForModules.AddRange(helper.GenerateSolrInitArgs(shortVersion, topology));
         }
-        return GenerateService("solr-init", BaseSolrInitImage, NewSolrInitImage, SolrInitContext, solrInitArgsForModules, null, null);
+        return GenerateService(DockerSettings.SolrInitServiceName, BaseSolrInitImage, NewSolrInitImage, SolrInitContext, solrInitArgsForModules, null, null);
       }
       return EmptyKeyValuePair;
     }
@@ -193,7 +193,7 @@ namespace SIM.ContainerInstaller
     {
       if (shortVersion >= 100)
       {
-        return GenerateService("id", BaseIdImage, NewIdImage, IdContext, null, null, null, GetEnvironmentVariables(helpers, Service.Id));
+        return GenerateService(DockerSettings.IdServiceName, BaseIdImage, NewIdImage, IdContext, null, null, null, GetEnvironmentVariables(helpers, Service.Id));
       }
       return EmptyKeyValuePair;
     }
@@ -207,7 +207,7 @@ namespace SIM.ContainerInstaller
         {
           cdArgsForModules.AddRange(helper.GenerateCdArgs(shortVersion, topology));
         }
-        return GenerateService("cd", BaseCdImage, NewCdImage, CdContext, cdArgsForModules, null, null);
+        return GenerateService(DockerSettings.CdServiceName, BaseCdImage, NewCdImage, CdContext, cdArgsForModules, null, null);
       }
       return EmptyKeyValuePair;
     }
@@ -221,7 +221,7 @@ namespace SIM.ContainerInstaller
         {
           cmArgsForModules.AddRange(helper.GenerateCmArgs(shortVersion, topology));
         }
-        return GenerateService("cm", BaseCmImage, NewCmImage, CmContext, cmArgsForModules, null, null, GetEnvironmentVariables(helpers, Service.Cm));
+        return GenerateService(DockerSettings.CmServiceName, BaseCmImage, NewCmImage, CmContext, cmArgsForModules, null, null, GetEnvironmentVariables(helpers, Service.Cm));
       }
       return EmptyKeyValuePair;
     }
