@@ -7,7 +7,7 @@ using Sitecore.Diagnostics.Base;
 namespace SIM.Pipelines.Install.Containers
 {
   [UsedImplicitly]
-  public class RunDockerProcessor : RunCmdCommandBaseProcessor
+  public class RunDockerUpProcessor : RunCmdCommandBaseProcessor
   {
     protected override string GetCommand(ProcessorArgs procArgs)
     {
