@@ -41,6 +41,8 @@
     </step>
     <step>
       <processor type=""SIM.Pipelines.Install.Containers.RunDockerBuildProcessor, SIM.Pipelines"" title=""Run the docker compose build command""/>
+    </step>
+    <step>
       <processor type=""SIM.Pipelines.Install.Containers.RunDockerUpProcessor, SIM.Pipelines"" title=""Run the docker compose up command""/>
     </step>
 </installContainer>
