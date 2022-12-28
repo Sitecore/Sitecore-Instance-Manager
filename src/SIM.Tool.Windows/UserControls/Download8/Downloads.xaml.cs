@@ -167,6 +167,11 @@
     {
     }
 
+    private void OpenDownloadsPage(object sender, RoutedEventArgs e)
+    {
+      CoreApp.OpenInBrowser("https://dev.sitecore.net/Downloads/Sitecore_Experience_Platform.aspx", true);
+    }
+
     #endregion
 
     #endregion

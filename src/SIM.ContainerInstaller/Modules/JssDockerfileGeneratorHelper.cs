@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Collections.Generic;
+using System.Text;
 
 namespace SIM.ContainerInstaller.Modules
 {
@@ -125,6 +126,11 @@ namespace SIM.ContainerInstaller.Modules
     }
 
     public StringBuilder GenerateSolrInitCommands()
+    {
+      return null;
+    }
+
+    public IDictionary<string, StringBuilder> GenerateDockerfiles()
     {
       return null;
     }

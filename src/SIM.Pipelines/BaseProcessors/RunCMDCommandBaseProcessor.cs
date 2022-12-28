@@ -35,26 +35,22 @@ namespace SIM.Pipelines.BaseProcessors
       System.Diagnostics.Process proc = new System.Diagnostics.Process();
       proc.StartInfo.Arguments = strCmdText;
       proc.StartInfo.FileName = "CMD.exe";
+      proc.StartInfo.CreateNoWindow = true;
       proc.StartInfo.UseShellExecute = false;
       proc.StartInfo.RedirectStandardError = true;
       proc.StartInfo.RedirectStandardOutput = true;
-      proc.OutputDataReceived += Proc_DataReceived;
-      proc.ErrorDataReceived += Proc_DataReceived;
       proc.Start();
-      proc.BeginOutputReadLine();
-      proc.BeginErrorReadLine();
+
+      string logEntry;
+      while ((logEntry = proc.StandardOutput.ReadLine()) != null || (logEntry = proc.StandardError.ReadLine()) != null)
+      {
+        this._logger.Info(logEntry, false);
+      }
+
       proc.WaitForExit();
       if (proc.ExitCode != 0)
       {
         throw new AggregateException($"Failed to run '{command}' in '{executionFolder}'\n{proc.StandardError.ReadToEnd()}");
-      }
-    }
-
-    private void Proc_DataReceived(object sender, System.Diagnostics.DataReceivedEventArgs e)
-    {
-      if (!string.IsNullOrEmpty(e.Data))
-      {
-        this._logger.Info(e.Data, false);
       }
     }
   }

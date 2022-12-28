@@ -143,7 +143,7 @@ namespace SIM.ContainerInstaller.Modules
       return new Dictionary<string, string>();
     }
 
-    public IEnumerable<KeyValuePair<YamlNode, YamlNode>> GenerateServices(int shortVersion, IEnumerable<IYamlFileGeneratorHelper> helpers)
+    public IEnumerable<KeyValuePair<YamlNode, YamlNode>> GenerateServices(int shortVersion, IEnumerable<IYamlFileGeneratorHelper> helpers, string newCmImage)
     {
       return EmptyList;
     }

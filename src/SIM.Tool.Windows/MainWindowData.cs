@@ -132,13 +132,6 @@ namespace SIM.Tool.Windows
                 new ButtonDefinition(),
                 new ButtonDefinition
                 {
-                  Label = "Download Sitecore",
-                  Image = "/Images/$sm/cloud_download.png, SIM.Tool.Windows",
-                  Handler = new Download8Button()
-                },
-                new ButtonDefinition(),
-                new ButtonDefinition
-                {
                   Label = "Hosts Editor",
                   Image = "/Images/$sm/modem_earth.png, SIM.Tool.Windows",
                   Handler = new OpenHostsButton()

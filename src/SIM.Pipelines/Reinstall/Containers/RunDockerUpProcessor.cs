@@ -6,7 +6,7 @@ using SIM.Pipelines.Processors;
 namespace SIM.Pipelines.Reinstall.Containers
 {
   [UsedImplicitly]
-  public class RunDockerProcessor : Install.Containers.RunDockerProcessor
+  public class RunDockerUpProcessor : Install.Containers.RunDockerUpProcessor
   {
     protected override string GetExecutionFolder(ProcessorArgs procArgs)
     {

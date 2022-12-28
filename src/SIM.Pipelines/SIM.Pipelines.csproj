@@ -122,7 +122,8 @@
     <Compile Include="Install\Containers\InstallDockerToolsProcessor.cs" />
     <Compile Include="Delete\Containers\RemoveFromDocker.cs" />
     <Compile Include="Install\Containers\RunCommandBaseProcessor.cs" />
-    <Compile Include="Install\Containers\RunDockerProcessor.cs" />
+    <Compile Include="Install\Containers\RunDockerBuildProcessor.cs" />
+    <Compile Include="Install\Containers\RunDockerUpProcessor.cs" />
     <Compile Include="Install\Containers\WriteEnvFileProcessor.cs" />
     <Compile Include="Install\GenerateScriptProcessor.cs" />
     <Compile Include="Install\GenerateSitecoreEnvironmentData.cs" />
@@ -194,7 +195,7 @@
     <Compile Include="Reinstall\Containers\RemoveFromDockerProcessor.cs" />
     <Compile Include="Reinstall\Containers\CleanupSolrDataProcessor.cs" />
     <Compile Include="Reinstall\Containers\CleanupSqlDataProcessor.cs" />
-    <Compile Include="Reinstall\Containers\RunDockerProcessor.cs" />
+    <Compile Include="Reinstall\Containers\RunDockerUpProcessor.cs" />
     <Compile Include="Reinstall\Reinstall9Args.cs" />
     <Compile Include="Reinstall\Reinstall9SwitchMode.cs" />
     <Compile Include="Restore\RestoreMongoDatabases.cs" />

@@ -78,9 +78,17 @@ namespace SIM.ContainerInstaller
     public const string DockerComposeFileName = "docker-compose.yml";
     public const string DockerComposeOverrideFileName = "docker-compose.override.yml";
     // These values must be the same as in the "SIM.Pipelines.Install.Containers.GenerateEnvironmentData.siteTypes" list.
+    public const string IdServiceName = "id";
+    public const string CmServiceName = "cm";
+    public const string CdServiceName = "cd";
     public const string HorizonServiceName = "hrz";
-    public const string SpsMsSqlInitServiceName = "sps-mssql-init";
     public const string SpsServiceName = "sps";
+
+    public const string SpsMsSqlInitServiceName = "sps-mssql-init";
+    public const string MsSqlServiceName = "mssql";
+    public const string MsSqlInitServiceName = "mssql-init";
+    public const string SolrServiceName = "solr";
+    public const string SolrInitServiceName = "solr-init";
     // Horizon only works correctly if its, Identity Server and Content Management instances belong to the same site (domain) as mentioned in Horizon Installation Guide.
     public const string HostNameTemplate = "{0}.{1}";
     public const string HostNameKeyPattern = "([A-Za-z0-9]{1,3})_HOST";

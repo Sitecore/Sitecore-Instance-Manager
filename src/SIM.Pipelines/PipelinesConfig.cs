@@ -40,7 +40,10 @@
       <processor type=""SIM.Pipelines.Install.Containers.GenerateEnvironmentData, SIM.Pipelines"" title=""Add Sitecore environment data""/>
     </step>
     <step>
-      <processor type=""SIM.Pipelines.Install.Containers.RunDockerProcessor, SIM.Pipelines"" title=""Run docker""/>
+      <processor type=""SIM.Pipelines.Install.Containers.RunDockerBuildProcessor, SIM.Pipelines"" title=""Run the docker compose build command""/>
+    </step>
+    <step>
+      <processor type=""SIM.Pipelines.Install.Containers.RunDockerUpProcessor, SIM.Pipelines"" title=""Run the docker compose up command""/>
     </step>
 </installContainer>
 <deleteContainer title=""Uninstalling container environment"">
@@ -66,7 +69,7 @@
             <processor type=""SIM.Pipelines.Reinstall.Containers.CleanupSqlDataProcessor, SIM.Pipelines"" title=""Remove SQL data""/>
     </step>
     <step>
-            <processor type=""SIM.Pipelines.Reinstall.Containers.RunDockerProcessor, SIM.Pipelines"" title=""Start environment in Docker""/>            
+            <processor type=""SIM.Pipelines.Reinstall.Containers.RunDockerUpProcessor, SIM.Pipelines"" title=""Run the docker compose up command""/>            
     </step>
 
 </reinstallContainer>

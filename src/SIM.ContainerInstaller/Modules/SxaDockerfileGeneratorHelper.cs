@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Collections.Generic;
+using System.Text;
 
 namespace SIM.ContainerInstaller.Modules
 {
@@ -143,6 +144,11 @@ namespace SIM.ContainerInstaller.Modules
       return new StringBuilder()
         .Append(@"# Add SXA module").AppendLine()
         .Append(@"COPY --from=sxa C:\module\solr\cores-sxa.json C:\data\cores-sxa.json").AppendLine().AppendLine();
+    }
+
+    public IDictionary<string, StringBuilder> GenerateDockerfiles()
+    {
+      return null;
     }
   }
 }

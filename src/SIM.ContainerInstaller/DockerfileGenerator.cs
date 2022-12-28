@@ -50,6 +50,17 @@ namespace SIM.ContainerInstaller
       {
         GenerateCmDockerfile(path, helpers);
       }
+      foreach (IDockerfileGeneratorHelper helper in helpers)
+      {
+        IDictionary<string, StringBuilder> newDockerfiles = helper.GenerateDockerfiles();
+        if (newDockerfiles != null)
+        {
+          foreach (KeyValuePair<string, StringBuilder> dockerfile in newDockerfiles)
+          {
+            GenerateSpecificDockerfile(path, dockerfile.Key, dockerfile.Value);
+          }
+        }
+      }
     }
 
     private bool ShouldMsSqlDockerfileBeGenerated(int shortVersion)
