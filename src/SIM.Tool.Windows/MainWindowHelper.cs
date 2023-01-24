@@ -41,6 +41,10 @@ namespace SIM.Tool.Windows
 
   public static class MainWindowHelper
   {
+    private static readonly string refreshInstancesDialogTitle = "Refresh Sitecore web sites";
+
+    private static readonly string refreshInstancesDialogContent = "Scanning Sitecore web sites";
+
     #region Public methods
 
     public static void AppPoolRecycle()
@@ -308,7 +312,7 @@ namespace SIM.Tool.Windows
         WindowHelper.LongRunningTask(() =>
         {
             InstanceManager.Default.Initialize(instancesFolder);
-        }, "Refresh Sitecore web sites", mainWindow, "Scanning Sitecore web sites", "", true);
+        }, refreshInstancesDialogTitle, mainWindow, refreshInstancesDialogContent, "", true);
 
         Search();
         if (string.IsNullOrEmpty(name))
@@ -396,7 +400,10 @@ namespace SIM.Tool.Windows
       using (new ProfileSection("Refresh instances (softly)"))
       {
         var instancesFolder = !CoreAppSettings.CoreInstancesDetectEverywhere.Value ? ProfileManager.Profile.InstancesFolder : null;
-        InstanceManager.Default.InitializeWithSoftListRefresh(instancesFolder);
+        WindowHelper.LongRunningTask(() =>
+        {
+          InstanceManager.Default.InitializeWithSoftListRefresh(instancesFolder);
+        }, refreshInstancesDialogTitle, MainWindow.Instance, refreshInstancesDialogContent, "", true);
         Search();
       }
     }
