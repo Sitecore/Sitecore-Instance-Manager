@@ -36,7 +36,7 @@
     "CreateSupportHotfixButton",
     /*Create Support Patch*/
     "CreateSupportPatchButton",
-    /*Sitecore Client, Sitecore Login, Sitecore Desktop, Content Editor, Page Editor, Launch Pad, Google Chrome, Google Chrome (Incognito), Mozilla Firefox, Mozilla Firefox (Private), Internet Explorer, Internet Explorer (Private), Apple Safari*/
+    /*Sitecore Client, Sitecore Login, Sitecore Desktop, Content Editor, Page Editor, Launch Pad, Google Chrome, Google Chrome (Incognito), Mozilla Firefox, Mozilla Firefox (Private), Internet Explorer, Internet Explorer (Private)*/
     "BrowseButton",
     /*Site / page*/
     "BrowseHomePageButton",

@@ -523,7 +523,6 @@
     <Resource Include="Images\16\publish.png" />
     <Resource Include="Images\16\redo.png" />
     <Resource Include="Images\16\refresh.png" />
-    <Resource Include="Images\16\safari.png" />
     <Resource Include="Images\16\sitecore.png" />
     <Resource Include="Images\16\splitter_hor_b_d.png" />
     <Resource Include="Images\16\Startpage.png" />
@@ -533,7 +532,6 @@
     <Resource Include="Images\16\wrench.png" />
     <Resource Include="Images\24\firefox.png" />
     <Resource Include="Images\24\ie.png" />
-    <Resource Include="Images\24\safari.png" />
     <Resource Include="Images\24\view.png" />
     <Resource Include="Images\32\add_domain.png" />
     <Resource Include="Images\32\astrologer.png" />
@@ -571,7 +569,6 @@
     <Resource Include="Images\32\publish.png" />
     <Resource Include="Images\32\redo.png" />
     <Resource Include="Images\32\refresh.png" />
-    <Resource Include="Images\32\safari.png" />
     <Resource Include="Images\32\scroll_refresh.png" />
     <Resource Include="Images\32\sitecore.png" />
     <Resource Include="Images\32\startpage.png" />
@@ -616,7 +613,6 @@
     <Resource Include="Images\48\publish.png" />
     <Resource Include="Images\48\redo.png" />
     <Resource Include="Images\48\refresh.png" />
-    <Resource Include="Images\48\safari.png" />
     <Resource Include="Images\48\scroll_refresh.png" />
     <Resource Include="Images\48\Sitecore.png" />
     <Resource Include="Images\48\Startpage.png" />
