@@ -9,15 +9,9 @@ namespace SIM.Sitecore9Installer.Validation.Validators
 {
   public class LicenseFileValidator : IValidator
   {
-    private const string expirationNodeName = "expiration";
+    public readonly Dictionary<string, List<string>> ExpiredDatesAndLicences;
 
-    private const string expirationNodeDateTimeFormat = "yyyyMMdd'T'HHmmss";
-
-    private const string expirationNodeParentNodeAttribute = "Id";
-
-    private readonly Dictionary<string, List<string>> ExpiredDatesAndLicences;
-
-    private readonly Dictionary<string, List<string>> AlmostExpiredDatesAndLicences;
+    public readonly Dictionary<string, List<string>> AlmostExpiredDatesAndLicences;
 
     public LicenseFileValidator()
     {
@@ -46,40 +40,7 @@ namespace SIM.Sitecore9Installer.Validation.Validators
         }
         else
         {
-          XmlDocument doc = new XmlDocument();
-          doc.Load(path);
-
-          XmlNodeList expirationNodes = doc.GetElementsByTagName(expirationNodeName);
-          foreach (XmlNode expirationNode in expirationNodes)
-          {
-            DateTime expirationDateTime = DateTime.ParseExact(expirationNode.InnerText, expirationNodeDateTimeFormat, CultureInfo.InvariantCulture);
-            if (expirationDateTime.Date <= DateTime.Now.Date)
-            {
-              string expiredShortDate = expirationDateTime.ToShortDateString();
-              string expiredLicense = expirationNode.ParentNode.ParentNode.Attributes[expirationNodeParentNodeAttribute].Value;
-              if (!ExpiredDatesAndLicences.ContainsKey(expiredShortDate))
-              {
-                ExpiredDatesAndLicences.Add(expiredShortDate, new List<string>() { expiredLicense });
-              }
-              else
-              {
-                ExpiredDatesAndLicences[expiredShortDate].Add(expiredLicense);
-              }
-            }
-            else if (expirationDateTime.Date < DateTime.Now.AddMonths(1).Date)
-            {
-              string almostExpiredShortDate = expirationDateTime.ToShortDateString();
-              string almostExpiredLicense = expirationNode.ParentNode.ParentNode.Attributes[expirationNodeParentNodeAttribute].Value;
-              if (!AlmostExpiredDatesAndLicences.ContainsKey(almostExpiredShortDate))
-              {
-                AlmostExpiredDatesAndLicences.Add(almostExpiredShortDate, new List<string>() { almostExpiredLicense });
-              }
-              else
-              {
-                AlmostExpiredDatesAndLicences[almostExpiredShortDate].Add(almostExpiredLicense);
-              }
-            }
-          }
+          GetExpiredDatesAndLicenses(path, "expiration", "yyyyMMdd'T'HHmmss", "Id");
 
           if (ExpiredDatesAndLicences.Keys.Any())
           {
@@ -110,5 +71,55 @@ namespace SIM.Sitecore9Installer.Validation.Validators
     }
 
     protected internal virtual bool FileExists(string path) => File.Exists(path);
+
+    protected internal virtual XmlNodeList GetXmlFileNodes(string path, string nodeName)
+    {
+      if (!string.IsNullOrEmpty(path) && !string.IsNullOrEmpty(nodeName))
+      {
+        XmlDocument xmlDocument = new XmlDocument();
+        xmlDocument.Load(path);
+        return xmlDocument.GetElementsByTagName(nodeName);
+      }
+      return null;
+    }
+
+    protected internal virtual void GetExpiredDatesAndLicenses(string licenseFilePath, string expirationNodeName,
+      string expirationNodeDateTimeFormat, string expirationNodeParentNodeAttribute)
+    {
+      XmlNodeList expirationNodes = GetXmlFileNodes(licenseFilePath, expirationNodeName);
+      if (expirationNodes != null)
+      {
+        foreach (XmlNode expirationNode in expirationNodes)
+        {
+          DateTime expirationDateTime = DateTime.ParseExact(expirationNode.InnerText, expirationNodeDateTimeFormat, CultureInfo.InvariantCulture);
+          if (expirationDateTime.Date <= DateTime.Now.Date)
+          {
+            string expiredShortDate = expirationDateTime.ToShortDateString();
+            string expiredLicense = expirationNode.ParentNode?.ParentNode?.Attributes[expirationNodeParentNodeAttribute]?.Value;
+            if (!ExpiredDatesAndLicences.ContainsKey(expiredShortDate))
+            {
+              ExpiredDatesAndLicences.Add(expiredShortDate, new List<string>() { expiredLicense });
+            }
+            else
+            {
+              ExpiredDatesAndLicences[expiredShortDate].Add(expiredLicense);
+            }
+          }
+          else if (expirationDateTime.Date < DateTime.Now.AddMonths(1).Date)
+          {
+            string almostExpiredShortDate = expirationDateTime.ToShortDateString();
+            string almostExpiredLicense = expirationNode.ParentNode?.ParentNode?.Attributes[expirationNodeParentNodeAttribute]?.Value;
+            if (!AlmostExpiredDatesAndLicences.ContainsKey(almostExpiredShortDate))
+            {
+              AlmostExpiredDatesAndLicences.Add(almostExpiredShortDate, new List<string>() { almostExpiredLicense });
+            }
+            else
+            {
+              AlmostExpiredDatesAndLicences[almostExpiredShortDate].Add(almostExpiredLicense);
+            }
+          }
+        }
+      }
+    }
   }
 }
