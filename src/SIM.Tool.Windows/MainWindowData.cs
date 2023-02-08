@@ -349,12 +349,6 @@ namespace SIM.Tool.Windows
                   Image = "/Images/$lg/msedge.png, SIM.Tool.Windows",
                   Handler = new BrowseButton("/sitecore:msedge:-InPrivate")
                 },
-                new ButtonDefinition
-                {
-                  Label = "Apple Safari",
-                  Image = "/Images/$lg/safari.png, SIM.Tool.Windows",
-                  Handler = new BrowseButton("/sitecore:safari")
-                },
                 new ButtonDefinition(),
                 new ButtonDefinition
                 {
@@ -432,12 +426,6 @@ namespace SIM.Tool.Windows
                   Label = "Microsoft Edge (InPrivate)",
                   Image = "/Images/$lg/msedge.png, SIM.Tool.Windows",
                   Handler = new LoginAdminButton("/sitecore:msedge:-InPrivate")
-                },
-                new ButtonDefinition
-                {
-                  Label = "Apple Safari",
-                  Image = "/Images/$lg/safari.png, SIM.Tool.Windows",
-                  Handler = new LoginAdminButton("/sitecore:safari")
                 },
                 new ButtonDefinition(),
                 new ButtonDefinition
@@ -1144,7 +1132,6 @@ namespace SIM.Tool.Windows
         new ButtonDefinition { Label = "Google Chrome", Image = "/Images/$lg/chrome.png, SIM.Tool.Windows", Handler = new LoginAdminButton("/sitecore:chrome") },
         new ButtonDefinition { Label = "Mozilla Firefox", Image = "/Images/$lg/firefox.png, SIM.Tool.Windows", Handler = new LoginAdminButton("/sitecore:firefox") },
         new ButtonDefinition { Label = "Microsoft Edge", Image = "/Images/$lg/msedge.png, SIM.Tool.Windows", Handler = new LoginAdminButton("/sitecore:msedge") },
-        new ButtonDefinition { Label = "Apple Safari", Image = "/Images/$lg/safari.png, SIM.Tool.Windows", Handler = new LoginAdminButton("/sitecore:safari") },
         new ButtonDefinition { Handler = new OpenToolboxButton() },
         new ButtonDefinition { Label = "Sitecore Admin", Image = "/Images/$lg/toolbox.png, SIM.Tool.Windows", Handler = new OpenToolboxButton("bypass") },
         new ButtonDefinition { Handler = new LoginAdminButton() },
