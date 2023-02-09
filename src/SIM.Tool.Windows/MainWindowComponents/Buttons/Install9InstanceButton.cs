@@ -20,7 +20,8 @@ namespace SIM.Tool.Windows.MainWindowComponents.Buttons
         return;
       }
 
-      if (ApplicationManager.IsDockerRunning)
+      if (ApplicationManager.CurrentDockerStatus == ApplicationManager.DockerStatus.RunningWithWindowsContainers || 
+        ApplicationManager.CurrentDockerStatus == ApplicationManager.DockerStatus.RunningWithLinuxContainers)
       {
         string urlToWikiPage = "https://github.com/Sitecore/Sitecore-Instance-Manager/wiki/Troubleshooting";
 

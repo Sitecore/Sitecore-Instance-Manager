@@ -144,7 +144,7 @@
         }
       }
 
-      if(ApplicationManager.IsDockerRunning) {instances.AddRange(GetContainerizedInstances());}
+      if(ApplicationManager.CurrentDockerStatus == ApplicationManager.DockerStatus.RunningWithWindowsContainers) {instances.AddRange(GetContainerizedInstances());}
 
       Dictionary<string, Instance> partiallyCachedInstances = instances.ToDictionary(i => i.Name);
 

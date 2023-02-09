@@ -96,7 +96,9 @@ namespace SIM
 
     public static bool IsIisRunning { get; set; }
 
-    public static bool IsDockerRunning { get; set; }
+    public static DockerStatus PreviousDockerStatus { get; set; }
+
+    public static DockerStatus CurrentDockerStatus { get; set; }
 
     public static event PropertyChangedEventHandler IisStatusChanged;
 
@@ -107,6 +109,13 @@ namespace SIM
     private const double TimerInterval = 10000;
 
     #endregion
+
+    public enum DockerStatus
+    {
+      RunningWithWindowsContainers,
+      RunningWithLinuxContainers,
+      Stopped
+    }
 
     #region Constructors
 
@@ -134,7 +143,7 @@ namespace SIM
       UnInstallParamsFolder = InitializeDataFolder("UnInstallParams");
       TempFolder = InitializeDataFolder("Temp");
       IsIisRunning = GetIisStatus();
-      IsDockerRunning = GetDockerStatus();
+      CurrentDockerStatus = GetDockerStatus();
       Timer = new System.Timers.Timer(TimerInterval);
       Timer.Elapsed += Timer_Elapsed;
       Timer.Enabled = true;
@@ -431,10 +440,11 @@ namespace SIM
         OnIisStatusChanged();
       }
       
-      bool dockerStatus = GetDockerStatus();
-      if (IsDockerRunning != dockerStatus)
+      DockerStatus dockerStatus = GetDockerStatus();
+      if (CurrentDockerStatus != dockerStatus)
       {
-        IsDockerRunning = dockerStatus;
+        PreviousDockerStatus = CurrentDockerStatus;
+        CurrentDockerStatus = dockerStatus;
         OnDockerStatusChanged();
       }
     }
@@ -458,22 +468,42 @@ namespace SIM
       }
     }
 
-    private static bool GetDockerStatus()
+    private static DockerStatus GetDockerStatus()
     {
       try
       {
-        ServiceController serviceController = GetDockerService();
+        string cmdOutput = string.Empty;
 
-        if (serviceController != null && serviceController.Status.Equals(ServiceControllerStatus.Running))
+        ProcessStartInfo processStartInfo = new ProcessStartInfo("cmd.exe", "/c docker version")
         {
-          return true;
-        }
+          CreateNoWindow = true,
+          UseShellExecute = false,
+          RedirectStandardError = true,
+          RedirectStandardOutput = true
+        };
 
-        return false;
+        Process cmdProcess = Process.Start(processStartInfo);
+        cmdProcess.OutputDataReceived += (sender, args) => { cmdOutput += args.Data; };
+        cmdProcess.BeginOutputReadLine();
+        cmdProcess.WaitForExit();
+
+        if (cmdOutput.IndexOf("server", StringComparison.OrdinalIgnoreCase) < 0 || 
+          cmdOutput.IndexOf("error", StringComparison.OrdinalIgnoreCase) >= 0)
+        {
+          return DockerStatus.Stopped;
+        }
+        else if (cmdOutput.IndexOf("linux", StringComparison.OrdinalIgnoreCase) >= 0)
+        {
+          return DockerStatus.RunningWithLinuxContainers;
+        }
+        else
+        {
+          return DockerStatus.RunningWithWindowsContainers;
+        }
       }
       catch
       {
-        return false;
+        return DockerStatus.Stopped;
       }
     }
 

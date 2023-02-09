@@ -47,7 +47,7 @@ If you already have them then you can either:
         return;
       }
 
-      if (!ApplicationManager.IsDockerRunning)
+      if (ApplicationManager.CurrentDockerStatus == ApplicationManager.DockerStatus.Stopped)
       {
         string message = "The 'Docker Desktop' application is not running. Please start the app and re-run the deployment Sitecore to Docker.";
 
