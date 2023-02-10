@@ -105,7 +105,7 @@ namespace SIM.Tool.Windows
             {
               Label = "Get Sitecore",
               Image = "/Images/$lg/cloud_download.png, SIM.Tool.Windows",
-              Handler = new Download8Button()
+              Handler = new DownloadButton()
             },
             new ButtonDefinition
             {

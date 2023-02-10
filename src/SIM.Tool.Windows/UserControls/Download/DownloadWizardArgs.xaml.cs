@@ -1,4 +1,4 @@
-﻿namespace SIM.Tool.Windows.UserControls.Download8
+﻿namespace SIM.Tool.Windows.UserControls.Download
 {
   using System;
   using System.Collections.Generic;
@@ -7,19 +7,18 @@
   using SIM.Pipelines.Processors;
   using SIM.Tool.Base.Profiles;
   using SIM.Tool.Base.Wizards;
-  using SIM.Tool.Windows.Pipelines.Download8;
+  using SIM.Tool.Windows.Pipelines.Download;
   using Sitecore.Diagnostics.Base;
   using JetBrains.Annotations;
   using Sitecore.Diagnostics.InfoService.Client;
   using Sitecore.Diagnostics.InfoService.Client.Model;
-  using SIM.Extensions;
 
   public class DownloadWizardArgs : WizardArgs
   {
     #region Fields
 
     [NotNull]
-    private readonly List<ProductDownload8InCheckbox> _Products = new List<ProductDownload8InCheckbox>();
+    private readonly List<IProductDownloadCheckBox> _Products = new List<IProductDownloadCheckBox>();
 
     #endregion
 
@@ -49,7 +48,7 @@
     public string Password { get; set; }
 
     [NotNull]
-    public List<ProductDownload8InCheckbox> Products
+    public List<IProductDownloadCheckBox> Products
     {
       get
       {
@@ -58,7 +57,7 @@
     }
 
     [CanBeNull]
-    public IRelease[] Releases { get; } = SIM.Products.Product.Service.GetVersions("Sitecore CMS").Where(x => x.Version.Major == 8).ToArray();
+    public IRelease[] Releases { get; } = SIM.Products.Product.Service.GetVersions("Sitecore CMS").Where(x => x.Version.Major >= 8).ToArray();
 
     public string UserName { get; set; }
 
@@ -69,7 +68,7 @@
     [NotNull]
     public override ProcessorArgs ToProcessorArgs()
     {
-      return new Download8Args(Cookies, Links, ProfileManager.Profile.LocalRepository);
+      return new DownloadArgs(Cookies, Links, ProfileManager.Profile.LocalRepository);
     }
 
     #endregion

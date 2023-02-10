@@ -1,4 +1,4 @@
-﻿namespace SIM.Tool.Windows.UserControls.Download8
+﻿namespace SIM.Tool.Windows.UserControls.Download
 {
   using System;
   using System.Collections.Generic;
@@ -20,7 +20,7 @@
   {
     #region Fields
 
-    private readonly List<ProductDownload8InCheckbox> _CheckBoxItems = new List<ProductDownload8InCheckbox>();
+    private readonly List<IProductDownloadCheckBox> _CheckBoxItems = new List<IProductDownloadCheckBox>();
 
     #endregion
 
@@ -137,7 +137,7 @@
       foreach (var product in args.Products)
       {
         var selectedPRoduct = product;
-        ProductDownload8InCheckbox checkBoxItem = _CheckBoxItems.SingleOrDefault(cbi => cbi.Value.Equals(selectedPRoduct));
+        IProductDownloadCheckBox checkBoxItem = _CheckBoxItems.SingleOrDefault(cbi => cbi.Value.Equals(selectedPRoduct));
         if (checkBoxItem != null)
         {
           checkBoxItem.IsChecked = true;
@@ -151,11 +151,32 @@
 
     #region Private methods
 
-    private void Append([NotNull] IEnumerable<IRelease> records)
+    private void Append([NotNull] IEnumerable<IRelease> releases)
     {
-      Assert.ArgumentNotNull(records, nameof(records));
+      Assert.ArgumentNotNull(releases, nameof(releases));
 
-      _CheckBoxItems.AddRange(records.Select(r => new ProductDownload8InCheckbox(r)).ToList());
+      foreach (IRelease release in releases)
+      {
+        _CheckBoxItems.AddRange(GetProductCheckBoxes(release));
+      }
+    }
+
+    private IEnumerable<IProductDownloadCheckBox> GetProductCheckBoxes(IRelease release)
+    {
+      Assert.ArgumentNotNull(release, nameof(release));
+
+      ICheckBoxCreator creator;
+
+      if (release.Version.Major < 9)
+      {
+        creator = new CheckBoxCreatorSC8();
+      }
+      else
+      {
+        creator = new CheckBoxCreatorSC9();
+      }
+
+      return creator.Create(release);
     }
 
     private void ModuleSelected([CanBeNull] object sender, [CanBeNull] SelectionChangedEventArgs e)
@@ -165,11 +186,6 @@
 
     private void UserControlLoaded(object sender, RoutedEventArgs e)
     {
-    }
-
-    private void OpenDownloadsPage(object sender, RoutedEventArgs e)
-    {
-      CoreApp.OpenInBrowser("https://dev.sitecore.net/Downloads/Sitecore_Experience_Platform.aspx", true);
     }
 
     #endregion
