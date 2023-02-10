@@ -14,6 +14,8 @@ namespace SIM
   using System.Linq;
   using System.Runtime.CompilerServices;
   using System.Threading;
+  using System.Collections.Generic;
+  using Newtonsoft.Json;
 
   #region
 
@@ -38,6 +40,9 @@ namespace SIM
     public const string DockerProcessName = "Docker Desktop";
     public const string DockerServiceName = "docker";
     public const string IisServiceName = "W3SVC";
+    private const string DockerVersionOsKey = "Os";
+    private const string DockerVersionWindowsValue = "windows";
+    private const string DockerVersionLinuxValue = "linux";
 
     #endregion
 
@@ -474,7 +479,7 @@ namespace SIM
       {
         string cmdOutput = string.Empty;
 
-        ProcessStartInfo processStartInfo = new ProcessStartInfo("cmd.exe", "/c docker version")
+        ProcessStartInfo processStartInfo = new ProcessStartInfo("cmd.exe", "/c docker version --format json")
         {
           CreateNoWindow = true,
           UseShellExecute = false,
@@ -487,24 +492,34 @@ namespace SIM
         cmdProcess.BeginOutputReadLine();
         cmdProcess.WaitForExit();
 
-        if (cmdOutput.IndexOf("server", StringComparison.OrdinalIgnoreCase) < 0 || 
-          cmdOutput.IndexOf("error", StringComparison.OrdinalIgnoreCase) >= 0)
+        DockerVersionInfo dockerVersionInfo = JsonConvert.DeserializeObject<DockerVersionInfo>(cmdOutput);
+
+        if (dockerVersionInfo.Server == null || !dockerVersionInfo.Server.Keys.Contains(DockerVersionOsKey))
         {
           return DockerStatus.Stopped;
         }
-        else if (cmdOutput.IndexOf("linux", StringComparison.OrdinalIgnoreCase) >= 0)
+        else if (dockerVersionInfo.Server[DockerVersionOsKey].ToString().Equals(DockerVersionLinuxValue, StringComparison.OrdinalIgnoreCase))
         {
           return DockerStatus.RunningWithLinuxContainers;
         }
-        else
+        else if (dockerVersionInfo.Server[DockerVersionOsKey].ToString().Equals(DockerVersionWindowsValue, StringComparison.OrdinalIgnoreCase))
         {
           return DockerStatus.RunningWithWindowsContainers;
         }
+
+        return DockerStatus.Stopped;
       }
       catch
       {
         return DockerStatus.Stopped;
       }
+    }
+
+    private struct DockerVersionInfo
+    {
+      public Dictionary<string, object> Client { get; set; }
+
+      public Dictionary<string, object> Server { get; set; }
     }
 
     private static ServiceController GetDockerService()
