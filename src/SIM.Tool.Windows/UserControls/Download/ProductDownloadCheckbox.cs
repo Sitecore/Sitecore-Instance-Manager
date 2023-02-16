@@ -14,6 +14,8 @@ namespace SIM.Tool.Windows.UserControls.Download
 
     protected string Version { get; private set; }
 
+    protected string RevisionAndTopology { get; private set; }
+
     public bool IsChecked
     {
       get
@@ -52,7 +54,8 @@ namespace SIM.Tool.Windows.UserControls.Download
       Uri value,
       string label,
       string revision,
-      string version
+      string version,
+      string revisionAndTopology
       )
     {
       IsEnabled = isEnabled;
@@ -61,11 +64,13 @@ namespace SIM.Tool.Windows.UserControls.Download
       Label = label;
       Revision = revision;
       Version = version;
+      RevisionAndTopology = revisionAndTopology;
     }
 
     public override string ToString()
     {
-      return $"{Name} {Version} rev. {Revision}" +
+      return $"{Name} {Version}" +
+        $"{(string.IsNullOrEmpty(RevisionAndTopology) ? $" rev. {Revision}" : $" rev. {RevisionAndTopology}")}" +
         $"{(string.IsNullOrEmpty(Label) ? string.Empty : $" ({Label})")}" +
         $"{(IsEnabled ? string.Empty : " - you already have it")}";
     }

@@ -275,8 +275,8 @@
     <Compile Include="UserControls\Delete\Delete9Details.xaml.cs">
       <DependentUpon>Delete9Details.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\Download\CheckBoxCreatorSC8.cs" />
-    <Compile Include="UserControls\Download\CheckBoxCreatorSC9.cs" />
+    <Compile Include="UserControls\Download\CheckBoxCreatorSC8AndEarlier.cs" />
+    <Compile Include="UserControls\Download\CheckBoxCreatorSC9AndLater.cs" />
     <Compile Include="UserControls\Download\Downloads.xaml.cs">
       <DependentUpon>Downloads.xaml</DependentUpon>
     </Compile>

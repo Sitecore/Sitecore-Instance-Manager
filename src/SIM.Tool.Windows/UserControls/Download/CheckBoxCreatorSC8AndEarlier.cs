@@ -9,7 +9,7 @@ using System.Linq;
 
 namespace SIM.Tool.Windows.UserControls.Download
 {
-  public class CheckBoxCreatorSC8 : ICheckBoxCreator
+  public class CheckBoxCreatorSC8AndEarlier : ICheckBoxCreator
   {
     protected string name;
     protected string version;
@@ -37,7 +37,7 @@ namespace SIM.Tool.Windows.UserControls.Download
       string label = release.Label;
       bool isEnabled = !ProductManager.Products.Any(CheckProduct);
 
-      return new ProductDownloadCheckbox(isEnabled, name, uri, label, revision, version);
+      return new ProductDownloadCheckbox(isEnabled, name, uri, label, revision, version, null);
     }
 
     protected bool CheckProduct([CanBeNull] Products.Product product)

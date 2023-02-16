@@ -71,10 +71,12 @@
       bool canMoveNext = args.Products.Count > 0;
       if (!canMoveNext)
       {
-        WindowHelper.HandleError("You didn't select any download, please select one to go further", false);
+        WindowHelper.HandleError("You didn't select any download, please select one to go further.", false);
       }
-
-      WindowHelper.LongRunningTask(() => PrepareData(args), "Sitecore Versions Downloader", Window.GetWindow(this), "Preparing for downloading");
+      else
+      {
+        WindowHelper.LongRunningTask(() => PrepareData(args), "Sitecore Versions Downloader", Window.GetWindow(this), "Preparing for downloading");
+      }
 
       return canMoveNext;
     }
@@ -169,11 +171,11 @@
 
       if (release.Version.Major < 9)
       {
-        creator = new CheckBoxCreatorSC8();
+        creator = new CheckBoxCreatorSC8AndEarlier();
       }
       else
       {
-        creator = new CheckBoxCreatorSC9();
+        creator = new CheckBoxCreatorSC9AndLater();
       }
 
       return creator.Create(release);
