@@ -14,6 +14,8 @@ namespace SIM
   using System.Linq;
   using System.Runtime.CompilerServices;
   using System.Threading;
+  using System.Collections.Generic;
+  using Newtonsoft.Json;
 
   #region
 
@@ -38,6 +40,9 @@ namespace SIM
     public const string DockerProcessName = "Docker Desktop";
     public const string DockerServiceName = "docker";
     public const string IisServiceName = "W3SVC";
+    private const string DockerVersionOsKey = "Os";
+    private const string DockerVersionWindowsValue = "windows";
+    private const string DockerVersionLinuxValue = "linux";
 
     #endregion
 
@@ -96,7 +101,9 @@ namespace SIM
 
     public static bool IsIisRunning { get; set; }
 
-    public static bool IsDockerRunning { get; set; }
+    public static DockerStatus PreviousDockerStatus { get; set; }
+
+    public static DockerStatus CurrentDockerStatus { get; set; }
 
     public static event PropertyChangedEventHandler IisStatusChanged;
 
@@ -107,6 +114,13 @@ namespace SIM
     private const double TimerInterval = 10000;
 
     #endregion
+
+    public enum DockerStatus
+    {
+      RunningWithWindowsContainers,
+      RunningWithLinuxContainers,
+      Stopped
+    }
 
     #region Constructors
 
@@ -134,7 +148,7 @@ namespace SIM
       UnInstallParamsFolder = InitializeDataFolder("UnInstallParams");
       TempFolder = InitializeDataFolder("Temp");
       IsIisRunning = GetIisStatus();
-      IsDockerRunning = GetDockerStatus();
+      CurrentDockerStatus = GetDockerStatus();
       Timer = new System.Timers.Timer(TimerInterval);
       Timer.Elapsed += Timer_Elapsed;
       Timer.Enabled = true;
@@ -431,10 +445,11 @@ namespace SIM
         OnIisStatusChanged();
       }
       
-      bool dockerStatus = GetDockerStatus();
-      if (IsDockerRunning != dockerStatus)
+      DockerStatus dockerStatus = GetDockerStatus();
+      if (CurrentDockerStatus != dockerStatus)
       {
-        IsDockerRunning = dockerStatus;
+        PreviousDockerStatus = CurrentDockerStatus;
+        CurrentDockerStatus = dockerStatus;
         OnDockerStatusChanged();
       }
     }
@@ -458,23 +473,53 @@ namespace SIM
       }
     }
 
-    private static bool GetDockerStatus()
+    private static DockerStatus GetDockerStatus()
     {
       try
       {
-        ServiceController serviceController = GetDockerService();
+        string cmdOutput = string.Empty;
 
-        if (serviceController != null && serviceController.Status.Equals(ServiceControllerStatus.Running))
+        ProcessStartInfo processStartInfo = new ProcessStartInfo("cmd.exe", "/c docker version --format json")
         {
-          return true;
+          CreateNoWindow = true,
+          UseShellExecute = false,
+          RedirectStandardError = true,
+          RedirectStandardOutput = true
+        };
+
+        Process cmdProcess = Process.Start(processStartInfo);
+        cmdProcess.OutputDataReceived += (sender, args) => { cmdOutput += args.Data; };
+        cmdProcess.BeginOutputReadLine();
+        cmdProcess.WaitForExit();
+
+        DockerVersionInfo dockerVersionInfo = JsonConvert.DeserializeObject<DockerVersionInfo>(cmdOutput);
+
+        if (dockerVersionInfo.Server == null || !dockerVersionInfo.Server.Keys.Contains(DockerVersionOsKey))
+        {
+          return DockerStatus.Stopped;
+        }
+        else if (dockerVersionInfo.Server[DockerVersionOsKey].ToString().Equals(DockerVersionLinuxValue, StringComparison.OrdinalIgnoreCase))
+        {
+          return DockerStatus.RunningWithLinuxContainers;
+        }
+        else if (dockerVersionInfo.Server[DockerVersionOsKey].ToString().Equals(DockerVersionWindowsValue, StringComparison.OrdinalIgnoreCase))
+        {
+          return DockerStatus.RunningWithWindowsContainers;
         }
 
-        return false;
+        return DockerStatus.Stopped;
       }
       catch
       {
-        return false;
+        return DockerStatus.Stopped;
       }
+    }
+
+    private struct DockerVersionInfo
+    {
+      public Dictionary<string, object> Client { get; set; }
+
+      public Dictionary<string, object> Server { get; set; }
     }
 
     private static ServiceController GetDockerService()
