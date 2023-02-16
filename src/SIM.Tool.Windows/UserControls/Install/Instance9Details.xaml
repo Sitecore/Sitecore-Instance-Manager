@@ -31,7 +31,7 @@
         <ComboBox Grid.Row="2" Grid.Column="1" Name="ProductVersion" DisplayMemberPath="TwoVersion" SelectionChanged="ProductVersionChanged" />
 
         <TextBlock Grid.Row="3" Grid.Column="0" Text="Revision: " VerticalAlignment="Center" HorizontalAlignment="Left" Width="72" Height="16" Margin="0,4,0,5"  />
-        <ComboBox Grid.Row="3" Grid.Column="1" Name="ProductRevision" DisplayMemberPath="RevisionAndLabel" SelectionChanged="ProductRevisionChanged" />
+		<ComboBox Grid.Row="3" Grid.Column="1" Name="ProductRevision" DisplayMemberPath="RevisionAndTopologyAndLabel" SelectionChanged="ProductRevisionChanged" />
 
         <TextBlock Grid.Row="0" Grid.Column="3" Text="Site Name: " VerticalAlignment="Center" HorizontalAlignment="Left" Width="77" Grid.RowSpan="2" Height="16" Margin="0,6" Grid.ColumnSpan="3" />
         <TextBox Grid.Row="0" Grid.Column="5" Name="InstanceName" Text="{Binding ElementName=ProductRevision, Path=SelectedValue, Converter={x:Static converters:Product._DefaultInstanceName}, Mode=OneWay}" Grid.RowSpan="2" PreviewTextInput="InstanceName_PreviewTextInput" />
