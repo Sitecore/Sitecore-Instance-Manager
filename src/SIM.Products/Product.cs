@@ -1,32 +1,28 @@
-﻿using SIM.Products.ProductParsers;
+﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
+using System.Linq;
+using System.Text.RegularExpressions;
+using System.Xml;
+using System.Xml.Schema;
+using System.Xml.Serialization;
+using Ionic.Zip;
+using JetBrains.Annotations;
+using SIM.Extensions;
+using SIM.Products.ProductParsers;
+using Sitecore.Diagnostics.Base;
+using Sitecore.Diagnostics.InfoService.Client;
+using Sitecore.Diagnostics.InfoService.Client.Model;
+using Sitecore.Diagnostics.Logging;
 
 namespace SIM.Products
 {
-  #region
-
-  using System;
-  using System.Collections.Generic;
-  using System.Globalization;
-  using System.IO;
-  using System.Linq;
-  using System.Text.RegularExpressions;
-  using System.Xml;
-  using System.Xml.Schema;
-  using System.Xml.Serialization;
-  using Ionic.Zip;
-  using Sitecore.Diagnostics.Base;
-  using JetBrains.Annotations;
-  using Sitecore.Diagnostics.Base.Extensions.DictionaryExtensions;
-  using Sitecore.Diagnostics.InfoService.Client;
-  using Sitecore.Diagnostics.InfoService.Client.Model;
-  using Sitecore.Diagnostics.Logging;
-  using SIM.Extensions;
-
-  #endregion
-
   [Serializable]
   public class Product : IXmlSerializable
   {
+    private enum Topologies { XP0, XP1, XM1 }
+
     #region Constants
 
     public const string ManifestPrefix = "/manifest/";
@@ -424,6 +420,44 @@ namespace SIM.Products
 
           return $"r{Revision}";
         }
+      }
+    }
+
+    [CanBeNull]
+    public string Topology
+    {
+      get
+      {
+        foreach (Topologies topology in Enum.GetValues(typeof(Topologies)))
+        {
+          if (Revision.IndexOf(topology.ToString()) != -1)
+          {
+            return topology.ToString();
+          }
+        }
+
+        return null;
+      }
+    }
+
+    [NotNull]
+    public string RevisionAndTopologyAndLabel
+    {
+      get
+      {
+        string topology = Topology;
+        if (!string.IsNullOrEmpty(topology))
+        {
+          string label = Label;
+          if (!string.IsNullOrEmpty(label))
+          {
+            return $"{Revision.Substring(0, 6)} {topology} - {label}";
+          }
+
+          return $"{Revision.Substring(0, 6)} {topology}";
+        }
+
+        return RevisionAndLabel;
       }
     }
 
