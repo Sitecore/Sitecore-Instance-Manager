@@ -157,7 +157,7 @@
     {
       Assert.ArgumentNotNull(releases, nameof(releases));
 
-      foreach (IRelease release in releases)
+      foreach (IRelease release in releases.OrderByDescending(r => r.Version.MajorMinorUpdateInt))
       {
         _CheckBoxItems.AddRange(GetProductCheckBoxes(release));
       }
