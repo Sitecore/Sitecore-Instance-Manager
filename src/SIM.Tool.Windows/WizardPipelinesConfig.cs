@@ -4,10 +4,10 @@
   {
     public const string Contents = @"<configuration>
   <pipelines>
-    <download8 title=""Downloading Sitecore"">
-      <processor type=""SIM.Tool.Windows.Pipelines.Download8.Download8Processor, SIM.Tool.Windows""
+    <download title=""Downloading Sitecore"">
+      <processor type=""SIM.Tool.Windows.Pipelines.Download.DownloadProcessor, SIM.Tool.Windows""
                   title=""Downloading packages"" />
-    </download8>
+    </download>
   </pipelines>
   <wizardPipelines>
     <agreement title=""SIM License Agreement"" startButton=""Accept"" finishText=""Thank you"">
@@ -134,7 +134,7 @@ By clicking 'Next' you accept the License Agreement."" />
       </steps>
     </setup>
 
-    <download8 title=""Download Sitecore Wizard"" startButton=""Next"" finishText=""Done"" cancelButton=""Exit"">
+    <download title=""Download Sitecore Wizard"" startButton=""Next"" finishText=""Done"" cancelButton=""Exit"">
       <steps>
         <step name=""Welcome message"" type=""SIM.Tool.Windows.UserControls.ConfirmStepUserControl, SIM.Tool.Windows""
               param=""This wizard helps you to download packages ('ZIP archive of the Sitecore site root') of the Sitecore versions that Sitecore Instance Manager will be able to install for you.
@@ -178,9 +178,9 @@ Sitecore License Agreement. July 1, 2013
 
 By clicking 'Next' you accept the License Agreement."" />
         <step name=""Choose versions to download""
-              type=""SIM.Tool.Windows.UserControls.Download8.Downloads, SIM.Tool.Windows"" />
+              type=""SIM.Tool.Windows.UserControls.Download.Downloads, SIM.Tool.Windows"" />
       </steps>
-    </download8>
+    </download>
 
     <installSolr title=""Installing new Solr instance"" startButton=""Install""
                  finishText=""The installation was successfully completed"">

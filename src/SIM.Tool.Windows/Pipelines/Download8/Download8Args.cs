@@ -1,4 +1,4 @@
-﻿namespace SIM.Tool.Windows.Pipelines.Download8
+﻿namespace SIM.Tool.Windows.Pipelines.Download
 {
   using System;
   using System.Collections.Generic;
@@ -8,7 +8,7 @@
   using Sitecore.Diagnostics.Base;
   using JetBrains.Annotations;
 
-  public class Download8Args : ProcessorArgs
+  public class DownloadArgs : ProcessorArgs
   {
     #region Fields
 
@@ -28,7 +28,7 @@
 
     #region Constructors
 
-    public Download8Args([CanBeNull] string cookies, [NotNull] ReadOnlyCollection<Uri> links, [NotNull] string localRepository)
+    public DownloadArgs([CanBeNull] string cookies, [NotNull] ReadOnlyCollection<Uri> links, [NotNull] string localRepository)
     {
       Assert.ArgumentNotNull(links, nameof(links));
       Assert.ArgumentNotNull(localRepository, nameof(localRepository));

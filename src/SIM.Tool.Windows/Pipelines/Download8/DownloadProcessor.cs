@@ -1,4 +1,4 @@
-﻿namespace SIM.Tool.Windows.Pipelines.Download8
+﻿namespace SIM.Tool.Windows.Pipelines.Download
 {
   using System;
   using System.IO;
@@ -15,7 +15,7 @@
   using SIM.Extensions;
 
   [UsedImplicitly]
-  public class Download8Processor : Processor
+  public class DownloadProcessor : Processor
   {
     #region Constants
 
@@ -27,7 +27,7 @@
 
     public override long EvaluateStepsCount(ProcessorArgs args)
     {
-      var download = (Download8Args)args;
+      var download = (DownloadArgs)args;
       var count = download._FileNames.Count(x => RequireDownloading(x.Value, download.LocalRepository));
       return count * Scale;
     }
@@ -38,7 +38,7 @@
 
     protected override void Process(ProcessorArgs args)
     {
-      var download = (Download8Args)args;
+      var download = (DownloadArgs)args;
       var cookies = download.Cookies;
       var localRepository = download.LocalRepository;
       var fileNames = download._FileNames;

@@ -275,11 +275,15 @@
     <Compile Include="UserControls\Delete\Delete9Details.xaml.cs">
       <DependentUpon>Delete9Details.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\Download8\Downloads.xaml.cs">
+    <Compile Include="UserControls\Download\CheckBoxCreatorSC8AndEarlier.cs" />
+    <Compile Include="UserControls\Download\CheckBoxCreatorSC9AndLater.cs" />
+    <Compile Include="UserControls\Download\Downloads.xaml.cs">
       <DependentUpon>Downloads.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\Download8\DownloadWizardArgs.xaml.cs" />
-    <Compile Include="UserControls\Download8\ProductDownload8InCheckbox.cs" />
+    <Compile Include="UserControls\Download\DownloadWizardArgs.xaml.cs" />
+    <Compile Include="UserControls\Download\ICheckBoxCreator.cs" />
+    <Compile Include="UserControls\Download\IProductDownloadCheckbox.cs" />
+    <Compile Include="UserControls\Download\ProductDownloadCheckbox.cs" />
     <Compile Include="UserControls\Export\ExportDatabases.xaml.cs">
       <DependentUpon>ExportDatabases.xaml</DependentUpon>
     </Compile>
@@ -792,7 +796,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="UserControls\Download8\Downloads.xaml">
+    <Page Include="UserControls\Download\Downloads.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
