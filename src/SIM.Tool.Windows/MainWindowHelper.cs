@@ -41,6 +41,10 @@ namespace SIM.Tool.Windows
 
   public static class MainWindowHelper
   {
+    private static readonly string refreshInstancesDialogTitle = "Refresh Sitecore web sites";
+
+    private static readonly string refreshInstancesDialogContent = "Scanning Sitecore web sites";
+
     #region Public methods
 
     public static void AppPoolRecycle()
@@ -103,7 +107,7 @@ namespace SIM.Tool.Windows
           RefreshDockerStatus();
         };
         UpdateIisStatus(ApplicationManager.IsIisRunning, MainWindow.Instance);
-        UpdateDockerStatus(ApplicationManager.IsDockerRunning, MainWindow.Instance);
+        UpdateDockerStatus(ApplicationManager.CurrentDockerStatus, MainWindow.Instance);
 
         AddStartStopIisOnClickHandler();
         AddStartStopDockerOnClickHandler();
@@ -308,7 +312,7 @@ namespace SIM.Tool.Windows
         WindowHelper.LongRunningTask(() =>
         {
             InstanceManager.Default.Initialize(instancesFolder);
-        }, "Refresh Sitecore web sites", mainWindow, "Scanning Sitecore web sites", "", true);
+        }, refreshInstancesDialogTitle, mainWindow, refreshInstancesDialogContent, "", true);
 
         Search();
         if (string.IsNullOrEmpty(name))
@@ -396,7 +400,10 @@ namespace SIM.Tool.Windows
       using (new ProfileSection("Refresh instances (softly)"))
       {
         var instancesFolder = !CoreAppSettings.CoreInstancesDetectEverywhere.Value ? ProfileManager.Profile.InstancesFolder : null;
-        InstanceManager.Default.InitializeWithSoftListRefresh(instancesFolder);
+        WindowHelper.LongRunningTask(() =>
+        {
+          InstanceManager.Default.InitializeWithSoftListRefresh(instancesFolder);
+        }, refreshInstancesDialogTitle, MainWindow.Instance, refreshInstancesDialogContent, "", true);
         Search();
       }
     }
@@ -1182,28 +1189,45 @@ namespace SIM.Tool.Windows
     {
       Invoke((mainWindow) =>
       {
-        UpdateDockerStatus(ApplicationManager.IsDockerRunning, mainWindow);
-        RefreshInstances(mainWindow);
+        UpdateDockerStatus(ApplicationManager.CurrentDockerStatus, mainWindow);
+        if (!(ApplicationManager.PreviousDockerStatus == ApplicationManager.DockerStatus.RunningWithLinuxContainers &&
+          ApplicationManager.CurrentDockerStatus == ApplicationManager.DockerStatus.Stopped) &&
+          !(ApplicationManager.PreviousDockerStatus == ApplicationManager.DockerStatus.Stopped &&
+          ApplicationManager.CurrentDockerStatus == ApplicationManager.DockerStatus.RunningWithLinuxContainers))
+        {
+          RefreshInstances(mainWindow);
+        }
       });
     }
 
-    private static void UpdateDockerStatus(bool isDockerRunning, MainWindow mainWindow)
+    private static void UpdateDockerStatus(ApplicationManager.DockerStatus dockerStatus, MainWindow mainWindow)
     {
-      if (isDockerRunning)
+      string toolTip;
+      switch (dockerStatus)
       {
-        string toolTip = "Docker is running, so the containerized instances are displayed in the list. Click here to stop Docker.";
-        mainWindow.DockerStatusEllipse.Fill = new SolidColorBrush(Color.FromRgb(0, 128, 0));
-        mainWindow.DockerStatusEllipse.ToolTip = toolTip;
-        mainWindow.DockerStatusTextBlock.Text = "Docker is running";
-        mainWindow.DockerStatusTextBlock.ToolTip = toolTip;
-      }
-      else
-      {
-        string toolTip = "Docker is stopped, so the containerized instances are not displayed in the list. Click here to start Docker.";
-        mainWindow.DockerStatusEllipse.Fill = new SolidColorBrush(Color.FromRgb(255, 0, 0));
-        mainWindow.DockerStatusEllipse.ToolTip = toolTip;
-        mainWindow.DockerStatusTextBlock.Text = "Docker is stopped";
-        mainWindow.DockerStatusTextBlock.ToolTip = toolTip;
+        case ApplicationManager.DockerStatus.RunningWithWindowsContainers:
+          toolTip = "Docker is running, so the containerized instances are displayed in the list. Click here to stop Docker.";
+          mainWindow.DockerStatusEllipse.Fill = new SolidColorBrush(Color.FromRgb(0, 128, 0));
+          mainWindow.DockerStatusEllipse.ToolTip = toolTip;
+          mainWindow.DockerStatusTextBlock.Text = "Docker is running";
+          mainWindow.DockerStatusTextBlock.ToolTip = toolTip;
+          break;
+        case ApplicationManager.DockerStatus.RunningWithLinuxContainers:
+          toolTip = "Docker is running, but uses Linux containers. Please use the 'Switch to Windows containers...' command in Docker Desktop.";
+          mainWindow.DockerStatusEllipse.Fill = new SolidColorBrush(Color.FromRgb(255, 215, 0));
+          mainWindow.DockerStatusEllipse.ToolTip = toolTip;
+          mainWindow.DockerStatusTextBlock.Text = "Docker uses Linux containers";
+          mainWindow.DockerStatusTextBlock.ToolTip = toolTip;
+          break;
+        case ApplicationManager.DockerStatus.Stopped:
+          toolTip = "Docker is stopped, so the containerized instances are not displayed in the list. Click here to start Docker.";
+          mainWindow.DockerStatusEllipse.Fill = new SolidColorBrush(Color.FromRgb(255, 0, 0));
+          mainWindow.DockerStatusEllipse.ToolTip = toolTip;
+          mainWindow.DockerStatusTextBlock.Text = "Docker is stopped";
+          mainWindow.DockerStatusTextBlock.ToolTip = toolTip;
+          break;
+        default:
+          break;
       }
     }
 
@@ -1244,7 +1268,7 @@ namespace SIM.Tool.Windows
       {
         args.Handled = true;
 
-        if (ApplicationManager.IsDockerRunning)
+        if (ApplicationManager.CurrentDockerStatus == ApplicationManager.DockerStatus.RunningWithWindowsContainers)
         {
           if (ShowStatusMessage("Do you want to stop Docker? In this case, the containerized instances will be hidden in the list.",
                 MessageBoxButton.YesNo,
@@ -1253,7 +1277,7 @@ namespace SIM.Tool.Windows
             StopDockerOnClick();
           }
         }
-        else
+        else if (ApplicationManager.CurrentDockerStatus == ApplicationManager.DockerStatus.Stopped)
         {
           if (ShowStatusMessage("Do you want to start Docker? In this case, the containerized instances will be displayed in the list.",
                 MessageBoxButton.YesNo,

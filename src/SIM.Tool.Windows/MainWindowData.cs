@@ -105,7 +105,7 @@ namespace SIM.Tool.Windows
             {
               Label = "Get Sitecore",
               Image = "/Images/$lg/cloud_download.png, SIM.Tool.Windows",
-              Handler = new Download8Button()
+              Handler = new DownloadButton()
             },
             new ButtonDefinition
             {
@@ -339,21 +339,15 @@ namespace SIM.Tool.Windows
                 },
                 new ButtonDefinition
                 {
-                  Label = "Internet Explorer",
-                  Image = "/Images/$lg/ie.png, SIM.Tool.Windows",
-                  Handler = new BrowseButton("/sitecore:iexplore")
+                  Label = "Microsoft Edge",
+                  Image = "/Images/$lg/msedge.png, SIM.Tool.Windows",
+                  Handler = new BrowseButton("/sitecore:msedge")
                 },
                 new ButtonDefinition
                 {
-                  Label = "Internet Explorer (Private)",
-                  Image = "/Images/$lg/ie.png, SIM.Tool.Windows",
-                  Handler = new BrowseButton("/sitecore:iexplore:-private")
-                },
-                new ButtonDefinition
-                {
-                  Label = "Apple Safari",
-                  Image = "/Images/$lg/safari.png, SIM.Tool.Windows",
-                  Handler = new BrowseButton("/sitecore:safari")
+                  Label = "Microsoft Edge (InPrivate)",
+                  Image = "/Images/$lg/msedge.png, SIM.Tool.Windows",
+                  Handler = new BrowseButton("/sitecore:msedge:-InPrivate")
                 },
                 new ButtonDefinition(),
                 new ButtonDefinition
@@ -423,21 +417,15 @@ namespace SIM.Tool.Windows
                 },
                 new ButtonDefinition
                 {
-                  Label = "Internet Explorer",
-                  Image = "/Images/$lg/ie.png, SIM.Tool.Windows",
-                  Handler = new LoginAdminButton("/sitecore:iexplore")
+                  Label = "Microsoft Edge",
+                  Image = "/Images/$lg/msedge.png, SIM.Tool.Windows",
+                  Handler = new LoginAdminButton("/sitecore:msedge")
                 },
                 new ButtonDefinition
                 {
-                  Label = "Internet Explorer (Private)",
-                  Image = "/Images/$lg/ie.png, SIM.Tool.Windows",
-                  Handler = new LoginAdminButton("/sitecore:iexplore:-private")
-                },
-                new ButtonDefinition
-                {
-                  Label = "Apple Safari",
-                  Image = "/Images/$lg/safari.png, SIM.Tool.Windows",
-                  Handler = new LoginAdminButton("/sitecore:safari")
+                  Label = "Microsoft Edge (InPrivate)",
+                  Image = "/Images/$lg/msedge.png, SIM.Tool.Windows",
+                  Handler = new LoginAdminButton("/sitecore:msedge:-InPrivate")
                 },
                 new ButtonDefinition(),
                 new ButtonDefinition
@@ -1143,8 +1131,7 @@ namespace SIM.Tool.Windows
       new ButtonDefinition { Label = "Log in admin", Image = "/Images/$sm/log_in.png, SIM.Tool.Windows", Handler = new LoginAdminButton("/sitecore"), Buttons = new [] {
         new ButtonDefinition { Label = "Google Chrome", Image = "/Images/$lg/chrome.png, SIM.Tool.Windows", Handler = new LoginAdminButton("/sitecore:chrome") },
         new ButtonDefinition { Label = "Mozilla Firefox", Image = "/Images/$lg/firefox.png, SIM.Tool.Windows", Handler = new LoginAdminButton("/sitecore:firefox") },
-        new ButtonDefinition { Label = "Internet Explorer", Image = "/Images/$lg/ie.png, SIM.Tool.Windows", Handler = new LoginAdminButton("/sitecore:iexplore") },
-        new ButtonDefinition { Label = "Apple Safari", Image = "/Images/$lg/safari.png, SIM.Tool.Windows", Handler = new LoginAdminButton("/sitecore:safari") },
+        new ButtonDefinition { Label = "Microsoft Edge", Image = "/Images/$lg/msedge.png, SIM.Tool.Windows", Handler = new LoginAdminButton("/sitecore:msedge") },
         new ButtonDefinition { Handler = new OpenToolboxButton() },
         new ButtonDefinition { Label = "Sitecore Admin", Image = "/Images/$lg/toolbox.png, SIM.Tool.Windows", Handler = new OpenToolboxButton("bypass") },
         new ButtonDefinition { Handler = new LoginAdminButton() },

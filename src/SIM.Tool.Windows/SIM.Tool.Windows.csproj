@@ -275,11 +275,15 @@
     <Compile Include="UserControls\Delete\Delete9Details.xaml.cs">
       <DependentUpon>Delete9Details.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\Download8\Downloads.xaml.cs">
+    <Compile Include="UserControls\Download\CheckBoxCreatorSC8AndEarlier.cs" />
+    <Compile Include="UserControls\Download\CheckBoxCreatorSC9AndLater.cs" />
+    <Compile Include="UserControls\Download\Downloads.xaml.cs">
       <DependentUpon>Downloads.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\Download8\DownloadWizardArgs.xaml.cs" />
-    <Compile Include="UserControls\Download8\ProductDownload8InCheckbox.cs" />
+    <Compile Include="UserControls\Download\DownloadWizardArgs.xaml.cs" />
+    <Compile Include="UserControls\Download\ICheckBoxCreator.cs" />
+    <Compile Include="UserControls\Download\IProductDownloadCheckbox.cs" />
+    <Compile Include="UserControls\Download\ProductDownloadCheckbox.cs" />
     <Compile Include="UserControls\Export\ExportDatabases.xaml.cs">
       <DependentUpon>ExportDatabases.xaml</DependentUpon>
     </Compile>
@@ -523,7 +527,6 @@
     <Resource Include="Images\16\publish.png" />
     <Resource Include="Images\16\redo.png" />
     <Resource Include="Images\16\refresh.png" />
-    <Resource Include="Images\16\safari.png" />
     <Resource Include="Images\16\sitecore.png" />
     <Resource Include="Images\16\splitter_hor_b_d.png" />
     <Resource Include="Images\16\Startpage.png" />
@@ -533,7 +536,6 @@
     <Resource Include="Images\16\wrench.png" />
     <Resource Include="Images\24\firefox.png" />
     <Resource Include="Images\24\ie.png" />
-    <Resource Include="Images\24\safari.png" />
     <Resource Include="Images\24\view.png" />
     <Resource Include="Images\32\add_domain.png" />
     <Resource Include="Images\32\astrologer.png" />
@@ -571,7 +573,6 @@
     <Resource Include="Images\32\publish.png" />
     <Resource Include="Images\32\redo.png" />
     <Resource Include="Images\32\refresh.png" />
-    <Resource Include="Images\32\safari.png" />
     <Resource Include="Images\32\scroll_refresh.png" />
     <Resource Include="Images\32\sitecore.png" />
     <Resource Include="Images\32\startpage.png" />
@@ -616,7 +617,6 @@
     <Resource Include="Images\48\publish.png" />
     <Resource Include="Images\48\redo.png" />
     <Resource Include="Images\48\refresh.png" />
-    <Resource Include="Images\48\safari.png" />
     <Resource Include="Images\48\scroll_refresh.png" />
     <Resource Include="Images\48\Sitecore.png" />
     <Resource Include="Images\48\Startpage.png" />
@@ -634,6 +634,10 @@
     <Resource Include="Images\16\iis.png" />
     <Resource Include="Images\32\docker_logo.png" />
     <Resource Include="Images\48\docker_logo.png" />
+    <Resource Include="Images\16\msedge.png" />
+    <Resource Include="Images\24\msedge.png" />
+    <Resource Include="Images\32\msedge.png" />
+    <Resource Include="Images\48\msedge.png" />
     <Content Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -792,7 +796,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="UserControls\Download8\Downloads.xaml">
+    <Page Include="UserControls\Download\Downloads.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
