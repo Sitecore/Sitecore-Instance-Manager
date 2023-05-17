@@ -92,8 +92,9 @@ SIM will only work:
 * with direct Internet access (no proxy)
 * when **IIS is pre-configured** with all necessary features (check Sitecore installation guide for details)
 
-For `Sitecore 9.0`:
-* with **local SQL Server 2016** (not 2017) instance with `sa` user account with `sysadmin` permissions
+For `Sitecore 9.0` and later:
+* with [compatible **SQL Server**](https://support.sitecore.com/kb?id=kb_article_view&sysparm_article=KB0087164) instance with `sysadmin` permissions
+* with [compatible **Azure SQL Server**](https://support.sitecore.com/kb?id=kb_article_view&sysparm_article=KB0087164) instance (connection string example: Data Source=tcp:[name].database.windows.net;User ID=[user];Password=[password])
 * with [ssdt15 chocolatey package](https://chocolatey.org/packages/ssdt15) installed 
 
 For `Sitecore 7.5, 8.0, 8.1 and 8.2`:  
