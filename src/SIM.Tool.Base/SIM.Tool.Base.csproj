@@ -82,6 +82,7 @@
     <Compile Include="Pipelines\DeleteContainersWizardArgs.cs" />
     <Compile Include="Pipelines\Install9WizardArgs.cs" />
     <Compile Include="Pipelines\InstallContainerWizardArgs.cs" />
+    <Compile Include="Pipelines\ResourcesWizardArgs.cs" />
     <Compile Include="Pipelines\ReinstallWizardArgs.cs" />
     <Compile Include="Plugins\IMainWindowGroup.cs" />
     <Compile Include="Tools\License\DockerComposeLicenseUpdater.cs" />

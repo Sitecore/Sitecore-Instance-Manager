@@ -31,7 +31,7 @@ namespace SIM.SitecoreEnvironments
       }
     }
 
-    private static string FilePath
+    public static string FilePath
     {
       get { return Path.Combine(ApplicationManager.ProfilesFolder, FileName); }
     }
@@ -112,6 +112,18 @@ namespace SIM.SitecoreEnvironments
       environment = SitecoreEnvironments.FirstOrDefault(e => e.ID.Equals(environmentId));
 
       return environment != null;
+    }
+
+    [CanBeNull]
+    public static IEnumerable<SitecoreEnvironment> GetSitecoreEnvironmentsBySearchTerm(string searchTerm)
+    {
+      foreach (SitecoreEnvironment sitecoreEnvironment in SitecoreEnvironments)
+      {
+        if (sitecoreEnvironment.Name.IndexOf(searchTerm, StringComparison.InvariantCultureIgnoreCase) > -1)
+        {
+          yield return sitecoreEnvironment;
+        }
+      }
     }
   }
 }
