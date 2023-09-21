@@ -470,7 +470,8 @@ But the confirmation will be required if the databases are attached to:
     • the SQL databases
     • the Solr cores
     • the Windows services
-    • the environment data defined in the Environments.json file (this is only applicable for Sitecore 9 and later)"" />
+    • the environment data defined in the Environments.json file (this is only applicable for Sitecore 9 and later)
+    • uninstall params folders (this is only applicable for Sitecore 9 and later)"" />
         <step name=""STEP 2 of 3 - DETAILS""
               type=""SIM.Tool.Windows.UserControls.Resources.Details, SIM.Tool.Windows"" />
         <step name=""STEP 3 of 3 - SEARCH""

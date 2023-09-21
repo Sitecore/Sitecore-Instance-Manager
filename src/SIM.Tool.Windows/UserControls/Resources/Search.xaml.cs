@@ -92,6 +92,8 @@ namespace SIM.Tool.Windows.UserControls.Resources
         resources.AddRange(GetServices(searchTerm));
         resources.Add($"\r\nEnvironments defined in '{SitecoreEnvironmentHelper.FilePath}':");
         resources.AddRange(GetSitecoreEnvironments(searchTerm));
+        resources.Add($"\r\nUninstall Params Folders:");
+        resources.AddRange(GetUninstallParamsFolders(searchTerm));
         ResourcesListBox.ItemsSource = resources;
       }), DispatcherPriority.Background).Wait();
     }
@@ -272,6 +274,17 @@ namespace SIM.Tool.Windows.UserControls.Resources
       foreach (SitecoreEnvironment sitecoreEnvironment in SitecoreEnvironmentHelper.GetSitecoreEnvironmentsBySearchTerm(searchTerm))
       {
         yield return sitecoreEnvironment.Name;
+      }
+    }
+
+    private IEnumerable<string> GetUninstallParamsFolders(string searchTerm)
+    {
+      foreach (string uninstallParamsFolder in Directory.GetDirectories(ApplicationManager.UnInstallParamsFolder))
+      {
+        if (uninstallParamsFolder.IndexOf(searchTerm, StringComparison.InvariantCultureIgnoreCase) > -1)
+        {
+          yield return uninstallParamsFolder;
+        }
       }
     }
 
