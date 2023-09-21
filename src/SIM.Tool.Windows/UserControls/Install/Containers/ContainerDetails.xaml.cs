@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -34,6 +35,8 @@ namespace SIM.Tool.Windows.UserControls.Install.Containers
     // https://docs.microsoft.com/en-us/windows/win32/fileio/naming-a-file
     // To prevent possibility of additional characters in the full path while combining, the value is set to 250 characters.
     private const int MaxFileSystemPathLength = 250;
+
+    private const string DockerProjectNamePattern = "^[a-z0-9][a-z0-9_-]*$";
 
     #endregion
 
@@ -73,8 +76,10 @@ namespace SIM.Tool.Windows.UserControls.Install.Containers
       Product product = productRevision.SelectedValue as Product;
       Assert.IsNotNull(product, nameof(product));
 
-      var name = GetValidWebsiteName();
-      if (name == null)
+      var instanceName = InstanceName;
+      Assert.IsNotNull(instanceName, nameof(instanceName));
+
+      if (!IsProjectNameValid(instanceName.Text))
         return false;
 
       var licensePath = ProfileManager.Profile.License;
@@ -82,7 +87,7 @@ namespace SIM.Tool.Windows.UserControls.Install.Containers
       FileSystem.FileSystem.Local.File.AssertExists(licensePath, "The {0} file is missing".FormatWith(licensePath));
 
       var args = (InstallContainerWizardArgs)wizardArgs;
-      args.InstanceName = name;
+      args.InstanceName = instanceName.Text;
       args.InstanceProduct = product;
       args.LicenseFileInfo = new FileInfo(licensePath);
       args.Product = product;
@@ -144,16 +149,19 @@ namespace SIM.Tool.Windows.UserControls.Install.Containers
       zip.ExtractTo(new RealFolder(new RealFileSystem(), args.FilesRoot));
     }
 
-    [CanBeNull]
-    private string GetValidWebsiteName()
+    private bool IsProjectNameValid(string name)
     {
-      var instanceName = InstanceName;
-      Assert.IsNotNull(instanceName, nameof(instanceName));
+      if (!Regex.IsMatch(name, DockerProjectNamePattern))
+      {
+        WindowHelper.ShowMessage($"A project name must contain only characters from [a-z0-9_-] and start with [a-z0-9].",
+          messageBoxImage: MessageBoxImage.Warning,
+          messageBoxButton: MessageBoxButton.OK
+        );
 
-      var name = instanceName.Text.EmptyToNull();
-      Assert.IsNotNull(name, @"Instance name isn't set");
+        return false;
+      }
 
-      return name;
+      return true;
     }
 
     #endregion
