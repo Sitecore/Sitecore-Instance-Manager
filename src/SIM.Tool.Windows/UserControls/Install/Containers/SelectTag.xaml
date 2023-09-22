@@ -20,7 +20,7 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <CheckBox Name="ScriptsOnly" Grid.Row="4" Grid.Column="1" VerticalAlignment="Center" Content="Scripts only" />
-        <CheckBox Name="ProjectName" Grid.Row="3" Grid.Column="1" VerticalAlignment="Center" Content="Include topology and tag to the project name" Checked="ProjectName_Checked" Unchecked="ProjectName_OnUnchecked" />
+        <CheckBox Name="ProjectName" Grid.Row="3" Grid.Column="1" VerticalAlignment="Center" Content="Include topology to the project name" Checked="ProjectName_Checked" Unchecked="ProjectName_OnUnchecked" />
         <ComboBox Name="Tags" Grid.Row="2" ItemsSource="{Binding}" Grid.Column="1" SelectionChanged="Tags_SelectionChanged"  />
         <TextBlock Grid.Row="2" Grid.Column="0" Text="Tag:" VerticalAlignment="Center" HorizontalAlignment="Left" />
         <ComboBox Name="Topologies" Grid.Row="1" ItemsSource="{Binding}"   Grid.Column="1"  DisplayMemberPath="Name" SelectionChanged="Topologies_SelectionChanged"/>
