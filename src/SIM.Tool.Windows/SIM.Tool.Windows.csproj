@@ -94,6 +94,7 @@
       <HintPath>..\packages\Sitecore.Diagnostics.Objects.2.1.4.203\lib\Sitecore.Diagnostics.Objects.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration.Install" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.IO.Compression" />
@@ -306,8 +307,8 @@
     <Compile Include="UserControls\Resources\Details.xaml.cs">
       <DependentUpon>Details.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\Resources\Search.xaml.cs">
-      <DependentUpon>Search.xaml</DependentUpon>
+    <Compile Include="UserControls\Resources\SearchAndDelete.xaml.cs">
+      <DependentUpon>SearchAndDelete.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\SitecoreAuthentication\SitecoreServicesClientAuth.cs" />
     <Compile Include="UserControls\SitecoreAuthentication\SitecoreIdServerAuth.cs" />
@@ -752,7 +753,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UserControls\Resources\Search.xaml">
+    <Page Include="UserControls\Resources\SearchAndDelete.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

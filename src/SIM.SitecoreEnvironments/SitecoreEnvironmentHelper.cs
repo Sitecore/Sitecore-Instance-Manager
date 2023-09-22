@@ -84,7 +84,6 @@ namespace SIM.SitecoreEnvironments
       SitecoreEnvironments = GetSitecoreEnvironmentData();
     }
 
-
     public static SitecoreEnvironment GetExistingOrNewSitecoreEnvironment(string instanceName)
     {    
       return GetExistingSitecoreEnvironment(instanceName)?? new SitecoreEnvironment(instanceName);
@@ -112,6 +111,12 @@ namespace SIM.SitecoreEnvironments
       environment = SitecoreEnvironments.FirstOrDefault(e => e.ID.Equals(environmentId));
 
       return environment != null;
+    }
+
+    [CanBeNull]
+    public static SitecoreEnvironment GetEnvironmentByName(string environmentName)
+    {
+      return SitecoreEnvironments.FirstOrDefault(e => e.Name.Equals(environmentName));
     }
 
     [CanBeNull]

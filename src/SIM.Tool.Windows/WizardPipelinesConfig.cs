@@ -474,8 +474,8 @@ But the confirmation will be required if the databases are attached to:
     • uninstall params folders (this is only applicable for Sitecore 9 and later)"" />
         <step name=""STEP 2 of 3 - DETAILS""
               type=""SIM.Tool.Windows.UserControls.Resources.Details, SIM.Tool.Windows"" />
-        <step name=""STEP 3 of 3 - SEARCH""
-              type=""SIM.Tool.Windows.UserControls.Resources.Search, SIM.Tool.Windows"" />
+        <step name=""STEP 3 of 3 - SEARCH AND DELETE""
+              type=""SIM.Tool.Windows.UserControls.Resources.SearchAndDelete, SIM.Tool.Windows"" />
       </steps>
     </searchAndDeleteResources>
   </wizardPipelines>
