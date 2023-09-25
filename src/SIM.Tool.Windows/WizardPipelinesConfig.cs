@@ -458,8 +458,7 @@ But the confirmation will be required if the databases are attached to:
         <hive type=""SIM.Tool.Windows.Pipelines.Install.InstallModulesFinishActionHive, SIM.Tool.Windows"" />
       </finish>
     </installmodules>
-    <searchAndDeleteResources title=""Search and delete resources"" startButton=""Next""
-                      finishText=""The deleting was successfully completed"">
+    <searchAndDeleteResources title=""Search and delete resources"" startButton=""Delete all"" finishText=""Done."">
       <steps>
         <step name=""STEP 1 of 3 - INFORMATION"" type=""SIM.Tool.Windows.UserControls.ConfirmStepUserControl, SIM.Tool.Windows""
               param=""This wizard helps you to find the following resources based on the Sitecore site name and delete them if they are not needed:               

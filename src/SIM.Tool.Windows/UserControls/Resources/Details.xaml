@@ -8,7 +8,7 @@
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="80" />
 			<ColumnDefinition Width="24" />
-			<ColumnDefinition Width="80" />
+			<ColumnDefinition Width="120" />
 			<ColumnDefinition Width="*" />
 		</Grid.ColumnDefinitions>
 		<Grid.RowDefinitions>
@@ -25,7 +25,7 @@
 		<Button Grid.Row="1" Grid.Column="1" Content="+" Margin="0,2,0,2" Click="AddSolr_Click" HorizontalAlignment="Right" Width="23" />
 		<ComboBox Grid.Row="1" Grid.Column="2" Name="Solrs" DisplayMemberPath="Name" />
 
-		<CheckBox Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" Name="ConnectionStringCheckBox" Content="Use new SQL connection string" VerticalAlignment="Center" HorizontalAlignment="Left" Height="16" Margin="0,5" Checked="ConnectionStringCheckBox_Checked" Unchecked="ConnectionStringCheckBox_Unchecked" />
+		<CheckBox Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" Name="ConnectionStringCheckBox" Content="Use new SQL server connection string" VerticalAlignment="Center" HorizontalAlignment="Left" Height="16" Margin="0,5" Checked="ConnectionStringCheckBox_Checked" Unchecked="ConnectionStringCheckBox_Unchecked" />
 
 		<TextBlock Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Text="Connection String:" VerticalAlignment="Center" HorizontalAlignment="Left" Height="16" Margin="0,5" />
 		<TextBox Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="2" Name="ConnectionStringTextBox" />

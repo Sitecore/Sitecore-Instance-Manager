@@ -34,10 +34,10 @@ namespace SIM.Tool.Windows.UserControls.Resources
     private List<string> ResourcesToDelete;
     private const string DeletingResourcesWindowTitle = "Deleting resources";
     private const string SearchingResourcesWindowTitle = "Searching resources";
-    private const string RootFolders = "Root Folders";
-    private const string AppPools = "IIS App Pools";
     private const string Sites = "IIS Sites";
+    private const string AppPools = "IIS App Pools";
     private const string Hosts = "Hosts File";
+    private const string RootFolders = "Root Folders";
     private const string Databases = "SQL Databases";
     private const string SolrCores = "Solr Cores";
     private const string WindowsServices = "Windows Services";
@@ -51,18 +51,36 @@ namespace SIM.Tool.Windows.UserControls.Resources
 
     public bool OnMovingBack(WizardArgs wizardArgs)
     {
-      ResourcesListBox.ItemsSource = null;
-      ResourcesComboBox.Items.Clear();
-      ResourcesComboBox.Visibility = Visibility.Hidden;
+      ClearResourcesViews();
       return true;
     }
 
     public bool OnMovingNext(WizardArgs wizardArgs)
     {
-      Assert.ArgumentNotNull(wizardArgs, nameof(wizardArgs));
-      ResourcesWizardArgs args = (ResourcesWizardArgs)wizardArgs;
+      if (!foundResources.Keys.Any())
+      {
+        WindowHelper.ShowMessage($"No resources to delete were found using the '{InstanceName}' search term.",
+          messageBoxImage: MessageBoxImage.Warning,
+          messageBoxButton: MessageBoxButton.OK);
+        return false;
+      }
 
-      return true;
+      if (WindowHelper.ShowMessage("The following types of resources are going to be deleted:\n" +
+        $"{string.Join("\n", foundResources.Keys)}\n\n" +
+        "Do you want to proceed?",
+        messageBoxImage: MessageBoxImage.Question,
+        messageBoxButton: MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+      {
+        Dictionary<string, IEnumerable<string>> resourcesToDelete = foundResources;
+        foreach (var resource in resourcesToDelete)
+        {
+          WindowHelper.LongRunningTask(() => DeleteResourcesBasedOnType(resource.Key, resource.Value), $"Deleting {resource.Key}", owner);
+        }
+
+        return true;
+      }
+
+      return false;
     }
 
     public bool SaveChanges(WizardArgs wizardArgs)
@@ -81,8 +99,9 @@ namespace SIM.Tool.Windows.UserControls.Resources
       resourcesFileName = $"resources-{args.InstanceName}";
       foundResources = new Dictionary<string, IEnumerable<string>>();
       deletedResources = new Dictionary<string, IEnumerable<string>>();
-      ResourcesToDelete = new List<string>();
 
+      SaveToFile.Visibility = Visibility.Hidden;
+      ResourcesListBox.Visibility = Visibility.Hidden;
       CaptionColumnDefinition.Width = new GridLength(200);
       Caption.Text = $"{SearchingResourcesWindowTitle} in progress.";
 
@@ -98,135 +117,38 @@ namespace SIM.Tool.Windows.UserControls.Resources
     {
       Dispatcher.BeginInvoke(new Action(() =>
       {
-        ResourcesComboBox.Visibility = Visibility.Hidden;
-        foundResources.Add(RootFolders, GetRootFolders(searchTerm));
-        foundResources.Add(AppPools, GetAppPools(searchTerm));
-        foundResources.Add(Sites, GetSites(searchTerm));
-        foundResources.Add(Hosts, GetHostsFileEntries(searchTerm));
-        foundResources.Add(Databases, GetDatabases(searchTerm, connectionString));
-        foundResources.Add(SolrCores, GetSolrCores(searchTerm, solrUrl));
-        foundResources.Add(WindowsServices, GetServices(searchTerm));
-        foundResources.Add(Environments, GetSitecoreEnvironments(searchTerm));
-        foundResources.Add(UninstallParamsFolders, GetUninstallParamsFolders(searchTerm));
-        
-        foreach(KeyValuePair<string, IEnumerable<string>> resource in foundResources)
+        InitializeResources(Sites, GetSites(searchTerm));
+        InitializeResources(AppPools, GetAppPools(searchTerm));
+        InitializeResources(Hosts, GetHostsFileEntries(searchTerm));
+        InitializeResources(RootFolders, GetRootFolders(searchTerm));
+        InitializeResources(Databases, GetDatabases(searchTerm, connectionString));
+        InitializeResources(SolrCores, GetSolrCores(searchTerm, solrUrl));
+        InitializeResources(WindowsServices, GetServices(searchTerm));
+        InitializeResources(Environments, GetSitecoreEnvironments(searchTerm));
+        InitializeResources(UninstallParamsFolders, GetUninstallParamsFolders(searchTerm));
+
+        foreach (KeyValuePair<string, IEnumerable<string>> resource in foundResources)
         {
-          if (resource.Value != null && resource.Value.ToList().Count > 0)
-          {
-            ResourcesComboBox.Items.Add(resource.Key);
-          }
+          ResourcesComboBox.Items.Add(resource.Key);
         }
 
         if (ResourcesComboBox.Items.Count > 0)
         {
-          CaptionColumnDefinition.Width = new GridLength(100);
-          Caption.Text = "Found resources:";
-          ResourcesComboBox.Visibility = Visibility.Visible;
-          ResourcesComboBox.SelectedIndex = 0;
+          SetResourcesFoundViews();
         }
         else
         {
-          Caption.Text = "No resources were found.";
+          SetResourcesNotFoundViews();
         }
       }), DispatcherPriority.Background).Wait();
     }
 
-    private IEnumerable<string> GetRootFolders(string searchTerm)
+    private void InitializeResources(string resourceType, IEnumerable<string> resources)
     {
-      List<string> rootFolders = new List<string>();
-      SearchFolders(ProfileManager.Profile.InstancesFolder, searchTerm, ref rootFolders);
-      return rootFolders;
-    }
-
-    private void SearchFolders(string startPath, string searchTerm, ref List<string> rootFolders)
-    {
-      try
+      if (resources != null && resources.Any())
       {
-        string[] directories = Directory.GetDirectories(startPath);
-
-        foreach (string directory in directories)
-        {
-          string folderName = Path.GetFileName(directory);
-          if (folderName.IndexOf(searchTerm, StringComparison.InvariantCultureIgnoreCase) > -1)
-          {
-            rootFolders.Add(directory);
-            SearchFolders(directory, searchTerm, ref rootFolders);
-          }
-        }
+        foundResources.Add(resourceType, resources);
       }
-      catch (Exception ex)
-      {
-        Log.Error(ex, ex.Message);
-        WindowHelper.ShowMessage($"Unable to get info about root folders due to the following error:\n{ex.Message}",
-          messageBoxImage: MessageBoxImage.Warning,
-          messageBoxButton: MessageBoxButton.OK);
-      }
-    }
-
-    private IEnumerable<string> DeleteFolders(IEnumerable<string> folders)
-    {
-      List<string> deletedFolders = new List<string>();
-
-      foreach (string folder in folders)
-      {
-        try
-        {
-          Directory.Delete(folder, true);
-          deletedFolders.Add(folder);
-        }
-        catch (Exception ex)
-        {
-          Log.Error(ex, ex.Message);
-          WindowHelper.ShowMessage($"Unable to delete the '{folder}' folder due to the following error:\n{ex.Message}",
-            messageBoxImage: MessageBoxImage.Warning,
-            messageBoxButton: MessageBoxButton.OK);
-        }
-      }
-
-      return deletedFolders;
-    }
-
-    private IEnumerable<string> GetAppPools(string searchTerm)
-    {
-      using (ServerManager serverManager = new ServerManager())
-      {
-        ApplicationPoolCollection appPools = serverManager.ApplicationPools;
-        foreach (ApplicationPool appPool in appPools)
-        {
-          if (appPool.Name.IndexOf(searchTerm, StringComparison.InvariantCultureIgnoreCase) > -1)
-          {
-            yield return appPool.Name;
-          }
-        }
-      }
-    }
-
-    private IEnumerable<string> DeleteAppPools(IEnumerable<string> appPools)
-    {
-      List<string> deletedAppPools = new List<string>();
-
-      using (ServerManager serverManager = new ServerManager())
-      {
-        foreach (string appPool in appPools)
-        {
-          try
-          {
-            ApplicationPool appPoolToDelete = serverManager.ApplicationPools[appPool];
-            serverManager.ApplicationPools.Remove(appPoolToDelete);
-            serverManager.CommitChanges();
-            deletedAppPools.Add(appPool);
-          }
-          catch (Exception ex)
-          {
-            Log.Error(ex, ex.Message);
-            WindowHelper.ShowMessage($"Unable to delete the '{appPool}' App Pool due to the following error:\n{ex.Message}",
-              messageBoxImage: MessageBoxImage.Warning,
-              messageBoxButton: MessageBoxButton.OK);
-          }
-        }
-      }
-
-      return deletedAppPools;
     }
 
     private IEnumerable<string> GetSites(string searchTerm)
@@ -270,6 +192,49 @@ namespace SIM.Tool.Windows.UserControls.Resources
       }
 
       return deletedSites;
+    }
+
+    private IEnumerable<string> GetAppPools(string searchTerm)
+    {
+      using (ServerManager serverManager = new ServerManager())
+      {
+        ApplicationPoolCollection appPools = serverManager.ApplicationPools;
+        foreach (ApplicationPool appPool in appPools)
+        {
+          if (appPool.Name.IndexOf(searchTerm, StringComparison.InvariantCultureIgnoreCase) > -1)
+          {
+            yield return appPool.Name;
+          }
+        }
+      }
+    }
+
+    private IEnumerable<string> DeleteAppPools(IEnumerable<string> appPools)
+    {
+      List<string> deletedAppPools = new List<string>();
+
+      using (ServerManager serverManager = new ServerManager())
+      {
+        foreach (string appPool in appPools)
+        {
+          try
+          {
+            ApplicationPool appPoolToDelete = serverManager.ApplicationPools[appPool];
+            serverManager.ApplicationPools.Remove(appPoolToDelete);
+            serverManager.CommitChanges();
+            deletedAppPools.Add(appPool);
+          }
+          catch (Exception ex)
+          {
+            Log.Error(ex, ex.Message);
+            WindowHelper.ShowMessage($"Unable to delete the '{appPool}' App Pool due to the following error:\n{ex.Message}",
+              messageBoxImage: MessageBoxImage.Warning,
+              messageBoxButton: MessageBoxButton.OK);
+          }
+        }
+      }
+
+      return deletedAppPools;
     }
 
     private IEnumerable<string> GetHostsFileEntries(string searchTerm)
@@ -337,12 +302,70 @@ namespace SIM.Tool.Windows.UserControls.Resources
       catch (Exception ex)
       {
         Log.Error(ex, ex.Message);
-        WindowHelper.ShowMessage($"The following error occurred while deleting {string.Join(",", entries)} hosts entries:\n{ex.Message}",
+        WindowHelper.ShowMessage($"The following error occurred while deleting hosts entries:\n{ex.Message}",
           messageBoxImage: MessageBoxImage.Warning,
           messageBoxButton: MessageBoxButton.OK);
       }
 
       return deletedHostsLines;
+    }
+
+    private IEnumerable<string> GetRootFolders(string searchTerm)
+    {
+      List<string> rootFolders = new List<string>();
+      SearchFolders(ProfileManager.Profile.InstancesFolder, searchTerm, ref rootFolders);
+      return rootFolders;
+    }
+
+    private void SearchFolders(string startPath, string searchTerm, ref List<string> rootFolders)
+    {
+      try
+      {
+        string[] directories = Directory.GetDirectories(startPath);
+
+        foreach (string directory in directories)
+        {
+          string folderName = Path.GetFileName(directory);
+          if (folderName.IndexOf(searchTerm, StringComparison.InvariantCultureIgnoreCase) > -1)
+          {
+            rootFolders.Add(directory);
+            SearchFolders(directory, searchTerm, ref rootFolders);
+          }
+        }
+      }
+      catch (Exception ex)
+      {
+        Log.Error(ex, ex.Message);
+        WindowHelper.ShowMessage($"Unable to get info about root folders due to the following error:\n{ex.Message}",
+          messageBoxImage: MessageBoxImage.Warning,
+          messageBoxButton: MessageBoxButton.OK);
+      }
+    }
+
+    private IEnumerable<string> DeleteFolders(IEnumerable<string> folders)
+    {
+      List<string> deletedFolders = new List<string>();
+
+      foreach (string folder in folders)
+      {
+        try
+        {
+          if (Directory.Exists(folder))
+          {
+            Directory.Delete(folder, true);
+          }
+          deletedFolders.Add(folder);
+        }
+        catch (Exception ex)
+        {
+          Log.Error(ex, ex.Message);
+          WindowHelper.ShowMessage($"Unable to delete the '{folder}' folder due to the following error:\n{ex.Message}",
+            messageBoxImage: MessageBoxImage.Warning,
+            messageBoxButton: MessageBoxButton.OK);
+        }
+      }
+
+      return deletedFolders;
     }
 
     private IEnumerable<string> GetDatabases(string searchTerm, string connectionString)
@@ -401,7 +424,7 @@ namespace SIM.Tool.Windows.UserControls.Resources
       catch (Exception ex)
       {
         Log.Error(ex, ex.Message);
-        WindowHelper.ShowMessage($"The following error occurred while deleting {string.Join(",", databases)} databases:\n{ex.Message}",
+        WindowHelper.ShowMessage($"The following error occurred while deleting databases:\n{ex.Message}",
           messageBoxImage: MessageBoxImage.Warning,
           messageBoxButton: MessageBoxButton.OK);
       }
@@ -487,14 +510,14 @@ namespace SIM.Tool.Windows.UserControls.Resources
         catch (Exception ex)
         {
           Log.Error(ex, ex.Message);
-          WindowHelper.ShowMessage($"The following error occurred while deleting {string.Join(",", solrCores)} Solr cores:\n{ex.Message}",
+          WindowHelper.ShowMessage($"The following error occurred while deleting Solr cores:\n{ex.Message}",
             messageBoxImage: MessageBoxImage.Warning,
             messageBoxButton: MessageBoxButton.OK);
         }
       }
       else
       {
-        WindowHelper.ShowMessage($"Unable to delete {string.Join(",", solrCores)} Solr cores because the '{solrUrl}' URL is not accessible.",
+        WindowHelper.ShowMessage($"Unable to delete the following Solr cores because the '{solrUrl}' URL is not accessible:\n{string.Join("\n", solrCores)} ",
           messageBoxImage: MessageBoxImage.Warning,
           messageBoxButton: MessageBoxButton.OK);
       }
@@ -542,7 +565,7 @@ namespace SIM.Tool.Windows.UserControls.Resources
       catch (Exception ex)
       {
         Log.Error(ex, ex.Message);
-        WindowHelper.ShowMessage($"The following error occurred while deleting {string.Join(",", services)} services:\n{ex.Message}",
+        WindowHelper.ShowMessage($"The following error occurred while deleting services:\n{ex.Message}",
           messageBoxImage: MessageBoxImage.Warning,
           messageBoxButton: MessageBoxButton.OK);
       }
@@ -552,10 +575,14 @@ namespace SIM.Tool.Windows.UserControls.Resources
 
     private IEnumerable<string> GetSitecoreEnvironments(string searchTerm)
     {
+      List<string> environments = new List<string>();
+
       foreach (SitecoreEnvironment sitecoreEnvironment in SitecoreEnvironmentHelper.GetSitecoreEnvironmentsBySearchTerm(searchTerm))
       {
-        yield return sitecoreEnvironment.Name;
+        environments.Add(sitecoreEnvironment.Name);
       }
+
+      return environments;
     }
 
     private IEnumerable<string> DeleteSitecoreEnvironments(IEnumerable<string> environments)
@@ -595,9 +622,14 @@ namespace SIM.Tool.Windows.UserControls.Resources
 
     private void ResourcesComboBox_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
     {
-      if (ResourcesComboBox.Items.Count > 0)
+      if (ResourcesComboBox.Items.Count > 0 && ResourcesComboBox.SelectedValue != null)
       {
-        ResourcesListBox.ItemsSource = foundResources[ResourcesComboBox.SelectedValue.ToString()];
+        string selectedValue = ResourcesComboBox.SelectedValue.ToString();
+        if (foundResources.ContainsKey(selectedValue))
+        {
+          ResourcesListBox.ItemsSource = foundResources[selectedValue];
+          ResourcesToDelete = new List<string>();
+        }
       }
     }
 
@@ -651,7 +683,7 @@ namespace SIM.Tool.Windows.UserControls.Resources
       }
     }
 
-    public string CustomButtonText => "Delete";
+    public string CustomButtonText => "Delete selected";
 
     public void CustomButtonClick()
     {
@@ -668,51 +700,38 @@ namespace SIM.Tool.Windows.UserControls.Resources
         messageBoxButton: MessageBoxButton.YesNo) == MessageBoxResult.Yes)
       {
         string resourceType = ResourcesComboBox.SelectedValue.ToString();
-        switch (resourceType)
-        {
-          case RootFolders:
-            WindowHelper.LongRunningTask(() => UpdateResourcesLists(RootFolders, DeleteFolders(ResourcesToDelete)),
-              DeletingResourcesWindowTitle, owner);
-            break;
-          case AppPools:
-            WindowHelper.LongRunningTask(() => UpdateResourcesLists(AppPools, DeleteAppPools(ResourcesToDelete)),
-              DeletingResourcesWindowTitle, owner);
-            break;
-          case Sites:
-            WindowHelper.LongRunningTask(() => UpdateResourcesLists(Sites, DeleteSites(ResourcesToDelete)),
-              DeletingResourcesWindowTitle, owner);
-            break;
-          case Hosts:
-            WindowHelper.LongRunningTask(() => UpdateResourcesLists(Hosts, DeleteHostsFileEntries(ResourcesToDelete)),
-              DeletingResourcesWindowTitle, owner);
-            break;
-          case Databases:
-            WindowHelper.LongRunningTask(() => UpdateResourcesLists(Databases, DeleteDatabases(ResourcesToDelete, SqlConnectionString)),
-              DeletingResourcesWindowTitle, owner);
-            break;
-          case SolrCores:
-            WindowHelper.LongRunningTask(() => UpdateResourcesLists(SolrCores, DeleteSolrCores(ResourcesToDelete, SolrUrl)),
-              DeletingResourcesWindowTitle, owner);
-            break;
-          case WindowsServices:
-            WindowHelper.LongRunningTask(() => UpdateResourcesLists(WindowsServices, DeleteServices(ResourcesToDelete)),
-              DeletingResourcesWindowTitle, owner);
-            break;
-          case Environments:
-            WindowHelper.LongRunningTask(() => UpdateResourcesLists(Environments, DeleteSitecoreEnvironments(ResourcesToDelete)),
-              DeletingResourcesWindowTitle, owner);
-            break;
-          case UninstallParamsFolders:
-            WindowHelper.LongRunningTask(() => UpdateResourcesLists(UninstallParamsFolders, DeleteFolders(ResourcesToDelete)),
-              DeletingResourcesWindowTitle, owner);
-            break;
-          default:
-            WindowHelper.ShowMessage("No resources were deleted.",
-              messageBoxImage: MessageBoxImage.Warning,
-              messageBoxButton: MessageBoxButton.OK);
-            break;
-        }
-        ResourcesListBox.ItemsSource = foundResources[resourceType];
+        WindowHelper.LongRunningTask(() => UpdateResourcesLists(resourceType, DeleteResourcesBasedOnType(resourceType, ResourcesToDelete)), 
+          DeletingResourcesWindowTitle, owner);
+        UpdateResourcesViews(resourceType);
+      }
+    }
+
+    private IEnumerable<string> DeleteResourcesBasedOnType(string resourceType, IEnumerable<string> resources)
+    {
+      switch (resourceType)
+      {
+        case Sites:
+          return DeleteSites(resources);
+        case AppPools:
+          return DeleteAppPools(resources);
+        case Hosts:
+          return DeleteHostsFileEntries(resources);
+        case RootFolders:
+        case UninstallParamsFolders:
+          return DeleteFolders(resources);
+        case Databases:
+          return DeleteDatabases(resources, SqlConnectionString);
+        case SolrCores:
+          return DeleteSolrCores(resources, SolrUrl);
+        case WindowsServices:
+          return DeleteServices(resources);
+        case Environments:
+          return DeleteSitecoreEnvironments(resources);
+        default:
+          WindowHelper.ShowMessage("No resources were deleted.",
+            messageBoxImage: MessageBoxImage.Warning,
+            messageBoxButton: MessageBoxButton.OK);
+          return null;
       }
     }
 
@@ -720,9 +739,75 @@ namespace SIM.Tool.Windows.UserControls.Resources
     {
       if (resources != null && resources.Any())
       {
-        deletedResources.Add(resourceType, resources);
-        foundResources[resourceType] = foundResources[resourceType].ToList().Except(resources);
+        if (deletedResources.ContainsKey(resourceType))
+        {
+          List<string> tempDeletedResources = deletedResources[resourceType].ToList();
+          tempDeletedResources.AddRange(resources);
+          deletedResources[resourceType] = tempDeletedResources;
+        }
+        else
+        {
+          deletedResources.Add(resourceType, resources);
+        }
+
+        IEnumerable<string> tempFoundResources = foundResources[resourceType].ToList().Except(resources);
+        if (tempFoundResources.Any())
+        {
+          foundResources[resourceType] = tempFoundResources;
+        }
+        else
+        {
+          foundResources.Remove(resourceType);
+        }
       }
+    }
+
+    private void UpdateResourcesViews(string resourceType)
+    {
+      if (foundResources.ContainsKey(resourceType))
+      {
+        ResourcesListBox.ItemsSource = foundResources[resourceType];
+      }
+      else if (ResourcesComboBox.Items.Contains(resourceType))
+      {
+        ResourcesComboBox.Items.Remove(resourceType);
+        if (ResourcesComboBox.Items.Count < 1)
+        {
+          ClearResourcesViews();
+          SetResourcesNotFoundViews();
+        }
+        else
+        {
+          ResourcesComboBox.SelectedIndex = 0;
+        }
+      }
+    }
+
+    private void ClearResourcesViews()
+    {
+      ResourcesListBox.ItemsSource = null;
+      ResourcesListBox.Visibility = Visibility.Hidden;
+      ResourcesComboBox.Items.Clear();
+      ResourcesComboBox.Visibility = Visibility.Hidden;
+      SaveToFile.Visibility = Visibility.Hidden;
+    }
+
+    private void SetResourcesFoundViews()
+    {
+      ResourcesToDelete = new List<string>();
+      CaptionColumnDefinition.Width = new GridLength(100);
+      Caption.Text = "Found resources:";
+      ResourcesComboBox.Visibility = Visibility.Visible;
+      ResourcesComboBox.SelectedIndex = 0;
+      ResourcesListBox.Visibility = Visibility.Visible;
+      SaveToFile.Visibility = Visibility.Visible;
+    }
+
+    private void SetResourcesNotFoundViews()
+    {
+      ResourcesToDelete = new List<string>();
+      CaptionColumnDefinition.Width = new GridLength(200);
+      Caption.Text = $"No resources were found.";
     }
   }
 }
