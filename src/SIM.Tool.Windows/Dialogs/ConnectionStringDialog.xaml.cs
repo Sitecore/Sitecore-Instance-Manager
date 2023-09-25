@@ -38,13 +38,13 @@
     {
       if (!IsPasswordValid(password.Text))
       {
-        if (WindowHelper.ShowMessage("The entered password does not meet the following requirements:\n" +
+        if (WindowHelper.ShowMessage("The entered password may not meet the following operating system policy requirements:\n" +
           "- minimum length of 8 characters\n" +
           "- at least one uppercase letter\n" +
           "- at least one lowercase letter\n" +
           "- at least one digit\n" +
           "- at least one special character\n\n" +
-          "Do you want to procced ? ",
+          "Do you want to proceed?",
           messageBoxImage: MessageBoxImage.Warning,
           messageBoxButton: MessageBoxButton.YesNo) == MessageBoxResult.No)
         {
