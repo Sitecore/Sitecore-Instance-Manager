@@ -163,6 +163,12 @@ namespace SIM.Tool.Windows
                   Handler = new MultipleDeletionForSitecore9AndLaterButton(),
                   Width = "55"
                 },
+                new ButtonDefinition
+                {
+                  Label = "Search and delete resources",
+                  Image = "/Images/$lg/trash.png, SIM.Tool.Windows",
+                  Handler = new SearchAndDeleteResourcesButton()
+                },
                 new ButtonDefinition(),
                 new ButtonDefinition
                 {
