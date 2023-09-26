@@ -305,7 +305,7 @@ namespace SIM.Tool.Windows.UserControls.Resources
       catch (Exception ex)
       {
         Log.Error(ex, ex.Message);
-        WindowHelper.ShowMessage($"The following error occurred while deleting hosts entries:\n{ex.Message}",
+        WindowHelper.ShowMessage($"The following error occurred while deleting lines in the hosts file:\n{ex.Message}",
           messageBoxImage: MessageBoxImage.Warning,
           messageBoxButton: MessageBoxButton.OK);
       }
@@ -330,9 +330,9 @@ namespace SIM.Tool.Windows.UserControls.Resources
     {
       List<string> deletedServices = new List<string>();
 
-      try
+      foreach (string service in services)
       {
-        foreach (string service in services)
+        try
         {
           ServiceController serviceController = new ServiceController(service);
 
@@ -349,13 +349,13 @@ namespace SIM.Tool.Windows.UserControls.Resources
 
           deletedServices.Add(service);
         }
-      }
-      catch (Exception ex)
-      {
-        Log.Error(ex, ex.Message);
-        WindowHelper.ShowMessage($"The following error occurred while deleting services:\n{ex.Message}",
-          messageBoxImage: MessageBoxImage.Warning,
-          messageBoxButton: MessageBoxButton.OK);
+        catch (Exception ex)
+        {
+          Log.Error(ex, ex.Message);
+          WindowHelper.ShowMessage($"The following error occurred while deleting the '{service}' service:\n{ex.Message}",
+            messageBoxImage: MessageBoxImage.Warning,
+            messageBoxButton: MessageBoxButton.OK);
+        }
       }
 
       return deletedServices;
@@ -510,7 +510,7 @@ namespace SIM.Tool.Windows.UserControls.Resources
       }
       else
       {
-        WindowHelper.ShowMessage($"Unable to delete the following Solr cores because the '{solrUrl}' URL is not accessible:\n{string.Join("\n", solrCores)} ",
+        WindowHelper.ShowMessage($"Unable to delete the following Solr cores because the '{solrUrl}' URL is not accessible:\n{string.Join("\n", solrCores)}",
           messageBoxImage: MessageBoxImage.Warning,
           messageBoxButton: MessageBoxButton.OK);
       }
@@ -633,7 +633,7 @@ namespace SIM.Tool.Windows.UserControls.Resources
         }
         else
         {
-          WindowHelper.ShowMessage($"Unable to find '{environment}' environment in Environments.json for deletion.",
+          WindowHelper.ShowMessage($"Unable to find the '{environment}' environment in Environments.json for deletion.",
             messageBoxImage: MessageBoxImage.Warning,
             messageBoxButton: MessageBoxButton.OK);
         }
