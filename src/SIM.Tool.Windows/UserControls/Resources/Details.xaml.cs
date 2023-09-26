@@ -85,6 +85,7 @@ namespace SIM.Tool.Windows.UserControls.Resources
         return false;
       }
       args.SolrUrl = solr.Url;
+      args.SolrRoot = solr.Root;
 
       return true;
     }

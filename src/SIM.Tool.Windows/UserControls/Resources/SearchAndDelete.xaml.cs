@@ -29,18 +29,19 @@ namespace SIM.Tool.Windows.UserControls.Resources
     private string InstanceName;
     private string SqlConnectionString;
     private string SolrUrl;
+    private string SolrRoot;
     private Dictionary<string, IEnumerable<string>> foundResources;
     private Dictionary<string, IEnumerable<string>> deletedResources;
     private List<string> ResourcesToDelete;
-    private const string DeletingResourcesWindowTitle = "Deleting resources";
     private const string SearchingResourcesWindowTitle = "Searching resources";
     private const string Sites = "IIS Sites";
     private const string AppPools = "IIS App Pools";
-    private const string Hosts = "Hosts File";
-    private const string RootFolders = "Root Folders";
+    private const string Hosts = "Lines in hosts";
+    private const string WindowsServices = "Windows Services";
     private const string Databases = "SQL Databases";
     private const string SolrCores = "Solr Cores";
-    private const string WindowsServices = "Windows Services";
+    private const string SolrCoresFolders = "Solr Cores Folders";
+    private const string RootFolders = "Root Folders";
     private const string Environments = "Data in Environments.json";
     private const string UninstallParamsFolders = "Uninstall Params Folders";
 
@@ -96,6 +97,7 @@ namespace SIM.Tool.Windows.UserControls.Resources
       InstanceName = args.InstanceName;
       SqlConnectionString = args.ConnectionString;
       SolrUrl = args.SolrUrl;
+      SolrRoot = args.SolrRoot;
       resourcesFileName = $"resources-{args.InstanceName}";
       foundResources = new Dictionary<string, IEnumerable<string>>();
       deletedResources = new Dictionary<string, IEnumerable<string>>();
@@ -105,7 +107,7 @@ namespace SIM.Tool.Windows.UserControls.Resources
       CaptionColumnDefinition.Width = new GridLength(200);
       Caption.Text = $"{SearchingResourcesWindowTitle} in progress.";
 
-      TaskDialogResult result = WindowHelper.LongRunningTask(() => SearchResources(InstanceName, SqlConnectionString, SolrUrl),
+      TaskDialogResult result = WindowHelper.LongRunningTask(() => SearchResources(InstanceName, SqlConnectionString, SolrUrl, SolrRoot),
         SearchingResourcesWindowTitle, owner);
       if (result == null)
       {
@@ -113,17 +115,18 @@ namespace SIM.Tool.Windows.UserControls.Resources
       }
     }
 
-    private void SearchResources(string searchTerm, string connectionString, string solrUrl)
+    private void SearchResources(string searchTerm, string connectionString, string solrUrl, string solrRoot)
     {
       Dispatcher.BeginInvoke(new Action(() =>
       {
         InitializeResources(Sites, GetSites(searchTerm));
         InitializeResources(AppPools, GetAppPools(searchTerm));
         InitializeResources(Hosts, GetHostsFileEntries(searchTerm));
-        InitializeResources(RootFolders, GetRootFolders(searchTerm));
+        InitializeResources(WindowsServices, GetServices(searchTerm));
         InitializeResources(Databases, GetDatabases(searchTerm, connectionString));
         InitializeResources(SolrCores, GetSolrCores(searchTerm, solrUrl));
-        InitializeResources(WindowsServices, GetServices(searchTerm));
+        InitializeResources(SolrCoresFolders, GetSolrCoresFolders(searchTerm, solrRoot));
+        InitializeResources(RootFolders, GetRootFolders(searchTerm));
         InitializeResources(Environments, GetSitecoreEnvironments(searchTerm));
         InitializeResources(UninstallParamsFolders, GetUninstallParamsFolders(searchTerm));
 
@@ -310,62 +313,52 @@ namespace SIM.Tool.Windows.UserControls.Resources
       return deletedHostsLines;
     }
 
-    private IEnumerable<string> GetRootFolders(string searchTerm)
+    private IEnumerable<string> GetServices(string searchTerm)
     {
-      List<string> rootFolders = new List<string>();
-      SearchFolders(ProfileManager.Profile.InstancesFolder, searchTerm, ref rootFolders);
-      return rootFolders;
+      ServiceController[] services = ServiceController.GetServices();
+
+      foreach (ServiceController service in services)
+      {
+        if (service.ServiceName.IndexOf(searchTerm, StringComparison.InvariantCultureIgnoreCase) > -1)
+        {
+          yield return service.ServiceName;
+        }
+      }
     }
 
-    private void SearchFolders(string startPath, string searchTerm, ref List<string> rootFolders)
+    private IEnumerable<string> DeleteServices(IEnumerable<string> services)
     {
+      List<string> deletedServices = new List<string>();
+
       try
       {
-        string[] directories = Directory.GetDirectories(startPath);
-
-        foreach (string directory in directories)
+        foreach (string service in services)
         {
-          string folderName = Path.GetFileName(directory);
-          if (folderName.IndexOf(searchTerm, StringComparison.InvariantCultureIgnoreCase) > -1)
+          ServiceController serviceController = new ServiceController(service);
+
+          if (serviceController.Status == ServiceControllerStatus.Running)
           {
-            rootFolders.Add(directory);
-            SearchFolders(directory, searchTerm, ref rootFolders);
+            serviceController.Stop();
+            serviceController.WaitForStatus(ServiceControllerStatus.Stopped);
           }
+
+          ServiceInstaller serviceInstaller = new ServiceInstaller();
+          serviceInstaller.Context = new System.Configuration.Install.InstallContext();
+          serviceInstaller.ServiceName = serviceController.ServiceName;
+          serviceInstaller.Uninstall(null);
+
+          deletedServices.Add(service);
         }
       }
       catch (Exception ex)
       {
         Log.Error(ex, ex.Message);
-        WindowHelper.ShowMessage($"Unable to get info about root folders due to the following error:\n{ex.Message}",
+        WindowHelper.ShowMessage($"The following error occurred while deleting services:\n{ex.Message}",
           messageBoxImage: MessageBoxImage.Warning,
           messageBoxButton: MessageBoxButton.OK);
       }
-    }
 
-    private IEnumerable<string> DeleteFolders(IEnumerable<string> folders)
-    {
-      List<string> deletedFolders = new List<string>();
-
-      foreach (string folder in folders)
-      {
-        try
-        {
-          if (Directory.Exists(folder))
-          {
-            Directory.Delete(folder, true);
-          }
-          deletedFolders.Add(folder);
-        }
-        catch (Exception ex)
-        {
-          Log.Error(ex, ex.Message);
-          WindowHelper.ShowMessage($"Unable to delete the '{folder}' folder due to the following error:\n{ex.Message}",
-            messageBoxImage: MessageBoxImage.Warning,
-            messageBoxButton: MessageBoxButton.OK);
-        }
-      }
-
-      return deletedFolders;
+      return deletedServices;
     }
 
     private IEnumerable<string> GetDatabases(string searchTerm, string connectionString)
@@ -491,8 +484,8 @@ namespace SIM.Tool.Windows.UserControls.Resources
           {
             foreach(string solrCore in solrCores)
             {
-              string deleteCoreUrl = $"{solrUrl}/{solrCore}";
-              HttpResponseMessage response = client.DeleteAsync(deleteCoreUrl).Result;
+              string unloadCoreUrl = $"{solrUrl}/admin/cores?action=unload&core={solrCore}";
+              HttpResponseMessage response = client.PostAsync(unloadCoreUrl, null).Result;
 
               if (response.IsSuccessStatusCode)
               {
@@ -525,52 +518,92 @@ namespace SIM.Tool.Windows.UserControls.Resources
       return deletedSolrCores;
     }
 
-    private IEnumerable<string> GetServices(string searchTerm)
+    private IEnumerable<string> GetSolrCoresFolders(string searchTerm, string solrRoot)
     {
-      ServiceController[] services = ServiceController.GetServices();
-
-      foreach (ServiceController service in services)
+      if (!string.IsNullOrEmpty(solrRoot))
       {
-        if (service.ServiceName.IndexOf(searchTerm, StringComparison.InvariantCultureIgnoreCase) > -1)
+        solrRoot = Path.Combine(solrRoot, @"server\solr");
+        if (Directory.Exists(solrRoot))
         {
-          yield return service.ServiceName;
+          foreach (string solrCoresFolder in Directory.GetDirectories(solrRoot))
+          {
+            if (solrCoresFolder.IndexOf(searchTerm, StringComparison.InvariantCultureIgnoreCase) > -1)
+            {
+              yield return solrCoresFolder;
+            }
+          }
         }
+        else
+        {
+          WindowHelper.ShowMessage($"Unable to get info about Solr cores folders because the '{solrRoot}' directory does not exist.",
+            messageBoxImage: MessageBoxImage.Warning,
+            messageBoxButton: MessageBoxButton.OK);
+        }
+      }
+      else
+      {
+        WindowHelper.ShowMessage($"Unable to get info about Solr cores folders because the Solr root is invalid.",
+          messageBoxImage: MessageBoxImage.Warning,
+          messageBoxButton: MessageBoxButton.OK);
       }
     }
 
-    private IEnumerable<string> DeleteServices(IEnumerable<string> services)
+    private IEnumerable<string> GetRootFolders(string searchTerm)
     {
-      List<string> deletedServices = new List<string>();
+      List<string> rootFolders = new List<string>();
+      SearchFolders(ProfileManager.Profile.InstancesFolder, searchTerm, ref rootFolders);
+      return rootFolders;
+    }
 
+    private void SearchFolders(string startPath, string searchTerm, ref List<string> rootFolders)
+    {
       try
       {
-        foreach (string service in services)
+        string[] directories = Directory.GetDirectories(startPath);
+
+        foreach (string directory in directories)
         {
-          ServiceController serviceController = new ServiceController(service);
-
-          if (serviceController.Status == ServiceControllerStatus.Running)
+          string folderName = Path.GetFileName(directory);
+          if (folderName.IndexOf(searchTerm, StringComparison.InvariantCultureIgnoreCase) > -1)
           {
-            serviceController.Stop();
-            serviceController.WaitForStatus(ServiceControllerStatus.Stopped);
+            rootFolders.Add(directory);
+            SearchFolders(directory, searchTerm, ref rootFolders);
           }
-
-          ServiceInstaller serviceInstaller = new ServiceInstaller();
-          serviceInstaller.Context = new System.Configuration.Install.InstallContext();
-          serviceInstaller.Context.Parameters["assemblypath"] = serviceController.ServiceName;
-          serviceInstaller.Uninstall(null);
-
-          deletedServices.Add(service);
         }
       }
       catch (Exception ex)
       {
         Log.Error(ex, ex.Message);
-        WindowHelper.ShowMessage($"The following error occurred while deleting services:\n{ex.Message}",
+        WindowHelper.ShowMessage($"Unable to get info about root folders due to the following error:\n{ex.Message}",
           messageBoxImage: MessageBoxImage.Warning,
           messageBoxButton: MessageBoxButton.OK);
       }
+    }
 
-      return deletedServices;
+    private IEnumerable<string> DeleteFolders(IEnumerable<string> folders)
+    {
+      List<string> deletedFolders = new List<string>();
+
+      foreach (string folder in folders)
+      {
+        try
+        {
+          if (Directory.Exists(folder))
+          {
+            Directory.Delete(folder, true);
+          }
+          deletedFolders.Add(folder);
+        }
+        catch (Exception ex)
+        {
+          Log.Error(ex, ex.Message);
+          WindowHelper.ShowMessage($"Unable to delete the '{folder}' folder due to the following error:\n{ex.Message}",
+            messageBoxImage: MessageBoxImage.Warning,
+            messageBoxButton: MessageBoxButton.OK);
+        }
+      }
+
+      return deletedFolders;
     }
 
     private IEnumerable<string> GetSitecoreEnvironments(string searchTerm)
@@ -695,13 +728,14 @@ namespace SIM.Tool.Windows.UserControls.Resources
         return;
       }
 
-      if (WindowHelper.ShowMessage("Are you sure you want to delete the selected resources?",
+      string resourceType = ResourcesComboBox.SelectedValue.ToString();
+
+      if (WindowHelper.ShowMessage($"Are you sure you want to delete the selected resources related to '{resourceType}'?",
         messageBoxImage: MessageBoxImage.Question,
         messageBoxButton: MessageBoxButton.YesNo) == MessageBoxResult.Yes)
       {
-        string resourceType = ResourcesComboBox.SelectedValue.ToString();
-        WindowHelper.LongRunningTask(() => UpdateResourcesLists(resourceType, DeleteResourcesBasedOnType(resourceType, ResourcesToDelete)), 
-          DeletingResourcesWindowTitle, owner);
+        WindowHelper.LongRunningTask(() => UpdateResourcesLists(resourceType, DeleteResourcesBasedOnType(resourceType, ResourcesToDelete)),
+          $"Deleting {resourceType}", owner);
         UpdateResourcesViews(resourceType);
       }
     }
@@ -716,15 +750,16 @@ namespace SIM.Tool.Windows.UserControls.Resources
           return DeleteAppPools(resources);
         case Hosts:
           return DeleteHostsFileEntries(resources);
-        case RootFolders:
-        case UninstallParamsFolders:
-          return DeleteFolders(resources);
+        case WindowsServices:
+          return DeleteServices(resources);
         case Databases:
           return DeleteDatabases(resources, SqlConnectionString);
         case SolrCores:
           return DeleteSolrCores(resources, SolrUrl);
-        case WindowsServices:
-          return DeleteServices(resources);
+        case SolrCoresFolders:
+        case RootFolders:
+        case UninstallParamsFolders:
+          return DeleteFolders(resources);
         case Environments:
           return DeleteSitecoreEnvironments(resources);
         default:
@@ -759,6 +794,8 @@ namespace SIM.Tool.Windows.UserControls.Resources
         {
           foundResources.Remove(resourceType);
         }
+
+        ResourcesToDelete = new List<string>();
       }
     }
 

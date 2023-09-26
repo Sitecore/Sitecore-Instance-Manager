@@ -9,5 +9,7 @@ namespace SIM.Tool.Base.Pipelines
     public string ConnectionString { get; set; }
 
     public string SolrUrl { get; set; }
+
+    public string SolrRoot { get; set; }
   }
 }
