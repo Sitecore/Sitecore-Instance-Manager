@@ -22,15 +22,15 @@ namespace SIM.Tool.Windows.UserControls.Resources
     {
       Assert.ArgumentNotNull(wizardArgs, nameof(wizardArgs));
       ResourcesWizardArgs args = (ResourcesWizardArgs)wizardArgs;
-      this.owner = args.WizardWindow;
+      owner = args.WizardWindow;
       using (new ProfileSection("Initializing Solrs", this))
       {
-        this.Solrs.DataContext = ProfileManager.Profile.Solrs;
+        Solrs.DataContext = ProfileManager.Profile.Solrs;
       }
       ConnectionStringTextBox.Text = ProfileManager.Profile.ConnectionString;
     }
 
-    bool IWizardStep.SaveChanges(WizardArgs wizardArgs)
+    public bool SaveChanges(WizardArgs wizardArgs)
     {
       return true;
     }
@@ -51,7 +51,7 @@ namespace SIM.Tool.Windows.UserControls.Resources
           messageBoxButton: MessageBoxButton.OK);
         return false;
       }
-      args.InstanceName = this.InstanceNameTextBox.Text;
+      args.InstanceName = InstanceNameTextBox.Text;
 
       if (ConnectionStringCheckBox.IsChecked == true)
       {
@@ -69,7 +69,7 @@ namespace SIM.Tool.Windows.UserControls.Resources
         args.ConnectionString = ProfileManager.Profile.ConnectionString;
       }
 
-      SolrDefinition solr = this.Solrs.SelectedItem as SolrDefinition;
+      SolrDefinition solr = Solrs.SelectedItem as SolrDefinition;
       if (solr == null)
       {
         WindowHelper.ShowMessage("Please provide Solr.",
@@ -77,6 +77,7 @@ namespace SIM.Tool.Windows.UserControls.Resources
           messageBoxButton: MessageBoxButton.OK);
         return false;
       }
+
       if (string.IsNullOrEmpty(solr.Url))
       {
         WindowHelper.ShowMessage($"Solr URL is not specified for the '{solr.Name}' service.",
@@ -85,6 +86,14 @@ namespace SIM.Tool.Windows.UserControls.Resources
         return false;
       }
       args.SolrUrl = solr.Url;
+
+      if (string.IsNullOrEmpty(solr.Root))
+      {
+        WindowHelper.ShowMessage($"Solr root is not specified for the '{solr.Name}' service.",
+          messageBoxImage: MessageBoxImage.Warning,
+          messageBoxButton: MessageBoxButton.OK);
+        return false;
+      }
       args.SolrRoot = solr.Root;
 
       return true;
@@ -102,7 +111,7 @@ namespace SIM.Tool.Windows.UserControls.Resources
 
     private void AddSolr_Click(object sender, RoutedEventArgs e)
     {
-      SolrDefinition solr = WindowHelper.ShowDialog<AddSolrDialog>(ProfileManager.Profile.Solrs, this.owner) as SolrDefinition;
+      SolrDefinition solr = WindowHelper.ShowDialog<AddSolrDialog>(ProfileManager.Profile.Solrs, owner) as SolrDefinition;
       if (solr != null)
       {
         if (!ProfileManager.Profile.Solrs.Contains(solr))
@@ -111,9 +120,9 @@ namespace SIM.Tool.Windows.UserControls.Resources
           ProfileManager.SaveChanges(ProfileManager.Profile);
         }
 
-        this.Solrs.DataContext = null;
-        this.Solrs.DataContext = ProfileManager.Profile.Solrs;
-        this.Solrs.SelectedItem = solr;
+        Solrs.DataContext = null;
+        Solrs.DataContext = ProfileManager.Profile.Solrs;
+        Solrs.SelectedItem = solr;
       }
     }
   }
