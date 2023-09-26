@@ -125,10 +125,6 @@
           <ColumnDefinition Width="120"/>
           <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <TextBox Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Top" Name="MarketplacePage" TextWrapping="Wrap" IsReadOnly="True" BorderThickness="0" Background="Transparent">Marketplace Page:</TextBox>
-        <TextBlock Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Name="Marketplace" TextWrapping="Wrap" Background="Transparent" > 
-				  <Hyperlink NavigateUri="http://marketplace.sitecore.net/modules/sitecore instance manager" RequestNavigate="RequestNavigate">marketplace.sitecore.net/modules/Sitecore Instance Manager</Hyperlink>
-        </TextBlock>
       </Grid>
     </StackPanel>
 
