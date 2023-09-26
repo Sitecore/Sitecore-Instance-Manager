@@ -8,6 +8,7 @@
   using Sitecore.Diagnostics.Base;
   using JetBrains.Annotations;
   using SIM.Extensions;
+  using System.Text.RegularExpressions;
 
   #region
 
@@ -15,6 +16,8 @@
 
   public partial class ConnectionStringDialog
   {
+    private const string PasswordPattern = @"^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@$#%])[A-Za-z\d!@$#%]{8,}$";
+
     #region Constructors
 
     public ConnectionStringDialog()
@@ -33,6 +36,22 @@
 
     private void SaveChanges([CanBeNull] object sender, [CanBeNull] RoutedEventArgs e)
     {
+      if (!IsPasswordValid(password.Text))
+      {
+        if (WindowHelper.ShowMessage("The entered password may not meet the following operating system policy requirements:\n" +
+          "- minimum length of 8 characters\n" +
+          "- at least one uppercase letter\n" +
+          "- at least one lowercase letter\n" +
+          "- at least one digit\n" +
+          "- at least one special character\n\n" +
+          "Do you want to proceed?",
+          messageBoxImage: MessageBoxImage.Warning,
+          messageBoxButton: MessageBoxButton.YesNo) == MessageBoxResult.No)
+        {
+          return;
+        }
+      }
+
       SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder
       {
         DataSource = dataSource.Text
@@ -86,6 +105,11 @@
         e.Handled = true;
         Close();
       }
+    }
+
+    private bool IsPasswordValid(string password)
+    {
+      return Regex.IsMatch(password, PasswordPattern);
     }
 
     #endregion
