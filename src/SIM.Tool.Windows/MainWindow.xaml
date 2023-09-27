@@ -47,11 +47,16 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
+				<ColumnDefinition Width="19" />
             </Grid.ColumnDefinitions>
             <Ellipse Name="IisStatusEllipse" Width="10" Height="10" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="6,2,0,0"/>
             <TextBlock Name="IisStatusTextBlock" Margin="18,2,0,0" Grid.Column="0" />
             <Ellipse Name="DockerStatusEllipse" Width="10" Height="10" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="6,2,0,0"/>
             <TextBlock Name="DockerStatusTextBlock" Margin="18,2,0,0" Grid.Column="1" />
+			<Button Name="ReportIssueButton" Width="15" Height="15" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0" 
+					Background="Transparent" BorderBrush="Transparent" BorderThickness="0" Click="ReportIssueButton_Click" ToolTip="Report an issue">
+                <Image Source="pack://application:,,,/SIM.Tool.Windows;component/Images/16/issue.png" />
+            </Button>
         </Grid>
     </StackPanel>
     <StackPanel DockPanel.Dock="Bottom" Height="64">

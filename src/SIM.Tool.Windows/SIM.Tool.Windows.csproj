@@ -638,6 +638,10 @@
     <Resource Include="Images\24\msedge.png" />
     <Resource Include="Images\32\msedge.png" />
     <Resource Include="Images\48\msedge.png" />
+    <Resource Include="Images\16\issue.png" />
+    <Resource Include="Images\24\issue.png" />
+    <Resource Include="Images\32\issue.png" />
+    <Resource Include="Images\48\issue.png" />
     <Content Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
