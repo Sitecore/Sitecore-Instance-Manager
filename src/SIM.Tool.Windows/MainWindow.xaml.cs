@@ -361,6 +361,11 @@
       e.Handled = true;
     }
 
+    private void ReportIssueButton_Click(object sender, System.Windows.RoutedEventArgs e)
+    {
+      MainWindowHelper.ReportIssue();
+    }
+
     #endregion
   }
 }

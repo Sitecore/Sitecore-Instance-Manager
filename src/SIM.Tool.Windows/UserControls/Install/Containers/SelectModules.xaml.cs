@@ -52,9 +52,13 @@ namespace SIM.Tool.Windows.UserControls.Install.Containers
       // Horizon and Publishing Service are available for Docker deployment only from 10.1.0
       if (shortVersion >= 101)
       {
-        availableModules.Add(Module.Horizon);
-        GetHorizonTags();
-        GetHorizonAssetsTags(args.Topology);
+        // Horizon is no longer supported starting from 10.3.0: https://doc.sitecore.com/xp/en/developers/103/what's-new/deprecated-features-in-xp-10-3.html
+        if (shortVersion < 103)
+        {
+          availableModules.Add(Module.Horizon);
+          GetHorizonTags();
+          GetHorizonAssetsTags(args.Topology);
+        }
         availableModules.Add(Module.PublishingService);
         GetSpsTags();
         GetSpsAssetsTags(args.Topology);

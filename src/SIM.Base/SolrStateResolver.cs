@@ -25,7 +25,8 @@ namespace SIM
 
     public virtual ServiceControllerWrapper GetService(string solrServiceName)
     {
-      ServiceController serviceController = ServiceController.GetServices().FirstOrDefault(s => s.ServiceName == solrServiceName);
+      // Windows services' names are case insensitive
+      ServiceController serviceController = ServiceController.GetServices().FirstOrDefault(s => s.ServiceName.ToLowerInvariant() == solrServiceName.ToLowerInvariant());
       if (serviceController == null)
       {
         return null;

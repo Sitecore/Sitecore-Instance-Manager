@@ -45,6 +45,8 @@ namespace SIM.Tool.Windows
 
     private static readonly string refreshInstancesDialogContent = "Scanning Sitecore web sites";
 
+    private static readonly string ReportIssueUrl = "https://github.com/Sitecore/Sitecore-Instance-Manager/issues/new";
+
     #region Public methods
 
     public static void AppPoolRecycle()
@@ -415,6 +417,18 @@ namespace SIM.Tool.Windows
       if (message != null)
       {
         WindowHelper.HandleError($"Refresh failed ... {message}", false);
+      }
+    }
+
+    public static void ReportIssue()
+    {
+      try
+      {
+        Process.Start(ReportIssueUrl);
+      }
+      catch (Exception ex)
+      {
+        WindowHelper.HandleError($"The following error occurred while reporting an issue:\n{ex.Message}", false);
       }
     }
 

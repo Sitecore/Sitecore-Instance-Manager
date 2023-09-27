@@ -458,6 +458,25 @@ But the confirmation will be required if the databases are attached to:
         <hive type=""SIM.Tool.Windows.Pipelines.Install.InstallModulesFinishActionHive, SIM.Tool.Windows"" />
       </finish>
     </installmodules>
+    <searchAndDeleteResources title=""Search and delete resources"" startButton=""Delete all"" finishText=""Done"">
+      <steps>
+        <step name=""STEP 1 of 3 - INFORMATION"" type=""SIM.Tool.Windows.UserControls.ConfirmStepUserControl, SIM.Tool.Windows""
+              param=""This wizard helps you to find the following resources based on the Sitecore site name and delete them if they are not needed:               
+    
+    • the IIS application pools and sites
+    • the lines in the hosts file
+    • the Windows services
+    • the SQL databases
+    • the Solr cores and folders
+    • the root folders
+    • the environment data defined in the Environments.json file (this is only applicable for Sitecore 9 and later)
+    • uninstall params folders (this is only applicable for Sitecore 9 and later)"" />
+        <step name=""STEP 2 of 3 - DETAILS""
+              type=""SIM.Tool.Windows.UserControls.Resources.Details, SIM.Tool.Windows"" />
+        <step name=""STEP 3 of 3 - SEARCH AND DELETE""
+              type=""SIM.Tool.Windows.UserControls.Resources.SearchAndDelete, SIM.Tool.Windows"" />
+      </steps>
+    </searchAndDeleteResources>
   </wizardPipelines>
 </configuration>
 ";

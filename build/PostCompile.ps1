@@ -50,8 +50,8 @@ Move-Item $BuildFolder -Destination $ReleaseFolder
 "" | Set-Content "stdout.txt"
 
 # sign executable file
-Write-Host "> tools\signtool.exe sign /f `"$CertificatePath`" /p `"$CertificatePassword`" /t `"http://timestamp.verisign.com/scripts/timstamp.dll`" `"$ExecutableFile`""
-Start-Process -FilePath "tools\signtool.exe" -ArgumentList "sign /f `"$CertificatePath`" /p `"$CertificatePassword`" /t `"http://timestamp.verisign.com/scripts/timstamp.dll`" `"$ExecutableFile`"" -Wait -RedirectStandardOutput stdout.txt -RedirectStandardError stderr.txt
+Write-Host "> tools\signtool.exe sign /f `"$CertificatePath`" /p `"$CertificatePassword`" /t `"http://timestamp.digicert.com`" `"$ExecutableFile`""
+Start-Process -FilePath "tools\signtool.exe" -ArgumentList "sign /f `"$CertificatePath`" /p `"$CertificatePassword`" /t `"http://timestamp.digicert.com`" `"$ExecutableFile`"" -Wait -RedirectStandardOutput stdout.txt -RedirectStandardError stderr.txt
 Get-Content stdout.txt | Write-Host
 Get-Content stderr.txt | Write-Host
 

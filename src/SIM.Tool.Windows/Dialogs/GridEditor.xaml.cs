@@ -185,18 +185,29 @@ namespace SIM.Tool.Windows.Dialogs
           solrStates.Add(solrState);
         }
         // If Solr service is not running, possibly Solr is started using CMD, in this case Solr Url accesibility can be checked
+        List<SolrState> newSolrStates = new List<SolrState>();
         foreach (SolrState solrState in solrStates)
         {
-          if (solrState.State != SolrState.CurrentState.Running && !solrStates.Any(s =>
-            s.State == SolrState.CurrentState.Running && s.Url == solrState.Url))
+          if (solrState.State != SolrState.CurrentState.Running &&
+            !solrStates.Any(s => s.State == SolrState.CurrentState.Running && s.Url == solrState.Url) &&
+            !newSolrStates.Any(s => s.State == SolrState.CurrentState.Running && s.Url == solrState.Url))
           {
-            solrState.State = solrStateResolver.GetUrlState(solrState.Url);
-            if (solrState.State == SolrState.CurrentState.Running)
+            if (solrStateResolver.GetUrlState(solrState.Url) == SolrState.CurrentState.Running)
             {
-              solrState.Version = solrStateResolver.GetVersion(solrState.Url);
-              solrState.Type = SolrState.CurrentType.Local;
+              newSolrStates.Add(new SolrState()
+              {
+                Name = "N/A",
+                State = SolrState.CurrentState.Running,
+                Version = solrStateResolver.GetVersion(solrState.Url),
+                Url = solrState.Url,
+                Type = SolrState.CurrentType.Local
+              });
             }
           }
+        }
+        if (newSolrStates.Count > 0)
+        {
+          solrStates.AddRange(newSolrStates);
         }
       }, "Checking states of Solr instances", this);
 

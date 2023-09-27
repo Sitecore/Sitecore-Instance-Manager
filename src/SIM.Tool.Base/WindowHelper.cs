@@ -116,7 +116,20 @@
       if (isError)
       {
         var message = ex != null ? fullmessage.TrimEnd(".".ToCharArray()) + ". " + ex.Message : fullmessage;
-        if (ShowMessage(message + "\n\nYou can find details in the log file. Would you like to open it?", MessageBoxButton.OKCancel, MessageBoxImage.Error, MessageBoxResult.Cancel) == MessageBoxResult.OK)
+        MessageBoxResult result = ShowMessage(message + "\n\nYou can find details in the latest log file. Would you like to open it?\n\nClick 'No' to open the entire log folder or 'Cancel' to close the dialog.", 
+          MessageBoxButton.YesNoCancel, MessageBoxImage.Question, MessageBoxResult.Cancel);
+        if (result == MessageBoxResult.Yes)
+        {
+          if (string.IsNullOrWhiteSpace(customLogLocation))
+          {
+            OpenTheLatestUpdatedFile(ApplicationManager.LogsFolder);
+          }
+          else
+          {
+            OpenTheLatestUpdatedFile(customLogLocation);
+          }
+        }
+        else if (result == MessageBoxResult.No)
         {
           if (string.IsNullOrWhiteSpace(customLogLocation))
           {
@@ -132,6 +145,13 @@
       {
         ShowMessage(fullmessage, MessageBoxButton.OK, MessageBoxImage.Warning);
       }
+    }
+
+    public static void OpenTheLatestUpdatedFile(string directoryPath)
+    {
+      DirectoryInfo directory = new DirectoryInfo(directoryPath);
+      FileInfo file = directory.GetFiles().OrderByDescending(f => f.LastWriteTime).First();
+      CoreApp.OpenFile(file.FullName);
     }
 
     public static TaskDialogResult LongRunningTask(Action longRunningTask, string title, Window owner, string content = null, string technicalInformation = null, bool allowHidingWindow = false, bool dirtyCancelationMode = false, bool allowSkip = false)

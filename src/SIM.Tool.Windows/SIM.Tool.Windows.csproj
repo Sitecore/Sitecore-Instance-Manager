@@ -94,12 +94,14 @@
       <HintPath>..\packages\Sitecore.Diagnostics.Objects.2.1.4.203\lib\Sitecore.Diagnostics.Objects.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration.Install" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.IO.Compression" />
     <Reference Include="System.IO.Compression.FileSystem" />
     <Reference Include="System.Net" />
     <Reference Include="System.Net.Http" />
+    <Reference Include="System.ServiceProcess" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\ControlzEx.2.0.1.61\lib\net45\System.Windows.Interactivity.dll</HintPath>
@@ -159,6 +161,7 @@
     <Compile Include="MainWindowComponents\Buttons\BrowseHomePageButton.cs" />
     <Compile Include="MainWindowComponents\Buttons\ConfigFilesButton.cs" />
     <Compile Include="MainWindowComponents\Buttons\CreateSupportHotfixButton.cs" />
+    <Compile Include="MainWindowComponents\Buttons\SearchAndDeleteResourcesButton.cs" />
     <Compile Include="MainWindowComponents\Buttons\InstallModulesForSitecore9AndLaterButton.cs" />
     <Compile Include="MainWindowComponents\Buttons\InstanceDummyButton.cs" />
     <Compile Include="MainWindowComponents\Buttons\LogFilesButton.cs" />
@@ -300,6 +303,12 @@
     <Compile Include="UserControls\MultipleDeletion\MultipleDeletion9WizardArgs.cs" />
     <Compile Include="UserControls\MultipleDeletion\SelectSitecore9Environments.xaml.cs">
       <DependentUpon>SelectSitecore9Environments.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Resources\Details.xaml.cs">
+      <DependentUpon>Details.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Resources\SearchAndDelete.xaml.cs">
+      <DependentUpon>SearchAndDelete.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\SitecoreAuthentication\SitecoreServicesClientAuth.cs" />
     <Compile Include="UserControls\SitecoreAuthentication\SitecoreIdServerAuth.cs" />
@@ -638,6 +647,14 @@
     <Resource Include="Images\24\msedge.png" />
     <Resource Include="Images\32\msedge.png" />
     <Resource Include="Images\48\msedge.png" />
+    <Resource Include="Images\16\issue.png" />
+    <Resource Include="Images\24\issue.png" />
+    <Resource Include="Images\32\issue.png" />
+    <Resource Include="Images\48\issue.png" />
+    <Resource Include="Images\48\trash.png" />
+    <Resource Include="Images\32\trash.png" />
+    <Resource Include="Images\24\trash.png" />
+    <Resource Include="Images\16\trash.png" />
     <Content Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -735,6 +752,14 @@
     <Page Include="UserControls\MultipleDeletion\SelectSitecore9Environments.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\Resources\Details.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\Resources\SearchAndDelete.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\Reinstall\Containers\ReinstallDetails.xaml">
       <Generator>MSBuild:Compile</Generator>

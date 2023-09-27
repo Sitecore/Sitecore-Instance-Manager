@@ -1,0 +1,29 @@
+﻿<UserControl x:Class="SIM.Tool.Windows.UserControls.Resources.SearchAndDelete"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+	<Grid>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="*" Name="CaptionColumnDefinition"/>
+			<ColumnDefinition Width="*"/>
+			<ColumnDefinition Width="*"/>
+		</Grid.ColumnDefinitions>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="30"/>
+			<RowDefinition Height="*"/>
+		</Grid.RowDefinitions>
+		<TextBlock Name="Caption" HorizontalAlignment="Left" Grid.Row="0" Grid.Column="0"/>
+		<ComboBox Name="ResourcesComboBox" HorizontalAlignment="Left" Grid.Row="0" Grid.Column="1" Visibility="Hidden" SelectionChanged="ResourcesComboBox_SelectionChanged"/>
+		<Button Name="SaveToFile" Content="Save to file" Width="70" Height="22" HorizontalAlignment="Right" Grid.Row="0" Grid.Column="2" Click="SaveToFile_Click"/>
+		<ListBox Name="ResourcesListBox" ItemsSource="{Binding}" Grid.Row="1" Grid.ColumnSpan="3">
+			<ListBox.ItemTemplate>
+				<DataTemplate>
+					<CheckBox Content="{Binding}" IsChecked="False" VerticalAlignment="Center" ScrollViewer.VerticalScrollBarVisibility="Visible" Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked"/>
+				</DataTemplate>
+			</ListBox.ItemTemplate>
+		</ListBox>
+	</Grid>
+</UserControl>

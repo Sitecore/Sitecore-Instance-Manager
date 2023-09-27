@@ -141,7 +141,6 @@ namespace SIM.Tool.Windows.UserControls.Install.Containers
 
       string tag = (string)this.Tags.SelectedItem;
       this.envModel.SitecoreVersion = tag;
-      this.UpdateProjectName();
       this.UpdateHosts();
     }
 
@@ -183,10 +182,10 @@ namespace SIM.Tool.Windows.UserControls.Install.Containers
 
     private void UpdateProjectName()
     {
-      if (ProjectName.IsChecked == true && this.Topologies.SelectedItem != null && this.Tags.SelectedItem != null)
+      if (ProjectName.IsChecked == true && this.Topologies.SelectedItem != null)
       {
         this.envModel.ProjectName =
-          $"{this.defaultProjectName}-{((NameValueModel)this.Topologies.SelectedItem).Name}-{this.Tags.SelectedItem}";
+          $"{this.defaultProjectName}-{((NameValueModel)this.Topologies.SelectedItem).Name}";
       }
     }
 
