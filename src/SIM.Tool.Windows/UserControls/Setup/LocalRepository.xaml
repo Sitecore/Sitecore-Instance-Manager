@@ -9,7 +9,7 @@
     <TextBlock TextWrapping="Wrap" Margin="0" Padding="0" HorizontalAlignment="Stretch" VerticalAlignment="Top">
 			<Bold>LOCAL REPOSITORY</Bold> 
       <LineBreak />
-      The folder contains the <Italic>ZIP archive of the Sitecore CMS site root</Italic> files that are being distributed via SDN, as well as Sitecore packages for the modules from <Hyperlink Click="ShowSupportedModules">supported Sitecore products</Hyperlink> list. If you already have some please change default value. 
+      The folder contains the <Italic>ZIP archive of the Sitecore site root</Italic> files that are being distributed via dev.sitecore.net, as well as Sitecore packages for the modules. If you already have some please change default value. 
     </TextBlock>
     <Grid HorizontalAlignment="Stretch" Margin="0 4 0 4">
       <Grid.ColumnDefinitions>
@@ -20,7 +20,7 @@
       <Button Grid.Column="1" Content="..." Click="PickLocalRepositoryFolderClick" Name="PickLocalRepositoryFolder" />
     </Grid>
     <TextBlock TextWrapping="Wrap" Margin="0" Padding="0" HorizontalAlignment="Stretch" VerticalAlignment="Top">
-      If you don't have these files, then leave default value or choose an empty folder, and then use  <Hyperlink Click="ShowMoreInfo">Download Sitecore Wizard</Hyperlink> to get necessary ones from SDN. 
+      If you don't have these files, then leave default value or choose an empty folder, and then use the <Italic>Get Sitecore</Italic> button to get necessary ones from dev.sitecore.net. 
       <LineBreak />
 			<LineBreak />
 			<Bold>SITECORE LICENSE FILE</Bold>

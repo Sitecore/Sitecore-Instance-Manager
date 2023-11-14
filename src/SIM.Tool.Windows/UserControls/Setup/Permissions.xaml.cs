@@ -139,14 +139,14 @@
         {
           if (!FileSystem.FileSystem.Local.Security.HasPermissions(args.InstancesRootFolderPath, account, FileSystemRights.FullControl))
           {
-            WindowHelper.ShowMessage(Message, MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
+            WindowHelper.ShowMessage(Message, MessageBoxButton.OK, MessageBoxImage.Warning, MessageBoxResult.OK);
             return false;
           }
         }
 
         if (!SqlServerManager.Instance.TestSqlServer(args.InstancesRootFolderPath, args.ConnectionString))
         {
-          WindowHelper.ShowMessage(Message, MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
+          WindowHelper.ShowMessage(Message, MessageBoxButton.OK, MessageBoxImage.Warning, MessageBoxResult.OK);
           return false;
         }
 
