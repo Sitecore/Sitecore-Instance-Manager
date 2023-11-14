@@ -29,14 +29,6 @@
     {
     }
 
-    public DownloadWizardArgs([NotNull] string username, [NotNull] string password)
-    {
-      Assert.ArgumentNotNull(username, nameof(username));
-      Assert.ArgumentNotNull(password, nameof(password));
-      UserName = username;
-      Password = password;
-    }
-
     #endregion
 
     #region Public properties
@@ -44,8 +36,6 @@
     public string Cookies { get; set; }
 
     public ReadOnlyCollection<Uri> Links { get; set; }
-
-    public string Password { get; set; }
 
     [NotNull]
     public List<IProductDownloadCheckBox> Products
@@ -58,8 +48,6 @@
 
     [CanBeNull]
     public IRelease[] Releases { get; } = SIM.Products.Product.Service.GetVersions("Sitecore CMS").Where(x => x.Version.Major >= 8).ToArray();
-
-    public string UserName { get; set; }
 
     #endregion
 
