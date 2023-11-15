@@ -22,6 +22,8 @@ namespace SIM.Pipelines.Install.Containers
 
     private ILogger _logger;
 
+    private static readonly string MkcertUrl = "https://doc.sitecore.com/xp/en/developers/100/developer-tools/run-your-first-sitecore-instance.html (Install mkcert)";
+
     [NotNull]
     private ILogger Logger
     {
@@ -153,7 +155,7 @@ namespace SIM.Pipelines.Install.Containers
         this._logger.Error($"Failed to generate certificates in '{this.ProcessorName}'. Message: {ex.Message}");
 
         this._logger.Info(
-          $"{this.ProcessorName}: please make sure that 'mkcert.exe' has been installed. See 'https://containers.doc.sitecore.com/docs/run-sitecore#install-mkcert' for additional details.");
+          $"{this.ProcessorName}: please make sure that 'mkcert.exe' has been installed. See '{MkcertUrl}' for additional details.");
 
         throw;
       }
