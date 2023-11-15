@@ -31,7 +31,7 @@ namespace SIM.Sitecore9Installer.Validation.Validators
         if (!versions.Any(v => Regex.Match(sereverVersion, v).Success))
         {
           errors = true;
-          yield return new ValidationResult(ValidatorState.Error, "SQL server version is not compatible", null);
+          yield return new ValidationResult(ValidatorState.Warning, "The SQL server version is not officially compatible.", null);
         }
       }
 
