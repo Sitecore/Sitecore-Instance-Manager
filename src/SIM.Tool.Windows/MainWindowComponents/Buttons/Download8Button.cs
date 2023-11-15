@@ -15,7 +15,7 @@ namespace SIM.Tool.Windows.MainWindowComponents.Buttons
     {
       if (FileSystem.FileSystem.Local.Directory.Exists(ProfileManager.Profile.LocalRepository))
       {
-        WizardPipelineManager.Start("download", mainWindow, null, null, ignore => MainWindowHelper.RefreshInstaller(), () => new DownloadWizardArgs(WindowsSettings.AppDownloaderSdnUserName.Value, WindowsSettings.AppDownloaderSdnPassword.Value));
+        WizardPipelineManager.Start("download", mainWindow, null, null, ignore => MainWindowHelper.RefreshInstaller(), () => new DownloadWizardArgs());
       }
     }
 

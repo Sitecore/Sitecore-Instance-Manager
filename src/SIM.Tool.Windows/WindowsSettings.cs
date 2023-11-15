@@ -16,12 +16,6 @@ namespace SIM.Tool.Windows
     public static readonly AdvancedProperty<int> AppDownloaderParallelThreads = AdvancedSettings.Create("App/Downloader/ParallelThreads", 4);
 
     [NotNull]
-    public static readonly AdvancedProperty<string> AppDownloaderSdnPassword = AdvancedSettings.Create("App/Downloader/SDN/Password", string.Empty);
-
-    [NotNull]
-    public static readonly AdvancedProperty<string> AppDownloaderSdnUserName = AdvancedSettings.Create("App/Downloader/SDN/UserName", string.Empty);
-
-    [NotNull]
     public static readonly AdvancedProperty<int> AppDownloaderTotalTimeout = AdvancedSettings.Create("App/Downloader/TotalTimeoutHours", 24);
 
     [NotNull]
