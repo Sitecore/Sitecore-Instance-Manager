@@ -35,7 +35,7 @@ namespace SIM.Tool.Windows.UserControls.Resources
     private Dictionary<string, IEnumerable<string>> deletedResources;
     private List<string> ResourcesToDelete;
     private const string SearchingResourcesWindowTitle = "Searching resources";
-    private const string CertificateDelimiter = " - ";
+    private const string CertificateThumbprintDelimiter = ", Thumbprint=";
     private const string CertificatesCurrentUserMy = "Certificates (CurrentUser/My)";
     private const string CertificatesCurrentUserRoot = "Certificates (CurrentUser/Root)";
     private const string CertificatesLocalMachineMy = "Certificates (LocalMachine/My)";
@@ -178,7 +178,7 @@ namespace SIM.Tool.Windows.UserControls.Resources
 
         foreach (X509Certificate2 certificate in certificates)
         {
-          foundCertificates.Add(certificate.SubjectName.Name + CertificateDelimiter + certificate.Thumbprint);
+          foundCertificates.Add(certificate.SubjectName.Name + CertificateThumbprintDelimiter + certificate.Thumbprint);
         }
       }
       catch (Exception ex)
@@ -204,11 +204,11 @@ namespace SIM.Tool.Windows.UserControls.Resources
 
       foreach (string certificate in certificates)
       {
-        int thumbprintPosition = certificate.IndexOf(CertificateDelimiter);
+        int thumbprintPosition = certificate.IndexOf(CertificateThumbprintDelimiter);
 
         if (thumbprintPosition != -1)
         {
-          string thumbprint = certificate.Substring(thumbprintPosition + CertificateDelimiter.Length);
+          string thumbprint = certificate.Substring(thumbprintPosition + CertificateThumbprintDelimiter.Length);
 
           if (!string.IsNullOrEmpty(thumbprint))
           {
