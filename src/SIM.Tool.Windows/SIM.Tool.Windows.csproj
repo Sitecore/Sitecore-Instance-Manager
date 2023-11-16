@@ -307,6 +307,8 @@
     <Compile Include="UserControls\Resources\Details.xaml.cs">
       <DependentUpon>Details.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\Resources\IResourceCheckBox.cs" />
+    <Compile Include="UserControls\Resources\ResourceCheckBox.cs" />
     <Compile Include="UserControls\Resources\SearchAndDelete.xaml.cs">
       <DependentUpon>SearchAndDelete.xaml</DependentUpon>
     </Compile>

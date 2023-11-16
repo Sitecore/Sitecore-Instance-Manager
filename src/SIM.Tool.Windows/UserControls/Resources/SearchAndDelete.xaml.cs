@@ -17,6 +17,7 @@ using System.ServiceProcess;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Threading;
 using TaskDialogInterop;
 
@@ -30,9 +31,9 @@ namespace SIM.Tool.Windows.UserControls.Resources
     private string SqlConnectionString;
     private string SolrUrl;
     private string SolrRoot;
+    private List<IResourceCheckBox> CheckBoxItems;
     private Dictionary<string, IEnumerable<string>> foundResources;
     private Dictionary<string, IEnumerable<string>> deletedResources;
-    private List<string> ResourcesToDelete;
     private const string SearchingResourcesWindowTitle = "Searching resources";
     private const string Sites = "IIS Sites";
     private const string AppPools = "IIS App Pools";
@@ -58,27 +59,25 @@ namespace SIM.Tool.Windows.UserControls.Resources
 
     public bool OnMovingNext(WizardArgs wizardArgs)
     {
-      if (!foundResources.Keys.Any())
+      if (CheckBoxItems == null || !CheckBoxItems.Where(item => item.IsChecked).Any())
       {
-        WindowHelper.ShowMessage($"No resources to delete were found using the '{InstanceName}' search term.",
+        WindowHelper.ShowMessage("You haven't selected any of resources to delete.",
           messageBoxImage: MessageBoxImage.Warning,
           messageBoxButton: MessageBoxButton.OK);
         return false;
       }
 
-      if (WindowHelper.ShowMessage("The following types of resources are going to be deleted:\n" +
-        $"{string.Join("\n", foundResources.Keys)}\n\n" +
-        "Do you want to proceed?",
+      string resourceType = ResourcesComboBox.SelectedValue.ToString();
+
+      if (WindowHelper.ShowMessage($"Are you sure you want to delete the selected resources related to '{resourceType}'?",
         messageBoxImage: MessageBoxImage.Question,
         messageBoxButton: MessageBoxButton.YesNo) == MessageBoxResult.Yes)
       {
-        Dictionary<string, IEnumerable<string>> resourcesToDelete = foundResources;
-        foreach (var resource in resourcesToDelete)
-        {
-          WindowHelper.LongRunningTask(() => DeleteResourcesBasedOnType(resource.Key, resource.Value), $"Deleting {resource.Key}", owner);
-        }
+        IEnumerable<string> resourcesToDelete = CheckBoxItems.Where(item => item.IsChecked).Select(item => item.Value).ToList();
 
-        return true;
+        WindowHelper.LongRunningTask(() => UpdateResourcesLists(resourceType, DeleteResourcesBasedOnType(resourceType, resourcesToDelete)),
+          $"Deleting {resourceType}", owner);
+        UpdateResourcesViews(resourceType);
       }
 
       return false;
@@ -102,6 +101,7 @@ namespace SIM.Tool.Windows.UserControls.Resources
       foundResources = new Dictionary<string, IEnumerable<string>>();
       deletedResources = new Dictionary<string, IEnumerable<string>>();
 
+      SelectAll.Visibility = Visibility.Hidden;
       SaveToFile.Visibility = Visibility.Hidden;
       ResourcesListBox.Visibility = Visibility.Hidden;
       CaptionColumnDefinition.Width = new GridLength(200);
@@ -653,34 +653,33 @@ namespace SIM.Tool.Windows.UserControls.Resources
       }
     }
 
-    private void ResourcesComboBox_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+    private void ResourcesComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
       if (ResourcesComboBox.Items.Count > 0 && ResourcesComboBox.SelectedValue != null)
       {
         string selectedValue = ResourcesComboBox.SelectedValue.ToString();
         if (foundResources.ContainsKey(selectedValue))
         {
-          ResourcesListBox.ItemsSource = foundResources[selectedValue];
-          ResourcesToDelete = new List<string>();
+          InitializeResourcesListBox(foundResources[selectedValue]);
         }
       }
     }
 
-    private void CheckBox_Checked(object sender, RoutedEventArgs e)
+    private void InitializeResourcesListBox(IEnumerable<string> resources)
     {
-      var resource = ((System.Windows.Controls.CheckBox)sender).Content.ToString();
-      if (!string.IsNullOrEmpty(resource))
+      CheckBoxItems = new List<IResourceCheckBox>();
+      foreach (string resource in resources)
       {
-        ResourcesToDelete.Add(resource);
+        CheckBoxItems.Add(new ResourceCheckBox(resource));
       }
+      ResourcesListBox.DataContext = CheckBoxItems;
     }
 
-    private void CheckBox_Unchecked(object sender, RoutedEventArgs e)
+    private void SelectAll_Click(object sender, RoutedEventArgs e)
     {
-      var resource = ((System.Windows.Controls.CheckBox)sender).Content.ToString();
-      if (!string.IsNullOrEmpty(resource))
+      foreach (IResourceCheckBox checkBoxItem in CheckBoxItems)
       {
-        ResourcesToDelete.Remove(resource);
+        checkBoxItem.IsChecked = true;
       }
     }
 
@@ -716,27 +715,33 @@ namespace SIM.Tool.Windows.UserControls.Resources
       }
     }
 
-    public string CustomButtonText => "Delete selected";
+    public string CustomButtonText => "Delete all";
 
     public void CustomButtonClick()
     {
-      if (!ResourcesToDelete.Any())
+      if (!foundResources.Keys.Any())
       {
-        WindowHelper.ShowMessage("You haven't selected any of resources to delete.",
+        WindowHelper.ShowMessage($"No resources to delete were found using the '{InstanceName}' search term.",
           messageBoxImage: MessageBoxImage.Warning,
           messageBoxButton: MessageBoxButton.OK);
         return;
       }
 
-      string resourceType = ResourcesComboBox.SelectedValue.ToString();
-
-      if (WindowHelper.ShowMessage($"Are you sure you want to delete the selected resources related to '{resourceType}'?",
-        messageBoxImage: MessageBoxImage.Question,
+      if (WindowHelper.ShowMessage("All found resources in the following types are going to be deleted:\n\n" +
+        $"{string.Join("\n", foundResources.Keys)}\n\n" +
+        "Are you sure you want to permanently delete them?",
+        messageBoxImage: MessageBoxImage.Warning,
         messageBoxButton: MessageBoxButton.YesNo) == MessageBoxResult.Yes)
       {
-        WindowHelper.LongRunningTask(() => UpdateResourcesLists(resourceType, DeleteResourcesBasedOnType(resourceType, ResourcesToDelete)),
-          $"Deleting {resourceType}", owner);
-        UpdateResourcesViews(resourceType);
+        Dictionary<string, IEnumerable<string>> resourcesToDelete = foundResources;
+        foreach (var resource in resourcesToDelete)
+        {
+          WindowHelper.LongRunningTask(() => DeleteResourcesBasedOnType(resource.Key, resource.Value), $"Deleting {resource.Key}", owner);
+        }
+
+        ClearResourcesViews();
+        Caption.Text = "Done.";
+        foundResources = new Dictionary<string, IEnumerable<string>>();
       }
     }
 
@@ -794,8 +799,6 @@ namespace SIM.Tool.Windows.UserControls.Resources
         {
           foundResources.Remove(resourceType);
         }
-
-        ResourcesToDelete = new List<string>();
       }
     }
 
@@ -803,7 +806,7 @@ namespace SIM.Tool.Windows.UserControls.Resources
     {
       if (foundResources.ContainsKey(resourceType))
       {
-        ResourcesListBox.ItemsSource = foundResources[resourceType];
+        InitializeResourcesListBox(foundResources[resourceType]);
       }
       else if (ResourcesComboBox.Items.Contains(resourceType))
       {
@@ -822,27 +825,28 @@ namespace SIM.Tool.Windows.UserControls.Resources
 
     private void ClearResourcesViews()
     {
-      ResourcesListBox.ItemsSource = null;
+      CheckBoxItems = null;
+      ResourcesListBox.DataContext = null;
       ResourcesListBox.Visibility = Visibility.Hidden;
       ResourcesComboBox.Items.Clear();
       ResourcesComboBox.Visibility = Visibility.Hidden;
+      SelectAll.Visibility = Visibility.Hidden;
       SaveToFile.Visibility = Visibility.Hidden;
     }
 
     private void SetResourcesFoundViews()
     {
-      ResourcesToDelete = new List<string>();
       CaptionColumnDefinition.Width = new GridLength(100);
       Caption.Text = "Found resources:";
       ResourcesComboBox.Visibility = Visibility.Visible;
       ResourcesComboBox.SelectedIndex = 0;
       ResourcesListBox.Visibility = Visibility.Visible;
+      SelectAll.Visibility = Visibility.Visible;
       SaveToFile.Visibility = Visibility.Visible;
     }
 
     private void SetResourcesNotFoundViews()
     {
-      ResourcesToDelete = new List<string>();
       CaptionColumnDefinition.Width = new GridLength(200);
       Caption.Text = $"No resources were found.";
     }
