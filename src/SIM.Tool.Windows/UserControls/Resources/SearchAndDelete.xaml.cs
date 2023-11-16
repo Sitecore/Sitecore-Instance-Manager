@@ -13,6 +13,7 @@ using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Security.Cryptography.X509Certificates;
 using System.ServiceProcess;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -34,6 +35,11 @@ namespace SIM.Tool.Windows.UserControls.Resources
     private Dictionary<string, IEnumerable<string>> deletedResources;
     private List<string> ResourcesToDelete;
     private const string SearchingResourcesWindowTitle = "Searching resources";
+    private const string CertificateDelimiter = " - ";
+    private const string CertificatesCurrentUserMy = "Certificates (CurrentUser/My)";
+    private const string CertificatesCurrentUserRoot = "Certificates (CurrentUser/Root)";
+    private const string CertificatesLocalMachineMy = "Certificates (LocalMachine/My)";
+    private const string CertificatesLocalMachineRoot = "Certificates (LocalMachine/Root)";
     private const string Sites = "IIS Sites";
     private const string AppPools = "IIS App Pools";
     private const string Hosts = "Lines in hosts";
@@ -119,6 +125,10 @@ namespace SIM.Tool.Windows.UserControls.Resources
     {
       Dispatcher.BeginInvoke(new Action(() =>
       {
+        InitializeResources(CertificatesCurrentUserMy, GetCertificates(searchTerm, StoreName.My, StoreLocation.CurrentUser));
+        InitializeResources(CertificatesCurrentUserRoot, GetCertificates(searchTerm, StoreName.Root, StoreLocation.CurrentUser));
+        InitializeResources(CertificatesLocalMachineMy, GetCertificates(searchTerm, StoreName.My, StoreLocation.LocalMachine));
+        InitializeResources(CertificatesLocalMachineRoot, GetCertificates(searchTerm, StoreName.Root, StoreLocation.LocalMachine));
         InitializeResources(Sites, GetSites(searchTerm));
         InitializeResources(AppPools, GetAppPools(searchTerm));
         InitializeResources(Hosts, GetHostsFileEntries(searchTerm));
@@ -152,6 +162,84 @@ namespace SIM.Tool.Windows.UserControls.Resources
       {
         foundResources.Add(resourceType, resources);
       }
+    }
+
+    private IEnumerable<string> GetCertificates(string searchTerm, StoreName storeName, StoreLocation storeLocation)
+    {
+      List<string> foundCertificates = new List<string>();
+
+      X509Store store = new X509Store(storeName, storeLocation);
+
+      try
+      {
+        store.Open(OpenFlags.ReadOnly);
+
+        X509Certificate2Collection certificates = store.Certificates.Find(X509FindType.FindBySubjectName, searchTerm, false);
+
+        foreach (X509Certificate2 certificate in certificates)
+        {
+          foundCertificates.Add(certificate.Subject + CertificateDelimiter + certificate.Thumbprint);
+        }
+      }
+      catch (Exception ex)
+      {
+        Log.Error(ex, ex.Message);
+        WindowHelper.ShowMessage($"Unable to get certificates from the '{storeLocation}/{storeName}' store due to the following error:\n{ex.Message}",
+          messageBoxImage: MessageBoxImage.Warning,
+          messageBoxButton: MessageBoxButton.OK);
+      }
+      finally
+      {
+        store.Close();
+      }
+
+      return foundCertificates;
+    }
+
+    private IEnumerable<string> DeleteCertificates(IEnumerable<string> certificates, StoreName storeName, StoreLocation storeLocation)
+    {
+      List<string> deletedCertificates = new List<string>();
+
+      X509Store store = new X509Store(storeName, storeLocation);
+
+      foreach (string certificate in certificates)
+      {
+        int thumbprintPosition = certificate.IndexOf(CertificateDelimiter);
+
+        if (thumbprintPosition != -1)
+        {
+          string thumbprint = certificate.Substring(thumbprintPosition + CertificateDelimiter.Length);
+
+          if (!string.IsNullOrEmpty(thumbprint))
+          {
+            try
+            {
+              store.Open(OpenFlags.ReadWrite);
+
+              X509Certificate2Collection certificatesToDelete = store.Certificates.Find(X509FindType.FindByThumbprint, thumbprint, false);
+
+              foreach (X509Certificate2 certificateToDelete in certificatesToDelete)
+              {
+                store.Remove(certificateToDelete);
+                deletedCertificates.Add(certificate);
+              }
+            }
+            catch (Exception ex)
+            {
+              Log.Error(ex, ex.Message);
+              WindowHelper.ShowMessage($"Unable to delete the '{certificate}' certificate from the '{storeLocation}/{storeName}' store due to the following error:\n{ex.Message}",
+                messageBoxImage: MessageBoxImage.Warning,
+                messageBoxButton: MessageBoxButton.OK);
+            }
+            finally
+            {
+              store.Close();
+            }
+          }
+        }
+      }
+
+      return deletedCertificates;
     }
 
     private IEnumerable<string> GetSites(string searchTerm)
@@ -744,6 +832,14 @@ namespace SIM.Tool.Windows.UserControls.Resources
     {
       switch (resourceType)
       {
+        case CertificatesCurrentUserMy:
+          return DeleteCertificates(resources, StoreName.My, StoreLocation.CurrentUser);
+        case CertificatesCurrentUserRoot:
+          return DeleteCertificates(resources, StoreName.Root, StoreLocation.CurrentUser);
+        case CertificatesLocalMachineMy:
+          return DeleteCertificates(resources, StoreName.My, StoreLocation.LocalMachine);
+        case CertificatesLocalMachineRoot:
+          return DeleteCertificates(resources, StoreName.Root, StoreLocation.LocalMachine);
         case Sites:
           return DeleteSites(resources);
         case AppPools:
