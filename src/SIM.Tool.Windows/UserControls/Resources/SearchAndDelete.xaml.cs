@@ -178,7 +178,7 @@ namespace SIM.Tool.Windows.UserControls.Resources
 
         foreach (X509Certificate2 certificate in certificates)
         {
-          foundCertificates.Add(certificate.Subject + CertificateDelimiter + certificate.Thumbprint);
+          foundCertificates.Add(certificate.SubjectName.Name + CertificateDelimiter + certificate.Thumbprint);
         }
       }
       catch (Exception ex)
