@@ -59,27 +59,25 @@ namespace SIM.Tool.Windows.UserControls.Resources
 
     public bool OnMovingNext(WizardArgs wizardArgs)
     {
-      if (!foundResources.Keys.Any())
+      if (CheckBoxItems == null || !CheckBoxItems.Where(item => item.IsChecked).Any())
       {
-        WindowHelper.ShowMessage($"No resources to delete were found using the '{InstanceName}' search term.",
+        WindowHelper.ShowMessage("You haven't selected any of resources to delete.",
           messageBoxImage: MessageBoxImage.Warning,
           messageBoxButton: MessageBoxButton.OK);
         return false;
       }
 
-      if (WindowHelper.ShowMessage("All found resources in the following types are going to be deleted:\n\n" +
-        $"{string.Join("\n", foundResources.Keys)}\n\n" +
-        "Are you sure you want to permanently delete them?",
-        messageBoxImage: MessageBoxImage.Warning,
+      string resourceType = ResourcesComboBox.SelectedValue.ToString();
+
+      if (WindowHelper.ShowMessage($"Are you sure you want to delete the selected resources related to '{resourceType}'?",
+        messageBoxImage: MessageBoxImage.Question,
         messageBoxButton: MessageBoxButton.YesNo) == MessageBoxResult.Yes)
       {
-        Dictionary<string, IEnumerable<string>> resourcesToDelete = foundResources;
-        foreach (var resource in resourcesToDelete)
-        {
-          WindowHelper.LongRunningTask(() => DeleteResourcesBasedOnType(resource.Key, resource.Value), $"Deleting {resource.Key}", owner);
-        }
+        IEnumerable<string> resourcesToDelete = CheckBoxItems.Where(item => item.IsChecked).Select(item => item.Value).ToList();
 
-        return true;
+        WindowHelper.LongRunningTask(() => UpdateResourcesLists(resourceType, DeleteResourcesBasedOnType(resourceType, resourcesToDelete)),
+          $"Deleting {resourceType}", owner);
+        UpdateResourcesViews(resourceType);
       }
 
       return false;
@@ -717,29 +715,33 @@ namespace SIM.Tool.Windows.UserControls.Resources
       }
     }
 
-    public string CustomButtonText => "Delete selected";
+    public string CustomButtonText => "Delete all";
 
     public void CustomButtonClick()
     {
-      if (CheckBoxItems == null || !CheckBoxItems.Where(item => item.IsChecked).Any())
+      if (!foundResources.Keys.Any())
       {
-        WindowHelper.ShowMessage("You haven't selected any of resources to delete.",
+        WindowHelper.ShowMessage($"No resources to delete were found using the '{InstanceName}' search term.",
           messageBoxImage: MessageBoxImage.Warning,
           messageBoxButton: MessageBoxButton.OK);
         return;
       }
 
-      string resourceType = ResourcesComboBox.SelectedValue.ToString();
-
-      if (WindowHelper.ShowMessage($"Are you sure you want to delete the selected resources related to '{resourceType}'?",
-        messageBoxImage: MessageBoxImage.Question,
+      if (WindowHelper.ShowMessage("All found resources in the following types are going to be deleted:\n\n" +
+        $"{string.Join("\n", foundResources.Keys)}\n\n" +
+        "Are you sure you want to permanently delete them?",
+        messageBoxImage: MessageBoxImage.Warning,
         messageBoxButton: MessageBoxButton.YesNo) == MessageBoxResult.Yes)
       {
-        IEnumerable<string> resourcesToDelete = CheckBoxItems.Where(item => item.IsChecked).Select(item => item.Value).ToList();
+        Dictionary<string, IEnumerable<string>> resourcesToDelete = foundResources;
+        foreach (var resource in resourcesToDelete)
+        {
+          WindowHelper.LongRunningTask(() => DeleteResourcesBasedOnType(resource.Key, resource.Value), $"Deleting {resource.Key}", owner);
+        }
 
-        WindowHelper.LongRunningTask(() => UpdateResourcesLists(resourceType, DeleteResourcesBasedOnType(resourceType, resourcesToDelete)),
-          $"Deleting {resourceType}", owner);
-        UpdateResourcesViews(resourceType);
+        ClearResourcesViews();
+        Caption.Text = "Done.";
+        foundResources = new Dictionary<string, IEnumerable<string>>();
       }
     }
 
@@ -823,6 +825,7 @@ namespace SIM.Tool.Windows.UserControls.Resources
 
     private void ClearResourcesViews()
     {
+      CheckBoxItems = null;
       ResourcesListBox.DataContext = null;
       ResourcesListBox.Visibility = Visibility.Hidden;
       ResourcesComboBox.Items.Clear();
