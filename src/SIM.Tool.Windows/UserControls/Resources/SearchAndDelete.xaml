@@ -9,7 +9,7 @@
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="Auto" Name="CaptionColumnDefinition"/>
 			<ColumnDefinition Width="Auto"/>
-			<ColumnDefinition Width="*"/>
+			<ColumnDefinition Width="Auto"/>
 		</Grid.ColumnDefinitions>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="30"/>
@@ -17,11 +17,12 @@
 		</Grid.RowDefinitions>
 		<TextBlock Name="Caption" HorizontalAlignment="Left" Grid.Row="0" Grid.Column="0"/>
 		<ComboBox Name="ResourcesComboBox" HorizontalAlignment="Left" Grid.Row="0" Grid.Column="1" Visibility="Hidden" SelectionChanged="ResourcesComboBox_SelectionChanged"/>
+		<Button Name="SelectAll" Content="Select all" Width="70" Height="22" Grid.Row="0" Grid.Column="2" Margin="0,0,76,0" Click="SelectAll_Click" />
 		<Button Name="SaveToFile" Content="Save to file" Width="70" Height="22" HorizontalAlignment="Right" Grid.Row="0" Grid.Column="2" Click="SaveToFile_Click"/>
-		<ListBox Name="ResourcesListBox" ItemsSource="{Binding}" Grid.Row="1" Grid.ColumnSpan="3">
+		<ListBox Name="ResourcesListBox" Grid.Row="1" Grid.ColumnSpan="3">
 			<ListBox.ItemTemplate>
 				<DataTemplate>
-					<CheckBox Content="{Binding}" IsChecked="False" VerticalAlignment="Center" ScrollViewer.VerticalScrollBarVisibility="Visible" Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked"/>
+					<CheckBox Content="{Binding}" IsChecked="{Binding Path=IsChecked}" VerticalAlignment="Center"/>
 				</DataTemplate>
 			</ListBox.ItemTemplate>
 		</ListBox>

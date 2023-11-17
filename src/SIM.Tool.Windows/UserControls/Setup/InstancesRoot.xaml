@@ -21,12 +21,6 @@
     </Grid>
     <TextBlock TextWrapping="Wrap" Margin="0" Padding="0" HorizontalAlignment="Stretch" VerticalAlignment="Top">
       While every startup SIM will retrieve the list of all IIS websites and will try to detect Sitecore instances located within this folder among them. 
-      <LineBreak />
-      <LineBreak />
-      The detection rule is very simple - all Sitecore instances must contain Sitecore.Kernel.dll file in the bin folder, all the rest websites will be ignored.
-      <LineBreak />
-      <LineBreak />
-      <Bold>Tip:</Bold> you can rename Sitecore.Kernel.dll file of the instance you would like to hide from SIM's sight.
     </TextBlock>
   </StackPanel>
 </UserControl>

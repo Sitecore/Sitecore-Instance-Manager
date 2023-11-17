@@ -20,7 +20,7 @@
       <Button Grid.Column="1" Content="..." Click="PickConnectionString" />
     </Grid>
     <TextBlock TextWrapping="Wrap" Margin="0" Padding="0" HorizontalAlignment="Stretch" VerticalAlignment="Top">
-		  If you are not confident how to set it up correctly, but you already have one or several installed Sitecore instances on this machine, then you can locate one of them and open the Website\App_Config\ConnectionStrings.config files and copy any of the <Italic>connectionString</Italic> attributes' value to this text box.
+		  If you are not confident how to set it up correctly, but you already have one or several installed Sitecore instances on this machine, then you can locate one of them and open the <Italic>\App_Config\ConnectionStrings.config</Italic> file and copy any of the <Italic>connectionString</Italic> attributes' value to this text box.
     </TextBlock>
   </StackPanel>
 </UserControl>
