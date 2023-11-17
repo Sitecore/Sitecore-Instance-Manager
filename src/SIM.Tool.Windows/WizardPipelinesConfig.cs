@@ -331,7 +331,7 @@ But the confirmation will be required if the databases are attached to:
       <steps>
         <step name=""STEP 1 of 3 - INFORMATION"" type=""SIM.Tool.Windows.UserControls.ConfirmStepUserControl, SIM.Tool.Windows""
               param=""This wizard helps you to find the following resources based on the Sitecore site name and delete them if they are not needed:               
-    
+    • the certificates from the Local Machine and Current User stores
     • the IIS application pools and sites
     • the lines in the hosts file
     • the Windows services
