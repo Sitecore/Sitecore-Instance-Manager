@@ -44,7 +44,7 @@ namespace SIM.Sitecore9Installer.Tests.Validation.Validators
       val.Data["Versions"] = "15.0.*,17.0.*";
       val.WhenForAnyArgs(v => v.GetSqlVersion(null, null, null)).DoNotCallBase();
       val.GetSqlVersion(null, null, null).ReturnsForAnyArgs("12.0.12345.6789");
-      Assert.Contains(val.Evaluate(tasks), r => r.State == Sitecore9Installer.Validation.ValidatorState.Error);
+      Assert.Contains(val.Evaluate(tasks), r => r.State == Sitecore9Installer.Validation.ValidatorState.Warning);
 
     }
 
