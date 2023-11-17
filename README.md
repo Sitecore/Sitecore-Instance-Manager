@@ -2,7 +2,7 @@
 
 **SIM is an open source tool** for managing the local park of Sitecore instances. You can install, locate, maintain, reinstall or delete Sitecore products. It has API and plugin engine so you can extend it for any your need. 
 
-### [Download SIM](http://dl.sitecore.net/updater/sim/v2) as a ClickOnce app
+### [Download SIM](https://dl.sitecore.net/updater/sim/v2) as a ClickOnce app
 
 ### Resources
 
@@ -24,15 +24,14 @@
 6. **Export** Sitecore website and **Import** it on remote computer *(available only for Sitecore 8.2 and earlier)*
 7. **Delete** Sitecore websites
 8. **Reinstall** Sitecore websites
-9. **Install** Solr
-10. **Deploy** Sitecore to Docker
+9. **Deploy** Sitecore to Docker
 
 #### Open in Browser
 
 * Open website 
 * Open Sitecore Client 
 * Open Sitecore Client ([bypassing security, logging in as admin](https://github.com/Sitecore/Sitecore-Instance-Manager/wiki/Log-in-admin))
-* Open [administrative tools](https://doc.sitecore.com/en/developers/101/platform-administration-and-architecture/enable-and-disable-an-administrative-tool.html)
+* Open [administrative tools](https://doc.sitecore.com/xp/en/developers/103/platform-administration-and-architecture/enable-and-disable-an-administrative-tool.html)
 
 #### Open applications
 
@@ -41,7 +40,7 @@
 * Open web.config and other *.config files
 * Open `showconfig.xml` configuration
 * Open current log file in Dynamic Log Viewer
-* Open entire log files in [Sitecore Log Analyzer](http://dl.sitecore.net/updater/scla)
+* Open entire log files in [Sitecore Log Analyzer](https://dl.sitecore.net/updater/scla)
 
 #### Change website
 
@@ -55,7 +54,7 @@
 
 * SIM now includes Solr support.
   * For Sitecore 8.2, this is available as a Configuration Preset during the installation wizard. 
-  * For Sitecore 8.1, it is necessary to download the appropriate "Solr support package" from http://dev.sitecore.net/downloads, and to add it to SIM using the "Add Module" button on the "Modules list" screen during installation.
+  * For Sitecore 8.1, it is necessary to download the appropriate "Solr support package" from https://dev.sitecore.net/downloads, and to add it to SIM using the "Add Module" button on the "Modules list" screen during installation.
 * This supports Solr 4 and higher. 
   * Note: For Solr 4.x, the default "collection1" is used as a template, and must be present. For Solr 5.x and higher, the configuration located
    at `server\solr\configsets\data_driven_schema_configs` is used, as it has the language support required to index non-English text.
@@ -69,7 +68,7 @@
     * Calls Sitecore schema update wizard ("Generate the Solr Schema.xml file") for each new core.
     * Calls Solr API to create each core/collection.
     * Indexes are left empty, but can be built from Control Panel/Indexing Manager.
-    * Enables Solr term support, as described [here.](https://doc.sitecore.net/sitecore_experience_platform/80/setting_up__maintaining/search_and_indexing/walkthrough_setting_up_solr#_Toc399318998)
+    * Enables Solr term support, as described [here.](https://doc.sitecore.com/xp/en/developers/81/sitecore-experience-platform/walkthrough--setting-up-solr.html)
 
 
 #### Extra features
@@ -78,9 +77,13 @@
 * Edit `etc\hosts` file
 * Batch operations with SQL databases
 * Predefined configurations (Enable MVC, Scaling ...)
-* Delete All Instances - wizard for deleting all installed Sitecore instances
-* Update Licenses - Updating Sitecore license file in all installed Sitecore instances
+* Update Licenses - updating Sitecore license file in all installed Sitecore instances
+* Multi deletion - wizard for deleting multiple installed Sitecore instances at once
+* Search and delete resources - wizard for searching different types of resources and deleting specific or all of them
+* [SCLA](https://dl.sitecore.net/updater/scla) - Sitecore Log Analyzer for analyzing, grouping and navigating through logs entries
 * [SSPG](https://dl.sitecore.net/updater/sspg) - Sitecore Support Package Generator for collecting detailed information about an instance
+* [SCB](https://dl.sitecore.net/updater/scb/) - Sitecore Config Builder for outputing single summarized configuration file based on all configuration files
+* Install Solr - wizard for installing Solr instances compatible with different Sitecore versions
 * Publish Dialog - executing Sitecore publishing in application *(available only for Sitecore 8.2 and earlier)*
 
 ### Prerequisites
@@ -103,7 +106,8 @@ For `Sitecore 7.5, 8.0, 8.1 and 8.2`:
 
 ### Known Issues
 
-* [Outdated download link to Microsoft Web Platform Installer](https://github.com/Sitecore/Sitecore-Instance-Manager/wiki/Known-Issue-Outdated-Download-Link-to-Microsoft-Web-Platform-Installer)
+* [Outdated download links in Prerequisites.json](https://github.com/Sitecore/Sitecore-Instance-Manager/wiki/Known-Issue-Outdated-download-links-in-Prerequisites.json)
+* [Prerequisites require Internet access to be installed](https://github.com/Sitecore/Sitecore-Instance-Manager/wiki/Known-Issue-Prerequisites-require-Internet-access-to-be-installed)
 * [SQL Server integrated security is not supported](https://github.com/Sitecore/Sitecore-Instance-Manager/wiki/Known-Issue-Integrated-Security)
 * [HTTPS or IP-based Bindings are not supported](https://github.com/Sitecore/Sitecore-Instance-Manager/wiki/Known-Issue-IP-Bindings)
 * [Sitecore environment can use only the default HTTPS port 443](https://github.com/Sitecore/Sitecore-Instance-Manager/wiki/Known-Issue-Sitecore-Uses-Only-Default-HTTPS-port)
