@@ -9,15 +9,12 @@ namespace SIM.Sitecore9Installer.Validation.Validators
 {
   public class LicenseFileValidator : IValidator
   {
-    public readonly Dictionary<string, List<string>> ExpiredDatesAndLicences;
-
-    public readonly Dictionary<string, List<string>> AlmostExpiredDatesAndLicences;
+    private Dictionary<string, List<string>> ExpiredDatesAndLicences;
+    private Dictionary<string, List<string>> AlmostExpiredDatesAndLicences;
 
     public LicenseFileValidator()
     {
       Data = new Dictionary<string, string>();
-      ExpiredDatesAndLicences = new Dictionary<string, List<string>>();
-      AlmostExpiredDatesAndLicences = new Dictionary<string, List<string>>();
     }
 
     public Dictionary<string, string> Data { get; set; }
@@ -40,6 +37,9 @@ namespace SIM.Sitecore9Installer.Validation.Validators
         }
         else
         {
+          ExpiredDatesAndLicences = new Dictionary<string, List<string>>();
+          AlmostExpiredDatesAndLicences = new Dictionary<string, List<string>>();
+
           GetExpiredDatesAndLicenses(path, "expiration", "yyyyMMdd'T'HHmmss", "Id");
 
           if (ExpiredDatesAndLicences.Keys.Any())
@@ -105,7 +105,7 @@ namespace SIM.Sitecore9Installer.Validation.Validators
               ExpiredDatesAndLicences[expiredShortDate].Add(expiredLicense);
             }
           }
-          else if (expirationDateTime.Date < DateTime.Now.AddMonths(1).Date)
+          else if (expirationDateTime.Date <= DateTime.Now.AddMonths(1).Date)
           {
             string almostExpiredShortDate = expirationDateTime.ToShortDateString();
             string almostExpiredLicense = expirationNode.ParentNode?.ParentNode?.Attributes[expirationNodeParentNodeAttribute]?.Value;
