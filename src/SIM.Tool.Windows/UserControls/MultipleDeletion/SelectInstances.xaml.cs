@@ -10,7 +10,7 @@
   {
     #region Fields
 
-    private readonly List<string> _SelectedInstances = new List<string>();
+    private List<IEnvironmentCheckBox> InstanceCheckBoxItems;
 
     #endregion
 
@@ -32,7 +32,7 @@
 
     public bool OnMovingNext(WizardArgs wizardArgs)
     {
-      if (_SelectedInstances.Count != 0)
+      if (InstanceCheckBoxItems != null && InstanceCheckBoxItems.Where(item => item.IsChecked).Any())
       {
         return true;
       }
@@ -45,9 +45,9 @@
     {
       var args = (MultipleDeletionWizardArgs)wizardArgs;
 
-      if (_SelectedInstances.Count != 0)
+      if (InstanceCheckBoxItems != null && InstanceCheckBoxItems.Where(item => item.IsChecked).Any())
       {
-        args._SelectedInstances = _SelectedInstances;
+        args._SelectedInstances = InstanceCheckBoxItems.Where(item => item.IsChecked).Select(item => item.Name).ToList();
       }
 
       return true;
@@ -59,25 +59,23 @@
 
     void IWizardStep.InitializeStep(WizardArgs wizardArgs)
     {
-      Instances.DataContext = ((MultipleDeletionWizardArgs)wizardArgs)._Instances;
-    }
+      var args = (MultipleDeletionWizardArgs)wizardArgs;
 
-    private void OnChecked(object sender, RoutedEventArgs e)
-    {
-      var instanceName = ((System.Windows.Controls.CheckBox)sender).Content.ToString();
-      if (!string.IsNullOrEmpty(instanceName))
+      InstanceCheckBoxItems = new List<IEnvironmentCheckBox>();
+      foreach (Instance instance in args._Instances)
       {
-        _SelectedInstances.Add(instanceName);
+        InstanceCheckBoxItems.Add(new EnvironmentCheckBox(instance.Name));
       }
-    }
 
-    private void OnUnchecked(object sender, RoutedEventArgs e)
-    {
-      var instanceName = ((System.Windows.Controls.CheckBox)sender).Content.ToString();
-      if (!string.IsNullOrEmpty(instanceName))
+      if (args._SelectedInstances != null && args._SelectedInstances.Count > 0)
       {
-        _SelectedInstances.Remove(instanceName);
+        foreach (string selectedInstance in args._SelectedInstances)
+        {
+          InstanceCheckBoxItems.Where(item => item.Name == selectedInstance).FirstOrDefault().IsChecked = true;
+        }
       }
+
+      Instances.DataContext = InstanceCheckBoxItems;
     }
 
     #endregion
