@@ -10,10 +10,10 @@
 			<RowDefinition Height="180"></RowDefinition>
 			<RowDefinition Height="25"></RowDefinition>
 		</Grid.RowDefinitions>
-		<ListBox Padding="0,5,0,0" Margin="0 -7 0 0" Name="Environments" ItemsSource="{Binding}" Grid.Row="0">
+		<ListBox Padding="0,5,0,0" Margin="0 -7 0 0" Name="Environments" Grid.Row="0">
 			<ListBox.ItemTemplate>
 				<DataTemplate>
-					<CheckBox Content="{Binding Path=SitecoreEnvironment.Name}" IsChecked="False" Margin="4 0 4 10" VerticalAlignment="Center" ScrollViewer.VerticalScrollBarVisibility="Visible" Checked="OnChecked" Unchecked="OnUnchecked"/>
+					<CheckBox Content="{Binding Path=Name}" IsChecked="{Binding Path=IsChecked}" Margin="4 0 4 10" VerticalAlignment="Center" ScrollViewer.VerticalScrollBarVisibility="Visible"/>
 				</DataTemplate>
 			</ListBox.ItemTemplate>
 		</ListBox>
