@@ -300,6 +300,8 @@
     <Compile Include="UserControls\Install\Containers\SelectModules.xaml.cs">
       <DependentUpon>SelectModules.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\MultipleDeletion\EnvironmentCheckBox.cs" />
+    <Compile Include="UserControls\MultipleDeletion\IEnvironmentCheckBox.cs" />
     <Compile Include="UserControls\MultipleDeletion\MultipleDeletion9WizardArgs.cs" />
     <Compile Include="UserControls\MultipleDeletion\SelectSitecore9Environments.xaml.cs">
       <DependentUpon>SelectSitecore9Environments.xaml</DependentUpon>
