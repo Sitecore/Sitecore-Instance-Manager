@@ -3,6 +3,7 @@
   using System.Collections.Generic;
   using System.Linq;
   using System.Windows;
+  using SIM.Extensions;
   using SIM.Instances;
   using SIM.Tool.Base.Wizards;
 
@@ -11,6 +12,7 @@
     #region Fields
 
     private List<IEnvironmentCheckBox> InstanceCheckBoxItems;
+    private List<IEnvironmentCheckBox> SearchInstanceCheckBoxItems;
 
     #endregion
 
@@ -43,10 +45,9 @@
 
     public bool SaveChanges(WizardArgs wizardArgs)
     {
-      var args = (MultipleDeletionWizardArgs)wizardArgs;
-
       if (InstanceCheckBoxItems != null && InstanceCheckBoxItems.Where(item => item.IsChecked).Any())
       {
+        var args = (MultipleDeletionWizardArgs)wizardArgs;
         args._SelectedInstances = InstanceCheckBoxItems.Where(item => item.IsChecked).Select(item => item.Name).ToList();
       }
 
@@ -59,23 +60,35 @@
 
     void IWizardStep.InitializeStep(WizardArgs wizardArgs)
     {
-      var args = (MultipleDeletionWizardArgs)wizardArgs;
-
-      InstanceCheckBoxItems = new List<IEnvironmentCheckBox>();
-      foreach (Instance instance in args._Instances)
+      if (InstanceCheckBoxItems == null)
       {
-        InstanceCheckBoxItems.Add(new EnvironmentCheckBox(instance.Name));
-      }
+        var args = (MultipleDeletionWizardArgs)wizardArgs;
 
-      if (args._SelectedInstances != null && args._SelectedInstances.Count > 0)
-      {
-        foreach (string selectedInstance in args._SelectedInstances)
+        InstanceCheckBoxItems = new List<IEnvironmentCheckBox>();
+        foreach (Instance instance in args._Instances)
         {
-          InstanceCheckBoxItems.Where(item => item.Name == selectedInstance).FirstOrDefault().IsChecked = true;
+          InstanceCheckBoxItems.Add(new EnvironmentCheckBox(instance.Name));
         }
-      }
 
-      Instances.DataContext = InstanceCheckBoxItems;
+        Instances.DataContext = InstanceCheckBoxItems;
+      }
+    }
+
+    private void SearchButton_Click(object sender, RoutedEventArgs e)
+    {
+      InstanceCheckBoxItems.ForEach(item => item.IsChecked = false);
+
+      string searchPhrase = SearchTextBox.Text.Trim();
+
+      if (!string.IsNullOrEmpty(searchPhrase))
+      {
+        SearchInstanceCheckBoxItems = InstanceCheckBoxItems.Where(item => item.Name.ContainsIgnoreCase(searchPhrase)).ToList();
+        Instances.DataContext = SearchInstanceCheckBoxItems;
+      }
+      else
+      {
+        Instances.DataContext = InstanceCheckBoxItems;
+      }
     }
 
     #endregion
