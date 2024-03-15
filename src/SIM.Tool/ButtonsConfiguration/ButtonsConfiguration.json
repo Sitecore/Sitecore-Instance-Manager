@@ -95,6 +95,7 @@
     "ManagedArgsTracerButton"
   ],
   "Sitecore9AndLaterButtons": [
+    "AddIndexesButton",
     "InstallModulesForSitecore9AndLaterButton",
     "RefreshButton",
     "InstallInstanceButton",

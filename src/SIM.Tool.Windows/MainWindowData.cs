@@ -691,6 +691,12 @@ namespace SIM.Tool.Windows
               Image = "/Images/$lg/install.png, SIM.Tool.Windows",
               Handler = new InstallModulesForSitecore9AndLaterButton()
             },
+            new ButtonDefinition
+            {
+              Label = "Add Indexes",
+              Image = "/Images/$lg/install.png, SIM.Tool.Windows",
+              Handler = new AddIndexesButton()
+            },
           }
         },
         GetManageGroupDefinition(),
