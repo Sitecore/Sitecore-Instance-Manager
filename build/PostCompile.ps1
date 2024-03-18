@@ -10,7 +10,7 @@ Param(
     [Parameter(Mandatory=$True)] [string]$BaseApplicationURL,
     [Parameter(Mandatory=$True)] [string]$SupportURL,
     [Parameter(Mandatory=$True)] [string]$PublisherName,
-	[Parameter(Mandatory=$True)] [string]$AzureSignToolFile
+    [Parameter(Mandatory=$True)] [string]$AzureSignToolFile
 )
 
 # get version
