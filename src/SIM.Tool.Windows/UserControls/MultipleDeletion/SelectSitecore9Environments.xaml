@@ -6,18 +6,27 @@
              mc:Ignorable="d" 
              d:DesignHeight="205" d:DesignWidth="443" Padding="0">
 	<Grid>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition></ColumnDefinition>
+			<ColumnDefinition Width="20"></ColumnDefinition>
+		</Grid.ColumnDefinitions>
 		<Grid.RowDefinitions>
-			<RowDefinition Height="180"></RowDefinition>
+			<RowDefinition Height="35"></RowDefinition>
+			<RowDefinition Height="145"></RowDefinition>
 			<RowDefinition Height="25"></RowDefinition>
 		</Grid.RowDefinitions>
-		<ListBox Padding="0,5,0,0" Margin="0 -7 0 0" Name="Environments" Grid.Row="0">
+		<TextBox Name="SearchTextBox" Margin="0,0,2,10" Height="20" VerticalContentAlignment="Center" Grid.Row="0" Grid.Column="0" />
+		<Button Name="SearchButton" Margin="0,0,0,10" Height="20" Width="20" VerticalContentAlignment="Center" Grid.Row="0" Grid.Column="1" ToolTip="Search environment by name" Click="SearchButton_Click">
+			<Image Source="pack://application:,,,/SIM.Tool.Windows;component/Images/24/view.png" />
+		</Button>
+		<ListBox Padding="0,5,0,0" Margin="0 -7 0 0" Name="Environments" Grid.Row="1" Grid.ColumnSpan="2">
 			<ListBox.ItemTemplate>
 				<DataTemplate>
 					<CheckBox Content="{Binding Path=Name}" IsChecked="{Binding Path=IsChecked}" Margin="4 0 4 10" VerticalAlignment="Center" ScrollViewer.VerticalScrollBarVisibility="Visible"/>
 				</DataTemplate>
 			</ListBox.ItemTemplate>
 		</ListBox>
-		<TextBlock VerticalAlignment="Center" HorizontalAlignment="Left" Text="Scripts only:" Height="16" Margin="0,10,0,0" Grid.Row="1" />
-		<CheckBox Name="ScriptsOnly" VerticalAlignment="Center" Height="15" Margin="70,10,0,0" Grid.Row="1" />
+		<TextBlock VerticalAlignment="Center" HorizontalAlignment="Left" Text="Scripts only:" Height="16" Margin="0,10,0,0" Grid.Row="2" Grid.ColumnSpan="2" />
+		<CheckBox Name="ScriptsOnly" VerticalAlignment="Center" Height="15" Margin="70,10,0,0" Grid.Row="2" Grid.ColumnSpan="2" />
 	</Grid>
 </UserControl>
