@@ -1,12 +1,16 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
+using SIM.Extensions;
+using SIM.Instances;
 using SIM.Tool.Base.Wizards;
 
 namespace SIM.Tool.Windows.UserControls.MultipleDeletion
 {
   public partial class SelectSitecore9Environments : IWizardStep, IFlowControl
   {
-    private readonly List<string> _SelectedEnvironments = new List<string>();
+    private List<IEnvironmentCheckBox> EnvironmentCheckBoxItems;
+    private List<IEnvironmentCheckBox> SearchEnvironmentCheckBoxItems;
 
     public SelectSitecore9Environments()
     {
@@ -20,7 +24,7 @@ namespace SIM.Tool.Windows.UserControls.MultipleDeletion
 
     public bool OnMovingNext(WizardArgs wizardArgs)
     {
-      if (_SelectedEnvironments.Count != 0)
+      if (EnvironmentCheckBoxItems != null && EnvironmentCheckBoxItems.Where(item => item.IsChecked).Any())
       {
         return true;
       }
@@ -31,11 +35,11 @@ namespace SIM.Tool.Windows.UserControls.MultipleDeletion
 
     public bool SaveChanges(WizardArgs wizardArgs)
     {
-      var args = (MultipleDeletion9WizardArgs)wizardArgs;
-
-      if (_SelectedEnvironments.Count != 0)
+      if (EnvironmentCheckBoxItems != null && EnvironmentCheckBoxItems.Where(item => item.IsChecked).Any())
       {
-        args._SelectedEnvironments = _SelectedEnvironments;
+        var args = (MultipleDeletion9WizardArgs)wizardArgs;
+
+        args._SelectedEnvironments = EnvironmentCheckBoxItems.Where(item => item.IsChecked).Select(item => item.Name).ToList();
         args._ScriptsOnly = this.ScriptsOnly.IsChecked ?? false;
       }
 
@@ -44,24 +48,35 @@ namespace SIM.Tool.Windows.UserControls.MultipleDeletion
 
     public void InitializeStep(WizardArgs wizardArgs)
     {
-      Environments.DataContext = ((MultipleDeletion9WizardArgs)wizardArgs)._Instances;
-    }
-
-    private void OnChecked(object sender, RoutedEventArgs e)
-    {
-      var environmentName = ((System.Windows.Controls.CheckBox)sender).Content.ToString();
-      if (!string.IsNullOrEmpty(environmentName))
+      if (EnvironmentCheckBoxItems == null)
       {
-        _SelectedEnvironments.Add(environmentName);
+        var args = (MultipleDeletion9WizardArgs)wizardArgs;
+
+        EnvironmentCheckBoxItems = new List<IEnvironmentCheckBox>();
+        foreach (Instance instance in args._Instances)
+        {
+          EnvironmentCheckBoxItems.Add(new EnvironmentCheckBox(instance.SitecoreEnvironment.Name));
+        }
+
+        Environments.DataContext = EnvironmentCheckBoxItems;
       }
     }
 
-    private void OnUnchecked(object sender, RoutedEventArgs e)
+    private void SearchButton_Click(object sender, RoutedEventArgs e)
     {
-      var environmentName = ((System.Windows.Controls.CheckBox)sender).Content.ToString();
-      if (!string.IsNullOrEmpty(environmentName))
+      EnvironmentCheckBoxItems.ForEach(item => item.IsChecked = false);
+
+      string searchPhrase = SearchTextBox.Text.Trim();
+
+      if (!string.IsNullOrEmpty(searchPhrase))
       {
-        _SelectedEnvironments.Remove(environmentName);
+        
+        SearchEnvironmentCheckBoxItems = EnvironmentCheckBoxItems.Where(item => item.Name.ContainsIgnoreCase(searchPhrase)).ToList();
+        Environments.DataContext = SearchEnvironmentCheckBoxItems;
+      }
+      else
+      {
+        Environments.DataContext = EnvironmentCheckBoxItems;
       }
     }
   }

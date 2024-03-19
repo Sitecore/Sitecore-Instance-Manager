@@ -38,5 +38,7 @@
         <TextBlock Grid.Row="3" TextWrapping="Wrap" Text="Location:"  HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,4.6,0,4.2" Height="16" Width="48"/>
         <Button Name="LocationBtn" Click="LocationBtn_Click" Content="..." HorizontalAlignment="Left" Margin="53,2.6,0,0" Grid.Row="3" VerticalAlignment="Top" Width="24" Height="20"/>
         <TextBox Name="LocationText" Text="{Binding ElementName=InstanceName, Path=Text, Mode=OneWay, Converter={x:Static converters:InstanceNameToLocation.Instance}}" Grid.Row="3" Grid.Column="1" TextWrapping="Wrap" Grid.ColumnSpan="5"  />
-    </Grid>
+
+		<TextBlock Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="6" VerticalAlignment="Center" HorizontalAlignment="Left" Height="16" FontSize="11" Foreground="Red">If VPN is running then make sure that it does not conflict with Docker in terms of IPs usage</TextBlock>
+	</Grid>
 </UserControl>
