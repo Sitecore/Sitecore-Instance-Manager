@@ -230,6 +230,7 @@
     <Compile Include="MainWindowComponents\Buttons\InstallContainerButton.cs" />
     <Compile Include="LogFileFolder\LogFileFolderResolver.cs" />
     <Compile Include="LogFileFolder\LogFileFolderFactory.cs" />
+    <Compile Include="MainWindowComponents\Helpers\ButtonAuthenticationHelper.cs" />
     <Compile Include="MainWindowComponents\MainWindowButtonFactory.cs" />
     <Compile Include="LogFileFolder\SitecoreDefaultLogFileFolderResolver.cs" />
     <Compile Include="MainWindowData.cs" />
