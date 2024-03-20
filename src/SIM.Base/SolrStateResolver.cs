@@ -76,6 +76,27 @@ namespace SIM
 
       return string.Empty;
     }
+
+    public virtual string GetSeparateSolrAttribute(string solrUrl, string attributName)
+    {
+      HttpClient client = new HttpClient();
+
+      using (Stream stream = client.GetStreamAsync($"{solrUrl}/admin/info/system?wt=json").Result)
+      using (StreamReader streamReader = new StreamReader(stream))
+      using (JsonReader reader = new JsonTextReader(streamReader))
+      {
+        while (reader.Read())
+        {
+          if (string.Equals(reader.Path, attributName, StringComparison.OrdinalIgnoreCase)
+              && !string.Equals((string)reader.Value, attributName, StringComparison.OrdinalIgnoreCase))
+          {
+            return (string)reader.Value;
+          }
+        }
+      }
+
+      return string.Empty;
+    }
   }
 
   public class ServiceControllerWrapper
