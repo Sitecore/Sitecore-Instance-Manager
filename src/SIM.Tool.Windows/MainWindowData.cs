@@ -693,9 +693,9 @@ namespace SIM.Tool.Windows
             },
             new ButtonDefinition
             {
-              Label = "Add Indexes",
-              Image = "/Images/$lg/install.png, SIM.Tool.Windows",
-              Handler = new AddIndexesButton()
+              Label = "Add Solr Cores",
+              Image = "/Images/$lg/search_index.png, SIM.Tool.Windows",
+              Handler = new AddSolrCoresButton()
             },
           }
         },
@@ -1164,6 +1164,7 @@ namespace SIM.Tool.Windows
       new ButtonDefinition { Label = "Restore", Image = "/Images/$sm/box_out.png, SIM.Tool.Windows", Handler = new RestoreInstanceButton() },
       new ButtonDefinition { Handler = new ExportInstanceButton() },
       new ButtonDefinition { Label = "Export", Image = "/Images/$sm/download.png, SIM.Tool.Windows", Handler = new ExportInstanceButton() },
+      new ButtonDefinition { Label = "Add Solr cores", Image = "/Images/$sm/search_index.png, SIM.Tool.Windows", Handler = new AddSolrCoresButton() },
       new ButtonDefinition { Handler = new InstallModulesButton() },
       new ButtonDefinition { Label = "Install packages", Image = "/Images/$sm/install.png, SIM.Tool.Windows", Handler = new InstallModulesButton() },
       new ButtonDefinition { Handler = new InstallModulesButton() },

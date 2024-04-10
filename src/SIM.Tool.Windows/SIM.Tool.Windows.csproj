@@ -156,7 +156,7 @@
     <Compile Include="LogFileFolder\SitecoreMembersLogFileFolderResolver.cs" />
     <Compile Include="MainWindowComponents\Buttons\AboutButton.cs" />
     <Compile Include="MainWindowComponents\Buttons\AbstractInstanceButton.cs" />
-    <Compile Include="MainWindowComponents\Buttons\AddIndexesButton.cs" />
+    <Compile Include="MainWindowComponents\Buttons\AddSolrCoresButton.cs" />
     <Compile Include="MainWindowComponents\Buttons\AppStateButton.cs" />
     <Compile Include="MainWindowComponents\Buttons\BrowseSitecoreContainerWebsiteButton.cs" />
     <Compile Include="MainWindowComponents\Buttons\BrowseHomePageButton.cs" />
@@ -301,6 +301,9 @@
     <Compile Include="UserControls\Helpers\NameCharsHelper.cs" />
     <Compile Include="UserControls\Install\Containers\SelectModules.xaml.cs">
       <DependentUpon>SelectModules.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Install\SearchIndexes\AvailableSearchIndexes.xaml.cs">
+      <DependentUpon>AvailableSearchIndexes.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\MultipleDeletion\EnvironmentCheckBox.cs" />
     <Compile Include="UserControls\MultipleDeletion\IEnvironmentCheckBox.cs" />
@@ -661,6 +664,10 @@
     <Resource Include="Images\32\trash.png" />
     <Resource Include="Images\24\trash.png" />
     <Resource Include="Images\16\trash.png" />
+    <Resource Include="Images\16\search_index.png" />
+    <Resource Include="Images\24\search_index.png" />
+    <Resource Include="Images\32\search_index.png" />
+    <Resource Include="Images\48\search_index.png" />
     <Content Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -748,6 +755,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="UserControls\Install\ParametersEditor\Install9ParametersEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\Install\SearchIndexes\AvailableSearchIndexes.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

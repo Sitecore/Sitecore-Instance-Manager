@@ -325,8 +325,18 @@ But the confirmation will be required if the databases are attached to:
                 method=""OpenVisualStudio"" />
         <action text=""Publish Site"" type=""SIM.Tool.Windows.Pipelines.Install.InstallModulesActions, SIM.Tool.Windows"" method=""PublishSite"" />
         <hive type=""SIM.Tool.Windows.Pipelines.Install.InstallModulesFinishActionHive, SIM.Tool.Windows"" />
-      </finish>
+      </finish> 
     </installmodules>
+    <installSearchIndexes title=""Installing Solr cores to {InstanceName}"" startButton=""Install""
+                      finishText=""The Solr cores installation was successfully completed"">
+      <steps>
+         <step name=""STEP 1 of 2 - INFORMATION"" type=""SIM.Tool.Windows.UserControls.ConfirmStepUserControl, SIM.Tool.Windows""
+           param=""This wizard searches for all defined Solr search indexes in the configuration of the selected Sitecore instance.
+It shows related cores that are missing on the Solr side and allows you to add them. "" />
+         <step name=""STEP 2 of 2 - INSTALL SOLR CORES"" 
+             type=""SIM.Tool.Windows.UserControls.Install.SearchIndexes.AvailableSearchIndexes, SIM.Tool.Windows"" />          
+        </steps>       
+    </installSearchIndexes>
     <searchAndDeleteResources title=""Search and delete resources"" startButton=""Delete"" finishText=""Done"">
       <steps>
         <step name=""STEP 1 of 3 - INFORMATION"" type=""SIM.Tool.Windows.UserControls.ConfirmStepUserControl, SIM.Tool.Windows""

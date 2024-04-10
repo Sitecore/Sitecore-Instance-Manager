@@ -10,6 +10,23 @@ namespace SIM
 {
   public class SolrStateResolver
   {
+    public virtual bool IsSolrAvailable(string solrUrl) 
+    {
+      try
+      {
+        var request = WebRequest.Create(solrUrl) as HttpWebRequest;
+        request.Method = "HEAD";
+        using (var response = request.GetResponse() as HttpWebResponse)
+        {
+          return response.StatusCode == HttpStatusCode.OK;
+        }
+      }
+      catch (WebException)
+      {
+        return false;
+      }
+    }
+
     public virtual SolrState.CurrentState GetServiceState(ServiceControllerWrapper service)
     {
       if (service != null)
