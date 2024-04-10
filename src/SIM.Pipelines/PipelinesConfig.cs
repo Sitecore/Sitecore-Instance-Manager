@@ -237,6 +237,12 @@
       </processor>
     </processor>
   </installmodules>
+ <installSearchIndexes title=""Installing search indexes on the {InstanceName} instance"" >
+    <processor type=""SIM.Pipelines.InstallSearchIndexes.CreateIndexDirectoryAction, SIM.Pipelines"" title=""Creating index directories"" />
+    <processor type=""SIM.Pipelines.InstallSearchIndexes.UpdateManagedSchemaAction, SIM.Pipelines"" title=""Updating managed schema files"" />
+    <processor type=""SIM.Pipelines.InstallSearchIndexes.CreateSolrCoreAction, SIM.Pipelines"" title=""Creating Solr cores"" />
+    <processor type=""SIM.Pipelines.InstallSearchIndexes.PopulateNewIndexAction, SIM.Pipelines"" title=""Populating created indexes"" />
+ </installSearchIndexes>
   <backup title=""Backing up the {InstanceName} instance"">
     <processor type=""SIM.Pipelines.Backup.BackupDatabases, SIM.Pipelines"" title=""Backing up databases"" />
     <processor type=""SIM.Pipelines.Backup.BackupMongoDatabases, SIM.Pipelines"" title=""Backing up MongoDB databases"" />

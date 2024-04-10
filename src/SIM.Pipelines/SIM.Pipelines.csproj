@@ -108,6 +108,12 @@
     <Compile Include="Import\ImportRestoreMongoDatabases.cs" />
     <Compile Include="Import\UpdateConnectionStrings.cs" />
     <Compile Include="Import\UpdateDataFolder.cs" />
+    <Compile Include="InstallSearchIndexes\CreateIndexDirectoryAction.cs" />
+    <Compile Include="InstallSearchIndexes\CreateSolrCoreAction.cs" />
+    <Compile Include="InstallSearchIndexes\InstallSearchIndexesArgs.cs" />
+    <Compile Include="InstallSearchIndexes\InstallSearchIndexesProcessor.cs" />
+    <Compile Include="InstallSearchIndexes\PopulateNewIndexAction.cs" />
+    <Compile Include="InstallSearchIndexes\UpdateManagedSchemaAction.cs" />
     <Compile Include="Install\Containers\AddHostsProcessor.cs" />
     <Compile Include="Install\Containers\GenerateModulesData.cs" />
     <Compile Include="Install\Containers\ConvertLicenseProcessor.cs" />
