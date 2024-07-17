@@ -528,10 +528,22 @@
     <Content Include="ContainerFiles\Scripts\SqlAdminPasswordGenerator.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="GlobalParamsConfig\XM\GlobalParams_10.4_XM1.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="GlobalParamsConfig\XP\GlobalParams_10.0_XP0_SXA.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <Content Include="GlobalParamsConfig\XP\GlobalParams_10.1_XP1.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="GlobalParamsConfig\XP\GlobalParams_10.4_XP0.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="GlobalParamsConfig\XP\GlobalParams_10.4_XP0_SXA.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="GlobalParamsConfig\XP\GlobalParams_10.4_XP1.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="GlobalParamsConfig\XP\GlobalParams_9.2_XP0.json">
