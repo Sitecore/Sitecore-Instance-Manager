@@ -1,5 +1,19 @@
 ﻿{
   "GlobalFilesMap": {
+    // SXA
+    "10.4.\\d.* XP0 Developer": "GlobalParams_10.4_XP0_SXA.json",
+    "10.3.\\d.* XP0 Developer": "GlobalParams_10.0_XP0_SXA.json",
+    "10.2.\\d.* XP0 Developer": "GlobalParams_10.0_XP0_SXA.json",
+    "10.1.\\d.* XP0 Developer": "GlobalParams_10.0_XP0_SXA.json",
+    "10.0.\\d.* XP0 Developer": "GlobalParams_10.0_XP0_SXA.json",
+    "9.3.\\d.* XP0 Developer": "GlobalParams_9.3_XP0_SXA.json",
+    "10.4.\\d.* XM1 Developer": "GlobalParams_10.4_XM1_SXA.json",
+    "10.3.\\d.* XM1 Developer": "GlobalParams_10.0_XM1_SXA.json",
+    "10.2.\\d.* XM1 Developer": "GlobalParams_10.0_XM1_SXA.json",
+    "10.1.\\d.* XM1 Developer": "GlobalParams_10.0_XM1_SXA.json",
+    "10.0.\\d.* XM1 Developer": "GlobalParams_10.0_XM1_SXA.json",
+    "9.3.\\d.* XM1 Developer": "GlobalParams_9.3_XM1_SXA.json",
+
     // XM1
     "10.4.\\d.* XM1": "GlobalParams_10.4_XM1.json",
     "10.3.\\d.* XM1": "GlobalParams_10.0_XM1.json",
@@ -11,14 +25,6 @@
     "9.1.0.* XM1": "GlobalParams_9.1.0_XM1.json",
     "9.1.\\d.* XM1": "GlobalParams_9.1_XM1.json",
     "9.0.\\d.* XM1": "GlobalParams_9.0_XM1.json",
-
-    // SXA
-    "10.4.\\d.* XP0 Developer": "GlobalParams_10.4_XP0_SXA.json",
-    "10.3.\\d.* XP0 Developer": "GlobalParams_10.0_XP0_SXA.json",
-    "10.2.\\d.* XP0 Developer": "GlobalParams_10.0_XP0_SXA.json",
-    "10.1.\\d.* XP0 Developer": "GlobalParams_10.0_XP0_SXA.json",
-    "10.0.\\d.* XP0 Developer": "GlobalParams_10.0_XP0_SXA.json",
-    "9.3.\\d.* XP0 Developer": "GlobalParams_9.3_XP0_SXA.json",
 
     // XP0
     "10.4.\\d.* XP0": "GlobalParams_10.4_XP0.json",

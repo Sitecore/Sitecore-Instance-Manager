@@ -528,7 +528,16 @@
     <Content Include="ContainerFiles\Scripts\SqlAdminPasswordGenerator.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="GlobalParamsConfig\XM\GlobalParams_9.3_XM1_SXA.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="GlobalParamsConfig\XM\GlobalParams_10.0_XM1_SXA.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="GlobalParamsConfig\XM\GlobalParams_10.4_XM1.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="GlobalParamsConfig\XM\GlobalParams_10.4_XM1_SXA.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="GlobalParamsConfig\XP\GlobalParams_10.0_XP0_SXA.json">
