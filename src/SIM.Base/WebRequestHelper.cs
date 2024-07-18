@@ -169,17 +169,24 @@
 
     public static string GetFileName(Uri link, string cookies)
     {
+      var path = link.AbsolutePath;
       try
       {
-        using (var response = RequestAndGetResponse(link, null, null, cookies))
+        if (path.EndsWith(".zip"))
         {
-          return GetFileName(response);
+          return path.Substring(path.LastIndexOf("/") + 1).Replace("%20", " ");
+        }
+        else
+        {
+          using (var response = RequestAndGetResponse(link, null, null, cookies))
+          {
+            return GetFileName(response);
+          }
         }
       }
       catch (InvalidOperationException ex)
       {
         Log.Warn(ex, $"There is a problem with detecting file name of {link}");
-        var path = link.AbsolutePath;
         return path.Substring(path.LastIndexOf("/") + 1);
       }
     }
