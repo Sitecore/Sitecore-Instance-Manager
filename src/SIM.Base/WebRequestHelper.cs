@@ -213,6 +213,38 @@
       return webRequest.GetResponse() as HttpWebResponse;
     }
 
+    public static Uri GetNewUriUsingRedirects(Uri uri)
+    {
+      string newUri = uri.AbsoluteUri;
+
+      while (true)
+      {
+        try
+        {
+          HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create(newUri);
+          webRequest.AllowAutoRedirect = false;
+
+          using (HttpWebResponse webResponse = (HttpWebResponse)webRequest.GetResponse())
+          {
+            if ((int)webResponse.StatusCode == 301 || (int)webResponse.StatusCode == 302 || (int)webResponse.StatusCode == 308)
+            {
+              string uriString = webResponse.Headers["Location"];
+              newUri = uriString;
+            }
+            else
+            {
+              return webRequest.RequestUri;
+            }
+          }
+        }
+        catch (InvalidOperationException ex)
+        {
+          Log.Warn(ex, $"There is a problem with getting new uri for {uri.AbsoluteUri}");
+          return uri;
+        }
+      }
+    }
+
     #endregion
 
     #region Private methods

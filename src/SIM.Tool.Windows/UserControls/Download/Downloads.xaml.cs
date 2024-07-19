@@ -87,7 +87,20 @@
 
     private ReadOnlyCollection<Uri> GetLinks(DownloadWizardArgs args)
     {
-      return new ReadOnlyCollection<Uri>(args.Products.Select(product => product.Value).ToArray());
+      // Temporary solution for replacing outdated links related to the dev.sitecore.net site
+      List<Uri> links = new List<Uri>();
+      foreach (Uri link in args.Products.Select(product => product.Value).ToArray())
+      {
+        if (link.AbsoluteUri.StartsWith("https://dev.sitecore.net") || link.AbsoluteUri.StartsWith("http://dev.sitecore.net"))
+        {
+          links.Add(WebRequestHelper.GetNewUriUsingRedirects(link));
+        }
+        else
+        {
+          links.Add(link);
+        }
+      }
+      return new ReadOnlyCollection<Uri>(links);
     }
 
     private void PrepareData(DownloadWizardArgs args)
