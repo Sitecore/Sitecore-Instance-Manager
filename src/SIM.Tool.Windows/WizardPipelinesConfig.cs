@@ -17,7 +17,7 @@
       </steps>
     </agreement>
     <setup title=""Initial Configuration Wizard"" startButton=""Next""
-           finishText=""Congratulations! The installation was successfully completed and you can start using it out of the box. If you don't have any Sitecore zip files in the local repository then you may download them from dev.sitecore.net via the Get Sitecore button on the Ribbon or do it manually""
+           finishText=""Congratulations! The installation was successfully completed and you can start using it out of the box. If you don't have any Sitecore zip files in the local repository then you may download them from developers.sitecore.com via the Get Sitecore button on the Ribbon or do it manually""
            cancelButton=""Exit"">
       <steps afterLastStep=""SIM.Tool.Windows.Pipelines.Setup.SetupProcessor, SIM.Tool.Windows"">
         <step name=""Welcome message"" type=""SIM.Tool.Windows.UserControls.ConfirmStepUserControl, SIM.Tool.Windows""
@@ -45,7 +45,7 @@ This wizard helps you to download packages ('ZIP archive of the Sitecore site ro
               
 Note that due to the large size of each installation package the whole download operation may require much time.
 
-In addition, you may download these files from dev.sitecore.net to your local repository folder manually using your browser and/or any download program."" />
+In addition, you may download these files from developers.sitecore.com to your local repository folder manually using your browser and/or any download program."" />
         <step name=""Choose versions to download""
               type=""SIM.Tool.Windows.UserControls.Download.Downloads, SIM.Tool.Windows"" />
       </steps>
