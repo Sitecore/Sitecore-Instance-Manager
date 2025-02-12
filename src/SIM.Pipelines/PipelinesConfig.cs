@@ -237,11 +237,18 @@
       </processor>
     </processor>
   </installmodules>
+
+ <backup9AndLater title=""Backing up the {InstanceName} instance"">
+    <processor type=""SIM.Pipelines.Backup.BackupDatabases9, SIM.Pipelines"" title=""Backing up databases"" />    
+    <processor type=""SIM.Pipelines.Backup.BackupFiles9, SIM.Pipelines"" title=""Backing up files"" /> 
+  </backup9AndLater>
+
   <backup title=""Backing up the {InstanceName} instance"">
     <processor type=""SIM.Pipelines.Backup.BackupDatabases, SIM.Pipelines"" title=""Backing up databases"" />
     <processor type=""SIM.Pipelines.Backup.BackupMongoDatabases, SIM.Pipelines"" title=""Backing up MongoDB databases"" />
-    <processor type=""SIM.Pipelines.Backup.BackupFiles, SIM.Pipelines"" title=""Backing up files"" />
+    <processor type=""SIM.Pipelines.Backup.BackupFiles, SIM.Pipelines"" title=""Backing up files"" /> 
   </backup>
+
   <restore title=""Restoring the {InstanceName} instance"">
     <processor type=""SIM.Pipelines.Restore.RestoreDatabases, SIM.Pipelines"" title=""Restoring databases"" />
     <processor type=""SIM.Pipelines.Restore.RestoreMongoDatabases, SIM.Pipelines"" title=""Restoring MongoDB databases"" />
@@ -249,6 +256,11 @@
       <processor type=""SIM.Pipelines.Restore.RestoreFiles, SIM.Pipelines"" title=""Restoring files"" />
     </processor>
   </restore>
+
+<clearbackups title=""Clearing backups for the {InstanceName} instance"">
+    <processor type=""SIM.Pipelines.ClearBackups.RemoveSelectedBackups, SIM.Pipelines"" title=""Deleting backup files"" /> 
+</clearbackups>
+
   <export title=""Exporting the {InstanceName} instance"">
     <step>
       <processor type=""SIM.Pipelines.Export.ExportDatabases, SIM.Pipelines"" title=""Exporting databases"" />

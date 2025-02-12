@@ -239,7 +239,7 @@ namespace SIM.Tool.Windows
       }
 
       return new ButtonDefinition
-      {                
+      {
         Label = "Create Hotfix",
         Image = "/Images/$sm/vs.png, SIM.Tool.Windows",
         Handler = new CreateSupportHotfixButton("%APPDATA%\\Sitecore\\HotfixCreator", $"http://dl.sitecore.net/updater/hc/HotfixCreator.application")
@@ -694,7 +694,8 @@ namespace SIM.Tool.Windows
           }
         },
         GetManageGroupDefinition(),
-        new GroupDefinition
+
+       new GroupDefinition
         {
           Name = "Backup",
           Handler = new BackupGroup(),
@@ -705,28 +706,28 @@ namespace SIM.Tool.Windows
               Label = "Backup",
               Image = "/Images/$lg/floppy_disks.png, SIM.Tool.Windows",
               Handler = new BackupInstanceButton(),
-              Buttons = new[]
-              {
-                new ButtonDefinition
-                {
-                  Label = "Backup",
-                  Image = "/Images/$sm/box_into.png, SIM.Tool.Windows",
-                  Handler = new BackupInstanceButton()
-                },
-                new ButtonDefinition
-                {
-                  Label = "Export",
-                  Image = "/Images/$lg/download.png, SIM.Tool.Windows",
-                  Handler = new ExportInstanceButton()
-                },
-              }
             },
+
+            new ButtonDefinition
+            {
+              Label = "Backup",
+              Image = "/Images/$lg/floppy_disks.png, SIM.Tool.Windows",
+              Handler = new BackupInstance9AndLaterButton(),
+            },
+
             new ButtonDefinition
             {
               Label = "Restore",
               Image = "/Images/$lg/box_out.png, SIM.Tool.Windows",
               Handler = new RestoreInstanceButton()
             },
+
+            new ButtonDefinition
+            {
+                  Label = "Clear",
+                  Image = "/Images/$lg/clear_backups.png, SIM.Tool.Windows",
+                  Handler = new ClearBackupsInstance9AndLaterButton()
+                },
           }
         },
       }
@@ -1128,7 +1129,7 @@ namespace SIM.Tool.Windows
       };
     }
 
-    internal static ButtonDefinition[] MenuItems { get; } = 
+    internal static ButtonDefinition[] MenuItems { get; } =
     {
       new ButtonDefinition { Label = "Browse Sitecore Container Website", Image = "/Images/$sm/earth2.png, SIM.Tool.Windows", Handler = new BrowseSitecoreContainerWebsiteButton() },
       new ButtonDefinition { Label = "Browse Website", Image = "/Images/$sm/earth2.png, SIM.Tool.Windows", Handler = new BrowseHomePageButton() },
@@ -1142,7 +1143,7 @@ namespace SIM.Tool.Windows
         new ButtonDefinition { Label = "Sitecore Admin", Image = "/Images/$lg/toolbox.png, SIM.Tool.Windows", Handler = new OpenToolboxButton("bypass") },
         new ButtonDefinition { Handler = new LoginAdminButton() },
         new ButtonDefinition { Label = "Copy URL", Image = "/Images/$lg/astrologer.png, SIM.Tool.Windows", Handler = new LoginAdminButton("$(clipboard)") },
-      }}, 
+      }},
       new ButtonDefinition { Label = "Sitecore Admin", Image = "/Images/$lg/toolbox.png, SIM.Tool.Windows", Handler = new OpenToolboxButton() },
       new ButtonDefinition { Label = "Open Folder", Image = "/Images/$sm/folder_open.png, SIM.Tool.Windows", Handler = new SitecoreMemberOpenFolderButton("$(website)") },
       new ButtonDefinition { Label = "Open Container Folder", Image = "/Images/$sm/folder_open.png, SIM.Tool.Windows", Handler = new OpenContainerFolderButton() },
@@ -1153,9 +1154,6 @@ namespace SIM.Tool.Windows
       new ButtonDefinition { Label = "Open web.config file", Image = "/Images/$sm/document_text.png, SIM.Tool.Windows", Handler = new OpenWebConfigButton() },
       new ButtonDefinition { Handler = new PublishButton() },
       new ButtonDefinition { Label = "Publish Site", Image = "/Images/$sm/publish.png, SIM.Tool.Windows", Handler = new PublishButton() },
-      new ButtonDefinition { Handler = new BackupInstanceButton() },
-      new ButtonDefinition { Label = "Backup", Image = "/Images/$sm/box_into.png, SIM.Tool.Windows", Handler = new BackupInstanceButton() },
-      new ButtonDefinition { Label = "Restore", Image = "/Images/$sm/box_out.png, SIM.Tool.Windows", Handler = new RestoreInstanceButton() },
       new ButtonDefinition { Handler = new ExportInstanceButton() },
       new ButtonDefinition { Label = "Export", Image = "/Images/$sm/download.png, SIM.Tool.Windows", Handler = new ExportInstanceButton() },
       new ButtonDefinition { Handler = new InstallModulesButton() },

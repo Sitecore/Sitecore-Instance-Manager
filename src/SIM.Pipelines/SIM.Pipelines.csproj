@@ -88,12 +88,19 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Agent\PublishAgentHelper.cs" />
+    <Compile Include="Backup\Backup9Args.cs" />
+    <Compile Include="Backup\Backup9Processor.cs" />
     <Compile Include="Backup\BackupArgs.cs" />
     <Compile Include="Backup\BackupDatabases.cs" />
+    <Compile Include="Backup\BackupDatabases9.cs" />
     <Compile Include="Backup\BackupFiles.cs" />
+    <Compile Include="Backup\BackupFiles9.cs" />
     <Compile Include="Backup\BackupMongoDatabases.cs" />
     <Compile Include="Backup\BackupProcessor.cs" />
     <Compile Include="BaseProcessors\RunCmdCommandBaseProcessor.cs" />
+    <Compile Include="ClearBackups\ClearBackupsArgs.cs" />
+    <Compile Include="ClearBackups\ClearBackupsProcessor.cs" />
+    <Compile Include="ClearBackups\RemoveSelectedBackups.cs" />
     <Compile Include="ConditionEvaluator.cs" />
     <Compile Include="ConfigurationActions.cs" />
     <Compile Include="Delete\CleanUp.cs" />

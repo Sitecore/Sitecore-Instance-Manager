@@ -21,7 +21,9 @@ namespace SIM.Tool.Windows.MainWindowComponents.Buttons
       {
         var args = new RestoreArgs(instance, new SqlConnectionStringBuilder(Profile.Read(new RealFileSystem()).ConnectionString));
         var id = MainWindowHelper.GetListItemID(instance.ID);
-        WizardPipelineManager.Start("restore", mainWindow, args, null, ignore => MainWindowHelper.MakeInstanceSelected(id), () => new RestoreWizardArgs(instance));
+        WizardPipelineManager.Start("restore", mainWindow, args, null, 
+          ignore => MainWindowHelper.MakeInstanceSelected(id), 
+          () => new RestoreWizardArgs(instance));
       }
     }
 

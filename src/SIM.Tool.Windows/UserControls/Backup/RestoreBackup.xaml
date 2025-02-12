@@ -1,0 +1,11 @@
+﻿<UserControl x:Class="SIM.Tool.Windows.UserControls.Backup.RestoreBackup" 
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" d:DesignHeight="205" d:DesignWidth="443">
+	<Grid>
+        <ListBox IsManipulationEnabled="True" Name="backups" Padding="0,5,0,0" SelectedIndex="0" Grid.ColumnSpan="2">           
+	</ListBox>
+	</Grid>
+</UserControl>

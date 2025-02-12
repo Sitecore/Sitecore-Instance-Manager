@@ -10,10 +10,11 @@
 		<Grid HorizontalAlignment="Stretch" Margin="0 4 0 4">
 			<ListBox IsManipulationEnabled="False" Padding="5,5,0,5" Margin="0 5 0 0" Name="Modes" ItemsSource="{Binding}" Grid.ColumnSpan="2">
 				<CheckBox Content="Databases" Name="Databases" Checked="OnChanged" Unchecked="OnUnchanged" Margin="0 5 0 0"/>
-        <CheckBox Content="MongoDB Databases" Name="MongoDatabases" Checked="OnChanged" Unchecked="OnUnchanged" Margin="0 5 0 0"/>
-				<CheckBox Content="Files" Name="Files" Checked="OnChanged" Unchecked="OnUnchanged" Margin="0 5 0 0"/>
+                <CheckBox Content="Files" Name="Files" Checked="OnChanged" Unchecked="OnUnchanged" Margin="0 5 0 0"/>
 				<CheckBox Content="Exclude Sitecore client files" Name="ExcludeClient" IsChecked="false" Checked="OnChanged" Unchecked="OnUnchanged" Margin="20 5 0 0"/>
-			</ListBox>
+                <CheckBox  Content="MongoDB Databases" Name="MongoDatabases" Checked="OnChanged" Unchecked="OnUnchanged" Margin="0 5 0 0" Visibility="Hidden"/>
+
+            </ListBox>
 		</Grid>
   </StackPanel>
 </UserControl>

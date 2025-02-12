@@ -1,25 +1,35 @@
 ﻿namespace SIM.Tool.Windows.UserControls.Backup
 {
+  using System;
+  using System.IO;
   using System.Windows;
-  using SIM.Instances;
+  using SIM.Tool.Base;
   using SIM.Tool.Base.Wizards;
+  using JetBrains.Annotations;
 
-  public partial class BackupSettings : IWizardStep, IFlowControl
+  public partial class BackupFiles : IWizardStep
   {
+
     #region Fields
 
-    private bool _Databases;
     private bool _ExcludeClient;
     private bool _Files;
-    private bool _MongoDatabases;
 
     #endregion
 
+
     #region Constructors
 
-    public BackupSettings()
+    public BackupFiles()
     {
       InitializeComponent();
+    }
+
+    public void InitializeStep(WizardArgs wizardArgs)
+    {
+      Files.IsChecked = false;
+      ExcludeClient.IsChecked = false;
+      _Files = false;
     }
 
     #endregion
@@ -33,9 +43,9 @@
 
     public bool OnMovingNext(WizardArgs wizardArgs)
     {
-      var args = (BackupSettingsWizardArgs)wizardArgs;
+      var args = (BackupWizard9Args)wizardArgs;
 
-      if (args._Databases || args._MongoDatabases || args._Files)
+      if ((args._BackupDatabase) || (args._Files))
       {
         return true;
       }
@@ -46,16 +56,8 @@
 
     #endregion
 
-    #region Private methods
 
-    void IWizardStep.InitializeStep(WizardArgs wizardArgs)
-    {
-      BackupName.Text = ((BackupSettingsWizardArgs)wizardArgs).BackupName;
-      if (((BackupSettingsWizardArgs)wizardArgs).Instance.Type == Instance.InstanceType.Sitecore8AndEarlier)
-      {
-        MongoDatabases.Visibility = Visibility.Visible;
-      }
-    }
+    #region Private methods
 
     private void OnChanged(object sender, RoutedEventArgs e)
     {
@@ -63,14 +65,6 @@
 
       switch (name)
       {
-        case "Databases":
-          _Databases = true;
-          break;
-
-        case "MongoDatabases":
-          _MongoDatabases = true;
-          break;
-
         case "Files":
           _Files = true;
           break;
@@ -89,14 +83,6 @@
 
       switch (name)
       {
-        case "Databases":
-          _Databases = false;
-          break;
-
-        case "MongoDatabases":
-          _MongoDatabases = false;
-          break;
-
         case "Files":
           _Files = false;
           _ExcludeClient = false;
@@ -111,19 +97,18 @@
 
     bool IWizardStep.SaveChanges(WizardArgs wizardArgs)
     {
-      var args = (BackupSettingsWizardArgs)wizardArgs;
-
-      if (!string.IsNullOrEmpty(BackupName.Text))
-      {
-        args.BackupName = BackupName.Text;
-      }
+      var args = (BackupWizard9Args)wizardArgs;
 
       args._Files = _Files;
-      args._Databases = _Databases;
-      args._MongoDatabases = _MongoDatabases;
-      args._ExcludeClient = !_ExcludeClient;
+      args._BackupClient = !_ExcludeClient;
 
-      return true;
+      if (args._BackupDatabase || args._Files)
+      {
+        return true;
+      }
+
+      MessageBox.Show("You haven't chosen any backup option");
+      return false;
     }
 
     #endregion

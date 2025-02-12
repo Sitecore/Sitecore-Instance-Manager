@@ -1,0 +1,15 @@
+﻿<UserControl x:Class="SIM.Tool.Windows.UserControls.Backup.BackupFiles" 
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="205" d:DesignWidth="443" Padding="0">
+  <StackPanel Margin="0" Orientation="Vertical">
+         
+            <ListBox IsManipulationEnabled="False" Padding="5,5,0,5" Margin="0 5 0 0" Name="Modes" ItemsSource="{Binding}" Grid.ColumnSpan="2" Height="201" Width="445">
+                <CheckBox Content="Files" Name="Files" Checked="OnChanged" Unchecked="OnUnchanged" Margin="10 0 0 0"/>
+                <CheckBox Content="Exclude Sitecore client files" Name="ExcludeClient" IsChecked="false" Checked="OnChanged" Unchecked="OnUnchanged" Margin="30 10 0 0"/>
+            </ListBox>
+     </StackPanel>
+</UserControl>
