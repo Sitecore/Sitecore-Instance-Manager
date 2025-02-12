@@ -223,12 +223,57 @@ But the confirmation will be required if the databases are attached to:
               type=""SIM.Tool.Windows.UserControls.Backup.BackupSettings, SIM.Tool.Windows"" />
       </steps>
     </backup>
+
+    <backup9AndLater title=""Backing up the {InstanceName} instance"" startButton=""Backup""
+            finishText=""The backup was successfully created"">
+      <steps>
+
+        <step name=""Information"" type=""SIM.Tool.Windows.UserControls.ConfirmStepUserControl, SIM.Tool.Windows""
+              param=""A back up of the selected instance will be created: 
+							
+• backing up databases
+• backing up files from the WebRoot folder"" />
+     <step name=""Enter a file name for your backup""
+              type=""SIM.Tool.Windows.UserControls.Backup.BackupFileName, SIM.Tool.Windows"" />
+
+        <step name=""Choose the necessary databases for backing up""
+              type=""SIM.Tool.Windows.UserControls.Backup.BackupDatabases, SIM.Tool.Windows"" />
+        <step name=""Choose the files for backing up""
+              type=""SIM.Tool.Windows.UserControls.Backup.BackupFiles, SIM.Tool.Windows"" />
+        
+      </steps>
+    </backup9AndLater>
+
     <restore title=""Restoring up the {InstanceName} instance"" startButton=""Restore""
              finishText=""The instance was successfully restored from the backup"">
       <steps>
-        <step name=""Choose backup"" type=""SIM.Tool.Windows.UserControls.Backup.ChooseBackup, SIM.Tool.Windows"" />
+        <step name=""Choose backup to restore"" type=""SIM.Tool.Windows.UserControls.Backup.RestoreBackup, SIM.Tool.Windows"" />
       </steps>
     </restore>
+
+<clearbackups title=""Removing backups of the {InstanceName} instance"" startButton=""Remove""
+             finishText=""The backups deleting was successfully completed"">
+      <steps>
+        <step name=""Choose backup to remove"" type=""SIM.Tool.Windows.UserControls.Backup.RemoveBackups, SIM.Tool.Windows"" />
+      </steps>
+
+<steps>
+        <step name=""Information"" type=""SIM.Tool.Windows.UserControls.ConfirmStepUserControl, SIM.Tool.Windows""
+              param=""The selected Sitecore instance will be deleted. These items will be deleted automatically:               
+    • the root folder
+    • the databases located inside the instance's root folder
+    • the IIS website and application pool
+    • the appropriate record in the hosts file
+
+But the confirmation will be required if the databases are attached to:
+    • the local SQL Server* and located out of the instance root folder        
+    • any other SQL Server instance
+
+* - the SQL Server instance specified by connection string in the Settings dialog"" />
+      </steps>
+    </clearbackups>
+
+
     <export title=""Exporting the {InstanceName} instance"" startButton=""Export""
             finishText=""The export was successfully performed"">
       <steps>
