@@ -1,7 +1,7 @@
 {
   "Parameters": {
     //global
-    "SIFVersion": "2.3.0",
+    "SIFVersion": "2.4.0",
     "SqlServer": "",
     "SqlAdminUser": "",
     "SqlAdminPassword": "",
@@ -16,7 +16,7 @@
     "BaseConfig": "",
     //cert
     "CertPath": "c:/certificates",
-    "RootCertFileName": "SIM_SIF230Root",
+    "RootCertFileName": "SIM_SIF240Root",
     //xConnect
     "XConnectCert": "$GlobalParams.SqlDbPrefix+\"xconnect_client\"",
     "SqlMarketingAutomationUser": "",
@@ -104,7 +104,7 @@
     "InstallSIF": {
       "Type": "SIM.Sitecore9Installer.Tasks.InstallSIFTask, SIM.Sitecore9Installer",
       "TaskOptions": {
-        "InstallVersion": "2.3.0",
+        "InstallVersion": "2.4.0",
         "Repository": "https://sitecore.myget.org/F/sc-powershell/api/v2",
         "ExecutionOrder": "-100"
       }
