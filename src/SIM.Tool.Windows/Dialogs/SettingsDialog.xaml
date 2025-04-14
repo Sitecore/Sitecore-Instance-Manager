@@ -98,8 +98,9 @@
             <Grid Margin="23,11,21,12">
                 <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
                     <Button Content="Advanced Settings" Click="ShowAdvanced" Width="112" Margin="0, 0, 12, 0" Name="CustomButton" />
-                    <Button Content="About" Click="ShowAbout" Width="72" Margin="0, 0, 4, 0" Name="AboutButton" />
-                </StackPanel>
+					<Button Content="Data Folder" Click="OpenDataFolder" Width="72" Margin="0, 0, 12, 0" Name="DataFolderButton" />
+					<Button Content="About" Click="ShowAbout" Width="72" Margin="0, 0, 4, 0" Name="AboutButton" />
+				</StackPanel>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                     <Grid HorizontalAlignment="Left" Margin="6,0,0,0" VerticalAlignment="Stretch" IsEnabled="{Binding ElementName=MainRootFolder, Path=Text, Converter={x:Static converters:IsNotNullOrEmptyAndDirectoryExists.Instance}}" Width="72">
                         <Button Content="OK" Name="DoneButton" Click="SaveChanges" Width="72" />

@@ -12,6 +12,7 @@ namespace SIM.Tool.Windows.Dialogs
   using JetBrains.Annotations;
   using System;
   using System.Linq;
+  using SIM.Core;
 
   #region
 
@@ -204,6 +205,11 @@ namespace SIM.Tool.Windows.Dialogs
           this.SolrsText.Text = "No Solr servers configured. Click '...' to add one.";
         }
       }
+    }
+
+    private void OpenDataFolder(object sender, RoutedEventArgs e)
+    {
+      CoreApp.OpenFolder(ApplicationManager.DataFolder);
     }
   }
 }
