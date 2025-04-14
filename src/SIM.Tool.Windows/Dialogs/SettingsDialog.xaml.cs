@@ -1,27 +1,19 @@
-﻿using System.Collections.Generic;
-
-namespace SIM.Tool.Windows.Dialogs
+﻿namespace SIM.Tool.Windows.Dialogs
 {
+  using System.Collections.Generic;
+  using System.Linq;
   using System.Windows;
   using System.Windows.Controls;
   using System.Windows.Data;
   using System.Windows.Input;
+  using SIM.Core;
   using SIM.Tool.Base;
   using SIM.Tool.Base.Profiles;
   using Sitecore.Diagnostics.Base;
   using JetBrains.Annotations;
-  using System;
-  using System.Linq;
-  using SIM.Core;
-
-  #region
-
-  #endregion
 
   public partial class SettingsDialog
   {
-    #region Constructors
-
     public SettingsDialog()
     {
       InitializeComponent();
@@ -34,10 +26,6 @@ namespace SIM.Tool.Windows.Dialogs
         Profile.InstancesFolder = "C:\\inetpub\\wwwroot";
       }     
     }
-
-    #endregion
-
-    #region Properties
 
     [NotNull]
     private Profile Profile
@@ -54,10 +42,6 @@ namespace SIM.Tool.Windows.Dialogs
         DataContext = value;
       }
     }
-
-    #endregion
-
-    #region Methods
 
     private void CancelChanges([CanBeNull] object sender, [CanBeNull] RoutedEventArgs e)
     {
@@ -152,17 +136,10 @@ namespace SIM.Tool.Windows.Dialogs
       }
     }
 
-    #endregion
-
-    #region Private methods
-
     private void ShowAbout(object sender, RoutedEventArgs e)
     {
       WindowHelper.ShowDialog(new AboutDialog(), this);
     }
-
-
-    #endregion
 
     private void EditSolrs_Click(object sender, RoutedEventArgs e)
     {
