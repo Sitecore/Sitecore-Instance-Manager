@@ -1,0 +1,16 @@
+﻿<UserControl x:Class="SIM.Tool.Windows.UserControls.Backup.BackupFileName" 
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="205" d:DesignWidth="443" Padding="0">
+    <StackPanel Margin="0" Orientation="Vertical">
+
+
+        <Grid>
+            <TextBlock Text="Backup Name: " VerticalAlignment="Center" HorizontalAlignment="Left" Width="77"  Height="16" Margin="0,6" Grid.ColumnSpan="1" />
+            <TextBox Name="BackupName" Text="Enter folder name" HorizontalAlignment="Left" RenderTransformOrigin="0.492,2.369" Margin="95,1,0,-1" Width="344" />
+        </Grid>
+    </StackPanel>
+</UserControl>
