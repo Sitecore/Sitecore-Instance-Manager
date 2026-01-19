@@ -10,6 +10,23 @@ namespace SIM
 {
   public class SolrStateResolver
   {
+    public virtual bool IsSolrAvailable(string solrUrl) 
+    {
+      try
+      {
+        var request = WebRequest.Create(solrUrl) as HttpWebRequest;
+        request.Method = "HEAD";
+        using (var response = request.GetResponse() as HttpWebResponse)
+        {
+          return response.StatusCode == HttpStatusCode.OK;
+        }
+      }
+      catch (WebException)
+      {
+        return false;
+      }
+    }
+
     public virtual SolrState.CurrentState GetServiceState(ServiceControllerWrapper service)
     {
       if (service != null)
@@ -68,6 +85,27 @@ namespace SIM
         {
           if (string.Equals(reader.Path, "lucene.solr-spec-version", StringComparison.OrdinalIgnoreCase)
               && !string.Equals((string)reader.Value, "solr-spec-version", StringComparison.OrdinalIgnoreCase))
+          {
+            return (string)reader.Value;
+          }
+        }
+      }
+
+      return string.Empty;
+    }
+
+    public virtual string GetSeparateSolrAttribute(string solrUrl, string attributName)
+    {
+      HttpClient client = new HttpClient();
+
+      using (Stream stream = client.GetStreamAsync($"{solrUrl}/admin/info/system?wt=json").Result)
+      using (StreamReader streamReader = new StreamReader(stream))
+      using (JsonReader reader = new JsonTextReader(streamReader))
+      {
+        while (reader.Read())
+        {
+          if (string.Equals(reader.Path, attributName, StringComparison.OrdinalIgnoreCase)
+              && !string.Equals((string)reader.Value, attributName, StringComparison.OrdinalIgnoreCase))
           {
             return (string)reader.Value;
           }
