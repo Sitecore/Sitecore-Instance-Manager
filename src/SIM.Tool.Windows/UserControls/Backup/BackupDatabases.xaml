@@ -1,0 +1,32 @@
+﻿<UserControl x:Class="SIM.Tool.Windows.UserControls.Backup.BackupDatabases"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="205" d:DesignWidth="443" Padding="0">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition Width="20"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="35"></RowDefinition>
+            <RowDefinition Height="155"></RowDefinition>
+            <RowDefinition Height="25"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <ListBox Padding="0,5,0,0" Margin="0,0,1,5" Name="Databases" ItemsSource="{Binding}" Grid.ColumnSpan="2" Grid.RowSpan="2">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <CheckBox Content="{Binding Path=DatabaseName}" IsChecked="{Binding Path=IsChecked, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, NotifyOnSourceUpdated=True}" Margin="4 0 4 10" VerticalAlignment="Center" ScrollViewer.VerticalScrollBarVisibility="Visible"/>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        <TextBlock HorizontalAlignment="Left" Margin="1,153,0,1" Width="98" Grid.RowSpan="2" Grid.Row="1">
+            <Hyperlink Name="SelectAllHyperlink" Click="SelectAllHyperlinkClick">Select all</Hyperlink> 
+            <Hyperlink Name="NoneHyperlink" Click="NoneHyperlinkClick">None</Hyperlink>
+        </TextBlock>
+    </Grid>
+</UserControl>

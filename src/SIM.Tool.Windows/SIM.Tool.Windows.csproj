@@ -157,8 +157,11 @@
     <Compile Include="MainWindowComponents\Buttons\AboutButton.cs" />
     <Compile Include="MainWindowComponents\Buttons\AbstractInstanceButton.cs" />
     <Compile Include="MainWindowComponents\Buttons\AppStateButton.cs" />
+    <Compile Include="MainWindowComponents\Buttons\BackupInstance9AndLaterButton.cs" />
+    <Compile Include="MainWindowComponents\Buttons\BackupInstanceDatabasesButton.cs" />
     <Compile Include="MainWindowComponents\Buttons\BrowseSitecoreContainerWebsiteButton.cs" />
     <Compile Include="MainWindowComponents\Buttons\BrowseHomePageButton.cs" />
+    <Compile Include="MainWindowComponents\Buttons\ClearBackupsInstance9AndLaterButton.cs" />
     <Compile Include="MainWindowComponents\Buttons\ConfigFilesButton.cs" />
     <Compile Include="MainWindowComponents\Buttons\CreateSupportHotfixButton.cs" />
     <Compile Include="MainWindowComponents\Buttons\SearchAndDeleteResourcesButton.cs" />
@@ -262,12 +265,29 @@
     <Compile Include="StateToVisibility.cs" />
     <Compile Include="TabDefinition.cs" />
     <Compile Include="TreeViewItemExtensions.cs" />
+    <Compile Include="UserControls\Backup\BackupDatabases.xaml.cs">
+      <DependentUpon>BackupDatabases.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Backup\BackupFileName.xaml.cs">
+      <DependentUpon>BackupFileName.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Backup\BackupFiles.xaml.cs">
+      <DependentUpon>BackupFiles.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\Backup\BackupSettings.xaml.cs">
       <DependentUpon>BackupSettings.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\Backup\BackupSettingsWizardArgs.cs" />
+    <Compile Include="UserControls\Backup\BackupWizard9Args.cs" />
     <Compile Include="UserControls\Backup\ChooseBackup.xaml.cs">
       <DependentUpon>ChooseBackup.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Backup\RemoveBackups.xaml.cs">
+      <DependentUpon>RemoveBackups.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Backup\RemoveBackupsWizardArgs.cs" />
+    <Compile Include="UserControls\Backup\RestoreBackup.xaml.cs">
+      <DependentUpon>RestoreBackup.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\ConfirmStepUserControl.xaml.cs">
       <DependentUpon>ConfirmStepUserControl.xaml</DependentUpon>
@@ -659,6 +679,8 @@
     <Resource Include="Images\32\trash.png" />
     <Resource Include="Images\24\trash.png" />
     <Resource Include="Images\16\trash.png" />
+    <Resource Include="Images\32\clear_backups.png" />
+    <Resource Include="Images\48\clear_backups.png" />
     <Content Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -694,6 +716,34 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Dialogs\RestoreDatabaseDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\Backup\BackupDatabases.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\Backup\BackupFileName.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\Backup\BackupFiles.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\Backup\BackupSettings.xaml">
+      <SubType>Designer</SubType>
+      <Generator>XamlIntelliSenseFileGenerator</Generator>
+    </Page>
+    <Page Include="UserControls\Backup\ChooseBackup.xaml">
+      <SubType>Designer</SubType>
+      <Generator>XamlIntelliSenseFileGenerator</Generator>
+    </Page>
+    <Page Include="UserControls\Backup\RemoveBackups.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\Backup\RestoreBackup.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -830,14 +880,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="UserControls\ConfirmStepUserControl.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="UserControls\Backup\ChooseBackup.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="UserControls\Backup\BackupSettings.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
