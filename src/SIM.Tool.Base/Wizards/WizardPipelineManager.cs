@@ -116,7 +116,7 @@
 
               action(wizardArgs);
             }
-          }    
+          }
         }
         else
         {

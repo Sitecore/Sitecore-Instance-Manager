@@ -26,7 +26,7 @@
 
   public static class WindowHelper
   {
-    private static readonly Dictionary<string, BitmapImage> Images = new Dictionary<string, BitmapImage>(); 
+    private static readonly Dictionary<string, BitmapImage> Images = new Dictionary<string, BitmapImage>();
 
     #region Public Methods
 
@@ -42,12 +42,12 @@
       {
         TaskDialogOptions config = new TaskDialogOptions
         {
-          Owner = owner, 
-          Title = title, 
-          MainInstruction = header ?? title, 
-          Content = message, 
-          CommandButtons = optionsArray, 
-          MainIcon = VistaTaskDialogIcon.Information, 
+          Owner = owner,
+          Title = title,
+          MainInstruction = header ?? title,
+          Content = message,
+          CommandButtons = optionsArray,
+          MainIcon = VistaTaskDialogIcon.Information,
           AllowDialogCancellation = true
         };
 
@@ -78,8 +78,8 @@
 
       SelectDialog dialog = new SelectDialog
       {
-        DataContext = optionsArray, 
-        Title = message, 
+        DataContext = optionsArray,
+        Title = message,
         AllowMultiSelect = allowMultiSelect ?? false
       };
       if (defaultValue != null)
@@ -100,7 +100,7 @@
       return result as string;
     }
 
-    public static void HandleError([NotNull] string fullmessage, bool isError, [CanBeNull] Exception ex = null, [CanBeNull] object typeOwner = null, string customLogLocation=null)
+    public static void HandleError([NotNull] string fullmessage, bool isError, [CanBeNull] Exception ex = null, [CanBeNull] object typeOwner = null, string customLogLocation = null)
     {
       Assert.ArgumentNotNull(fullmessage, nameof(fullmessage));
 
@@ -116,7 +116,7 @@
       if (isError)
       {
         var message = ex != null ? fullmessage.TrimEnd(".".ToCharArray()) + ". " + ex.Message : fullmessage;
-        MessageBoxResult result = ShowMessage(message + "\n\nYou can find details in the latest log file. Would you like to open it?\n\nClick 'No' to open the entire log folder or 'Cancel' to close the dialog.", 
+        MessageBoxResult result = ShowMessage(message + "\n\nYou can find details in the latest log file. Would you like to open it?\n\nClick 'No' to open the entire log folder or 'Cancel' to close the dialog.",
           MessageBoxButton.YesNoCancel, MessageBoxImage.Question, MessageBoxResult.Cancel);
         if (result == MessageBoxResult.Yes)
         {
@@ -225,24 +225,24 @@
         // const string hide = "&Hide";
         TaskDialogOptions config = new TaskDialogOptions
         {
-          Owner = owner, 
-          Title = title, 
-          MainInstruction = content ?? title, 
-          ExpandedInfo = technicalInformation ?? string.Empty, 
+          Owner = owner,
+          Title = title,
+          MainInstruction = content ?? title,
+          ExpandedInfo = technicalInformation ?? string.Empty,
           CustomButtons = options, /* ButtonId=500; dialog.ClickCustomButton(0)  }, */ // allowHidingWindow ? new[] { hide /* ButtonId=501 */, inerrupt /* ButtonId=500; dialog.ClickCustomButton(0) */ } : 
-          AllowDialogCancellation = true, 
-          ShowMarqueeProgressBar = true, 
-          EnableCallbackTimer = true, 
+          AllowDialogCancellation = true,
+          ShowMarqueeProgressBar = true,
+          EnableCallbackTimer = true,
           Callback = (dialog, args, obj) =>
           {
             switch (args.Notification)
             {
-                // initialization 
+              // initialization 
               case VistaTaskDialogNotification.Created:
                 dialog.SetProgressBarMarquee(true, 0); // 0 is ignored
                 break;
 
-                // dialog is hidden
+              // dialog is hidden
               case VistaTaskDialogNotification.ButtonClicked:
               case VistaTaskDialogNotification.Destroyed:
 
@@ -302,9 +302,9 @@
 
       OpenFileDialog fileBrowserDialog = new OpenFileDialog
       {
-        Title = message, 
-        Multiselect = false, 
-        CheckFileExists = true, 
+        Title = message,
+        Multiselect = false,
+        CheckFileExists = true,
         Filter = pattern
       };
 
@@ -510,7 +510,7 @@
       {
         DataContext = new InputDialogArgs
         {
-          Title = title, 
+          Title = title,
           DefaultValue = defaultValue
         }
       };
@@ -522,7 +522,7 @@
     {
       Microsoft.VisualBasic.FileIO.FileSystem.CopyFile(sourceFileName, destFileName, showUi ?? UIOption.AllDialogs, onUserCancel ?? UICancelOption.ThrowException);
     }
-   
+
     public static ImageSource GetImage(string imageName, string assemblyName)
     {
       Assert.ArgumentNotNull(imageName, nameof(imageName));

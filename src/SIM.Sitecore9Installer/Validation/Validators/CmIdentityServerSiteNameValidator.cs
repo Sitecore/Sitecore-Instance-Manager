@@ -29,9 +29,9 @@ namespace SIM.Sitecore9Installer.Validation.Validators
       string allowedCorsOrigins = this.Data["AllowedCorsOrigins"];
       string passwordRecoveryUrl = this.Data["PasswordRecoveryUrl"];
       bool errors = false;
-      Task cmTask = tasks.FirstOrDefault(t => (t.Name.Equals(sitecoreXp1Cm, StringComparison.InvariantCultureIgnoreCase) || 
+      Task cmTask = tasks.FirstOrDefault(t => (t.Name.Equals(sitecoreXp1Cm, StringComparison.InvariantCultureIgnoreCase) ||
                                        t.Name.Equals(sitecoreXm1Cm, StringComparison.InvariantCultureIgnoreCase) ||
-                                       t.Name.Equals(sitecoreXp0, StringComparison.InvariantCultureIgnoreCase)) && 
+                                       t.Name.Equals(sitecoreXp0, StringComparison.InvariantCultureIgnoreCase)) &&
                                       t.LocalParams.Any(p => p.Name.Equals(siteName, StringComparison.InvariantCultureIgnoreCase)));
 
       if (cmTask != null)

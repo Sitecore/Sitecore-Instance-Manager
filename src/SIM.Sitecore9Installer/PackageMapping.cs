@@ -22,7 +22,7 @@ namespace SIM.Sitecore9Installer
     public string Map(string taskName, string filesRoot)
     {
       string pack;
-      if(!this.mapping.TryGetValue(taskName.ToLowerInvariant(), out pack))
+      if (!this.mapping.TryGetValue(taskName.ToLowerInvariant(), out pack))
       {
         return string.Empty;
       }

@@ -67,11 +67,11 @@
 
           var downloadOptions = new DownloadOptions
           {
-            Uri = url, 
-            BlockOptions = new BlocksCount(WindowsSettings.AppDownloader8ParallelThreads.Value), 
-            CancellationToken = cancellation.Token, 
-            Cookies = cookies, 
-            FilePath = destFileName, 
+            Uri = url,
+            BlockOptions = new BlocksCount(WindowsSettings.AppDownloader8ParallelThreads.Value),
+            CancellationToken = cancellation.Token,
+            Cookies = cookies,
+            FilePath = destFileName,
             RequestTimeout = new TimeSpan(0, WindowsSettings.AppDownloaderTotalTimeout.Value, 0, 0)
           };
 
@@ -115,7 +115,7 @@
         new[]
         {
           @"(\s\d)(\d\s)", "$1.$2"
-        }, 
+        },
         new[]
         {
           @"rev\s+", "rev. "

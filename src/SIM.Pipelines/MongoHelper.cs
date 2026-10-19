@@ -19,7 +19,7 @@
       var arguments = @"--db ""{0}"" --out ""{1}""".FormatWith(database.LogicalName, folder);
       var info = new ProcessStartInfo(ApplicationManager.GetEmbeddedFile("mongo.tools.zip", "SIM.Pipelines", "mongodump.exe"), arguments)
       {
-        CreateNoWindow = true, 
+        CreateNoWindow = true,
         WindowStyle = ProcessWindowStyle.Hidden
       };
 
@@ -44,7 +44,7 @@
       var arguments = @"--db ""{0}"" ""{1}""".FormatWith(newDatabaseName, directoryPath);
       var info = new ProcessStartInfo(ApplicationManager.GetEmbeddedFile("mongo.tools.zip", "SIM.Pipelines", "mongorestore.exe"), arguments)
       {
-        CreateNoWindow = true, 
+        CreateNoWindow = true,
         WindowStyle = ProcessWindowStyle.Hidden
       };
 

@@ -20,7 +20,7 @@ namespace SIM.Tests.Products
     public void Product_ShouldBeParsed_FromPackagePath(
       string packageName,
       string expectedProductName,
-      string expectedProductVersion, 
+      string expectedProductVersion,
       string expectedProductRevision,
       string expectedFileExtention
       )

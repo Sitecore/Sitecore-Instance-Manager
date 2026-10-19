@@ -35,8 +35,8 @@
     {
       Assert.ArgumentNotNull(args, nameof(args));
 
-      args.InstallRoles8 = LastTimeOption(nameof(args.InstallRoles8)) ?? ""; 
-      args.InstallRoles9 = LastTimeOption(nameof(args.InstallRoles9)) ?? ""; 
+      args.InstallRoles8 = LastTimeOption(nameof(args.InstallRoles8)) ?? "";
+      args.InstallRoles9 = LastTimeOption(nameof(args.InstallRoles9)) ?? "";
       args.SkipRadControls = LastTimeOption(nameof(args.SkipRadControls))?.StartsWith("1") ?? !Settings.CoreInstallRadControls.Value;
       args.SkipDictionaries = LastTimeOption(nameof(args.SkipDictionaries))?.StartsWith("1") ?? !Settings.CoreInstallDictionaries.Value;
       args.PreHeat = LastTimeOption(nameof(args.PreHeat))?.StartsWith("1") ?? true;
@@ -114,7 +114,7 @@
       {
         File.WriteAllText(filePath, (bool)value ? "1" : "0");
       }
-      else if(value.GetType() == typeof(string))
+      else if (value.GetType() == typeof(string))
       {
         File.WriteAllText(filePath, (string)value);
       }

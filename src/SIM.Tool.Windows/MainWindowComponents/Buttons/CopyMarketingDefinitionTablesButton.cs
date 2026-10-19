@@ -18,7 +18,7 @@ namespace SIM.Tool.Windows.MainWindowComponents.Buttons
     #region Public methods
 
     public override void OnClick(Window mainWindow, Instance instance)
-    {                                                                                         
+    {
       WindowHelper.LongRunningTask(() => Process(instance), "Copying definitions", mainWindow);
     }
 
@@ -36,7 +36,7 @@ namespace SIM.Tool.Windows.MainWindowComponents.Buttons
       var secondary = connectionStrings.FirstOrDefault(x => x.Name == "reporting.secondary");
       Assert.IsNotNull(secondary, nameof(secondary));
 
-      var tablesNames = new[] {"CampaignActivityDefinitions", "GoalDefinitions", "OutcomeDefinitions", "MarketingAssetDefinitions", "Taxonomy_TaxonEntity", "Taxonomy_TaxonEntityFieldDefinition", "Taxonomy_TaxonEntityFieldValue"};
+      var tablesNames = new[] { "CampaignActivityDefinitions", "GoalDefinitions", "OutcomeDefinitions", "MarketingAssetDefinitions", "Taxonomy_TaxonEntity", "Taxonomy_TaxonEntityFieldDefinition", "Taxonomy_TaxonEntityFieldValue" };
 
       using (var connection = new SqlConnection(primary.Value))
       {

@@ -9,7 +9,7 @@
 
     public ClearEventQueueButton(string databases)
       : base(databases)
-    {      
+    {
     }
 
     public override string DatabaseName { get; } = "EventQueue";

@@ -155,16 +155,16 @@ namespace SIM.Tool.Windows.UserControls.Install
       var mode = Mode;
       Assert.IsNotNull(mode, nameof(mode));
 
-      var modeItem = (ListBoxItem) mode.SelectedValue;
+      var modeItem = (ListBoxItem)mode.SelectedValue;
       Assert.IsNotNull(modeItem, nameof(modeItem));
 
-      var isClassic = ((string) modeItem.Content).EqualsIgnoreCase("Classic");
+      var isClassic = ((string)modeItem.Content).EqualsIgnoreCase("Classic");
       var appPoolInfo = new AppPoolInfo
-                        {
-                          FrameworkVersion = frameworkArr[0].EmptyToNull() ?? "v2.0",
-                          Enable32BitAppOnWin64 = force32Bit,
-                          ManagedPipelineMode = !isClassic
-                        };
+      {
+        FrameworkVersion = frameworkArr[0].EmptyToNull() ?? "v2.0",
+        Enable32BitAppOnWin64 = force32Bit,
+        ManagedPipelineMode = !isClassic
+      };
       return appPoolInfo;
     }
 
@@ -238,15 +238,15 @@ namespace SIM.Tool.Windows.UserControls.Install
             return null;
           }
 
-            if (
-                WindowHelper.ShowMessage(
-                  $"A website with the name {name} already exists. Would you like to remove it?",
-                    MessageBoxButton.OKCancel, MessageBoxImage.Asterisk) != MessageBoxResult.OK)
-            {
-                return null;
-            }
+          if (
+              WindowHelper.ShowMessage(
+                $"A website with the name {name} already exists. Would you like to remove it?",
+                  MessageBoxButton.OKCancel, MessageBoxImage.Asterisk) != MessageBoxResult.OK)
+          {
+            return null;
+          }
 
-            site.Delete();
+          site.Delete();
           context.CommitChanges();
         }
       }
@@ -308,7 +308,7 @@ namespace SIM.Tool.Windows.UserControls.Install
       using (new ProfileSection("Initializing InstanceDetails", this))
       {
         DataContext = new Model();
-        _StandaloneProducts = ProductManager.StandaloneProducts.Where(p=> IsAllowedProductVersion(p)).ToArray();
+        _StandaloneProducts = ProductManager.StandaloneProducts.Where(p => IsAllowedProductVersion(p)).ToArray();
       }
     }
 
@@ -349,7 +349,7 @@ namespace SIM.Tool.Windows.UserControls.Install
     }
 
     [NotNull]
-    private IEnumerable<string> GenerateHostNames([NotNull]string name)
+    private IEnumerable<string> GenerateHostNames([NotNull] string name)
     {
       var prefix = GetPrefix(name);
 
@@ -436,22 +436,22 @@ namespace SIM.Tool.Windows.UserControls.Install
               switch (lname.ToLower())
               {
                 case "framework":
-                {
-                  var supportedVersions = limitation.SelectElements("supportedVersion");
-                  if (supportedVersions != null)
                   {
-                    ICollection<string> supportedVersionNames = supportedVersions.Select(supportedVersion => supportedVersion.InnerText).ToArray();
-                    for (int i = frameworkVersions.Count - 1; i >= 0; i--)
+                    var supportedVersions = limitation.SelectElements("supportedVersion");
+                    if (supportedVersions != null)
                     {
-                      if (!supportedVersionNames.Contains(frameworkVersions[i]))
+                      ICollection<string> supportedVersionNames = supportedVersions.Select(supportedVersion => supportedVersion.InnerText).ToArray();
+                      for (int i = frameworkVersions.Count - 1; i >= 0; i--)
                       {
-                        frameworkVersions.RemoveAt(i);
+                        if (!supportedVersionNames.Contains(frameworkVersions[i]))
+                        {
+                          frameworkVersions.RemoveAt(i);
+                        }
                       }
                     }
-                  }
 
-                  break;
-                }
+                    break;
+                  }
               }
             }
           }

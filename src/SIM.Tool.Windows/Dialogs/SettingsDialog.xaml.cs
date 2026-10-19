@@ -24,7 +24,7 @@
         HeaderDetails.Text = "We are very sorry, but you have to perform this boring initial configuration in order to use this tool out of the box";
         CancelButton.Visibility = Visibility.Collapsed;
         Profile.InstancesFolder = "C:\\inetpub\\wwwroot";
-      }     
+      }
     }
 
     [NotNull]
@@ -150,13 +150,13 @@
       }
 
       GridEditorContext context = new GridEditorContext(typeof(SolrDefinition), editCollection, "Solr", "List of available Solr servers.");
-      object result=WindowHelper.ShowDialog<GridEditor>(context, this);
+      object result = WindowHelper.ShowDialog<GridEditor>(context, this);
       bool? dialogresult = result as bool?;
-      if ((result!=null&&dialogresult==null)||(dialogresult.HasValue && dialogresult.Value))
+      if ((result != null && dialogresult == null) || (dialogresult.HasValue && dialogresult.Value))
       {
         this.Profile.Solrs = context.GridItems.Cast<SolrDefinition>().ToList();
         this.RefreshSolrText();
-      }     
+      }
     }
 
     private void Window_Loaded(object sender, RoutedEventArgs e)

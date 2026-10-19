@@ -104,7 +104,7 @@ namespace SIM.ContainerInstaller
       {
         services.Add(cmService);
       }
-      foreach(IYamlFileGeneratorHelper helper in helpers)
+      foreach (IYamlFileGeneratorHelper helper in helpers)
       {
         IEnumerable<KeyValuePair<YamlNode, YamlNode>> newServices = helper.GenerateServices(shortVersion, helpers, NewCmImage);
         foreach (KeyValuePair<YamlNode, YamlNode> service in newServices)
@@ -133,7 +133,7 @@ namespace SIM.ContainerInstaller
     {
       if (shortVersion >= 100 && shortVersion < 102)
       {
-        List<KeyValuePair<YamlNode, YamlNode>> msSqlArgsForModules = new List<KeyValuePair<YamlNode,YamlNode>>();
+        List<KeyValuePair<YamlNode, YamlNode>> msSqlArgsForModules = new List<KeyValuePair<YamlNode, YamlNode>>();
         foreach (IYamlFileGeneratorHelper helper in helpers)
         {
           msSqlArgsForModules.AddRange(helper.GenerateMsSqlArgs(shortVersion, topology));
@@ -236,8 +236,8 @@ namespace SIM.ContainerInstaller
        );
     }
 
-    private KeyValuePair<YamlNode, YamlNode> GenerateService(string service, string baseImage = null, string newImage = null, 
-      string context = null, List<KeyValuePair<YamlNode, YamlNode>> argsForModules = null, string memoryLimit = null, 
+    private KeyValuePair<YamlNode, YamlNode> GenerateService(string service, string baseImage = null, string newImage = null,
+      string context = null, List<KeyValuePair<YamlNode, YamlNode>> argsForModules = null, string memoryLimit = null,
       IEnumerable<string> volumes = null, IDictionary<string, string> environmentVariables = null)
     {
       List<KeyValuePair<YamlNode, YamlNode>> nodes = new List<KeyValuePair<YamlNode, YamlNode>>();

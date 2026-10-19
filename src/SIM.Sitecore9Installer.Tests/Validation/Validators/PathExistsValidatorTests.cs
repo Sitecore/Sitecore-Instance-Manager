@@ -25,7 +25,7 @@ namespace SIM.Sitecore9Installer.Tests.Validation.Validators
     [Theory]
     [AutoData]
     public void PathExists(string pathName, string pathValue)
-    {      
+    {
       PathExistsValidator val = this.CreateValidator(pathName, true);
       Task task = ValidatorTestSetup.CreateTask("someTask", new string[] { pathName }, new string[] { pathValue });
       IEnumerable<ValidationResult> results = val.Evaluate(new Task[] { task });

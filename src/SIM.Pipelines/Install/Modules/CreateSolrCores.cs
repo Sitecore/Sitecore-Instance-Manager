@@ -50,7 +50,7 @@ namespace SIM.Pipelines.Install.Modules
       XmlNodeList solrIndexes = GetSolrIndexNodesFrom(sitecoreConfig);
       SolrInformation info = GetSolrInformation(solrUrl);
       string sourcePath = info.TemplateFullPath;
-       
+
       foreach (XmlElement node in solrIndexes)
       {
         string coreName = GetCoreName(node);
@@ -165,7 +165,7 @@ namespace SIM.Pipelines.Install.Modules
       Stream response = RequestAndGetResponseStream(solrInfoUrl);
       string responseAsString = GetStringFromStream(response);
       var doc = XmlDocumentEx.LoadXml(responseAsString);
-        
+
       return new SolrInformation(doc);
     }
 

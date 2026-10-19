@@ -20,12 +20,12 @@ namespace SIM.Sitecore9Installer.Tests.Validation.Validators
       //Arrange
       Task task = Substitute.For<Task>("", 0, null, null, new Dictionary<string, string>());
       GlobalParameters globals = new GlobalParameters();
-      task.LocalParams.Returns(new LocalParameters(new List<InstallParam>(),globals));
-      task.LocalParams.AddOrUpdateParam("DeployRoot",deployRoot,InstallParamType.String);
+      task.LocalParams.Returns(new LocalParameters(new List<InstallParam>(), globals));
+      task.LocalParams.AddOrUpdateParam("DeployRoot", deployRoot, InstallParamType.String);
 
-      List <Task> tasks = Substitute.For<List<Task>>();
+      List<Task> tasks = Substitute.For<List<Task>>();
       tasks.Add(task);
-      
+
       DiskSpaceValidator val = Substitute.ForPartsOf<DiskSpaceValidator>();
       val.GetHardDriveFreeSpace(string.Empty).ReturnsForAnyArgs(freeSpace);
 

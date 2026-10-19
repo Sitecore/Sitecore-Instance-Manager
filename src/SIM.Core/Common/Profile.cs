@@ -48,7 +48,7 @@ namespace SIM.Core.Common
     {
       Assert.ArgumentNotNull(fileSystem, nameof(fileSystem));
 
-      var profileFile = fileSystem.ParseFile(ProfileFilePath);  
+      var profileFile = fileSystem.ParseFile(ProfileFilePath);
       var deserializer = new XmlSerializer(typeof(Profile));
       using (var textReader = new StreamReader(profileFile.OpenRead()))
       {

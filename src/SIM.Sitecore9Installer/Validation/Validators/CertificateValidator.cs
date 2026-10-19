@@ -26,7 +26,7 @@ namespace SIM.Sitecore9Installer.Validation.Validators
           bool isValid = this.ValidateCertificate(x509);
           if (!isValid)
           {
-            yield return new ValidationResult(ValidatorState.Error, string.Format("Certificate '{0}, Thumbprint={1}' in the '{2}' store is not valid.", 
+            yield return new ValidationResult(ValidatorState.Error, string.Format("Certificate '{0}, Thumbprint={1}' in the '{2}' store is not valid.",
               x509.SubjectName.Name, x509.Thumbprint, this.Data["StoreName"]), null);
           }
           x509.Reset();
@@ -78,7 +78,7 @@ namespace SIM.Sitecore9Installer.Validation.Validators
         if (fcollection.Count == 0)
         {
           fcollection = collection.Find(X509FindType.FindByThumbprint, searchValue, false);
-        }        
+        }
       }
       finally
       {

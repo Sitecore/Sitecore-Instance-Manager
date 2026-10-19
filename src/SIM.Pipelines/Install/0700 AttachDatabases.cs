@@ -16,7 +16,7 @@
     #region Fields
 
     private readonly List<string> _Done = new List<string>();
-    
+
     #endregion
 
     #region Methods
@@ -48,7 +48,7 @@
         {
           continue;
         }
-        
+
         if (connectionStringName.Contains("apikey"))
         {
           _Done.Add(connectionStringName);

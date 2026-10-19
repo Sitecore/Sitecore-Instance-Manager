@@ -45,7 +45,7 @@
     {
       var dialog = new Microsoft.Win32.SaveFileDialog
       {
-        DefaultExt = ".zip", 
+        DefaultExt = ".zip",
         Filter = "Zip archive(.zip)|*.zip"
       };
       var result = dialog.ShowDialog();

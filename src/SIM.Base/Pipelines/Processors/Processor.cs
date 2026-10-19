@@ -129,16 +129,10 @@
         try
         {
           State = ProcessorState.Running;
-          if (controller != null)
-          {
-            controller.ProcessorStarted(Title);
-          }
+          controller?.ProcessorStarted(Title);
 
           Process(args);
-          if (controller != null)
-          {
-            controller.ProcessorDone(Title);
-          }
+          controller?.ProcessorDone(Title);
 
           State = ProcessorState.Done;
           return true;
@@ -151,10 +145,7 @@
         {
           State = ProcessorState.Error;
           Error = ex;
-          if (controller != null)
-          {
-            controller.ProcessorCrashed(ex.Message);
-          }
+          controller?.ProcessorCrashed(ex.Message);
 
           Log.Error(ex, $"Processor of type '{ProcessorDefinition.Type.FullName}' failed. {ex.Message}");
           return false;

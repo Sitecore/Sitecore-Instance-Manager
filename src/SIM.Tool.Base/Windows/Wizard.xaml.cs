@@ -40,7 +40,7 @@
     private WizardPipeline WizardPipeline { get; }
 
     private double _Maximum = double.NaN;
-    
+
 
     private ProcessorArgs _ProcessorArgs;
 
@@ -54,7 +54,7 @@
       {
         ProfileSection.Argument("wizardPipeline", wizardPipeline);
         ProfileSection.Argument("args", args);
-        
+
         WizardArgs = createWizardArgs();
         if (WizardArgs != null)
         {
@@ -169,7 +169,7 @@
         if (messageBoxResult == MessageBoxResult.No)
         {
           return;
-          
+
         }
       }
 
@@ -415,7 +415,7 @@
     {
       FinishActions.Children.Add(new CheckBox
       {
-        Content = action.Text, 
+        Content = action.Text,
         Tag = action
       });
     }
@@ -445,11 +445,11 @@
 
       var param = stepInfo.Param;
       var wizardStep = (UserControl)(!string.IsNullOrEmpty(param) ? ReflectionUtil.CreateObject(ctrl, param) : ReflectionUtil.CreateObject(ctrl));
-      
+
       TabControl.Items.Insert(TabControl.Items.Count - 2, new TabItem
       {
-        AllowDrop = false, 
-        Content = wizardStep, 
+        AllowDrop = false,
+        Content = wizardStep,
         Visibility = Visibility.Collapsed
       });
     }
@@ -477,33 +477,33 @@
           {
             case ProcessorState.Error:
             case ProcessorState.Inaccessible:
-            {
-              var messageLabel = $@"{processor.Title} action failed with message: ";
-              const string Skipped = "Action was skipped because other one had problem - please find it, fix the problem and run the process again";
-                string message;
-              Exception exception = processor.Error;
-              if (exception != null)
               {
-                var exceptionMessage = exception.Message;
-                if (exceptionMessage.Contains("cannot be upgraded because it is read-only") || exceptionMessage.Contains(": 15105"))
+                var messageLabel = $@"{processor.Title} action failed with message: ";
+                const string Skipped = "Action was skipped because other one had problem - please find it, fix the problem and run the process again";
+                string message;
+                Exception exception = processor.Error;
+                if (exception != null)
                 {
-                  message =
-                    $"It seems that the NETWORK SERVICE identity doesn\'t have full access rights to the folder you selected to install the instance to.{Environment.NewLine}{Environment.NewLine}{exceptionMessage}";
+                  var exceptionMessage = exception.Message;
+                  if (exceptionMessage.Contains("cannot be upgraded because it is read-only") || exceptionMessage.Contains(": 15105"))
+                  {
+                    message =
+                      $"It seems that the NETWORK SERVICE identity doesn\'t have full access rights to the folder you selected to install the instance to.{Environment.NewLine}{Environment.NewLine}{exceptionMessage}";
+                  }
+                  else
+                  {
+                    message = messageLabel + exceptionMessage;
+                  }
                 }
                 else
                 {
-                  message = messageLabel + exceptionMessage;
+                  message = Skipped;
                 }
-              }
-              else
-              {
-                message = Skipped;
-              }
 
-              
-              WindowHelper.HandleError(message, true, null,null,processor.CustomLogLocation);
-              break;
-            }
+
+                WindowHelper.HandleError(message, true, null, null, processor.CustomLogLocation);
+                break;
+              }
           }
         }
       }
@@ -668,8 +668,8 @@
           if (!string.IsNullOrWhiteSpace(_ProcessorArgs.PipelineName))
           {
             pipelineName = _ProcessorArgs.PipelineName;
-          }        
-            
+          }
+
           if (!PipelineManager.Definitions.ContainsKey(WizardPipeline.Name))
           {
             SetInstallationDetailsVisibility(false);
@@ -728,7 +728,7 @@
 
 
 
-            // the last step before Progress Step
+          // the last step before Progress Step
           else if (PageNumber == StepsCount - 1)
           {
             NextButton.Content = WizardPipeline.StartButtonText;

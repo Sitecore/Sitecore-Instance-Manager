@@ -30,7 +30,7 @@ namespace SIM.Pipelines.Install
       var product = args.Product;
       var version = $"{product.TwoVersion}.{Safe.Call(() => $"{product.Update}") ?? "0"}";
       InstallRolesCommandHelper.Install(websiteDir, version, role);
-    } 
+    }
 
     #endregion
   }

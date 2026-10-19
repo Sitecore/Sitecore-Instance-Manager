@@ -152,7 +152,7 @@ namespace SIM.Tool.Windows
               continue;
             }
 
-            InitializeContextMenuItem(item, window.ContextMenu.Items, window, uri => Plugin.GetImage(uri));            
+            InitializeContextMenuItem(item, window.ContextMenu.Items, window, uri => Plugin.GetImage(uri));
           }
         }
       }
@@ -310,10 +310,10 @@ namespace SIM.Tool.Windows
         var instance = SelectedInstance;
         var name = instance != null ? instance.Name : null;
         var instancesFolder = !CoreAppSettings.CoreInstancesDetectEverywhere.Value ? ProfileManager.Profile.InstancesFolder : null;
-      
+
         WindowHelper.LongRunningTask(() =>
         {
-            InstanceManager.Default.Initialize(instancesFolder);
+          InstanceManager.Default.Initialize(instancesFolder);
         }, refreshInstancesDialogTitle, mainWindow, refreshInstancesDialogContent, "", true);
 
         Search();
@@ -391,7 +391,7 @@ namespace SIM.Tool.Windows
       Assert.ArgumentNotNull(connectionString, nameof(connectionString));
 
       if (instance.IsSitecore || instance.IsSitecoreEnvironmentMember)
-      {       
+      {
         var name = instance.Name;
         WizardPipelineManager.Start("reinstall9", owner, null, null, ignore => MakeInstanceSelected(name), () => new ReinstallWizardArgs(instance, connectionString, license));
       }
@@ -653,7 +653,7 @@ namespace SIM.Tool.Windows
           itemCollection.Add(new Separator());
           return;
         }
-        
+
         // create handler
         var mainWindowButton = menuItemElement.Handler;
 
@@ -997,7 +997,7 @@ namespace SIM.Tool.Windows
         }
 
         ICollectionView view = CollectionViewSource.GetDefaultView(source);
-        if (!view.GroupDescriptions.OfType<PropertyGroupDescription>().Any(x=>x.PropertyName=="SitecoreEnvironment.Name"))
+        if (!view.GroupDescriptions.OfType<PropertyGroupDescription>().Any(x => x.PropertyName == "SitecoreEnvironment.Name"))
         {
           view.GroupDescriptions.Add(new PropertyGroupDescription("SitecoreEnvironment.Name"));
         }

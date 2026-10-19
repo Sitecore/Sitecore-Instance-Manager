@@ -18,25 +18,25 @@ namespace SIM.Pipelines.Install
       bool uninstall = this.ParentDefinition.Param.Equals("uninstall", StringComparison.InvariantCultureIgnoreCase);
       foreach (Task task in arguments.Tasker.Tasks)
       {
-        if (!task.ShouldRun||(!task.SupportsUninstall()&&uninstall))
+        if (!task.ShouldRun || (!task.SupportsUninstall() && uninstall))
         {
           continue;
         }
 
-        Processor proc=null;
+        Processor proc = null;
         if (arguments.ScriptsOnly)
         {
           proc = new GenerateScriptProcessor(task.Name);
         }
         else
         {
-          proc = new RunPSTaskProcessor(task.Name);          
-        }        
+          proc = new RunPSTaskProcessor(task.Name);
+        }
 
         proc.ProcessorDefinition.Title = task.Name;
         proc.ProcessorDefinition.Type = proc.GetType();
         if (root == null)
-        {          
+        {
           processors.Add(proc);
         }
         else

@@ -29,7 +29,7 @@ namespace SIM.Tests.Pipelines
     private Instance _Instance;
     private Product _Module;
     private Stream _InfoResponse;
- 
+
 
 
     #endregion
@@ -77,9 +77,9 @@ namespace SIM.Tests.Pipelines
       string response =
         @"<response><lst name=""lucene""><str name=""solr-spec-version"">4.0.0</str></lst><str name=""solr_home"">c:\some\path</str></response>";
       _InfoResponse = GenerateStreamFromString(response);
- 
+
       _Sut.RequestAndGetResponseStream("SOME_URL/admin/info/system").Returns(_InfoResponse);
-      
+
     }
 
     private static Stream GenerateStreamFromString(string s)
@@ -168,7 +168,7 @@ namespace SIM.Tests.Pipelines
     {
       Arrange();
 
-      _Sut.Execute(_Instance,_Module);
+      _Sut.Execute(_Instance, _Module);
 
       var dirPath = @"c:\some\path\SOME_CORE_NAME";
       string coreName = "SOME_CORE_NAME";
@@ -182,7 +182,7 @@ namespace SIM.Tests.Pipelines
     public void ShouldCallGenerateAssembly()
     {
       Arrange();
- 
+
       Act();
 
       _Sut.Received().InvokeSitecoreGenerateSchemaUtility(DllPath, SchemaPath, SchemaPath);
@@ -254,7 +254,7 @@ namespace SIM.Tests.Pipelines
               <str name=""managedSchemaResourceName"" >managed-schema</str>
             </schemaFactory >
           </config>";
-        
+
       var xmlDocumentEx = XmlDocumentEx.LoadXml(solrconfig);
       _Sut.XmlMerge(Arg.Any<string>(), Arg.Any<string>()).Returns(xmlDocumentEx);
 
@@ -264,12 +264,12 @@ namespace SIM.Tests.Pipelines
         Arg.Is<string>(s => s.Contains(@"<schemaFactory class=""ClassicIndexSchemaFactory"" />")
                             && !s.Contains("ManagedIndexSchemaFactory")));
     }
- 
+
     [TestMethod]
     public void ShouldSaveToSolrConfigPath()
     {
       Arrange();
-      
+
       Act();
 
       _Sut.Received().WriteAllText(
@@ -294,7 +294,7 @@ namespace SIM.Tests.Pipelines
       _Sut.Received().WriteAllText(
         path: Arg.Any<string>(),
         text: Arg.Is<string>(s =>
-          s.StartsWith(xmlDocumentDeclarationWithUtf8 + "\r\n<a>\r\n") && 
+          s.StartsWith(xmlDocumentDeclarationWithUtf8 + "\r\n<a>\r\n") &&
           s.Contains("\r\n  <b />\r\n") &&
           s.EndsWith("\r\n</a>")));
     }

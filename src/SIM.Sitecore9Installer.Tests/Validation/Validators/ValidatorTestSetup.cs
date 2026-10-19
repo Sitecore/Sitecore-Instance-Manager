@@ -7,7 +7,7 @@ using Task = SIM.Sitecore9Installer.Tasks.Task;
 
 namespace SIM.Sitecore9Installer.Tests.Validation.Validators
 {
-  public class ValidatorTestSetup: IEnumerable<object[]>
+  public class ValidatorTestSetup : IEnumerable<object[]>
   {
     static Fixture _fix;
     public static Fixture Fix
@@ -48,11 +48,11 @@ namespace SIM.Sitecore9Installer.Tests.Validation.Validators
       List<InstallParam> iParams = new List<InstallParam>();
       for (int i = 0; i < paramNames.Length; ++i)
       {
-        InstallParam p = new InstallParam(paramNames[i], paramValues[i],false,InstallParamType.String);
+        InstallParam p = new InstallParam(paramNames[i], paramValues[i], false, InstallParamType.String);
         iParams.Add(p);
       }
 
-      task.LocalParams.Returns(new LocalParameters(iParams,new GlobalParameters()));
+      task.LocalParams.Returns(new LocalParameters(iParams, new GlobalParameters()));
       return task;
     }
   }

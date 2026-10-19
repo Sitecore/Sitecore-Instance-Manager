@@ -30,12 +30,19 @@ namespace SIM.Tool.Windows.Dialogs
       Assert.ArgumentNotNull(editContext, nameof(editContext));
       this.Title = editContext.Title;
       this.DescriptionText.Text = editContext.Description;
-      
+
       //Bind properties
       IEnumerable<PropertyInfo> propertiesToRender = editContext.ElementType.GetProperties().Where(prop => Attribute.IsDefined(prop, typeof(RenderInDataGreedAttribute)));
       foreach (var propertyToRender in propertiesToRender)
       {
-        this.DataGrid.Columns.Add(new DataGridTextColumn() { Binding = new Binding(propertyToRender.Name), Header = propertyToRender.Name});
+        bool isReadOnly = Attribute.IsDefined(propertyToRender, typeof(GridReadOnlyAttribute));
+
+        this.DataGrid.Columns.Add(new DataGridTextColumn()
+        {
+          Binding = new Binding(propertyToRender.Name) { Mode = isReadOnly ? BindingMode.OneWay : BindingMode.TwoWay },
+          Header = propertyToRender.Name,
+          IsReadOnly = isReadOnly
+        });
       }
 
       if (editContext.ElementType.Name == "SolrDefinition")
@@ -69,9 +76,9 @@ namespace SIM.Tool.Windows.Dialogs
 
       var errors = (from c in
             (from object i in DataGrid.ItemsSource
-              select DataGrid.ItemContainerGenerator.ContainerFromItem(i))
-          where c != null
-          select Validation.GetHasError(c))
+             select DataGrid.ItemContainerGenerator.ContainerFromItem(i))
+                    where c != null
+                    select Validation.GetHasError(c))
         .FirstOrDefault(x => x);
 
       //In case of empty row was added but wasn't changed. Just remove it.
@@ -81,7 +88,7 @@ namespace SIM.Tool.Windows.Dialogs
         for (int i = 0; i < editContext.GridItems.Count; i++)
         {
           if ((editContext.GridItems[i] as IValidateable).HasAnyValuesInTheFields())
-          { 
+          {
             continue;
           }
           editContext.GridItems.RemoveAt(i);
@@ -132,7 +139,7 @@ namespace SIM.Tool.Windows.Dialogs
 
         this.ReinitializeDataContext(editContext);
       };
-        
+
       installSolrButton.InstallSolr(this);
     }
 
@@ -166,49 +173,52 @@ namespace SIM.Tool.Windows.Dialogs
       WindowHelper.LongRunningTask(() =>
       {
         SolrStateResolver solrStateResolver = new SolrStateResolver();
-        foreach (SolrDefinition solrDefinition in ProfileManager.Profile.Solrs)
-        {
-          SolrState solrState = new SolrState();
-          solrState.Name = solrDefinition.Name;
-          solrState.Url = solrDefinition.Url;
-          solrState.State = solrStateResolver.GetServiceState(solrStateResolver.GetService(solrDefinition.Service));
-          if (solrState.State == SolrState.CurrentState.Running)
-          {
-            solrState.Version = solrStateResolver.GetVersion(solrDefinition.Url);
-            solrState.Type = SolrState.CurrentType.Service;
-          }
-          else
-          {
-            solrState.Version = "N/A";
-            solrState.Type = SolrState.CurrentType.Unknown;
-          }
-          solrStates.Add(solrState);
-        }
-        // If Solr service is not running, possibly Solr is started using CMD, in this case Solr Url accesibility can be checked
         List<SolrState> newSolrStates = new List<SolrState>();
-        foreach (SolrState solrState in solrStates)
+
+        foreach (IGrouping<string, SolrDefinition> group in ProfileManager.Profile.Solrs.GroupBy(d => d.Url))
         {
-          if (solrState.State != SolrState.CurrentState.Running &&
-            !solrStates.Any(s => s.State == SolrState.CurrentState.Running && s.Url == solrState.Url) &&
-            !newSolrStates.Any(s => s.State == SolrState.CurrentState.Running && s.Url == solrState.Url))
+          bool anyServiceRunning = false;
+
+          foreach (SolrDefinition solrDefinition in group)
           {
-            if (solrStateResolver.GetUrlState(solrState.Url) == SolrState.CurrentState.Running)
+            SolrState solrState = new SolrState();
+            solrState.Name = solrDefinition.Name;
+            solrState.Url = solrDefinition.Url;
+            solrState.State = solrStateResolver.GetServiceState(solrStateResolver.GetService(solrDefinition.Service));
+            if (solrState.State == SolrState.CurrentState.Running)
+            {
+              anyServiceRunning = true;
+              solrState.Version = solrStateResolver.GetVersion(solrDefinition.Url, solrDefinition.AdminUsername, solrDefinition.AdminPassword);
+              solrState.Type = SolrState.CurrentType.Service;
+            }
+            else
+            {
+              solrState.Version = "N/A";
+              solrState.Type = SolrState.CurrentType.Unknown;
+            }
+            solrStates.Add(solrState);
+          }
+
+          // If no service for this URL is running, Solr may have been started from CMD. Check the URL directly.
+          if (!anyServiceRunning)
+          {
+            SolrDefinition creds = group.FirstOrDefault(d => !string.IsNullOrEmpty(d.AdminPassword)) ?? group.First();
+            if (solrStateResolver.GetUrlState(group.Key, creds.AdminUsername, creds.AdminPassword) == SolrState.CurrentState.Running)
             {
               newSolrStates.Add(new SolrState()
               {
                 Name = "N/A",
                 State = SolrState.CurrentState.Running,
-                Version = solrStateResolver.GetVersion(solrState.Url),
-                Url = solrState.Url,
+                Version = solrStateResolver.GetVersion(group.Key, creds.AdminUsername, creds.AdminPassword),
+                Url = group.Key,
                 Type = SolrState.CurrentType.Local
               });
             }
           }
         }
-        if (newSolrStates.Count > 0)
-        {
-          solrStates.AddRange(newSolrStates);
-        }
+
+        // Keeps the original order: CMD-started entries go after all service entries
+        solrStates.AddRange(newSolrStates);
       }, "Checking states of Solr instances", this);
 
       return solrStates;
@@ -242,15 +252,15 @@ namespace SIM.Tool.Windows.Dialogs
           switch (state)
           {
             case SolrState.CurrentState.Running:
-            {
-              row.Background = (SolidColorBrush)new BrushConverter().ConvertFrom(WindowsSettings.AppThemeBackgroundSuccess.Value);
-              break;
-            }
+              {
+                row.Background = (SolidColorBrush)new BrushConverter().ConvertFrom(WindowsSettings.AppThemeBackgroundSuccess.Value);
+                break;
+              }
             case SolrState.CurrentState.Stopped:
-            {
-              row.Background = (SolidColorBrush)new BrushConverter().ConvertFrom(WindowsSettings.AppThemeBackgroundDisabled.Value);
-              break;
-            }
+              {
+                row.Background = (SolidColorBrush)new BrushConverter().ConvertFrom(WindowsSettings.AppThemeBackgroundDisabled.Value);
+                break;
+              }
             default: break;
           }
         }

@@ -21,7 +21,7 @@
 
   [Serializable]
   public class Instance : Website, IXmlSerializable
-  {                                                              
+  {
     #region Instance fields
 
     protected RuntimeSettingsAccessor _RuntimeSettingsAccessor;
@@ -94,7 +94,7 @@
       {
         return _Configuration ?? (_Configuration = new InstanceConfiguration(this));
       }
-    }          
+    }
 
     public virtual string DataFolderPath
     {
@@ -466,7 +466,7 @@
       get
       {
         var dir = new DirectoryInfo(PackagesFolderPath);
-        
+
         return dir.Exists ? dir.GetFiles("*.zip") : new FileInfo[0];
       }
     }
@@ -601,7 +601,7 @@
 
       foreach (var childInfo in directories)
       {
-        var date = string.Format("\"{2}\", {0}, {1:hh:mm:ss tt}", childInfo.CreationTime.ToString("yyyy-MM-dd"), 
+        var date = string.Format("\"{2}\", {0}, {1:hh:mm:ss tt}", childInfo.CreationTime.ToString("yyyy-MM-dd"),
           childInfo.CreationTime, childInfo.Name);
 
         if (string.IsNullOrEmpty(date))
@@ -798,11 +798,11 @@
             return ProfileSection.Result(webRootPath);
           }
 
-          InvalidConfigurationException.Assert(!webRootPath.ContainsIgnoreCase(dataFolderPath), 
+          InvalidConfigurationException.Assert(!webRootPath.ContainsIgnoreCase(dataFolderPath),
             "The data folder accidentally was set to be parent ({0}) of the website root folder ({1})".FormatWith(
               dataFolderPath, webRootPath));
           var distance = FileSystem.FileSystem.Local.Directory.GetDistance(webRootPath, detectedRoot);
-          InvalidConfigurationException.Assert(distance <= 1, 
+          InvalidConfigurationException.Assert(distance <= 1,
             "Cannot detect the Root Folder - the detection result ({1}) is too far from the Website ({0}) folder"
               .FormatWith(WebRootPath, detectedRoot));
 

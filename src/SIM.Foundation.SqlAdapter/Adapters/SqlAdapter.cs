@@ -11,7 +11,7 @@
   using SIM.Services;
 
   public sealed class SqlAdapter
-  {                                                                                               
+  {
     public SqlAdapter([NotNull] SqlConnectionString connectionString)
     {
       ConnectionString = connectionString;
@@ -19,13 +19,13 @@
 
     [NotNull]
     private SqlConnectionString ConnectionString { get; }
-                                                                                                               
+
     /// <exception cref="SqlAdapterException" />
     public void DeployDatabase([NotNull] string databaseName, [NotNull] IFile bacpac)
     {
       Assert.ArgumentCondition(string.Equals(bacpac.Extension, ".dacpac", StringComparison.OrdinalIgnoreCase), nameof(bacpac), $"The actual file extension is '{bacpac}' which does not match expected '.dacpac'.");
       Assert.ArgumentCondition(bacpac.Exists, nameof(bacpac), $"The file does not exist by the '{bacpac}' path.");
-      
+
       try
       {
         var package = DacPackage.Load(bacpac.FullName);
@@ -110,7 +110,7 @@
         throw new SqlAdapterException(ex);
       }
     }
-               
+
     /// <exception cref="SqlAdapterException" />                 
     /// <exception cref="DatabaseDoesNotExistException" />
     public FilePath GetDatabaseFilePath([NotNull] string databaseName)

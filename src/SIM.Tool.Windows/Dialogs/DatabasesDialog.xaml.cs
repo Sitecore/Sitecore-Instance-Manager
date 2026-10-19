@@ -42,11 +42,11 @@
       var connectionString = ProfileManager.GetConnectionString();
       var dialog = new OpenFileDialog
       {
-        AddExtension = true, 
-        CheckFileExists = true, 
-        CheckPathExists = true, 
-        Filter = "*.mdf|*.mdf", 
-        Multiselect = false, 
+        AddExtension = true,
+        CheckFileExists = true,
+        CheckPathExists = true,
+        Filter = "*.mdf|*.mdf",
+        Multiselect = false,
         Title = "Select the database"
       };
       bool? showDialog = dialog.ShowDialog();
@@ -67,7 +67,7 @@
 
       var name = WindowHelper.ShowDialog<InputDialog>(new InputDialogArgs
       {
-        Title = "Select the database name", 
+        Title = "Select the database name",
         DefaultValue = dbName
       }, this) as string;
       if (!string.IsNullOrEmpty(name))
@@ -121,7 +121,7 @@
           }
           catch (Exception ex)
           {
-            WindowHelper.HandleError("Deleting the '{0}' database  caused an exception".FormatWith(name), false, ex, 
+            WindowHelper.HandleError("Deleting the '{0}' database  caused an exception".FormatWith(name), false, ex,
               GetType());
           }
         }
@@ -181,19 +181,19 @@
             catch (Exception ex)
             {
               Dispatcher.Invoke(() => WindowHelper.HandleError(
-                "The '{0}' database doesn't exist or isn't attached to the '{1}' SQL Server instance.".FormatWith(name, 
+                "The '{0}' database doesn't exist or isn't attached to the '{1}' SQL Server instance.".FormatWith(name,
                   connectionString
-                    .DataSource), 
+                    .DataSource),
                 false, ex, this));
-              
+
             }
           }
           else
           {
             Dispatcher.Invoke(() => WindowHelper.HandleError(
-              "The '{0}' database doesn't exist or isn't attached to the '{1}' SQL Server instance".FormatWith(name, 
+              "The '{0}' database doesn't exist or isn't attached to the '{1}' SQL Server instance".FormatWith(name,
                 connectionString
-                  .DataSource), 
+                  .DataSource),
               false));
           }
         }
@@ -220,19 +220,19 @@
           catch (Exception ex)
           {
             Dispatcher.Invoke(() => WindowHelper.HandleError(
-              "The '{0}' database doesn't exist or isn't attached to the '{1}' SQL Server instance.".FormatWith(dbName, 
+              "The '{0}' database doesn't exist or isn't attached to the '{1}' SQL Server instance.".FormatWith(dbName,
                 connectionString
-                  .DataSource), 
+                  .DataSource),
               false, ex, this));
-            
+
           }
         }
         else
         {
           Dispatcher.Invoke(() => WindowHelper.HandleError(
-            "The '{0}' database doesn't exist or isn't attached to the '{1}' SQL Server instance".FormatWith(dbName, 
+            "The '{0}' database doesn't exist or isn't attached to the '{1}' SQL Server instance".FormatWith(dbName,
               connectionString
-                .DataSource), 
+                .DataSource),
             false));
         }
       }
@@ -262,7 +262,7 @@
 
         var newname = WindowHelper.ShowDialog<InputDialog>(new InputDialogArgs
         {
-          Title = "Select the new name", 
+          Title = "Select the new name",
           DefaultValue = name
         }, this) as string;
         if (newname == null)
@@ -351,10 +351,10 @@
       {
         var dialog = new SaveFileDialog
         {
-          AddExtension = true, 
-          CheckPathExists = true, 
-          Filter = "*.bak | *.bak", 
-          InitialDirectory = Path.GetDirectoryName(SqlServerManager.Instance.GetDatabaseFileName(databaseName, ProfileManager.GetConnectionString())), 
+          AddExtension = true,
+          CheckPathExists = true,
+          Filter = "*.bak | *.bak",
+          InitialDirectory = Path.GetDirectoryName(SqlServerManager.Instance.GetDatabaseFileName(databaseName, ProfileManager.GetConnectionString())),
           Title = "Specify folder to backup"
         };
         bool? showDialog = dialog.ShowDialog();

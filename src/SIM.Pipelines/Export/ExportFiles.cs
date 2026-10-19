@@ -144,8 +144,8 @@
 
         var builder = new SqlConnectionStringBuilder(connectionString.Value)
         {
-          DataSource = string.Empty, 
-          UserID = string.Empty, 
+          DataSource = string.Empty,
+          UserID = string.Empty,
           Password = string.Empty
         };
         connectionString.Value = builder.ToString();

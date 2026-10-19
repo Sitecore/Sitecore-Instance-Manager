@@ -31,21 +31,21 @@ namespace SIM.Tool.Windows.MainWindowComponents.Buttons
         switch (instance.Type)
         {
           case Instance.InstanceType.SitecoreMember:
-          {
-            return ButtonsConfiguration.Instance.Sitecore9AndLaterMemberButtons.Contains(this._label);
-          }
+            {
+              return ButtonsConfiguration.Instance.Sitecore9AndLaterMemberButtons.Contains(this._label);
+            }
           case Instance.InstanceType.Sitecore9AndLater:
-          {
-            return ButtonsConfiguration.Instance.Sitecore9AndLaterButtons.Contains(this._label);
-          }
+            {
+              return ButtonsConfiguration.Instance.Sitecore9AndLaterButtons.Contains(this._label);
+            }
           case Instance.InstanceType.Sitecore8AndEarlier:
-          {
-            return ButtonsConfiguration.Instance.Sitecore8AndEarlierButtons.Contains(this._label);
-          }
+            {
+              return ButtonsConfiguration.Instance.Sitecore8AndEarlierButtons.Contains(this._label);
+            }
           case Instance.InstanceType.SitecoreContainer:
-          {
-            return ButtonsConfiguration.Instance.SitecoreContainersButtons.Contains(this._label);
-          }
+            {
+              return ButtonsConfiguration.Instance.SitecoreContainersButtons.Contains(this._label);
+            }
         }
       }
 

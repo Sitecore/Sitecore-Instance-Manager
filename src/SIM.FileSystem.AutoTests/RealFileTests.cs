@@ -140,7 +140,7 @@
       var dir = CreateUniqueDir();
       var file = CreateUniqueFile(dir);
       var sut = FileSystem.ParseFile(file);
-      
+
       // act
       Assert.Throws<InvalidCastException>(() => sut.Equals(new object()));
     }
@@ -149,7 +149,7 @@
     public void Exists_Yes()
     {
       // arrange
-      var file = CreateUniqueFile();      
+      var file = CreateUniqueFile();
       var sut = FileSystem.ParseFile(file);
 
       // act
@@ -165,7 +165,7 @@
       // arrange
       var file = CreateUniqueFile();
       file.Delete();
-      
+
       var sut = FileSystem.ParseFile(file);
 
       // act
@@ -268,7 +268,7 @@
 
       // act
       var result = sutA.MoveTo(sutB);
-      
+
       // assert
       Assert.True(File.Exists(result.FullName));
     }

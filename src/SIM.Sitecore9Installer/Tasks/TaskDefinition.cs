@@ -63,7 +63,8 @@ namespace SIM.Sitecore9Installer.Tasks
 
       List<InstallParam> installParams = new List<InstallParam>();
       JObject doc = JObject.Parse(File.ReadAllText(file));
-      foreach (JProperty param in doc["Parameters"].Children())      {
+      foreach (JProperty param in doc["Parameters"].Children())
+      {
         string dafultValue = param.Value["DefaultValue"]?.ToString();
         string typeName = param.Value["Type"]?.ToString();
         InstallParam p = new InstallParam(param.Name, dafultValue, false, typeName);
@@ -73,12 +74,12 @@ namespace SIM.Sitecore9Installer.Tasks
         installParams.Add(p);
 
         if (p.Name == "Package" && !unInstall)
-        {          
-            p.Value = mapping.Map(this.TaskName, taskFolder);
+        {
+          p.Value = mapping.Map(this.TaskName, taskFolder);
         }
       }
 
-      installParams.Add(new InstallParam("Path", file,false,InstallParamType.String));
+      installParams.Add(new InstallParam("Path", file, false, InstallParamType.String));
       return new LocalParameters(installParams, globalParams);
     }
 

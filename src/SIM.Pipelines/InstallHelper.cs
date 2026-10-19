@@ -12,7 +12,7 @@
   {
     public const string RadControls = "sitecore/shell/RadControls";
     public const string Dictionaries = "sitecore/shell/Controls/Rich Text Editor/Dictionaries";
-      
+
     public static void ExtractFile([NotNull] string packagePath, [NotNull] string webRootPath, [NotNull] string databasesFolderPath, [NotNull] string dataFolderPath, bool attachSql, bool installRadControls, bool installDictionaries, [CanBeNull] IPipelineController controller = null)
     {
       Assert.ArgumentNotNull(packagePath, nameof(packagePath));

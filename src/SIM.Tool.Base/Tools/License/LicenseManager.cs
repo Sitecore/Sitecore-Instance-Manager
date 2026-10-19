@@ -96,7 +96,7 @@ namespace SIM.Tool.Base.Tools.License
       WindowHelper.LongRunningTask(() => DoUpdateLicense(filePath, instance, updateMode), "Updating license...", mainWindow);
     }
 
-    private void DoUpdateLicense(string licenseFilePath, [CanBeNull]Instance instance, UpdateMode updateMode)
+    private void DoUpdateLicense(string licenseFilePath, [CanBeNull] Instance instance, UpdateMode updateMode)
     {
       foreach (var updater in LicenseUpdaters)
       {

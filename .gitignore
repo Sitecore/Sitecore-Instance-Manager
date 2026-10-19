@@ -54,7 +54,8 @@ src/SIM.Sitecore9Installer/bin/
 src/SIM.Telemetry/bin/
 src/SIM.Telemetry.Tests/bin/
 src/SIM.SitecoreEnvironments/bin/
-/.vs
+*/.vs
+*/.idea
 src/SIM.Sitecore9Installer.Tests/bin/
 src/SIM.ContainerInstaller/bin/
 src/SIM.Products.Tests/bin/

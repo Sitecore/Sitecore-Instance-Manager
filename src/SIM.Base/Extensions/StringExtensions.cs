@@ -7,7 +7,7 @@
   using Sitecore.Diagnostics.Base;
 
   public static class StringExtensions
-  {                                  
+  {
     public static bool ContainsIgnoreCase(this string source, string target)
     {
       return source == null || target == null ? source == target : source.ToLower().Contains(target.ToLower());

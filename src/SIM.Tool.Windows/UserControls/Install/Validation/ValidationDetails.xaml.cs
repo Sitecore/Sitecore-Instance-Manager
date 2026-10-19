@@ -43,12 +43,17 @@ namespace SIM.Tool.Windows.UserControls.Install.Validation
         }
         else
         {
-          this.MessagesList.Columns.Add(new DataGridTextColumn() { Binding = new Binding(propertyToRender.Name) { Mode = BindingMode.OneTime }, Header = propertyToRender.Name, 
-            ElementStyle = this.GetElementStyle(), EditingElementStyle = this.GetEditingElementStyle() });
+          this.MessagesList.Columns.Add(new DataGridTextColumn()
+          {
+            Binding = new Binding(propertyToRender.Name) { Mode = BindingMode.OneTime },
+            Header = propertyToRender.Name,
+            ElementStyle = this.GetElementStyle(),
+            EditingElementStyle = this.GetEditingElementStyle()
+          });
         }
       }
 
-      this.UpdateDataGridRowColor(); 
+      this.UpdateDataGridRowColor();
     }
 
     private Style GetElementStyle()
@@ -87,25 +92,25 @@ namespace SIM.Tool.Windows.UserControls.Install.Validation
           switch (validatorState)
           {
             case Sitecore9Installer.Validation.ValidatorState.Success:
-            {
-              row.Background = (SolidColorBrush)new BrushConverter().ConvertFrom(WindowsSettings.AppThemeBackgroundSuccess.Value);
-              break;
-            }
+              {
+                row.Background = (SolidColorBrush)new BrushConverter().ConvertFrom(WindowsSettings.AppThemeBackgroundSuccess.Value);
+                break;
+              }
             case Sitecore9Installer.Validation.ValidatorState.Error:
-            {
-              row.Background = (SolidColorBrush)new BrushConverter().ConvertFrom(WindowsSettings.AppThemeBackgroundError.Value);
-              break;
-            }
+              {
+                row.Background = (SolidColorBrush)new BrushConverter().ConvertFrom(WindowsSettings.AppThemeBackgroundError.Value);
+                break;
+              }
             case Sitecore9Installer.Validation.ValidatorState.Warning:
-            {
-              row.Background = (SolidColorBrush)new BrushConverter().ConvertFrom(WindowsSettings.AppThemeBackgroundWarning.Value);
-              break;
-            }
+              {
+                row.Background = (SolidColorBrush)new BrushConverter().ConvertFrom(WindowsSettings.AppThemeBackgroundWarning.Value);
+                break;
+              }
             case Sitecore9Installer.Validation.ValidatorState.Pending:
-            {
-              row.Background = (SolidColorBrush)new BrushConverter().ConvertFrom(WindowsSettings.AppThemeBackgroundPending.Value);
-              break;
-            }
+              {
+                row.Background = (SolidColorBrush)new BrushConverter().ConvertFrom(WindowsSettings.AppThemeBackgroundPending.Value);
+                break;
+              }
             default: break;
           }
         }

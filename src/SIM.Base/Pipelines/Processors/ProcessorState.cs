@@ -12,13 +12,13 @@
     ///   The waiting.
     /// </summary>
     [UsedImplicitly]
-    Waiting, 
+    Waiting,
 
-    Running, 
+    Running,
 
-    Done, 
+    Done,
 
-    Error, 
+    Error,
 
     Inaccessible
   }

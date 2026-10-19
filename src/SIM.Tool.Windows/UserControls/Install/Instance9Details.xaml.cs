@@ -25,6 +25,7 @@ using SIM.Sitecore9Installer;
 using SIM.Tool.Windows.Dialogs;
 using SIM.Tool.Windows.UserControls.Helpers;
 using SIM.Sitecore9Installer.Tasks;
+using SIM.Sitecore9Installer.Security;
 
 namespace SIM.Tool.Windows.UserControls.Install
 {
@@ -240,6 +241,20 @@ namespace SIM.Tool.Windows.UserControls.Install
         prerequisitesTask.ShouldRun = false;
       }
 
+      InstallParam solrAdminUsername = tasker.GlobalParams.FirstOrDefault(p => p.Name == "SolrAdminUserName");
+      InstallParam solrAdminPassword = tasker.GlobalParams.FirstOrDefault(p => p.Name == "SolrAdminPassword");
+      if (solr.HasCredentials)
+      {
+        SetParam(tasker, "SolrAdminUserName", solr.AdminUsername);
+        SetParam(tasker, "SolrAdminPassword", solr.AdminPassword);
+
+        // Generated once, so the Solr user and the CM connection string match
+        string connUser = (args.InstanceName + "_solr").ToLowerInvariant();
+        string connPass = SolrPasswordGenerator.Generate();
+        SetParam(tasker, "SolrConnectionUserName", connUser);
+        SetParam(tasker, "SolrConnectionUserPassword", connPass);
+      }
+
       args.ScriptsOnly = this.scriptsOnly.IsChecked ?? false;
       args.Tasker = tasker;
 
@@ -381,6 +396,29 @@ namespace SIM.Tool.Windows.UserControls.Install
       }
     }
 
+    private static void SetParam(Tasker tasker, string name, string value)
+    {
+      InstallParam global = tasker.GlobalParams.FirstOrDefault(p => p.Name == name);
+      if (global != null)
+      {
+        global.Value = value;   // same pattern as SolrUrl, SqlAdminPassword, etc.
+      }
+      else
+      {
+        tasker.GlobalParams.AddOrUpdateParam(name, value, InstallParamType.String);
+      }
+
+      // Set the task copies directly, so this doesn't depend on the global-to-local event
+      foreach (Task task in tasker.Tasks)
+      {
+        InstallParam local = task.LocalParams[name];
+        if (local != null)
+        {
+          local.Value = value;
+        }
+      }
+    }
+
     private void ProductNameChanged([CanBeNull] object sender, [CanBeNull] SelectionChangedEventArgs e)
     {
       var productName = ProductName;
@@ -396,7 +434,7 @@ namespace SIM.Tool.Windows.UserControls.Install
       Assert.IsNotNull(productVersion, nameof(productVersion));
 
       productVersion.DataContext = grouping.Where(x => x != null).GroupBy(p => p.ShortVersion).Where(x => x != null).OrderBy(p => Int32.Parse(p.Key));
-      SelectFirst(productVersion);           
+      SelectFirst(productVersion);
     }
 
     private void ProductRevisionChanged([CanBeNull] object sender, [CanBeNull] SelectionChangedEventArgs e)

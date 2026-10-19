@@ -17,7 +17,7 @@
 
     [NotNull]
     public static readonly AdvancedProperty<string> AppToolsLogViewer = AdvancedSettings.Create("App/Tools/LogViewer", "logview.exe");
-    
+
     #endregion
   }
 }

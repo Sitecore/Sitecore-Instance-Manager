@@ -2,9 +2,9 @@ namespace SIM.Instances
 {
   public enum InstanceState
   {
-    Disabled, 
-    Stopped, 
-    Ready, 
+    Disabled,
+    Stopped,
+    Ready,
     Running
   }
 }

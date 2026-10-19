@@ -36,7 +36,7 @@
 
       IsEnabled = enabled;
 
-      BaseAddress = configuration.BaseAddress;      
+      BaseAddress = configuration.BaseAddress;
 
       _logger = logger;
     }

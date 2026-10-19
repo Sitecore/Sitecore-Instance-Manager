@@ -31,7 +31,7 @@ namespace SIM.Tool.Windows.UserControls.Install.Containers
       envModel = args.EnvModel;
       tagRepository = args.TagRepository;
       HideTagsControls();
-      
+
       int shortVersion = int.Parse(args.Product.ShortVersion);
       if (shortVersion < 100)
       {
@@ -180,7 +180,7 @@ namespace SIM.Tool.Windows.UserControls.Install.Containers
       JssTagsComboBox.Visibility = Visibility.Collapsed;
       HorizonTagsTextBlock.Visibility = Visibility.Collapsed;
       HorizonTagsComboBox.Visibility = Visibility.Collapsed;
-      HorizonAssetsTagsTextBlock.Visibility= Visibility.Collapsed;
+      HorizonAssetsTagsTextBlock.Visibility = Visibility.Collapsed;
       HorizonAssetsTagsComboBox.Visibility = Visibility.Collapsed;
       SpsTagsTextBlock.Visibility = Visibility.Collapsed;
       SpsTagsComboBox.Visibility = Visibility.Collapsed;
@@ -214,7 +214,7 @@ namespace SIM.Tool.Windows.UserControls.Install.Containers
     {
       SpsTagsTextBlock.Visibility = visibility;
       SpsTagsComboBox.Visibility = visibility;
-      SpsAssetsTagsTextBlock.Visibility= visibility;
+      SpsAssetsTagsTextBlock.Visibility = visibility;
       SpsAssetsTagsComboBox.Visibility = visibility;
     }
 

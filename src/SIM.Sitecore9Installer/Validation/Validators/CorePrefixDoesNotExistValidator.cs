@@ -26,6 +26,8 @@ namespace SIM.Sitecore9Installer.Validation.Validators
     {
       bool errors = false;
       List<Tuple<string, string>> checkList = new List<Tuple<string, string>>();
+      string solrAdminUsername = null;
+      string solrAdminPassword = null;
       foreach (Task task in tasks)
       {
         InstallParam prefix = task.LocalParams.FirstOrDefault(p => p.Name == this.CorePrefix);
@@ -33,6 +35,13 @@ namespace SIM.Sitecore9Installer.Validation.Validators
         if (prefix != null && url != null && !checkList.Any(t => t.Item1.Equals(url.Value, StringComparison.InvariantCultureIgnoreCase) && t.Item2.Equals(prefix.Value, StringComparison.InvariantCultureIgnoreCase)))
         {
           checkList.Add(new Tuple<string, string>(url.Value, prefix.Value + "_"));
+        }
+        InstallParam solrAdminUsernameParam = task.GlobalParams.FirstOrDefault(p => p.Name == "SolrAdminUserName");
+        InstallParam solrAdminPasswordParam = task.GlobalParams.FirstOrDefault(p => p.Name == "SolrAdminPassword");
+        if (solrAdminUsernameParam != null && solrAdminPasswordParam != null)
+        {
+          solrAdminUsername = solrAdminUsernameParam.Value;
+          solrAdminPassword = solrAdminPasswordParam.Value;
         }
       }
 
@@ -42,9 +51,16 @@ namespace SIM.Sitecore9Installer.Validation.Validators
         IEnumerable<string> coreNames = null;
         try
         {
-          coreNames=this.GetCores(item.Item1);
+          if (solrAdminUsername != null && solrAdminPassword != null)
+          {
+            coreNames = this.GetCores(item.Item1, solrAdminUsername, solrAdminPassword);
+          }
+          else
+          {
+            coreNames = this.GetCores(item.Item1);
+          }
         }
-        catch(WebException ex)
+        catch (WebException ex)
         {
           errorGetcores = ex;
         }
@@ -68,7 +84,6 @@ namespace SIM.Sitecore9Installer.Validation.Validators
       }
     }
 
-
     protected internal virtual IEnumerable<string> GetCores(string uri)
     {
       HttpWebRequest myReq = (HttpWebRequest)WebRequest.Create(Path.Combine(uri, "admin/cores?action=STATUS&wt=json"));
@@ -80,6 +95,36 @@ namespace SIM.Sitecore9Installer.Validation.Validators
         return doc["status"]?.Children().Select(c => c as JProperty).Select(jp => jp.Name);
       }
 
+    }
+
+    protected internal virtual IEnumerable<string> GetCores(string uri, string adminUsername, string adminPassword)
+    {
+      string url = uri.TrimEnd('/') + "/admin/cores?action=STATUS&wt=json";
+      HttpWebRequest myReq = (HttpWebRequest)WebRequest.Create(url);
+
+      // Same as curl -u user:pass
+      if (!string.IsNullOrEmpty(adminUsername) && !string.IsNullOrEmpty(adminPassword))
+      {
+        string token = Convert.ToBase64String(Encoding.UTF8.GetBytes($"{adminUsername}:{adminPassword}"));
+        myReq.Headers[HttpRequestHeader.Authorization] = "Basic " + token;
+      }
+
+      using (HttpWebResponse resp = (HttpWebResponse)myReq.GetResponse())
+      {
+        Encoding encoding = string.IsNullOrEmpty(resp.CharacterSet)
+          ? Encoding.UTF8
+          : Encoding.GetEncoding(resp.CharacterSet);
+
+        using (StreamReader reader = new StreamReader(resp.GetResponseStream(), encoding))
+        {
+          JObject doc = JObject.Parse(reader.ReadToEnd());
+          return doc["status"]?.Children()
+            .OfType<JProperty>()
+            .Select(jp => jp.Name)
+            .ToList()
+            ?? Enumerable.Empty<string>();
+        }
+      }
     }
   }
 }

@@ -8,7 +8,7 @@
   #endregion
 
   public class ProcessorArgs : IDisposable
-  {             
+  {
     #region Events
 
     public event Action OnCompleted;

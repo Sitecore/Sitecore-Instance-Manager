@@ -87,7 +87,7 @@ namespace SIM
 
     [NotNull]
     public static string LogsFolder { get; }
-    
+
     [NotNull]
     public static string ProfilesFolder { get; }
 
@@ -249,7 +249,7 @@ namespace SIM
             zip.ExtractAll(folder, ExtractExistingFileAction.OverwriteSilently);
           }
 
-        Assert.IsTrue(File.Exists(filePath) || Directory.Exists(filePath), $"The {filePath} file path doesn't exist after successful extracting {tempFilePath} package into {folder} folder");
+          Assert.IsTrue(File.Exists(filePath) || Directory.Exists(filePath), $"The {filePath} file path doesn't exist after successful extracting {tempFilePath} package into {folder} folder");
 
           return filePath;
         }
@@ -444,7 +444,7 @@ namespace SIM
         IsIisRunning = iisStatus;
         OnIisStatusChanged();
       }
-      
+
       DockerStatus dockerStatus = GetDockerStatus();
       if (CurrentDockerStatus != dockerStatus)
       {

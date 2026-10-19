@@ -70,7 +70,7 @@
       {
         throw new InvalidOperationException($"Failed to get mongo databases of {Instance.WebRootPath}", ex);
       }
-    }                
+    }
 
     public virtual string GetScVariableValue([NotNull] string variableName)
     {

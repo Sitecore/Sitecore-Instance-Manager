@@ -37,7 +37,7 @@ namespace SIM.Sitecore9Installer
 
     private string name;
     public string Name { get => this.name; }
-    public bool IsGlobal { get=>this.isGlobal; }
+    public bool IsGlobal { get => this.isGlobal; }
     public string Value
     {
       get
@@ -63,7 +63,7 @@ namespace SIM.Sitecore9Installer
         case InstallParamType.Bool:
           {
             return GetBoolValue(Value);
-          }       
+          }
         case InstallParamType.Int:
           {
             return GetIntValue(Value);
@@ -115,21 +115,16 @@ namespace SIM.Sitecore9Installer
       switch (type?.ToLower())
       {
         case "bool":
-          {
-            return InstallParamType.Bool;
-          }
+          return InstallParamType.Bool;
         case "string":
-          {
-            return InstallParamType.String;
-          }
+          return InstallParamType.String;
         case "int":
-          {
-            return InstallParamType.Int;
-          }
+          return InstallParamType.Int;
+        // Introduced in Solr 9, works by mapping to a bool for now but it might break in the future
+        case "switch":
+          return InstallParamType.Bool;
         default:
-          {
-            throw new ArgumentOutOfRangeException($"Unknown parameter type '{type}'");
-          }
+          throw new ArgumentOutOfRangeException($"Unknown parameter type '{type}'");
       }
     }
   }

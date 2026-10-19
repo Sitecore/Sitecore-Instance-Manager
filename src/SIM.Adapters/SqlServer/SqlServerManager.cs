@@ -386,7 +386,7 @@
         {
           var command = new SqlCommand
           {
-            Connection = connection, 
+            Connection = connection,
             CommandText = @"DECLARE @ServiceaccountName varchar(250)
                   EXECUTE master.dbo.xp_instance_regread
                   N'HKEY_LOCAL_MACHINE',
@@ -498,7 +498,7 @@
                         RESTORE DATABASE [{0}]
                         FROM DISK='{1}'
                         WITH MOVE'{3}' TO '{2}\{0}.mdf',
-                        MOVE '{4}' TO'{2}\{0}_log.ldf'", 
+                        MOVE '{4}' TO'{2}\{0}_log.ldf'",
           new[]
           {
             databaseName /*backupInfo.dbOriginalName*/, backupFileName, pathTo, mdfName, ldfName
@@ -545,7 +545,7 @@
                         RESTORE DATABASE [{0}]
                         FROM DISK='{1}'
                         WITH MOVE'{3}' TO '{2}\{5}.mdf',
-                        MOVE '{4}' TO'{2}\{5}_log.ldf'", 
+                        MOVE '{4}' TO'{2}\{5}_log.ldf'",
           new[]
           {
             databaseName, backupFileName, pathTo, mdfName, ldfName, databaseFileName
@@ -568,7 +568,7 @@
 
           var command = new SqlCommand
           {
-            Connection = connection, 
+            Connection = connection,
             CommandText = createDatabase
           };
 
@@ -669,7 +669,7 @@
       Assert.ArgumentNotNull(connectionString, nameof(connectionString));
       connectionString = new SqlConnectionStringBuilder(connectionString.ConnectionString)
       {
-        InitialCatalog = "master", 
+        InitialCatalog = "master",
         ConnectTimeout = timeout != null ? (int)timeout : SqlServerConnectionTimeout
       };
 

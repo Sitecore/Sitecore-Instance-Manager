@@ -30,7 +30,7 @@
     #region Constructors
 
     public InstallModulesWizardArgs()
-    { 
+    {
     }
 
     public InstallModulesWizardArgs(Instance instance, string cookies = null, IDictionary<string, string> headers = null)

@@ -19,13 +19,13 @@ namespace SIM.Sitecore9Installer.Tests.Validation.Validators
     public void CertificateDoesNotExist(IEnumerable<Task> tasks)
     {
       string paramName = "somename";
-      tasks.First().LocalParams.AddOrUpdateParam(paramName, "somevalue",InstallParamType.String);
+      tasks.First().LocalParams.AddOrUpdateParam(paramName, "somevalue", InstallParamType.String);
       CertificateValidator val = Substitute.ForPartsOf<CertificateValidator>();
-      val.WhenForAnyArgs(a=>a.FindCertificates(null)).DoNotCallBase();
+      val.WhenForAnyArgs(a => a.FindCertificates(null)).DoNotCallBase();
       val.FindCertificates(null).ReturnsForAnyArgs(new X509Certificate2Collection());
       val.Data["StoreName"] = "Root";
       val.Data["ParamNames"] = paramName;
-      
+
       Assert.DoesNotContain(val.Evaluate(tasks), r => r.State == Sitecore9Installer.Validation.ValidatorState.Error);
       val.DidNotReceiveWithAnyArgs().ValidateCertificate(null);
 
@@ -38,13 +38,13 @@ namespace SIM.Sitecore9Installer.Tests.Validation.Validators
       string paramName = "somename";
       tasks.First().LocalParams.AddOrUpdateParam(paramName, "somevalue", InstallParamType.String);
       CertificateValidator val = Substitute.ForPartsOf<CertificateValidator>();
-      val.WhenForAnyArgs(a => a.FindCertificates( null)).DoNotCallBase();
+      val.WhenForAnyArgs(a => a.FindCertificates(null)).DoNotCallBase();
       X509Certificate2Collection collection = new X509Certificate2Collection();
       collection.Add(new X509Certificate2());
-      val.FindCertificates( null).ReturnsForAnyArgs(collection);
+      val.FindCertificates(null).ReturnsForAnyArgs(collection);
       val.Data["StoreName"] = "Root";
       val.Data["ParamNames"] = paramName;
-      val.WhenForAnyArgs(a=>a.ValidateChain(null,null)).DoNotCallBase();
+      val.WhenForAnyArgs(a => a.ValidateChain(null, null)).DoNotCallBase();
       val.ValidateChain(null, null).ReturnsForAnyArgs(true);
 
       Assert.DoesNotContain(val.Evaluate(tasks), r => r.State == Sitecore9Installer.Validation.ValidatorState.Error);

@@ -26,7 +26,7 @@ namespace SIM.IO
 
       return folder.FileSystem.ParseFolder(System.IO.Path.Combine(folder.FullName, folderName));
     }
-    
+
     public static void ReplaceLine(this IFile file, string pattern, string replacement)
     {
       var regex = new Regex(pattern, RegexOptions.Compiled);

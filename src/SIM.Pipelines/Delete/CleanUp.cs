@@ -27,10 +27,10 @@ namespace SIM.Pipelines.Delete
       }
 
       InstallParam param = arguments.Tasker.GlobalParams.FirstOrDefault(p => p.Name == "DeployRoot");
-      if (param!=null)
+      if (param != null)
       {
         int retriesNumber = 3;
-        for (int i=0;i<= retriesNumber; i++)
+        for (int i = 0; i <= retriesNumber; i++)
         {
           if (Directory.Exists(param.Value))
           {
@@ -38,7 +38,7 @@ namespace SIM.Pipelines.Delete
             {
               Directory.Delete(param.Value, true);
             }
-            catch(System.IO.IOException ex)
+            catch (System.IO.IOException ex)
             {
               Log.Warn($"Can't remove directory: {param.Value}. {ex.Message}");
             }

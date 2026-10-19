@@ -1,0 +1,449 @@
+{
+  "Parameters": {
+    "SolrVersion": {
+      "Type": "String",
+      "Description": "The version of Solr to install",
+      "DefaultValue": "10.0.0",
+      "Validate": "[variable('Test.Solr.Download.Availability')]"
+    },
+    "SolrDomain": {
+      "Type": "String",
+      "Description": "The url/domain for Solr, used to create Self-Signed SSL Certificate",
+      "DefaultValue": "localhost"
+    },
+    "SolrPort": {
+      "Type": "Int",
+      "Description": "The Solr port.",
+      "DefaultValue": 8983
+    },
+    "SolrAdminUserName": {
+      "Type": "String",
+      "DefaultValue": "admin",
+      "Description": "The admin username for the Solr instance."
+    },
+    "SolrAdminPassword": {
+      "Type": "String",
+      "DefaultValue": "",
+      "Description": "The admin password for the Solr instance."
+    },
+    "SolrServicePrefix": {
+      "Type": "String",
+      "Description": "The Solr service prefix name.",
+      "DefaultValue": ""
+    },
+    "SolrInstallRoot": {
+      "Type": "String",
+      "Description": "The file path to install Solr. This config will add the prefix and solr version e.g C:\\Solr becomes C:\\Solr\\[SolrServicePrefix]Solr-10.0.0",
+      "DefaultValue": "C:\\"
+    },
+    "SolrSourceURL": {
+      "Type": "String",
+      "Description": "Solr download archive location",
+      "DefaultValue": "https://archive.apache.org/dist/solr/solr"
+    },
+    "SolrCloud": {
+      "Type": "Switch",
+      "Description": "Start Solr as the SolrCloud development version.",
+      "DefaultValue": false
+    },
+    "JavaDownloadURL": {
+      "Type": "String",
+      "Description": "Download location of AdoptOpenJDK",
+      "DefaultValue": "https://corretto.aws/downloads/latest/amazon-corretto-21-x64-windows-jdk.zip"
+    },
+    "ApacheCommonsDaemonURL": {
+      "Type": "String",
+      "Description": "Download Location of Apache Commons Daemon",
+      "DefaultValue": "https://archive.apache.org/dist/commons/daemon/binaries/windows/commons-daemon-1.1.0-bin-windows.zip"
+    },
+    "TempLocation": {
+      "Type": "String",
+      "Description": "Alternative location to save downloads. If left on the default $Env:Temp will be used.",
+      "DefaultValue": "SIF-Default",
+      "Validate": "[TestPath(variable('Temp.Location'))]"
+    },
+    "ServiceLocation": {
+      "Type": "String",
+      "Description": "Registry location of Windows Services.",
+      "DefaultValue": "HKLM:SYSTEM\\CurrentControlSet\\Services"
+    }
+  },
+  "Variables": {
+    "Solr.Download.URL": "[join(Values:variable('Solr.Path'),Delimiter:'/')]",
+    "Solr.Path": [
+      "[parameter('SolrSourceURL')]",
+      "[parameter('SolrVersion')]",
+      "[concat(variable('Solr.FileName'),'.tgz')]"
+    ],
+
+    "Solr.FileName": "[concat('solr-',parameter('SolrVersion'))]",
+    "Solr.Service": "[concat(variable('Solr.FileName'),'-',parameter('SolrDomain'),'-',parameter('SolrPort'))]",
+    "Solr.Uri": "[concat('https://localhost:',parameter('SolrPort'))]",
+    "Solr.Zookeeper.Port": "[InvokeExpression(Command:concat('[int]', parameter('SolrPort'), '+1000'))]",
+
+    "Solr.Install.Path": "[JoinPath(parameter('SolrInstallRoot'),variable('Solr.Service'))]",
+    "Java.Install.Path": "[GetItem(Path:JoinPath(variable('Solr.Install.Path'),'jdk*'))]",
+    "ACD.Install.Path": "[JoinPath(variable('Solr.Install.Path'),'daemon')]",
+
+    "Temp.Location": "[if(variable('Test.Temp.Location'),Environment('Temp'),parameter('TempLocation'))]",
+    "Test.Temp.Location": "[equal(parameter('TempLocation'),'SIF-Default')]",
+
+    "Check.Solr.Path": "[if(variable('Test.Solr.Path'),'*** Solr install path is not available. ***','Solr install path is available.')]",
+    "Check.Solr.Service": "[if(variable('Test.Solr.Service'),'*** Solr service already exists. ***','Solr service name is available.')]",
+    "Check.Solr.Port": "[if(variable('Test.Solr.Port'),'*** Solr port is in use. ***','Solr port is available.')]",
+
+    "Test.Solr": "[or(variable('Test.Solr.Path'),variable('Test.Solr.Service'),variable('Test.Solr.Port'))]",
+    "Test.Solr.Path": "[TestPath(variable('Solr.Install.Path'))]",
+    "Test.Solr.Service": "[TestPath(JoinPath(parameter('ServiceLocation'),variable('Solr.Service')))]",
+    "Test.Solr.Port": "[SelectObject(InputObject:variable('Ping.Solr.Port'),ExpandProperty:'TCPTestSucceeded')]",
+    "Ping.Solr.Port": "[TestNetConnection(Port:parameter('SolrPort'),Computer:'Localhost',WarningAction:'SilentlyContinue')]",
+
+    "Test.Solr.Download.Availability": "[Equal(variable('Solr.Download.StatusCode'),200)]",
+    "Solr.Download.StatusCode": "[SelectObject(InputObject:variable('Get.Solr.Download.Availability'),ExpandProperty:'StatusCode')]",
+    "Get.Solr.Download.Availability": "[InvokeWebRequest(URI:variable('Solr.Download.URL'),Method:'head',UseBasicParsing:true)]",
+
+    "Solr.StartupType": "[if(parameter('SolrCloud'),'solrcloud','user-managed')]",
+
+    "Java.Download.Temp": "[JoinPath(variable('Temp.Location'),'java.zip')]",
+    "ACD.Download.Temp": "[JoinPath(variable('Temp.Location'),'ACD.zip')]",
+    "Solr.Download.Temp": "[JoinPath(variable('Temp.Location'),'solr.tgz')]",
+
+    "KeyStoreFilePath": "[JoinPath(variable('Solr.Install.Path'),'server','etc')]",
+    "KeyStoreFile": "solr-ssl.keystore",
+
+    "Solr.Password": "[if(variable('Test.Solr.Password'),variable('Generate.Solr.Password'),parameter('SolrAdminPassword'))]",
+    "Test.Solr.Password": "[equal(parameter('SolrAdminPassword'),'')]",
+    "Generate.Solr.Password": "[RandomString(Length:20,DisAllowSpecial:True,EnforceComplexity:True)]",
+
+    "Solr.Security.JSON.Path": "[JoinPath(variable('Solr.Install.Path'),'server','solr','security.json')]",
+    "Solr.Security.Salt": "[RandomString(Length:16,DisAllowSpecial:True)]",
+    "Solr.Security.Salt.Hash": "[InvokeExpression(Command:variable('Solr.Security.Salt.Hash.Command'))]",
+    "Solr.Security.Salt.Hash.Command": "[concat('[Convert]::ToBase64String([System.Text.Encoding]::UTF8.GetBytes(\"',variable('Solr.Security.Salt'),'\"))')]",
+
+    "Solr.Security.Salt.Password": "[concat(variable('Solr.Security.Salt'),variable('Solr.Password'))]",
+    "Solr.Security.Password.Hash": "[InvokeExpression(Command:variable('Solr.Security.Password.Hash.Command'))]",
+    "Solr.Security.Password.Hash.Command": "[concat('$h=[System.Security.Cryptography.HashAlgorithm]::Create(\"SHA256\"); $2h=$h.ComputeHash($h.ComputeHash([System.Text.Encoding]::UTF8.GetBytes(\"',variable('Solr.Security.Salt.Password'),'\"))); [Convert]::ToBase64String($2h)')]",
+    "Solr.Security.Password.Hashed": "[concat(variable('Solr.Security.Password.Hash'),' ',variable('Solr.Security.Salt.Hash'))]",
+
+    "Solr.Credentials": "[concat(parameter('SolrAdminUserName'), ':', variable('Solr.Password'))]",
+    "Solr.AdminUser.Role": "sitecoreSolrAdminUserRole",
+    "Solr.GeneralUser.Role": "sitecoreGeneralUserRole",
+    "Solr.Authorization.Uri": "[concat(variable('Solr.Uri'), '/admin/authorization')]",
+    "Solr.Api.ContentType": "application/json",
+    "Solr.Credentials.Base64": "[InvokeExpression(Command:variable('Solr.Credentials.Base64.Command'))]",
+    "Solr.Credentials.Base64.Command": "[concat('[Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes(\"', variable('Solr.Credentials'), '\"))')]",
+    "Solr.Authorization": "[concat('Basic ', variable('Solr.Credentials.Base64'))]",
+
+    "Secure.Solr.Key.Password": "[ConvertToSecureString(String:variable('Plaintext.Solr.Key.Password'),AsPlainText:True,Force:True)]",
+    "Plaintext.Solr.Key.Password": "[RandomString(Length:20,DisAllowSpecial:True)]",
+
+    "Solr.JKS.Keystore.Path": "[concat(variable('Solr.Install.Path'),'\\server\\etc\\solr-ssl.keystore.jks')]",
+    "Solr.P12.Keystore.Path": "[concat(variable('Solr.Install.Path'),'\\server\\etc\\solr-ssl.keystore.p12')]",
+
+    "Java.KeyTool.Location": "[JoinPath(variable('Java.Install.Path'),'bin','keytool.exe')]",
+    "ACD.Binary.Location": "[JoinPath(variable('ACD.Install.Path'),'amd64','prunsrv.exe')]",
+    "Solr.Bin.Location": "[JoinPath(variable('Solr.Install.Path'),'bin')]",
+    "Solr.CMD.Location": "[JoinPath(variable('Solr.Bin.Location'),'Solr.cmd')]",
+    "Solr.In.CMD.Location": "[JoinPath(variable('Solr.Bin.Location'),'Solr.in.cmd')]",
+    "Solr.Untar.Command.ArgumentList": "[concat('-C ', variable('Solr.Install.Path'), ' -zxf ',variable('Solr.Download.Temp'), ' --strip-components=1')]",
+    "Solr.AuthEnable.ArgumentList": "[concat('zk cp ', variable('Solr.Security.JSON.Path'), ' zk:security.json -z ',  parameter('SolrDomain'), ':', variable('Solr.Zookeeper.Port'))]",
+    "Solr.Zk.Creds.And.Acls": "[concat('-DzkACLProvider=org.apache.solr.common.cloud.DigestZkACLProvider -DzkCredentialsProvider=org.apache.solr.common.cloud.DigestZkCredentialsProvider -DzkCredentialsInjector=org.apache.solr.common.cloud.VMParamsZkCredentialsInjector -DzkDigestUsername=', parameter('SolrAdminUserName'), ' -DzkDigestPassword=', variable('Solr.Password'))]",
+    "Solr.Zookeeper.UpdateAcls.ArgumentList": "[concat('zk updateacls / -z ', parameter('SolrDomain'), ':', variable('Solr.Zookeeper.Port'))]",
+    "Solr.Security.JSON.Body": "[concat('{\"authentication\":{\"blockUnknown\":true,\"class\":\"solr.BasicAuthPlugin\",\"credentials\":{\"', parameter('SolrAdminUserName'), '\":\"', variable('Solr.Security.Password.Hashed'), '\"},\"realm\":\"Solr Basic Auth\",\"forwardCredentials\":false},\"authorization\":{\"class\":\"solr.RuleBasedAuthorizationPlugin\",\"user-role\":{\"', parameter('SolrAdminUserName'), '\":[\"', variable('Solr.AdminUser.Role') ,'\",\"', variable('Solr.GeneralUser.Role') ,'\"]},\"permissions\":[{\"name\":\"all\",\"role\":[\"',variable('Solr.AdminUser.Role'),'\"]}]}}')]"
+  },
+  "Register": {
+    "Tasks": {
+      "StartProcess": "Start-Process",
+      "ExpandArchive": "Expand-Archive",
+      "AddContent": "Add-Content",
+      "RemoveItem": "Remove-Item",
+      "MoveItem": "Move-Item",
+      "WriteInformation": "Write-Information",
+      "WriteError": "Write-Error",
+      "InvokeWebRequestTask": "Invoke-WebRequestTask",
+      "SetVariable": "Set-Variable"
+    },
+    "ConfigFunction": {
+      "SelectObject": "Select-Object",
+      "InvokeWebRequest": "Invoke-WebRequest",
+      "ConvertToSecureString": "ConvertTo-SecureString",
+      "TestPath": "Test-Path",
+      "GetItem": "Get-Item",
+      "TestNetConnection": "Test-NetConnection",
+      "InvokeExpression": "Invoke-Expression"
+    }
+  },
+  "Tasks": {
+    "TestSolrPath": {
+      "Description": "Detects if Solr path has already been used.",
+      "Type": "WriteInformation",
+      "Params": {
+        "MessageData": "[variable('Check.Solr.Path')]",
+        "InformationAction": "Continue"
+      }
+    },
+    "TestSolrService": {
+      "Description": "Detects if Solr service name has already been used.",
+      "Type": "WriteInformation",
+      "Params": {
+        "MessageData": "[variable('Check.Solr.Service')]",
+        "InformationAction": "Continue"
+      }
+    },
+    "TestSolrPort": {
+      "Description": "Detects if the Solr port is in use.",
+      "Type": "WriteInformation",
+      "Params": {
+        "MessageData": "[variable('Check.Solr.Port')]",
+        "InformationAction": "Continue"
+      }
+    },
+    "ThrowIfTestsFail": {
+      "Description": "Errors out if any of the tests fail.",
+      "Type": "WriteError",
+      "Params": {
+        "Exception": "Solr cannot be installed. Check the logs for the reason."
+      },
+      "Skip": "[not(variable('Test.Solr'))]"
+    },
+    "CreateSolrFolder": {
+      "Description": "Ensures the Solr install folder is available.",
+      "Type": "EnsurePath",
+      "Params": {
+        "Exists": "[variable('Solr.Install.Path')]"
+      }
+    },
+    "DownloadSolr": {
+      "Description": "Downloads Solr.",
+      "Type": "DownloadFile",
+      "Params": {
+        "SourceUri": "[variable('Solr.Download.URL')]",
+        "DestinationPath": "[variable('Solr.Download.Temp')]"
+      }
+    },
+    "UnpackSolr": {
+      "Description": "Unpacks Solr to working folder.",
+      "Type": "StartProcess",
+      "Params": {
+        "FilePath": "tar.exe",
+        "ArgumentList": "[variable('Solr.Untar.Command.ArgumentList')]",
+        "Wait": true
+      }
+    },
+    "DownloadJavaX64": {
+      "Description": "Downloads Java x64.",
+      "Type": "DownloadFile",
+      "Params": {
+        "SourceUri": "[parameter('JavaDownloadURL')]",
+        "DestinationPath": "[variable('Java.Download.Temp')]"
+      }
+    },
+    "InstallJavaX64": {
+      "Description": "Installs Java x64.",
+      "Type": "ExpandArchive",
+      "Params": {
+        "Path": "[variable('Java.Download.Temp')]",
+        "DestinationPath": "[variable('Solr.Install.Path')]"
+      }
+    },
+    "CreateSolrSSL": {
+      "Description": "Creates a website certificate for the Solr website.",
+      "Type": "StartProcess",
+      "Params": {
+        "FilePath": "[variable('Java.KeyTool.Location')]",
+        "ArgumentList": "[concat('-genkeypair -alias solr-ssl -keyalg RSA -keysize 2048 -keypass secret -storepass secret -validity 9999 -keystore ',variable('Solr.JKS.Keystore.Path'),' -ext SAN=',concat('DNS:',parameter('solrdomain'),',DNS:localhost',',IP:127.0.0.1'),' -dname \"CN=solrcert, OU=Created by https://www.sitecore.com\"')]",
+        "Wait": true
+      }
+    },
+    "GenerateP12": {
+      "Description": "Generate P12 certificate.",
+      "Type": "StartProcess",
+      "Params": {
+        "FilePath": "[variable('Java.KeyTool.Location')]",
+        "ArgumentList": "[concat('-importkeystore -srckeystore ',variable('Solr.JKS.Keystore.Path'),' -destkeystore ',variable('Solr.P12.Keystore.Path'),' -srcstoretype jks -deststoretype pkcs12 -deststorepass secret -srcstorepass secret')]",
+        "Wait": true
+      }
+    },
+    "ImportSolrSSL": {
+      "Description": "Import Certificate to store.",
+      "Type": "StartProcess",
+      "Params": {
+        "FilePath": "certutil.exe",
+        "ArgumentList": "[concat('-f -p secret -importpfx ',variable('Solr.P12.Keystore.Path'))]",
+        "Wait": true
+      }
+    },
+    "AddSOLRConfiguration": {
+      "Description": "Adds the SSL keys and Java location to the configuration.",
+      "Type": "AddContent",
+      "Params": {
+        "Value": [
+          "[concat('set SOLR_MODE=',variable('Solr.StartupType'))]",
+          "[concat('set SOLR_JAVA_HOME=\"',variable('Java.Install.Path'),'\"')]",
+          "set SOLR_SSL_KEY_STORE=etc/solr-ssl.keystore.p12",
+          "set SOLR_SSL_KEY_STORE_PASSWORD=secret",
+          "set SOLR_SSL_TRUST_STORE=etc/solr-ssl.keystore.p12",
+          "set SOLR_SSL_TRUST_STORE_PASSWORD=secret",
+          "set SOLR_AUTH_TYPE=basic",
+          "[concat('set SOLR_AUTHENTICATION_OPTS=-Dbasicauth=',variable('Solr.Credentials'))]",
+          "[concat('set SOLR_HOST_ADVERTISE=',parameter('SolrDomain'))]",
+          "[concat('set SOLR_PORT_LISTEN=',parameter('SolrPort'))]"
+        ],
+        "Path": "[variable('Solr.In.CMD.Location')]"
+      }
+    },
+    "AddSolrZookeeperSecurityConfiguration": {
+      "Description": "Adds Zookeeper digest credentials and ACL provider settings to solr.in.cmd (SolrCloud only). Solr zk commands inherit these via SOLR_OPTS; zkCli requires addauth digest.",
+      "Type": "AddContent",
+      "Params": {
+        "Value": [
+          "",
+          "[concat('set SOLR_ZK_CREDS_AND_ACLS=', variable('Solr.Zk.Creds.And.Acls'))]",
+          "set SOLR_OPTS=%SOLR_OPTS% %SOLR_ZK_CREDS_AND_ACLS%"
+        ],
+        "Path": "[variable('Solr.In.CMD.Location')]"
+      },
+      "Skip": "[not(parameter('SolrCloud'))]"
+    },
+    "CreateACDFolder": {
+      "Type": "EnsurePath",
+      "Description": "Create path to install Apache Commons Daemon.",
+      "Params": {
+        "Exists": "[variable('ACD.Install.Path')]"
+      }
+    },
+    "DownloadACD": {
+      "Description": "Downloads Apache Commons Daemon.",
+      "Type": "DownloadFile",
+      "Params": {
+        "SourceUri": "[parameter('ApacheCommonsDaemonURL')]",
+        "DestinationPath": "[variable('ACD.Download.Temp')]"
+      }
+    },
+    "InstallACD": {
+      "Description": "Unpacks Apache Commons Daemon",
+      "Type": "ExpandArchive",
+      "Params": {
+        "Path": "[variable('ACD.Download.Temp')]",
+        "DestinationPath": "[variable('ACD.Install.Path')]"
+      }
+    },
+    "EnableSolrBasicAuth": {
+      "Description": "Enables Solr Basic HTTP authentication (security.json).",
+      "Type": "AddContent",
+      "Params": {
+        "Value": ["[variable('Solr.Security.JSON.Body')]", ""],
+        "Path": "[variable('Solr.Security.JSON.Path')]"
+      }
+    },
+    "CreateSOLRService": {
+      "Description": "Creates Solr Service",
+      "Type": "StartProcess",
+      "Params": {
+        "FilePath": "[variable('ACD.Binary.Location')]",
+        "ArgumentList": [
+          "[concat('install ',variable('Solr.Service'))]",
+          "[concat('--DisplayName=\"',variable('Solr.Service'),'\"')]",
+          "--Startup=auto",
+          "--StartMode=exe",
+          "[concat('--StartImage=\"',variable('Solr.CMD.Location'),'\"')]",
+          "[concat('--StartPath=\"',variable('Solr.Bin.Location'),'\"')]",
+          "++StartParams=\"start\"",
+          "--StopMode=exe",
+          "[concat('--StopImage=\"',variable('Solr.CMD.Location'),'\"')]",
+          "[concat('--StopPath=\"',variable('Solr.Bin.Location'),'\"')]",
+          "++StopParams=\"stop\"",
+          "--StopTimeout=10",
+          "--StdOutput=auto",
+          "--StdError=auto"
+        ],
+        "Wait": true
+      }
+    },
+    "StartSolr": {
+      "Description": "Runs the Solr service.",
+      "Type": "ManageService",
+      "Params": {
+        "Name": "[variable('Solr.Service')]",
+        "Status": "Running"
+      }
+    },
+    "WaitUntilSolrIsUp": {
+      "Description": "Waits until Solr is up.",
+      "Type": "InvokeWebRequestTask",
+      "Params": {
+        "Uri": "[variable('Solr.Uri')]",
+        "RetryCount": "180",
+        "RetryDelay": "1000"
+      }
+    },
+    "EnableSolrCloudBasicAuth": {
+      "Skip": "[not(parameter('SolrCloud'))]",
+      "Description": "Enables Solr Cloud Basic HTTP authentication (security.json).",
+      "Type": "StartProcess",
+      "Params": {
+        "FilePath": "[variable('Solr.CMD.Location')]",
+        "ArgumentList": "[variable('Solr.AuthEnable.ArgumentList')]",
+        "Wait": true
+      }
+    },
+    "ApplySolrZookeeperAcls": {
+      "Skip": "[not(parameter('SolrCloud'))]",
+      "Description": "Applies digest ACLs to all existing Zookeeper nodes. Solr bin zk commands remain authorized via solr.in.cmd; zkCli requires addauth digest.",
+      "Type": "StartProcess",
+      "Params": {
+        "FilePath": "[variable('Solr.CMD.Location')]",
+        "ArgumentList": "[variable('Solr.Zookeeper.UpdateAcls.ArgumentList')]",
+        "Wait": true
+      }
+    },
+    "SetSolrCredentials": {
+      "Description": "Sets the Solr credentials.",
+      "Type": "SetVariable",
+      "Params": {
+        "Name": "SolrCredentials",
+        "Scope": "Global",
+        "Value": [
+          { "SolrAdminUserName": "[parameter('SolrAdminUserName')]" },
+          { "SolrAdminPassword": "[variable('Solr.Password')]" }
+        ]
+      }
+    },
+    "DisplayPassword": {
+      "Description": "Displays the Solr password.",
+      "Type": "WriteInformation",
+      "Params": {
+        "MessageData": "[concat('Solr Password: ',variable('Solr.Password'))]",
+        "InformationAction": "Continue"
+      }
+    }
+  },
+  "UninstallTasks": {
+    "StopSolrService": {
+      "Description": "Stops the Solr Service",
+      "Type": "ManageService",
+      "Params": {
+        "Name": "[variable('Solr.Service')]",
+        "Status": "Stopped",
+        "PostDelay": 4000
+      }
+    },
+    "RemoveSolrService": {
+      "Description": "Removes the Solr Service.",
+      "Type": "StartProcess",
+      "Params": {
+        "FilePath": "[variable('ACD.Binary.Location')]",
+        "ArgumentList": "[concat('delete ',variable('Solr.Service'))]",
+        "Wait": true
+      }
+    },
+    "RemoveSolrFiles": {
+      "Description": "Remove Solr folder and all files therein.",
+      "Type": "RemoveItem",
+      "Params": {
+        "Path": "[variable('Solr.Install.Path')]",
+        "Recurse": true
+      }
+    }
+  }
+}

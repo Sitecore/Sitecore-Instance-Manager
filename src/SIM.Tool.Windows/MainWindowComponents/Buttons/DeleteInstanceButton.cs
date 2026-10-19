@@ -27,7 +27,7 @@ namespace SIM.Tool.Windows.MainWindowComponents.Buttons
         args.OnCompleted += () => mainWindow.Dispatcher.Invoke(() => OnPipelineCompleted(args));
         var index = MainWindowHelper.GetListItemID(instance.ID);
         int version;
-        if (int.TryParse(instance.Product.ShortVersion,out version)&& version < 90)
+        if (int.TryParse(instance.Product.ShortVersion, out version) && version < 90)
         {
           WizardPipelineManager.Start("delete", mainWindow, args, null, (ignore) => OnWizardCompleted(index, args.HasInstallationBeenCompleted), () => null);
         }
@@ -38,22 +38,23 @@ namespace SIM.Tool.Windows.MainWindowComponents.Buttons
         {
           DeleteContainersWizardArgs deleteContainersWizardArgs = new DeleteContainersWizardArgs()
           {
-             DestinationFolder = SitecoreEnvironmentHelper.GetExistingSitecoreEnvironment(instance.Name).UnInstallDataPath,
-             EnvironmentId = SitecoreEnvironmentHelper.GetExistingSitecoreEnvironment(instance.Name).ID,
-             Env = EnvModel.LoadFromFile(Path.Combine(SitecoreEnvironmentHelper.GetExistingSitecoreEnvironment(instance.Name).UnInstallDataPath, ".env"))
-        };
+            DestinationFolder = SitecoreEnvironmentHelper.GetExistingSitecoreEnvironment(instance.Name).UnInstallDataPath,
+            EnvironmentId = SitecoreEnvironmentHelper.GetExistingSitecoreEnvironment(instance.Name).ID,
+            Env = EnvModel.LoadFromFile(Path.Combine(SitecoreEnvironmentHelper.GetExistingSitecoreEnvironment(instance.Name).UnInstallDataPath, ".env"))
+          };
 
           WizardPipelineManager.Start(
-            "deleteContainer", 
-            mainWindow, 
-            null, 
-            null, 
-            (ignore) => {
+            "deleteContainer",
+            mainWindow,
+            null,
+            null,
+            (ignore) =>
+            {
               if (deleteContainersWizardArgs.ShouldRefreshInstancesList)
               {
                 MainWindowHelper.RefreshInstances();
               }
-            }, 
+            },
             () => deleteContainersWizardArgs
             );
         }
@@ -83,7 +84,7 @@ namespace SIM.Tool.Windows.MainWindowComponents.Buttons
           }
 
           Delete9WizardArgs delete9WizardArgsargs = new Delete9WizardArgs(instance, connectionString, uninstallPath);
-          WizardPipelineManager.Start("delete9", mainWindow, null, null, (ignore) => OnWizardCompleted(index, delete9WizardArgsargs.ShouldRefreshInstancesList),() => delete9WizardArgsargs);
+          WizardPipelineManager.Start("delete9", mainWindow, null, null, (ignore) => OnWizardCompleted(index, delete9WizardArgsargs.ShouldRefreshInstancesList), () => delete9WizardArgsargs);
         }
       }
     }

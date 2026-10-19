@@ -122,7 +122,7 @@ namespace SIM.ContainerInstaller.Repositories.TagRepository.Parsers
       }
       catch (Exception ex)
       {
-        Log.Error(ex, string.Format("The '{0}' error occurred during getting the list of tags:{1}{2}", 
+        Log.Error(ex, string.Format("The '{0}' error occurred during getting the list of tags:{1}{2}",
           ex.Message, Environment.NewLine, ex.StackTrace));
 
         return null;

@@ -115,11 +115,11 @@
       set
       {
         Assert.ArgumentNotNull(value, nameof(value));
-        SetValue("Solrs", value);       
+        SetValue("Solrs", value);
       }
     }
 
-    public List<VersionToSolr> VersionToSolrMap { get ; set; }
+    public List<VersionToSolr> VersionToSolrMap { get; set; }
 
     #endregion
 
@@ -140,7 +140,7 @@
 
     public object Clone()
     {
-      Profile p= new Profile
+      Profile p = new Profile
       {
         ConnectionString = ConnectionString,
         InstancesFolder = InstancesFolder,
@@ -151,7 +151,7 @@
       };
 
       p.Solrs = new List<SolrDefinition>();
-      foreach(SolrDefinition s in this.Solrs)
+      foreach (SolrDefinition s in this.Solrs)
       {
         p.Solrs.Add((SolrDefinition)s.Clone());
       }

@@ -22,6 +22,6 @@ namespace SIM.Pipelines.Install
       return arguments.Tasker.Tasks.Count(t => t.ShouldRun);
     }
 
-    
+
   }
 }

@@ -8,8 +8,8 @@ namespace SIM.Pipelines.Processors
 
     public override IEnumerable<Processor> CreateProcessors(ProcessorArgs args, IPipelineController controller)
     {
-      var hive = (ProcessorHive)ReflectionUtil.CreateObject(Type,this);
-      IEnumerable<Processor> proc=hive.CreateProcessors(args);
+      var hive = (ProcessorHive)ReflectionUtil.CreateObject(Type, this);
+      IEnumerable<Processor> proc = hive.CreateProcessors(args);
       if (controller != null)
       {
         this.SetControllerForDynamicNestedProcessors(proc, controller);
@@ -18,9 +18,9 @@ namespace SIM.Pipelines.Processors
       return proc;
     }
 
-    private void SetControllerForDynamicNestedProcessors(IEnumerable<Processor>processors, IPipelineController controller)
+    private void SetControllerForDynamicNestedProcessors(IEnumerable<Processor> processors, IPipelineController controller)
     {
-      foreach(Processor p in processors)
+      foreach (Processor p in processors)
       {
         p.Controller = controller;
         if (p._NestedProcessors != null && p._NestedProcessors.Count > 0)

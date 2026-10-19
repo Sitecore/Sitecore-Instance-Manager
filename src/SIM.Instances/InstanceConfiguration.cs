@@ -70,10 +70,10 @@
     {
       var webRootPath = Path.GetDirectoryName(webConfig.FilePath);
       XmlElement configurationNode = webConfig.SelectSingleNode(WebConfig.ConfigurationXPath) as XmlElement;
-      Assert.IsNotNull(configurationNode, 
+      Assert.IsNotNull(configurationNode,
         "The {0} element is missing in the {1} file".FormatWith("/configuration", webConfig.FilePath));
       XmlElement webConfigConnectionStrings = configurationNode.SelectSingleNode("connectionStrings") as XmlElement;
-      Assert.IsNotNull(webConfigConnectionStrings, 
+      Assert.IsNotNull(webConfigConnectionStrings,
         "The web.config file doesn't contain the /configuration/connectionStrings node");
       XmlAttribute configSourceAttribute = webConfigConnectionStrings.Attributes[WebConfig.ConfigSourceAttributeName];
       if (configSourceAttribute != null)

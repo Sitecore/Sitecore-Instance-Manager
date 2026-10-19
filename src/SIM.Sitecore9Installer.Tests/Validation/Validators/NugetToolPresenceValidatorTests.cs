@@ -23,7 +23,7 @@ namespace SIM.Sitecore9Installer.Tests.Validation.Validators
       var task = Substitute.For<Task>("sitecore-XP1-cm-dds-patch", fixture.Create<int>(), null, null, new Dictionary<string, string>());
       GlobalParameters globals = new GlobalParameters();
       task.GlobalParams.Returns(globals);
-      task.LocalParams.Returns(new LocalParameters(new List<InstallParam>(),globals));
+      task.LocalParams.Returns(new LocalParameters(new List<InstallParam>(), globals));
       var validator = Substitute.ForPartsOf<NugetToolPresenceValidator>();
       validator.CommandToEvaluate.Returns(commandToEvaluate);
 

@@ -97,10 +97,10 @@ namespace SIM.Tool.Windows.Dialogs
     {
       var dialog = new OpenFileDialog
       {
-        AddExtension = true, 
-        CheckPathExists = true, 
-        Filter = "Backup (*.bak) | *.bak; | All Files (*.*) | *.*", 
-        InitialDirectory = _InitialPath, 
+        AddExtension = true,
+        CheckPathExists = true,
+        Filter = "Backup (*.bak) | *.bak; | All Files (*.*) | *.*",
+        InitialDirectory = _InitialPath,
         Title = "Specify backup file"
       };
       bool? showDialog = dialog.ShowDialog();

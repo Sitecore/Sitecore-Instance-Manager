@@ -22,8 +22,8 @@ namespace SIM.ContainerInstaller.Modules
       return new StringBuilder()
         .Append(@"# Add SPS module").AppendLine()
         .Append(@"COPY --from=sps_assets C:\module\cm\content C:\inetpub\wwwroot").AppendLine()
-         //.Append(@"# If you are running Sitecore Publishing Service 6.1").AppendLine()
-         //.Append(@"RUN Remove-Item -Path C:\inetpub\wwwroot\App_Config\Modules\PublishingService\Sitecore.Publishing.Service.SingleLinkDatabase.config -Force;")
+        //.Append(@"# If you are running Sitecore Publishing Service 6.1").AppendLine()
+        //.Append(@"RUN Remove-Item -Path C:\inetpub\wwwroot\App_Config\Modules\PublishingService\Sitecore.Publishing.Service.SingleLinkDatabase.config -Force;")
         .AppendLine().AppendLine();
     }
 

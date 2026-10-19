@@ -34,7 +34,7 @@
 
       if (folderPath.Length < 3 || !folderPath[1].Equals(':') || !folderPath[2].Equals('\\'))
       {
-        WindowHelper.ShowMessage("The path must be rooted e.g. C:\\inetpub\\wwwroot or or D:\\", MessageBoxButton.OK, 
+        WindowHelper.ShowMessage("The path must be rooted e.g. C:\\inetpub\\wwwroot or or D:\\", MessageBoxButton.OK,
           MessageBoxImage.Hand, MessageBoxResult.OK);
         return false;
       }
@@ -47,7 +47,7 @@
       catch (Exception ex)
       {
         Log.Warn(ex, "An error occurred during moving next in InstancesRoot.xaml.cs");
-        WindowHelper.ShowMessage("The specified path is not valid", MessageBoxButton.OK, MessageBoxImage.Hand, 
+        WindowHelper.ShowMessage("The specified path is not valid", MessageBoxButton.OK, MessageBoxImage.Hand,
           MessageBoxResult.OK);
         return false;
       }

@@ -34,7 +34,7 @@
           DeleteWebsite(context, site);
         }
       }
-    }                              
+    }
 
     [NotNull]
     public static string GetWebRootPath([NotNull] Site site)
@@ -88,13 +88,13 @@
           return false;
         }
         var bindingInformation = $"{binding.IP}:{binding.Port}:{binding.Host}";
-        
+
         siteInfo.Bindings.Add(bindingInformation, binding.Protocol);
         context.CommitChanges();
       }
 
       return true;
-    }               
+    }
 
     public static bool WebsiteExists([NotNull] string name)
     {
@@ -135,28 +135,28 @@
     }
 
     #endregion
-    
+
     public sealed class WebServerContext : IDisposable
     {
       [NotNull]
       private ServerManager ServerManager { get; } = new ServerManager();
-      
+
       [NotNull]
       public ApplicationPoolCollection ApplicationPools => ServerManager.ApplicationPools.IsNotNull();
 
       [NotNull]
       public SiteCollection Sites => ServerManager.Sites.IsNotNull();
-      
+
       public void CommitChanges()
       {
         ServerManager.CommitChanges();
       }
-      
+
       public void Dispose()
       {
         ServerManager.Dispose();
       }
-      
+
     }
   }
 }

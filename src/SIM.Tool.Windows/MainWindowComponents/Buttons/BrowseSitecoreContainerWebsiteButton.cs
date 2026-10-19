@@ -22,29 +22,29 @@ namespace SIM.Tool.Windows.MainWindowComponents.Buttons
           switch (sitecoreRole)
           {
             case SitecoreRole.Cm:
-            {
-              if (!string.IsNullOrEmpty(model.CmHost))
               {
-                CoreApp.OpenInBrowser($"https://{model.CmHost}", true, null, new string[0]);
+                if (!string.IsNullOrEmpty(model.CmHost))
+                {
+                  CoreApp.OpenInBrowser($"https://{model.CmHost}", true, null, new string[0]);
+                }
+                break;
               }
-              break;
-            }
             case SitecoreRole.Cd:
-            {
-              if (!string.IsNullOrEmpty(model.CdHost))
               {
-                CoreApp.OpenInBrowser($"https://{model.CdHost}", true, null, new string[0]);
+                if (!string.IsNullOrEmpty(model.CdHost))
+                {
+                  CoreApp.OpenInBrowser($"https://{model.CdHost}", true, null, new string[0]);
+                }
+                break;
               }
-              break;
-            }
             case SitecoreRole.Id:
-            {
-              if (!string.IsNullOrEmpty(model.IdHost))
               {
-                CoreApp.OpenInBrowser($"https://{model.IdHost}", true, null, new string[0]);
+                if (!string.IsNullOrEmpty(model.IdHost))
+                {
+                  CoreApp.OpenInBrowser($"https://{model.IdHost}", true, null, new string[0]);
+                }
+                break;
               }
-              break;
-            }
           }
         }
       }
@@ -77,7 +77,7 @@ namespace SIM.Tool.Windows.MainWindowComponents.Buttons
       {
         return SitecoreRole.Cm;
       }
-      
+
       if (instance.Name.EndsWith("-cd"))
       {
         return SitecoreRole.Cd;
@@ -87,7 +87,7 @@ namespace SIM.Tool.Windows.MainWindowComponents.Buttons
       {
         return SitecoreRole.Id;
       }
-      
+
       return SitecoreRole.Unknown;
     }
   }

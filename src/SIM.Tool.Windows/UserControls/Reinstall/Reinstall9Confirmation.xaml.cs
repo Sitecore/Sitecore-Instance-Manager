@@ -15,7 +15,7 @@ namespace SIM.Tool.Windows.UserControls.Reinstall
   /// <summary>
   ///   The confirm step user control.
   /// </summary>
-  public partial class Reinstall9Confirmation: IWizardStep, IFlowControl
+  public partial class Reinstall9Confirmation : IWizardStep, IFlowControl
   {
     private const string PrerequisitesTaskName = "Prerequisites";
 
@@ -76,9 +76,9 @@ namespace SIM.Tool.Windows.UserControls.Reinstall
       args.Tasker = tasker;
       StringBuilder displayText = new StringBuilder();
       displayText.AppendLine("Reinstall:");
-      foreach (var task in tasker.Tasks.Where(t=>t.SupportsUninstall()))
+      foreach (var task in tasker.Tasks.Where(t => t.SupportsUninstall()))
       {
-        displayText.AppendLine(string.Format(" -{0}",task.Name));
+        displayText.AppendLine(string.Format(" -{0}", task.Name));
       }
 
       this.TextBlock.Text = displayText.ToString();
@@ -100,8 +100,8 @@ namespace SIM.Tool.Windows.UserControls.Reinstall
     {
       Assert.ArgumentNotNull(wizardArgs, nameof(wizardArgs));
       ReinstallWizardArgs args = (ReinstallWizardArgs)wizardArgs;
-      if (this.ReinstallPrerequisitesCheckBox.Visibility == Visibility.Visible && 
-          this.ReinstallPrerequisitesCheckBox.IsChecked != null && 
+      if (this.ReinstallPrerequisitesCheckBox.Visibility == Visibility.Visible &&
+          this.ReinstallPrerequisitesCheckBox.IsChecked != null &&
           !this.ReinstallPrerequisitesCheckBox.IsChecked.Value)
       {
         foreach (Task task in args.Tasker.Tasks)
@@ -113,10 +113,10 @@ namespace SIM.Tool.Windows.UserControls.Reinstall
         }
       }
 
-      return true;      
+      return true;
     }
 
-    
+
 
     public bool SaveChanges(WizardArgs wizardArgs)
     {

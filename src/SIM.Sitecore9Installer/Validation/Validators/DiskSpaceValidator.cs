@@ -35,17 +35,17 @@ namespace SIM.Sitecore9Installer.Validation.Validators
           yield return new ValidationResult(ValidatorState.Error, $"Hard disk '{drive}' has not been found.", null);
         }
         else
-         if (freeSpace < hardDriveErrorLimit)
-        {
-          errors = true;
-          yield return new ValidationResult(ValidatorState.Error, $"Hard disk '{drive}' does not have enough free space to continue the installation.", null);
-        }
-        else
-         if (freeSpace < hardDriveWarningLimit)
-        {
-          errors = true;
-          yield return new ValidationResult(ValidatorState.Warning, $"Hard disk '{drive}' has a little free space.", null);
-        }
+          if (freeSpace < hardDriveErrorLimit)
+          {
+            errors = true;
+            yield return new ValidationResult(ValidatorState.Error, $"Hard disk '{drive}' does not have enough free space to continue the installation.", null);
+          }
+          else
+            if (freeSpace < hardDriveWarningLimit)
+            {
+              errors = true;
+              yield return new ValidationResult(ValidatorState.Warning, $"Hard disk '{drive}' has a little free space.", null);
+            }
       }
 
       if (!errors)

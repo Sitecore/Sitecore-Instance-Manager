@@ -30,7 +30,7 @@ namespace SIM.Sitecore9Installer.Tests.Validation.Validators
       var fixture = new Fixture();
       GlobalParameters globals = new GlobalParameters();
       var cmTask = Substitute.For<Task>(cmTaskName, fixture.Create<int>(), null, null, new Dictionary<string, string>());
-      InstallParam siteNameParam = new InstallParam(SiteName, cmSiteName,false,InstallParamType.String);
+      InstallParam siteNameParam = new InstallParam(SiteName, cmSiteName, false, InstallParamType.String);
       List<InstallParam> paramList = new List<InstallParam>
       {
         siteNameParam
@@ -40,7 +40,7 @@ namespace SIM.Sitecore9Installer.Tests.Validation.Validators
       cmTask.LocalParams.Returns(cmLocals);
 
       var ddsPatchTask = Substitute.For<Task>(ddsPatchTaskName, fixture.Create<int>(), null, null, new Dictionary<string, string>());
-      siteNameParam = new InstallParam(SiteName, ddsPatchSiteName,false, InstallParamType.String);
+      siteNameParam = new InstallParam(SiteName, ddsPatchSiteName, false, InstallParamType.String);
       paramList = new List<InstallParam>
       {
         siteNameParam

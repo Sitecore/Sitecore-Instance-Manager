@@ -93,8 +93,8 @@ namespace SIM.Pipelines.Install.Containers
     }
 
     private IEnumerable<SitecoreEnvironmentMember> GetEnvironmentMembers(
-      string environmentName, 
-      string destinationFolder, 
+      string environmentName,
+      string destinationFolder,
       string fileName = DockerSettings.DockerComposeFileName
       )
     {

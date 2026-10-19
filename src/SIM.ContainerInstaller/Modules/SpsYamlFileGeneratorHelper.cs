@@ -131,7 +131,7 @@ namespace SIM.ContainerInstaller.Modules
         new YamlScalarNode(PortNumber) { Style = YamlDotNet.Core.ScalarStyle.DoubleQuoted }
       )));
       nodes.Add(new KeyValuePair<YamlNode, YamlNode>(new YamlScalarNode("depends_on"), new YamlSequenceNode(
-        new YamlScalarNode(DockerSettings.SpsMsSqlInitServiceName), 
+        new YamlScalarNode(DockerSettings.SpsMsSqlInitServiceName),
         new YamlScalarNode(DockerSettings.CmServiceName)
       )));
 

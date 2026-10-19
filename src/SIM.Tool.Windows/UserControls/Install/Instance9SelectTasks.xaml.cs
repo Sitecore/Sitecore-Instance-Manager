@@ -29,8 +29,8 @@ namespace SIM.Tool.Windows.UserControls.Install
       Install9WizardArgs args = (Install9WizardArgs)wizardArgs;
       this.owner = args.WizardWindow;
       this.tasker = args.Tasker;
-      this.TasksList.DataContext = args.Tasker.Tasks.Where(t=>((t.SupportsUninstall()&&t.UnInstall)||!t.UnInstall)&&t.ExecutionOrder>=0);
-    }    
+      this.TasksList.DataContext = args.Tasker.Tasks.Where(t => ((t.SupportsUninstall() && t.UnInstall) || !t.UnInstall) && t.ExecutionOrder >= 0);
+    }
 
     public bool OnMovingBack(WizardArgs wizardArgs)
     {
@@ -48,12 +48,12 @@ namespace SIM.Tool.Windows.UserControls.Install
       }
 
       var title = args.Tasker.UnInstall ? "Preparing for uninstall" : "Preparing for install";
-      TaskDialogResult result= WindowHelper.LongRunningTask(() => this.RunLowLevelTasks(args.Tasker),title,this.owner);
+      TaskDialogResult result = WindowHelper.LongRunningTask(() => this.RunLowLevelTasks(args.Tasker), title, this.owner);
       if (result == null)
       {
         return false;
-      } 
-      
+      }
+
       return true;
     }
 
@@ -62,7 +62,7 @@ namespace SIM.Tool.Windows.UserControls.Install
       return true;
     }
 
-    public string CustomButtonText { get=>"Advanced..."; }
+    public string CustomButtonText { get => "Advanced..."; }
     public void CustomButtonClick()
     {
       WindowHelper.ShowDialog<Install9ParametersEditor>(this.tasker, this.owner);

@@ -38,7 +38,7 @@
 
       var entries = ZipFile.Entries;
       Assert.IsNotNull(entries, nameof(entries));
-      
+
       if (entryPath.IndexOfAny(DelimiterOptions) < 0)
       {
         // simple case with no delimiter
@@ -74,7 +74,7 @@
       {
         throw new NotSupportedException("Impossible");
       }
-      
+
       return entryFileName.Substring(delimiterPosition, 1);
     }
 

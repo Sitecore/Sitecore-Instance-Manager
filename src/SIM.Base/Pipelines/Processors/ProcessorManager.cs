@@ -88,7 +88,7 @@
 
       foreach (ProcessorDefinition processorDefinition in processorDefinitions)
       {
-        foreach (Processor processor in processorDefinition.CreateProcessors(args,controller))
+        foreach (Processor processor in processorDefinition.CreateProcessors(args, controller))
         {
           if (processor.ProcessorDefinition == null)
           {
@@ -137,8 +137,8 @@
         {
           definition = new SingleProcessorDefinition();
         }
-          
-          // Support for dynamic processors (e.g. processors are created dynamically)
+
+        // Support for dynamic processors (e.g. processors are created dynamically)
         else
         {
           Assert.IsTrue(name.EqualsIgnoreCase("hive"), "The {0} element is not supported".FormatWith(name));

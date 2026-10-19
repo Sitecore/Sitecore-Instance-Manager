@@ -92,7 +92,7 @@
     public static void InitializeLogging(LogFileAppender infoLogger, LogFileAppender debugLogger)
     {
       Log.Initialize(new Log4NetLogProvider());
-                                          
+
       BasicConfigurator.Configure(infoLogger, debugLogger);
     }
 

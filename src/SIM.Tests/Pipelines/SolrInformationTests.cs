@@ -50,7 +50,7 @@ namespace SIM.Tests.Pipelines
 
     }
 
-    
+
     [TestMethod, ExpectedException(typeof(SolrInformation.InvalidException))]
     public void ConstructorSolrPathMissingThrows()
     {
@@ -135,7 +135,7 @@ namespace SIM.Tests.Pipelines
 
       var info = new SolrInformation(solrDefinition);
 
-      Assert.AreEqual( pathFromSettings, info.SolrBasePath);
+      Assert.AreEqual(pathFromSettings, info.SolrBasePath);
 
 
     }
@@ -144,7 +144,7 @@ namespace SIM.Tests.Pipelines
     public void CollectionTemplateSolr4SetToCollection1()
     {
       SolrInformation sut = new SolrInformation(Solr4Definition);
-      
+
       Assert.AreEqual("collection1", sut.CollectionTemplate);
       Assert.AreEqual(@"anonymousPath\collection1", sut.TemplateFullPath);
     }

@@ -33,7 +33,7 @@ namespace SIM.Tool.Windows.UserControls.Install
         {
           ver += Safe.Call(() => $"{args.Product.Update}") ?? "0";
         }
-       
+
         var txt = int.Parse(ver);
 
         if (txt >= 900)
@@ -45,7 +45,7 @@ namespace SIM.Tool.Windows.UserControls.Install
           }
           else
           {
-            var radio = (RadioButton) RoleName.FindName(args.InstallRoles9);
+            var radio = (RadioButton)RoleName.FindName(args.InstallRoles9);
             Assert.IsNotNull(radio, $"{args.InstallRoles9} is not supported");
 
             radio.IsChecked = true;
@@ -72,7 +72,7 @@ namespace SIM.Tool.Windows.UserControls.Install
       var args = (InstallWizardArgs)wizardArgs;
       if (RoleName.IsEnabled != true)
       {
-        args.InstallRoles9 = ""; 
+        args.InstallRoles9 = "";
         InstallWizardArgs.SaveLastTimeOption(nameof(args.InstallRoles9), args.InstallRoles9);
 
         return true;

@@ -31,7 +31,7 @@
     {
       var procStartInfo = new ProcessStartInfo("cmd", $"/c {command}")
       {
-        UseShellExecute = false, 
+        UseShellExecute = false,
         CreateNoWindow = true
       };
 

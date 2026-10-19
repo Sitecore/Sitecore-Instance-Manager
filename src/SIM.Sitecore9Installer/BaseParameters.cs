@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace SIM.Sitecore9Installer
 {
-  public abstract class BaseParameters:IEnumerable<InstallParam>
+  public abstract class BaseParameters : IEnumerable<InstallParam>
   {
     private object _lock = new object();
     private bool _evaluated;
@@ -26,7 +26,7 @@ namespace SIM.Sitecore9Installer
       }
 
       InstallParam p = (InstallParam)sender;
-      if (this[p.Name] != null||p.IsGlobal)
+      if (this[p.Name] != null || p.IsGlobal)
       {
         this._evaluated = false;
       }
@@ -51,7 +51,7 @@ namespace SIM.Sitecore9Installer
     protected abstract void CalculateParameters();
 
     protected abstract InstallParam CreateParameter(string name, string value, InstallParamType type);
-    
+
     public virtual void AddOrUpdateParam(string name, string value, InstallParamType type)
     {
       InstallParam param = this[name];

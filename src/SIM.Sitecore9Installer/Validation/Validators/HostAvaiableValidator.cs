@@ -17,7 +17,7 @@ namespace SIM.Sitecore9Installer.Validation.Validators
         {
           resp = this.GetResponse(p.Value);
         }
-        catch(WebException ex)
+        catch (WebException ex)
         {
           error = ex;
         }

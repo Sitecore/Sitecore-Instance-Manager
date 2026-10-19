@@ -109,63 +109,63 @@
         switch (key)
         {
           case Key.Delete:
-          {
-            if (CheckSqlServer())
             {
-              new DeleteInstanceButton().OnClick(this, MainWindowHelper.SelectedInstance);
-            }
+              if (CheckSqlServer())
+              {
+                new DeleteInstanceButton().OnClick(this, MainWindowHelper.SelectedInstance);
+              }
 
-            return;
-          }
-
-          case Key.F2:
-          {
-            if (CheckSqlServer())
-            {
-              // MainWindowHelper.Rename();
-            }
-
-            return;
-          }
-
-          case Key.Escape:
-          {
-            if (string.IsNullOrEmpty(SearchTextBox.Text))
-            {
-              // this.WindowState = WindowState.Minimized;
-            }
-
-            SearchTextBox.Text = string.Empty;
-            if (CheckSqlServer())
-            {
-              MainWindowHelper.Search();
-            }
-
-            return;
-          }
-
-          case Key.F3:
-          {
-            InstanceList.ContextMenu.IsOpen = true;
-            return;
-          }
-
-          case Key.F5:
-          {
-            RefreshInstances();
-            return;
-          }
-
-          case Key.C:
-          {
-            if ((Keyboard.IsKeyToggled(Key.LeftCtrl) | Keyboard.IsKeyToggled(Key.RightCtrl)) && MainWindowHelper.SelectedInstance != null)
-            {
-              System.Windows.Clipboard.SetText(MainWindowHelper.SelectedInstance.Name);
               return;
             }
 
-            break;
-          }
+          case Key.F2:
+            {
+              if (CheckSqlServer())
+              {
+                // MainWindowHelper.Rename();
+              }
+
+              return;
+            }
+
+          case Key.Escape:
+            {
+              if (string.IsNullOrEmpty(SearchTextBox.Text))
+              {
+                // this.WindowState = WindowState.Minimized;
+              }
+
+              SearchTextBox.Text = string.Empty;
+              if (CheckSqlServer())
+              {
+                MainWindowHelper.Search();
+              }
+
+              return;
+            }
+
+          case Key.F3:
+            {
+              InstanceList.ContextMenu.IsOpen = true;
+              return;
+            }
+
+          case Key.F5:
+            {
+              RefreshInstances();
+              return;
+            }
+
+          case Key.C:
+            {
+              if ((Keyboard.IsKeyToggled(Key.LeftCtrl) | Keyboard.IsKeyToggled(Key.RightCtrl)) && MainWindowHelper.SelectedInstance != null)
+              {
+                System.Windows.Clipboard.SetText(MainWindowHelper.SelectedInstance.Name);
+                return;
+              }
+
+              break;
+            }
         }
 
         e.Handled = false;
@@ -257,47 +257,47 @@
         switch (key)
         {
           case Key.Escape:
-          {
-            if (string.IsNullOrEmpty(SearchTextBox.Text))
             {
-              // this.WindowState = WindowState.Minimized;
-            }
+              if (string.IsNullOrEmpty(SearchTextBox.Text))
+              {
+                // this.WindowState = WindowState.Minimized;
+              }
 
-            SearchTextBox.Text = string.Empty;
-            if (CheckSqlServer())
-            {
-              MainWindowHelper.Search();
-            }
+              SearchTextBox.Text = string.Empty;
+              if (CheckSqlServer())
+              {
+                MainWindowHelper.Search();
+              }
 
-            return;
-          }
+              return;
+            }
 
           case Key.Enter:
-          {
-            if (CheckSqlServer())
             {
-              MainWindowHelper.Search();
-            }
+              if (CheckSqlServer())
+              {
+                MainWindowHelper.Search();
+              }
 
-            return;
-          }
+              return;
+            }
 
           case Key.F5:
-          {
-            RefreshInstances();
-            return;
-          }
-
-          default:
-          {
-            if (WindowsSettings.AppInstanceSearchEnabled.Value)
             {
-              Timer.Change(TimeSpan.FromMilliseconds(WindowsSettings.AppInstanceSearchTimeout.Value), TimeSpan.FromMilliseconds(-1));
+              RefreshInstances();
+              return;
             }
 
-            e.Handled = false;
-            return;
-          }
+          default:
+            {
+              if (WindowsSettings.AppInstanceSearchEnabled.Value)
+              {
+                Timer.Change(TimeSpan.FromMilliseconds(WindowsSettings.AppInstanceSearchTimeout.Value), TimeSpan.FromMilliseconds(-1));
+              }
+
+              e.Handled = false;
+              return;
+            }
         }
       }
       catch (Exception ex)

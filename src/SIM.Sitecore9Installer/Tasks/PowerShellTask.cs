@@ -20,14 +20,14 @@ namespace SIM.Sitecore9Installer.Tasks
   {
     public PowerShellTask(string taskName, int executionOrder, GlobalParameters globalParams, LocalParameters localParams,
       Dictionary<string, string> taskOptions)
-      : base(taskName, executionOrder, globalParams,localParams, taskOptions)
+      : base(taskName, executionOrder, globalParams, localParams, taskOptions)
     {
     }
 
     public override string Run()
     {
       StringBuilder results = new StringBuilder();
-      State = TaskState.Running;      
+      State = TaskState.Running;
       using (PowerShell PowerShellInstance = PowerShell.Create())
       {
         try
@@ -49,7 +49,7 @@ namespace SIM.Sitecore9Installer.Tasks
             PSCmdlet target = error.TargetObject as PSCmdlet;
             if (target != null)
             {
-              ActionPreference param = (ActionPreference) target.MyInvocation.BoundParameters["ErrorAction"];
+              ActionPreference param = (ActionPreference)target.MyInvocation.BoundParameters["ErrorAction"];
               if (param == ActionPreference.Continue) continue;
             }
 
@@ -66,7 +66,7 @@ namespace SIM.Sitecore9Installer.Tasks
 
       return results.ToString();
     }
-    
+
     public virtual string GetSerializedParameters()
     {
       return GetSerializedParameters(new string[0]);

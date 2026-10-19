@@ -13,14 +13,14 @@ namespace SIM.Sitecore9Installer.Tests.Validation.Validators
     [ClassData(typeof(ValidatorTestSetup))]
     public void HostNameIsValid(IEnumerable<Task> tasks)
     {
-      foreach(Task t in tasks)
+      foreach (Task t in tasks)
       {
-        t.LocalParams.AddOrUpdateParam("DnsName", "test.com",InstallParamType.String);
+        t.LocalParams.AddOrUpdateParam("DnsName", "test.com", InstallParamType.String);
       }
 
       HostNameValidator val = new HostNameValidator();
       val.Data["ParamNames"] = "DnsName";
-      IEnumerable<ValidationResult> res= val.Evaluate(tasks);
+      IEnumerable<ValidationResult> res = val.Evaluate(tasks);
       int count = res.Count(r => r.State != ValidatorState.Success);
       Assert.Equal(0, count);
     }
@@ -31,7 +31,7 @@ namespace SIM.Sitecore9Installer.Tests.Validation.Validators
     {
       foreach (Task t in tasks)
       {
-        t.LocalParams.AddOrUpdateParam("DnsName", "!@#$%%",InstallParamType.String);
+        t.LocalParams.AddOrUpdateParam("DnsName", "!@#$%%", InstallParamType.String);
       }
 
       HostNameValidator val = new HostNameValidator();

@@ -35,7 +35,7 @@ namespace SIM.Sitecore9Installer.Validation.Validators
         }
       }
 
-      foreach(Tuple<string, string, string, string> set in servers)
+      foreach (Tuple<string, string, string, string> set in servers)
       {
         if (this.GetDbList(set.Item1, set.Item2, set.Item3, set.Item4).Any())
         {
@@ -45,7 +45,7 @@ namespace SIM.Sitecore9Installer.Validation.Validators
 
       yield return new ValidationResult(ValidatorState.Success, this.SuccessMessage, null);
     }
-    
+
     protected internal virtual IEnumerable<string> GetDbList(string server, string user, string password, string prefix)
     {
       string connectionstring = $"Data Source={server};" +
@@ -57,8 +57,8 @@ namespace SIM.Sitecore9Installer.Validation.Validators
         conn.Open();
         SqlCommand cmd = conn.CreateCommand();
         cmd.CommandText = "SELECT [name] FROM master.dbo.sysdatabases where [name] like @name";
-       
-        cmd.Parameters.AddWithValue("@name",prefix + "_%");
+
+        cmd.Parameters.AddWithValue("@name", prefix + "_%");
         SqlDataReader reader = cmd.ExecuteReader();
         while (reader.Read())
         {

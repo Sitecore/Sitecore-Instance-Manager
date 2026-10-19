@@ -51,7 +51,7 @@ namespace SIM.Tool.Base.Plugins
       if (type == null)
       {
         var arr = typeFullName.Split(',');
-        Assert.IsTrue(arr.Length <= 2, 
+        Assert.IsTrue(arr.Length <= 2,
           string.IsNullOrEmpty(reference) ? "Wrong type identifier (no comma), must be like Namespace.Type, Assembly" : "The type attribute value of the <{0}> element has wrong format".FormatWith(reference));
 
         // format: type, assembly

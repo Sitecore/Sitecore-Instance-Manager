@@ -51,11 +51,11 @@ namespace SIM.Tests.Pipelines
 
     private void ArrangeConfigFiles(IEnumerable<string> enumerable)
     {
-       
+
       _Sut.GetFiles(null, null, SearchOption.AllDirectories).ReturnsForAnyArgs(enumerable.ToArray());
     }
 
-   
+
 
     #endregion
 
@@ -76,20 +76,20 @@ namespace SIM.Tests.Pipelines
     [TestMethod]
     public void ShouldEnableSolrConfigFilesEndingWithExample()
     {
-      string[] returnThis = {SomeWebRootPath + @"\App_Config\Some.Solr.File.config.example"};
+      string[] returnThis = { SomeWebRootPath + @"\App_Config\Some.Solr.File.config.example" };
       ArrangeConfigFiles(returnThis);
 
       Act();
 
       _Sut.Received().RenameFile(
-        SomeWebRootPath + @"\App_Config\Some.Solr.File.config.example", 
+        SomeWebRootPath + @"\App_Config\Some.Solr.File.config.example",
         SomeWebRootPath + @"\App_Config\Some.Solr.File.config");
     }
 
     [TestMethod]
     public void ShouldNotEnableSolrConfigFilesContainingIoc()
     {
-      string[] returnThis = {SomeWebRootPath + @"\App_Config\Some.Solr.File.IOC.config.example"};
+      string[] returnThis = { SomeWebRootPath + @"\App_Config\Some.Solr.File.IOC.config.example" };
       ArrangeConfigFiles(returnThis);
 
       Act();
@@ -98,31 +98,31 @@ namespace SIM.Tests.Pipelines
         SomeWebRootPath + @"\App_Config\Some.Solr.File.IOC.config.example",
         SomeWebRootPath + @"\App_Config\Some.Solr.File.IOC.config");
     }
- 
+
 
     [TestMethod]
     public void ShouldOnlyRemoveFinalWord()
     {
-      string[] returnThis = {SomeWebRootPath + @"\App_Config\Some.Solr.File.example.config.example"};
+      string[] returnThis = { SomeWebRootPath + @"\App_Config\Some.Solr.File.example.config.example" };
       ArrangeConfigFiles(returnThis);
 
       Act();
 
       _Sut.Received().RenameFile(
-        SomeWebRootPath + @"\App_Config\Some.Solr.File.example.config.example", 
+        SomeWebRootPath + @"\App_Config\Some.Solr.File.example.config.example",
         SomeWebRootPath + @"\App_Config\Some.Solr.File.example.config");
     }
 
     [TestMethod]
     public void ShouldEnableSolrConfigFilesEndingWithDisabled()
     {
-      string[] returnThis = {SomeWebRootPath + @"\App_Config\Some.Solr.File.config.disabled"};
+      string[] returnThis = { SomeWebRootPath + @"\App_Config\Some.Solr.File.config.disabled" };
       ArrangeConfigFiles(returnThis);
 
       Act();
 
       _Sut.Received().RenameFile(
-        SomeWebRootPath + @"\App_Config\Some.Solr.File.config.disabled", 
+        SomeWebRootPath + @"\App_Config\Some.Solr.File.config.disabled",
         SomeWebRootPath + @"\App_Config\Some.Solr.File.config");
     }
 
@@ -199,7 +199,7 @@ namespace SIM.Tests.Pipelines
         SomeWebRootPath + @"\App_Config\Some.Solr.File.config"
       };
       ArrangeConfigFiles(returnThis);
-      
+
       _Sut.FileReadAllText(SomeWebRootPath + @"\App_Config\Some.Solr.File.config").Returns(@"<root><param desc=""core"">$(id)</param>/root>");
 
 
@@ -208,7 +208,7 @@ namespace SIM.Tests.Pipelines
       _Sut.Received().FileWriteAllText(SomeWebRootPath + @"\App_Config\Some.Solr.File.config", @"<root><param desc=""core"">INSTANCE_$(id)</param>/root>");
     }
 
-  #endregion
+    #endregion
 
   }
 }

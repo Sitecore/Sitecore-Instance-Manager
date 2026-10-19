@@ -12,7 +12,7 @@ namespace SIM.ContainerInstaller.Repositories.TagRepository
 
     private IEnumerable<SitecoreTagsEntity> _sitecoreTagsEntities;
 
-    private IEnumerable<SitecoreTagsEntity> SitecoreTagsEntities => 
+    private IEnumerable<SitecoreTagsEntity> SitecoreTagsEntities =>
       _sitecoreTagsEntities ?? (_sitecoreTagsEntities =
         new SitecoreTagsParser().GetTagsEntities());
 

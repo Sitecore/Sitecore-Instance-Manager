@@ -34,7 +34,7 @@ namespace SIM.Tool.Windows.UserControls.Install
         {
           ver += Safe.Call(() => $"{args.Product.Update}") ?? "0";
         }
-       
+
         var txt = int.Parse(ver);
 
         if (txt >= 813 && txt < 900)

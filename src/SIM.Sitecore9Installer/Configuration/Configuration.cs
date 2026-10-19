@@ -19,7 +19,7 @@ namespace SIM.Sitecore9Installer.Configuration
       }
 
       this.settingsDoc = JObject.Parse(globalSettings);
-      
+
     }
     public static Configuration Instance
     {
@@ -43,7 +43,7 @@ namespace SIM.Sitecore9Installer.Configuration
       }
     }
 
-    public Dictionary<string,string> GlobalFilesMap
+    public Dictionary<string, string> GlobalFilesMap
     {
       get
       {

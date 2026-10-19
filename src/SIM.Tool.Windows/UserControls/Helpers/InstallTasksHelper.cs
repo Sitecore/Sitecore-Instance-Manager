@@ -181,11 +181,11 @@
       var files = Directory.GetFiles(sourcePath, "*.json", SearchOption.TopDirectoryOnly);
 
       foreach (string s in files)
-      {        
+      {
         var fileName = Path.GetFileName(s);
         var destFile = Path.Combine(targetDir, fileName);
         File.Copy(s, destFile, true);
-      }        
+      }
     }
   }
 }

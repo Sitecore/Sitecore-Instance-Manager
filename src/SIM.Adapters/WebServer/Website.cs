@@ -203,7 +203,7 @@
       get
       {
         return Name.ToLowerInvariant().EndsWith("_disabled");
-      }    
+      }
     }
 
     #endregion
@@ -277,7 +277,7 @@
     public virtual void Start()
     {
       Log.Info($"Starting website {ID}");
-      
+
       if (IsDisabled)
       {
         throw new InvalidOperationException("The {0} website is disabled. Open IIS Manager and remove _disabled suffix from its name in order to enable the website.");

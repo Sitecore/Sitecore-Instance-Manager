@@ -8,7 +8,7 @@ namespace SIM.Sitecore9Installer.Tasks
 {
   public class EvaluateParamsTask : Task
   {
-    public EvaluateParamsTask(string taskName, int executionOrder, GlobalParameters globalParams, 
+    public EvaluateParamsTask(string taskName, int executionOrder, GlobalParameters globalParams,
       LocalParameters localParams, Dictionary<string, string> taskOptions) : base(taskName, executionOrder, globalParams, localParams, taskOptions)
     {
     }

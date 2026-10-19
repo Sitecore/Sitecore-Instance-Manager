@@ -32,7 +32,7 @@
         Log.Info("Host already exists");
         return;
       }
-      
+
       FileSystem.FileSystem.Local.File.AppendAllText(path, Environment.NewLine + $"127.0.0.1\t{hostName}");
     }
 
@@ -40,7 +40,7 @@
     {
       return (line + " ").Replace("\t", " ").Contains(" " + hostName + " ");
     }
-    
+
     public static void Remove([NotNull] IEnumerable<string> hostNames)
     {
       Assert.ArgumentNotNull(hostNames, nameof(hostNames));
@@ -64,7 +64,7 @@
       const string HostsPath = @"%WINDIR%\System32\drivers\etc\hosts";
       return Environment.ExpandEnvironmentVariables(HostsPath);
     }
-    
+
     private static void Remove([NotNull] string hostName)
     {
       Assert.ArgumentNotNull(hostName, nameof(hostName));

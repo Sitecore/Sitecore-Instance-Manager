@@ -338,9 +338,9 @@
             }
 
           case "append":
-            {                                               
-              var before = child.GetAttribute("before");  
-              var stopword = child.GetAttribute("stopword");      
+            {
+              var before = child.GetAttribute("before");
+              var stopword = child.GetAttribute("stopword");
               var target = child.InnerText;
               if (!string.IsNullOrEmpty(before) || !string.IsNullOrEmpty(stopword))
               {
@@ -370,7 +370,7 @@
               FileSystem.FileSystem.Local.File.Move(path, destFileName);
               break;
             }
-            
+
           case "movefolder":
             {
               var target = child.GetAttribute("target");

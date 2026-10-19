@@ -42,7 +42,7 @@
       if (args.Backup.BackupWebsiteFiles)
       {
         FileSystem.FileSystem.Local.Zip.UnpackZip(
-          args.Backup.BackupWebsiteFilesNoClient ? args.Backup.WebRootNoClientFilePath : args.Backup.WebRootFilePath, 
+          args.Backup.BackupWebsiteFilesNoClient ? args.Backup.WebRootNoClientFilePath : args.Backup.WebRootFilePath,
           webRootPath, null, A);
       }
 

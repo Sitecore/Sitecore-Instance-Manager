@@ -11,7 +11,7 @@ namespace SIM.Tool.Windows
 
     [NotNull]
     public static readonly AdvancedProperty<string> AppDownloaderExternalRepository = AdvancedSettings.Create("App/Downloader/ExternalRepository", string.Empty);
-    
+
     [NotNull]
     public static readonly AdvancedProperty<int> AppDownloaderParallelThreads = AdvancedSettings.Create("App/Downloader/ParallelThreads", 4);
 

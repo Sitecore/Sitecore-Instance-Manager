@@ -13,7 +13,7 @@
   public class InstanceTest
   {
     #region Public methods
-    
+
     [TestMethod]
     public void DataAndWebsiteOnSameLevelTest()
     {
@@ -160,8 +160,8 @@
     {
       return new Database[]
       {
-        new FakeDatabase("core", name + "Sitecore_Core", databasesFolder, "Sitecore.Core.mdf"), 
-        new FakeDatabase("master", name + "Sitecore_Master", databasesFolder, "Sitecore.Master.mdf"), 
+        new FakeDatabase("core", name + "Sitecore_Core", databasesFolder, "Sitecore.Core.mdf"),
+        new FakeDatabase("master", name + "Sitecore_Master", databasesFolder, "Sitecore.Master.mdf"),
         new FakeDatabase("web", name + "Sitecore_Web", databasesFolder, "Sitecore.Web.mdf")
       };
     }
@@ -279,7 +279,7 @@
       _GetAttachedDatabases = databases;
     }
 
-    public FakeInstance(DirectoryInfo webroot, DirectoryInfo dataFolder, 
+    public FakeInstance(DirectoryInfo webroot, DirectoryInfo dataFolder,
       Database[] databases, string displayName = null)
       : this(webroot.FullName, dataFolder.FullName, databases)
     {

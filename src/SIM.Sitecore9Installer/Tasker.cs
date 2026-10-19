@@ -26,7 +26,7 @@ namespace SIM.Sitecore9Installer
 
     private Tasker()
     {
-      this.Validators = new List<string>();   
+      this.Validators = new List<string>();
       uninstallTasksFolderName = "UninstallTasks";
     }
 
@@ -36,13 +36,16 @@ namespace SIM.Sitecore9Installer
       FilesRoot = root;
       Dictionary<string, string> globalFilesMap = Configuration.Configuration.Instance.GlobalFilesMap;
       foreach (string pattern in globalFilesMap.Keys)
+      {
+        // NOTE: This is matching "solr9" on "solr". Matches only need to contain the string and does not have to be an exact match
+        // It seems like a lot of other functionality relies on this behavior
         if (Regex.IsMatch(installationPackageName, pattern))
         {
           string path = Path.Combine(Directory.GetCurrentDirectory(), "GlobalParamsConfig");
-          string fileName = Directory.GetFiles(path, globalFilesMap[pattern], SearchOption.AllDirectories).Single();
-          globalParamsFile = fileName;
+          globalParamsFile = Directory.GetFiles(path, globalFilesMap[pattern], SearchOption.AllDirectories).Single();
           break;
         }
+      }
 
       doc = JObject.Parse(File.ReadAllText(globalParamsFile));
       mapping = GetPackageMapping();
@@ -61,9 +64,8 @@ namespace SIM.Sitecore9Installer
       List<InstallParam> deserializedGlobalParams;
       using (StreamReader reader = new StreamReader(Path.Combine(unInstallParamsPath, "globals.json")))
       {
-        string filePath = Directory.GetFiles(Path.Combine(Directory.GetCurrentDirectory(), "GlobalParamsConfig"),
+        globalParamsFile = Directory.GetFiles(Path.Combine(Directory.GetCurrentDirectory(), "GlobalParamsConfig"),
           reader.ReadLine(), SearchOption.AllDirectories).Single();
-        globalParamsFile = filePath;
         string data = reader.ReadToEnd();
         deserializedGlobalParams = JsonConvert.DeserializeObject<List<InstallParam>>(data);
       }
@@ -85,7 +87,7 @@ namespace SIM.Sitecore9Installer
         InstallParam param = deserializedGlobalParams.FirstOrDefault(p => p.Name == GlobalParams[i].Name);
         if (param != null)
         {
-          GlobalParams.AddOrUpdateParam(param.Name,param.Value,param.Type);
+          GlobalParams.AddOrUpdateParam(param.Name, param.Value, param.Type);
         }
       }
 
@@ -111,7 +113,7 @@ namespace SIM.Sitecore9Installer
               InstallParam lParam = deserializedLocalParams.FirstOrDefault(p => p.Name == t.LocalParams[i].Name);
               if (lParam != null)
               {
-                t.LocalParams.AddOrUpdateParam(lParam.Name,lParam.Value,lParam.Type);
+                t.LocalParams.AddOrUpdateParam(lParam.Name, lParam.Value, lParam.Type);
               }
             }
           }
@@ -189,10 +191,10 @@ namespace SIM.Sitecore9Installer
     }
 
     public string UnInstallParamsPath { get; }
-    
+
     private void GlobalParamValueUpdated(object sender, ParamValueUpdatedArgs e)
-    {    
-      InstallParam updatedParam = (InstallParam) sender;
+    {
+      InstallParam updatedParam = (InstallParam)sender;
       if (!updatedParam.IsGlobal)
       {
         return;
@@ -211,13 +213,13 @@ namespace SIM.Sitecore9Installer
     }
 
     private void EvaluateLocalParams()
-    {      
-      Parallel.ForEach(this.Tasks.Where(t => t.ShouldRun),new ParallelOptions(){MaxDegreeOfParallelism=Environment.ProcessorCount*2}, 
+    {
+      Parallel.ForEach(this.Tasks.Where(t => t.ShouldRun), new ParallelOptions() { MaxDegreeOfParallelism = Environment.ProcessorCount * 2 },
         (task) =>
       {
         task.LocalParams.Evaluate();
       });
-    }    
+    }
 
     public string SaveUninstallData(string path)
     {
@@ -252,9 +254,7 @@ namespace SIM.Sitecore9Installer
 
     private void SaveUninstallTasks(string targetFilePath)
     {
-      string[] files = Directory.GetFiles(this.FilesRoot, "*.json", System.IO.SearchOption.TopDirectoryOnly);
-
-      foreach (string filePath in files)
+      foreach (string filePath in Directory.GetFiles(this.FilesRoot, "*.json", System.IO.SearchOption.TopDirectoryOnly))
       {
         var newFile = System.IO.Path.Combine(targetFilePath, Path.GetFileName(filePath));
         File.Copy(filePath, newFile, true);
@@ -280,8 +280,8 @@ namespace SIM.Sitecore9Installer
           continue;
         }
 
-        string result= t.Run();
-        if (t.State!=TaskState.Finished)
+        string result = t.Run();
+        if (t.State != TaskState.Finished)
         {
           throw new AggregateException(result);
         }
@@ -327,7 +327,7 @@ namespace SIM.Sitecore9Installer
     {
       int order = 0;
       foreach (JProperty param in doc["ExecSequense"].Children())
-      {        
+      {
         string realName = GetTaskRealName(param);
         string taskFile = Directory.GetFiles(path, string.Format("{0}.json", realName), SearchOption.AllDirectories)
           .FirstOrDefault();
@@ -395,7 +395,7 @@ namespace SIM.Sitecore9Installer
 
     private void InjectGlobalDeploymentRoot(string path)
     {
-      this.GlobalParams.AddOrUpdateParam("DeployRoot", path,InstallParamType.String);
+      this.GlobalParams.AddOrUpdateParam("DeployRoot", path, InstallParamType.String);
     }
 
     private PackageMapping GetPackageMapping()

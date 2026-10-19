@@ -41,7 +41,7 @@
     #endregion
 
     #region Properties
-    
+
     public bool IsFinished;
 
     #endregion
@@ -174,10 +174,7 @@
 
           bool result = ExecuteSteps(info.ProcessorArgs, info._Steps, info.PipelineController);
 
-          if (info.PipelineController != null)
-          {
-            info.PipelineController.Finish("Done.", result);
-          }
+          info.PipelineController?.Finish("Done.", result);
 
           if (result)
           {
@@ -223,10 +220,7 @@
             processor.Skip();
           }
 
-          if (controller != null)
-          {
-            controller.IncrementProgress();
-          }
+          controller?.IncrementProgress();
 
           // Process nested steps
           result &= ExecuteProcessors(args, processor._NestedProcessors, controller, processorResult);
@@ -275,7 +269,7 @@
             Assert.IsNotNull(innerArgs, "Inner args are null, " + argsName);
           }
 
-          startThisAndNestedProcessors = ExecuteProcessors(innerArgs ?? args, step._Processors, controller, 
+          startThisAndNestedProcessors = ExecuteProcessors(innerArgs ?? args, step._Processors, controller,
             startThisAndNestedProcessors);
         }
 

@@ -130,7 +130,7 @@
 
       List<Instance> instances = new List<Instance>();
 
-      if(ApplicationManager.IsIisRunning) 
+      if (ApplicationManager.IsIisRunning)
       {
         List<Instance> iisInstances = GetIISInstances().ToList();
         if (!InstanceSettings.CoreInstancesShowWithoutEnviorenmentMembers.Value)
@@ -144,7 +144,7 @@
         }
       }
 
-      if(ApplicationManager.CurrentDockerStatus == ApplicationManager.DockerStatus.RunningWithWindowsContainers) {instances.AddRange(GetContainerizedInstances());}
+      if (ApplicationManager.CurrentDockerStatus == ApplicationManager.DockerStatus.RunningWithWindowsContainers) { instances.AddRange(GetContainerizedInstances()); }
 
       Dictionary<string, Instance> partiallyCachedInstances = instances.ToDictionary(i => i.Name);
 
@@ -182,7 +182,7 @@
         return GetPartiallyCachedInstances(sites);
       }
     }
-    
+
     public void InitializeWithSoftListRefresh([CanBeNull] string defaultRootFolder = null)
     {
       SitecoreEnvironmentHelper.RefreshEnvironments();
@@ -215,7 +215,7 @@
           {
             PartiallyCachedInstances = instances.ToDictionary(value => value.Name);
           }
-          
+
           Instances = PartiallyCachedInstances?.Values.Select(x => GetInstance(x.ID)).ToArray();
         }
       }

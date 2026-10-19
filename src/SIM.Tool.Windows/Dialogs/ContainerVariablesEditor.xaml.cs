@@ -19,12 +19,12 @@ namespace SIM.Tool.Windows.Dialogs
     {
       List<NameValuePair> editContext = this.DataContext as List<NameValuePair>;
       Assert.ArgumentNotNull(editContext, nameof(editContext));
-      
+
       //Bind properties
     }
 
     private void Ok_Click(object sender, RoutedEventArgs e)
-    {     
+    {
       this.Close();
     }
 

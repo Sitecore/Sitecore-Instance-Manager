@@ -15,6 +15,7 @@
     "9.3.\\d.* XM1 Developer": "GlobalParams_9.3_XM1_SXA.json",
 
     // XM1
+    "10.5.\\d.* XM1": "GlobalParams_10.5_XM1.json",
     "10.4.\\d.* XM1": "GlobalParams_10.0_XM1.json",
     "10.3.\\d.* XM1": "GlobalParams_10.0_XM1.json",
     "10.2.\\d.* XM1": "GlobalParams_10.0_XM1.json",
@@ -27,6 +28,7 @@
     "9.0.\\d.* XM1": "GlobalParams_9.0_XM1.json",
 
     // XP0
+    "10.5.\\d.* XP0": "GlobalParams_10.5_XP0.json",
     "10.4.\\d.* XP0": "GlobalParams_10.0_XP0.json",
     "10.3.\\d.* XP0": "GlobalParams_10.0_XP0.json",
     "10.2.\\d.* XP0": "GlobalParams_10.0_XP0.json",
@@ -40,6 +42,7 @@
     "9.0.\\d.* XP0": "GlobalParams_9.0_XP0.json",
 
     // XP1
+    "10.5.\\d.* XP1": "GlobalParams_10.5_XP1.json",
     "10.4.\\d.* XP1": "GlobalParams_10.4_XP1.json",
     "10.3.2.* XP1": "GlobalParams_10.4_XP1.json",
     "10.3.\\d.* XP1": "GlobalParams_10.2_XP1.json",
@@ -55,6 +58,8 @@
     "9.0.\\d.* XP1": "GlobalParams_9.0_XP1.json",
 
     //solr
+    "solr10": "GlobalParams_solr10.json",
+    "solr9": "GlobalParams_solr9.json",
     "solr": "GlobalParams_solr.json"
   },
 
@@ -86,6 +91,7 @@
     "8.4.0": "10.0.*,10.1.*",
     "8.8.2": "10.2.*",
     "8.11.2": "10.3.*,10.4.0",
-    "9.8.1": "10.3.3,10.4.1"
+    "9.8.1": "10.3.3,10.4.1",
+    "10.0.0": "10.5.0"
   }
 }

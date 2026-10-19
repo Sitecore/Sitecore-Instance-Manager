@@ -6,7 +6,7 @@ using Sitecore.Diagnostics.Base;
 
 namespace SIM.Pipelines.Install.Containers
 {
-  public abstract class RunCommandBaseProcessor: Processor
+  public abstract class RunCommandBaseProcessor : Processor
   {
     protected abstract string GetDestination(ProcessorArgs arguments);
     protected abstract string GetCommand(ProcessorArgs arguments);

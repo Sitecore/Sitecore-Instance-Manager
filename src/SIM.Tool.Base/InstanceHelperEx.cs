@@ -91,7 +91,7 @@ namespace SIM.Tool.Base
 
       var fileSystemWatcher = new FileSystemWatcher(logsFolderPath)
       {
-        Filter = logFilePattern, 
+        Filter = logFilePattern,
         IncludeSubdirectories = false
       };
 
@@ -102,7 +102,7 @@ namespace SIM.Tool.Base
       {
         return;
       }
-      
+
       // we need to stop all this magic when application closes
       currentProcess.Exited += delegate
       {
@@ -150,7 +150,7 @@ namespace SIM.Tool.Base
             }
 
             fileSystemWatcher.EnableRaisingEvents = false;
-          };         
+          };
         }
         catch (Exception ex)
         {
@@ -205,9 +205,9 @@ namespace SIM.Tool.Base
         // i.e. request with larger timeout and with the 
         // progress bar shown to the user to avoid UI lag
         Exception ex = null;
-        var res = WindowHelper.LongRunningTask(() => PreheatInstance(instance, out ex), "Starting Sitecore", mainWindow, 
-          "Sitecore is being initialized", 
-          "It may take up to a few minutes on large solutions or slow machines.", 
+        var res = WindowHelper.LongRunningTask(() => PreheatInstance(instance, out ex), "Starting Sitecore", mainWindow,
+          "Sitecore is being initialized",
+          "It may take up to a few minutes on large solutions or slow machines.",
           true, true, true);
         if (res == null)
         {
@@ -223,7 +223,7 @@ namespace SIM.Tool.Base
           const string OpenAnyway = "Open in browser";
           var message = "The instance returned an error. \n\n" + ex.Message;
           Log.Error(ex, message);
-          var result = WindowHelper.AskForSelection("Running instance failed", null, message, 
+          var result = WindowHelper.AskForSelection("Running instance failed", null, message,
             new[]
             {
               Cancel, OpenLog, OpenSitecoreLog, OpenAnyway
@@ -299,7 +299,7 @@ namespace SIM.Tool.Base
       {
         return WindowHelper.AskForSelection("Open current log file", "Choose log file type", "There are several types of log files in Sitecore. Please choose what type do you need?", groups, owner, groups.First(), false, true);
       }
-      
+
       return null;
     }
 

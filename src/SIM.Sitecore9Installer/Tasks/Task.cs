@@ -4,10 +4,10 @@ namespace SIM.Sitecore9Installer.Tasks
 {
   public abstract class Task
   {
-    public Task(string taskName, int executionOrder, GlobalParameters globalParams, 
+    public Task(string taskName, int executionOrder, GlobalParameters globalParams,
       LocalParameters localParams, Dictionary<string, string> taskOptions)
     {
-      this.Name = taskName;      
+      this.Name = taskName;
       this.LocalParams = localParams;
       this.ShouldRun = true;
       this.TaskOptions = taskOptions;

@@ -156,9 +156,9 @@
     {
       var openDialog = new OpenFileDialog
       {
-        CheckFileExists = true, 
-        Filter = "Sitecore Package or ZIP Archive (*.zip)|*.zip", 
-        Title = "Choose Package", 
+        CheckFileExists = true,
+        Filter = "Sitecore Package or ZIP Archive (*.zip)|*.zip",
+        Title = "Choose Package",
         Multiselect = true
       };
 

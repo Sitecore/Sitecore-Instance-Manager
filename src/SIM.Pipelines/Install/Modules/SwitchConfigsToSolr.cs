@@ -10,7 +10,7 @@ namespace SIM.Pipelines.Install.Modules
 {
   using SIM.Extensions;
 
-  public class SwitchConfigsToSolr:IPackageInstallActions
+  public class SwitchConfigsToSolr : IPackageInstallActions
   {
     #region Properties
 
@@ -34,7 +34,7 @@ namespace SIM.Pipelines.Install.Modules
     {
       Instance = instance;
       IncludeDirFiles = GetIncludeDirFiles();
-      
+
       EnableNonIocSolrFiles();
 
       IncludeDirFiles = GetIncludeDirFiles();
@@ -72,7 +72,7 @@ namespace SIM.Pipelines.Install.Modules
     {
       List<string> disabledSolrFiles =
         IncludeDirFiles.Where(
-          s => s.ToLower().Contains(".solr.") && 
+          s => s.ToLower().Contains(".solr.") &&
                !s.ToLower().Contains(".ioc.") &&
                (s.EndsWith(".example") || s.EndsWith(".disabled"))).ToList();
 
@@ -134,7 +134,7 @@ namespace SIM.Pipelines.Install.Modules
 
     public virtual string[] GetFiles(string path, string filter, SearchOption allDirectories)
     {
-      return FileSystem.FileSystem.Local.Directory.GetFiles(path, filter,allDirectories);
+      return FileSystem.FileSystem.Local.Directory.GetFiles(path, filter, allDirectories);
     }
 
     public virtual void RenameFile(string oldPath, string newPath)

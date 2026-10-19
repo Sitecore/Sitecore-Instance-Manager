@@ -42,8 +42,8 @@
 
     public BindingInfo([NotNull] Binding binding)
       : this(
-        binding.Protocol.IsNotNull("binding.Protocol"), 
-        binding.Host.IsNotNull("binding.Host"), 
+        binding.Protocol.IsNotNull("binding.Protocol"),
+        binding.Host.IsNotNull("binding.Host"),
         binding.EndPoint.IsNotNull("binding.EndPoint"))
     {
       Assert.ArgumentNotNull(binding, nameof(binding));

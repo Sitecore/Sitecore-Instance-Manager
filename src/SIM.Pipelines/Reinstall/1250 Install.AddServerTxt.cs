@@ -11,7 +11,7 @@
     public AddServerTxt()
     {
     }
-      
+
     protected override void Process(ReinstallArgs args)
     {
       if (Settings.CoreInstallCreateServerTxt.Value)

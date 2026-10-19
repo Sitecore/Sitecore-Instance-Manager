@@ -14,6 +14,6 @@ namespace SIM.Sitecore9Installer.Validation
     [JsonProperty]
     public string Type { get; private set; }
     [JsonProperty]
-    public Dictionary<string,string> Data { get; private set; }
+    public Dictionary<string, string> Data { get; private set; }
   }
 }

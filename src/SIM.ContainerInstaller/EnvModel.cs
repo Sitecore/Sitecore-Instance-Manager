@@ -128,7 +128,7 @@ namespace SIM.ContainerInstaller
       {
         this["SITECORE_ID_CERTIFICATE_PASSWORD"] = value;
       }
-    } 
+    }
 
     public string SitecoreLicense
     {
@@ -339,9 +339,9 @@ namespace SIM.ContainerInstaller
 
     public void SaveToFile(string path)
     {
-      using(StreamWriter writer=new StreamWriter(path))
+      using (StreamWriter writer = new StreamWriter(path))
       {
-        foreach(NameValuePair pair in this)
+        foreach (NameValuePair pair in this)
         {
           writer.WriteLine(string.Format("{0}={1}", pair.Name, pair.Value));
         }
@@ -374,7 +374,7 @@ namespace SIM.ContainerInstaller
       return model;
     }
 
-    public bool KeyExists([NotNull]string key)
+    public bool KeyExists([NotNull] string key)
     {
       return this.GetNames().Contains(key);
     }

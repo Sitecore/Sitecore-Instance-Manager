@@ -5,7 +5,7 @@ using System.Management.Automation;
 
 namespace SIM.ContainerInstaller
 {
-  public class SqlAdminPasswordGenerator: IGenerator
+  public class SqlAdminPasswordGenerator : IGenerator
   {
     public string Generate()
     {

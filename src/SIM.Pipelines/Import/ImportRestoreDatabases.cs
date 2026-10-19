@@ -190,10 +190,10 @@
         dbName = GetDatabaseName(dbName, ref args._DatabaseNameAppend);
 
         // dbName = dbName + GetDBNameAppend(dbName, args.connectionString, 0);
-        SqlServerManager.Instance.RestoreDatabase(dbName, 
-          args._ConnectionString, 
-          backup, 
-          FileSystem.FileSystem.Local.Directory.GetParent(args._VirtualDirectoryPhysicalPath).FullName.PathCombine("Databases"), 
+        SqlServerManager.Instance.RestoreDatabase(dbName,
+          args._ConnectionString,
+          backup,
+          FileSystem.FileSystem.Local.Directory.GetParent(args._VirtualDirectoryPhysicalPath).FullName.PathCombine("Databases"),
           backupInfo);
       }
     }

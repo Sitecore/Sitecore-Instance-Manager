@@ -114,10 +114,10 @@ namespace SIM.Products.Tests.Parsers
 
       // Assert
       parser.DidNotReceive().GetOrCreateProduct(
-        Arg.Any<string>(), 
-        Arg.Any<string>(), 
-        Arg.Any<string>(), 
-        Arg.Any<string>(), 
+        Arg.Any<string>(),
+        Arg.Any<string>(),
+        Arg.Any<string>(),
+        Arg.Any<string>(),
         Arg.Any<string>());
     }
 

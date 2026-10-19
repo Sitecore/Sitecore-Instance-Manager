@@ -93,7 +93,7 @@
       if (!FileSystem.FileSystem.Local.Directory.Exists(path))
       {
         WindowHelper.ShowMessage(
-          "The \"{0}\" folder does not exist, please create it or return to preceding step to change it".FormatWith(path), 
+          "The \"{0}\" folder does not exist, please create it or return to preceding step to change it".FormatWith(path),
           MessageBoxButton.OK, MessageBoxImage.Asterisk);
         return false;
       }

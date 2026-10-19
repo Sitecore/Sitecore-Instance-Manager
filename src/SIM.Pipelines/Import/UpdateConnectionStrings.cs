@@ -25,9 +25,9 @@
         {
           var builder = new SqlConnectionStringBuilder(conn.Value)
           {
-            IntegratedSecurity = false, 
-            DataSource = args._ConnectionString.DataSource, 
-            UserID = args._ConnectionString.UserID, 
+            IntegratedSecurity = false,
+            DataSource = args._ConnectionString.DataSource,
+            UserID = args._ConnectionString.UserID,
             Password = args._ConnectionString.Password
           };
 

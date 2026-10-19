@@ -33,7 +33,7 @@
       {
         return ConnectionString.Substring(ConnectionString.LastIndexOf('/') + 1);
       }
-    }              
+    }
 
     #endregion
   }

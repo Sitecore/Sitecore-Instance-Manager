@@ -70,9 +70,9 @@ namespace SIM.Tool.Windows.MainWindowComponents.Buttons
       {
         var options = new[]
         {
-          CancelOption, 
-          IncrementalOption, 
-          SmartOption, 
+          CancelOption,
+          IncrementalOption,
+          SmartOption,
           RepublishOption
         };
 

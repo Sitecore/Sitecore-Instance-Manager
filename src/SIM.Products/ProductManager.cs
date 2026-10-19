@@ -51,12 +51,12 @@ namespace SIM.Products
       {
         if (_productParsers == null)
         {
-          _productParsers = new IProductParser[] {new ContainerProductParser()};
+          _productParsers = new IProductParser[] { new ContainerProductParser() };
         }
 
         return _productParsers;
       }
-      
+
     }
 
     #endregion

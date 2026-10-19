@@ -40,7 +40,7 @@ namespace SIM.Tool.Windows.UserControls.Install
       this.Stats.Visibility = Visibility.Hidden;
       if (args.Validate)
       {
-        TaskDialogResult result= WindowHelper.LongRunningTask(() => this.RunValidation(), "Running validation", owner);
+        TaskDialogResult result = WindowHelper.LongRunningTask(() => this.RunValidation(), "Running validation", owner);
         if (result == null)
         {
           this.Caption.Text = "Validation aborted by user.";
@@ -139,7 +139,7 @@ namespace SIM.Tool.Windows.UserControls.Install
       Install9WizardArgs args = (Install9WizardArgs)wizardArgs;
       if (this.Messages.Any(m => m.State != Sitecore9Installer.Validation.ValidatorState.Success))
       {
-        if(MessageBox.Show("There are validation errors/warnings do you want to run install anyway?", "Validation", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+        if (MessageBox.Show("There are validation errors/warnings do you want to run install anyway?", "Validation", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
         {
           return true;
         }

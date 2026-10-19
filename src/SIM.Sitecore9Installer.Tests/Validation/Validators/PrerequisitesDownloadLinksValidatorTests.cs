@@ -45,7 +45,7 @@ namespace SIM.Sitecore9Installer.Tests.Validation.Validators
       List<string> paramValuePrefixes = validator.Data["ParamValuePrefixes"].Split('|').ToList();
 
       // Act
-      IEnumerable<ValidationResult> result = validator.Evaluate(new Task[] {prerequisitesTask});
+      IEnumerable<ValidationResult> result = validator.Evaluate(new Task[] { prerequisitesTask });
       IEnumerable<ValidationResult> warnings = result.Where(r => r.State == ValidatorState.Warning);
 
       // Assert

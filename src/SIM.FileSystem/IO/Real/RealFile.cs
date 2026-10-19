@@ -14,9 +14,9 @@
       FileInfo = new FileInfo(path);
     }
 
-    [NotNull]   
+    [NotNull]
     public FileInfo FileInfo { get; }
-                
+
     public override IFolder Parent => _Parent ?? (_Parent = FileSystem.ParseFolder(Path.GetDirectoryName(FileInfo.FullName)));
 
     public string Extension => FileInfo.Extension;
@@ -60,7 +60,7 @@
     public override bool Equals(object obj)
     {
       return Equals((RealFile)obj);
-    }                   
+    }
 
     public override void TryDelete()
     {

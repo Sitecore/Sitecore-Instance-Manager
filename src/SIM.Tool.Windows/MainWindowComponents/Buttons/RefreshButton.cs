@@ -15,11 +15,11 @@ namespace SIM.Tool.Windows.MainWindowComponents.Buttons
 
     public enum RefreshMode
     {
-      Undefined = -1, 
-      Instances = 0, 
-      Installer = 1, 
-      Caches = 2, 
-      Everything = 3, 
+      Undefined = -1,
+      Instances = 0,
+      Installer = 1,
+      Caches = 2,
+      Everything = 3,
     }
 
     #endregion
@@ -104,10 +104,10 @@ namespace SIM.Tool.Windows.MainWindowComponents.Buttons
 
       var config = new TaskDialogOptions
       {
-        Owner = mainWindow, 
-        Title = "Refresh", 
-        MainInstruction = "Choose what would you like to refresh.", 
-        Content = "The application has three kinds of storages that you can refresh.", 
+        Owner = mainWindow,
+        Title = "Refresh",
+        MainInstruction = "Choose what would you like to refresh.",
+        Content = "The application has three kinds of storages that you can refresh.",
         CommandButtons = new[]
         {
           // 0
@@ -120,8 +120,8 @@ namespace SIM.Tool.Windows.MainWindowComponents.Buttons
           "Refresh caches\nFlushing internal caches", 
           
           // 3
-          "Refresh everything\nFlushing internal caches and refreshing instances and installer", 
-        }, 
+          "Refresh everything\nFlushing internal caches and refreshing instances and installer",
+        },
         MainIcon = VistaTaskDialogIcon.Information
       };
 

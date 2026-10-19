@@ -9,7 +9,7 @@ namespace SIM.Sitecore9Installer.Validation.Validators
 
     protected override IEnumerable<ValidationResult> GetErrorsForTask(Tasks.Task task, IEnumerable<InstallParam> paramsToValidate)
     {
-      foreach(InstallParam p in paramsToValidate)
+      foreach (InstallParam p in paramsToValidate)
       {
         if (!this.PathExists(p.Value))
         {

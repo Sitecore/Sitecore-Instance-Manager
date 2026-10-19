@@ -55,7 +55,7 @@ namespace SIM.SitecoreEnvironments
         return new List<SitecoreEnvironment>();
       }
     }
-    
+
     private static string GetSerializedSitecoreEnvironmentData(List<SitecoreEnvironment> sitecoreEnvironments)
     {
       return JsonConvert.SerializeObject(sitecoreEnvironments);
@@ -85,8 +85,8 @@ namespace SIM.SitecoreEnvironments
     }
 
     public static SitecoreEnvironment GetExistingOrNewSitecoreEnvironment(string instanceName)
-    {    
-      return GetExistingSitecoreEnvironment(instanceName)?? new SitecoreEnvironment(instanceName);
+    {
+      return GetExistingSitecoreEnvironment(instanceName) ?? new SitecoreEnvironment(instanceName);
     }
 
     [CanBeNull]
@@ -106,7 +106,7 @@ namespace SIM.SitecoreEnvironments
       return null;
     }
 
-    public static bool TryGetEnvironmentById(Guid environmentId, [CanBeNull]out SitecoreEnvironment environment)
+    public static bool TryGetEnvironmentById(Guid environmentId, [CanBeNull] out SitecoreEnvironment environment)
     {
       environment = SitecoreEnvironments.FirstOrDefault(e => e.ID.Equals(environmentId));
 

@@ -26,8 +26,8 @@
       while (!flag)
       {
         if ((from t in poolsNames
-          where t == oldName
-          select t).FirstOrDefault() == null)
+             where t == oldName
+             select t).FirstOrDefault() == null)
         {
           return oldName;
         }
@@ -55,8 +55,8 @@
       while (!flag)
       {
         if ((from t in names
-          where t == oldName
-          select t).FirstOrDefault() == null)
+             where t == oldName
+             select t).FirstOrDefault() == null)
         {
           return oldName;
         }
@@ -81,8 +81,8 @@
       while (!flag)
       {
         if ((from t in sitesNames
-          where t == oldName
-          select t).FirstOrDefault() == null)
+             where t == oldName
+             select t).FirstOrDefault() == null)
         {
           return oldName;
         }
@@ -120,7 +120,7 @@
     {
       var procStartInfo = new ProcessStartInfo("cmd", $"/c {command}")
       {
-        UseShellExecute = false, 
+        UseShellExecute = false,
         CreateNoWindow = true
       };
 

@@ -21,15 +21,15 @@ namespace SIM.Pipelines.Install
     {
       Assert.ArgumentNotNullOrEmpty(TaskName, nameof(TaskName));
       this.taskName = TaskName;
-      this.ProcessorDefinition = new SingleProcessorDefinition() {ProcessAlways=false };
-    }   
+      this.ProcessorDefinition = new SingleProcessorDefinition() { ProcessAlways = false };
+    }
 
     protected override void Process([NotNull] ProcessorArgs args)
     {
       Install9Args arguments = (Install9Args)args;
       Task task = arguments.Tasker.Tasks.FirstOrDefault(t => t.Name == this.taskName);
       PowerShellTask powershellTask = task as PowerShellTask;
-      if (powershellTask!=null)
+      if (powershellTask != null)
       {
         string result = powershellTask.GetEvaluatedScript();
         if (task.State == TaskState.Failed)

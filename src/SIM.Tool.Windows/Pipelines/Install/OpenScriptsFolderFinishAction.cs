@@ -13,6 +13,6 @@ namespace SIM.Tool.Windows.Pipelines.Install
     public static void Run(Install9WizardArgs args)
     {
       System.Diagnostics.Process.Start("explorer.exe", Path.Combine(args.ScriptRoot, "generated_scripts"));
-    }    
+    }
   }
 }

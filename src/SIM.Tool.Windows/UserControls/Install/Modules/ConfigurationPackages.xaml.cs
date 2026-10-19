@@ -56,9 +56,9 @@
     {
       var openDialog = new OpenFileDialog
       {
-        CheckFileExists = true, 
-        Filter = "Sitecore Package or ZIP Archive (*.zip)|*.zip", 
-        Title = "Choose Package", 
+        CheckFileExists = true,
+        Filter = "Sitecore Package or ZIP Archive (*.zip)|*.zip",
+        Title = "Choose Package",
         Multiselect = true
       };
       if (openDialog.ShowDialog(Window.GetWindow(this)) == true)
@@ -187,10 +187,10 @@
     {
       var ver = product.TwoVersion;
       IEnumerable<string> files = FileSystem.FileSystem.Local.Directory.GetFiles(folder, "*.zip", SearchOption.AllDirectories)
-        .Where(f => false 
-          || !f.ContainsIgnoreCase("- Sitecore") 
-          || f.ContainsIgnoreCase($"- Sitecore {ver}") 
-          || f.ContainsIgnoreCase($"- Sitecore {ver.Substring(0, 3)} ") 
+        .Where(f => false
+          || !f.ContainsIgnoreCase("- Sitecore")
+          || f.ContainsIgnoreCase($"- Sitecore {ver}")
+          || f.ContainsIgnoreCase($"- Sitecore {ver.Substring(0, 3)} ")
           || f.ContainsIgnoreCase($"- Sitecore {ver[0]} ")
           );
 
@@ -224,7 +224,7 @@
     #region Search Implementation
 
     private void DoSearch(string filter)
-    {                              
+    {
       _CheckBoxItems = new ObservableCollection<ProductInCheckbox>(_UnfilteredCheckBoxItems.Where(product => product.Name.ContainsIgnoreCase(filter) || product.Value.SearchToken.ContainsIgnoreCase(filter)));
       filePackages.ItemsSource = _CheckBoxItems;
     }

@@ -19,7 +19,7 @@ namespace SIM.Tool.Windows.UserControls
     {
       InitializeComponent();
       TextBlock.Text = param;
-    } 
+    }
     #endregion
   }
 }

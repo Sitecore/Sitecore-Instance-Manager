@@ -130,8 +130,8 @@ namespace SIM.FileSystem
       return null;
     }
 
-    public virtual void UnpackZip([NotNull] string packagePath, [NotNull] string path, 
-      [CanBeNull] string entriesPattern = null, int stepsCount = 1, 
+    public virtual void UnpackZip([NotNull] string packagePath, [NotNull] string path,
+      [CanBeNull] string entriesPattern = null, int stepsCount = 1,
       [CanBeNull] Action incrementProgress = null, bool skipErrors = false)
     {
       Assert.ArgumentNotNull(packagePath, nameof(packagePath));
@@ -149,7 +149,7 @@ namespace SIM.FileSystem
           {
             Log.Info(string.Format("Unzipping the {2} entries of the '{0}' archive to the '{1}' folder", packagePath, path, entriesPattern));
           }
-          else 
+          else
           {
             Log.Info($"Unzipping the '{packagePath}' archive to the '{path}' folder");
           }
@@ -313,7 +313,7 @@ namespace SIM.FileSystem
         throw new InvalidOperationException($"The \"{packagePath}\" package seems to be corrupted.");
       }
     }
-    
+
     public virtual bool ZipContainsSingleFile(string packagePath, string innerFileName)
     {
       var fileInfo = new FileInfo(packagePath);
@@ -360,8 +360,8 @@ namespace SIM.FileSystem
       using (ZipFile zip1 = ZipFile.Read(pathToZip))
       {
         var selection = from e in zip1.Entries
-          where (e.FileName).StartsWith(folderName + "/") || (e.FileName).StartsWith(folderName + "\\")          
-          select e;
+                        where (e.FileName).StartsWith(folderName + "/") || (e.FileName).StartsWith(folderName + "\\")
+                        select e;
 
 
         Directory.CreateDirectory(pathToUnpack);

@@ -118,7 +118,7 @@
         SetElementValueTest(str, path, "", expected);
       }
     }
- 
+
 
     [TestMethod]
     public void SelectSingleElementOrCreateTest()

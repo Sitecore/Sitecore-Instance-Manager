@@ -56,17 +56,17 @@
     {
       Assert.ArgumentNotNull(document, nameof(document));
       Assert.ArgumentNotNull(xpath, nameof(xpath));
-      
+
       return document.SelectNodes(xpath)?.OfType<XmlElement>() ?? new XmlElement[0];
     }
 
     [NotNull]
     public static IEnumerable<XmlElement> SelectElements(this XmlElement element, string xpath)
-    {    
-        Assert.ArgumentNotNull(element, nameof(element));
-        Assert.ArgumentNotNull(xpath, nameof(xpath));
+    {
+      Assert.ArgumentNotNull(element, nameof(element));
+      Assert.ArgumentNotNull(xpath, nameof(xpath));
 
-        return element.SelectNodes(xpath)?.OfType<XmlElement>() ?? new XmlElement[0];
+      return element.SelectNodes(xpath)?.OfType<XmlElement>() ?? new XmlElement[0];
     }
 
     [CanBeNull]
@@ -130,7 +130,7 @@
       var element = node.OwnerDocument.CreateElement(name);
       node.AppendChild(element);
       return element;
-    }                       
+    }
 
     public static string Join<T>(this IEnumerable<T> @this, string separator, string wrapperLeft, string wrapperRight)
     {

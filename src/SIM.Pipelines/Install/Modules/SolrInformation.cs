@@ -38,7 +38,7 @@ namespace SIM.Pipelines.Install.Modules
 
     public string TemplateFullPath
     {
-      get { return SolrBasePath.EnsureEnd(@"\") + CollectionTemplate;  }
+      get { return SolrBasePath.EnsureEnd(@"\") + CollectionTemplate; }
     }
 
     #endregion
@@ -46,7 +46,7 @@ namespace SIM.Pipelines.Install.Modules
     #region Public Methods
 
     public SolrInformation(XmlDocumentEx solrInfoResponse)
-    { 
+    {
 
       if (solrInfoResponse == null)
       {
@@ -64,7 +64,7 @@ namespace SIM.Pipelines.Install.Modules
 
       MajorVersion = GetMajorVersionFrom(node.InnerText);
 
-      if (MajorVersion<4) { throw new InvalidException($"Solr 4.0.0 or greater required.  Using Solr {MajorVersion}.", this);}
+      if (MajorVersion < 4) { throw new InvalidException($"Solr 4.0.0 or greater required.  Using Solr {MajorVersion}.", this); }
 
 
       SolrBasePath = solrInfoResponse.SelectSingleNode("/response/str[@name='solr_home']")?.InnerText;
@@ -87,7 +87,7 @@ namespace SIM.Pipelines.Install.Modules
     {
       string commandArgsPath = @"/response/lst[@name=""jvm""]/lst[@name=""jmx""]/arr[@name=""commandLineArgs""]/str";
 
-      IEnumerable<string> args = 
+      IEnumerable<string> args =
         solrInfoResponse.SelectElements(commandArgsPath).Select(e => e.InnerText);
 
       Regex solrHomeRegex = new Regex(@"^-Dsolr\.solr\.home=(.*)$");

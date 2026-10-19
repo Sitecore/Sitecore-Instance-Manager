@@ -55,12 +55,12 @@ namespace SIM.Tool.Windows.MainWindowComponents.Buttons
           ChangeMode = true;
           return;
 
-          // case "favorite":
-          // this.FavoriteMode = true;
-          // return;
-          // case "disabled":
-          // this.DisabledMode = true;
-          // return;
+        // case "favorite":
+        // this.FavoriteMode = true;
+        // return;
+        // case "disabled":
+        // this.DisabledMode = true;
+        // return;
         default:
           Assert.IsTrue(false, "The {0} mode is not supported".FormatWith(param));
           return;
@@ -131,9 +131,9 @@ namespace SIM.Tool.Windows.MainWindowComponents.Buttons
       var message = "Change {0} instance's Application Pool mode".FormatWith(instance.Name);
       var options = new[]
       {
-        GetLabel(instance, 2, false), 
-        GetLabel(instance, 2, true), 
-        GetLabel(instance, 4, false), 
+        GetLabel(instance, 2, false),
+        GetLabel(instance, 2, true),
+        GetLabel(instance, 4, false),
         GetLabel(instance, 4, true)
       };
 

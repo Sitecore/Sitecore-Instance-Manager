@@ -17,7 +17,7 @@
     #region Fields
 
     private readonly List<string> _Done = new List<string>();
-    
+
     #endregion
 
     #region Methods
@@ -53,7 +53,7 @@
         {
           controller.IncrementProgress(AttachDatabasesHelper.StepsCount / args.ConnectionString.Count);
         }
-        
+
         _Done.Add(connectionString.Name);
       }
     }

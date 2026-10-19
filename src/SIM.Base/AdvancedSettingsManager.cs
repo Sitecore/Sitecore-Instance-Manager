@@ -55,7 +55,7 @@
 
     public static AdvancedProperty<string> CreateAndRegisterStringSetting(string xPathKey, string defaultValue)
     {
-      return CreateAndRegisterGenericSetting(xPathKey, defaultValue, delegate(string value, out string result)
+      return CreateAndRegisterGenericSetting(xPathKey, defaultValue, delegate (string value, out string result)
       {
         result = value;
         return true;

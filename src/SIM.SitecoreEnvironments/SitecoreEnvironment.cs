@@ -29,17 +29,17 @@
         switch (EnvType)
         {
           case EnvironmentType.OnPrem:
-          {
-            return @"pack://application:,,,/SIM.Tool.Windows;component/Images/16/iis.png";
-          }
+            {
+              return @"pack://application:,,,/SIM.Tool.Windows;component/Images/16/iis.png";
+            }
           case EnvironmentType.Container:
-          {
-            return @"pack://application:,,,/SIM.Tool.Windows;component/Images/16/docker.png";
-          }
+            {
+              return @"pack://application:,,,/SIM.Tool.Windows;component/Images/16/docker.png";
+            }
           default:
-          {
-            return null;
-          }
+            {
+              return null;
+            }
         }
       }
     }
@@ -49,7 +49,7 @@
     public string UnInstallDataPath { get; set; }
 
     public EnvironmentType EnvType { get; set; }
-      
-    public enum EnvironmentType { OnPrem, Container}
+
+    public enum EnvironmentType { OnPrem, Container }
   }
 }

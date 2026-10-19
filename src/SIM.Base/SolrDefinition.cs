@@ -1,78 +1,83 @@
-﻿using Sitecore.Diagnostics.Base;
-using System;
-using System.Collections.Generic;
+﻿using System;
+using System.ComponentModel;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace SIM
 {
   [Serializable]
-  public class SolrDefinition: ICloneable, IValidateable
+  public class SolrDefinition : ICloneable, IValidateable
   {
     string url;
-    string root;
-    string name;
+    string adminUsername;
 
     [RenderInDataGreed]
-    public string Name {
-      get
-      {
-        return this.name;
-      }
-      set
-      {
-        name = value;
-      }
-    }
-    
+    public string Name { get; set; }
+
     [RenderInDataGreed]
-    public string Url {
-      get
-      {
-        return url;
-      }
-      set
-      {
-        url = value.Trim().TrimEnd('/','#');
-      }
+    public string Url
+    {
+      get => url; set => url = value?.Trim().TrimEnd('/', '#');
     }
+
     [RenderInDataGreed]
-    public string Root
+    public string Root { get; set; }
+
+    [RenderInDataGreed]
+    public string Service { get; set; }
+
+    [RenderInDataGreed]
+    [GridReadOnly]
+    public string AdminUsername
+    {
+      get => adminUsername; set => adminUsername = value?.Trim();
+    }
+
+    // Plain text by design: SIM is a local dev tool.
+    [RenderInDataGreed]
+    [GridReadOnly]
+    public string AdminPassword { get; set; }
+
+    public bool HasCredentials
     {
       get
       {
-        return root;
-      }
-      set
-      {
-        root = value;
+        return !string.IsNullOrEmpty(this.AdminUsername) && !string.IsNullOrEmpty(this.AdminPassword);
       }
     }
-    [RenderInDataGreed]
-    public string Service { get; set; }
+
+    /// <summary>
+    /// Value for the HTTP Authorization header, or null if no credentials are set.
+    /// </summary>
+    public string GetBasicAuthHeader()
+    {
+      if (!this.HasCredentials)
+      {
+        return null;
+      }
+
+      string token = Convert.ToBase64String(Encoding.UTF8.GetBytes(this.AdminUsername + ":" + this.AdminPassword));
+      return "Basic " + token;
+    }
 
     public object Clone()
     {
       return new SolrDefinition()
       {
-        root = Root,
-        name = Name,
+        Root = Root,
+        Name = Name,
         url = Url,
-        Service = Service
+        Service = Service,
+        adminUsername = AdminUsername,
+        AdminPassword = AdminPassword
       };
     }
 
     public bool HasAnyValuesInTheFields()
     {
-      if (string.IsNullOrEmpty(this.Name) && string.IsNullOrEmpty(this.Root) && string.IsNullOrEmpty(this.Service) &&
-          string.IsNullOrEmpty(this.Url))
-      {
-        return false;
-      }
-
-      return true;
+      return !string.IsNullOrEmpty(this.Name) || !string.IsNullOrEmpty(this.Root) || !string.IsNullOrEmpty(this.Service) ||
+          !string.IsNullOrEmpty(this.Url) || !string.IsNullOrEmpty(this.AdminUsername) ||
+          !string.IsNullOrEmpty(this.AdminPassword);
     }
 
     public string ValidateAndGetError()
@@ -97,6 +102,21 @@ namespace SIM
       if (!uri.Scheme.Equals("https", StringComparison.InvariantCultureIgnoreCase))
       {
         return "Solr must be HTTPS";
+      }
+
+      if (!string.IsNullOrEmpty(uri.UserInfo))
+      {
+        return "Do not put credentials in the Solr URL. Use Admin Username and Admin Password instead.";
+      }
+
+      if (string.IsNullOrEmpty(this.AdminUsername) != string.IsNullOrEmpty(this.AdminPassword))
+      {
+        return "Admin Username and Admin Password must both be set or both be empty.";
+      }
+
+      if (!string.IsNullOrEmpty(this.AdminUsername) && this.AdminUsername.Contains(":"))
+      {
+        return "Admin Username must not contain ':'.";
       }
 
       if (!Directory.Exists(this.Root))

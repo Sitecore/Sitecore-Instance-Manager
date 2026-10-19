@@ -64,7 +64,7 @@ namespace SIM.Tool.Windows.MainWindowComponents.Buttons
     }
 
     #region Public methods
-                     
+
     public override void OnClick(Window mainWindow, Instance instance)
     {
       if (!Showconfig && !WebConfigResult)

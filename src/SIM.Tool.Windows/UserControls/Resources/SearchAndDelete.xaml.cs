@@ -513,6 +513,7 @@ namespace SIM.Tool.Windows.UserControls.Resources
       return deletedDatabases;
     }
 
+    // TODO: Support deleting Solr 9+ with basic auth
     private IEnumerable<string> GetSolrCores(string searchTerm, string solrUrl)
     {
       List<string> solrCores = new List<string>();
@@ -570,7 +571,7 @@ namespace SIM.Tool.Windows.UserControls.Resources
         {
           using (HttpClient client = new HttpClient())
           {
-            foreach(string solrCore in solrCores)
+            foreach (string solrCore in solrCores)
             {
               string unloadCoreUrl = $"{solrUrl}/admin/cores?action=unload&core={solrCore}";
               HttpResponseMessage response = client.PostAsync(unloadCoreUrl, null).Result;

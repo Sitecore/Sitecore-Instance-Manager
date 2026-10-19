@@ -3,7 +3,7 @@
   using JetBrains.Annotations;
 
   public interface IFileSystemEntry
-  {             
+  {
     [NotNull]
     SIM.IO.IFileSystem FileSystem { get; }
 

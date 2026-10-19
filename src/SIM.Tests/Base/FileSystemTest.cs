@@ -5,7 +5,7 @@
 
   [TestClass()]
   public class FileSystemTest
-  {                     
+  {
     #region Public properties
 
     #endregion

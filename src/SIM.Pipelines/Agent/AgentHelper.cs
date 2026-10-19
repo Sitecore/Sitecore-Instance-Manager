@@ -51,17 +51,17 @@
       {
         new
         {
-          FileName = AgentFiles.InstallPackageFileName, 
+          FileName = AgentFiles.InstallPackageFileName,
           Contents = instance.Type == Instance.InstanceType.Sitecore9AndLater ? AgentFiles.InstallPackageContentsForSitecore9AndLater : AgentFiles.InstallPackageContents
-        }, 
+        },
         new
         {
-          FileName = AgentFiles.PostInstallActionsFileName, 
+          FileName = AgentFiles.PostInstallActionsFileName,
           Contents = AgentFiles.PostInstallActionsContents
-        }, 
+        },
         new
         {
-          FileName = AgentFiles.StatusFileName, 
+          FileName = AgentFiles.StatusFileName,
           Contents = AgentFiles.StatusContents
         }
       };

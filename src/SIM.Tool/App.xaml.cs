@@ -146,7 +146,7 @@ namespace SIM.Tool
           }
         }
       }
-      
+
       if (CoreApp.IsVeryFirstRun || CoreApp.HasBeenUpdated)
       {
         Log.Info("Cleaning up caches after update");
@@ -184,7 +184,7 @@ namespace SIM.Tool
             catch (Exception ex)
             {
               throw new InvalidOperationException($"Failed to delete file: {newFilePath}", ex);
-            }            
+            }
           }
 
           File.Move(filePath, newFilePath);
@@ -424,8 +424,8 @@ namespace SIM.Tool
           }
 
           var database = instances
-            .Select(x => 
-              Safe(() => 
+            .Select(x =>
+              Safe(() =>
                 x.AttachedDatabases.FirstOrDefault(y => y.Name.EqualsIgnoreCase("core")), x.ToString()))
             .FirstOrDefault(x => x != null);
 
@@ -456,7 +456,7 @@ namespace SIM.Tool
       // max timeout 5 seconds
       var thread = new Thread(new ThreadStart(action));
       thread.Start();
-      
+
       Thread.Sleep(5000);
       if (thread.IsAlive)
       {

@@ -61,7 +61,7 @@ namespace SIM.Pipelines
       {
         if (!done.Contains(name))
         {
-          SqlServerManager.Instance.DeleteDatabase(name, 
+          SqlServerManager.Instance.DeleteDatabase(name,
             connectionString);
           done.Add(name);
         }

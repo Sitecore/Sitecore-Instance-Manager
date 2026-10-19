@@ -1,15 +1,7 @@
-﻿using SIM.Adapters.SqlServer;
-using SIM.Instances;
-using SIM.IO;
-using SIM.Pipelines;
+﻿using SIM.Instances;
 using SIM.Pipelines.Install;
 using SIM.Pipelines.Processors;
 using SIM.Sitecore9Installer;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SIM.Tool.Base.Pipelines
 {
@@ -27,7 +19,7 @@ namespace SIM.Tool.Base.Pipelines
 
     public override ProcessorArgs ToProcessorArgs()
     {
-      Install9Args args= new Install9Args(this.Tasker);
+      Install9Args args = new Install9Args(this.Tasker);
       args.ScriptsOnly = this.ScriptsOnly;
       return args;
     }

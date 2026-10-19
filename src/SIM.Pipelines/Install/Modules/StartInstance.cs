@@ -26,7 +26,7 @@ namespace SIM.Pipelines.Install.Modules
         {
           return;
         }
-        
+
         try
         {
           InstanceHelper.StartInstance(instance, 500);

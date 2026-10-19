@@ -42,16 +42,12 @@
     "TelerikEncryptionKey": ""
   },
   "PackageMapping": {
-
     "sitecore-XM1-cd": "* (OnPrem)_cd.scwdp.zip",
     "sitecore-XM1-cm": "* (OnPrem)_cm.scwdp.zip",
     "IdentityServer": "* (OnPrem)_identityserver.scwdp.zip"
   },
 
-  "Validators": [
-    "list|Basic",
-    "list|Sitecore_10.0"
-  ],
+  "Validators": ["list|Basic", "list|Sitecore_10.0"],
 
   "ExecSequense": {
     "InstallSIF": {

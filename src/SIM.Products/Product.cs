@@ -544,344 +544,344 @@ namespace SIM.Products
     }
 
     public bool IsMatchRequirements([NotNull] Product instanceProduct)
-  {
-    Assert.ArgumentNotNull(instanceProduct, nameof(instanceProduct));
-
-    // !ProductHelper.Settings.InstallModulesCheckRequirements.Value&& 
-    if (!Name.EqualsIgnoreCase("Sitecore Analytics"))
     {
+      Assert.ArgumentNotNull(instanceProduct, nameof(instanceProduct));
+
+      // !ProductHelper.Settings.InstallModulesCheckRequirements.Value&& 
+      if (!Name.EqualsIgnoreCase("Sitecore Analytics"))
+      {
+        return true;
+      }
+
+      foreach (XmlElement product in Manifest.SelectElements(ManifestPrefix + "*/requirements/product"))
+      {
+        IEnumerable<XmlElement> rules = product.ChildNodes.OfType<XmlElement>().ToArray();
+        foreach (IGrouping<string, XmlElement> group in rules.GroupBy(ch => ch.Name.ToLower()))
+        {
+          var key = group.Key;
+          switch (key)
+          {
+            case "version":
+              if (rules.Where(r => r.Name.ToLower() == key).All(s => !VersionMatch(instanceProduct, s.GetAttribute("value"), s)))
+              {
+                return false;
+              }
+
+              break;
+            case "revision":
+              if (rules.Where(r => r.Name.ToLower() == key).All(s => !RevisionMatch(instanceProduct, s.GetAttribute("value"))))
+              {
+                return false;
+              }
+
+              break;
+          }
+        }
+      }
+
       return true;
     }
 
-    foreach (XmlElement product in Manifest.SelectElements(ManifestPrefix + "*/requirements/product"))
+    public override string ToString()
     {
-      IEnumerable<XmlElement> rules = product.ChildNodes.OfType<XmlElement>().ToArray();
-      foreach (IGrouping<string, XmlElement> group in rules.GroupBy(ch => ch.Name.ToLower()))
-      {
-        var key = group.Key;
-        switch (key)
-        {
-          case "version":
-            if (rules.Where(r => r.Name.ToLower() == key).All(s => !VersionMatch(instanceProduct, s.GetAttribute("value"), s)))
-            {
-              return false;
-            }
-
-            break;
-          case "revision":
-            if (rules.Where(r => r.Name.ToLower() == key).All(s => !RevisionMatch(instanceProduct, s.GetAttribute("value"))))
-            {
-              return false;
-            }
-
-            break;
-        }
-      }
+      return ToString(false);
     }
 
-    return true;
-  }
-
-  public override string ToString()
-  {
-    return ToString(false);
-  }
-
-  public virtual string ToString(bool triVersion)
-  {
-    const string Pattern = "{0} {1} rev. {2}";
-
-    return Pattern.FormatWith(Name, triVersion ? TriVersion : TwoVersion, Revision).TrimEnd(" rev. ").TrimEnd(' ');
-  }
-
-  #endregion
-
-  #region Private methods
-
-  private Dictionary<bool, string> GetReadme()
-  {
-    var readmeNode = Manifest.GetElementsByTagName("readme")[0];
-    if (readmeNode != null && !string.IsNullOrEmpty(readmeNode.InnerText))
+    public virtual string ToString(bool triVersion)
     {
-      return new Dictionary<bool, string>
+      const string Pattern = "{0} {1} rev. {2}";
+
+      return Pattern.FormatWith(Name, triVersion ? TriVersion : TwoVersion, Revision).TrimEnd(" rev. ").TrimEnd(' ');
+    }
+
+    #endregion
+
+    #region Private methods
+
+    private Dictionary<bool, string> GetReadme()
+    {
+      var readmeNode = Manifest.GetElementsByTagName("readme")[0];
+      if (readmeNode != null && !string.IsNullOrEmpty(readmeNode.InnerText))
+      {
+        return new Dictionary<bool, string>
         {
           {
             true, readmeNode.InnerText
           }
         };
-    }
+      }
 
-    var tempExtractFolderPath = Path.Combine(Directory.GetParent(PackagePath).FullName, "TempExtract");
-    if (!Directory.Exists(tempExtractFolderPath))
-    {
-      Directory.CreateDirectory(tempExtractFolderPath);
-    }
-
-    using (var zip = ZipFile.Read(PackagePath))
-    {
-      ZipEntry readmeEntry;
-
-      var packageEntry = zip["package.zip"];
-
-      if (packageEntry != null)
+      var tempExtractFolderPath = Path.Combine(Directory.GetParent(PackagePath).FullName, "TempExtract");
+      if (!Directory.Exists(tempExtractFolderPath))
       {
-        packageEntry.Extract(tempExtractFolderPath, ExtractExistingFileAction.OverwriteSilently);
+        Directory.CreateDirectory(tempExtractFolderPath);
+      }
 
-        using (var packageZip = ZipFile.Read(Path.Combine(tempExtractFolderPath, "package.zip")))
+      using (var zip = ZipFile.Read(PackagePath))
+      {
+        ZipEntry readmeEntry;
+
+        var packageEntry = zip["package.zip"];
+
+        if (packageEntry != null)
         {
-          readmeEntry = packageZip["metadata/sc_readme.txt"];
+          packageEntry.Extract(tempExtractFolderPath, ExtractExistingFileAction.OverwriteSilently);
+
+          using (var packageZip = ZipFile.Read(Path.Combine(tempExtractFolderPath, "package.zip")))
+          {
+            readmeEntry = packageZip["metadata/sc_readme.txt"];
+            if (readmeEntry != null)
+            {
+              readmeEntry.Extract(tempExtractFolderPath, ExtractExistingFileAction.OverwriteSilently);
+            }
+          }
+        }
+        else
+        {
+          readmeEntry = zip["metadata/sc_readme.txt"];
           if (readmeEntry != null)
           {
             readmeEntry.Extract(tempExtractFolderPath, ExtractExistingFileAction.OverwriteSilently);
           }
         }
       }
-      else
+
+      string readmeText;
+
+      var path = Path.Combine(tempExtractFolderPath, "metadata", "sc_readme.txt");
+      try
       {
-        readmeEntry = zip["metadata/sc_readme.txt"];
-        if (readmeEntry != null)
-        {
-          readmeEntry.Extract(tempExtractFolderPath, ExtractExistingFileAction.OverwriteSilently);
-        }
+        readmeText = File.ReadAllText(path);
       }
-    }
+      catch (Exception ex)
+      {
+        Log.Warn(ex, $"An error occurred during extracting readme text from {path}");
+        readmeText = string.Empty;
+      }
 
-    string readmeText;
-
-    var path = Path.Combine(tempExtractFolderPath, "metadata", "sc_readme.txt");
-    try
-    {
-      readmeText = File.ReadAllText(path);
-    }
-    catch (Exception ex)
-    {
-      Log.Warn(ex, $"An error occurred during extracting readme text from {path}");
-      readmeText = string.Empty;
-    }
-
-    Directory.Delete(tempExtractFolderPath, true);
-    return new Dictionary<bool, string>
+      Directory.Delete(tempExtractFolderPath, true);
+      return new Dictionary<bool, string>
       {
         {
           false, readmeText
         }
       };
-  }
-
-  #endregion
-
-  #endregion
-
-  #region Methods
-
-  private static bool TryParse([NotNull] string packagePath, [NotNull] Match match, [CanBeNull] out Product product)
-  {
-    Assert.ArgumentNotNull(packagePath, nameof(packagePath));
-    Assert.ArgumentNotNull(match, nameof(match));
-
-    product = null;
-    if (!FileSystem.FileSystem.Local.File.Exists(packagePath))
-    {
-      packagePath = null;
     }
 
-    var originalName = match.Groups[1].Value;
-    var name = originalName;
-    string shortName = null;
-    var version = match.Groups[2].Value;
-    var revision = match.Groups[5].Value;
+    #endregion
 
-    if (name.EqualsIgnoreCase("sitecore") && version[0] == '5')
+    #endregion
+
+    #region Methods
+
+    private static bool TryParse([NotNull] string packagePath, [NotNull] Match match, [CanBeNull] out Product product)
     {
-      return false;
-    }
+      Assert.ArgumentNotNull(packagePath, nameof(packagePath));
+      Assert.ArgumentNotNull(match, nameof(match));
 
-    var arr = version.Split('.');
+      product = null;
+      if (!FileSystem.FileSystem.Local.File.Exists(packagePath))
+      {
+        packagePath = null;
+      }
 
-    product = ProductManager.Products.FirstOrDefault(p => p.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase) && p.OriginalName.Equals(originalName) && p.ShortName.EqualsIgnoreCase(shortName) && p.Revision.EqualsIgnoreCase(revision))
-              ?? new Product
-              {
-                OriginalName = originalName,
-                PackagePath = packagePath,
-                TwoVersion = $"{arr[0]}.{arr[1]}",
-                TriVersion = version,
-                Revision = revision
-              };
+      var originalName = match.Groups[1].Value;
+      var name = originalName;
+      string shortName = null;
+      var version = match.Groups[2].Value;
+      var revision = match.Groups[5].Value;
 
-    return true;
-  }
+      if (name.EqualsIgnoreCase("sitecore") && version[0] == '5')
+      {
+        return false;
+      }
 
-  public string TriVersion { get; set; }
+      var arr = version.Split('.');
 
-  [NotNull]
-  private string FormatString([NotNull] string pattern)
-  {
-    Assert.ArgumentNotNull(pattern, nameof(pattern));
+      product = ProductManager.Products.FirstOrDefault(p => p.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase) && p.OriginalName.Equals(originalName) && p.ShortName.EqualsIgnoreCase(shortName) && p.Revision.EqualsIgnoreCase(revision))
+                ?? new Product
+                {
+                  OriginalName = originalName,
+                  PackagePath = packagePath,
+                  TwoVersion = $"{arr[0]}.{arr[1]}",
+                  TriVersion = version,
+                  Revision = revision
+                };
 
-    return pattern.Replace("{ShortName}", ShortName).Replace("{Name}", Name).Replace("{ShortVersion}", ShortVersion).Replace("{Version}", TwoVersion).Replace("{Revision}", Revision)
-      .Replace("{UpdateOrRevision}", UpdateOrRevision);
-  }
-
-  private bool RevisionMatch([NotNull] Product instanceProduct, [NotNull] string revision)
-  {
-    Assert.ArgumentNotNull(instanceProduct, nameof(instanceProduct));
-    Assert.ArgumentNotNull(revision, nameof(revision));
-
-    if (string.IsNullOrEmpty(revision))
-    {
-      revision = Revision;
-    }
-
-    var instanceRevision = instanceProduct.Revision;
-    if (instanceRevision == revision || string.IsNullOrEmpty(instanceRevision))
-    {
       return true;
     }
 
-    return false;
-  }
+    public string TriVersion { get; set; }
 
-  private bool VersionMatch([NotNull] Product instanceProduct, [NotNull] string version, [NotNull] XmlElement versionRule)
-  {
-    Assert.ArgumentNotNull(instanceProduct, nameof(instanceProduct));
-    Assert.ArgumentNotNull(version, nameof(version));
-    Assert.ArgumentNotNull(versionRule, nameof(versionRule));
-
-    if (string.IsNullOrEmpty(version))
+    [NotNull]
+    private string FormatString([NotNull] string pattern)
     {
-      version = TwoVersion;
+      Assert.ArgumentNotNull(pattern, nameof(pattern));
+
+      return pattern.Replace("{ShortName}", ShortName).Replace("{Name}", Name).Replace("{ShortVersion}", ShortVersion).Replace("{Version}", TwoVersion).Replace("{Revision}", Revision)
+        .Replace("{UpdateOrRevision}", UpdateOrRevision);
     }
 
-    var instanceVersion = instanceProduct.TwoVersion;
-    if (instanceVersion == version)
+    private bool RevisionMatch([NotNull] Product instanceProduct, [NotNull] string revision)
     {
-      var rules = versionRule.SelectElements("revision").ToArray();
-      if (rules.Length == 0)
+      Assert.ArgumentNotNull(instanceProduct, nameof(instanceProduct));
+      Assert.ArgumentNotNull(revision, nameof(revision));
+
+      if (string.IsNullOrEmpty(revision))
+      {
+        revision = Revision;
+      }
+
+      var instanceRevision = instanceProduct.Revision;
+      if (instanceRevision == revision || string.IsNullOrEmpty(instanceRevision))
       {
         return true;
       }
 
-      if (rules.Any(s => RevisionMatch(instanceProduct, s.GetAttribute("value"))))
-      {
-        return true;
-      }
-    }
-
-    return false;
-  }
-
-  #endregion
-
-  #region Public methods
-
-  public static Product GetFilePackageProduct(string packagePath)
-  {
-    return FileSystem.FileSystem.Local.File.Exists(packagePath) ? new Product
-    {
-      PackagePath = packagePath,
-      IsStandalone = false,
-      Name = Path.GetFileName(packagePath)
-    } : null;
-  }
-
-  #endregion
-
-  #region Private methods
-
-  private static bool GetIsPackage(string packagePath, XmlDocument manifest)
-  {
-    if (string.IsNullOrEmpty(packagePath))
-    {
       return false;
     }
 
-    const string CacheName = "IsPackage";
-    var path = packagePath.ToLowerInvariant();
-    using (new ProfileSection("Is it package or not"))
+    private bool VersionMatch([NotNull] Product instanceProduct, [NotNull] string version, [NotNull] XmlElement versionRule)
     {
-      ProfileSection.Argument("packagePath", packagePath);
-      ProfileSection.Argument("manifest", manifest);
+      Assert.ArgumentNotNull(instanceProduct, nameof(instanceProduct));
+      Assert.ArgumentNotNull(version, nameof(version));
+      Assert.ArgumentNotNull(versionRule, nameof(versionRule));
 
-      try
+      if (string.IsNullOrEmpty(version))
       {
-        // cache            
-        var entry = CacheManager.GetEntry(CacheName, path);
-        if (entry != null)
-        {
-          var result = entry.EqualsIgnoreCase("true");
+        version = TwoVersion;
+      }
 
-          return ProfileSection.Result(result);
+      var instanceVersion = instanceProduct.TwoVersion;
+      if (instanceVersion == version)
+      {
+        var rules = versionRule.SelectElements("revision").ToArray();
+        if (rules.Length == 0)
+        {
+          return true;
         }
 
-        if (
-          manifest.With(
-            x =>
-              x.SelectSingleElement(ManifestPrefix + "standalone") ?? x.SelectSingleElement(ManifestPrefix + "archive")) !=
-          null)
+        if (rules.Any(s => RevisionMatch(instanceProduct, s.GetAttribute("value"))))
         {
+          return true;
+        }
+      }
+
+      return false;
+    }
+
+    #endregion
+
+    #region Public methods
+
+    public static Product GetFilePackageProduct(string packagePath)
+    {
+      return FileSystem.FileSystem.Local.File.Exists(packagePath) ? new Product
+      {
+        PackagePath = packagePath,
+        IsStandalone = false,
+        Name = Path.GetFileName(packagePath)
+      } : null;
+    }
+
+    #endregion
+
+    #region Private methods
+
+    private static bool GetIsPackage(string packagePath, XmlDocument manifest)
+    {
+      if (string.IsNullOrEmpty(packagePath))
+      {
+        return false;
+      }
+
+      const string CacheName = "IsPackage";
+      var path = packagePath.ToLowerInvariant();
+      using (new ProfileSection("Is it package or not"))
+      {
+        ProfileSection.Argument("packagePath", packagePath);
+        ProfileSection.Argument("manifest", manifest);
+
+        try
+        {
+          // cache            
+          var entry = CacheManager.GetEntry(CacheName, path);
+          if (entry != null)
+          {
+            var result = entry.EqualsIgnoreCase("true");
+
+            return ProfileSection.Result(result);
+          }
+
+          if (
+            manifest.With(
+              x =>
+                x.SelectSingleElement(ManifestPrefix + "standalone") ?? x.SelectSingleElement(ManifestPrefix + "archive")) !=
+            null)
+          {
+            CacheManager.SetEntry(CacheName, path, "false");
+            return ProfileSection.Result(false);
+          }
+
+          if (
+            manifest.With(
+              x =>
+                x.SelectSingleElement(ManifestPrefix + "package")) !=
+            null)
+          {
+            CacheManager.SetEntry(CacheName, path, "true");
+
+            return ProfileSection.Result(true);
+          }
+
           CacheManager.SetEntry(CacheName, path, "false");
+
           return ProfileSection.Result(false);
         }
-
-        if (
-          manifest.With(
-            x =>
-              x.SelectSingleElement(ManifestPrefix + "package")) !=
-          null)
+        catch (Exception e)
         {
-          CacheManager.SetEntry(CacheName, path, "true");
+          Log.Warn(string.Format("Detecting if the '{0}' file is a Sitecore Package failed with exception.", path, e));
+          CacheManager.SetEntry(CacheName, path, "false");
 
-          return ProfileSection.Result(true);
+          return ProfileSection.Result(false);
+        }
+      }
+    }
+
+    XmlSchema IXmlSerializable.GetSchema()
+    {
+      throw new NotImplementedException();
+    }
+
+    void IXmlSerializable.ReadXml(XmlReader reader)
+    {
+      throw new NotImplementedException();
+    }
+
+    void IXmlSerializable.WriteXml(XmlWriter writer)
+    {
+      foreach (var property in GetType().GetProperties())
+      {
+        object value = property.GetValue(this, new object[0]);
+        var xml = value as XmlDocument;
+        if (xml != null)
+        {
+          writer.WriteNode(new XmlNodeReader(XmlDocumentEx.LoadXml($"<Manifest>{xml.OuterXml}</Manifest>")), false);
+          continue;
         }
 
-        CacheManager.SetEntry(CacheName, path, "false");
-
-        return ProfileSection.Result(false);
-      }
-      catch (Exception e)
-      {
-        Log.Warn(string.Format("Detecting if the '{0}' file is a Sitecore Package failed with exception.", path, e));
-        CacheManager.SetEntry(CacheName, path, "false");
-
-        return ProfileSection.Result(false);
+        writer.WriteElementString(property.Name, string.Empty, (value ?? string.Empty).ToString());
       }
     }
-  }
 
-  XmlSchema IXmlSerializable.GetSchema()
-  {
-    throw new NotImplementedException();
-  }
+    #endregion
 
-  void IXmlSerializable.ReadXml(XmlReader reader)
-  {
-    throw new NotImplementedException();
-  }
-
-  void IXmlSerializable.WriteXml(XmlWriter writer)
-  {
-    foreach (var property in GetType().GetProperties())
+    /// <summary>
+    /// Force manifest to be reloaded from disk, to reset variable replacements.
+    /// </summary>
+    public void ResetManifest()
     {
-      object value = property.GetValue(this, new object[0]);
-      var xml = value as XmlDocument;
-      if (xml != null)
-      {
-        writer.WriteNode(new XmlNodeReader(XmlDocumentEx.LoadXml($"<Manifest>{xml.OuterXml}</Manifest>")), false);
-        continue;
-      }
-
-      writer.WriteElementString(property.Name, string.Empty, (value ?? string.Empty).ToString());
+      _Manifest = null;
     }
   }
-
-  #endregion
-
-  /// <summary>
-  /// Force manifest to be reloaded from disk, to reset variable replacements.
-  /// </summary>
-  public void ResetManifest()
-  {
-    _Manifest = null;
-  }
-}
 }

@@ -7,8 +7,8 @@ namespace SIM.Sitecore9Installer.Validation
 {
   public class ValidationFactory
   {
-    private  Dictionary<string, IValidator> validators;
-    private  Dictionary<string, List<string>> validatorLists;
+    private Dictionary<string, IValidator> validators;
+    private Dictionary<string, List<string>> validatorLists;
     private static ValidationFactory _instance;
 
     internal ValidationFactory()
@@ -47,7 +47,7 @@ namespace SIM.Sitecore9Installer.Validation
     }
 
 
-    public  IEnumerable<IValidator> GetValidators(IEnumerable<string> names)
+    public IEnumerable<IValidator> GetValidators(IEnumerable<string> names)
     {
       List<IValidator> result = new List<IValidator>();
       foreach (string name in names)

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace SIM.Pipelines.Reinstall
 {
-  public class Reinstall9Args: Install9Args
+  public class Reinstall9Args : Install9Args
   {
     public Reinstall9Args(Tasker tasker) : base(tasker)
     {

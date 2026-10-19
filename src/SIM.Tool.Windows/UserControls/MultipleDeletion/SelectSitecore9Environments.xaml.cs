@@ -70,7 +70,7 @@ namespace SIM.Tool.Windows.UserControls.MultipleDeletion
 
       if (!string.IsNullOrEmpty(searchPhrase))
       {
-        
+
         SearchEnvironmentCheckBoxItems = EnvironmentCheckBoxItems.Where(item => item.Name.ContainsIgnoreCase(searchPhrase)).ToList();
         Environments.DataContext = SearchEnvironmentCheckBoxItems;
       }

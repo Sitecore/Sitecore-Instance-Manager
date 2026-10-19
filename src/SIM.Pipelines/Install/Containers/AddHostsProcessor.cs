@@ -8,7 +8,7 @@ using Sitecore.Diagnostics.Base;
 namespace SIM.Pipelines.Install.Containers
 {
   [UsedImplicitly]
-  public class AddHostsProcessor: Processor
+  public class AddHostsProcessor : Processor
   {
     protected override void Process([NotNull] ProcessorArgs arguments)
     {

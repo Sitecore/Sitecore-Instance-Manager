@@ -43,7 +43,7 @@ namespace SIM.Sitecore9Installer.Tasks
 
       //This script isn't invoked during uninstall. It's Ok.
       return baseScript += scriptTemaplate
-        .Replace("$(ServerInstance)",ServerInstance)
+        .Replace("$(ServerInstance)", ServerInstance)
         .Replace("$(SqlAdminUser)", SqlAdminUser)
         .Replace("$(SqlAdminPassword)", SqlAdminPassword)
         .Replace("$(UserName)", UserName)

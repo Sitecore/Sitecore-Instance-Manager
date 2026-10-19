@@ -18,7 +18,7 @@ namespace SIM.ContainerInstaller
       {
         PowerShellInstance.AddScript($"cd \"{this.root}\"\n");
         PowerShellInstance.AddScript(this.GetScript());
-        Collection<PSObject> result= PowerShellInstance.Invoke();
+        Collection<PSObject> result = PowerShellInstance.Invoke();
 
         if (PowerShellInstance.Streams.Error.Count > 0)
         {

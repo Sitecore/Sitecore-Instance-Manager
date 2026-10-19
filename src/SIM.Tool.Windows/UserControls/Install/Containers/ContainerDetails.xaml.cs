@@ -123,21 +123,21 @@ namespace SIM.Tool.Windows.UserControls.Install.Containers
         return false;
       }
 
-        if (SIM.FileSystem.FileSystem.Local.Directory.Exists(rootPath))
+      if (SIM.FileSystem.FileSystem.Local.Directory.Exists(rootPath))
+      {
+        if (Directory.EnumerateFileSystemEntries(rootPath).Any())
         {
-          if (Directory.EnumerateFileSystemEntries(rootPath).Any())
+          if (WindowHelper.ShowMessage("The folder with the same name already exists and is not empty. Would you like to delete it?", MessageBoxButton.OKCancel, MessageBoxImage.Question, MessageBoxResult.OK) == MessageBoxResult.OK)
           {
-            if (WindowHelper.ShowMessage("The folder with the same name already exists and is not empty. Would you like to delete it?", MessageBoxButton.OKCancel, MessageBoxImage.Question, MessageBoxResult.OK) == MessageBoxResult.OK)
-            {
-              SIM.FileSystem.FileSystem.Local.Directory.DeleteIfExists(rootPath, null);
-              SIM.FileSystem.FileSystem.Local.Directory.CreateDirectory(rootPath);
-            }
+            SIM.FileSystem.FileSystem.Local.Directory.DeleteIfExists(rootPath, null);
+            SIM.FileSystem.FileSystem.Local.Directory.CreateDirectory(rootPath);
           }
         }
-        else
-        {
-          SIM.FileSystem.FileSystem.Local.Directory.CreateDirectory(rootPath);
-        }
+      }
+      else
+      {
+        SIM.FileSystem.FileSystem.Local.Directory.CreateDirectory(rootPath);
+      }
 
       args.DestinationFolder = rootPath;
       return true;

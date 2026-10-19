@@ -26,7 +26,7 @@ namespace SIM.Tool.Windows.MainWindowComponents.Buttons
     public override void OnClick(Window mainWindow, Instance instance)
     {
       Assert.ArgumentNotNull(instance, nameof(instance));
-                    
+
       WindowHelper.LongRunningTask(() => Process(instance), "Attaching database", mainWindow);
     }
 

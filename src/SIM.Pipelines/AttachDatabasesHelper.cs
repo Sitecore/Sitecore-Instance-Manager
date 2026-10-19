@@ -285,7 +285,7 @@ namespace SIM.Pipelines
 
       SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder(defaultConnectionString.ConnectionString)
       {
-        InitialCatalog = connectionString.GenerateDatabaseName(name, sqlPrefix), 
+        InitialCatalog = connectionString.GenerateDatabaseName(name, sqlPrefix),
         IntegratedSecurity = false
       };
       connectionString.Value = builder.ToString();

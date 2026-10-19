@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SIM.Sitecore9Installer
 {
-  public class LocalParameters:BaseParameters
+  public class LocalParameters : BaseParameters
   {
     private List<InstallParam> _localParams;
     private GlobalParameters _globalParams;
@@ -20,7 +20,7 @@ namespace SIM.Sitecore9Installer
 
     protected override List<InstallParam> Parameters { get => _localParams; }
 
-    protected override void CalculateParameters()    
+    protected override void CalculateParameters()
     {
       this._globalParams.Evaluate();
       this.EvaluateLocalParams();

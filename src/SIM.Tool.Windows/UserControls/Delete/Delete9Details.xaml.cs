@@ -4,28 +4,19 @@ namespace SIM.Tool.Windows.UserControls.Install
 {
   using System;
   using System.Collections.Generic;
-  using System.Collections.ObjectModel;
   using System.IO;
   using System.Linq;
   using System.Windows;
-  using System.Windows.Controls;
-  using System.Windows.Controls.Primitives;
-  using System.Xml;
-  using SIM.Adapters.SqlServer;
-  using SIM.Adapters.WebServer;
   using SIM.Instances;
-  using SIM.Products;
   using SIM.Tool.Base;
   using SIM.Tool.Base.Pipelines;
   using SIM.Tool.Base.Profiles;
   using SIM.Tool.Base.Wizards;
   using Sitecore.Diagnostics.Base;
   using JetBrains.Annotations;
-  using Sitecore.Diagnostics.Logging;
   using SIM.Extensions;
   using SIM.IO.Real;
   using SIM.Sitecore9Installer;
-  using SIM.Tool.Windows.UserControls.Helpers;
 
   public enum Topology { Undefined, XP0, XP1, XM1 }
 
@@ -76,11 +67,11 @@ namespace SIM.Tool.Windows.UserControls.Install
 
     public bool OnMovingNext(WizardArgs wizardArgs)
     {
-      var args = (Delete9WizardArgs)wizardArgs;     
+      var args = (Delete9WizardArgs)wizardArgs;
       args.ScriptsOnly = this.scriptsOnly.IsChecked ?? false;
 
       args.ScriptRoot = args.Tasker.GlobalParams.FirstOrDefault(p => p.Name == "FilesRoot").Value;
-      
+
       Tasker tasker = args.Tasker;
       tasker.GlobalParams.FirstOrDefault(p => p.Name == "FilesRoot").Value = args.ScriptRoot;
       InstallParam sqlServer = tasker.GlobalParams.FirstOrDefault(p => p.Name == "SqlServer");
@@ -105,7 +96,7 @@ namespace SIM.Tool.Windows.UserControls.Install
 
     public void UnpackInstallationFiles(Install9WizardArgs args)
     {
-      string packagename = Path.GetFileName(args.ScriptRoot)+".zip";
+      string packagename = Path.GetFileName(args.ScriptRoot) + ".zip";
       string packagepath = Path.Combine(ProfileManager.Profile.LocalRepository, packagename);
       RealZipFile zip = new RealZipFile(new RealFile(new RealFileSystem(), packagepath));
       zip.ExtractTo(new RealFolder(new RealFileSystem(), args.ScriptRoot));
@@ -135,9 +126,9 @@ namespace SIM.Tool.Windows.UserControls.Install
     #endregion
 
     #region Private methods
-    
 
-         
+
+
     #endregion
     #region IWizardStep Members
 

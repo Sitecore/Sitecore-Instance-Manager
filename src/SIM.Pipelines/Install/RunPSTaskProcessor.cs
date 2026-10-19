@@ -20,7 +20,7 @@ namespace SIM.Pipelines.Install
     protected override void Process([NotNull] ProcessorArgs args)
     {
       Install9Args arguments = (Install9Args)args;
-      Sitecore9Installer.Tasks.Task task =arguments.Tasker.Tasks.FirstOrDefault(t => t.Name == this.taskName);
+      Sitecore9Installer.Tasks.Task task = arguments.Tasker.Tasks.FirstOrDefault(t => t.Name == this.taskName);
       Assert.ArgumentNotNull(task, nameof(task));
 
       string result = string.Empty;
@@ -36,7 +36,7 @@ namespace SIM.Pipelines.Install
       if (task.State != TaskState.Finished)
       {
         this.HandleError(task, result);
-      }   
+      }
     }
 
     private void HandleError(Task task, Exception e)
@@ -57,7 +57,7 @@ namespace SIM.Pipelines.Install
 
       if (sTask != null)
       {
-        this.CustomLogLocation = sTask.GlobalParams.First(p=>p.Name== "FilesRoot").Value;
+        this.CustomLogLocation = sTask.GlobalParams.First(p => p.Name == "FilesRoot").Value;
       }
     }
   }

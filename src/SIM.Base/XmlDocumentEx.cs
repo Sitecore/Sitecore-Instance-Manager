@@ -55,7 +55,7 @@
         return null;
       }
     }
-    
+
     [CanBeNull]
     public static XmlDocumentEx LoadStream(Stream stream)
     {
@@ -294,6 +294,6 @@
 
       return sw.ToString();
     }
-    
+
   }
 }

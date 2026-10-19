@@ -11,8 +11,8 @@
   {
     public static void Install([NotNull] IFolder root, string version, string role)
     {
-      var webConfigFile = root.GetChildFile("web.config");   
-      
+      var webConfigFile = root.GetChildFile("web.config");
+
       var webConfig = new XmlDocumentEx(webConfigFile.FullName);
       var configReader = webConfig.SelectSingleElement("/configuration/configSections/section[@name='sitecore']");
       Assert.IsNotNull(configReader);

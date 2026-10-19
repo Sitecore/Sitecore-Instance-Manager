@@ -239,7 +239,7 @@ namespace SIM.Tool.Windows
       }
 
       return new ButtonDefinition
-      {                
+      {
         Label = "Create Hotfix",
         Image = "/Images/$sm/vs.png, SIM.Tool.Windows",
         Handler = new CreateSupportHotfixButton("%APPDATA%\\Sitecore\\HotfixCreator", $"http://dl.sitecore.net/updater/hc/HotfixCreator.application")
@@ -1128,7 +1128,7 @@ namespace SIM.Tool.Windows
       };
     }
 
-    internal static ButtonDefinition[] MenuItems { get; } = 
+    internal static ButtonDefinition[] MenuItems { get; } =
     {
       new ButtonDefinition { Label = "Browse Sitecore Container Website", Image = "/Images/$sm/earth2.png, SIM.Tool.Windows", Handler = new BrowseSitecoreContainerWebsiteButton() },
       new ButtonDefinition { Label = "Browse Website", Image = "/Images/$sm/earth2.png, SIM.Tool.Windows", Handler = new BrowseHomePageButton() },
@@ -1142,7 +1142,7 @@ namespace SIM.Tool.Windows
         new ButtonDefinition { Label = "Sitecore Admin", Image = "/Images/$lg/toolbox.png, SIM.Tool.Windows", Handler = new OpenToolboxButton("bypass") },
         new ButtonDefinition { Handler = new LoginAdminButton() },
         new ButtonDefinition { Label = "Copy URL", Image = "/Images/$lg/astrologer.png, SIM.Tool.Windows", Handler = new LoginAdminButton("$(clipboard)") },
-      }}, 
+      }},
       new ButtonDefinition { Label = "Sitecore Admin", Image = "/Images/$lg/toolbox.png, SIM.Tool.Windows", Handler = new OpenToolboxButton() },
       new ButtonDefinition { Label = "Open Folder", Image = "/Images/$sm/folder_open.png, SIM.Tool.Windows", Handler = new SitecoreMemberOpenFolderButton("$(website)") },
       new ButtonDefinition { Label = "Open Container Folder", Image = "/Images/$sm/folder_open.png, SIM.Tool.Windows", Handler = new OpenContainerFolderButton() },

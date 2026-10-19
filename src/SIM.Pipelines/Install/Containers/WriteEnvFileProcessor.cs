@@ -14,7 +14,7 @@ namespace SIM.Pipelines.Install.Containers
     protected override void Process([NotNull] ProcessorArgs arguments)
     {
       InstallContainerArgs args = (InstallContainerArgs)arguments;
-      args.EnvModel.SaveToFile(Path.Combine(args.Destination,".env"));
+      args.EnvModel.SaveToFile(Path.Combine(args.Destination, ".env"));
     }
   }
 }

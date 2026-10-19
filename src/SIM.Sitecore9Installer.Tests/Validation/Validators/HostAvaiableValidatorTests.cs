@@ -31,7 +31,7 @@ namespace SIM.Sitecore9Installer.Tests.Validation.Validators
     {
       HostAvaiableValidator val = this.CreateValidator(HttpStatusCode.OK, hostName);
       Task task = ValidatorTestSetup.CreateTask("someTask", new string[] { hostName }, new string[] { hostValue });
-      IEnumerable<ValidationResult> results= val.Evaluate(new Task[] { task });
+      IEnumerable<ValidationResult> results = val.Evaluate(new Task[] { task });
       Assert.Contains(results, r => r.State == ValidatorState.Success);
       Assert.DoesNotContain(results, r => r.State == ValidatorState.Error);
     }

@@ -17,7 +17,7 @@
   public static class PipelineManager
   {
     #region Fields
-    
+
     public static readonly Dictionary<string, PipelineDefinition> Definitions = new Dictionary<string, PipelineDefinition>();
 
     #endregion
@@ -83,8 +83,8 @@
 
               AddSteps(steps, def);
             }
-              
-              // All step's processors are interted to the step
+
+            // All step's processors are interted to the step
             else
             {
               var stepNode = pipelineNode.AddElement("step");
@@ -95,8 +95,8 @@
             }
           }
         }
-          
-          // Otherwise all the processors are placed into the default step.
+
+        // Otherwise all the processors are placed into the default step.
         else
         {
           List<ProcessorDefinition> processorDefinitions = ProcessorManager.GetProcessors(element, pipelineName, pipelineNode);
@@ -105,7 +105,7 @@
 
         Definitions.Add(pipelineName, new PipelineDefinition
         {
-          Steps = steps, 
+          Steps = steps,
           Title = title
         });
       }

@@ -20,7 +20,7 @@ namespace SIM.Tool.Windows.MainWindowComponents.Buttons
         return;
       }
 
-      if (ApplicationManager.CurrentDockerStatus == ApplicationManager.DockerStatus.RunningWithWindowsContainers || 
+      if (ApplicationManager.CurrentDockerStatus == ApplicationManager.DockerStatus.RunningWithWindowsContainers ||
         ApplicationManager.CurrentDockerStatus == ApplicationManager.DockerStatus.RunningWithLinuxContainers)
       {
         string urlToWikiPage = "https://github.com/Sitecore/Sitecore-Instance-Manager/wiki/Troubleshooting";
@@ -53,7 +53,7 @@ Do you want to proceed with the installation process?";
         {
           MainWindowHelper.SoftlyRefreshInstances();
         }
-        
+
       }, () => new Install9WizardArgs());
     }
 

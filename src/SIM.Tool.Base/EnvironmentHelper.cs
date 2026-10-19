@@ -104,7 +104,7 @@
         {
           var command = new SqlCommand
           {
-            Connection = connection, 
+            Connection = connection,
             CommandText = @"SELECT @@SERVICENAME"
           };
 

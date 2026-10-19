@@ -21,12 +21,12 @@
       {
         new
         {
-          FileName = PublishAgentFiles.PublishFileName, 
+          FileName = PublishAgentFiles.PublishFileName,
           Contents = PublishAgentFiles.PublishContents
-        }, 
+        },
         new
         {
-          FileName = PublishAgentFiles.StatusFileName, 
+          FileName = PublishAgentFiles.StatusFileName,
           Contents = PublishAgentFiles.StatusContents
         }
       };

@@ -223,8 +223,8 @@
                 {
                   Database database = new Database
                   {
-                    Name = name, 
-                    RealName = realName, 
+                    Name = name,
+                    RealName = realName,
                     ConnectionString = connectionString
                   };
 

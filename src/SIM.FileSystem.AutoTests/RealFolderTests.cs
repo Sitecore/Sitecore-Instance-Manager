@@ -140,7 +140,7 @@
       var dir = CreateUniqueDir();
       var folder0 = CreateUniqueDir(dir);
       var sut1 = FileSystem.ParseFolder(folder0);
-      
+
       // act
       Assert.Throws<InvalidCastException>(() => sut1.Equals(new object()));
     }
@@ -151,7 +151,7 @@
       // arrange
       var dir = CreateUniqueDir();
       dir.Create();
-      
+
       var sut = FileSystem.ParseFolder(dir);
 
       // act
@@ -167,7 +167,7 @@
       // arrange
       var dir = CreateUniqueDir();
       dir.Delete(true);
-      
+
       var sut = FileSystem.ParseFolder(dir);
 
       // act
@@ -209,7 +209,7 @@
       // assert
       Assert.Equal(2, folders.Count);
       Assert.True(
-        (folder0.FullName == folders[0].FullName && folder1.FullName == folders[1].FullName) || 
+        (folder0.FullName == folders[0].FullName && folder1.FullName == folders[1].FullName) ||
         (folder0.FullName == folders[1].FullName && folder1.FullName == folders[0].FullName));
     }
 
@@ -286,7 +286,7 @@
       var dir = CreateUniqueDir();
       var folderA = CreateUniqueDir(dir);
       var folderB = CreateUniqueDir(dir);
-      
+
       var sutA = FileSystem.ParseFolder(folderA);
       var sutB = FileSystem.ParseFolder(folderB);
 
@@ -335,7 +335,7 @@
 
       // act
       sutA.MoveTo(sutB);
-      
+
       // assert
       Assert.True(File.Exists($"{dir.FullName}\\{outerB.Name}\\{outerA.Name}\\{fileA.Name}"));
     }

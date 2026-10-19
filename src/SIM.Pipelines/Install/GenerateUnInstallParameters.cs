@@ -15,12 +15,12 @@ namespace SIM.Pipelines.Install
     protected override void Process([NotNull] ProcessorArgs args)
     {
       Install9Args arguments = (Install9Args)args;
-      if (arguments.Tasker.UnInstall||arguments.ScriptsOnly)
+      if (arguments.Tasker.UnInstall || arguments.ScriptsOnly)
       {
         this.Skip();
         return;
       }
-      arguments.UnInstallDataPath= arguments.Tasker.SaveUninstallData(ApplicationManager.UnInstallParamsFolder);
+      arguments.UnInstallDataPath = arguments.Tasker.SaveUninstallData(ApplicationManager.UnInstallParamsFolder);
     }
   }
 }

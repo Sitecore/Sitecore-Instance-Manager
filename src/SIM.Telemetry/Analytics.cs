@@ -40,10 +40,10 @@
     #endregion
 
     #region Public Methods
-    public static void Initialize([CanBeNull] TelemetryEventContext telemetryEventContext, 
+    public static void Initialize([CanBeNull] TelemetryEventContext telemetryEventContext,
       bool trackingEnabled,
-      [CanBeNull]ILogger logger)
-    {      
+      [CanBeNull] ILogger logger)
+    {
       if (telemetryEventContext == null) throw new ArgumentNullException(nameof(telemetryEventContext));
       if (logger == null) throw new ArgumentNullException(nameof(logger));
 
@@ -126,7 +126,7 @@
           provider.TrackEvent(telemetryEvent, eventCustomData, EventContext);
         }
         catch (Exception ex)
-        {          
+        {
           _logger.LogDebug(ex, $"Telemetry event '{telemetryEvent.ToString()}' has not been processed by '{provider.GetType()}' provider.{Environment.NewLine}");
 
           return;

@@ -45,7 +45,7 @@ namespace SIM.Pipelines.MultipleDeletion
         {
           tasker.RunLowlevelTasks();
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
           args.Logger.Error($"Preparing for uninstall has failed with the following exception:\n{ex}");
           return;

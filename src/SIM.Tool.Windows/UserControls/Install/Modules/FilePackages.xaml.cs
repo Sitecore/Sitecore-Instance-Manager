@@ -56,9 +56,9 @@
     {
       var openDialog = new OpenFileDialog
       {
-        CheckFileExists = true, 
-        Filter = "Sitecore Package or ZIP Archive (*.zip)|*.zip", 
-        Title = "Choose Package", 
+        CheckFileExists = true,
+        Filter = "Sitecore Package or ZIP Archive (*.zip)|*.zip",
+        Title = "Choose Package",
         Multiselect = true
       };
       if (openDialog.ShowDialog(Window.GetWindow(this)) == true)
@@ -189,7 +189,7 @@
       {
         return;
       }
-      
+
       var files = FileSystem.FileSystem.Local.Directory.GetFiles(folder, "*.zip", SearchOption.AllDirectories);
       var productsToAdd = files.Select(f => new ProductInCheckbox(Product.GetFilePackageProduct(f))).ToList();
       foreach (var productInCheckbox in productsToAdd)

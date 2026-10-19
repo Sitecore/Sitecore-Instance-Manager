@@ -4,7 +4,7 @@ using Sitecore.Diagnostics.Base;
 
 namespace SIM.IO.Real
 {
-  public class RealZipFileEntry: IZipFileEntry
+  public class RealZipFileEntry : IZipFileEntry
   {
     [NotNull]
     private ZipEntry ZipEntry { get; }

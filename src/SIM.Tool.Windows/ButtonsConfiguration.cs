@@ -41,7 +41,7 @@ namespace SIM.Tool.Windows
       return this._settings[jsonGroupName].ToObject<List<string>>();
     }
 
-    public IEnumerable<string> Sitecore8AndEarlierButtons => 
+    public IEnumerable<string> Sitecore8AndEarlierButtons =>
       this.GetButtonsList("Sitecore8AndEarlierButtons");
 
     public IEnumerable<string> Sitecore9AndLaterButtons =>

@@ -13,11 +13,11 @@ namespace SIM.Tool.Base.Converters
   [ValueConversion(typeof(string), typeof(string))]
   public class InstanceNameToLocation : IValueConverter
   {
-    public static InstanceNameToLocation Instance { get; } = new InstanceNameToLocation(); 
+    public static InstanceNameToLocation Instance { get; } = new InstanceNameToLocation();
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
       string folder = value as string;
-      if (ProfileManager.Profile?.InstancesFolder == null||folder==null)
+      if (ProfileManager.Profile?.InstancesFolder == null || folder == null)
       {
         return null;
       }

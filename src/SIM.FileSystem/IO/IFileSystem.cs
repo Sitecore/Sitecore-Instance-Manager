@@ -3,7 +3,7 @@
   using JetBrains.Annotations;
 
   public interface IFileSystem
-  { 
+  {
     [NotNull]
     IFolder ParseFolder([NotNull] string path);
 

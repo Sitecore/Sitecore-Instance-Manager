@@ -9,17 +9,17 @@ using System.Threading.Tasks;
 
 namespace SIM.Sitecore9Installer
 {
-  public class GlobalParameters:BaseParameters
+  public class GlobalParameters : BaseParameters
   {
     private List<InstallParam> _parameters;
 
     public GlobalParameters(JObject globalParamsDoc, string filesRoot)
     {
       List<InstallParam> globalParams = new List<InstallParam>();
-      globalParams.Add(new InstallParam("FilesRoot", filesRoot,true,InstallParamType.String));
+      globalParams.Add(new InstallParam("FilesRoot", filesRoot, true, InstallParamType.String));
       foreach (JProperty param in globalParamsDoc["Parameters"].Children())
       {
-        InstallParam p = new InstallParam(param.Name, param.Value.ToString(), true,InstallParamType.String);
+        InstallParam p = new InstallParam(param.Name, param.Value.ToString(), true, InstallParamType.String);
         if (p.Name == "LicenseFile" && !string.IsNullOrWhiteSpace(filesRoot))
         {
           string license = Path.Combine(filesRoot, "license.xml");
@@ -41,7 +41,7 @@ namespace SIM.Sitecore9Installer
 
     protected override void CalculateParameters()
     {
-        StringBuilder globalParamsEval = new StringBuilder();
+      StringBuilder globalParamsEval = new StringBuilder();
       globalParamsEval.Append("Set-ExecutionPolicy Bypass -Force\n");
       globalParamsEval.AppendFormat("Import-Module SitecoreInstallFramework{0}\n", this.GetSifVersion());
       globalParamsEval.AppendLine("$GlobalParams =@{");

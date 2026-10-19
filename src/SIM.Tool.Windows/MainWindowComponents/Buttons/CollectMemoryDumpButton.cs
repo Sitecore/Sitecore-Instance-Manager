@@ -46,7 +46,7 @@ namespace SIM.Tool.Windows.MainWindowComponents.Buttons
         {
           return;
         }
-        
+
         var executableFilePath = ApplicationManager.GetEmbeddedFile("ManagedGcAwareDump.zip", "SIM.Tool.Windows", "ManagedGcAwareDump_" + bit + ".exe");
         Process.Start(executableFilePath).WaitForExit();
       }

@@ -36,7 +36,7 @@ namespace SIM.Tool.Windows.MainWindowComponents.Buttons
 
       const string NoThanks = "No, thanks";
       const string YesAspNetMvc = "Yes, create new";
-      
+
       var options = new[] { NoThanks, YesAspNetMvc };
       var result = WindowHelper.AskForSelection("Choose Visual Studio Project Type", null, "There isn't any Visual Studio project in the instance's folder. \n\nWould you like us to create a new one?", options, mainWindow);
       if (result == null || result == NoThanks)

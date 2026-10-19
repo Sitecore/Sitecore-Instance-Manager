@@ -71,7 +71,7 @@ namespace SIM.Pipelines
       FileSystem.FileSystem.Local.File.WriteAllText(dataFolder, string.Format(DataFolderConfigFilePattern, dataFolderPath));
     }
 
-    public static long SetupWebsite(bool enable32BitAppOnWin64, string webRootPath, bool forceNetFramework4, bool isClassic, 
+    public static long SetupWebsite(bool enable32BitAppOnWin64, string webRootPath, bool forceNetFramework4, bool isClassic,
       IEnumerable<BindingInfo> bindings, string name)
     {
       long siteId;

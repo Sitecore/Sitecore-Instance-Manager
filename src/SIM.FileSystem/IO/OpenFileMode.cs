@@ -1,7 +1,7 @@
 ﻿namespace SIM.IO
 {
   public enum OpenFileMode
-  {  
+  {
     CreateNew = 1,
     Create = 2,
     Open = 3,

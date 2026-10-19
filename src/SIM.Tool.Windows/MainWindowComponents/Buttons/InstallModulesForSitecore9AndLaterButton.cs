@@ -49,7 +49,7 @@ namespace SIM.Tool.Windows.MainWindowComponents.Buttons
           }
 
           authCookieOrIdServerAuthToken = this.GetAuthCookie(instanceUri, CoreAppSettings.AppLoginAsAdminUserName.Value, CoreAppSettings.AppLoginAsAdminNewPassword.Value, mainWindow);
-          authCookieOrIdServerAuthToken = this.ValidateAuthCookie(authCookieOrIdServerAuthToken, instanceUri, 
+          authCookieOrIdServerAuthToken = this.ValidateAuthCookie(authCookieOrIdServerAuthToken, instanceUri,
             CoreAppSettings.AppLoginAsAdminUserName.Value, CoreAppSettings.AppLoginAsAdminNewPassword.Value, mainWindow);
 
           if (string.IsNullOrEmpty(authCookieOrIdServerAuthToken))
@@ -69,7 +69,8 @@ namespace SIM.Tool.Windows.MainWindowComponents.Buttons
 
       WindowHelper.LongRunningTask(() =>
       {
-        var task = Task.Run(async () => {
+        var task = Task.Run(async () =>
+        {
           idServerAuthToken = await
             SitecoreIdServerAuth.GetToken(sitecoreIdServerUri, userName, password);
         });
@@ -126,7 +127,8 @@ namespace SIM.Tool.Windows.MainWindowComponents.Buttons
 
       WindowHelper.LongRunningTask(() =>
       {
-        var task = Task.Run(async () => {
+        var task = Task.Run(async () =>
+        {
           authCookie = await
             SitecoreServicesClientAuth.GetCookie(instanceUri, userName, password);
         });
@@ -140,7 +142,7 @@ namespace SIM.Tool.Windows.MainWindowComponents.Buttons
     {
       if (SitecoreServicesClientAuth.CurrentHttpStatusCode == HttpStatusCode.InternalServerError)
       {
-        WindowHelper.HandleError("Unable to get authentication cookie using the following Sitecore instance URI:\n\n" + 
+        WindowHelper.HandleError("Unable to get authentication cookie using the following Sitecore instance URI:\n\n" +
                                  instanceUri +
                                  "\n\nPlease make sure that a valid certificate is used for the SSL binding of your Sitecore site.", true);
         return null;
@@ -161,11 +163,11 @@ namespace SIM.Tool.Windows.MainWindowComponents.Buttons
       {
         if (WindowHelper.ShowMessage(
               "Unable to get authentication cookie using the following credentials:\n\n" +
-              "User name: " + userName + "\nPassword: " + password + "\n\nWould you like to try to continue installation using other credentials?", 
+              "User name: " + userName + "\nPassword: " + password + "\n\nWould you like to try to continue installation using other credentials?",
               MessageBoxButton.YesNo,
               MessageBoxImage.Warning) == MessageBoxResult.Yes)
         {
-          CredentialsContext credentialsContext = 
+          CredentialsContext credentialsContext =
             WindowHelper.ShowDialog<CredentialsDialog>(new CredentialsContext(userName, password), null) as CredentialsContext;
           if (credentialsContext != null)
           {
@@ -179,7 +181,7 @@ namespace SIM.Tool.Windows.MainWindowComponents.Buttons
     }
 
     private bool IsInstanceUriValid(string instanceUri)
-    { 
+    {
       if (!instanceUri.StartsWith("https://", StringComparison.InvariantCultureIgnoreCase))
       {
         WindowHelper.ShowMessage(

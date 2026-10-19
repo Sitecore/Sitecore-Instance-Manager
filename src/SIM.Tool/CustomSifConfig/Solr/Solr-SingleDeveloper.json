@@ -52,7 +52,6 @@
       "Description": "Java home directory",
       "DefaultValue": ""
     }
-
   },
   "Variables": {
     "Solr.Download.URL": "[join(Values:variable('Solr.Path'),Delimiter:'/')]",
@@ -337,3 +336,4 @@
     }
   }
 }
+

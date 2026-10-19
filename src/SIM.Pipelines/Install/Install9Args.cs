@@ -15,8 +15,8 @@ using System.Threading.Tasks;
 namespace SIM.Pipelines.Install
 {
   public class Install9Args : ProcessorArgs
-  {    
-   public Install9Args(Tasker tasker)
+  {
+    public Install9Args(Tasker tasker)
     {
       Assert.ArgumentNotNull(tasker, nameof(tasker));
       this.Tasker = tasker;
@@ -25,6 +25,6 @@ namespace SIM.Pipelines.Install
     public bool ScriptsOnly { get; set; }
     public Tasker Tasker { get; }
     public string UnInstallDataPath { get; set; }
-    
+
   }
 }

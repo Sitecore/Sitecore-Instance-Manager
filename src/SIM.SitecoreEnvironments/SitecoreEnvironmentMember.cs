@@ -4,7 +4,7 @@ namespace SIM.SitecoreEnvironments
 {
   public class SitecoreEnvironmentMember
   {
-    public SitecoreEnvironmentMember(string name, string type):this(name,type,false)
+    public SitecoreEnvironmentMember(string name, string type) : this(name, type, false)
     {
     }
 
@@ -25,7 +25,7 @@ namespace SIM.SitecoreEnvironments
     public enum Types
     {
       Site,
-      Service      
+      Service
     }
   }
 }

@@ -501,7 +501,13 @@
     <Content Include="GlobalParamsConfig\XP\GlobalParams_10.0_XP0.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="GlobalParamsConfig\XP\GlobalParams_10.5_XP0.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="GlobalParamsConfig\XM\GlobalParams_10.0_XM1.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="GlobalParamsConfig\XM\GlobalParams_10.5_XM1.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="GlobalParamsConfig\XP\GlobalParams_10.0_XP1.json">
@@ -510,7 +516,19 @@
     <Content Include="CustomSifConfig\Solr\Solr-SingleDeveloper.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="CustomSifConfig\Solr\Solr9-SingleDeveloper.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CustomSifConfig\Solr\Solr10-SingleDeveloper.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="GlobalParamsConfig\Solr\GlobalParams_solr.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="GlobalParamsConfig\Solr\GlobalParams_solr9.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="GlobalParamsConfig\Solr\GlobalParams_solr10.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="ContainerFiles\Scripts\InstallDockerToolsModuleScript.txt">
@@ -541,6 +559,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="GlobalParamsConfig\XP\GlobalParams_10.4_XP1.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="GlobalParamsConfig\XP\GlobalParams_10.5_XP1.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="GlobalParamsConfig\XP\GlobalParams_9.2_XP0.json">

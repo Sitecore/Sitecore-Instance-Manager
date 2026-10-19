@@ -22,9 +22,9 @@
 
     protected readonly ILogger _logger;
 
-    public TelemetryEventContext(Guid applicationId, 
-      Guid deviceId, 
-      [CanBeNull] string appVersion, 
+    public TelemetryEventContext(Guid applicationId,
+      Guid deviceId,
+      [CanBeNull] string appVersion,
       [CanBeNull] ILogger logger)
     {
       if (string.IsNullOrWhiteSpace(appVersion)) throw new ArgumentNullException(nameof(appVersion));

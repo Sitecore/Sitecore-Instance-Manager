@@ -19,7 +19,7 @@ namespace SIM.FileSystem
       if (path != null)
       {
         if (rooted != false)
-        Path = fileSystem.Directory.Ensure(System.IO.Path.Combine(System.IO.Path.GetPathRoot(path), Guid.NewGuid().ToString()));
+          Path = fileSystem.Directory.Ensure(System.IO.Path.Combine(System.IO.Path.GetPathRoot(path), Guid.NewGuid().ToString()));
         else
         {
           Path = fileSystem.Directory.Ensure(System.IO.Path.Combine(path, Guid.NewGuid().ToString("N")));

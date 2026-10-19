@@ -51,7 +51,7 @@ namespace SIM.Tool.Windows.Dialogs
     {
       this.DialogResult = false;
       this.Close();
-    }   
+    }
 
     private void Browse_Click(object sender, RoutedEventArgs e)
     {

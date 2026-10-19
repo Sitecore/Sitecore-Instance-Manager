@@ -53,7 +53,7 @@ namespace SIM.Sitecore9Installer.Tasks
 
     private readonly string sifVersionInstall;
     private readonly string sifVersionUnInstall;
-    
+
     public InstallSIFTask(string taskName, int executionOrder, GlobalParameters globalParams, LocalParameters localParams,
       Dictionary<string, string> taskOptions)
       : base(taskName, executionOrder, globalParams, localParams, taskOptions)
@@ -74,7 +74,7 @@ namespace SIM.Sitecore9Installer.Tasks
 
     protected override string GetScript()
     {
-      return scriptTemaplate.Replace("$sifVersion", this.UnInstall?this.sifVersionUnInstall:this.sifVersionInstall).Replace("$repoAddress", repo);
+      return scriptTemaplate.Replace("$sifVersion", this.UnInstall ? this.sifVersionUnInstall : this.sifVersionInstall).Replace("$repoAddress", repo);
     }
   }
 }
