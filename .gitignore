@@ -77,3 +77,5 @@ src/SIM.Products.Tests/bin/
 /src/SIM.Tool.Base/.vs/
 /src/SIM.Tool.Windows/.vs/
 /src/SIM.Tool/.vs/
+/src/SIM.ContainerInstaller/.vs/
+/src/SIM.Foundation.SqlAdapter.IntegrationTests/.vs/
