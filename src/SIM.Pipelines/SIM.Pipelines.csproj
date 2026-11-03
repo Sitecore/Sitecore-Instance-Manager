@@ -243,6 +243,7 @@
   <ItemGroup>
     <EmbeddedResource Include="mongo.tools.zip" />
     <EmbeddedResource Include="IOC_Containers.zip" />
+    <None Include="app.config" />
     <None Include="packages.config" />
     <None Include="Properties\DataSources\System.Xml.Linq.XElement.datasource" />
     <None Include="Service References\SitecoreWebservices\Reference.svcmap">
